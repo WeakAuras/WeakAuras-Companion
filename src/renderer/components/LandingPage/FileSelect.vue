@@ -3,11 +3,11 @@
     <!-- We can't use a normal button element here, as it would become the target of the label. -->
     <div class="select-button">
       <!-- Display the filename if a file has been selected. -->
-      <span v-if="value">Selected File: {{value.name}}</span>
+      <span v-if="value">Selected WoW Folder: {{value.path}}</span>
       <span v-else>Select File</span>
     </div>
     <!-- Now, the file input that we hide. -->
-    <input type="file" @change="handleFileChange"/>
+    <input type="file" webkitdirectory @change="handleFileChange"/>
   </label>
 </template>
 
@@ -25,10 +25,6 @@ export default {
     }
   }
 };
-
-// const Store = require("electron-store");
-// const store = new Store();
-// var file = store.get("weakauraFile");
 </script>
 
 <style scoped>
