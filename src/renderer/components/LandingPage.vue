@@ -220,6 +220,32 @@ export default {
             if (err) this.message("Data.lua could not be saved", "error");
             else this.message("Data.lua saved", "ok");
           });
+
+          let tocFile = `## Interface: 80000
+## Title: WeakAuras Wago Update
+## Author: WeakAuras Team
+## Version: 1.0.0
+## Notes: Keep your WeakAuras updated
+## X-Category: Interface Enhancements
+## DefaultState: Enabled
+## Dependencies: WeakAuras, WeakAurasOptions
+## SavedVariables: WeakAurasWagoUpdate
+
+data.lua`;
+
+          fs.writeFile(
+            AddonFolder + "WeakAurasWagoUpdate.toc",
+            tocFile,
+            err => {
+              // throws an error, you could also catch it here
+              if (err)
+                this.message(
+                  "WeakAurasWagoUpdate.toc could not be saved",
+                  "error"
+                );
+              else this.message("WeakAurasWagoUpdate.toc saved", "ok");
+            }
+          );
         }
       });
     }
