@@ -39,10 +39,10 @@ export default {
         render: false
       },
       Account: null, // name of the account used
+      hash: null, // hash of Account
       WeakAurasSavedVariable: null, // path to weakauras.lua in sv
       dataFile: null,
-      slugs: [] // list all wago id used in local SV
-      // slug fields: slug, created, modified, user, string, version, uid
+      auras: [] // list all wago id used in local SV
     };
   },
   watch: {
@@ -84,6 +84,7 @@ export default {
         );
         if (!err) {
           this.WeakAurasSavedVariable = WeakAurasSavedVariable;
+          this.hash = this.hashFnv32a(this.Account, true);
         }
       });
     },
@@ -117,7 +118,6 @@ export default {
           }
 
           let pattern = /(https:\/\/wago.io\/)([^\/]+)\/?(\d*)/;
-          var slugs = [];
           WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
             if (obj.key.value == "displays") {
               obj.value.fields.forEach(obj2 => {
@@ -130,45 +130,94 @@ export default {
                     let pattern_result = url.match(pattern);
                     version = pattern_result[3];
                     slug = pattern_result[2];
+
+                    if (slug) {
+                      let length = this.auras.filter(aura => aura.slug === slug)
+                        .length;
+                      if (length == 0) {
+                        this.auras.push({
+                          slug: slug,
+                          version: version,
+                          wagoVersion: null,
+                          created: null,
+                          modified: null,
+                          user: null,
+                          encoded: null
+                        });
+                      }
+                    }
                   }
                 });
-                if (slug && !this.slugs[slug]) {
-                  slugs.push(slug);
-                }
               });
             }
           });
 
-          // Make list of uniq "slugs" and get data from wago api
+          // get data from wago api
           const axios = require("axios");
-          var itemsProcessed = 0;
-          Array.from(new Set(slugs)).forEach((slug, index, array) => {
-            axios
-              .get("https://data.wago.io/lookup/wago?id=" + slug)
-              .then(response => {
-                let version = response.data.versions.total;
-                this.slugs.push({
-                  slug: response.data.slug,
-                  created: response.data.date.created,
-                  modified: response.data.date.modified,
-                  user: response.data.user.name,
-                  string: response.data.code.encoded,
-                  version: response.data.versions.total,
-                  uid: response.data.UID
-                });
-                this.message("Read info for " + slug, "ok");
-              })
-              .catch(error => {
-                this.message("Can't read wago for " + slug, "error");
-              })
-              .then(() => {
-                itemsProcessed++;
-                if (itemsProcessed === array.length) {
-                  // When finished collecting data from wago, save it to data.lua
-                  this.writeData();
-                }
+          axios
+            .get("https://data.wago.io/lookup/weakauras", {
+              params: {
+                ids: this.auras.map(aura => aura.slug).join()
+              },
+              headers: {
+                Identifier: this.hash
+              }
+            })
+            .then(response => {
+              var promises = [];
+              response.data.forEach(wagoData => {
+                this.auras
+                  .filter(aura => aura.slug === wagoData.slug)
+                  .forEach(aura => {
+                    if (wagoData.version > aura.version) {
+                      this.message("Updating data for " + aura.slug, "info");
+                      aura.created = wagoData.created;
+                      aura.modified = wagoData.modified;
+                      aura.user = wagoData.username;
+                      aura.wagoVersion = wagoData.version;
+                      var encoded;
+                      promises.push(
+                        axios.get("https://data.wago.io/wago/raw/encoded", {
+                          params: {
+                            id: aura.slug
+                          },
+                          headers: {
+                            Identifier: this.hash
+                          }
+                        })
+                      );
+                    }
+                  });
               });
-          });
+              axios
+                .all(promises)
+                .then(
+                  axios.spread((...args) => {
+                    args.forEach(arg => {
+                      let id = arg.config.params.id;
+                      this.message("Received encoded string for " + id, "ok");
+                      this.auras
+                        .filter(aura => aura.slug == id)
+                        .forEach(aura => {
+                          aura.encoded = arg.data;
+                        });
+                    });
+                  })
+                )
+                .catch(error => {
+                  this.message(
+                    "Can't read wago answer for string\n" + error,
+                    "error"
+                  );
+                })
+                .then(() => {
+                  // we are done with wago API, update data.lua
+                  this.writeData();
+                });
+            })
+            .catch(error => {
+              this.message("Can't read wago answer\n" + error, "error");
+            });
         }
       );
     }
@@ -180,6 +229,23 @@ export default {
     message(msg, err) {
       console.log(msg);
       this.msg += err + " : " + msg + "\n";
+    },
+    hashFnv32a(str, asString, seed) {
+      // Calculate a 32 bit FNV-1a hash
+      var i,
+        l,
+        hval = seed === undefined ? 0x811c9dc5 : seed;
+
+      for (i = 0, l = str.length; i < l; i++) {
+        hval ^= str.charCodeAt(i);
+        hval +=
+          (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
+      }
+      if (asString) {
+        // Convert to 8 digit hex string
+        return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
+      }
+      return hval >>> 0;
     },
     writeData() {
       const fs = require("fs");
@@ -201,20 +267,17 @@ export default {
             "created",
             "modified",
             "user",
-            "string",
-            "version",
-            "uid"
+            "encoded",
+            "wagoVersion"
           ];
-          for (let i = 0; i < this.slugs.length; i++) {
-            var slug = this.slugs[i];
-            LuaOutput += "  ['" + slug.slug + "'] = {\n";
-            for (let j = 0; j < fields.length; j++) {
-              LuaOutput +=
-                "    " + fields[j] + ' = "' + slug[fields[j]] + '",\n';
-            }
+          this.auras.filter(aura => aura.encoded).forEach(aura => {
+            LuaOutput += "  ['" + aura.slug + "'] = {\n";
+            fields.forEach(field => {
+              LuaOutput += "    " + field + ' = "' + aura[field] + '",\n';
+            });
             LuaOutput += "  },\n";
-          }
-          LuaOutput += "}\n";
+          });
+          LuaOutput += "}";
           fs.writeFile(AddonFolder + "\\data.lua", LuaOutput, err => {
             // throws an error, you could also catch it here
             if (err) this.message("Data.lua could not be saved", "error");
