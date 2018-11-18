@@ -11,15 +11,7 @@
       </select>
       <span>Selected: {{ Account }}</span>
     </div>
-    <!--
-    <div v-for="slug in slugs" :key="slug.slug">
-      <div>
-        slug: {{slug.slug}} by: {{slug.user}} version: {{slug.version}}
-      </div>
-    </div>
-    -->
     <pre id="message">{{ msg }}</pre>
-    <!-- <AuraList v-if="WeakAurasSavedVariable" :file="WeakAurasSavedVariable" @handleFile="handleFile"></AuraList> -->
   </div>
 </template>
 
@@ -141,7 +133,7 @@ export default {
                           wagoVersion: null,
                           created: null,
                           modified: null,
-                          user: null,
+                          author: null,
                           encoded: null
                         });
                       }
@@ -173,8 +165,9 @@ export default {
                       this.message("Updating data for " + aura.slug, "info");
                       aura.created = wagoData.created;
                       aura.modified = wagoData.modified;
-                      aura.user = wagoData.username;
+                      aura.author = wagoData.username;
                       aura.wagoVersion = wagoData.version;
+                      aura.name = wagoData.name;
                       var encoded;
                       promises.push(
                         axios.get("https://data.wago.io/wago/raw/encoded", {
@@ -264,9 +257,10 @@ export default {
           var LuaOutput = "-- file generated automatically\n";
           LuaOutput += "WeakAurasWagoUpdate = {\n";
           var fields = [
+            "name",
             "created",
             "modified",
-            "user",
+            "author",
             "encoded",
             "wagoVersion"
           ];
@@ -292,12 +286,11 @@ export default {
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## Dependencies: WeakAuras, WeakAurasOptions
-## SavedVariables: WeakAurasWagoUpdate
 
 data.lua`;
 
           fs.writeFile(
-            AddonFolder + "WeakAurasWagoUpdate.toc",
+            AddonFolder + "\\WeakAurasWagoUpdate.toc",
             tocFile,
             err => {
               // throws an error, you could also catch it here
