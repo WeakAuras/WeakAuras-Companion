@@ -33,8 +33,8 @@ export default {
       Account: null, // name of the account used
       hash: null, // hash of Account
       WeakAurasSavedVariable: null, // path to weakauras.lua in sv
-      dataFile: null,
-      auras: [] // list all wago id used in local SV
+      auras: [], // array of auras, slug field must be uniq
+      wagoUsername: null // ignore your own auras
     };
   },
   watch: {
@@ -75,8 +75,8 @@ export default {
           `${err ? "error" : "ok"}`
         );
         if (!err) {
-          this.WeakAurasSavedVariable = WeakAurasSavedVariable;
           this.hash = this.hashFnv32a(this.Account, true);
+          this.WeakAurasSavedVariable = WeakAurasSavedVariable;
         }
       });
     },
@@ -127,6 +127,7 @@ export default {
                       let length = this.auras.filter(aura => aura.slug === slug)
                         .length;
                       if (length == 0) {
+                        // new "slug" found, add it to the list of auras
                         this.auras.push({
                           slug: slug,
                           version: version,
@@ -134,8 +135,16 @@ export default {
                           created: null,
                           modified: null,
                           author: null,
-                          encoded: null
+                          encoded: null,
+                          ignore: false
                         });
+                      } else {
+                        // there is already an aura with same "slug", check if version field needs to be updated
+                        this.auras
+                          .filter(
+                            aura => aura.slug === slug && aura.version < version
+                          )
+                          .forEach(aura => (aura.version = version));
                       }
                     }
                   }
@@ -149,7 +158,7 @@ export default {
           axios
             .get("https://data.wago.io/lookup/weakauras", {
               params: {
-                ids: this.auras.map(aura => aura.slug).join()
+                ids: this.auras.map(aura => aura.slug).join() // !! size of request is not checked, can lead to too long urls
               },
               headers: {
                 Identifier: this.hash
@@ -159,16 +168,30 @@ export default {
               var promises = [];
               response.data.forEach(wagoData => {
                 this.auras
-                  .filter(aura => aura.slug === wagoData.slug)
+                  .filter(aura => aura.slug === wagoData.slug && !aura.ignore)
                   .forEach(aura => {
-                    if (wagoData.version > aura.version) {
-                      this.message("Updating data for " + aura.slug, "info");
+                    // fetch aura data if :
+                    // latest version on wago is newer than what is in WeakAurasSavedVariable
+                    // and there isn't already an encoded string saved for latest version
+                    // and you are not the author
+                    if (
+                      wagoData.version > aura.version &&
+                      (aura.encoded === null ||
+                        (!!aura.wagoVersion &&
+                          wagoData.version > aura.wagoVersion)) &&
+                      wagoData.username != this.wagoUsername
+                    ) {
+                      /*
+                      this.message(
+                        "Queue data request for aura " + aura.slug,
+                        "info"
+                      );
+                      */
                       aura.created = wagoData.created;
                       aura.modified = wagoData.modified;
                       aura.author = wagoData.username;
                       aura.wagoVersion = wagoData.version;
                       aura.name = wagoData.name;
-                      var encoded;
                       promises.push(
                         axios.get("https://data.wago.io/wago/raw/encoded", {
                           params: {
@@ -182,18 +205,58 @@ export default {
                     }
                   });
               });
+
+              const promisesResolved = promises.map(promise =>
+                promise.catch(err => {
+                  return {
+                    config: { params: { id: err.config.params.id } },
+                    status: err.response.status
+                  };
+                })
+              );
+
               axios
-                .all(promises)
+                .all(promisesResolved)
                 .then(
                   axios.spread((...args) => {
                     args.forEach(arg => {
-                      let id = arg.config.params.id;
-                      this.message("Received encoded string for " + id, "ok");
-                      this.auras
-                        .filter(aura => aura.slug == id)
-                        .forEach(aura => {
-                          aura.encoded = arg.data;
-                        });
+                      const id = arg.config.params.id;
+                      if (arg.status == 200) {
+                        this.auras
+                          .filter(aura => aura.slug == id)
+                          .forEach(aura => {
+                            this.message(
+                              "Received encoded string for aura " + aura.name,
+                              "ok"
+                            );
+                            aura.encoded = arg.data;
+                          });
+                      } else if (arg.status == 404) {
+                        // private or deleted aura
+                        this.auras
+                          .filter(aura => aura.slug == id)
+                          .forEach(aura => {
+                            this.message(
+                              "Could not receive encoded string for aura " +
+                                aura.name +
+                                ", aura is private or was removed, ignoring this aura for next checks",
+                              "error"
+                            );
+                            aura.ignore = true;
+                          });
+                      } else {
+                        this.auras
+                          .filter(aura => aura.slug == id)
+                          .forEach(aura => {
+                            this.message(
+                              "Error receiving encoded string for aura " +
+                                aura.name +
+                                " http code: " +
+                                arg.status,
+                              "error"
+                            );
+                          });
+                      }
                     });
                   })
                 )
@@ -248,12 +311,14 @@ export default {
         "Finished reading info from Wago, writing data file " + AddonFolder,
         "info"
       );
+      // Make folder
       fs.mkdir(AddonFolder, err => {
         if (err && err.code != "EEXIST") {
           throw "up";
         } else {
-          this.message("directory exists", "info");
+          this.message("Directory exists", "ok");
 
+          // Make data.lua
           var LuaOutput = "-- file generated automatically\n";
           LuaOutput += "WeakAurasWagoUpdate = {\n";
           var fields = [
@@ -264,7 +329,7 @@ export default {
             "encoded",
             "wagoVersion"
           ];
-          this.auras.filter(aura => aura.encoded).forEach(aura => {
+          this.auras.filter(aura => !!aura.encoded).forEach(aura => {
             LuaOutput += "  ['" + aura.slug + "'] = {\n";
             fields.forEach(field => {
               LuaOutput += "    " + field + ' = "' + aura[field] + '",\n';
@@ -273,11 +338,11 @@ export default {
           });
           LuaOutput += "}";
           fs.writeFile(AddonFolder + "\\data.lua", LuaOutput, err => {
-            // throws an error, you could also catch it here
             if (err) this.message("Data.lua could not be saved", "error");
             else this.message("Data.lua saved", "ok");
           });
 
+          // Make WeakAurasWagoUpdate.toc
           let tocFile = `## Interface: 80000
 ## Title: WeakAuras Wago Update
 ## Author: WeakAuras Team
@@ -293,7 +358,6 @@ data.lua`;
             AddonFolder + "\\WeakAurasWagoUpdate.toc",
             tocFile,
             err => {
-              // throws an error, you could also catch it here
               if (err)
                 this.message(
                   "WeakAurasWagoUpdate.toc could not be saved",
