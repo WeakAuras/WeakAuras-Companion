@@ -3,8 +3,8 @@
     <!-- We can't use a normal button element here, as it would become the target of the label. -->
     <div class="select-button">
       <!-- Display the filename if a file has been selected. -->
-      <span v-if="value">Selected WoW Folder: {{value.path}}</span>
-      <span v-else>Select File</span>
+      <span v-if="path">{{path}}</span>
+      <span v-else>Select WoW Folder</span>
     </div>
     <!-- Now, the file input that we hide. -->
     <input type="file" webkitdirectory @change="handleFileChange"/>
@@ -14,20 +14,18 @@
 <script>
 export default {
   props: {
-    // Using value here allows us to be v-model compatible.
-    value: File
+    path: null
   },
-
   methods: {
     handleFileChange(e) {
-      // Whenever the file changes, emit the 'input' event with the file data.
-      this.$emit("input", e.target.files[0]);
+      this.$emit("update:path", e.target.files[0].path);
     }
   }
 };
 </script>
 
 <style scoped>
+/*:-moz-only-whitespace
 .file-select > .select-button {
   padding: 1rem;
 
@@ -39,6 +37,7 @@ export default {
   text-align: center;
   font-weight: bold;
 }
+*/
 
 /* Don't forget to hide the original file input! */
 .file-select > input[type="file"] {

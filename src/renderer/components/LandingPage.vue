@@ -1,16 +1,14 @@
 <template>
   <div>
-    <div v-if="!WOWFolderIsGood">
-      <p><file-select v-model="WOWFolder"></file-select></p>
-    </div>
-    <div v-if="Accounts.render">
+    <p>World Of Warcraft Path <file-select :path.sync="WOWPath"></file-select></p>
+    <p v-if="Accounts.length > 0">
+      Account
       <select v-model="Account">
-        <option v-for="option in Accounts.options" v-bind:key="option">
-          {{ option }}
+        <option v-for="item in Accounts" :key="item.name">
+          {{ item.name }}
         </option>
       </select>
-      <span>Selected: {{ Account }}</span>
-    </div>
+    </p>
     <pre id="message">{{ msg }}</pre>
   </div>
 </template>
@@ -24,12 +22,9 @@ export default {
   data() {
     return {
       msg: "",
-      WOWFolder: null, // path to wow
+      WOWPath: null, // path to wow
       WOWFolderIsGood: false,
-      Accounts: {
-        options: [], // list accounts
-        render: false
-      },
+      Accounts: [], // account list
       Account: null, // name of the account used
       hash: null, // hash of Account
       WeakAurasSavedVariable: null, // path to weakauras.lua in sv
@@ -38,49 +33,113 @@ export default {
     };
   },
   watch: {
-    WOWFolder() {
-      var fs = require("fs");
-      this.message("wow folder selected: " + this.WOWFolder.path, "info");
-      var accountFolder = this.WOWFolder.path + "\\WTF\\Account";
-      fs.access(accountFolder, fs.constants.F_OK, err => {
-        this.message(
-          `${accountFolder} ${err ? "does not exist" : "exists"}`,
-          `${err ? "error" : "ok"}`
-        );
-        if (!err) {
-          var regex = /.*#[0-9]/;
-          fs.readdirSync(accountFolder).forEach(file => {
-            var found = file.match(regex);
-            if (found) {
-              this.message("Found account: " + file, "ok");
-              this.Accounts.options.push(file);
-            }
-          });
-          this.Accounts.render = true;
-        }
-      });
+    WOWPath() {
+      if (this.WOWPath !== null) {
+        // clean Accounts options
+        this.Accounts.forEach(option => {
+          this.Accounts.pop(option);
+        });
+        // test if ${WOWPath}\WTF\Account exists
+        const fs = require("fs");
+        this.message("wow folder selected: " + this.WOWPath, "info");
+        const accountFolder = this.WOWPath + "\\WTF\\Account";
+        fs.access(accountFolder, fs.constants.F_OK, err => {
+          this.message(
+            `${accountFolder} ${err ? "does not exist" : "exists"}`,
+            `${err ? "error" : "ok"}`
+          );
+          if (!err) {
+            // add option for each account found
+            const regex = /.*#[0-9]/;
+            fs.readdirSync(accountFolder).forEach(file => {
+              const found = file.match(regex);
+              if (found) {
+                this.message("Found account: " + file, "info");
+                this.Accounts.push({ name: file });
+              }
+            });
+            this.save(["WOWPath"]);
+          }
+        });
+      }
     },
     Account() {
-      var fs = require("fs");
-      this.message("Account selected: " + this.Account, "info");
-      const WeakAurasSavedVariable =
-        this.WOWFolder.path +
-        "\\WTF\\Account\\" +
-        this.Account +
-        "\\SavedVariables\\WeakAuras.lua";
-      fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
-        this.message(
-          "Test if WeakAuras.lua is in SavedVariable:" +
-            `${err ? "does not exist" : "exists"}`,
-          `${err ? "error" : "ok"}`
-        );
-        if (!err) {
-          this.hash = this.hashFnv32a(this.Account, true);
-          this.WeakAurasSavedVariable = WeakAurasSavedVariable;
-        }
-      });
+      if (!!this.WOWPath && !!this.Account) {
+        const fs = require("fs");
+        this.message("Account selected: " + this.Account, "info");
+        const WeakAurasSavedVariable =
+          this.WOWPath +
+          "\\WTF\\Account\\" +
+          this.Account +
+          "\\SavedVariables\\WeakAuras.lua";
+        fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
+          this.message(
+            "Test if WeakAuras.lua is in SavedVariable:" +
+              `${err ? "does not exist" : "exists"}`,
+            `${err ? "error" : "ok"}`
+          );
+          if (!err) {
+            this.hash = this.hashFnv32a(this.Account, true);
+            this.save(["hash", "Account"]);
+            this.WeakAurasSavedVariable = WeakAurasSavedVariable;
+          }
+        });
+      }
     },
     WeakAurasSavedVariable() {
+      if (!!this.WeakAurasSavedVariable && !!this.WOWPath)
+        this.compareSVwithWago();
+    }
+  },
+  created() {
+    this.restore();
+  },
+  methods: {
+    open(link) {
+      this.$electron.shell.openExternal(link);
+    },
+    save(fields) {
+      const Store = require("electron-store");
+      const store = new Store();
+
+      fields.forEach(field => {
+        store.set(field, this[field]);
+        this.message("Saved data: " + field, "info");
+      });
+    },
+    restore() {
+      const Store = require("electron-store");
+      const store = new Store();
+
+      const data = store.store;
+      for (var field in data) {
+        console.log("field: " + field + " data: " + data[field]);
+        this[field] = data[field];
+      }
+      this.message("Data from previous session restored", "info");
+    },
+    message(msg, err) {
+      console.log(msg);
+      this.msg += err + " : " + msg + "\n";
+    },
+    hashFnv32a(str, asString, seed) {
+      // Calculate a 32 bit FNV-1a hash
+      var i,
+        l,
+        hval = seed === undefined ? 0x811c9dc5 : seed;
+
+      for (i = 0, l = str.length; i < l; i++) {
+        hval ^= str.charCodeAt(i);
+        hval +=
+          (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
+      }
+      if (asString) {
+        // Convert to 8 digit hex string
+        return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
+      }
+      return hval >>> 0;
+    },
+    compareSVwithWago() {
       const fs = require("fs");
       const luaparse = require("luaparse");
       luaparse.defaultOptions.comments = false;
@@ -99,7 +158,7 @@ export default {
             return;
           }
           // Parse WeakAuras.lua
-          let WeakAurasSavedData = luaparse.parse(data);
+          const WeakAurasSavedData = luaparse.parse(data);
           if (
             WeakAurasSavedData.body[0].variables[0].name != "WeakAurasSaved"
           ) {
@@ -107,25 +166,27 @@ export default {
             return;
           } else {
             this.message("WeakAuras.lua looks good", "ok");
+            this.save(["WeakAurasSavedVariable"]);
           }
 
-          let pattern = /(https:\/\/wago.io\/)([^\/]+)\/?(\d*)/;
+          const pattern = /(https:\/\/wago.io\/)([^\/]+)\/?(\d*)/;
           WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
             if (obj.key.value == "displays") {
               obj.value.fields.forEach(obj2 => {
-                let id = obj2.key.value;
-                let slug, url, version;
+                var id = obj2.key.value;
+                var slug, url, version;
 
                 obj2.value.fields.forEach(obj3 => {
                   if (obj3.key.value == "url") {
                     url = obj3.value.value;
-                    let pattern_result = url.match(pattern);
+                    const pattern_result = url.match(pattern);
                     version = pattern_result[3];
                     slug = pattern_result[2];
 
                     if (slug) {
-                      let length = this.auras.filter(aura => aura.slug === slug)
-                        .length;
+                      const length = this.auras.filter(
+                        aura => aura.slug === slug
+                      ).length;
                       if (length == 0) {
                         // new "slug" found, add it to the list of auras
                         this.auras.push({
@@ -165,6 +226,7 @@ export default {
               }
             })
             .then(response => {
+              this.message("Auras's metadata received from Wago API", "ok");
               var promises = [];
               response.data.forEach(wagoData => {
                 this.auras
@@ -268,6 +330,7 @@ export default {
                 })
                 .then(() => {
                   // we are done with wago API, update data.lua
+                  this.save(["auras"]);
                   this.writeData();
                 });
             })
@@ -276,74 +339,49 @@ export default {
             });
         }
       );
-    }
-  },
-  methods: {
-    open(link) {
-      this.$electron.shell.openExternal(link);
-    },
-    message(msg, err) {
-      console.log(msg);
-      this.msg += err + " : " + msg + "\n";
-    },
-    hashFnv32a(str, asString, seed) {
-      // Calculate a 32 bit FNV-1a hash
-      var i,
-        l,
-        hval = seed === undefined ? 0x811c9dc5 : seed;
-
-      for (i = 0, l = str.length; i < l; i++) {
-        hval ^= str.charCodeAt(i);
-        hval +=
-          (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
-      }
-      if (asString) {
-        // Convert to 8 digit hex string
-        return ("0000000" + (hval >>> 0).toString(16)).substr(-8);
-      }
-      return hval >>> 0;
     },
     writeData() {
-      const fs = require("fs");
-      var AddonFolder =
-        this.WOWFolder.path + "\\Interface\\Addons\\WeakAurasWagoUpdate";
-      this.message(
-        "Finished reading info from Wago, writing data file " + AddonFolder,
-        "info"
-      );
-      // Make folder
-      fs.mkdir(AddonFolder, err => {
-        if (err && err.code != "EEXIST") {
-          throw "up";
-        } else {
-          this.message("Directory exists", "ok");
+      if (this.WOWPath !== null) {
+        const fs = require("fs");
+        const AddonFolder =
+          this.WOWPath + "\\Interface\\Addons\\WeakAurasWagoUpdate";
+        this.message(
+          "Finished reading info from Wago, writing data file " + AddonFolder,
+          "info"
+        );
+        // Make folder
+        fs.mkdir(AddonFolder, err => {
+          if (err && err.code != "EEXIST") {
+            throw "up";
+          } else {
+            this.message("Directory exists", "ok");
 
-          // Make data.lua
-          var LuaOutput = "-- file generated automatically\n";
-          LuaOutput += "WeakAurasWagoUpdate = {\n";
-          var fields = [
-            "name",
-            "created",
-            "modified",
-            "author",
-            "encoded",
-            "wagoVersion"
-          ];
-          this.auras.filter(aura => !!aura.encoded).forEach(aura => {
-            LuaOutput += "  ['" + aura.slug + "'] = {\n";
-            fields.forEach(field => {
-              LuaOutput += "    " + field + ' = "' + aura[field] + '",\n';
+            // Make data.lua
+            var LuaOutput = "-- file generated automatically\n";
+            LuaOutput += "WeakAurasWagoUpdate = {\n";
+            const fields = [
+              "name",
+              "created",
+              "modified",
+              "author",
+              "encoded",
+              "wagoVersion"
+            ];
+            this.auras.filter(aura => !!aura.encoded).forEach(aura => {
+              LuaOutput += "  ['" + aura.slug + "'] = {\n";
+              fields.forEach(field => {
+                LuaOutput += "    " + field + ' = "' + aura[field] + '",\n';
+              });
+              LuaOutput += "  },\n";
             });
-            LuaOutput += "  },\n";
-          });
-          LuaOutput += "}";
-          fs.writeFile(AddonFolder + "\\data.lua", LuaOutput, err => {
-            if (err) this.message("Data.lua could not be saved", "error");
-            else this.message("Data.lua saved", "ok");
-          });
+            LuaOutput += "}";
+            fs.writeFile(AddonFolder + "\\data.lua", LuaOutput, err => {
+              if (err) this.message("Data.lua could not be saved", "error");
+              else this.message("Data.lua saved", "ok");
+            });
 
-          // Make WeakAurasWagoUpdate.toc
-          let tocFile = `## Interface: 80000
+            // Make WeakAurasWagoUpdate.toc
+            const tocFile = `## Interface: 80000
 ## Title: WeakAuras Wago Update
 ## Author: WeakAuras Team
 ## Version: 1.0.0
@@ -354,20 +392,21 @@ export default {
 
 data.lua`;
 
-          fs.writeFile(
-            AddonFolder + "\\WeakAurasWagoUpdate.toc",
-            tocFile,
-            err => {
-              if (err)
-                this.message(
-                  "WeakAurasWagoUpdate.toc could not be saved",
-                  "error"
-                );
-              else this.message("WeakAurasWagoUpdate.toc saved", "ok");
-            }
-          );
-        }
-      });
+            fs.writeFile(
+              AddonFolder + "\\WeakAurasWagoUpdate.toc",
+              tocFile,
+              err => {
+                if (err)
+                  this.message(
+                    "WeakAurasWagoUpdate.toc could not be saved",
+                    "error"
+                  );
+                else this.message("WeakAurasWagoUpdate.toc saved", "ok");
+              }
+            );
+          }
+        });
+      }
     }
   }
 };
