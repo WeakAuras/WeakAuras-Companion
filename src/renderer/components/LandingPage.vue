@@ -82,10 +82,8 @@ export default {
         fs.access(accountFolder, fs.constants.F_OK, err => {
           if (!err) {
             // add option for each account found
-            const regex = /.*#[0-9]/;
             fs.readdirSync(accountFolder).forEach(file => {
-              const found = file.match(regex);
-              if (found) {
+              if (file != "SavedVariables") {
                 // this.message("Found account: " + file, "info");
                 this.Accounts.push({ name: file });
                 this.WOWFolderIsGood = true;
