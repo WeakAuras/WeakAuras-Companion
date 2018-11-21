@@ -61,6 +61,9 @@ export default {
   },
   watch: {
     configStep() {
+      while (this.messages.length > 0) {
+        this.messages.pop();
+      }
       this.save(["configStep"]);
       if (this.configStep == 4) {
         this.compareSVwithWago();
