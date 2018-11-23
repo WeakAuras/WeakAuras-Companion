@@ -2,3 +2,5 @@
 * periodic + manual update (in progress)
 * improve design (in progress)
 * self-updater
+* auto-start
+* test on mac
