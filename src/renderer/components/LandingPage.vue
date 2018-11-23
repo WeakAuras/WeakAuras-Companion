@@ -71,6 +71,7 @@
 
 <script>
 import FileSelect from "./LandingPage/FileSelect";
+import path from "path";
 //require("electron").ipcRenderer.on("refresh", (event, message) => {
 //  console.log("COUCOU"); // Prints 'whoooooooh!'
 //});
@@ -109,7 +110,7 @@ export default {
         // test if ${WOWPath}\WTF\Account exists
         const fs = require("fs");
         // this.message("wow folder selected: " + this.WOWPath, "info");
-        const accountFolder = this.WOWPath + "\\WTF\\Account";
+        const accountFolder = path.join(this.WOWPath, "WTF", "Account");
         fs.access(accountFolder, fs.constants.F_OK, err => {
           if (!err) {
             // add option for each account found
@@ -132,11 +133,14 @@ export default {
       if (!!this.WOWPath && !!this.Account) {
         const fs = require("fs");
         // this.message("Account selected: " + this.Account, "info");
-        const WeakAurasSavedVariable =
-          this.WOWPath +
-          "\\WTF\\Account\\" +
-          this.Account +
-          "\\SavedVariables\\WeakAuras.lua";
+        const WeakAurasSavedVariable = path.join(
+          this.WOWPath,
+          "WTF",
+          "Account",
+          this.Account,
+          "SavedVariables",
+          "WeakAuras.lua"
+        );
         fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
           if (!err) {
             // this.message("WeakAuras.lua found in SavedVariable", "info");
@@ -259,11 +263,14 @@ export default {
       luaparse.defaultOptions.comments = false;
       luaparse.defaultOptions.scope = true;
       let luaData;
-      const WeakAurasSavedVariable =
-        this.WOWPath +
-        "\\WTF\\Account\\" +
-        this.Account +
-        "\\SavedVariables\\WeakAuras.lua";
+      const WeakAurasSavedVariable = path.join(
+        this.WOWPath,
+        "WTF",
+        "Account",
+        this.Account,
+        "SavedVariables",
+        "WeakAuras.lua"
+      );
       this.message("Looking for updates on wago", "info");
       // Read WeakAuras.lua
       fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data, luaData) => {
@@ -455,8 +462,12 @@ export default {
     writeAddonData(countNewStrings, countFailStrings) {
       if (this.WOWPath !== null) {
         const fs = require("fs");
-        const AddonFolder =
-          this.WOWPath + "\\Interface\\Addons\\WeakAurasWagoUpdate";
+        const AddonFolder = path.join(
+          this.WOWPath,
+          "Interface",
+          "Addons",
+          "WeakAurasWagoUpdate"
+        );
         // Make folder
         fs.mkdir(AddonFolder, err => {
           if (err && err.code != "EEXIST") {
@@ -483,7 +494,7 @@ export default {
               LuaOutput += "  },\n";
             });
             LuaOutput += "}";
-            fs.writeFile(AddonFolder + "\\data.lua", LuaOutput, err => {
+            fs.writeFile(path.join(AddonFolder, "data.lua"), LuaOutput, err => {
               if (err) this.message("data.lua could not be saved", "error");
               else {
                 let msg =
@@ -511,7 +522,7 @@ export default {
 data.lua`;
 
             fs.writeFile(
-              AddonFolder + "\\WeakAurasWagoUpdate.toc",
+              path.join(AddonFolder, "WeakAurasWagoUpdate.toc"),
               tocFile,
               err => {
                 if (err)

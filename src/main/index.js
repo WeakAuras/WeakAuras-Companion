@@ -14,7 +14,7 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
-const iconpath = path.join(__static, 'icon.ico')
+const iconpath = path.join(__static, 'icon.' + `${process.platform == 'darwin' ? 'png' : 'ico'}`)
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -63,12 +63,15 @@ function createWindow() {
   tray.on('double-click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
   })
+
+  /*
   mainWindow.on('show', () => {
     tray.setHighlightMode('always')
   })
   mainWindow.on('hide', () => {
     tray.setHighlightMode('never')
   })
+  */
 
   mainWindow.webContents.on('new-window', function (event, url) {
     event.preventDefault();
