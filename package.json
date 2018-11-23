@@ -1,9 +1,9 @@
 {
-  "name": "wa-update",
-  "version": "0.0.1",
+  "name": "weakauras-wago-updater",
+  "version": "1.0.1",
   "author": "Buds <mrbouyou@gmail.com>",
-  "description": "WeakAuras updater made with electron-vue",
-  "license": null,
+  "description": "WeakAuras Wago Updater",
+  "license": "GPL-2.0-or-later",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -17,8 +17,8 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "wa-update",
-    "appId": "com.example.yourapp",
+    "productName": "WeakAuras Wago Updater",
+    "appId": "wtf.weakauras.updater",
     "directories": {
       "output": "build"
     },
@@ -56,9 +56,7 @@
     "luaparse": "^0.2.1",
     "vue": "^2.5.17",
     "vue-electron": "^1.0.6",
-    "vue-router": "^3.0.1",
-    "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.0"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "ajv": "^6.5.0",

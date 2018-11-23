@@ -1,11 +1,12 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Tray, Menu, shell } from 'electron'
+import path from 'path'
 
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
 let mainWindow
@@ -13,27 +14,71 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+const iconpath = path.join(__static, 'icon.ico')
+
 function createWindow() {
-  /**
-   * Initial window options
-   */
   mainWindow = new BrowserWindow({
-    height: 563,
-    useContentSize: true,
-    width: 1000,
-    webPreferences: { webSecurity: false }
+    height: 300,
+    width: 600,
+    resizable: false,
+    backgroundColor: '#252525',
+    webPreferences: { webSecurity: false },
+    show: false
   })
 
   mainWindow.loadURL(winURL)
-
   mainWindow.setMenu(null);
-
+  mainWindow.on('minimize', (event) => {
+    event.preventDefault()
+    mainWindow.hide()
+  })
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show();
+    mainWindow.focus();
+  });
+
+  var tray = new Tray(iconpath)
+  tray.setContextMenu(Menu.buildFromTemplate([
+    {
+      label: 'Search updates on Wago', click: () => {
+        console.log("send event refresh")
+        mainWindow.webContents.send('resfreshWago', true)
+      }
+    },
+    {
+      label: 'Open', click: () => {
+        mainWindow.show()
+      }
+    },
+    {
+      label: 'Quit', click: () => {
+        app.isQuiting = true
+        app.quit()
+      }
+    }
+  ]));
+  tray.on('double-click', () => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+  })
+  mainWindow.on('show', () => {
+    tray.setHighlightMode('always')
+  })
+  mainWindow.on('hide', () => {
+    tray.setHighlightMode('never')
+  })
+
+  mainWindow.webContents.on('new-window', function (event, url) {
+    event.preventDefault();
+    shell.openExternal(url);
+  });
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

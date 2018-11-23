@@ -1,6 +1,5 @@
 <template>
 <div>
-  <div @click="checkWago">Check Wago</div>
   <div id='aura-list'>
     <div v-for="aura in topLevel" :key="aura.id">
         <div :class="aura.type">
@@ -34,13 +33,7 @@
 <script>
 export default {
   name: "AuraList",
-  props: ["file"],
-  data() {
-    return {
-      auras: [],
-      wagoIds: []
-    };
-  },
+  props: ["auras"],
   computed: {
     sorted: function() {
       function compare(a, b) {
@@ -57,132 +50,7 @@ export default {
   methods: {
     childs(id) {
       return this.sorted.filter(aura => aura.parent == id);
-    },
-    checkWago() {
-      const axios = require("axios");
-      let wagoIds = [];
-      this.auras.filter(aura => aura.wagoId).forEach(aura => {
-        wagoIds.push(aura.wagoId);
-      });
-      const unitWagoIds = Array.from(new Set(wagoIds));
-      unitWagoIds.forEach(wagoId => {
-        console.log("checking id " + wagoId);
-        axios
-          .get("https://data.wago.io/lookup/wago?id=" + wagoId)
-          .then(response => {
-            let version = response.data.versions.total;
-            this.auras
-              .filter(aura => aura.wagoId == wagoId)
-              .forEach(aura => (aura.wagoVersion = version));
-          })
-          .catch(error => {
-            this.auras
-              .filter(aura => aura.wagoId == wagoId)
-              .forEach(aura => (aura.wagoError = true));
-          });
-      });
-    },
-    checkFile() {
-      console.log("watch file");
-      this.auras = [];
-      if (!this.file) {
-        instance.$emit(
-          "fileHandle",
-          "An error ocurred reading the file",
-          false
-        );
-        return;
-      }
-      const fs = require("fs");
-      const luaparse = require("luaparse");
-      luaparse.defaultOptions.comments = false;
-      luaparse.defaultOptions.scope = true;
-      let luaData;
-      let self = this;
-      fs.readFile(this.file.path, "utf-8", function(err, data, luaData) {
-        if (err) {
-          self.$emit(
-            "handleFile",
-            "An error ocurred reading the file :" + err.message,
-            false
-          );
-          return;
-        }
-        let WeakAurasSaved = luaparse.parse(data);
-        let urls = Object();
-        if (WeakAurasSaved.body[0].variables[0].name != "WeakAurasSaved") {
-          self.$emit(
-            "handleFile",
-            "File selected is not WeakAuras's SV",
-            false
-          );
-          return;
-        } else {
-          self.$emit("handleFile", "", true);
-        }
-
-        let pattern = /(https:\/\/wago.io\/)([^\/]+)\/?(\d*)/;
-        WeakAurasSaved.body[0].init[0].fields.forEach(function(obj) {
-          if (obj.key.value == "displays") {
-            obj.value.fields.forEach(function(obj2) {
-              let id = obj2.key.value;
-              let wagoId, url, version, shorturl, parent, controlledChildren;
-
-              obj2.value.fields.forEach(function(obj3) {
-                if (obj3.key.value == "url") {
-                  url = obj3.value.value;
-                  let pattern_result = url.match(pattern);
-                  version = pattern_result[3];
-                  wagoId = pattern_result[2];
-                  shorturl = pattern_result[1] + pattern_result[2];
-                }
-                if (obj3.key.value == "parent") {
-                  parent = obj3.value.value;
-                }
-                if (obj3.key.value == "controlledChildren") {
-                  controlledChildren = new Array();
-                  obj3.value.fields.forEach(function(obj) {
-                    controlledChildren.push(obj.value.value);
-                  });
-                }
-              });
-              let aura_type;
-              if (!!controlledChildren) {
-                aura_type = "aura_group";
-              } else {
-                if (!parent) {
-                  aura_type = "aura_toplevel";
-                } else {
-                  aura_type = "aura_child";
-                }
-              }
-
-              self.auras.push({
-                id: id,
-                wagoId: wagoId,
-                url: url,
-                version: version,
-                wagoVersion: null,
-                wagoError: false,
-                shorturl: shorturl,
-                parent: parent,
-                type: aura_type,
-                isGroup: !!controlledChildren,
-                showchilds: false
-              });
-            });
-          }
-        });
-      });
     }
-  },
-  watch: {
-    file: function() {
-      this.checkFile();
-    }
-  },
-  created() {
-    this.checkFile();
   }
 };
 </script>
