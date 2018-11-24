@@ -20,7 +20,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     height: 300,
     width: 600,
-    resizable: false,
+    resizable: process.env.NODE_ENV === 'development',
     backgroundColor: '#252525',
     webPreferences: { webSecurity: false },
     show: false
@@ -44,8 +44,7 @@ function createWindow() {
   tray.setContextMenu(Menu.buildFromTemplate([
     {
       label: 'Search updates on Wago', click: () => {
-        console.log("send event refresh")
-        mainWindow.webContents.send('resfreshWago', true)
+        mainWindow.webContents.send('refreshWago')
       }
     },
     {
@@ -60,18 +59,9 @@ function createWindow() {
       }
     }
   ]));
-  tray.on('double-click', () => {
+  tray.on('click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
   })
-
-  /*
-  mainWindow.on('show', () => {
-    tray.setHighlightMode('always')
-  })
-  mainWindow.on('hide', () => {
-    tray.setHighlightMode('never')
-  })
-  */
 
   mainWindow.webContents.on('new-window', function (event, url) {
     event.preventDefault();

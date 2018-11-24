@@ -1,6 +1,5 @@
 * fix the tray icon update button
-* periodic + manual update (in progress)
 * improve design (in progress)
 * self-updater
 * auto-start
-* test on mac
+* handle dark mode on mac https://github.com/sindresorhus/node-dark-mode

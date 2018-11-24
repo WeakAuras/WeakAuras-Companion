@@ -72,9 +72,6 @@
 <script>
 import FileSelect from "./LandingPage/FileSelect";
 import path from "path";
-//require("electron").ipcRenderer.on("refresh", (event, message) => {
-//  console.log("COUCOU"); // Prints 'whoooooooh!'
-//});
 
 export default {
   name: "landing-page",
@@ -162,8 +159,6 @@ export default {
     console.log("mounted");
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", (event, data) => {
-      console.log("received event refresh");
-      this.message("Received event refresh", "info");
       this.compareSVwithWago();
     });
 
