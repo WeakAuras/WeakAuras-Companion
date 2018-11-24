@@ -1,58 +1,56 @@
 <template>
-  <div>
+  <div id="wrapper">
     <!-- <p v-if="configStep > 0 && configStep < 4">Configuration</p> -->
-    <div id="header">
-      <br>
+    <header>
       <img src="../assets/weakauras.png" class="walogo">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="btn btn-large btn-default" @click="configStep = 0">Main</div>
+      <div class="btn btn-large btn-default" @click="configStep = 1">Settings</div>
+      <div class="btn btn-large btn-default" @click="compareSVwithWago" v-bind:class="{ 'btn-negative': !WOWFolderIsGood || !AccountIsGood }">Sync</div>
       <img src="../assets/wago.png" class="wagologo">
-    </div>
-    <!-- <div>Updater</div> -->
-    <div></div>
-    <div id="body" ref="body">
+    </header>
+    <main ref="body">
       <div v-if="configStep == 0">
         <div class="mid">
-          <div class="btn btn-large btn-default" @click="configStep = 1">Configuration</div>
+          Hello World
         </div>
       </div>
-      <div v-if="configStep == 1" class="mid">
+      <div v-if="configStep == 1" class="config">
         <file-select :path.sync="WOWPath"></file-select>
-        <br>
-        <div v-if="WOWFolderIsGood" class="btn btn-large btn-default" @click="configStep = 2">Next</div>
-        <div v-if="!WOWFolderIsGood && WOWPath"><br>Wrong Directory</div>
-      </div>
-      <div v-if="configStep == 2" class="mid">
-        <div>Select your account</div>
-        <div>
+        <span v-if="WOWPath">
+          <span v-if="WOWFolderIsGood" class="green">✓</span>
+          <span v-else class="red">✗</span>
+        </span>
+        <span v-if="WOWFolderIsGood">
+          <p class="configlabel">Select account</p>
           <select v-model="Account" class="form-control">
             <option v-for="item in Accounts" :key="item.name">
               {{ item.name }}
             </option>
           </select>
-        </div>
-        <div v-if="Account && !AccountIsGood"><br>Can't use this account</div>
-        <div v-if="Account && AccountIsGood">
-          <br>
-          <div class="btn btn-large btn-default" @click="configStep = 3">Next</div>
-        </div>
+          <span v-if="Account">
+            <span v-if="AccountIsGood" class="green">✓</span>
+            <span v-else class="red">✗</span>
+          </span>
+        </span>
+        <p class="configlabel">Wago Account (Optional)</p>
+        <input type="text" v-model="wagoUsername" size="11">
+        <p  class="configlabel">Startup</p>
+        <input type="checkbox" v-model="autostart"> Launch Client with your computer<br>
+        <input type="checkbox" v-model="startminimize"> Start Client Minimized
+        <br><br>
+        <div class="btn btn-default" @click="reset">Reset Settings</div>
       </div>
-      <div v-if="configStep == 3" class="mid">
-        <div>Wago Account Name (Optional)</div>
-        <div><input type="text" v-model="wagoUsername"></div>
-        <br>
-        <div class="btn btn-large btn-default" @click="configStep = 4">Next</div>
-      </div>
-      <div v-if="configStep == 4">
+      <div v-if="configStep == 2">
         <!-- <div>Configuration done thank you {{wagoUsername}}</div> -->
-      </div>
-      <div class="messages">
-        <div v-for="message in messages" :key="message.id">
-          <span class="btn btn-mini" v-bind:class="{ 'btn-default': message.type == 'info', 'btn-positive': message.type == 'ok', 'btn-negative': message.type == 'error' }" :title="message.time">{{ message.type }}</span>
-          <span>{{ message.text}}</span>
+        <div class="messages">
+          <div v-for="message in messages" :key="message.id">
+            <span class="btn btn-mini" v-bind:class="{ 'btn-default': message.type == 'info', 'btn-positive': message.type == 'ok', 'btn-negative': message.type == 'error' }" :title="message.time">{{ message.type }}</span>
+            <span>{{ message.text}}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div id='footer'>
+    </main>
+    <footer>
       <a href="https://discord.gg/wa2" target="_blank"><img src="../assets/discord.png" class="logo" title="discord"></a>
       <a href="https://twitter.com/WeakAuras" target="_blank"><img src="../assets/twitter.png" class="logo" title="twitter"></a>
       <a href="https://facebook.com/WeakAuras" target="_blank"><img src="../assets/facebook.png" class="logo" title="facebook"></a>
@@ -60,10 +58,9 @@
       <a href="https://github.com/WeakAuras/WeakAuras2" target="_blank"><img src="../assets/github.png" class="logo" title="github"></a>
       <a href="https://www.patreon.com/bePatron?u=3216523" target="_blank"><img src="../assets/patreon.png" class="logo" title="patreon"></a>
       <a href="https://mods.curse.com/addons/wow/weakauras-2" target="_blank"><img src="../assets/curse.png" class="logo" title="curse"></a>
-    </div>
+    </footer>
     <div class="menu">
-      <img v-if="configStep == 4" src="../assets/update.png" @click="compareSVwithWago" title="check for update" class="menu-icon clickable">
-      <img src="../assets/config.png" @click="reset" title="reset configuration" class="menu-icon clickable">
+      <img v-if="configStep == 3" src="../assets/update.png" @click="compareSVwithWago" title="check for update" class="menu-icon clickable">
     </div>
     
   </div>
@@ -72,6 +69,11 @@
 <script>
 import FileSelect from "./LandingPage/FileSelect";
 import path from "path";
+
+const AutoLaunch = require("auto-launch");
+var AutoLauncher = new AutoLaunch({
+  name: "WeakAuras Wago Updater"
+});
 
 export default {
   name: "landing-page",
@@ -87,10 +89,23 @@ export default {
       AccountIsGood: false,
       hash: null, // hash of Account
       auras: [], // array of auras, slug field must be unique
-      wagoUsername: null // ignore your own auras
+      wagoUsername: null, // ignore your own auras
+      autostart: false,
+      startminimize: false
     };
   },
   watch: {
+    autostart() {
+      if (this.autostart) {
+        AutoLauncher.enable();
+      } else {
+        AutoLauncher.disable();
+      }
+      this.save(["autostart"]);
+    },
+    startminimize() {
+      this.save(["startminimize"]);
+    },
     configStep() {
       this.clearMessages();
       this.save(["configStep"]);
@@ -120,7 +135,7 @@ export default {
             });
             this.save(["WOWPath"]);
           } else {
-            this.message("Can't find World of Warcraft files", "error");
+            //this.message("Can't find World of Warcraft files", "error");
             this.WOWFolderIsGood = false;
           }
         });
@@ -145,7 +160,7 @@ export default {
             this.save(["hash", "Account"]);
             this.AccountIsGood = true;
           } else {
-            this.message("WeakAuras.lua is not in SavedVariable", "error");
+            //this.message("WeakAuras.lua is not in SavedVariable", "error");
             this.AccountIsGood = false;
           }
         });
@@ -203,7 +218,6 @@ export default {
 
       fields.forEach(field => {
         store.set(field, this[field]);
-        //this.message("Saved data: " + field, "info");
       });
     },
     restore() {
@@ -225,6 +239,7 @@ export default {
         text: text,
         type: type
       });
+      //scroll down
       this.$nextTick(() => {
         var body = this.$refs.body;
         body.scrollTop = body.scrollHeight;
@@ -253,6 +268,8 @@ export default {
       return hval >>> 0;
     },
     compareSVwithWago() {
+      if (!this.WOWFolderIsGood || !this.AccountIsGood) return;
+      this.configStep = 2;
       const fs = require("fs");
       const luaparse = require("luaparse");
       luaparse.defaultOptions.comments = false;
@@ -552,25 +569,35 @@ body {
   text-align: center;
 }
 
-#header {
-  width: 100%;
-  text-align: center;
+#wrapper {
+  height: 100vh;
+  display: flex;
   background-color: #252525;
+  /* Direction of the items, can be row or column */
+  flex-direction: column;
 }
-#body {
-  width: 100%;
-  height: 299px;
-  max-height: 135px;
-  background-color: #252525;
+
+header {
+  padding: 5px 0;
+  text-align: center;
+  padding-top: 5px;
+}
+main {
+  flex: 1;
   overflow-y: auto;
 }
-#footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
+footer {
+  padding: 5px 0;
+  /* height: 40px; */
+  text-align: center;
+}
+
+.mid {
+  margin: 0;
+  position: absolute;
+  top: 50%;
   width: 100%;
   text-align: center;
-  background-color: #252525;
 }
 
 .reset-icon {
@@ -590,14 +617,6 @@ body {
 .menu-icon {
   width: 1.5em;
   height: 1.5em;
-}
-
-.mid {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  text-align: center;
 }
 
 .clickable {
@@ -630,6 +649,7 @@ body {
   outline: none;
   box-shadow: none;
 }
+
 .btn-large {
   padding: 6px 12px;
 }
@@ -738,7 +758,6 @@ body {
   background-image: -webkit-linear-gradient(top, #fc605b 0%, #fb1710 100%);
   background-image: linear-gradient(to bottom, #fc605b 0%, #fb1710 100%);
 }
-
 .logo {
   position: relative;
   display: inline-block;
@@ -748,11 +767,36 @@ body {
 }
 
 .walogo {
-  width: 200px;
-  height: 75px;
+  width: 120px;
+  height: 45px;
+  float: left;
+  margin-left: 50px;
 }
 .wagologo {
-  width: 130px;
-  height: 75px;
+  width: 78px;
+  height: 45px;
+  float: right;
+  margin-right: 50px;
+}
+
+.config {
+  margin-left: 50px;
+  text-align: left;
+}
+.configlabel {
+  color: gray;
+}
+input,
+select,
+.fakeinput {
+  padding: 2px;
+  font-size: small;
+}
+
+.green {
+  color: green;
+}
+.red {
+  color: red;
 }
 </style>

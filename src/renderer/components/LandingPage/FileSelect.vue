@@ -1,12 +1,10 @@
 <template>
   <label class="file-select">
-    <!-- We can't use a normal button element here, as it would become the target of the label. -->
-    <div class="select-button">
-      <!-- Display the filename if a file has been selected. -->
-      <span v-if="path" class="btn btn-large btn-default">{{path}}</span>
-      <span v-else class="btn btn-large btn-default">Select World Of Warcraft Directory</span>
-    </div>
-    <!-- Now, the file input that we hide. -->
+    <span class="select-button">
+      <p class="configlabel">World of Warcraft Folder</p>
+      <div class="fakeinput">{{path}}&nbsp;</div>
+      <div class="btn btn-large btn-default">Select Folder</div>
+    </span>
     <input type="file" webkitdirectory @change="handleFileChange"/>
   </label>
 </template>
@@ -30,5 +28,14 @@ export default {
 /* Don't forget to hide the original file input! */
 .file-select > input[type="file"] {
   display: none;
+}
+.fakeinput {
+  background-color: white;
+  width: 270px;
+  display: inline-block;
+  color: black;
+}
+.btn {
+  display: inline-block;
 }
 </style>

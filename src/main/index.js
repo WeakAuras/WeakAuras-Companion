@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Tray, Menu, shell } from 'electron'
 import path from 'path'
-
-const AutoLaunch = require("auto-launch");
+const Store = require("electron-store");
+const store = new Store();
 
 /**
  * Set `__static` path to static files in production
@@ -38,13 +38,10 @@ function createWindow() {
     mainWindow = null
   })
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show();
-    mainWindow.focus();
-  });
-
-  var AutoLauncherStarted
-  var AutoLauncher = new AutoLaunch({
-    name: 'WeakAuras Wago Updater'
+    if (!store.get('startminimize', false)) {
+      mainWindow.show();
+      mainWindow.focus();
+    }
   });
 
   var tray = new Tray(iconpath)
@@ -62,17 +59,6 @@ function createWindow() {
     },
     { type: 'separator' },
     {
-      label: 'Auto-Start with ' + `${process.platform == 'darwin' ? 'Mac OS' : 'Windows'}`, type: 'checkbox', checked: false, click: (item) => {
-        if (item.checked) {
-          AutoLauncher.enable();
-        } else {
-          AutoLauncher.disable();
-        }
-        //item.checked = !item.checked
-      }
-    },
-    { type: 'separator' },
-    {
       label: 'Quit', click: () => {
         app.isQuiting = true
         app.quit()
@@ -80,12 +66,6 @@ function createWindow() {
     }
   ]);
   tray.setContextMenu(contextMenu);
-
-  AutoLauncher.isEnabled().then((isEnabled) => {
-    console.log("isEnabled: " + isEnabled + " checkbox: " + contextMenu.items[4].checked + " label: " + contextMenu.items[4].label)
-    contextMenu.items[4].checked = isEnabled;
-    tray.setContextMenu(contextMenu);
-  });
 
   tray.on('click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
