@@ -1,6 +1,8 @@
 import { app, BrowserWindow, Tray, Menu, shell } from 'electron'
 import path from 'path'
 
+const AutoLaunch = require("auto-launch");
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -40,25 +42,51 @@ function createWindow() {
     mainWindow.focus();
   });
 
+  var AutoLauncherStarted
+  var AutoLauncher = new AutoLaunch({
+    name: 'WeakAuras Wago Updater'
+  });
+
   var tray = new Tray(iconpath)
-  tray.setContextMenu(Menu.buildFromTemplate([
+  var contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Open WeakAuras Wago Updater', click: () => {
+        mainWindow.show()
+      }
+    },
+    { type: 'separator' },
     {
       label: 'Search updates on Wago', click: () => {
         mainWindow.webContents.send('refreshWago')
       }
     },
+    { type: 'separator' },
     {
-      label: 'Open', click: () => {
-        mainWindow.show()
+      label: 'Auto-Start with ' + `${process.platform == 'darwin' ? 'Mac OS' : 'Windows'}`, type: 'checkbox', checked: false, click: (item) => {
+        if (item.checked) {
+          AutoLauncher.enable();
+        } else {
+          AutoLauncher.disable();
+        }
+        //item.checked = !item.checked
       }
     },
+    { type: 'separator' },
     {
       label: 'Quit', click: () => {
         app.isQuiting = true
         app.quit()
       }
     }
-  ]));
+  ]);
+  tray.setContextMenu(contextMenu);
+
+  AutoLauncher.isEnabled().then((isEnabled) => {
+    console.log("isEnabled: " + isEnabled + " checkbox: " + contextMenu.items[4].checked + " label: " + contextMenu.items[4].label)
+    contextMenu.items[4].checked = isEnabled;
+    tray.setContextMenu(contextMenu);
+  });
+
   tray.on('click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
   })
