@@ -5,49 +5,56 @@
       <img src="../assets/weakauras.png" class="walogo">
       <div class="btn btn-large btn-default" @click="configStep = 0">Main</div>
       <div class="btn btn-large btn-default" @click="configStep = 1">Settings</div>
-      <div class="btn btn-large btn-default" @click="compareSVwithWago" v-bind:class="{ 'btn-negative': !WOWFolderIsGood || !AccountIsGood }">Sync</div>
       <img src="../assets/wago.png" class="wagologo">
     </header>
-    <main ref="body">
-      <div v-if="configStep == 0">
-        <div class="mid">
-          Hello World
+    <main>
+      <div v-if="configStep == 0" id="dashboard">
+        <div id="sync">
+          <br><br><br><br>
+          <div class="btn btn-refresh" @click="compareSVwithWago" v-bind:class="{ 'btn-negative': !config.wowpath.valided || !config.account.valided }">Search updates on Wago</div>
+          <div id="lastupdate">Last update {{schedule.last | fromNow}}</div>
         </div>
-      </div>
-      <div v-if="configStep == 1" class="config">
-        <file-select :path.sync="WOWPath"></file-select>
-        <span v-if="WOWPath">
-          <span v-if="WOWFolderIsGood" class="green">✓</span>
-          <span v-else class="red">✗</span>
-        </span>
-        <span v-if="WOWFolderIsGood">
-          <p class="configlabel">Select account</p>
-          <select v-model="Account" class="form-control">
-            <option v-for="item in Accounts" :key="item.name">
-              {{ item.name }}
-            </option>
-          </select>
-          <span v-if="Account">
-            <span v-if="AccountIsGood" class="green">✓</span>
-            <span v-else class="red">✗</span>
-          </span>
-        </span>
-        <p class="configlabel">Wago Account (Optional)</p>
-        <input type="text" v-model="wagoUsername" size="11">
-        <p  class="configlabel">Startup</p>
-        <input type="checkbox" v-model="autostart"> Launch Client with your computer<br>
-        <input type="checkbox" v-model="startminimize"> Start Client Minimized
-        <br><br>
-        <div class="btn btn-default" @click="reset">Reset Settings</div>
-      </div>
-      <div v-if="configStep == 2">
-        <!-- <div>Configuration done thank you {{wagoUsername}}</div> -->
-        <div class="messages">
+        <div id="messages" ref="messages">
           <div v-for="message in messages" :key="message.id">
             <span class="btn btn-mini" v-bind:class="{ 'btn-default': message.type == 'info', 'btn-positive': message.type == 'ok', 'btn-negative': message.type == 'error' }" :title="message.time">{{ message.type }}</span>
             <span>{{ message.text}}</span>
           </div>
         </div>
+      </div>
+      <div v-if="configStep == 1" id="config">
+        <div class="configtitle">Game Settings</div>
+        <div class="configblock">
+          <file-select :path.sync="config.wowpath.value"></file-select>
+          <span v-if="config.wowpath.value">
+            <span v-if="config.wowpath.valided" class="green">✔</span>
+            <span v-else class="red">✘</span>
+          </span>
+          <span v-if="config.wowpath.valided">
+            <p class="configlabel">Select account</p>
+            <select v-model="config.account.value" class="form-control">
+              <option v-for="item in config.account.choices" :key="item.name">
+                {{ item.name }}
+              </option>
+            </select>
+            <span v-if="config.account.value">
+              <span v-if="config.account.valided" class="green">✔</span>
+              <span v-else class="red">✘</span>
+            </span>
+          </span>
+        </div>
+        <div class="configtitle">Wago Settings</div>
+        <div class="configblock">
+          <p class="configlabel">Wago account (optional)</p>
+          <input type="text" v-model="config.wagoUsername" size="11">
+        </div>
+        <div class="configtitle">Addon Settings</div>
+        <div class="configblock">          
+          <p class="configlabel">Startup</p>
+          <input type="checkbox" v-model="config.autostart"> Launch client with your computer<br>
+          <input type="checkbox" v-model="config.startminimize"> Start client minimized
+        </div>
+        <br><br>
+        <div class="btn btn-default" @click="reset">Reset Settings</div>
       </div>
     </main>
     <footer>
@@ -59,16 +66,16 @@
       <a href="https://www.patreon.com/bePatron?u=3216523" target="_blank"><img src="../assets/patreon.png" class="logo" title="patreon"></a>
       <a href="https://mods.curse.com/addons/wow/weakauras-2" target="_blank"><img src="../assets/curse.png" class="logo" title="curse"></a>
     </footer>
-    <div class="menu">
-      <img v-if="configStep == 3" src="../assets/update.png" @click="compareSVwithWago" title="check for update" class="menu-icon clickable">
-    </div>
-    
   </div>
 </template>
 
 <script>
 import FileSelect from "./LandingPage/FileSelect";
 import path from "path";
+
+import moment from "moment";
+const Store = require("electron-store");
+const store = new Store();
 
 const AutoLaunch = require("auto-launch");
 var AutoLauncher = new AutoLaunch({
@@ -81,87 +88,109 @@ export default {
   data() {
     return {
       configStep: 0,
-      messages: [],
-      WOWPath: null, // wow path
-      WOWFolderIsGood: false,
-      Accounts: [], // account list
-      Account: null, // name of the account selected
-      AccountIsGood: false,
-      hash: null, // hash of Account
       auras: [], // array of auras, slug field must be unique
-      wagoUsername: null, // ignore your own auras
-      autostart: false,
-      startminimize: false
+      messages: [],
+      config: {
+        wowpath: {
+          val: null, // wow path
+          valided: false
+        },
+        account: {
+          val: null, // name of the account selected
+          valided: false,
+          hash: null,
+          choices: []
+        },
+        wagoUsername: null, // ignore your own auras
+        autostart: false,
+        startminimize: false
+      },
+      schedule: {
+        id: null, // setTimeout id
+        last: null // last compareSVwithWago()
+      }
     };
   },
+  filters: {
+    fromNow: value => {
+      if (!value) return "n/a";
+      return moment(value).fromNow();
+    }
+  },
   watch: {
-    autostart() {
+    configStep() {
+      if (this.configStep == 0) {
+        //scroll down
+        this.$nextTick(() => {
+          var messages = this.$refs.messages;
+          messages.scrollTop = messages.scrollHeight;
+        });
+      }
+    },
+    "schedule.last"() {
+      this.save(["save"]);
+    },
+    config: {
+      handler() {
+        this.save(["config"]);
+      },
+      deep: true
+    },
+    "config.autostart"() {
       if (this.autostart) {
         AutoLauncher.enable();
       } else {
         AutoLauncher.disable();
       }
-      this.save(["autostart"]);
     },
-    startminimize() {
-      this.save(["startminimize"]);
-    },
-    configStep() {
-      this.clearMessages();
-      this.save(["configStep"]);
-      if (this.configStep == 4) {
-        this.compareSVwithWago();
-      }
-    },
-    WOWPath() {
-      if (this.WOWPath != null) {
+    "config.wowpath.value"() {
+      if (!!this.config.wowpath.value) {
         // clean Accounts options
-        while (this.Accounts.length > 0) {
-          this.Accounts.pop();
+        while (this.config.account.choices.length > 0) {
+          this.config.account.choices.pop();
         }
-        // test if ${WOWPath}\WTF\Account exists
+        // test if ${wowpath}\WTF\Account exists
         const fs = require("fs");
-        // this.message("wow folder selected: " + this.WOWPath, "info");
-        const accountFolder = path.join(this.WOWPath, "WTF", "Account");
+        const accountFolder = path.join(
+          this.config.wowpath.value,
+          "WTF",
+          "Account"
+        );
         fs.access(accountFolder, fs.constants.F_OK, err => {
           if (!err) {
             // add option for each account found
             fs.readdirSync(accountFolder).forEach(file => {
               if (file != "SavedVariables") {
-                // this.message("Found account: " + file, "info");
-                this.Accounts.push({ name: file });
-                this.WOWFolderIsGood = true;
+                this.config.account.choices.push({ name: file });
+                this.config.wowpath.valided = true;
               }
             });
-            this.save(["WOWPath"]);
           } else {
-            //this.message("Can't find World of Warcraft files", "error");
-            this.WOWFolderIsGood = false;
+            this.config.wowpath.valided = false;
           }
         });
       }
     },
-    Account() {
-      if (!!this.WOWPath && !!this.Account) {
+    "config.account.value"() {
+      if (this.config.wowpath.valided && !!this.config.account.value) {
         const fs = require("fs");
-        // this.message("Account selected: " + this.Account, "info");
         const WeakAurasSavedVariable = path.join(
-          this.WOWPath,
+          this.config.wowpath.value,
           "WTF",
           "Account",
-          this.Account,
+          this.config.account.value,
           "SavedVariables",
           "WeakAuras.lua"
         );
         fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
           if (!err) {
-            // this.message("WeakAuras.lua found in SavedVariable", "info");
-            this.hash = this.hashFnv32a(this.Account, true);
-            this.save(["hash", "Account"]);
-            this.AccountIsGood = true;
+            this.config.account.hash = this.hashFnv32a(
+              this.config.account.value,
+              true
+            );
+            this.config.account.valided = true;
           } else {
-            //this.message("WeakAuras.lua is not in SavedVariable", "error");
-            this.AccountIsGood = false;
+            this.config.account.valided = false;
           }
         });
       }
@@ -171,78 +200,67 @@ export default {
     this.restore();
   },
   mounted() {
-    console.log("mounted");
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", (event, data) => {
       this.compareSVwithWago();
     });
 
-    // resfresh every hour
-    setInterval(() => {
-      this.compareSVwithWago();
-    }, 1000 * 60 * 60);
+    this.compareSVwithWago();
   },
   methods: {
     reset() {
-      this.configStep = 0;
-      this.WOWPath = null;
-      this.WOWFolderIsGood = false;
-      this.Account = null;
-      this.AccountIsGood = false;
-      this.hash = null;
-      this.wagoUsername = null;
-      while (this.Accounts.length > 0) {
-        this.Accounts.pop();
-      }
+      this.config = {
+        wowpath: {
+          value: null, // wow path
+          valided: false
+        },
+        account: {
+          value: null, // name of the account selected
+          valided: false,
+          hash: null,
+          choices: []
+        },
+        wagoUsername: null, // ignore your own auras
+        autostart: false,
+        startminimize: false
+      };
+      this.schedule.last = null;
       while (this.messages.length > 0) {
         this.messages.pop();
       }
       while (this.auras.length > 0) {
         this.auras.pop();
       }
-      this.save([
-        "WOWPath",
-        "wagoUsername",
-        "Account",
-        "auras",
-        "hash",
-        "configStep"
-      ]);
+      this.save(["config", "auras"]);
     },
     open(link) {
       this.$electron.shell.openExternal(link);
     },
     save(fields) {
-      const Store = require("electron-store");
-      const store = new Store();
-
       fields.forEach(field => {
         store.set(field, this[field]);
       });
     },
     restore() {
-      const Store = require("electron-store");
-      const store = new Store();
-
       const data = store.store;
       for (var field in data) {
         this[field] = data[field];
       }
-      // this.message("Data from previous session restored", "info");
+      this.schedule.id = null;
     },
     message(text, type) {
-      console.log(text);
-      const date = new Date();
+      //console.log(text);
+      const date = moment().format("hh:mm:ss");
       this.messages.push({
         id: this.messages.length,
-        time: date.getHours() + ":" + date.getMinutes(),
+        time: date,
         text: text,
         type: type
       });
       //scroll down
       this.$nextTick(() => {
-        var body = this.$refs.body;
-        body.scrollTop = body.scrollHeight;
+        var messages = this.$refs.messages;
+        messages.scrollTop = messages.scrollHeight;
       });
     },
     clearMessages() {
@@ -268,18 +286,21 @@ export default {
       return hval >>> 0;
     },
     compareSVwithWago() {
-      if (!this.WOWFolderIsGood || !this.AccountIsGood) return;
-      this.configStep = 2;
+      if (!this.config.wowpath.valided || !this.config.account.valided) {
+        this.message("Configuration is not finished", "error");
+        return;
+      }
+      if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next schedule
       const fs = require("fs");
       const luaparse = require("luaparse");
       luaparse.defaultOptions.comments = false;
       luaparse.defaultOptions.scope = true;
       let luaData;
       const WeakAurasSavedVariable = path.join(
-        this.WOWPath,
+        this.config.wowpath.value,
         "WTF",
         "Account",
-        this.Account,
+        this.config.account.value,
         "SavedVariables",
         "WeakAuras.lua"
       );
@@ -353,7 +374,8 @@ export default {
             },
             headers: {
               Identifier: this.hash
-            }
+            },
+            crossdomain: true
           })
           .then(response => {
             this.message("Auras's metadata received from Wago API", "ok");
@@ -390,8 +412,9 @@ export default {
                           id: aura.slug
                         },
                         headers: {
-                          Identifier: this.hash
-                        }
+                          Identifier: this.config.account.hash
+                        },
+                        crossdomain: true
                       })
                     );
                   }
@@ -472,10 +495,10 @@ export default {
       });
     },
     writeAddonData(countNewStrings, countFailStrings) {
-      if (this.WOWPath !== null) {
+      if (this.config.wowpath.valided) {
         const fs = require("fs");
         const AddonFolder = path.join(
-          this.WOWPath,
+          this.config.wowpath.value,
           "Interface",
           "Addons",
           "WeakAurasWagoUpdate"
@@ -545,6 +568,12 @@ data.lua`;
                 //else this.message("WeakAurasWagoUpdate.toc saved", "ok");
               }
             );
+            // schedule in 1 hour
+            this.schedule.id = setTimeout(
+              this.compareSVwithWago,
+              1000 * 60 * 60
+            );
+            this.schedule.last = new Date();
           }
         });
       }
@@ -566,14 +595,12 @@ body {
   font-family: "Source Sans Pro", sans-serif;
   background-color: #252525;
   color: white;
-  text-align: center;
 }
 
 #wrapper {
   height: 100vh;
   display: flex;
   background-color: #252525;
-  /* Direction of the items, can be row or column */
   flex-direction: column;
 }
 
@@ -608,26 +635,21 @@ footer {
   height: 1.5em;
 }
 
-.menu {
-  position: absolute;
-  right: 2px;
-  top: 2px;
+#dashboard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
-
-.menu-icon {
-  width: 1.5em;
-  height: 1.5em;
+#sync {
+  flex: 1;
+  text-align: center;
 }
-
-.clickable {
-  cursor: pointer;
-}
-
-.messages {
+#messages {
   text-align: left;
   overflow: auto;
   font-family: "Courier New", Courier, monospace;
   font-size: small;
+  height: 120px;
 }
 .btn {
   display: inline-block;
@@ -638,7 +660,7 @@ footer {
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  cursor: default;
+  cursor: pointer;
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -656,6 +678,14 @@ footer {
 .btn-mini {
   padding: 2px 6px;
   width: 50px;
+}
+.btn-refresh {
+  background-color: #333;
+  padding: 8px 8px;
+  font-size: large;
+}
+.btn-refresh:hover {
+  background-color: rgb(71, 71, 71);
 }
 .btn-default {
   color: #333;
@@ -779,7 +809,7 @@ footer {
   margin-right: 50px;
 }
 
-.config {
+#config {
   margin-left: 50px;
   text-align: left;
 }
@@ -798,5 +828,15 @@ select,
 }
 .red {
   color: red;
+}
+.configtitle {
+  font-size: 20px;
+  margin: 10px 0px;
+}
+.configblock {
+  margin-left: 30px;
+}
+#lastupdate {
+  font-size: small;
 }
 </style>

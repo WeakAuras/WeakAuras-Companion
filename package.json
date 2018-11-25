@@ -55,6 +55,7 @@
     "axios": "^0.18.0",
     "electron-store": "^2.0.0",
     "luaparse": "^0.2.1",
+    "moment": "^2.22.2",
     "vue": "^2.5.17",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1"

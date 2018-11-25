@@ -1,9 +1,10 @@
 <template>
   <label class="file-select">
     <span class="select-button">
-      <p class="configlabel">World of Warcraft Folder</p>
+      <p class="configlabel">World of Warcraft folder</p>
       <div class="fakeinput">{{path}}&nbsp;</div>
-      <div class="btn btn-large btn-default">Select Folder</div>
+      🗁
+      <!-- <div class="btn btn-large btn-default">Select Folder</div> -->
     </span>
     <input type="file" webkitdirectory @change="handleFileChange"/>
   </label>

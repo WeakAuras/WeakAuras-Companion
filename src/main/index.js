@@ -20,11 +20,14 @@ const iconpath = path.join(__static, 'icon.' + `${process.platform == 'darwin' ?
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    height: 300,
+    height: 450,
     width: 600,
     resizable: process.env.NODE_ENV === 'development',
     backgroundColor: '#252525',
-    webPreferences: { webSecurity: false },
+    webPreferences: {
+      disableBlinkFeatures: "Auxclick",
+      webSecurity: process.env.NODE_ENV !== 'development',
+    },
     show: false
   })
 
@@ -38,7 +41,7 @@ function createWindow() {
     mainWindow = null
   })
   mainWindow.on('ready-to-show', () => {
-    if (!store.get('startminimize', false)) {
+    if (!store.get('config.startminimize', false)) {
       mainWindow.show();
       mainWindow.focus();
     }
@@ -75,6 +78,12 @@ function createWindow() {
     event.preventDefault();
     shell.openExternal(url);
   });
+
+  mainWindow.webContents.on('will-navigate', (event, newURL) => {
+    if (win.webContents.getURL() !== winURL) {
+      event.preventDefault();
+    }
+  })
 }
 
 app.on('ready', () => {
