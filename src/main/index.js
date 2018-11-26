@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Tray, Menu, shell } from 'electron'
+import { app, BrowserWindow, Tray, Menu, shell, ipcMain } from 'electron'
 import path from 'path'
 const Store = require("electron-store");
 const store = new Store();
@@ -100,6 +100,15 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+// important for notifications on Windows
+app.setAppUserModelId("wtf.weakauras.updater")
+
+// event use when clicking on notifications
+ipcMain.on('open', (event, arg) => {
+  mainWindow.show();
+  mainWindow.focus();
 })
 
 /**
