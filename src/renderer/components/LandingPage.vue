@@ -266,7 +266,8 @@ export default {
               ids: this.auras.map(aura => aura.slug).join() // !! size of request is not checked, can lead to too long urls
             },
             headers: {
-              Identifier: this.accountHash
+              Identifier: this.accountHash,
+              'Content-Security-Policy': ["script-src", 'self', "https://data.wago.io"]
             },
             crossdomain: true
           })
@@ -305,7 +306,8 @@ export default {
                           id: aura.slug
                         },
                         headers: {
-                          Identifier: this.accountHash
+                          Identifier: this.accountHash,
+                          'Content-Security-Policy': ["script-src", 'self', "https://data.wago.io"]
                         },
                         crossdomain: true
                       })

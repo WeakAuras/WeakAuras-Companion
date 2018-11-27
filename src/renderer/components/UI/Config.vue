@@ -17,7 +17,12 @@
     <div class="title">Wago Settings</div>
     <div class="block">
       <p class="label">Wago account (optional)</p>
-      <input type="text" v-model="config.wagoUsername" size="11">
+      <input
+        type="text"
+        v-model="config.wagoUsername"
+        size="11"
+        title="auras uploaded with your account will be ignore"
+      >
     </div>
     <div class="title">Addon Settings</div>
     <div class="block">

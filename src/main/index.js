@@ -27,6 +27,7 @@ function createWindow() {
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
       webSecurity: process.env.NODE_ENV !== 'development',
+      allowRunningInsecureContent: false,
     },
     show: false
   })

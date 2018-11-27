@@ -1,33 +1,64 @@
 <template>
-<div>
-  <div id='aura-list'>
+  <div id="aura-list">
     <div v-for="aura in topLevel" :key="aura.id">
-        <div :class="aura.type">
-            <span v-if="aura.isGroup" @click="aura.showchilds = !aura.showchilds" v-bind:class="{ expandMinus: aura.showchilds, expandPlus: !aura.showchilds }"></span>
-            <span class="aura_name">{{ aura.id }}</span>
-            <a v-if="aura.shorturl" :href="aura.shorturl" :title="aura.shorturl" class="wago_icon"></a>
-            <span v-if="aura.wagoVersion && aura.version < aura.wagoVersion" :title="'upgrade from v' + aura.version + ' to v' + aura.wagoVersion" class="wagoUpgrade"></span>
-            <span v-if="aura.wagoVersion && aura.version == aura.wagoVersion" title="you have last version" class="wagoOk"></span>
-            <span v-if="aura.wagoVersion && aura.version > aura.wagoVersion" :title="'your version ('+ aura.version + ') is newer that wago version (' + aura.wagoVersion +')'" class="wagoWarning"></span>
-            <span v-if="aura.wagoError" class="wagoError" title="error"></span>
-        </div>
-        <span v-if="aura.isGroup">
-            <span v-if="aura.showchilds">
-                <div v-for="subaura in childs(aura.id)" :key="subaura.id">
-                    <div :class="subaura.type">
-                        <span class="aura_name">{{ subaura.id }}</span>
-                        <a v-if="subaura.shorturl" :href="subaura.shorturl" :title="subaura.shorturl" class="wago_icon"></a>
-                        <span v-if="subaura.wagoVersion && subaura.version < subaura.wagoVersion" :title="'upgrade from v' + subaura.version + ' to v' + subaura.wagoVersion" class="wagoUpgrade"></span>
-                        <span v-if="subaura.wagoVersion && subaura.version == subaura.wagoVersion" title="you have last version" class="wagoOk"></span>
-                        <span v-if="subaura.wagoVersion && subaura.version > subaura.wagoVersion" :title="'your version ('+ subaura.version + ') is newer that wago version (' + subaura.wagoVersion +')'" class="wagoWarning"></span>
-                        <span v-if="subaura.wagoError" class="wagoError" title="error"></span>
-                    </div>
-                </div>
-            </span>
+      <div :class="aura.type">
+        <span
+          v-if="aura.isGroup"
+          @click="aura.showchilds = !aura.showchilds"
+          v-bind:class="{ expandMinus: aura.showchilds, expandPlus: !aura.showchilds }"
+        ></span>
+        <span class="aura_name">{{ aura.id }}</span>
+        <a v-if="aura.shorturl" :href="aura.shorturl" :title="aura.shorturl" class="wago_icon"></a>
+        <span
+          v-if="aura.wagoVersion && aura.version < aura.wagoVersion"
+          :title="'upgrade from v' + aura.version + ' to v' + aura.wagoVersion"
+          class="wagoUpgrade"
+        ></span>
+        <span
+          v-if="aura.wagoVersion && aura.version == aura.wagoVersion"
+          title="you have last version"
+          class="wagoOk"
+        ></span>
+        <span
+          v-if="aura.wagoVersion && aura.version > aura.wagoVersion"
+          :title="'your version ('+ aura.version + ') is newer that wago version (' + aura.wagoVersion +')'"
+          class="wagoWarning"
+        ></span>
+        <span v-if="aura.wagoError" class="wagoError" title="error"></span>
+      </div>
+      <span v-if="aura.isGroup">
+        <span v-if="aura.showchilds">
+          <div v-for="subaura in childs(aura.id)" :key="subaura.id">
+            <div :class="subaura.type">
+              <span class="aura_name">{{ subaura.id }}</span>
+              <a
+                v-if="subaura.shorturl"
+                :href="subaura.shorturl"
+                :title="subaura.shorturl"
+                class="wago_icon"
+              ></a>
+              <span
+                v-if="subaura.wagoVersion && subaura.version < subaura.wagoVersion"
+                :title="'upgrade from v' + subaura.version + ' to v' + subaura.wagoVersion"
+                class="wagoUpgrade"
+              ></span>
+              <span
+                v-if="subaura.wagoVersion && subaura.version == subaura.wagoVersion"
+                title="you have last version"
+                class="wagoOk"
+              ></span>
+              <span
+                v-if="subaura.wagoVersion && subaura.version > subaura.wagoVersion"
+                :title="'your version ('+ subaura.version + ') is newer that wago version (' + subaura.wagoVersion +')'"
+                class="wagoWarning"
+              ></span>
+              <span v-if="subaura.wagoError" class="wagoError" title="error"></span>
+            </div>
+          </div>
         </span>
+      </span>
     </div>
   </div>
-</div>
 </template>
 
 <script>

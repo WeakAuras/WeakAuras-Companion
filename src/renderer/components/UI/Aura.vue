@@ -1,7 +1,6 @@
 <template>
   <div class="aura">
     <span class="aura_name">{{ aura.name }}</span>
-
     <div
       v-if="aura.wagoVersion && aura.version < aura.wagoVersion"
       :title="'upgrade from v' + aura.version + ' to v' + aura.wagoVersion"
@@ -47,41 +46,26 @@ export default {
   display: flex;
   overflow: hidden;
 }
-
 .aura_name {
   width: 360px;
 }
-
-.wago_icon {
-  content: url("~@/assets/wago_plain.png");
+.wago_icon, .wagoError, .wagoUpgrade, .wagoOk, .wagoWarning {
   width: 25px;
   height: 25px;
-  cursor: pointer;
+}
+.wago_icon {
+  content: url("~@/assets/wago_plain.png");
 }
 .wagoError {
   content: url("~@/assets/error.png");
-  width: 25px;
-  height: 25px;
-  padding: 4px;
-  cursor: pointer;
 }
 .wagoUpgrade {
   content: url("~@/assets/rotating-minimapcorpsearrow.png");
 }
 .wagoOk {
   content: url("~@/assets/ok.png");
-  width: 25px;
-  height: 25px;
-  float: right;
-  padding: 4px;
-  cursor: pointer;
 }
 .wagoWarning {
   content: url("~@/assets/warning.png");
-  width: 25px;
-  height: 25px;
-  float: right;
-  padding: 4px;
-  cursor: pointer;
 }
 </style>
