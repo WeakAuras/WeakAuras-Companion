@@ -157,14 +157,14 @@ export default {
         this[field] = data[field];
       }
     },
-    message(text, type, url) {
+    message(text, type, aura) {
       const date = moment().format("hh:mm:ss");
       this.messages.push({
         id: this.messages.length,
         time: date,
         text: text,
         type: type,
-        url: url
+        aura: aura
       });
       //scroll down
       this.$nextTick(() => {
@@ -336,8 +336,7 @@ export default {
                         .filter(aura => aura.slug == id)
                         .forEach(aura => {
                           const msg = 'New update for "' + aura.name + '"';
-                          const url = "https://wago.io/" + aura.slug;
-                          this.message(msg, "ok", url);
+                          this.message(msg, "ok", aura);
                           newStrings.push(aura.name);
                           aura.encoded = arg.data;
                         });
