@@ -3,19 +3,15 @@
     <div class="title">Game Settings</div>
     <div class="block">
       <file-select :path.sync="config.wowpath.value"></file-select>
-      <span v-if="config.wowpath.value">
-        <span v-if="config.wowpath.valided" class="green">✔</span>
-        <span v-else class="red">✘</span>
-      </span>
+      <span v-if="config.wowpath.valided" class="green">✔</span>
+      <span v-else class="red">✘</span>
       <span v-if="config.wowpath.valided">
         <p class="label">Select account</p>
         <select v-model="config.account.value" class="form-control">
           <option v-for="item in config.account.choices" :key="item.name">{{ item.name }}</option>
         </select>
-        <span v-if="config.account.value">
-          <span v-if="config.account.valided" class="green">✔</span>
-          <span v-else class="red">✘</span>
-        </span>
+        <span v-if="config.account.valided" class="green">✔</span>
+        <span v-else class="red">✘</span>
       </span>
     </div>
     <div class="title">Wago Settings</div>
@@ -35,7 +31,7 @@
     </div>
     <br>
     <br>
-    <v-button @click="reset" type="info">Reset Settings and Data</v-button>
+    <v-button @click="reset" type="info">Reset settings and data</v-button>
     <br>
     <br>
   </div>

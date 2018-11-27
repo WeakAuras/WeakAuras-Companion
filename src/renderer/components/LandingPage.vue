@@ -1,11 +1,11 @@
 <template>
   <div id="wrapper">
+    <img src="../assets/weakauras.png" class="walogo">
+    <img src="../assets/wago.png" class="wagologo">
     <header>
-      <img src="../assets/weakauras.png" class="walogo">
-      <v-button size="large" type="info" @click="configStep = 0">Main</v-button>
-      <v-button size="large" type="info" @click="configStep = 1">Settings</v-button>
-      <v-button size="large" type="info" @click="configStep = 2">About</v-button>
-      <img src="../assets/wago.png" class="wagologo">
+      <v-button type="menu" @click="configStep = 0">Main</v-button>
+      <v-button type="menu" @click="configStep = 1">Settings</v-button>
+      <v-button type="menu" @click="configStep = 2">About</v-button>
     </header>
     <main>
       <div v-if="configStep === 0" id="dashboard">
@@ -437,7 +437,7 @@ export default {
                 this.message(msg, "ok");
 
                 if (this.config.notify && newStrings.length > 0) {
-                  let myNotification = new Notification("WeakAuras Updated", {
+                  let myNotification = new Notification("WeakAuras Update", {
                     body: newStrings.join("\n")
                   });
                   myNotification.onclick = () => {
@@ -507,9 +507,9 @@ body {
 }
 
 header {
-  padding: 5px 0;
   text-align: center;
-  padding-top: 5px;
+  height: 50px;
+  margin: 20px 0 0px 0;
 }
 main {
   flex: 1;
@@ -551,14 +551,16 @@ footer {
 .walogo {
   width: 120px;
   height: 45px;
-  float: left;
-  margin-left: 50px;
+  top: 10px;
+  left: 10px;
+  position: fixed
 }
 .wagologo {
   width: 78px;
   height: 45px;
-  float: right;
-  margin-right: 50px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
 }
 
 .green {
