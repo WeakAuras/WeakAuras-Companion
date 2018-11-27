@@ -2,11 +2,10 @@
   <label class="file-select">
     <span class="select-button">
       <p class="configlabel">World of Warcraft folder</p>
-      <div class="fakeinput">{{path}}&nbsp;</div>
-      🗁
+      <div class="fakeinput">{{path}}&nbsp;</div>🗁
       <!-- <div class="btn btn-large btn-default">Select Folder</div> -->
     </span>
-    <input type="file" webkitdirectory @change="handleFileChange"/>
+    <input type="file" webkitdirectory @change="handleFileChange">
   </label>
 </template>
 
@@ -38,5 +37,8 @@ export default {
 }
 .btn {
   display: inline-block;
+}
+.configlabel {
+  color: gray;
 }
 </style>
