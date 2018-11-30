@@ -198,7 +198,7 @@ export default {
         "SavedVariables",
         "WeakAuras.lua"
       );
-      this.message("Looking for updates on wago", "info");
+      //this.message("Looking for updates on wago", "info");
       // Read WeakAuras.lua
       fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data, luaData) => {
         if (err) {
@@ -272,7 +272,7 @@ export default {
             crossdomain: true
           })
           .then(response => {
-            this.message("Auras's metadata received from Wago API", "ok");
+            //this.message("Auras's metadata received from Wago API", "ok");
             var promises = [];
             response.data.forEach(wagoData => {
               this.auras
@@ -432,15 +432,17 @@ export default {
             fs.writeFile(path.join(AddonFolder, "data.lua"), LuaOutput, err => {
               if (err) this.message("data.lua could not be saved", "error");
               else {
-                let msg =
-                  countStrings +
-                  " auras ready for update (" +
-                  newStrings.length +
-                  " new";
-                if (failStrings.length > 0)
-                  msg += ", " + failStrings.length + " error";
-                msg += ")";
-                this.message(msg, "ok");
+                if (newStrings.length > 0 || failStrings.length > 0) {
+                  let msg =
+                    countStrings +
+                    " auras ready for update (" +
+                    newStrings.length +
+                    " new";
+                  if (failStrings.length > 0)
+                    msg += ", " + failStrings.length + " error";
+                  msg += ")";
+                  this.message(msg, "ok");
+                }
 
                 if (this.config.notify && newStrings.length > 0) {
                   let myNotification = new Notification("WeakAuras Update", {
