@@ -47,7 +47,7 @@ export default {
   overflow: hidden;
 }
 .aura_name {
-  width: 360px;
+  width: 510px;
 }
 .wago_icon, .wagoError, .wagoUpgrade, .wagoOk, .wagoWarning {
   width: 25px;

@@ -375,6 +375,11 @@ export default {
               )
               .catch(error => {
                 this.message("Can't read wago answer\n" + error, "error");
+                // schedule in 30mn on error
+                this.schedule = setTimeout(
+                  this.compareSVwithWago,
+                  1000 * 60 * 30
+                );
               })
               .then(() => {
                 // we are done with wago API, update data.lua
