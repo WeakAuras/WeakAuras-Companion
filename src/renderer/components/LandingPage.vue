@@ -87,7 +87,6 @@ import Message from "./UI/Message.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
 
-// const axios = require("axios");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
@@ -152,19 +151,18 @@ export default {
       deep: true
     }
   },
-  created() {
-    this.restore();
-    if (!this.config.wowpath.valided || !this.config.account.valided) {
-      this.configStep = 1;
-    } else {
-      this.compareSVwithWago();
-    }
-  },
   mounted() {
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
     });
+    this.restore();
+    if (!this.config.wowpath.valided || !this.config.account.valided) {
+      this.configStep = 1;
+    } else {
+      this.configStep = 0;
+      this.compareSVwithWago();
+    }
   },
   computed: {
     accountHash() {
