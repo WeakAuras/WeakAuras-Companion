@@ -16,17 +16,22 @@ import Button from "./Button.vue";
 
 export default {
   name: "refreshButton",
-  props: ["usable", "fetching"],
+  props: ["usable", "fetching", "lastUpdate"],
   data() {
     return {
-      lastUpdateTimer: null,
-      lastUpdate: null
+      lastUpdateTimer: null
     };
   },
   components: { Spinner, "v-button": Button },
   methods: {
     refresh() {
       this.$parent.compareSVwithWago();
+    },
+    scheduleTimer() {
+      if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
+      this.lastUpdateTimer = setInterval(() => {
+        this.$forceUpdate();
+      }, 1000 * 60);
     }
   },
   filters: {
@@ -35,19 +40,12 @@ export default {
       return moment(value).fromNow();
     }
   },
+  mount() {
+    this.scheduleTimer();
+  },
   watch: {
     fetching() {
-      if (!this.fetching) {
-        this.lastUpdate = new Date();
-
-        if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
-        // repeat every minutes
-        this.lastUpdateTimer = setInterval(() => {
-          const tmp = this.lastUpdate;
-          this.lastUpdate = null;
-          this.lastUpdate = tmp;
-        }, 1000 * 60);
-      }
+      this.scheduleTimer();
     }
   },
   beforeDestroy() {

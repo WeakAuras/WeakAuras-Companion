@@ -12,6 +12,7 @@
         <refreshButton
           :usable="config.wowpath.valided && config.account.valided"
           :fetching="fetching"
+          :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
         <div id="messages" ref="messages">
           <message
@@ -116,7 +117,10 @@ const defaultValues = {
     startminimize: false,
     notify: true
   },
-  schedule: null // 1h setTimeout id
+  schedule: {
+    id: null, // 1h setTimeout id
+    lastUpdate: null
+  }
 };
 
 export default {
@@ -219,7 +223,7 @@ export default {
       }
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
-      if (this.schedule) clearTimeout(this.schedule); // cancel next 1h schedule
+      if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
       const WeakAurasSavedVariable = path.join(
         this.config.wowpath.value,
         "WTF",
@@ -406,7 +410,7 @@ export default {
               .catch(error => {
                 this.message(`Can't read wago answer\n${error}`, "error");
                 // schedule in 30mn on error
-                this.schedule = setTimeout(
+                this.schedule.id = setTimeout(
                   this.compareSVwithWago,
                   1000 * 60 * 30
                 );
@@ -416,11 +420,13 @@ export default {
                 this.save(["auras"]);
                 this.writeAddonData(newStrings, failStrings);
                 this.fetching = false;
+                this.schedule.lastUpdate = new Date();
               });
           })
           .catch(error => {
             this.message(`Can't read wago answer\n${error}`, "error");
             this.fetching = false;
+            this.schedule.lastUpdate = new Date();
           });
       });
     },
@@ -518,7 +524,10 @@ data.lua`;
               }
             );
             // schedule in 1 hour
-            this.schedule = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
+            this.schedule.id = setTimeout(
+              this.compareSVwithWago,
+              1000 * 60 * 60
+            );
           }
         });
       }
