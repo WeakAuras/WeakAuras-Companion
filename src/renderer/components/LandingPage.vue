@@ -87,7 +87,7 @@ import Message from "./UI/Message.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
 
-const axios = require("axios");
+// const axios = require("axios");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
@@ -294,7 +294,7 @@ export default {
           }
         });
         // get data from wago api
-        axios
+        this.$http
           .get("https://data.wago.io/lookup/weakauras", {
             params: {
               // !! size of request is not checked, can lead to too long urls
@@ -333,7 +333,7 @@ export default {
                     this.auras[index].wagoVersion = wagoData.version;
                     this.auras[index].name = wagoData.name;
                     promises.push(
-                      axios.get("https://data.wago.io/wago/raw/encoded", {
+                      this.$http.get("https://data.wago.io/wago/raw/encoded", {
                         params: {
                           id: aura.slug
                         },
@@ -362,10 +362,10 @@ export default {
 
             const newStrings = [];
             const failStrings = [];
-            axios
+            this.$http
               .all(promisesResolved)
               .then(
-                axios.spread((...args) => {
+                this.$http.spread((...args) => {
                   args.forEach(arg => {
                     const { id } = arg.config.params;
                     if (arg.status === 200) {
