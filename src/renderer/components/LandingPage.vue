@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
-    <img src="../assets/weakauras.png" class="walogo">
-    <img src="../assets/wago.png" class="wagologo">
+    <img :src="require(`@/assets/weakauras.png`)" class="walogo" />
+    <img :src="require(`@/assets/wago.png`)" class="wagologo" />
     <header>
       <v-button type="menu" @click="configStep = 0">Main</v-button>
       <v-button type="menu" @click="configStep = 1">Settings</v-button>
@@ -14,7 +14,11 @@
           :fetching="fetching"
         ></refreshButton>
         <div id="messages" ref="messages">
-          <message v-for="message in messages" :key="message.id" :message="message"></message>
+          <message
+            v-for="message in messages"
+            :key="message.id"
+            :message="message"
+          ></message>
         </div>
       </div>
       <Config v-if="configStep === 1" :config="config"></Config>
@@ -22,44 +26,75 @@
     </main>
     <footer>
       <a href="https://discord.gg/wa2" target="_blank">
-        <img src="../assets/discord.png" class="logo" title="discord">
+        <img
+          :src="require(`@/assets/discord.png`)"
+          class="logo"
+          title="discord"
+        />
       </a>
       <a href="https://twitter.com/WeakAuras" target="_blank">
-        <img src="../assets/twitter.png" class="logo" title="twitter">
+        <img
+          :src="require(`@/assets/twitter.png`)"
+          class="logo"
+          title="twitter"
+        />
       </a>
       <a href="https://facebook.com/WeakAuras" target="_blank">
-        <img src="../assets/facebook.png" class="logo" title="facebook">
+        <img
+          :src="require(`@/assets/facebook.png`)"
+          class="logo"
+          title="facebook"
+        />
       </a>
-      <a href="https://www.youtube.com/channel/UCEuzJlrsz27wUWlWn_HSEeg" target="_blank">
-        <img src="../assets/youtube.png" class="logo" title="youtube">
+      <a
+        href="https://www.youtube.com/channel/UCEuzJlrsz27wUWlWn_HSEeg"
+        target="_blank"
+      >
+        <img
+          :src="require(`@/assets/youtube.png`)"
+          class="logo"
+          title="youtube"
+        />
       </a>
       <a href="https://github.com/WeakAuras/WeakAuras2" target="_blank">
-        <img src="../assets/github.png" class="logo" title="github">
+        <img
+          :src="require(`@/assets/github.png`)"
+          class="logo"
+          title="github"
+        />
       </a>
       <a href="https://www.patreon.com/WeakAuras" target="_blank">
-        <img src="../assets/patreon.png" class="logo" title="patreon">
+        <img
+          :src="require(`@/assets/patreon.png`)"
+          class="logo"
+          title="patreon"
+        />
       </a>
       <a href="https://mods.curse.com/addons/wow/weakauras-2" target="_blank">
-        <img src="../assets/curse.png" class="logo" title="curse">
+        <img :src="require(`@/assets/curse.png`)" class="logo" title="curse" />
       </a>
     </footer>
   </div>
 </template>
 
 <script>
-import Button from './UI/Button'
-import RefreshButton from "./UI/RefreshButton";
-import Message from "./UI/Message";
-
-import Config from "./UI/Config";
-import About from "./UI/About";
-
 import path from "path";
 import moment from "moment";
+import Button from "./UI/Button.vue";
+import RefreshButton from "./UI/RefreshButton.vue";
+import Message from "./UI/Message.vue";
+import Config from "./UI/Config.vue";
+import About from "./UI/About.vue";
 
-const hash = require("./libs/hash.js")
+const axios = require("axios");
+const fs = require("fs");
+const luaparse = require("luaparse");
 const Store = require("electron-store");
+const hash = require("./libs/hash.js");
+
 const store = new Store();
+luaparse.defaultOptions.comments = false;
+luaparse.defaultOptions.scope = true;
 
 const defaultValues = {
   configStep: 0,
@@ -82,26 +117,26 @@ const defaultValues = {
     notify: true
   },
   schedule: null // 1h setTimeout id
-}
+};
 
 export default {
   name: "landing-page",
-  components: { 
+  components: {
     RefreshButton,
     Message,
     Config,
     About,
-    'v-button': Button,
+    "v-button": Button
   },
   data() {
     return JSON.parse(JSON.stringify(defaultValues));
   },
   watch: {
     configStep() {
-      if (this.configStep == 0) {
-        //scroll down
+      if (this.configStep === 0) {
+        // scroll down
         this.$nextTick(() => {
-          var messages = this.$refs.messages;
+          const { messages } = this.$refs;
           messages.scrollTop = messages.scrollHeight;
         });
       }
@@ -123,25 +158,25 @@ export default {
   },
   mounted() {
     // refresh on event (tray icon)
-    this.$electron.ipcRenderer.on("refreshWago", (event, data) => {
+    this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
     });
   },
   computed: {
-    accountHash()  {
+    accountHash() {
       return hash.hashFnv32a(this.config.account.value, true);
     }
   },
   methods: {
     reset() {
-      this.config = JSON.parse(JSON.stringify(defaultValues.config))
+      this.config = JSON.parse(JSON.stringify(defaultValues.config));
       while (this.messages.length > 0) {
         this.messages.pop();
       }
       while (this.auras.length > 0) {
         this.auras.pop();
       }
-      this.save(["config", "auras"]);
+      store.clear();
     },
     open(link) {
       this.$electron.shell.openExternal(link);
@@ -152,23 +187,23 @@ export default {
       });
     },
     restore() {
-      const data = store.store;
-      for (var field in data) {
-        this[field] = data[field];
-      }
+      Object.entries(store.store).forEach(data => {
+        const { 0: key, 1: value } = data;
+        this[key] = value;
+      });
     },
     message(text, type, aura) {
       const date = moment().format("hh:mm:ss");
       this.messages.push({
         id: this.messages.length,
         time: date,
-        text: text,
-        type: type,
-        aura: aura
+        text,
+        type,
+        aura
       });
-      //scroll down
+      // scroll down
       this.$nextTick(() => {
-        var messages = this.$refs.messages;
+        const { messages } = this.$refs;
         messages.scrollTop = messages.scrollHeight;
       });
     },
@@ -185,11 +220,6 @@ export default {
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
       if (this.schedule) clearTimeout(this.schedule); // cancel next 1h schedule
-      const fs = require("fs");
-      const luaparse = require("luaparse");
-      luaparse.defaultOptions.comments = false;
-      luaparse.defaultOptions.scope = true;
-      let luaData;
       const WeakAurasSavedVariable = path.join(
         this.config.wowpath.value,
         "WTF",
@@ -198,45 +228,45 @@ export default {
         "SavedVariables",
         "WeakAuras.lua"
       );
-      //this.message("Looking for updates on wago", "info");
+      // this.message("Looking for updates on wago", "info");
       // Read WeakAuras.lua
-      fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data, luaData) => {
+      fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data) => {
         if (err) {
           this.message(
-            "An error ocurred reading file :" + err.message,
+            `An error ocurred reading file :${err.message}`,
             "error"
           );
           return;
         }
         // Parse WeakAuras.lua
         const WeakAurasSavedData = luaparse.parse(data);
-        if (WeakAurasSavedData.body[0].variables[0].name != "WeakAurasSaved") {
+        if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
           this.messageit("Error while reading WeakAuras.lua", "error");
           return;
         }
 
-        const pattern = /(https:\/\/wago.io\/)([^\/]+)\/?(\d*)/;
+        const pattern = /(https:\/\/wago.io\/)([^/]+)\/?(\d*)/;
         WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
-          if (obj.key.value == "displays") {
+          if (obj.key.value === "displays") {
             obj.value.fields.forEach(obj2 => {
-              var id = obj2.key.value;
-              var slug, url, version;
+              let slug;
+              let url;
+              let version;
 
               obj2.value.fields.forEach(obj3 => {
-                if (obj3.key.value == "url") {
+                if (obj3.key.value === "url") {
                   url = obj3.value.value;
-                  const pattern_result = url.match(pattern);
-                  version = pattern_result[3];
-                  slug = pattern_result[2];
+                  ({ 2: slug, 3: version } = url.match(pattern));
 
                   if (slug) {
-                    const length = this.auras.filter(aura => aura.slug === slug)
-                      .length;
-                    if (length == 0) {
+                    const { length } = this.auras.filter(
+                      aura => aura.slug === slug
+                    );
+                    if (length === 0) {
                       // new "slug" found, add it to the list of auras
                       this.auras.push({
-                        slug: slug,
-                        version: version,
+                        slug,
+                        version,
                         wagoVersion: null,
                         created: null,
                         modified: null,
@@ -245,12 +275,13 @@ export default {
                         ignore: false
                       });
                     } else {
-                      // there is already an aura with same "slug", check if version field needs to be updated
-                      this.auras
-                        .filter(
-                          aura => aura.slug === slug && aura.version < version
-                        )
-                        .forEach(aura => (aura.version = version));
+                      // there is already an aura with same "slug"
+                      // check if version field needs to be updated
+                      this.auras.forEach((aura, index) => {
+                        if (aura.slug === slug && aura.version < version) {
+                          this.auras[index].version = version;
+                        }
+                      });
                     }
                   }
                 }
@@ -259,25 +290,28 @@ export default {
           }
         });
         // get data from wago api
-        const axios = require("axios");
         axios
           .get("https://data.wago.io/lookup/weakauras", {
             params: {
-              ids: this.auras.map(aura => aura.slug).join() // !! size of request is not checked, can lead to too long urls
+              // !! size of request is not checked, can lead to too long urls
+              ids: this.auras.map(aura => aura.slug).join()
             },
             headers: {
               Identifier: this.accountHash,
-              'Content-Security-Policy': ["script-src", 'self', "https://data.wago.io"]
+              "Content-Security-Policy": [
+                "script-src",
+                "self",
+                "https://data.wago.io"
+              ]
             },
             crossdomain: true
           })
           .then(response => {
-            //this.message("Auras's metadata received from Wago API", "ok");
-            var promises = [];
+            // this.message("Auras's metadata received from Wago API", "ok");
+            const promises = [];
             response.data.forEach(wagoData => {
-              this.auras
-                .filter(aura => aura.slug === wagoData.slug && !aura.ignore)
-                .forEach(aura => {
+              this.auras.forEach((aura, index) => {
+                if (aura.slug === wagoData.slug && !aura.ignore) {
                   // fetch aura data if :
                   // latest version on wago is newer than what is in WeakAurasSavedVariable
                   // and there isn't already an encoded string saved for latest version
@@ -287,19 +321,13 @@ export default {
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
                         wagoData.version > aura.wagoVersion)) &&
-                    wagoData.username != this.wagoUsername
+                    wagoData.username !== this.wagoUsername
                   ) {
-                    /*
-                      this.message(
-                        "Queue data request for aura " + aura.slug,
-                        "info"
-                      );
-                      */
-                    aura.created = wagoData.created;
-                    aura.modified = wagoData.modified;
-                    aura.author = wagoData.username;
-                    aura.wagoVersion = wagoData.version;
-                    aura.name = wagoData.name;
+                    this.auras[index].created = wagoData.created;
+                    this.auras[index].modified = wagoData.modified;
+                    this.auras[index].author = wagoData.username;
+                    this.auras[index].wagoVersion = wagoData.version;
+                    this.auras[index].name = wagoData.name;
                     promises.push(
                       axios.get("https://data.wago.io/wago/raw/encoded", {
                         params: {
@@ -307,74 +335,76 @@ export default {
                         },
                         headers: {
                           Identifier: this.accountHash,
-                          'Content-Security-Policy': ["script-src", 'self', "https://data.wago.io"]
+                          "Content-Security-Policy": [
+                            "script-src",
+                            "self",
+                            "https://data.wago.io"
+                          ]
                         },
                         crossdomain: true
                       })
                     );
                   }
-                });
+                }
+              });
             });
 
             const promisesResolved = promises.map(promise =>
-              promise.catch(err => {
-                return {
-                  config: { params: { id: err.config.params.id } },
-                  status: err.response.status
-                };
-              })
+              promise.catch(err2 => ({
+                config: { params: { id: err2.config.params.id } },
+                status: err2.response.status
+              }))
             );
 
-            let newStrings = [];
-            let failStrings = [];
+            const newStrings = [];
+            const failStrings = [];
             axios
               .all(promisesResolved)
               .then(
                 axios.spread((...args) => {
                   args.forEach(arg => {
-                    const id = arg.config.params.id;
-                    if (arg.status == 200) {
-                      this.auras
-                        .filter(aura => aura.slug == id)
-                        .forEach(aura => {
-                          const msg = 'New update for "' + aura.name + '"';
+                    const { id } = arg.config.params;
+                    if (arg.status === 200) {
+                      this.auras.forEach((aura, index) => {
+                        if (aura.slug === id) {
+                          const msg = `New update for "${aura.name}"`;
                           this.message(msg, "ok", aura);
                           newStrings.push(aura.name);
-                          aura.encoded = arg.data;
-                        });
-                    } else if (arg.status == 404) {
+                          this.auras[index].encoded = arg.data;
+                        }
+                      });
+                    } else if (arg.status === 404) {
                       // private or deleted aura
-                      this.auras
-                        .filter(aura => aura.slug == id)
-                        .forEach(aura => {
+                      this.auras.forEach((aura, index) => {
+                        if (aura.slug === id) {
                           this.message(
-                            'Could not receive string for "' +
-                              aura.name +
-                              '", aura is private or was removed, ignoring this aura for next checks',
+                            `Could not receive string for "${
+                              aura.name
+                            }", aura is private or was removed, ignoring this aura for next checks`,
                             "error"
                           );
                           failStrings.push(aura.name);
-                          aura.ignore = true;
-                        });
+                          this.auras[index].ignore = true;
+                        }
+                      });
                     } else {
-                      this.auras
-                        .filter(aura => aura.slug == id)
-                        .forEach(aura => {
+                      this.auras.forEach(aura => {
+                        if (aura.slug === id) {
                           this.message(
-                            'Error receiving encoded string for "' +
-                              aura.name +
-                              '" http code: ' +
-                              arg.status,
+                            `Error receiving encoded string for "${
+                              aura.name
+                            }" http code: ${arg.status}`,
                             "error"
                           );
                           failStrings.push(aura.name);
-                        });
+                        }
+                      });
                     }
                   });
                 })
               )
               .catch(error => {
-                this.message("Can't read wago answer\n" + error, "error");
+                this.message(`Can't read wago answer\n${error}`, "error");
                 // schedule in 30mn on error
                 this.schedule = setTimeout(
                   this.compareSVwithWago,
@@ -389,14 +419,13 @@ export default {
               });
           })
           .catch(error => {
-            this.message("Can't read wago answer\n" + error, "error");
+            this.message(`Can't read wago answer\n${error}`, "error");
             this.fetching = false;
           });
       });
     },
     writeAddonData(newStrings, failStrings) {
       if (this.config.wowpath.valided) {
-        const fs = require("fs");
         const AddonFolder = path.join(
           this.config.wowpath.value,
           "Interface",
@@ -405,11 +434,11 @@ export default {
         );
         // Make folder
         fs.mkdir(AddonFolder, err => {
-          if (err && err.code != "EEXIST") {
+          if (err && err.code !== "EEXIST") {
             this.message("Can't create Addon directory", "error");
           } else {
             // Make data.lua
-            var LuaOutput = "-- file generated automatically\n";
+            let LuaOutput = "-- file generated automatically\n";
             LuaOutput += "WeakAurasWagoUpdate = {\n";
             const fields = [
               "name",
@@ -421,39 +450,47 @@ export default {
             ];
             const countStrings = this.auras.filter(aura => !!aura.encoded)
               .length;
-            this.auras.filter(aura => !!aura.encoded).forEach(aura => {
-              LuaOutput += "  ['" + aura.slug + "'] = {\n";
-              fields.forEach(field => {
-                LuaOutput += "    " + field + ' = "' + aura[field] + '",\n';
+            this.auras
+              .filter(aura => !!aura.encoded)
+              .forEach(aura => {
+                LuaOutput += `  ['${aura.slug}'] = {\n`;
+                fields.forEach(field => {
+                  LuaOutput += `    ${field} = "${aura[field]}",\n`;
+                });
+                LuaOutput += "  },\n";
               });
-              LuaOutput += "  },\n";
-            });
             LuaOutput += "}";
-            fs.writeFile(path.join(AddonFolder, "data.lua"), LuaOutput, err => {
-              if (err) this.message("data.lua could not be saved", "error");
-              else {
-                if (newStrings.length > 0 || failStrings.length > 0) {
-                  let msg =
-                    countStrings +
-                    " auras ready for update (" +
-                    newStrings.length +
-                    " new";
-                  if (failStrings.length > 0)
-                    msg += ", " + failStrings.length + " error";
-                  msg += ")";
-                  this.message(msg, "ok");
-                }
+            fs.writeFile(
+              path.join(AddonFolder, "data.lua"),
+              LuaOutput,
+              err2 => {
+                if (err2) this.message("data.lua could not be saved", "error");
+                else {
+                  if (newStrings.length > 0 || failStrings.length > 0) {
+                    let msg = `${countStrings} auras ready for update (${
+                      newStrings.length
+                    } new`;
+                    if (failStrings.length > 0) {
+                      msg += `, ${failStrings.length} error`;
+                    }
+                    msg += ")";
+                    this.message(msg, "ok");
+                  }
 
-                if (this.config.notify && newStrings.length > 0) {
-                  let myNotification = new Notification("WeakAuras Update", {
-                    body: newStrings.join("\n")
-                  });
-                  myNotification.onclick = () => {
-                    this.$electron.ipcRenderer.send("open");
-                  };
+                  if (this.config.notify && newStrings.length > 0) {
+                    const myNotification = new Notification(
+                      "WeakAuras Update",
+                      {
+                        body: newStrings.join("\n")
+                      }
+                    );
+                    myNotification.onclick = () => {
+                      this.$electron.ipcRenderer.send("open");
+                    };
+                  }
                 }
               }
-            });
+            );
 
             // Make WeakAurasWagoUpdate.toc
             const tocFile = `## Interface: 80000
@@ -470,20 +507,18 @@ data.lua`;
             fs.writeFile(
               path.join(AddonFolder, "WeakAurasWagoUpdate.toc"),
               tocFile,
-              err => {
-                if (err)
+              err2 => {
+                if (err2) {
                   this.message(
                     "WeakAurasWagoUpdate.toc could not be saved",
                     "error"
                   );
-                //else this.message("WeakAurasWagoUpdate.toc saved", "ok");
+                }
+                // else this.message("WeakAurasWagoUpdate.toc saved", "ok");
               }
             );
             // schedule in 1 hour
-            this.schedule = setTimeout(
-              this.compareSVwithWago,
-              1000 * 60 * 60
-            );
+            this.schedule = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
           }
         });
       }
@@ -500,20 +535,17 @@ data.lua`;
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: "Source Sans Pro", sans-serif;
   background-color: #252525;
   color: white;
 }
-
 #wrapper {
   height: 100vh;
   display: flex;
   background-color: #252525;
   flex-direction: column;
 }
-
 header {
   text-align: center;
   height: 50px;
@@ -528,7 +560,6 @@ footer {
   /* height: 40px; */
   text-align: center;
 }
-
 .mid {
   margin: 0;
   position: absolute;
@@ -536,18 +567,15 @@ footer {
   width: 100%;
   text-align: center;
 }
-
 #dashboard {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-
 #messages {
   overflow: auto;
   height: 120px;
 }
-
 .logo {
   position: relative;
   display: inline-block;
@@ -555,13 +583,12 @@ footer {
   width: 1.5em;
   height: 1.5em;
 }
-
 .walogo {
   width: 120px;
   height: 45px;
   top: 10px;
   left: 10px;
-  position: fixed
+  position: fixed;
 }
 .wagologo {
   width: 78px;
@@ -570,7 +597,6 @@ footer {
   top: 10px;
   right: 10px;
 }
-
 .green {
   color: green;
 }
@@ -582,5 +608,4 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
-
 </style>

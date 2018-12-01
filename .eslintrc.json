@@ -1,9 +1,11 @@
 {
     "extends": [
         "airbnb-base",
-        "plugin:vue/base"
+        "plugin:vue/base",
+        "plugin:prettier/recommended"
     ],
     "rules": {
-        "semi": 0
+        "semi": 0,
+        "linebreak-style": "off"
     }
 }

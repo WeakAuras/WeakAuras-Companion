@@ -8,7 +8,9 @@
       <span v-if="config.wowpath.valided">
         <p class="label">Select account</p>
         <select v-model="config.account.value" class="form-control">
-          <option v-for="item in config.account.choices" :key="item.name">{{ item.name }}</option>
+          <option v-for="item in config.account.choices" :key="item.name">{{
+            item.name
+          }}</option>
         </select>
         <span v-if="config.account.valided" class="green">✔</span>
         <span v-else class="red">✘</span>
@@ -22,55 +24,56 @@
         v-model="config.wagoUsername"
         size="11"
         title="auras uploaded with your account will be ignore"
-      >
+      />
     </div>
     <div class="title">Addon Settings</div>
     <div class="block">
-      <input type="checkbox" v-model="config.notify"> Receive a notification when an aura is updated
-      <br>
-      <br>
+      <input type="checkbox" v-model="config.notify" /> Receive a notification
+      when an aura is updated <br /><br />
       <p class="label">Startup</p>
-      <input type="checkbox" v-model="config.autostart"> Launch client with your computer
-      <br>
-      <input type="checkbox" v-model="config.startminimize"> Start client minimized
+      <input type="checkbox" v-model="config.autostart" /> Launch client with
+      your computer <br />
+      <input type="checkbox" v-model="config.startminimize" /> Start client
+      minimized
     </div>
-    <br>
-    <br>
+    <br /><br />
     <v-button @click="reset" type="info">Reset settings and data</v-button>
-    <br>
-    <br>
+    <br /><br />
   </div>
 </template>
 
 <script>
-import FileSelect from "./FileSelect";
-import Button from './Button'
+import path from "path";
+import FileSelect from "./FileSelect.vue";
+import Button from "./Button.vue";
 
 const fs = require("fs");
-import path from "path";
 const AutoLaunch = require("auto-launch");
-var AutoLauncher = new AutoLaunch({
+
+const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Wago Updater"
 });
 
 export default {
-  props: ['config'],
-  components: { FileSelect , 'v-button': Button },
+  props: ["config"],
+  components: { FileSelect, "v-button": Button },
   methods: {
-    reset(){
-      this.$parent.reset()
+    reset() {
+      this.$parent.reset();
     }
   },
   watch: {
-    "config.autostart"() {
+    // eslint-disable-next-line func-names
+    "config.autostart": function() {
       if (this.config.autostart) {
         AutoLauncher.enable();
       } else {
         AutoLauncher.disable();
       }
     },
-    "config.wowpath.value"() {
-      if (!!this.config.wowpath.value) {
+    // eslint-disable-next-line func-names
+    "config.wowpath.value": function() {
+      if (this.config.wowpath.value) {
         // clean Accounts options
         while (this.config.account.choices.length > 0) {
           this.config.account.choices.pop();
@@ -85,7 +88,7 @@ export default {
           if (!err) {
             // add option for each account found
             fs.readdirSync(accountFolder).forEach(file => {
-              if (file != "SavedVariables") {
+              if (file !== "SavedVariables") {
                 this.config.account.choices.push({ name: file });
                 this.config.wowpath.valided = true;
               }
@@ -96,7 +99,8 @@ export default {
         });
       }
     },
-    "config.account.value"() {
+    // eslint-disable-next-line func-names
+    "config.account.value": function() {
       if (this.config.wowpath.valided && !!this.config.account.value) {
         const WeakAurasSavedVariable = path.join(
           this.config.wowpath.value,
@@ -116,7 +120,7 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

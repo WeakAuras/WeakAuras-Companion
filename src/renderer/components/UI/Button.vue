@@ -1,7 +1,14 @@
 <template>
   <button
     class="btn"
-    v-bind:class="[{ 'btn-default': type == 'info' }, { 'btn-positive': type == 'ok' }, { 'btn-negative': type == 'error' }, { 'btn-mini': size == 'mini' }, { 'btn-menu': type == 'menu' }, { 'btn-refresh': type == 'refresh' }]"
+    v-bind:class="[
+      { 'btn-default': type == 'info' },
+      { 'btn-positive': type == 'ok' },
+      { 'btn-negative': type == 'error' },
+      { 'btn-mini': size == 'mini' },
+      { 'btn-menu': type == 'menu' },
+      { 'btn-refresh': type == 'refresh' }
+    ]"
     :title="title"
     @click="callback($event)"
   >
@@ -11,13 +18,13 @@
 
 <script>
 export default {
-  props: ['type', 'title', 'size'],
+  props: ["type", "title", "size"],
   methods: {
-    callback: function(e) {
-      this.$emit('click', e);
+    callback(e) {
+      this.$emit("click", e);
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -48,12 +55,12 @@ export default {
   background-color: #333;
   padding: 8px 8px;
   font-size: large;
-  color: white
+  color: white;
 }
 .btn-refresh:hover {
   background-color: rgb(71, 71, 71);
 }
-.btn-menu{
+.btn-menu {
   width: 60px;
   color: #333;
   border-top-color: #c2c0c2;
@@ -62,7 +69,7 @@ export default {
   border-left-color: #c2c0c2;
   background-color: #757474;
 }
-.btn-menu:hover{
+.btn-menu:hover {
   background-color: #ddd;
 }
 .btn-mini {

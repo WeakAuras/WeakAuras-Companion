@@ -19,9 +19,9 @@
 
 <script>
 export default {
-    name: 'spinner',
-    props: ['spin']
-}
+  name: "spinner",
+  props: ["spin"]
+};
 </script>
 
 <style scoped>

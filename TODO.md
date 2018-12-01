@@ -1,3 +1,1 @@
-* improve design
-* self-updater https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
-* handle dark mode on mac https://github.com/sindresorhus/node-dark-mode
+TODO moved to https://github.com/mrbuds/wa-update/projects/1

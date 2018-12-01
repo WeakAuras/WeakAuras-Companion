@@ -1,31 +1,32 @@
 <template>
   <div id="sync">
-    <br>
-    <br>
+    <br /><br />
     <spinner :spin="fetching"></spinner>
-    <v-button @click="refresh" :type="!usable ? 'error' : 'refresh'">Search updates on Wago</v-button>
+    <v-button @click="refresh" :type="!usable ? 'error' : 'refresh'">
+      Search updates on Wago
+    </v-button>
     <div id="lastupdate">Last update {{ lastUpdate | fromNow }}</div>
   </div>
 </template>
 
 <script>
-import Spinner from "./Spinner";
 import moment from "moment";
-import Button from './Button'
+import Spinner from "./Spinner.vue";
+import Button from "./Button.vue";
 
 export default {
-  name: 'refreshButton',
-  props: ['usable', 'fetching'],
+  name: "refreshButton",
+  props: ["usable", "fetching"],
   data() {
     return {
       lastUpdateTimer: null,
       lastUpdate: null
-    }
+    };
   },
-  components: { Spinner, 'v-button': Button },
+  components: { Spinner, "v-button": Button },
   methods: {
     refresh() {
-      this.$parent.compareSVwithWago()
+      this.$parent.compareSVwithWago();
     }
   },
   filters: {
@@ -37,7 +38,7 @@ export default {
   watch: {
     fetching() {
       if (!this.fetching) {
-        this.lastUpdate = new Date ()
+        this.lastUpdate = new Date();
 
         if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
         // repeat every minutes
@@ -50,7 +51,7 @@ export default {
     }
   },
   beforeDestroy() {
-    clearInterval(this.lastUpdateTimer)
+    clearInterval(this.lastUpdateTimer);
   }
 };
 </script>
