@@ -464,40 +464,33 @@ export default {
                 LuaOutput += "  },\n";
               });
             LuaOutput += "}";
-            fs.writeFile(
-              path.join(AddonFolder, "data.lua"),
-              LuaOutput,
-              err2 => {
-                if (err2) this.message("data.lua could not be saved", "error");
-                else {
-                  if (newStrings.length > 0 || failStrings.length > 0) {
-                    let msg = `${countStrings} auras ready for update (${
-                      newStrings.length
-                    } new`;
-                    if (failStrings.length > 0) {
-                      msg += `, ${failStrings.length} error`;
-                    }
-                    msg += ")";
-                    this.message(msg, "ok");
-                  }
 
-                  if (this.config.notify && newStrings.length > 0) {
-                    const myNotification = new Notification(
-                      "WeakAuras Update",
-                      {
-                        body: newStrings.join("\n")
-                      }
-                    );
-                    myNotification.onclick = () => {
-                      this.$electron.ipcRenderer.send("open");
-                    };
-                  }
-                }
+            // write message if new aura or failed getting infos for at least one
+            if (newStrings.length > 0 || failStrings.length > 0) {
+              let msg = `${countStrings} auras ready for update (${
+                newStrings.length
+              } new`;
+              if (failStrings.length > 0) {
+                msg += `, ${failStrings.length} error`;
               }
-            );
+              msg += ")";
+              this.message(msg, "ok");
+            }
 
-            // Make WeakAurasWagoUpdate.toc
-            const tocFile = `## Interface: 80000
+            // notify if there are new auras ready for update
+            if (this.config.notify && newStrings.length > 0) {
+              const myNotification = new Notification("WeakAuras Update", {
+                body: newStrings.join("\n")
+              });
+              myNotification.onclick = () => {
+                this.$electron.ipcRenderer.send("open");
+              };
+            }
+
+            const files = [
+              {
+                name: "WeakAurasWagoUpdate.toc",
+                data: `## Interface: 80000
 ## Title: WeakAuras Wago Update
 ## Author: WeakAuras Team
 ## Version: 1.0.0
@@ -506,21 +499,33 @@ export default {
 ## DefaultState: Enabled
 ## Dependencies: WeakAuras, WeakAurasOptions
 
-data.lua`;
-
-            fs.writeFile(
-              path.join(AddonFolder, "WeakAurasWagoUpdate.toc"),
-              tocFile,
-              err2 => {
-                if (err2) {
-                  this.message(
-                    "WeakAurasWagoUpdate.toc could not be saved",
-                    "error"
-                  );
-                }
-                // else this.message("WeakAurasWagoUpdate.toc saved", "ok");
+data.lua
+init.lua`
+              },
+              {
+                name: "init.lua",
+                data: `-- file generated automatically
+local updatedSlugsCount, updatedAuras = WeakAuras.CountWagoUpdates()
+WeakAuras.prettyPrint((L["%i updates from Wago for %i auras are ready to be install"]):format(updatedSlugsCount, updatedAuras))`
+              },
+              {
+                name: "data.lua",
+                data: LuaOutput
               }
-            );
+            ];
+
+            files.forEach(file => {
+              fs.writeFile(
+                path.join(AddonFolder, file.name),
+                file.data,
+                err2 => {
+                  if (err2) {
+                    this.message(`${file.name} could not be saved`, "error");
+                  }
+                }
+              );
+            });
+
             // schedule in 1 hour
             this.schedule.id = setTimeout(
               this.compareSVwithWago,
