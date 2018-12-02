@@ -254,40 +254,45 @@ export default {
               let slug;
               let url;
               let version;
+              let ignoreWagoUpdate;
 
               obj2.value.fields.forEach(obj3 => {
+                if (obj3.key.value === "ignoreWagoUpdate") {
+                  ignoreWagoUpdate = obj3.value.value;
+                }
                 if (obj3.key.value === "url") {
                   url = obj3.value.value;
                   ({ 2: slug, 3: version } = url.match(pattern));
-
-                  if (slug) {
-                    const { length } = this.auras.filter(
-                      aura => aura.slug === slug
-                    );
-                    if (length === 0) {
-                      // new "slug" found, add it to the list of auras
-                      this.auras.push({
-                        slug,
-                        version,
-                        wagoVersion: null,
-                        created: null,
-                        modified: null,
-                        author: null,
-                        encoded: null,
-                        ignore: false
-                      });
-                    } else {
-                      // there is already an aura with same "slug"
-                      // check if version field needs to be updated
-                      this.auras.forEach((aura, index) => {
-                        if (aura.slug === slug && aura.version < version) {
-                          this.auras[index].version = version;
-                        }
-                      });
-                    }
-                  }
                 }
               });
+
+              if (slug) {
+                const { length } = this.auras.filter(
+                  aura => aura.slug === slug
+                );
+                if (length === 0) {
+                  // new "slug" found, add it to the list of auras
+                  this.auras.push({
+                    slug,
+                    version,
+                    ignoreWagoUpdate,
+                    wagoVersion: null,
+                    created: null,
+                    modified: null,
+                    author: null,
+                    encoded: null,
+                    privateOrDeleted: false
+                  });
+                } else {
+                  // there is already an aura with same "slug"
+                  // check if version field needs to be updated
+                  this.auras.forEach((aura, index) => {
+                    if (aura.slug === slug && aura.version < version) {
+                      this.auras[index].version = version;
+                    }
+                  });
+                }
+              }
             });
           }
         });
@@ -296,7 +301,12 @@ export default {
           .get("https://data.wago.io/lookup/weakauras", {
             params: {
               // !! size of request is not checked, can lead to too long urls
-              ids: this.auras.map(aura => aura.slug).join()
+              ids: this.auras
+                .filter(
+                  aura => !aura.privateOrDeleted && !aura.ignoreWagoUpdate
+                )
+                .map(aura => aura.slug)
+                .join()
             },
             headers: {
               Identifier: this.accountHash,
@@ -313,7 +323,7 @@ export default {
             const promises = [];
             response.data.forEach(wagoData => {
               this.auras.forEach((aura, index) => {
-                if (aura.slug === wagoData.slug && !aura.ignore) {
+                if (aura.slug === wagoData.slug) {
                   // fetch aura data if :
                   // latest version on wago is newer than what is in WeakAurasSavedVariable
                   // and there isn't already an encoded string saved for latest version
@@ -323,7 +333,7 @@ export default {
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
                         wagoData.version > aura.wagoVersion)) &&
-                    wagoData.username !== this.wagoUsername
+                    wagoData.username !== this.config.wagoUsername
                   ) {
                     this.auras[index].created = wagoData.created;
                     this.auras[index].modified = wagoData.modified;
@@ -386,7 +396,7 @@ export default {
                             "error"
                           );
                           failStrings.push(aura.name);
-                          this.auras[index].ignore = true;
+                          this.auras[index].privateOrDeleted = true;
                         }
                       });
                     } else {
@@ -506,7 +516,9 @@ init.lua`
                 name: "init.lua",
                 data: `-- file generated automatically
 local updatedSlugsCount, updatedAuras = WeakAuras.CountWagoUpdates()
-WeakAuras.prettyPrint((L["%i updates from Wago for %i auras are ready to be install"]):format(updatedSlugsCount, updatedAuras))`
+if updatedSlugsCount > 0 then
+  WeakAuras.prettyPrint((L["%i updates from Wago for %i auras are ready to be install"]):format(updatedSlugsCount, updatedAuras))
+end`
               },
               {
                 name: "data.lua",
