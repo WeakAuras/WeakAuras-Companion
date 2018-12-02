@@ -86,15 +86,6 @@ export default {
   border-bottom-color: #a19fa1;
   border-left-color: #c2c0c2;
   background-color: #fcfcfc;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #fcfcfc),
-    color-stop(100%, #f1f1f1)
-  );
-  background-image: -webkit-linear-gradient(top, #fcfcfc 0%, #f1f1f1 100%);
-  background-image: linear-gradient(to bottom, #fcfcfc 0%, #f1f1f1 100%);
 }
 .btn-default:active {
   background-color: #ddd;
@@ -104,27 +95,9 @@ export default {
   border-color: #388df8;
   border-bottom-color: #0866dc;
   background-color: #6eb4f7;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #6eb4f7),
-    color-stop(100%, #1a82fb)
-  );
-  background-image: -webkit-linear-gradient(top, #6eb4f7 0%, #1a82fb 100%);
-  background-image: linear-gradient(to bottom, #6eb4f7 0%, #1a82fb 100%);
 }
 .btn-primary:active {
   background-color: #3e9bf4;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #3e9bf4),
-    color-stop(100%, #0469de)
-  );
-  background-image: -webkit-linear-gradient(top, #3e9bf4 0%, #0469de 100%);
-  background-image: linear-gradient(to bottom, #3e9bf4 0%, #0469de 100%);
 }
 .btn-positive {
   border-color: #023008;
@@ -134,40 +107,13 @@ export default {
 }
 .btn-positive:active {
   background-color: #34c84a;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #34c84a),
-    color-stop(100%, #248b34)
-  );
-  background-image: -webkit-linear-gradient(top, #34c84a 0%, #248b34 100%);
-  background-image: linear-gradient(to bottom, #34c84a 0%, #248b34 100%);
 }
 .btn-negative {
   border-color: #fb2f29;
   border-bottom-color: #fb1710;
-  background-color: #fd918d;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #fd918d),
-    color-stop(100%, #fb2f29)
-  );
-  background-image: -webkit-linear-gradient(top, #fd918d 0%, #fb2f29 100%);
-  background-image: linear-gradient(to bottom, #fd918d 0%, #fb2f29 100%);
+  background-color: #f0443e;
 }
 .btn-negative:active {
-  background-color: #fc605b;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #fc605b),
-    color-stop(100%, #fb1710)
-  );
-  background-image: -webkit-linear-gradient(top, #fc605b 0%, #fb1710 100%);
-  background-image: linear-gradient(to bottom, #fc605b 0%, #fb1710 100%);
+  background-color: #ff5b56;
 }
 </style>
