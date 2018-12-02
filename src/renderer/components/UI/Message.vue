@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <Aura v-if="message.aura" :aura="message.aura"></Aura>
+    <Aura v-if="message.aura" :aura="message.aura" :version="message.version"></Aura>
     <span v-else>
       <v-button
         :type="message.type"

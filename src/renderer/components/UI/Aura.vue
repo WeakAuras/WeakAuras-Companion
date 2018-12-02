@@ -8,7 +8,7 @@
     ></a>
     <span class="aura_name">{{ aura.name }}</span>
     <div class="upgrade-text">
-      <span class='current-version'>Current: v{{ aura.version}}</span><span class="wago-version">v{{aura.wagoVersion}}</span> </div>
+      <span class='current-version'>Current: v{{ aura.version }}</span><span class="wago-version">v{{version}}</span> </div>
     <div
       v-if="aura.wagoVersion && aura.version == aura.wagoVersion"
       title="you have last version"
@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  props: ["aura"],
+  props: ["aura","version"],
   filters: {
     wago: value => {
       if (!value) return "";

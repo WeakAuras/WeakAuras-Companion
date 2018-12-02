@@ -205,15 +205,18 @@ export default {
         this[key] = value;
       });
     },
-    message(text, type, aura) {
+    message(text, type, aura, version) {
       const date = moment().format("hh:mm:ss");
       this.messages.push({
         id: this.messages.length,
         time: date,
         text,
         type,
-        aura
+        aura,
+        version
       });
+      // sort by latest at top
+      this.messages.sort(function(a,b){return a.id < b.id});
       // scroll down
       this.$nextTick(() => {
         const { messages } = this.$refs;
@@ -391,7 +394,7 @@ export default {
                       this.auras.forEach((aura, index) => {
                         if (aura.slug === id) {
                           const msg = `New update for "${aura.name}"`;
-                          this.message(msg, "ok", aura);
+                          this.message(msg, "ok", aura, aura.wagoVersion);
                           newStrings.push(aura.name);
                           this.auras[index].encoded = arg.data;
                         }
@@ -610,7 +613,7 @@ end`
     }
     #messages {
       overflow: auto;
-      height: 150px;
+      height: 65%;
       text-align: center;
     }
     .logo {
