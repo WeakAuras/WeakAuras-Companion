@@ -1,5 +1,7 @@
 # WeakAuras Companion App
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/WeakAuras/WeakAuras-Companion.svg)](https://greenkeeper.io/)
+
 > WeakAuras updater made with electron-vue
 
 #### Build Setup
