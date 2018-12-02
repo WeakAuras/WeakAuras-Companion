@@ -477,9 +477,9 @@ export default {
 
             // write message if new aura or failed getting infos for at least one
             if (newStrings.length > 0 || failStrings.length > 0) {
-              let msg = `${countStrings} auras ready for update (${
-                newStrings.length
-              } new`;
+              let msg = `${countStrings} update${
+                countStrings > 1 ? "s" : ""
+              } ready for installation (${newStrings.length} new`;
               if (failStrings.length > 0) {
                 msg += `, ${failStrings.length} error`;
               }
@@ -515,9 +515,9 @@ init.lua`
               {
                 name: "init.lua",
                 data: `-- file generated automatically
-local updatedSlugsCount, updatedAuras = WeakAuras.CountWagoUpdates()
-if updatedSlugsCount > 0 then
-  WeakAuras.prettyPrint((L["%i updates from Wago for %i auras are ready to be install"]):format(updatedSlugsCount, updatedAuras))
+local count = WeakAuras.CountWagoUpdates()
+if count > 0 then
+  WeakAuras.prettyPrint((L["%i updates from Wago ready for installation"]):format(count))
 end`
               },
               {
