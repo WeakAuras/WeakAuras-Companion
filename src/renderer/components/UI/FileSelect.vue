@@ -26,23 +26,30 @@ export default {
 
 <style scoped>
 /* Don't forget to hide the original file input! */
-.file-select > input[type="file"] {
-  display: none;
-}
-.pointer {
-  cursor: pointer;
-}
-.fakeinput {
-  background-color: white;
-  width: 270px;
-  display: inline-block;
-  color: black;
-}
-.btn {
-  display: inline-block;
-  cursor: pointer;
-}
-.configlabel {
-  color: gray;
-}
+  .file-select > input[type="file"] {
+    display: none;
+  }
+  .pointer {
+    cursor: pointer;
+  }
+  .fakeinput {
+      background-color: white;
+      width: 270px;
+      height: 29px;
+      overflow-x: hidden;
+      white-space: nowrap;
+      display: inline-block;
+      color: black;
+      border-radius: 2px;
+      padding: 5px
+  }
+  .btn {
+    display: inline-block;
+    cursor: pointer;
+  }
+  .configlabel {
+      color: white;
+      margin: 3px 0;
+      font-size: 15px;
+  }
 </style>

@@ -1,11 +1,14 @@
 <template>
   <div class="aura">
+    <a
+      :href="aura.slug | wago"
+      :title="aura.slug | wago"
+      class="wago_icon"
+      target="_blank"
+    ></a>
     <span class="aura_name">{{ aura.name }}</span>
-    <div
-      v-if="aura.wagoVersion && aura.version < aura.wagoVersion"
-      :title="'upgrade from v' + aura.version + ' to v' + aura.wagoVersion"
-      class="wagoUpgrade"
-    ></div>
+    <div class="upgrade-text">
+      <span class='current-version'>Current: v{{ aura.version}}</span><span class="wago-version">v{{aura.wagoVersion}}</span> </div>
     <div
       v-if="aura.wagoVersion && aura.version == aura.wagoVersion"
       title="you have last version"
@@ -23,12 +26,6 @@
       class="wagoWarning"
     ></div>
     <div v-if="aura.wagoError" class="wagoError" title="error"></div>
-    <a
-      :href="aura.slug | wago"
-      :title="aura.slug | wago"
-      class="wago_icon"
-      target="_blank"
-    ></a>
   </div>
 </template>
 
@@ -45,28 +42,39 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
 .aura {
-  background-color: #444;
+  background-color: #1d1d1d;
   color: rgb(255, 209, 0);
   margin: 1px;
   height: 32px;
   font-size: 14px;
-  padding: 2px;
+  padding: 2px 10px;
   vertical-align: middle;
   white-space: nowrap;
   display: flex;
   overflow: hidden;
 }
 .aura_name {
-  width: 510px;
+  width: 100%;
+  padding-left: 10px;
+  font-family: 'Roboto Mono', monospace;
+  vertical-align: middle;
+  display: inline-block;
+  font-weight: 600;
+  margin: auto 0;
+  font-size: 12px;
+  text-shadow: #000000 0 1px 0;
 }
 .wago_icon,
 .wagoError,
 .wagoUpgrade,
 .wagoOk,
 .wagoWarning {
-  width: 25px;
-  height: 25px;
+  height: 100%;
+  vertical-align: middle;
+  display: inline-block;
 }
 .wago_icon {
   content: url("~@/assets/wago_plain.png");
@@ -82,5 +90,27 @@ export default {
 }
 .wagoWarning {
   content: url("~@/assets/warning.png");
+}
+.upgrade-text {
+  height: 100%;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  padding-right: 10px;
+  text-shadow: #000000 0 1px 0;
+}
+.current-version {
+  vertical-align: bottom;
+  position: relative;
+  top: 5px;
+  font-size: 9px;
+  color: #777;
+  margin-right: 10px;
+  vertical-align: bottom;
+}
+.wago-version {
+  margin: auto;
+  position: relative;
+  top: 3px;
+  text-shadow: rgba(219, 185, 50, 0.267) 0 0 5px;
 }
 </style>

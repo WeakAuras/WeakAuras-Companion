@@ -63,7 +63,7 @@ export default {
 
 <style scoped>
 #about {
-  margin: 5px 50px;
+  margin: 10px 50px;
   text-align: left;
 }
 #about a {
@@ -79,5 +79,8 @@ export default {
 }
 .media-item {
   margin: 10px 5px;
+}
+.logo {
+  opacity: 1;
 }
 </style>

@@ -53,7 +53,8 @@ export default {
 }
 .btn-refresh {
   background-color: #333;
-  padding: 8px 8px;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
   font-size: large;
   color: white;
 }
@@ -74,7 +75,9 @@ export default {
 }
 .btn-mini {
   padding: 2px 6px;
-  width: 50px;
+  width: 18px;
+  height: 18px;
+  color: transparent;
 }
 .btn-default {
   color: #333;
@@ -124,18 +127,10 @@ export default {
   background-image: linear-gradient(to bottom, #3e9bf4 0%, #0469de 100%);
 }
 .btn-positive {
-  border-color: #29a03b;
-  border-bottom-color: #248b34;
-  background-color: #5bd46d;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #5bd46d),
-    color-stop(100%, #29a03b)
-  );
-  background-image: -webkit-linear-gradient(top, #5bd46d 0%, #29a03b 100%);
-  background-image: linear-gradient(to bottom, #5bd46d 0%, #29a03b 100%);
+  border-color: #023008;
+  border-radius: 2px;
+  margin-left: 10px;
+  background-color: #2c9b00;
 }
 .btn-positive:active {
   background-color: #34c84a;

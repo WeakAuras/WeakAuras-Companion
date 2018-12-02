@@ -129,19 +129,29 @@ export default {
   text-align: left;
 }
 .label {
-  color: gray;
+    color: white;
+    margin: 3px 0;
+    font-size: 15px;
 }
+
 input,
 select,
 .fakeinput {
-  padding: 2px;
+  padding: 5px;
   font-size: small;
+  border-radius: 2px;
+    border: none;
+
 }
 .title {
   font-size: 20px;
-  margin: 10px 0px;
+  margin: 10px 0 15px;
+  font-weight: 600;
+  padding: 5px 0;
+  border-bottom: 1px solid #555;
 }
 .block {
   margin-left: 30px;
+  font-size: 15px;
 }
 </style>

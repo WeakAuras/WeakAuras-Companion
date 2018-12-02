@@ -1,10 +1,18 @@
 <template>
   <div id="wrapper">
-    <img :src="require(`@/assets/weakauras.png`)" class="walogo" />
-    <img :src="require(`@/assets/wago.png`)" class="wagologo" />
+      <img :src="require(`@/assets/weakauras.png`)" class="walogo" />
+      <div class="logos">
+
+          <img :src="require(`@/assets/wago.png`)" class="wagologo" />
+          <span>Updater</span>
+
+      </div>
+
     <header>
       <v-button type="menu" @click="configStep = 0">Main</v-button>
+       <span class="seperator">|</span>
       <v-button type="menu" @click="configStep = 1">Settings</v-button>
+      <span class="seperator">|</span>
       <v-button type="menu" @click="configStep = 2">About</v-button>
     </header>
     <main>
@@ -14,6 +22,9 @@
           :fetching="fetching"
         ></refreshButton>
         <div id="messages" ref="messages">
+          <div class="updates">
+          <span>Updates</span>
+          </div>
           <message
             v-for="message in messages"
             :key="message.id"
@@ -528,84 +539,142 @@ data.lua`;
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+    @import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&amp;subset=cyrilli");
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-body {
-  font-family: "Source Sans Pro", sans-serif;
-  background-color: #252525;
-  color: white;
-}
-#wrapper {
-  height: 100vh;
-  display: flex;
-  background-color: #252525;
-  flex-direction: column;
-}
-header {
-  text-align: center;
-  height: 50px;
-  margin: 20px 0 0px 0;
-}
-main {
-  flex: 1;
-  overflow-y: auto;
-}
-footer {
-  padding: 5px 0;
-  /* height: 40px; */
-  text-align: center;
-}
-.mid {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-}
-#dashboard {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-#messages {
-  overflow: auto;
-  height: 120px;
-}
-.logo {
-  position: relative;
-  display: inline-block;
-  line-height: 1;
-  width: 1.5em;
-  height: 1.5em;
-}
-.walogo {
-  width: 120px;
-  height: 45px;
-  top: 10px;
-  left: 10px;
-  position: fixed;
-}
-.wagologo {
-  width: 78px;
-  height: 45px;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-}
-.green {
-  color: green;
-}
-.red {
-  color: red;
-}
-a {
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      background-color: #171717;
+      color: white;
+    }
+    #wrapper {
+      height: 100vh;
+      display: flex;
+      background-size: cover;
+      flex-direction: column;
+    }
+    header {
+      text-align: center;
+      height: 50px;
+      margin: 20px 0 0px 0;
+    }
+    main {
+      flex: 1;
+      overflow-y: auto;
+    }
+    footer {
+      padding: 5px 0;
+      /* height: 40px; */
+      text-align: center;
+    }
+    .mid {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      text-align: center;
+    }
+    #dashboard {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    #messages {
+      overflow: auto;
+      height: 150px;
+      text-align: center;
+    }
+    .logo {
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+      width: 1.2em;
+      height: auto;
+      opacity: 0.7;
+    }
+    .logo:hover {
+      opacity: 1;
+    }
+    .logos {
+        padding: 15px;
+        position: fixed;
+    }
+    .walogo {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit:contain;
+      z-index: -99;
+      opacity: 0.02;
+      margin-right: 10px;
+    }
+    .logos {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .wagologo {
+      height: 45px;
+      top: 10px;
+      right: 10px;
+    }
+    .logos span {
+      font-weight: 300;
+      font-size: 24px;
+      margin-left: 10px;
+      color: rgb(226, 226, 226);
+    }
+    .green {
+      color: green;
+    }
+    .red {
+      color: red;
+    }
+    a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn.btn-menu {
+        background: transparent;
+        color: #F2F2F2;
+        padding: 5px 10px;
+        text-align: center;
+        text-shadow: 0 0 1em black;
+        width: auto;
+        border: none;
+        border-radius: 2px;
+        font-family: 'Roboto';
+        font-weight: 600;
+        font-size: 14px;
+        margin: 2px;
+    }
+    .btn.btn-menu:hover {
+        background-color: #444;
+    }
+    .seperator {
+        text-shadow: 0 0 1em black;
+    }
+    .updates {
+      color: rgb(255, 209, 0);
+      font-family: 'Roboto Mono', monospace;
+      text-align: center;
+      margin-left: 5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      padding-bottom: 5px;
+    }
+    .updates span {
+      text-shadow: #000 0 0 8px;
+      padding: 3px 20px;
+      border-bottom: rgba(255, 208, 0, 0.247) 2px solid;
+      border-radius: 15px;
+      text-shadow: rgba(219, 185, 50, 0.267) 0 0 10px;
+    }
 </style>
