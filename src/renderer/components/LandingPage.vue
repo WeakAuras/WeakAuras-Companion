@@ -20,6 +20,7 @@
         <refreshButton
           :usable="config.wowpath.valided && config.account.valided"
           :fetching="fetching"
+          :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
         <div id="messages" ref="messages">
           <div class="updates">
@@ -97,7 +98,6 @@ import Message from "./UI/Message.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
 
-const axios = require("axios");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
@@ -127,7 +127,10 @@ const defaultValues = {
     startminimize: false,
     notify: true
   },
-  schedule: null // 1h setTimeout id
+  schedule: {
+    id: null, // 1h setTimeout id
+    lastUpdate: null
+  }
 };
 
 export default {
@@ -159,19 +162,18 @@ export default {
       deep: true
     }
   },
-  created() {
-    this.restore();
-    if (!this.config.wowpath.valided || !this.config.account.valided) {
-      this.configStep = 1;
-    } else {
-      this.compareSVwithWago();
-    }
-  },
   mounted() {
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
     });
+    this.restore();
+    if (!this.config.wowpath.valided || !this.config.account.valided) {
+      this.configStep = 1;
+    } else {
+      this.configStep = 0;
+      this.compareSVwithWago();
+    }
   },
   computed: {
     accountHash() {
@@ -230,7 +232,7 @@ export default {
       }
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
-      if (this.schedule) clearTimeout(this.schedule); // cancel next 1h schedule
+      if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
       const WeakAurasSavedVariable = path.join(
         this.config.wowpath.value,
         "WTF",
@@ -263,49 +265,59 @@ export default {
               let slug;
               let url;
               let version;
+              let ignoreWagoUpdate;
 
               obj2.value.fields.forEach(obj3 => {
+                if (obj3.key.value === "ignoreWagoUpdate") {
+                  ignoreWagoUpdate = obj3.value.value;
+                }
                 if (obj3.key.value === "url") {
                   url = obj3.value.value;
                   ({ 2: slug, 3: version } = url.match(pattern));
-
-                  if (slug) {
-                    const { length } = this.auras.filter(
-                      aura => aura.slug === slug
-                    );
-                    if (length === 0) {
-                      // new "slug" found, add it to the list of auras
-                      this.auras.push({
-                        slug,
-                        version,
-                        wagoVersion: null,
-                        created: null,
-                        modified: null,
-                        author: null,
-                        encoded: null,
-                        ignore: false
-                      });
-                    } else {
-                      // there is already an aura with same "slug"
-                      // check if version field needs to be updated
-                      this.auras.forEach((aura, index) => {
-                        if (aura.slug === slug && aura.version < version) {
-                          this.auras[index].version = version;
-                        }
-                      });
-                    }
-                  }
                 }
               });
+
+              if (slug) {
+                const { length } = this.auras.filter(
+                  aura => aura.slug === slug
+                );
+                if (length === 0) {
+                  // new "slug" found, add it to the list of auras
+                  this.auras.push({
+                    slug,
+                    version,
+                    ignoreWagoUpdate,
+                    wagoVersion: null,
+                    created: null,
+                    modified: null,
+                    author: null,
+                    encoded: null,
+                    privateOrDeleted: false
+                  });
+                } else {
+                  // there is already an aura with same "slug"
+                  // check if version field needs to be updated
+                  this.auras.forEach((aura, index) => {
+                    if (aura.slug === slug && aura.version < version) {
+                      this.auras[index].version = version;
+                    }
+                  });
+                }
+              }
             });
           }
         });
         // get data from wago api
-        axios
+        this.$http
           .get("https://data.wago.io/lookup/weakauras", {
             params: {
               // !! size of request is not checked, can lead to too long urls
-              ids: this.auras.map(aura => aura.slug).join()
+              ids: this.auras
+                .filter(
+                  aura => !aura.privateOrDeleted && !aura.ignoreWagoUpdate
+                )
+                .map(aura => aura.slug)
+                .join()
             },
             headers: {
               Identifier: this.accountHash,
@@ -322,7 +334,7 @@ export default {
             const promises = [];
             response.data.forEach(wagoData => {
               this.auras.forEach((aura, index) => {
-                if (aura.slug === wagoData.slug && !aura.ignore) {
+                if (aura.slug === wagoData.slug) {
                   // fetch aura data if :
                   // latest version on wago is newer than what is in WeakAurasSavedVariable
                   // and there isn't already an encoded string saved for latest version
@@ -332,7 +344,7 @@ export default {
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
                         wagoData.version > aura.wagoVersion)) &&
-                    wagoData.username !== this.wagoUsername
+                    wagoData.username !== this.config.wagoUsername
                   ) {
                     this.auras[index].created = wagoData.created;
                     this.auras[index].modified = wagoData.modified;
@@ -340,7 +352,7 @@ export default {
                     this.auras[index].wagoVersion = wagoData.version;
                     this.auras[index].name = wagoData.name;
                     promises.push(
-                      axios.get("https://data.wago.io/wago/raw/encoded", {
+                      this.$http.get("https://data.wago.io/wago/raw/encoded", {
                         params: {
                           id: aura.slug
                         },
@@ -369,10 +381,10 @@ export default {
 
             const newStrings = [];
             const failStrings = [];
-            axios
+            this.$http
               .all(promisesResolved)
               .then(
-                axios.spread((...args) => {
+                this.$http.spread((...args) => {
                   args.forEach(arg => {
                     const { id } = arg.config.params;
                     if (arg.status === 200) {
@@ -395,7 +407,7 @@ export default {
                             "error"
                           );
                           failStrings.push(aura.name);
-                          this.auras[index].ignore = true;
+                          this.auras[index].privateOrDeleted = true;
                         }
                       });
                     } else {
@@ -417,7 +429,7 @@ export default {
               .catch(error => {
                 this.message(`Can't read wago answer\n${error}`, "error");
                 // schedule in 30mn on error
-                this.schedule = setTimeout(
+                this.schedule.id = setTimeout(
                   this.compareSVwithWago,
                   1000 * 60 * 30
                 );
@@ -427,11 +439,13 @@ export default {
                 this.save(["auras"]);
                 this.writeAddonData(newStrings, failStrings);
                 this.fetching = false;
+                this.schedule.lastUpdate = new Date();
               });
           })
           .catch(error => {
             this.message(`Can't read wago answer\n${error}`, "error");
             this.fetching = false;
+            this.schedule.lastUpdate = new Date();
           });
       });
     },
@@ -471,40 +485,33 @@ export default {
                 LuaOutput += "  },\n";
               });
             LuaOutput += "}";
-            fs.writeFile(
-              path.join(AddonFolder, "data.lua"),
-              LuaOutput,
-              err2 => {
-                if (err2) this.message("data.lua could not be saved", "error");
-                else {
-                  if (newStrings.length > 0 || failStrings.length > 0) {
-                    let msg = `${countStrings} auras ready for update (${
-                      newStrings.length
-                    } new`;
-                    if (failStrings.length > 0) {
-                      msg += `, ${failStrings.length} error`;
-                    }
-                    msg += ")";
-                    this.message(msg, "ok");
-                  }
 
-                  if (this.config.notify && newStrings.length > 0) {
-                    const myNotification = new Notification(
-                      "WeakAuras Update",
-                      {
-                        body: newStrings.join("\n")
-                      }
-                    );
-                    myNotification.onclick = () => {
-                      this.$electron.ipcRenderer.send("open");
-                    };
-                  }
-                }
+            // write message if new aura or failed getting infos for at least one
+            if (newStrings.length > 0 || failStrings.length > 0) {
+              let msg = `${countStrings} update${
+                countStrings > 1 ? "s" : ""
+              } ready for installation (${newStrings.length} new`;
+              if (failStrings.length > 0) {
+                msg += `, ${failStrings.length} error`;
               }
-            );
+              msg += ")";
+              this.message(msg, "ok");
+            }
 
-            // Make WeakAurasWagoUpdate.toc
-            const tocFile = `## Interface: 80000
+            // notify if there are new auras ready for update
+            if (this.config.notify && newStrings.length > 0) {
+              const myNotification = new Notification("WeakAuras Update", {
+                body: newStrings.join("\n")
+              });
+              myNotification.onclick = () => {
+                this.$electron.ipcRenderer.send("open");
+              };
+            }
+
+            const files = [
+              {
+                name: "WeakAurasWagoUpdate.toc",
+                data: `## Interface: 80000
 ## Title: WeakAuras Wago Update
 ## Author: WeakAuras Team
 ## Version: 1.0.0
@@ -513,23 +520,40 @@ export default {
 ## DefaultState: Enabled
 ## Dependencies: WeakAuras, WeakAurasOptions
 
-data.lua`;
-
-            fs.writeFile(
-              path.join(AddonFolder, "WeakAurasWagoUpdate.toc"),
-              tocFile,
-              err2 => {
-                if (err2) {
-                  this.message(
-                    "WeakAurasWagoUpdate.toc could not be saved",
-                    "error"
-                  );
-                }
-                // else this.message("WeakAurasWagoUpdate.toc saved", "ok");
+data.lua
+init.lua`
+              },
+              {
+                name: "init.lua",
+                data: `-- file generated automatically
+local count = WeakAuras.CountWagoUpdates()
+if count > 0 then
+  WeakAuras.prettyPrint((L["%i updates from Wago ready for installation"]):format(count))
+end`
+              },
+              {
+                name: "data.lua",
+                data: LuaOutput
               }
-            );
+            ];
+
+            files.forEach(file => {
+              fs.writeFile(
+                path.join(AddonFolder, file.name),
+                file.data,
+                err2 => {
+                  if (err2) {
+                    this.message(`${file.name} could not be saved`, "error");
+                  }
+                }
+              );
+            });
+
             // schedule in 1 hour
-            this.schedule = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
+            this.schedule.id = setTimeout(
+              this.compareSVwithWago,
+              1000 * 60 * 60
+            );
           }
         });
       }

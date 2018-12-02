@@ -53,7 +53,6 @@
   "dependencies": {
     "auto-launch": "^5.0.5",
     "axios": "^0.18.0",
-    "electron": "^2.0.4",
     "electron-store": "^2.0.0",
     "luaparse": "^0.2.1",
     "moment": "^2.22.2",
@@ -77,6 +76,7 @@
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
+    "electron": "^2.0.4",
     "electron-builder": "^20.19.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
