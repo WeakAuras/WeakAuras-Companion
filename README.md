@@ -1,6 +1,9 @@
 # WeakAuras Companion App
 
-> A WeakAuras <> Wago.io bridge made with electron-vue.
+[![Greenkeeper badge](https://badges.greenkeeper.io/WeakAuras/WeakAuras-Companion.svg)](https://greenkeeper.io/)
+
+## A WeakAuras <> Wago.io bridge made with electron-vue.
+
 
 #### Build Setup
 
