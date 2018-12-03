@@ -1,8 +1,8 @@
 {
-  "name": "weakauras-wago-updater",
+  "name": "weakauras-companion",
   "version": "1.0.0",
   "author": "Buds <mrbouyou@gmail.com>",
-  "description": "WeakAuras Wago Updater",
+  "description": "WeakAuras Companion App",
   "license": "GPL-2.0-or-later",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "WeakAuras Wago Updater",
+    "productName": "WeakAuras Companion",
     "appId": "wtf.weakauras.updater",
     "directories": {
       "output": "build"

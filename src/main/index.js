@@ -57,14 +57,14 @@ function createWindow() {
   const tray = new Tray(iconpath);
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: "Open WeakAuras Wago Updater",
+      label: "Open WeakAuras Companion",
       click: () => {
         mainWindow.show();
       }
     },
     { type: "separator" },
     {
-      label: "Search updates on Wago",
+      label: "Search for updates on Wago",
       click: () => {
         mainWindow.webContents.send("refreshWago");
       }
