@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { app, BrowserWindow, Tray, Menu, shell, ipcMain } from "electron";
 import path from "path";
 
