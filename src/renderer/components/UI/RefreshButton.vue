@@ -60,6 +60,7 @@ export default {
   text-align: center;
 }
 #lastupdate {
+  margin-top: 5px;
   font-size: small;
 }
 </style>
