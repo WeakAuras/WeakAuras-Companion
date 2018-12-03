@@ -129,9 +129,9 @@ export default {
   text-align: left;
 }
 .label {
-    color: white;
-    margin: 3px 0;
-    font-size: 15px;
+  color: white;
+  margin: 3px 0;
+  font-size: 15px;
 }
 
 input,
@@ -140,8 +140,7 @@ select,
   padding: 5px;
   font-size: small;
   border-radius: 2px;
-    border: none;
-
+  border: none;
 }
 .title {
   font-size: 20px;

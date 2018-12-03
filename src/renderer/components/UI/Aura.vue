@@ -8,7 +8,9 @@
     ></a>
     <span class="aura_name">{{ aura.name }}</span>
     <div class="upgrade-text">
-      <span class='current-version'>Current: v{{ aura.version }}</span><span class="wago-version">v{{version}}</span> </div>
+      <span class="current-version">Current: v{{ aura.version }}</span
+      ><span class="wago-version">v{{ version }}</span>
+    </div>
     <div
       v-if="aura.wagoVersion && aura.version == aura.wagoVersion"
       title="you have last version"
@@ -31,7 +33,7 @@
 
 <script>
 export default {
-  props: ["aura","version"],
+  props: ["aura", "version"],
   filters: {
     wago: value => {
       if (!value) return "";
@@ -42,7 +44,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
 
 .aura {
   background-color: #1d1d1d;
@@ -59,7 +61,7 @@ export default {
 .aura_name {
   width: 100%;
   padding-left: 10px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   vertical-align: middle;
   display: inline-block;
   font-weight: 600;
@@ -93,7 +95,7 @@ export default {
 }
 .upgrade-text {
   height: 100%;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   font-weight: 600;
   padding-right: 10px;
   text-shadow: #000000 0 1px 0;
