@@ -3,11 +3,11 @@
 
 <head>
   <meta charset="utf-8">
-  <title>WeakAuras Wago Updater</title>
+  <title>WeakAuras Companion</title>
   <% if (htmlWebpackPlugin.options.nodeModules) { %>
   <!-- Add `node_modules/` to global paths so `require` works properly in development -->
   <script>
-    require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+    require('module').globalPaths.push("<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>")
   </script>
   <% } %>
 </head>

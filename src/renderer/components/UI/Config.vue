@@ -51,7 +51,7 @@ const fs = require("fs");
 const AutoLaunch = require("auto-launch");
 
 const AutoLauncher = new AutoLaunch({
-  name: "WeakAuras Wago Updater"
+  name: "WeakAuras Companion"
 });
 
 export default {

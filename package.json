@@ -1,9 +1,13 @@
 {
-  "name": "weakauras-wago-updater",
+  "name": "weakauras-companion",
   "version": "1.0.0",
   "author": "Buds <mrbouyou@gmail.com>",
-  "description": "WeakAuras Wago Updater",
+  "description": "WeakAuras Companion App",
   "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
+  },
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -11,13 +15,14 @@
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
     "dev": "node .electron-vue/dev-runner.js",
+    "lint": "eslint . ",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": ""
   },
   "build": {
-    "productName": "WeakAuras Wago Updater",
+    "productName": "WeakAuras Companion",
     "appId": "wtf.weakauras.updater",
     "directories": {
       "output": "build"
