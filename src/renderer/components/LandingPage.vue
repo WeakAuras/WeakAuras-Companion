@@ -466,7 +466,7 @@ export default {
           this.config.wowpath.value,
           "Interface",
           "Addons",
-          "WeakAurasWagoUpdate"
+          "WeakAurasCompanion"
         );
         // Make folder
         fs.mkdir(AddonFolder, err => {
@@ -475,7 +475,7 @@ export default {
           } else {
             // Make data.lua
             let LuaOutput = "-- file generated automatically\n";
-            LuaOutput += "WeakAurasWagoUpdate = {\n";
+            LuaOutput += "WeakAurasCompanion = {\n";
             const fields = [
               "name",
               "created",
@@ -521,9 +521,9 @@ export default {
 
             const files = [
               {
-                name: "WeakAurasWagoUpdate.toc",
+                name: "WeakAurasCompanion.toc",
                 data: `## Interface: 80000
-## Title: WeakAuras Wago Update
+## Title: WeakAuras Companion
 ## Author: WeakAuras Team
 ## Version: 1.0.0
 ## Notes: Keep your WeakAuras updated
