@@ -6,7 +6,7 @@
       class="wago_icon"
       target="_blank"
     ></a>
-    <span class="aura_name">{{ aura.name }}</span>
+    <span class="aura_name">{{ aura.name | maxLength }}</span>
     <div class="upgrade-text">
       <span class="current-version">Current: v{{ aura.version }}</span>
       <span class="wago-version">v{{ aura.wagoVersion }}</span>
@@ -22,6 +22,10 @@ export default {
     wago: value => {
       if (!value) return "";
       return `https://wago.io/${value}`;
+    },
+    maxLength: text => {
+      const count = 50;
+      return text.slice(0, count) + (text.length > count ? "..." : "");
     }
   }
 };
