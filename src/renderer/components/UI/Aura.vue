@@ -8,32 +8,16 @@
     ></a>
     <span class="aura_name">{{ aura.name }}</span>
     <div class="upgrade-text">
-      <span class="current-version">Current: v{{ aura.version }}</span
-      ><span class="wago-version">v{{ version }}</span>
+      <span class="current-version">Current: v{{ aura.version }}</span>
+      <span class="wago-version">v{{ aura.wagoVersion }}</span>
     </div>
-    <div
-      v-if="aura.wagoVersion && aura.version == aura.wagoVersion"
-      title="you have last version"
-      class="wagoOk"
-    ></div>
-    <div
-      v-if="aura.wagoVersion && aura.version > aura.wagoVersion"
-      :title="
-        'your version (' +
-          aura.version +
-          ') is newer than wago version (' +
-          aura.wagoVersion +
-          ')'
-      "
-      class="wagoWarning"
-    ></div>
     <div v-if="aura.wagoError" class="wagoError" title="error"></div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["aura", "version"],
+  props: ["aura"],
   filters: {
     wago: value => {
       if (!value) return "";
@@ -51,12 +35,13 @@ export default {
   color: rgb(255, 209, 0);
   margin: 1px;
   height: 32px;
-  font-size: 14px;
   padding: 2px 10px;
   vertical-align: middle;
   white-space: nowrap;
   display: flex;
   overflow: hidden;
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
 }
 .aura_name {
   width: 100%;
@@ -68,6 +53,7 @@ export default {
   margin: auto 0;
   font-size: 12px;
   text-shadow: #000000 0 1px 0;
+  text-align: left;
 }
 .wago_icon,
 .wagoError,

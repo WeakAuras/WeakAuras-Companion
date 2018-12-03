@@ -22,6 +22,7 @@
         ></refreshButton>
         <div id="messages" ref="messages">
           <div class="updates"><span>Updates</span></div>
+          <Aura v-for="aura in aurasSorted" :aura="aura" :key="aura.id"></Aura>
           <message
             v-for="message in messages"
             :key="message.id"
@@ -91,6 +92,7 @@ import moment from "moment";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import Message from "./UI/Message.vue";
+import Aura from "./UI/Aura.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
 
@@ -134,6 +136,7 @@ export default {
   components: {
     RefreshButton,
     Message,
+    Aura,
     Config,
     About,
     "v-button": Button
@@ -174,6 +177,21 @@ export default {
   computed: {
     accountHash() {
       return hash.hashFnv32a(this.config.account.value, true);
+    },
+    aurasSorted() {
+      function compare(a, b) {
+        if (a.modified > b.modified) return -1;
+        if (a.modified < b.modified) return 1;
+        return 0;
+      }
+      return this.auras
+        .filter(
+          aura =>
+            !!aura.encoded &&
+            aura.wagoVersion > aura.version &&
+            !this.privateOrDeleted
+        )
+        .sort(compare);
     }
   },
   methods: {
@@ -201,18 +219,14 @@ export default {
         this[key] = value;
       });
     },
-    message(text, type, aura, version) {
+    message(text, type) {
       const date = moment().format("hh:mm:ss");
       this.messages.push({
         id: this.messages.length,
         time: date,
         text,
-        type,
-        aura,
-        version
+        type
       });
-      // sort by latest at top
-      this.messages.sort((a, b) => a.id < b.id);
       // scroll down
       this.$nextTick(() => {
         const { messages } = this.$refs;
@@ -345,8 +359,8 @@ export default {
                         wagoData.version > aura.wagoVersion)) &&
                     wagoData.username !== this.config.wagoUsername
                   ) {
-                    this.auras[index].created = wagoData.created;
-                    this.auras[index].modified = wagoData.modified;
+                    this.auras[index].created = new Date(wagoData.created);
+                    this.auras[index].modified = new Date(wagoData.modified);
                     this.auras[index].author = wagoData.username;
                     this.auras[index].wagoVersion = wagoData.version;
                     this.auras[index].name = wagoData.name;
@@ -389,8 +403,6 @@ export default {
                     if (arg.status === 200) {
                       this.auras.forEach((aura, index) => {
                         if (aura.slug === id) {
-                          const msg = `New update for "${aura.name}"`;
-                          this.message(msg, "ok", aura, aura.wagoVersion);
                           newStrings.push(aura.name);
                           this.auras[index].encoded = arg.data;
                         }
