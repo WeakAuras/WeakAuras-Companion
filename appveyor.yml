@@ -1,12 +1,10 @@
 version: 0.1.{build}
 
-branches:
-  only:
-    - master
+environment:
+  matrix:
+    - platform: x64
 
 image: Visual Studio 2017
-platform:
-  - x64
 
 cache:
   - node_modules
