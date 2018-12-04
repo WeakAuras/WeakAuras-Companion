@@ -563,6 +563,7 @@ end`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  cursor: default;
 }
 body {
   font-family: "Roboto", sans-serif;
