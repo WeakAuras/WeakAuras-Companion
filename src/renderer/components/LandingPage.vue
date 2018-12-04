@@ -596,13 +596,6 @@ footer {
   /* height: 40px; */
   text-align: center;
 }
-.mid {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-}
 #dashboard {
   height: 100%;
   display: flex;
@@ -649,12 +642,6 @@ footer {
   font-size: 24px;
   margin-left: 10px;
   color: rgb(226, 226, 226);
-}
-.green {
-  color: green;
-}
-.red {
-  color: red;
 }
 a {
   color: white;
