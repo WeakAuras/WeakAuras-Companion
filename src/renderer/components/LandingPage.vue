@@ -422,6 +422,7 @@ export default {
               )
               .catch(error => {
                 this.message(`Can't read wago answer\n${error}`, "error");
+                this.fetching = false;
                 // schedule in 30mn on error
                 this.schedule.id = setTimeout(
                   this.compareSVwithWago,
@@ -439,7 +440,11 @@ export default {
           .catch(error => {
             this.message(`Can't read wago answer\n${error}`, "error");
             this.fetching = false;
-            this.schedule.lastUpdate = new Date();
+            // schedule in 30mn on error
+            this.schedule.id = setTimeout(
+              this.compareSVwithWago,
+              1000 * 60 * 30
+            );
           });
       });
     },
