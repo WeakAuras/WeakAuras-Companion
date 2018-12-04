@@ -510,31 +510,27 @@ export default {
             const files = [
               {
                 name: "WeakAurasCompanion.toc",
-                data: `
-                  ## Interface: 80000
-                  ## Title: WeakAuras Companion
-                  ## Author: The WeakAuras Team
-                  ## Version: 1.0.0
-                  ## Notes: Keep your WeakAuras updated!
-                  ## X-Category: Interface Enhancements
-                  ## DefaultState: Enabled
-                  ## Dependencies: WeakAuras, WeakAurasOptions
+                data: `## Interface: 80000
+## Title: WeakAuras Companion
+## Author: The WeakAuras Team
+## Version: 1.0.0
+## Notes: Keep your WeakAuras updated!
+## X-Category: Interface Enhancements
+## DefaultState: Enabled
+## Dependencies: WeakAuras, WeakAurasOptions
 
-                  data.lua
-                  init.lua
-                  `
+data.lua
+init.lua`
               },
               {
                 name: "init.lua",
-                data: `
-                  -- file generated automatically
-                  local L = WeakAuras.L
-                  local count = WeakAuras.CountWagoUpdates()
+                data: `-- file generated automatically
+local L = WeakAuras.L
+local count = WeakAuras.CountWagoUpdates()
 
-                  if count > 0 then
-                    C_Timer.After(1, WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)))
-                  end
-                `
+if count > 0 then
+  C_Timer.After(1, WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)))
+end`
               },
               {
                 name: "data.lua",
