@@ -1,11 +1,11 @@
 <template>
   <div id="wrapper">
+    <TitleBar></TitleBar>
     <img :src="require(`@/assets/weakauras.png`)" class="walogo" />
     <div class="logos">
       <img :src="require(`@/assets/wago.png`)" class="wagologo" />
       <span>Companion</span>
     </div>
-
     <header>
       <v-button type="menu" @click="configStep = 0">Main</v-button>
       <span class="seperator">|</span>
@@ -62,6 +62,7 @@ import Message from "./UI/Message.vue";
 import Aura from "./UI/Aura.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
+import TitleBar from "./UI/TitleBar.vue";
 
 const fs = require("fs");
 const luaparse = require("luaparse");
@@ -108,6 +109,7 @@ export default {
     Aura,
     Config,
     About,
+    TitleBar,
     "v-button": Button
   },
   data() {
@@ -576,7 +578,7 @@ body {
 header {
   text-align: right;
   height: 50px;
-  margin: 20px 0 0px 0;
+  margin: 15px 15px 0 0;
 }
 main {
   flex: 1;
@@ -632,11 +634,11 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  top: 24px;
 }
 .wagologo {
   height: 45px;
-  top: 10px;
-  right: 10px;
 }
 .logos span {
   font-weight: 300;

@@ -29,6 +29,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     height: 550,
     width: 600,
+    frame: false,
     resizable: process.env.NODE_ENV === "development",
     backgroundColor: "#252525",
     webPreferences: {
@@ -82,7 +83,11 @@ function createWindow() {
   tray.setContextMenu(contextMenu);
 
   tray.on("click", () => {
-    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+    if (mainWindow.isVisible()) {
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+    }
   });
 
   mainWindow.webContents.on("new-window", (event, url) => {
@@ -121,7 +126,13 @@ ipcMain.on("open", () => {
   mainWindow.show();
   mainWindow.focus();
 });
-
+ipcMain.on("minimize", () => {
+  mainWindow.hide();
+});
+ipcMain.on("close", () => {
+  app.isQuiting = true;
+  app.quit();
+});
 /**
  * Auto Updater
  *
