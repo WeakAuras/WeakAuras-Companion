@@ -1,9 +1,9 @@
 <template>
   <div id="wrapper">
     <TitleBar></TitleBar>
-    <img :src="require(`@/assets/weakauras.png`)" class="walogo" />
+    <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-background" />
     <div class="logos">
-      <img :src="require(`@/assets/wago.png`)" class="wagologo" />
+      <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-top" />
       <span>Companion</span>
     </div>
     <header>
@@ -624,11 +624,7 @@ footer {
 .logo:hover {
   opacity: 1;
 }
-.logos {
-  padding: 15px;
-  position: fixed;
-}
-.walogo {
+.wa-logo-background {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -642,9 +638,10 @@ footer {
   align-items: center;
   justify-content: space-between;
   position: fixed;
+  padding: 15px;
   top: 24px;
 }
-.wagologo {
+.wa-logo-top {
   height: 45px;
 }
 .logos span {
