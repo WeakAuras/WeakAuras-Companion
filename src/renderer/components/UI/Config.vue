@@ -127,6 +127,9 @@ export default {
 #config {
   margin: 5px 50px;
   text-align: left;
+  overflow: auto;
+  height: 100%;
+  width: 535px;
 }
 .label {
   color: white;
