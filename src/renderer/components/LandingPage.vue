@@ -563,7 +563,7 @@ body {
   flex-direction: column;
 }
 header {
-  text-align: center;
+  text-align: right;
   height: 50px;
   margin: 20px 0 0px 0;
 }
