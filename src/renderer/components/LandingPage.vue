@@ -210,6 +210,7 @@ export default {
       }
     },
     compareSVwithWago() {
+      this.clearMessages();
       if (!this.config.wowpath.valided || !this.config.account.valided) {
         this.message("Configuration is not finished", "error");
         return;
