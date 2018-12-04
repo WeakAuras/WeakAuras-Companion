@@ -66,7 +66,7 @@ function createWindow() {
     },
     { type: "separator" },
     {
-      label: "Search for updates on Wago",
+      label: "Check for updates on Wago",
       click: () => {
         mainWindow.webContents.send("refreshWago");
       }

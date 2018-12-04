@@ -3,9 +3,9 @@
     <br /><br />
     <spinner :spin="fetching"></spinner>
     <v-button @click="refresh" :type="!usable ? 'error' : 'refresh'">
-      Search updates on Wago
+      Check for updates on Wago
     </v-button>
-    <div id="lastupdate">Last update {{ lastUpdate | fromNow }}</div>
+    <div id="lastupdate">Last update: {{ lastUpdate | fromNow }}</div>
   </div>
 </template>
 

@@ -512,9 +512,9 @@ export default {
                 name: "WeakAurasCompanion.toc",
                 data: `## Interface: 80000
 ## Title: WeakAuras Companion
-## Author: WeakAuras Team
+## Author: The WeakAuras Team
 ## Version: 1.0.0
-## Notes: Keep your WeakAuras updated
+## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## Dependencies: WeakAuras, WeakAurasOptions
@@ -525,9 +525,11 @@ init.lua`
               {
                 name: "init.lua",
                 data: `-- file generated automatically
+local L = WeakAuras.L
 local count = WeakAuras.CountWagoUpdates()
+
 if count > 0 then
-  WeakAuras.prettyPrint((L["%i updates from Wago ready for installation"]):format(count))
+  C_Timer.After(1, WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)))
 end`
               },
               {

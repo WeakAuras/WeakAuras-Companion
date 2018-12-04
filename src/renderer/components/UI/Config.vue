@@ -6,7 +6,7 @@
       <span v-if="config.wowpath.valided" class="green">✔</span>
       <span v-else class="red">✘</span>
       <span v-if="config.wowpath.valided">
-        <p class="label">Select account</p>
+        <p class="label">Select Account</p>
         <select v-model="config.account.value" class="form-control">
           <option v-for="item in config.account.choices" :key="item.name">{{
             item.name
@@ -18,18 +18,18 @@
     </div>
     <div class="title">Wago Settings</div>
     <div class="block">
-      <p class="label">Wago account (optional)</p>
+      <p class="label">Wago Account (optional)</p>
       <input
         type="text"
         v-model="config.wagoUsername"
         size="11"
-        title="auras uploaded with your account will be ignore"
+        title="Auras uploaded with your account will be ignored"
       />
     </div>
-    <div class="title">Addon Settings</div>
+    <div class="title">Client Settings</div>
     <div class="block">
       <input type="checkbox" v-model="config.notify" /> Receive a notification
-      when an aura is updated <br /><br />
+      when auras get updated <br /><br />
       <p class="label">Startup</p>
       <input type="checkbox" v-model="config.autostart" /> Launch client with
       your computer <br />
@@ -37,7 +37,7 @@
       minimized
     </div>
     <br /><br />
-    <v-button @click="reset" type="info">Reset settings and data</v-button>
+    <v-button @click="reset" type="info">Reset Settings and Data</v-button>
     <br /><br />
   </div>
 </template>
