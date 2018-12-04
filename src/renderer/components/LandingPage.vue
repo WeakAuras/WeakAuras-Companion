@@ -20,9 +20,11 @@
           :fetching="fetching"
           :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
-        <div id="messages" ref="messages">
-          <div class="updates"><span>Updates</span></div>
+        <div class="updates"><span>Updates</span></div>
+        <div id="aura-list">
           <Aura v-for="aura in aurasSorted" :aura="aura" :key="aura.id"></Aura>
+        </div>
+        <div id="messages" ref="messages">
           <message
             v-for="message in messages"
             :key="message.id"
@@ -585,7 +587,7 @@ footer {
   display: flex;
   flex-direction: column;
 }
-#messages {
+#aura-list {
   overflow: auto;
   height: 65%;
   text-align: center;
@@ -641,7 +643,6 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
-
 .btn.btn-menu {
   background: transparent;
   color: #f2f2f2;
