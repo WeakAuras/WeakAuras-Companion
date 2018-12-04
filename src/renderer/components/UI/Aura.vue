@@ -8,10 +8,9 @@
     ></a>
     <span class="aura_name">{{ aura.name | maxLength }}</span>
     <div class="upgrade-text">
-      <span class="current-version">Current: v{{ aura.version }}</span>
-      <span class="wago-version">v{{ aura.wagoVersion }}</span>
+      <div class="current-version">Current: v{{ aura.version }}</div>
+      <div class="wago-version">v{{ aura.wagoVersion }}</div>
     </div>
-    <div v-if="aura.wagoError" class="wagoError" title="error"></div>
   </div>
 </template>
 
@@ -48,10 +47,8 @@ export default {
   font-size: 11px;
 }
 .aura_name {
-  width: 100%;
+  width: 450px;
   padding-left: 10px;
-  font-family: "Roboto Mono", monospace;
-  vertical-align: middle;
   display: inline-block;
   font-weight: 600;
   margin: auto 0;
@@ -59,11 +56,7 @@ export default {
   text-shadow: #000000 0 1px 0;
   text-align: left;
 }
-.wago_icon,
-.wagoError,
-.wagoUpgrade,
-.wagoOk,
-.wagoWarning {
+.wago_icon {
   height: 100%;
   vertical-align: middle;
   display: inline-block;
@@ -71,38 +64,24 @@ export default {
 .wago_icon {
   content: url("~@/assets/wago_plain.png");
 }
-.wagoError {
-  content: url("~@/assets/error.png");
-}
-.wagoUpgrade {
-  content: url("~@/assets/rotating-minimapcorpsearrow.png");
-}
-.wagoOk {
-  content: url("~@/assets/ok.png");
-}
-.wagoWarning {
-  content: url("~@/assets/warning.png");
-}
 .upgrade-text {
-  height: 100%;
   font-family: "Roboto Mono", monospace;
   font-weight: 600;
-  padding-right: 10px;
   text-shadow: #000000 0 1px 0;
+  width: 120px;
+  display: flex;
 }
 .current-version {
-  vertical-align: bottom;
-  position: relative;
-  top: 5px;
   font-size: 9px;
   color: #777;
-  margin-right: 10px;
-  vertical-align: bottom;
+  width: 70px;
+  padding-top: 13px;
+  text-align: left;
 }
 .wago-version {
-  margin: auto;
-  position: relative;
-  top: 3px;
   text-shadow: rgba(219, 185, 50, 0.267) 0 0 5px;
+  text-align: right;
+  width: 30px;
+  padding-top: 8px;
 }
 </style>

@@ -569,7 +569,7 @@ header {
 }
 main {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 footer {
   padding: 5px 0;
