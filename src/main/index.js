@@ -114,7 +114,7 @@ app.on("activate", () => {
 });
 
 // important for notifications on Windows
-app.setAppUserModelId("wtf.weakauras.updater");
+app.setAppUserModelId("wtf.weakauras.companion");
 
 // event use when clicking on notifications
 ipcMain.on("open", () => {
