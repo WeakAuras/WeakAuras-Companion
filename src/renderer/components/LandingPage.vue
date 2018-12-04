@@ -248,8 +248,12 @@ export default {
               let url;
               let version;
               let ignoreWagoUpdate;
+              let id;
 
               obj2.value.fields.forEach(obj3 => {
+                if (obj3.key.value === "id") {
+                  id = obj3.value.value;
+                }
                 if (obj3.key.value === "ignoreWagoUpdate") {
                   ignoreWagoUpdate = obj3.value.value;
                 }
@@ -274,14 +278,21 @@ export default {
                     modified: null,
                     author: null,
                     encoded: null,
-                    privateOrDeleted: false
+                    privateOrDeleted: false,
+                    ids: [id]
                   });
                 } else {
                   // there is already an aura with same "slug"
-                  // check if version field needs to be updated
                   this.auras.forEach((aura, index) => {
-                    if (aura.slug === slug && aura.version < version) {
-                      this.auras[index].version = version;
+                    if (aura.slug === slug) {
+                      // add aura id to the "ids" if necessary
+                      if (aura.ids.indexOf(id) === -1) {
+                        this.auras[index].ids.push(id);
+                      }
+                      // check if version field needs to be updated
+                      if (aura.version < version) {
+                        this.auras[index].version = version;
+                      }
                     }
                   });
                 }

@@ -6,7 +6,7 @@
       class="wago_icon"
       target="_blank"
     ></a>
-    <span class="aura_name">{{ aura.name | maxLength }}</span>
+    <span class="aura_name" :title="childs">{{ aura.name | maxLength }}</span>
     <div class="upgrade-text">
       <div class="current-version">Current: v{{ aura.version }}</div>
       <div class="wago-version">v{{ aura.wagoVersion }}</div>
@@ -25,6 +25,11 @@ export default {
     maxLength: text => {
       const count = 50;
       return text.slice(0, count) + (text.length > count ? "..." : "");
+    }
+  },
+  computed: {
+    childs() {
+      return this.aura.ids.join("\n");
     }
   }
 };
