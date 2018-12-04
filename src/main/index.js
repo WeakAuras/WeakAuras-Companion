@@ -27,7 +27,7 @@ const iconpath = path.join(
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    height: 450,
+    height: 550,
     width: 600,
     resizable: process.env.NODE_ENV === "development",
     backgroundColor: "#252525",

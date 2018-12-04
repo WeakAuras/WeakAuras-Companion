@@ -20,6 +20,7 @@
           :fetching="fetching"
           :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
+        <br />
         <div class="updates"><span>Updates</span></div>
         <div id="aura-list">
           <Aura v-for="aura in aurasSorted" :aura="aura" :key="aura.id"></Aura>
