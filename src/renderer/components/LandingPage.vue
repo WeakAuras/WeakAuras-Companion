@@ -34,53 +34,17 @@
       <about v-if="configStep === 2"></about>
     </main>
     <footer>
-      <a href="https://discord.gg/wa2" target="_blank">
-        <img
-          :src="require(`@/assets/discord.png`)"
-          class="logo"
-          title="discord"
-        />
-      </a>
-      <a href="https://twitter.com/WeakAuras" target="_blank">
-        <img
-          :src="require(`@/assets/twitter.png`)"
-          class="logo"
-          title="twitter"
-        />
-      </a>
-      <a href="https://facebook.com/WeakAuras" target="_blank">
-        <img
-          :src="require(`@/assets/facebook.png`)"
-          class="logo"
-          title="facebook"
-        />
-      </a>
       <a
-        href="https://www.youtube.com/channel/UCEuzJlrsz27wUWlWn_HSEeg"
+        v-for="media in medias.weakauras"
+        v-bind:key="media.name"
+        :href="media.url"
         target="_blank"
       >
         <img
-          :src="require(`@/assets/youtube.png`)"
+          :src="require(`@/assets/${media.name}.png`)"
           class="logo"
-          title="youtube"
+          :title="media.name"
         />
-      </a>
-      <a href="https://github.com/WeakAuras/WeakAuras2" target="_blank">
-        <img
-          :src="require(`@/assets/github.png`)"
-          class="logo"
-          title="github"
-        />
-      </a>
-      <a href="https://www.patreon.com/WeakAuras" target="_blank">
-        <img
-          :src="require(`@/assets/patreon.png`)"
-          class="logo"
-          title="patreon"
-        />
-      </a>
-      <a href="https://mods.curse.com/addons/wow/weakauras-2" target="_blank">
-        <img :src="require(`@/assets/curse.png`)" class="logo" title="curse" />
       </a>
     </footer>
   </div>
@@ -100,6 +64,7 @@ const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
 const hash = require("./libs/hash.js");
+const medias = require("./libs/contacts.js");
 
 const store = new Store();
 luaparse.defaultOptions.comments = false;
@@ -128,7 +93,8 @@ const defaultValues = {
   schedule: {
     id: null, // 1h setTimeout id
     lastUpdate: null
-  }
+  },
+  medias
 };
 
 export default {
