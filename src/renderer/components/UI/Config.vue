@@ -136,7 +136,12 @@ export default {
   margin: 3px 0;
   font-size: 15px;
 }
-
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
 input,
 select,
 .fakeinput {
