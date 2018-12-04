@@ -23,7 +23,7 @@
   },
   "build": {
     "productName": "WeakAuras Companion",
-    "appId": "wtf.weakauras.updater",
+    "appId": "wtf.weakauras.companion",
     "directories": {
       "output": "build"
     },

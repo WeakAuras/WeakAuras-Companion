@@ -3,7 +3,7 @@
     <img :src="require(`@/assets/weakauras.png`)" class="walogo" />
     <div class="logos">
       <img :src="require(`@/assets/wago.png`)" class="wagologo" />
-      <span>Updater</span>
+      <span>Companion</span>
     </div>
 
     <header>
