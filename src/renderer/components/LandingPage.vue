@@ -322,7 +322,7 @@ export default {
         });
         // get data from wago api
         this.$http
-          .get("https://data.wago.io/lookup/weakauras", {
+          .get("https://data.wago.io/api/check/weakauras", {
             params: {
               // !! size of request is not checked, can lead to too long urls
               ids: this.auras
@@ -365,7 +365,7 @@ export default {
                     this.auras[index].wagoVersion = wagoData.version;
                     this.auras[index].name = wagoData.name;
                     promises.push(
-                      this.$http.get("https://data.wago.io/wago/raw/encoded", {
+                      this.$http.get("https://data.wago.io/api/raw/encoded", {
                         params: {
                           id: aura.slug
                         },
