@@ -1,6 +1,6 @@
 {
   "name": "weakauras-companion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Buds <mrbouyou@gmail.com>",
   "description": "WeakAuras Companion App",
   "license": "GPL-2.0-or-later",
@@ -49,7 +49,10 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "publish": {
+        "provider": "github"
+      }
     },
     "linux": {
       "icon": "build/icons"
@@ -59,6 +62,7 @@
     "auto-launch": "^5.0.5",
     "axios": "^0.18.0",
     "electron-store": "^2.0.0",
+    "electron-updater": "^4.0.5",
     "luaparse": "^0.2.1",
     "moment": "^2.22.2",
     "vue": "^2.5.17",
@@ -86,17 +90,17 @@
     "electron-debug": "^2.0.0",
     "electron-devtools-installer": "^2.2.4",
     "eslint": "^5.9.0",
-    "eslint-config-prettier": "^3.3.0",
-    "eslint-plugin-prettier": "^3.0.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-vue": "next",
-    "prettier": "^1.15.3",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "0.4.5",
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
+    "prettier": "^1.15.3",
     "style-loader": "^0.23.1",
     "url-loader": "^1.0.1",
     "vue-html-loader": "^1.2.4",
