@@ -529,7 +529,7 @@ local L = WeakAuras.L
 local count = WeakAuras.CountWagoUpdates()
 
 if count > 0 then
-  C_Timer.After(1, WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)))
+  C_Timer.After(1, function() WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)) end)
 end`
               },
               {
