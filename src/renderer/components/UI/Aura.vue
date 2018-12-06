@@ -6,7 +6,9 @@
       class="wago_icon"
       target="_blank"
     ></a>
-    <span class="aura_name" :title="childs">{{ aura.name | maxLength }}</span>
+    <div class="aura_name_container">
+      <span class="aura_name" :title="childs">{{ aura.name }}</span>
+    </div>
     <div class="upgrade-text">
       <div class="current-version">
         {{ $t("app.aura.currentversion" /* Current: */) }} v{{ aura.version }}
@@ -23,10 +25,6 @@ export default {
     wago: value => {
       if (!value) return "";
       return `https://wago.io/${value}`;
-    },
-    maxLength: text => {
-      const count = 50;
-      return text.slice(0, count) + (text.length > count ? "..." : "");
     }
   },
   computed: {
@@ -53,9 +51,15 @@ export default {
   font-family: "Roboto Mono", monospace;
   font-size: 11px;
 }
-.aura_name {
-  min-width: 450px;
+.aura_name_container {
   width: 100%;
+  margin: auto;
+  text-align: left;
+}
+.aura_name {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding-left: 10px;
   display: inline-block;
   font-weight: 600;

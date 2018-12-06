@@ -179,11 +179,11 @@ export default {
 
 <style scoped>
 #config {
-  margin: 5px 70px 5px 30px;
+  padding: 5px 0 5px 30px;
   text-align: left;
   overflow: auto;
   height: 100%;
-  width: 565px;
+  width: 100%;
 }
 label,
 .label {
