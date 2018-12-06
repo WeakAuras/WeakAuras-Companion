@@ -222,7 +222,12 @@ export default {
     compareSVwithWago() {
       this.clearMessages();
       if (!this.config.wowpath.valided || !this.config.account.valided) {
-        this.message("Configuration is not finished", "error");
+        this.message(
+          this.$t(
+            "app.main.configNotFinished" /* Configuration is not finished */
+          ),
+          "error"
+        );
         return;
       }
       if (this.fetching) return; // prevent spamming button
@@ -241,7 +246,7 @@ export default {
       fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data) => {
         if (err) {
           this.message(
-            `An error ocurred reading file :${err.message}`,
+            `An error ocurred reading file: ${err.message}`,
             "error"
           );
           return;
@@ -249,7 +254,12 @@ export default {
         // Parse WeakAuras.lua
         const WeakAurasSavedData = luaparse.parse(data);
         if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
-          this.messageit("Error while reading WeakAuras.lua", "error");
+          this.message(
+            this.$t(
+              "app.main.errorSavedvariable" /* Error while reading WeakAuras.lua */
+            ),
+            "error"
+          );
           return;
         }
 
@@ -405,9 +415,12 @@ export default {
                       this.auras.forEach((aura, index) => {
                         if (aura.slug === id) {
                           this.message(
-                            `Could not receive string for "${
-                              aura.name
-                            }", aura is private or was removed, ignoring this aura for next checks`,
+                            this.$t(
+                              "app.main.errorApiString404",
+                              {
+                                aura: aura.name
+                              } /* Could not receive string for {aura}, aura is private or was removed, ignoring this aura for next checks */
+                            ),
                             "error"
                           );
                           failStrings.push(aura.name);
@@ -431,7 +444,13 @@ export default {
                 })
               )
               .catch(error => {
-                this.message(`Can't read wago answer\n${error}`, "error");
+                this.message(
+                  this.$t(
+                    "app.main.errorWagoAnswer",
+                    { error } /* Can't read wago answer\n{error} */
+                  ),
+                  "error"
+                );
                 this.fetching = false;
                 // schedule in 30mn on error
                 this.schedule.id = setTimeout(
@@ -448,7 +467,13 @@ export default {
               });
           })
           .catch(error => {
-            this.message(`Can't read wago answer\n${error}`, "error");
+            this.message(
+              this.$t(
+                "app.main.errorWagoAnswer",
+                { error } /* Can't read wago answer\n{error} */
+              ),
+              "error"
+            );
             this.fetching = false;
             // schedule in 30mn on error
             this.schedule.id = setTimeout(
@@ -469,7 +494,12 @@ export default {
         // Make folder
         fs.mkdir(AddonFolder, err => {
           if (err && err.code !== "EEXIST") {
-            this.message("Can't create Addon directory", "error");
+            this.message(
+              this.$t(
+                "app.main.errorCantCreateAddon" /* Can't create Addon directory */
+              ),
+              "error"
+            );
           } else {
             // Make data.lua
             let LuaOutput = "-- file generated automatically\n";
@@ -497,13 +527,25 @@ export default {
 
             // write message if new aura or failed getting infos for at least one
             if (newStrings.length > 0 || failStrings.length > 0) {
-              let msg = `${countStrings} update${
-                countStrings > 1 ? "s" : ""
-              } ready for installation (${newStrings.length} new`;
+              let msg;
               if (failStrings.length > 0) {
-                msg += `, ${failStrings.length} error`;
+                msg = this.$t(
+                  "app.main.updateDoneFail",
+                  {
+                    total: countStrings,
+                    new: newStrings.length,
+                    fail: failStrings.length
+                  } /* {total} update ready for installation ({new} new, {fail} fail) */
+                );
+              } else {
+                msg = this.$t(
+                  "app.main.updateDone",
+                  {
+                    total: countStrings,
+                    new: newStrings.length
+                  } /* {total} update ready for installation ({new} new) */
+                );
               }
-              msg += ")";
               this.message(msg, "ok");
             }
 
@@ -554,7 +596,13 @@ end`
                 file.data,
                 err2 => {
                   if (err2) {
-                    this.message(`${file.name} could not be saved`, "error");
+                    this.message(
+                      this.$t(
+                        "app.main.errorFileSave",
+                        { file: file.name } /* {file} could not be saved */
+                      ),
+                      "error"
+                    );
                   }
                 }
               );
