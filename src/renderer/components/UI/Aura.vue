@@ -54,7 +54,8 @@ export default {
   font-size: 11px;
 }
 .aura_name {
-  width: 450px;
+  min-width: 450px;
+  width: 100%;
   padding-left: 10px;
   display: inline-block;
   font-weight: 600;

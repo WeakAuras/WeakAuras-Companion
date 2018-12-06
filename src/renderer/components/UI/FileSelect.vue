@@ -5,7 +5,7 @@
         {{ $t("app.fileselect.wowfolder" /* World of Warcraft folder */) }}
       </p>
       <div class="fakeinput pointer">{{ path }}&nbsp;</div>
-      &nbsp; <span class="pointer">🗁</span>
+     <div class="pointer-icon"/>
     </span>
     <input type="file" webkitdirectory @change="handleFileChange" />
   </label>
@@ -31,13 +31,25 @@ export default {
 .file-select > input[type="file"] {
   display: none;
 }
-.pointer {
+.pointer-icon {
+  display: inline-block;
+  border-radius: 2px;
   cursor: pointer;
+  vertical-align: top;
+  background-image: url("~@/assets/folder-icon.png");
+  background-size: contain;
+  height: 27px;
+  width: 27px;
 }
+.pointer-icon:hover {
+  background-image: url("~@/assets/folder-icon-active.png");
+}
+
 .fakeinput {
   background-color: white;
   width: 270px;
-  height: 29px;
+  height: 27px;
+  font-size: 14px;
   overflow-x: hidden;
   white-space: nowrap;
   display: inline-block;
@@ -50,8 +62,8 @@ export default {
   cursor: pointer;
 }
 .configlabel {
-  color: white;
-  margin: 3px 0;
+  color: #eee;
+  margin: 3px 0 3px;
   font-size: 15px;
 }
 </style>

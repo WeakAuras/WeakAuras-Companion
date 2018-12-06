@@ -32,11 +32,10 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
 .message {
-  text-align: left;
+  text-align: center;
   font-family: "Roboto Mono", monospace;
   font-size: 11px;
-  margin: auto;
+  margin-bottom: 15px;
   margin-top: 2px;
-  width: 70%;
 }
 </style>

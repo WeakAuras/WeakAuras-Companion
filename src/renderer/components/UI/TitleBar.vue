@@ -36,7 +36,7 @@ export default {
   display: flex;
   width: 100%;
   height: 32px;
-  background: #1a1919;
+  background: #171717;
   user-select: none;
   cursor: default;
   -webkit-app-region: drag;
@@ -52,7 +52,7 @@ export default {
   -webkit-app-region: no-drag;
   max-width: 144px;
   max-height: 32px;
-  align: right;
+  text-align: right;
 }
 .ui-btn {
   margin: 0;

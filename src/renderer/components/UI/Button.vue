@@ -7,7 +7,9 @@
       { 'btn-negative': type == 'error' },
       { 'btn-mini': size == 'mini' },
       { 'btn-menu': type == 'menu' },
-      { 'btn-refresh': type == 'refresh' }
+      { 'btn-refresh': type == 'refresh' },
+      { 'btn-issue': type == 'issue' },
+      { 'btn-reset': type == 'reset' }
     ]"
     :title="title"
     @click="callback($event)"
@@ -40,7 +42,7 @@ export default {
   cursor: pointer;
   background-image: none;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
   -webkit-app-region: no-drag;
 }
@@ -51,12 +53,14 @@ export default {
 .btn-large {
   padding: 6px 12px;
 }
+.btn-issue,
 .btn-refresh {
   background-color: #333;
   padding: 10px;
   font-family: "Roboto", sans-serif;
   font-size: large;
   color: white;
+  border-radius: 2px;
 }
 .btn-refresh:hover {
   background-color: rgb(71, 71, 71);
@@ -103,17 +107,31 @@ export default {
   border-color: #023008;
   border-radius: 2px;
   margin-left: 10px;
-  background-color: #2c9b00;
+  background-image: url("~@/assets/ok-icon.png");
+  background-size: contain;
 }
 .btn-positive:active {
   background-color: #34c84a;
 }
 .btn-negative {
-  border-color: #fb2f29;
+  border-color: #b61b15;
   border-bottom-color: #fb1710;
-  background-color: #f0443e;
+  background-image: url("~@/assets/error-icon.png");
+  background-size: contain;
 }
 .btn-negative:active {
   background-color: #ff5b56;
+}
+
+.btn-issue {
+  background-color: #ad0600
+}
+.btn-reset {
+  background-color: #a80000;
+  color: white;
+  height: 30px;
+}
+.btn-reset:hover {
+   background-color: #f30707;
 }
 </style>
