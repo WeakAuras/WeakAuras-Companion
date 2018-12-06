@@ -48,6 +48,7 @@
           v-for="lang in langs"
           :value="lang.value"
           v-html="lang.text"
+          :key="lang.value"
         ></option> </select
       ><br /><br />
       <input type="checkbox" v-model="config.notify" />
@@ -89,10 +90,10 @@ export default {
   data() {
     return {
       langs: [
-        { value: "de", text: this.$t("app.locales.deutch" /* Deutch */) },
-        { value: "en", text: this.$t("app.locales.english" /* English */) },
-        { value: "fr", text: this.$t("app.locales.french" /* French */) },
-        { value: "ru", text: this.$t("app.locales.russian" /* Russian */) }
+        { value: "de", text: "Deutsch (de)" },
+        { value: "en", text: "English (en)" },
+        { value: "fr", text: "Français (fr)" },
+        { value: "ru", text: "Русский (ru)" }
       ]
     };
   },
