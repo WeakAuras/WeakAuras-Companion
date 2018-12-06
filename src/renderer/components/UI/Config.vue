@@ -1,12 +1,16 @@
 <template>
   <div id="config">
-    <div class="title">Game Settings</div>
+    <div class="title">
+      {{ $t("app.config.gameSettings" /* Game Settings */) }}
+    </div>
     <div class="block">
       <file-select :path.sync="config.wowpath.value"></file-select>
       <span v-if="config.wowpath.valided" class="green">✔</span>
       <span v-else class="red">✘</span>
       <span v-if="config.wowpath.valided">
-        <p class="label">Select Account</p>
+        <p class="label">
+          {{ $t("app.config.selectAccount" /* Select Account */) }}
+        </p>
         <select v-model="config.account.value" class="form-control">
           <option v-for="item in config.account.choices" :key="item.name">{{
             item.name
@@ -16,28 +20,47 @@
         <span v-else class="red">✘</span>
       </span>
     </div>
-    <div class="title">Wago Settings</div>
+    <div class="title">
+      {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
+    </div>
     <div class="block">
-      <p class="label">Wago Account (optional)</p>
+      <p class="label">
+        {{ $t("app.config.wagoAccount" /* Wago Account (optional) */) }}
+      </p>
       <input
         type="text"
         v-model="config.wagoUsername"
         size="11"
-        title="Auras uploaded with your account will be ignored"
+        :title="
+          $t(
+            'app.config.wagoAccountTitle' /* Auras uploaded with your
+      account will be ignored */
+          )
+        "
       />
     </div>
-    <div class="title">Client Settings</div>
+    <div class="title">
+      {{ $t("app.config.clientSettings" /* Client Settings */) }}
+    </div>
     <div class="block">
-      <input type="checkbox" v-model="config.notify" /> Receive a notification
-      when auras get updated <br /><br />
-      <p class="label">Startup</p>
-      <input type="checkbox" v-model="config.autostart" /> Launch client with
-      your computer <br />
-      <input type="checkbox" v-model="config.startminimize" /> Start client
-      minimized
+      <input type="checkbox" v-model="config.notify" />
+      {{
+        $t(
+          "app.config.notification" /* Receive a notification when auras get updated */
+        )
+      }}
+      <br /><br />
+      <p class="label">{{ $t("app.config.startup" /* Startup */) }}</p>
+      <input type="checkbox" v-model="config.autostart" />
+      {{ $t("app.config.autoStart" /* Launch client with your computer */)
+      }}<br />
+      <input type="checkbox" v-model="config.startminimize" />
+      {{ $t("app.config.minimized" /* Start client minimized */) }}
     </div>
     <br /><br />
-    <v-button @click="reset" type="info">Reset Settings and Data</v-button>
+    <v-button @click="reset" type="info">{{
+      $t("app.config.reset" /* Reset Settings and Data */)
+    }}</v-button>
     <br /><br />
   </div>
 </template>

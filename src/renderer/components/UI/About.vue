@@ -1,7 +1,7 @@
 <template>
   <div id="about" style="display: flex">
     <div style="flex: 50%">
-      <h2>WeakAuras Team</h2>
+      <h2>{{ $t("app.about.weakaurasteam" /* WeakAuras Team */) }}</h2>
       <br />
       <div v-for="media in weakauras" class="media-item" :key="media.name">
         <a :href="media.url" target="_blank">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div style="flex: 50%">
-      <h2>Wago</h2>
+      <h2>{{ $t("app.about.wago" /* Wago */) }}</h2>
       <br />
       <div v-for="media in wago" class="media-item" :key="media.name">
         <a :href="media.url" target="_blank">

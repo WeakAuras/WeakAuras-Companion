@@ -3,9 +3,12 @@
     <br /><br />
     <spinner :spin="fetching"></spinner>
     <v-button @click="refresh" :type="!usable ? 'error' : 'refresh'">
-      Check for updates on Wago
+      {{ $t("app.refreshbutton.label" /* Check for updates on Wago */) }}
     </v-button>
-    <div id="lastupdate">Last update: {{ lastUpdate | fromNow }}</div>
+    <div id="lastupdate">
+      {{ $t("app.refreshbutton.lastupdate" /* Last update: */) }}
+      {{ lastUpdate | fromNow }}
+    </div>
   </div>
 </template>
 

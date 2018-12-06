@@ -8,7 +8,9 @@
     ></a>
     <span class="aura_name" :title="childs">{{ aura.name | maxLength }}</span>
     <div class="upgrade-text">
-      <div class="current-version">Current: v{{ aura.version }}</div>
+      <div class="current-version">
+        {{ $t("app.aura.currentversion" /* Current: */) }} v{{ aura.version }}
+      </div>
       <div class="wago-version">v{{ aura.wagoVersion }}</div>
     </div>
   </div>

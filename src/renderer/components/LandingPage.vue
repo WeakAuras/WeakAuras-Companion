@@ -4,14 +4,20 @@
     <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-background" />
     <div class="logos">
       <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-top" />
-      <span>Companion</span>
+      <span>{{ $t("app.main.companion" /* Companion */) }}</span>
     </div>
     <header>
-      <v-button type="menu" @click="configStep = 0">Main</v-button>
+      <v-button type="menu" @click="configStep = 0">{{
+        $t("app.menu.main" /* Main */)
+      }}</v-button>
       <span class="seperator">|</span>
-      <v-button type="menu" @click="configStep = 1">Settings</v-button>
+      <v-button type="menu" @click="configStep = 1">{{
+        $t("app.menu.settings" /* Settings */)
+      }}</v-button>
       <span class="seperator">|</span>
-      <v-button type="menu" @click="configStep = 2">About</v-button>
+      <v-button type="menu" @click="configStep = 2">{{
+        $t("app.menu.about" /* About */)
+      }}</v-button>
     </header>
     <main>
       <div v-if="configStep === 0" id="dashboard">
@@ -21,7 +27,9 @@
           :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
         <br />
-        <div class="updates"><span>Updates</span></div>
+        <div class="updates">
+          <span>{{ $t("app.main.updates" /* Updates */) }}</span>
+        </div>
         <div id="aura-list">
           <Aura v-for="aura in aurasSorted" :aura="aura" :key="aura.id"></Aura>
         </div>

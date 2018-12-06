@@ -1,7 +1,9 @@
 <template>
   <label class="file-select">
     <span class="select-button">
-      <p class="configlabel">World of Warcraft folder</p>
+      <p class="configlabel">
+        {{ $t("app.fileselect.wowfolder" /* World of Warcraft folder */) }}
+      </p>
       <div class="fakeinput pointer">{{ path }}&nbsp;</div>
       &nbsp; <span class="pointer">🗁</span>
     </span>
