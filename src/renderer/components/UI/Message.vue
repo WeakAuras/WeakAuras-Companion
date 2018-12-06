@@ -1,12 +1,5 @@
 <template>
   <div class="message">
-    <v-button
-      :type="message.type"
-      :title="message.time"
-      size="mini"
-      v-html="message.type"
-    >
-    </v-button>
     <a
       v-if="message.url"
       :href="message.url"
@@ -16,6 +9,13 @@
       v-html="message.text"
     ></a>
     <span v-else v-html="message.text"></span>
+    <v-button
+      :type="message.type"
+      :title="message.time"
+      size="mini"
+      v-html="message.type"
+    >
+    </v-button>
   </div>
 </template>
 
@@ -35,7 +35,6 @@ export default {
   text-align: center;
   font-family: "Roboto Mono", monospace;
   font-size: 11px;
-  margin-bottom: 15px;
   margin-top: 2px;
 }
 </style>

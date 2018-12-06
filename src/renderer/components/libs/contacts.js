@@ -1,8 +1,8 @@
 module.exports = {
   weakauras: [
-    { name: "discord", url: "https://discord.gg/wa2" },
+    { name: "discord", url: "https://discord.gg/wa2", footer: true },
     { name: "github", url: "https://github.com/WeakAuras/WeakAuras2" },
-    { name: "patreon", url: "https://www.patreon.com/WeakAuras" },
+    { name: "patreon", url: "https://www.patreon.com/WeakAuras", footer: true },
     { name: "twitter", url: "https://twitter.com/WeakAuras" },
     {
       name: "youtube",

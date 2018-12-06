@@ -106,7 +106,6 @@ export default {
 .btn-positive {
   border-color: #023008;
   border-radius: 2px;
-  margin-left: 10px;
   background-image: url("~@/assets/ok-icon.png");
   background-size: contain;
 }
