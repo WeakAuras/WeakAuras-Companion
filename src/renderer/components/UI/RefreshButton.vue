@@ -7,7 +7,7 @@
     </v-button>
     <div id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* Last update: */) }}
-      {{ lastUpdate | fromNow }}
+      {{ lastUpdate | fromNow($i18n.locale) }}
     </div>
   </div>
 </template>
@@ -38,9 +38,11 @@ export default {
     }
   },
   filters: {
-    fromNow: value => {
+    fromNow: (value, locale) => {
       if (!value) return "n/a";
-      return moment(value).fromNow();
+      return moment(value)
+        .locale(locale)
+        .fromNow();
     }
   },
   mount() {
