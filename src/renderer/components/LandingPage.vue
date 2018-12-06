@@ -100,7 +100,8 @@ const defaultValues = {
     wagoUsername: null, // ignore your own auras
     autostart: false,
     startminimize: false,
-    notify: true
+    notify: true,
+    lang: "en"
   },
   schedule: {
     id: null, // 1h setTimeout id
@@ -197,6 +198,7 @@ export default {
         const { 0: key, 1: value } = data;
         this[key] = value;
       });
+      this.$i18n.locale = this.config.lang;
     },
     message(text, type) {
       const date = moment().format("hh:mm:ss");

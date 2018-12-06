@@ -33,8 +33,7 @@
         size="11"
         :title="
           $t(
-            'app.config.wagoAccountTitle' /* Auras uploaded with your
-      account will be ignored */
+            'app.config.wagoAccountTitle' /* Auras uploaded with your account will be ignored */
           )
         "
       />
@@ -43,6 +42,14 @@
       {{ $t("app.config.clientSettings" /* Client Settings */) }}
     </div>
     <div class="block">
+      <p class="label">{{ $t("app.config.lang" /* Language */) }}</p>
+      <select v-model="config.lang" class="form-control">
+        <option
+          v-for="lang in langs"
+          :value="lang.value"
+          v-html="lang.text"
+        ></option> </select
+      ><br /><br />
       <input type="checkbox" v-model="config.notify" />
       {{
         $t(
@@ -79,6 +86,16 @@ const AutoLauncher = new AutoLaunch({
 
 export default {
   props: ["config"],
+  data() {
+    return {
+      langs: [
+        { value: "en", text: "English" },
+        { value: "fr", text: "French" },
+        { value: "de", text: "Deutch" },
+        { value: "ru", text: "Russian" }
+      ]
+    };
+  },
   components: { FileSelect, "v-button": Button },
   methods: {
     reset() {
@@ -141,6 +158,10 @@ export default {
           }
         });
       }
+    },
+    // eslint-disable-next-line func-names
+    "config.lang": function() {
+      this.$i18n.locale = this.config.lang;
     }
   }
 };
