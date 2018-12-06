@@ -89,10 +89,10 @@ export default {
   data() {
     return {
       langs: [
-        { value: "en", text: "English" },
-        { value: "fr", text: "French" },
-        { value: "de", text: "Deutch" },
-        { value: "ru", text: "Russian" }
+        { value: "de", text: this.$t("app.locales.deutch" /* Deutch */) },
+        { value: "en", text: this.$t("app.locales.english" /* English */) },
+        { value: "fr", text: this.$t("app.locales.french" /* French */) },
+        { value: "ru", text: this.$t("app.locales.russian" /* Russian */) }
       ]
     };
   },
