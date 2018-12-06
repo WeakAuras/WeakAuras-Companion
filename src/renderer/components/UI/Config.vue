@@ -5,8 +5,8 @@
     </div>
     <div class="block">
       <file-select :path.sync="config.wowpath.value"></file-select>
-      <span v-if="config.wowpath.valided" class="green">✔</span>
-      <span v-else class="red">✘</span>
+      <img v-if="config.wowpath.valided" class="green" :src="require(`@/assets/ok-icon.png`)"/>
+      <img v-else class="red" :src="require(`@/assets/error-icon.png`)"/>
       <span v-if="config.wowpath.valided">
         <p class="label">
           {{ $t("app.config.selectAccount" /* Select Account */) }}
@@ -16,8 +16,8 @@
             item.name
           }}</option>
         </select>
-        <span v-if="config.account.valided" class="green">✔</span>
-        <span v-else class="red">✘</span>
+        <img v-if="config.account.valided" class="green" :src="require(`@/assets/ok-icon.png`)"/>
+        <img v-else class="red" :src="require(`@/assets/error-icon.png`)"/>
       </span>
     </div>
     <div class="title">
@@ -43,7 +43,7 @@
     </div>
     <div class="block">
       <p class="label">{{ $t("app.config.lang" /* Language */) }}</p>
-      <select v-model="config.lang" class="form-control">
+      <select v-model="config.lang" class="form-control language">
         <option
           v-for="lang in langs"
           :value="lang.value"
@@ -51,22 +51,32 @@
           :key="lang.value"
         ></option> </select
       ><br /><br />
-      <input type="checkbox" v-model="config.notify" />
+      <input type="checkbox" id="update-notification" v-model="config.notify" />
+      <label for="update-notification">
       {{
         $t(
           "app.config.notification" /* Receive a notification when auras get updated */
         )
       }}
+      </label>
       <br /><br />
-      <p class="label">{{ $t("app.config.startup" /* Startup */) }}</p>
-      <input type="checkbox" v-model="config.autostart" />
-      {{ $t("app.config.autoStart" /* Launch client with your computer */)
-      }}<br />
-      <input type="checkbox" v-model="config.startminimize" />
-      {{ $t("app.config.minimized" /* Start client minimized */) }}
+      <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
+      <div class="option">
+        <input id="autostart" type="checkbox" v-model="config.autostart" />
+        <label for="autostart">
+          {{ $t("app.config.autoStart" /* Launch client with your computer */)
+          }}
+        </label>
+      </div>
+      <div class="option">
+        <input id="startminimize" type="checkbox" v-model="config.startminimize" />
+        <label for="startminimize">
+          {{ $t("app.config.minimized" /* Start client minimized */) }}
+        </label>
+      </div>
     </div>
     <br /><br />
-    <v-button @click="reset" type="info">{{
+    <v-button @click="reset" type="reset">{{
       $t("app.config.reset" /* Reset Settings and Data */)
     }}</v-button>
     <br /><br />
@@ -170,22 +180,24 @@ export default {
 
 <style scoped>
 #config {
-  margin: 5px 50px;
+  padding: 5px 0 5px 30px;
   text-align: left;
   overflow: auto;
   height: 100%;
-  width: 535px;
+  width: 100%;
 }
+label,
 .label {
-  color: white;
-  margin: 3px 0;
-  font-size: 15px;
+  color: #eee;
+  margin: 2px 0 3px;
+  font-size: 14px;
 }
-.red {
-  color: red;
-}
+.red,
 .green {
-  color: green;
+  border-radius: 2px;
+  width: 27px;
+  height: 27px;
+  vertical-align: top;
 }
 input,
 select,
@@ -194,16 +206,99 @@ select,
   font-size: small;
   border-radius: 2px;
   border: none;
+  background-color: #eee;
+  color: #1e1e1e;
+}
+#config .title:first-child {
+  margin-top: 5px;
 }
 .title {
-  font-size: 20px;
-  margin: 10px 0 15px;
+  font-size: 25px;
+  margin: 25px 0 10px;
   font-weight: 600;
-  padding: 5px 0;
-  border-bottom: 1px solid #555;
+  padding: 8px 5px 0;
+  border-left: 5px solid rgb(255, 209, 0);
 }
 .block {
-  margin-left: 30px;
+  margin-left: 10px;
   font-size: 15px;
 }
+
+.option {
+  margin-bottom: 5px;
+}
+
+/* Checkboxes */
+  input[type=checkbox] {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 8px;
+  }
+
+
+  input[type=checkbox]:before {
+    content: '';
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: text-top;
+    position: relative;
+    bottom: 1px;
+    right: 1px;
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
+    background: #e7e7e7;
+  }
+
+
+  input[type=checkbox]:hover:before {
+    background: #e7e7e7;
+  }
+
+
+  input[type=checkbox]:focus:before {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  }
+
+  input[type=checkbox]:checked:before {
+    background: #2b2b2b;
+  }
+
+  input[type=checkbox]:disabled {
+    color: #1d1d1d;
+    cursor: auto;
+  }
+
+  input[type=checkbox]:disabled:before {
+    box-shadow: none;
+    background: #ddd;
+  }
+
+  input[type=checkbox]:checked:after {
+    content: "";
+    position: absolute;
+    background-image: url("~@/assets/checkmark.png");
+    background-size: contain;
+    width: 15px;
+    height: 15px;
+     left: 2px;
+    top: 2px;
+  }
+  input[type=checkbox] + label {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: white;
+  }
+
+  .form-control.language {
+    width: 110px;
+  }
+
 </style>

@@ -28,10 +28,10 @@ const iconpath = path.join(
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    height: 550,
-    width: 600,
+    minHeight: 550,
+    minWidth: 600,
     frame: false,
-    resizable: process.env.NODE_ENV === "development",
+    resizable: true,
     backgroundColor: "#252525",
     webPreferences: {
       disableBlinkFeatures: "Auxclick",

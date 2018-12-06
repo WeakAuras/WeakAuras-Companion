@@ -33,13 +33,6 @@
         <div id="aura-list">
           <Aura v-for="aura in aurasSorted" :aura="aura" :key="aura.id"></Aura>
         </div>
-        <div id="messages" ref="messages">
-          <message
-            v-for="message in messages"
-            :key="message.id"
-            :message="message"
-          ></message>
-        </div>
       </div>
       <Config v-if="configStep === 1" :config="config"></Config>
       <about v-if="configStep === 2"></about>
@@ -47,6 +40,7 @@
     <footer>
       <a
         v-for="media in medias.weakauras"
+        v-if="media.footer"
         v-bind:key="media.name"
         :href="media.url"
         target="_blank"
@@ -57,6 +51,13 @@
           :title="media.name"
         />
       </a>
+      <div id="messages" ref="messages">
+          <message
+            v-for="message in messages"
+            :key="message.id"
+            :message="message"
+          ></message>
+        </div>
     </footer>
   </div>
 </template>
@@ -652,9 +653,9 @@ main {
   overflow-y: hidden;
 }
 footer {
-  padding: 5px 0;
+  padding: 10px 15px;
   /* height: 40px; */
-  text-align: center;
+  text-align: left;
 }
 #dashboard {
   height: 100%;
@@ -744,4 +745,30 @@ a {
   border-radius: 15px;
   text-shadow: rgba(219, 185, 50, 0.267) 0 0 10px;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #3a3a3a;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(172, 172, 172);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#messages {
+  float: right;
+  vertical-align: bottom;
+}
+
 </style>

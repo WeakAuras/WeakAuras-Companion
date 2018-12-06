@@ -2,7 +2,7 @@
   <div id="sync">
     <br /><br />
     <spinner :spin="fetching"></spinner>
-    <v-button @click="refresh" :type="!usable ? 'error' : 'refresh'">
+    <v-button @click="refresh" :type="!usable ? 'issue' : 'refresh'">
       {{ $t("app.refreshbutton.label" /* Check for updates on Wago */) }}
     </v-button>
     <div id="lastupdate">
@@ -68,4 +68,7 @@ export default {
   margin-top: 5px;
   font-size: small;
 }
+
+
+
 </style>
