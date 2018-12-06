@@ -1,11 +1,19 @@
 import Vue from "vue";
 import axios from "axios";
 import VueI18n from "vue-i18n";
+import VueElectron from "vue-electron";
 
 import App from "./App.vue";
 import router from "./router";
 
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
+const en = require("../../i18n/en.json");
+const fr = require("../../i18n/fr.json");
+const de = require("../../i18n/de.json");
+const ru = require("../../i18n/ru.json");
+
+if (!process.env.IS_WEB) {
+  Vue.use(VueElectron);
+}
 
 Vue.prototype.$http = axios;
 Vue.http = Vue.prototype.$http;
@@ -15,12 +23,12 @@ Vue.use(VueI18n);
 
 const i18n = new VueI18n({
   locale: "en",
-  fallbackLocale: 'en',
+  fallbackLocale: "en",
   messages: {
-    en: require("../../i18n/en.json"),
-    fr: require("../../i18n/fr.json"),
-    de: require("../../i18n/de.json"),
-    ru: require("../../i18n/ru.json"),
+    en,
+    fr,
+    de,
+    ru
   }
 });
 
