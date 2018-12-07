@@ -104,6 +104,7 @@ const defaultValues = {
       choices: []
     },
     wagoUsername: null, // ignore your own auras
+    ignoreOwnAuras: true,
     autostart: false,
     startminimize: false,
     notify: true,
@@ -361,7 +362,9 @@ export default {
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
                         wagoData.version > aura.wagoVersion)) &&
-                    wagoData.username !== this.config.wagoUsername
+                    ((this.config.ignoreOwnAuras &&
+                      wagoData.username !== this.config.wagoUsername) ||
+                      !this.config.ignoreOwnAuras)
                   ) {
                     this.auras[index].created = new Date(wagoData.created);
                     this.auras[index].modified = new Date(wagoData.modified);

@@ -35,16 +35,20 @@
       <p class="label">
         {{ $t("app.config.wagoAccount" /* Wago Account (optional) */) }}
       </p>
-      <input
-        type="text"
-        v-model="config.wagoUsername"
-        size="11"
-        :title="
-          $t(
-            'app.config.wagoAccountTitle' /* Auras uploaded with your account will be ignored */
-          )
-        "
+      <input type="text" v-model="wagoUsername" size="11" />
+      <v-button @click="config.wagoUsername = wagoUsername">Ok</v-button>
+      <img
+        v-if="config.wagoUsername"
+        class="green"
+        :src="require(`@/assets/ok-icon.png`)"
       />
+      <br /><br />
+      <input
+        id="ignoreOwnAuras"
+        type="checkbox"
+        v-model="config.ignoreOwnAuras"
+      />
+      {{ $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */) }}
     </div>
     <div class="title">
       {{ $t("app.config.clientSettings" /* Client Settings */) }}
@@ -117,13 +121,15 @@ export default {
         { value: "en", text: "English (en)" },
         { value: "fr", text: "Français (fr)" },
         { value: "ru", text: "Русский (ru)" }
-      ]
+      ],
+      wagoUsername: this.config.wagoUsername
     };
   },
   components: { FileSelect, "v-button": Button },
   methods: {
     reset() {
       this.$parent.reset();
+      this.wagoUsername = null;
     }
   },
   watch: {
