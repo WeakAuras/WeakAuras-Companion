@@ -22,6 +22,7 @@
   "app.main.errorFileSave": "{file} could not be saved",
   "app.main.errorSavedvariable": "Error while reading WeakAuras.lua",
   "app.main.errorWagoAnswer": "Can't read wago answer\n{error}",
+  "app.main.newUpdates": "We found the following updates for you, they can now be applied in-game:",
   "app.main.updateDone": "{total} update ready for installation ({new} new)",
   "app.main.updateDoneFail": "{total} update ready for installation ({new} new, {fail} fail)",
   "app.main.updates": "Обновления",

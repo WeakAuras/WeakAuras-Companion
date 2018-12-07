@@ -28,7 +28,12 @@
         ></refreshButton>
         <br />
         <div class="updates">
-          <span>{{ $t("app.main.updates" /* Updates */) }}</span>
+          <span v-if="showNewUpdate" class="showNewUpdate">{{
+            $t(
+              "app.main.newUpdates" /* We found the following updates for you, they can now be applied in-game: */
+            )
+          }}</span>
+          <span v-else>{{ $t("app.main.updates" /* Updates */) }}</span>
         </div>
         <div id="aura-list">
           <Aura v-for="aura in aurasSorted" :aura="aura" :key="aura.id"></Aura>
@@ -52,12 +57,12 @@
         />
       </a>
       <div id="messages" ref="messages">
-          <message
-            v-for="message in messages"
-            :key="message.id"
-            :message="message"
-          ></message>
-        </div>
+        <message
+          v-for="message in messages"
+          :key="message.id"
+          :message="message"
+        ></message>
+      </div>
     </footer>
   </div>
 </template>
@@ -108,7 +113,8 @@ const defaultValues = {
     id: null, // 1h setTimeout id
     lastUpdate: null
   },
-  medias
+  medias,
+  showNewUpdate: false
 };
 
 export default {
@@ -546,8 +552,11 @@ export default {
                     new: newStrings.length
                   } /* {total} update ready for installation ({new} new) */
                 );
+                this.showNewUpdate = true;
               }
               this.message(msg, "ok");
+            } else {
+              this.showNewUpdate = false;
             }
 
             // notify if there are new auras ready for update
@@ -746,6 +755,11 @@ a {
   text-shadow: rgba(219, 185, 50, 0.267) 0 0 10px;
 }
 
+.showNewUpdate {
+  color: rgb(40, 158, 40);
+  text-transform: none;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
@@ -770,5 +784,4 @@ a {
   float: right;
   vertical-align: bottom;
 }
-
 </style>
