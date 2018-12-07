@@ -14,6 +14,7 @@ const ru = require("../../i18n/ru.json");
 if (!process.env.IS_WEB) {
   Vue.use(VueElectron);
 }
+axios.defaults.timeout = 5000;
 
 Vue.prototype.$http = axios;
 Vue.http = Vue.prototype.$http;
