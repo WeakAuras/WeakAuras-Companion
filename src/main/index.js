@@ -15,7 +15,9 @@ if (process.env.NODE_ENV !== "development") {
   global.__static = path.join(__dirname, "/static").replace(/\\/g, "\\\\");
 }
 
-let mainWindow;
+let tray = null;
+let contextMenu = null;
+let mainWindow = null;
 const winURL =
   process.env.NODE_ENV === "development"
     ? `http://localhost:9080`
@@ -45,11 +47,9 @@ function createWindow() {
   mainWindow.setMenu(null);
   mainWindow.on("minimize", event => {
     event.preventDefault();
-    mainWindow.hide();
+    mainWindow.minimize();
   });
-  mainWindow.on("closed", () => {
-    mainWindow = null;
-  });
+
   mainWindow.on("ready-to-show", () => {
     if (!store.get("config.startminimize", false)) {
       mainWindow.show();
@@ -57,8 +57,8 @@ function createWindow() {
     }
   });
 
-  const tray = new Tray(iconpath);
-  const contextMenu = Menu.buildFromTemplate([
+  tray = new Tray(iconpath);
+  contextMenu = Menu.buildFromTemplate([
     {
       label: "Open WeakAuras Companion",
       click: () => {
