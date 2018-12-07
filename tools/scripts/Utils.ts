@@ -1,5 +1,5 @@
 export const getTranslationsFromString = (content: string): RegExpMatchArray => {
-    return content.match(/\$t\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) || [];
+    return content.match(/\$tc?\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) || [];
   };
   export const sanitizeMessage = (message: string): string => {
     const replacements: Array<{ from: string | RegExp, to: string }> = [
