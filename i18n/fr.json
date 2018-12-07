@@ -16,7 +16,6 @@
   "app.config.wagoSettings": "Paramètres de Wago",
   "app.fileselect.wowfolder": "Dossier de World of Warcraft",
   "app.main.companion": "Companion",
-  "app.main.configNotFinished": "La configuration n'est pas terminée",
   "app.main.errorApiString404": "Problème lors de la réception des données pour {aura}, l'aura est privé ou a été supprimée et elle sera ignoré lors des prochaines recherches de mise à jour",
   "app.main.errorCantCreateAddon": "Impossible de créer le répertoire de l'addon",
   "app.main.errorFileSave": "{file} n'a pas pu être sauvegardé",
@@ -29,6 +28,7 @@
   "app.menu.about": "A propos",
   "app.menu.main": "Mettre à jour",
   "app.menu.settings": "Paramètres",
+  "app.refreshbutton.finishsetup": "La configuration n'est pas terminée",
   "app.refreshbutton.label": "Récupérer les mises à jour",
   "app.refreshbutton.lastupdate": "Dernière mise à jour:"
 }

@@ -229,12 +229,6 @@ export default {
     compareSVwithWago() {
       this.clearMessages();
       if (!this.config.wowpath.valided || !this.config.account.valided) {
-        this.message(
-          this.$t(
-            "app.main.configNotFinished" /* Configuration is not finished */
-          ),
-          "error"
-        );
         return;
       }
       if (this.fetching) return; // prevent spamming button

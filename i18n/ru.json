@@ -16,7 +16,6 @@
   "app.config.wagoSettings": "Настройки Wago",
   "app.fileselect.wowfolder": "Расположение World of Warcraft",
   "app.main.companion": "Companion",
-  "app.main.configNotFinished": "Configuration is not finished",
   "app.main.errorApiString404": "Could not receive string for {aura}, aura is private or was removed, ignoring this aura for next checks",
   "app.main.errorCantCreateAddon": "Can't create Addon directory",
   "app.main.errorFileSave": "{file} could not be saved",
@@ -29,6 +28,7 @@
   "app.menu.about": "О программе",
   "app.menu.main": "Главная",
   "app.menu.settings": "Настройки",
+  "app.refreshbutton.finishsetup": "Finish Setup",
   "app.refreshbutton.label": "Проверить обновления на Wago",
   "app.refreshbutton.lastupdate": "Последняя проверка:"
 }

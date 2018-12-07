@@ -2,8 +2,11 @@
   <div id="sync">
     <br /><br />
     <spinner :spin="fetching"></spinner>
-    <v-button @click="refresh" :type="!usable ? 'issue' : 'refresh'">
+    <v-button v-if="usable" @click="refresh" type="refresh">
       {{ $t("app.refreshbutton.label" /* Fetch updates */) }}
+    </v-button>
+    <v-button v-else @click="gotoconfig" type="issue">
+      {{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}
     </v-button>
     <div id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* Last update: */) }}
@@ -29,6 +32,9 @@ export default {
   methods: {
     refresh() {
       this.$parent.compareSVwithWago();
+    },
+    gotoconfig() {
+      this.$parent.configStep = 1;
     },
     scheduleTimer() {
       if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
