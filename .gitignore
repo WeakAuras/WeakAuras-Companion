@@ -10,3 +10,4 @@ yarn-error.log
 yarn-error.log.*
 thumbs.db
 !.gitkeep
+tools/scripts/**/*.js
