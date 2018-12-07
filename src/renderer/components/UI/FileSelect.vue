@@ -5,7 +5,7 @@
         {{ $t("app.fileselect.wowfolder" /* World of Warcraft folder */) }}
       </p>
       <div class="fakeinput pointer">{{ path }}&nbsp;</div>
-     <div class="pointer-icon"/>
+      <div class="pointer-icon" />
     </span>
     <input type="file" webkitdirectory @change="handleFileChange" />
   </label>

@@ -5,8 +5,12 @@
     </div>
     <div class="block">
       <file-select :path.sync="config.wowpath.value"></file-select>
-      <img v-if="config.wowpath.valided" class="green" :src="require(`@/assets/ok-icon.png`)"/>
-      <img v-else class="red" :src="require(`@/assets/error-icon.png`)"/>
+      <img
+        v-if="config.wowpath.valided"
+        class="green"
+        :src="require(`@/assets/ok-icon.png`)"
+      />
+      <img v-else class="red" :src="require(`@/assets/error-icon.png`)" />
       <span v-if="config.wowpath.valided">
         <p class="label">
           {{ $t("app.config.selectAccount" /* Select Account */) }}
@@ -16,8 +20,12 @@
             item.name
           }}</option>
         </select>
-        <img v-if="config.account.valided" class="green" :src="require(`@/assets/ok-icon.png`)"/>
-        <img v-else class="red" :src="require(`@/assets/error-icon.png`)"/>
+        <img
+          v-if="config.account.valided"
+          class="green"
+          :src="require(`@/assets/ok-icon.png`)"
+        />
+        <img v-else class="red" :src="require(`@/assets/error-icon.png`)" />
       </span>
     </div>
     <div class="title">
@@ -53,23 +61,28 @@
       ><br /><br />
       <input type="checkbox" id="update-notification" v-model="config.notify" />
       <label for="update-notification">
-      {{
-        $t(
-          "app.config.notification" /* Receive a notification when auras get updated */
-        )
-      }}
+        {{
+          $t(
+            "app.config.notification" /* Receive a notification when auras get updated */
+          )
+        }}
       </label>
       <br /><br />
       <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
       <div class="option">
         <input id="autostart" type="checkbox" v-model="config.autostart" />
         <label for="autostart">
-          {{ $t("app.config.autoStart" /* Launch client with your computer */)
+          {{
+            $t("app.config.autoStart" /* Launch client with your computer */)
           }}
         </label>
       </div>
       <div class="option">
-        <input id="startminimize" type="checkbox" v-model="config.startminimize" />
+        <input
+          id="startminimize"
+          type="checkbox"
+          v-model="config.startminimize"
+        />
         <label for="startminimize">
           {{ $t("app.config.minimized" /* Start client minimized */) }}
         </label>
@@ -229,76 +242,72 @@ select,
 }
 
 /* Checkboxes */
-  input[type=checkbox] {
-    position: relative;
-    cursor: pointer;
-    padding: 0;
-    margin-right: 8px;
-  }
+input[type="checkbox"] {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 8px;
+}
 
+input[type="checkbox"]:before {
+  content: "";
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: text-top;
+  position: relative;
+  bottom: 1px;
+  right: 1px;
+  border-radius: 2px;
+  width: 20px;
+  height: 20px;
+  background: #e7e7e7;
+}
 
-  input[type=checkbox]:before {
-    content: '';
-    margin-right: 10px;
-    display: inline-block;
-    vertical-align: text-top;
-    position: relative;
-    bottom: 1px;
-    right: 1px;
-    border-radius: 2px;
-    width: 20px;
-    height: 20px;
-    background: #e7e7e7;
-  }
+input[type="checkbox"]:hover:before {
+  background: #e7e7e7;
+}
 
+input[type="checkbox"]:focus:before {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+}
 
-  input[type=checkbox]:hover:before {
-    background: #e7e7e7;
-  }
+input[type="checkbox"]:checked:before {
+  background: #2b2b2b;
+}
 
+input[type="checkbox"]:disabled {
+  color: #1d1d1d;
+  cursor: auto;
+}
 
-  input[type=checkbox]:focus:before {
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
-  }
+input[type="checkbox"]:disabled:before {
+  box-shadow: none;
+  background: #ddd;
+}
 
-  input[type=checkbox]:checked:before {
-    background: #2b2b2b;
-  }
+input[type="checkbox"]:checked:after {
+  content: "";
+  position: absolute;
+  background-image: url("~@/assets/checkmark.png");
+  background-size: contain;
+  width: 15px;
+  height: 15px;
+  left: 2px;
+  top: 2px;
+}
+input[type="checkbox"] + label {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
 
-  input[type=checkbox]:disabled {
-    color: #1d1d1d;
-    cursor: auto;
-  }
+.subtitle {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: white;
+}
 
-  input[type=checkbox]:disabled:before {
-    box-shadow: none;
-    background: #ddd;
-  }
-
-  input[type=checkbox]:checked:after {
-    content: "";
-    position: absolute;
-    background-image: url("~@/assets/checkmark.png");
-    background-size: contain;
-    width: 15px;
-    height: 15px;
-     left: 2px;
-    top: 2px;
-  }
-  input[type=checkbox] + label {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-  }
-
-  .subtitle {
-    font-size: 18px;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: white;
-  }
-
-  .form-control.language {
-    width: 110px;
-  }
-
+.form-control.language {
+  width: 110px;
+}
 </style>
