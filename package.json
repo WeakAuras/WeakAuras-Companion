@@ -76,10 +76,10 @@
     "electron-updater": "^4.0.5",
     "luaparse": "^0.2.1",
     "moment": "^2.22.2",
-    "vue": "^2.5.17",
+    "vue": "^2.5.18",
     "vue-electron": "^1.0.6",
     "vue-i18n": "^8.4.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.2.0",
@@ -119,9 +119,9 @@
     "typescript": "^3.2.1",
     "url-loader": "^1.0.1",
     "vue-html-loader": "^1.2.4",
-    "vue-loader": "^15.2.4",
-    "vue-style-loader": "^4.1.0",
-    "vue-template-compiler": "^2.5.16",
+    "vue-loader": "^15.4.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.5.18",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",
