@@ -3,7 +3,7 @@
     <br /><br />
     <spinner :spin="fetching"></spinner>
     <v-button @click="refresh" :type="!usable ? 'issue' : 'refresh'">
-      {{ $t("app.refreshbutton.label" /* Check for updates on Wago */) }}
+      {{ $t("app.refreshbutton.label" /* Fetch updates */) }}
     </v-button>
     <div id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* Last update: */) }}
