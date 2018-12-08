@@ -116,7 +116,10 @@ let rendererConfig = {
         : false
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'VERSION': `"${(require('../package.json')).version}"`
+    }),
   ],
   output: {
     filename: '[name].js',
