@@ -639,7 +639,7 @@ end`
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&amp;subset=cyrilli");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,700&amp;subset=chinese-simplified,cyrillic,japanese,vietnamese");
 
 * {
   box-sizing: border-box;
@@ -648,7 +648,7 @@ end`
   cursor: default;
 }
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Sans SC', sans-serif;
   font-weight: 400;
   background-color: #171717;
   color: white;
@@ -682,6 +682,7 @@ footer {
   overflow: auto;
   height: 65%;
   text-align: center;
+  background-color: rgba(0,0,0,.1);
 }
 .logo {
   position: relative;
@@ -717,7 +718,7 @@ footer {
 .logos span {
   font-weight: 300;
   font-size: 24px;
-  margin-left: 10px;
+  margin-left: 5px;
   color: rgb(226, 226, 226);
 }
 a {
@@ -734,7 +735,6 @@ a {
   width: auto;
   border: none;
   border-radius: 2px;
-  font-family: "Roboto";
   font-weight: 600;
   font-size: 14px;
   margin: 2px;
@@ -747,24 +747,20 @@ a {
 }
 .updates {
   color: rgb(255, 209, 0);
-  font-family: "Roboto Mono", monospace;
-  text-align: center;
-  margin-left: 5px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  padding-bottom: 5px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 208, 0, 0.1);
+  padding: 5px 15px;
+  background-color: rgba(0,0,0,.1);
 }
+
 .updates span {
   text-shadow: #000 0 0 8px;
-  padding: 3px 20px;
-  border-bottom: rgba(255, 208, 0, 0.247) 2px solid;
-  border-radius: 15px;
-  text-shadow: rgba(219, 185, 50, 0.267) 0 0 10px;
+  font-size: 14px;
+  margin: auto;
 }
 
 .showNewUpdate {
   color: rgb(40, 158, 40);
-  text-transform: none;
 }
 
 /* width */

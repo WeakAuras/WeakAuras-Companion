@@ -1,14 +1,5 @@
 <template>
   <div id="about">
-    <div>
-      {{
-        $t(
-          "app.about.version",
-          { version: version } /* WeakAuras Companion version {version} */
-        )
-      }}
-    </div>
-    <br /><br />
     <div style="display: flex">
       <div style="flex: 50%">
         <h2>{{ $t("app.about.weakaurasteam" /* WeakAuras Team */) }}</h2>
@@ -43,6 +34,14 @@
         </div>
       </div>
     </div>
+    <div class="app-info">
+      {{
+        $t(
+          "app.about.version",
+          { version: version } /* WeakAuras Companion version {version} */
+        )
+      }}
+    </div>
   </div>
 </template>
 
@@ -67,8 +66,10 @@ export default {
 
 <style scoped>
 #about {
-  margin: 10px 50px;
+  padding: 10px 50px;
   text-align: left;
+  height: 100%;
+  position: relative;
 }
 #about a {
   display: flex;
@@ -86,5 +87,13 @@ export default {
 }
 .logo {
   opacity: 1;
+}
+.app-info {
+  font-size: 12px;
+  color: rgb(173, 173, 173);
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  text-align: right;
 }
 </style>

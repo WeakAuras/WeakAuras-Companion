@@ -10,7 +10,7 @@
   "app.config.lang": "Language",
   "app.config.minimized": "Démarrer le client dans la barre des tâches",
   "app.config.notification": "Recevoir une notification quand des auras sont mise à jours",
-  "app.config.ok": "Ok",
+  "app.config.ok": "OK",
   "app.config.reset": "Effacer les paramètres et les données",
   "app.config.selectAccount": "Choisissez votre compte",
   "app.config.startup": "Démarrage",

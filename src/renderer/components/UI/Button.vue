@@ -31,14 +31,16 @@ export default {
 
 <style scoped>
 .btn {
+  font-family: inherit;
   display: inline-block;
   padding: 3px 8px;
   margin-bottom: 0;
   font-size: 12px;
+  height: 25px;
   line-height: 1.4;
   text-align: center;
   white-space: nowrap;
-  vertical-align: middle;
+  vertical-align: top;
   cursor: pointer;
   background-image: none;
   border: 1px solid transparent;
@@ -57,16 +59,17 @@ export default {
 .btn-refresh {
   background-color: #333;
   padding: 10px;
-  font-family: "Roboto", sans-serif;
   font-size: large;
   color: white;
   border-radius: 2px;
+  height: auto;
 }
 .btn-refresh:hover {
   background-color: rgb(71, 71, 71);
 }
 .btn-menu {
   width: 60px;
+  height: auto;
   color: #333;
   border-top-color: #c2c0c2;
   border-right-color: #c2c0c2;
