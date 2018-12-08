@@ -8,9 +8,9 @@
       <img
         v-if="config.wowpath.valided"
         class="green"
-        :src="require(`@/assets/ok-icon.png`)"
+        :src="require(`@/assets/ok.png`)"
       />
-      <img v-else class="red" :src="require(`@/assets/error-icon.png`)" />
+      <img v-else class="red" :src="require(`@/assets/error.png`)" />
       <span v-if="config.wowpath.valided">
         <p class="label">
           {{ $t("app.config.selectAccount" /* Select Account */) }}
@@ -23,9 +23,9 @@
         <img
           v-if="config.account.valided"
           class="green"
-          :src="require(`@/assets/ok-icon.png`)"
+          :src="require(`@/assets/ok.png`)"
         />
-        <img v-else class="red" :src="require(`@/assets/error-icon.png`)" />
+        <img v-else class="red" :src="require(`@/assets/error.png`)" />
       </span>
     </div>
     <div class="title">
@@ -42,7 +42,7 @@
       <img
         v-if="config.wagoUsername"
         class="green"
-        :src="require(`@/assets/ok-icon.png`)"
+        :src="require(`@/assets/ok.png`)"
       />
       <br /><br />
       <input
@@ -237,8 +237,9 @@ select,
   font-size: 25px;
   margin: 25px 0 10px;
   font-weight: 600;
-  padding: 8px 5px 0;
-  border-left: 5px solid rgb(255, 209, 0);
+  padding: 4px 5px 4px;
+  border-left: 2px solid rgb(255, 209, 0);
+  background-color: rgba(0,0,0,.1);
 }
 .block {
   margin-left: 10px;
