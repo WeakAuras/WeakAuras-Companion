@@ -13,18 +13,28 @@
       <div class="current-version">
         {{ $t("app.aura.currentversion" /* Current: */) }} v{{ aura.version }}
       </div>
-      <div class="wago-version">v{{ aura.wagoVersion }}</div>
+      <div class="wago-version" :title="aura.modified | fromNow($i18n.locale)">
+        v{{ aura.wagoVersion }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   props: ["aura"],
   filters: {
     wago: value => {
       if (!value) return "";
       return `https://wago.io/${value}`;
+    },
+    fromNow: (value, locale) => {
+      if (!value) return "n/a";
+      return moment(value)
+        .locale(locale)
+        .fromNow();
     }
   },
   computed: {
