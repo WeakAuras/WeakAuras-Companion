@@ -36,7 +36,9 @@
         {{ $t("app.config.wagoAccount" /* Wago Account (optional) */) }}
       </p>
       <input type="text" v-model="wagoUsername" size="11" />
-      <v-button @click="config.wagoUsername = wagoUsername">Ok</v-button>
+      <v-button @click="config.wagoUsername = wagoUsername">{{
+        $t("app.config.ok" /* Ok */)
+      }}</v-button>
       <img
         v-if="config.wagoUsername"
         class="green"

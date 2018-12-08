@@ -9,6 +9,7 @@
   "app.config.lang": "Language",
   "app.config.minimized": "Start client minimized",
   "app.config.notification": "Receive a notification when auras get updated",
+  "app.config.ok": "Ok",
   "app.config.reset": "Reset Settings and Data",
   "app.config.selectAccount": "Select Account",
   "app.config.startup": "Startup",
