@@ -10,7 +10,7 @@
   "app.config.lang": "Язык",
   "app.config.minimized": "Сворачивать окно приложения в область уведомлений",
   "app.config.notification": "Получать уведомление при обновлении аур",
-  "app.config.ok": "Ok",
+  "app.config.ok": "OK",
   "app.config.reset": "Сбросить настройки и данные",
   "app.config.selectAccount": "Выберите учетную запись",
   "app.config.startup": "Запуск",

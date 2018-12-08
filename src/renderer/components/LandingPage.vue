@@ -639,7 +639,7 @@ end`
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Noto+Sans+SC:400,700&amp;subset=chinese-simplified,cyrillic,japanese,vietnamese");
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,700&amp;subset=chinese-simplified,cyrillic,japanese,vietnamese");
 
 * {
   box-sizing: border-box;
@@ -718,7 +718,7 @@ footer {
 .logos span {
   font-weight: 300;
   font-size: 24px;
-  margin-left: 10px;
+  margin-left: 5px;
   color: rgb(226, 226, 226);
 }
 a {
