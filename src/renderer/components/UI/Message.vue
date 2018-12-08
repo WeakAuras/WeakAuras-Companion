@@ -33,7 +33,6 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
 .message {
   text-align: center;
-  font-family: "Roboto Mono", monospace;
   font-size: 11px;
   margin-top: 2px;
 }

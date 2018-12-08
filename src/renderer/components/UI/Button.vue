@@ -31,6 +31,7 @@ export default {
 
 <style scoped>
 .btn {
+  font-family: inherit;
   display: inline-block;
   padding: 3px 8px;
   margin-bottom: 0;
@@ -57,7 +58,6 @@ export default {
 .btn-refresh {
   background-color: #333;
   padding: 10px;
-  font-family: "Roboto", sans-serif;
   font-size: large;
   color: white;
   border-radius: 2px;

@@ -58,7 +58,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
 
 .aura {
   background-color: #1d1d1d;
@@ -70,7 +69,6 @@ export default {
   white-space: nowrap;
   display: flex;
   overflow: hidden;
-  font-family: "Roboto Mono", monospace;
   font-size: 11px;
   flex-direction: row;
 }
@@ -104,7 +102,6 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 10px;
-  font-family: "Roboto Mono", monospace;
   font-size: 12px;
   text-align: left;
   line-height: 32px;
@@ -113,7 +110,6 @@ export default {
   content: "@";
 }
 .upgrade-text {
-  font-family: "Roboto Mono", monospace;
   font-weight: 600;
   text-shadow: #000000 0 1px 0;
   width: 50px;
