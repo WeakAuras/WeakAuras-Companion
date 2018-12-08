@@ -682,6 +682,7 @@ footer {
   overflow: auto;
   height: 65%;
   text-align: center;
+  background-color: rgba(0,0,0,.1);
 }
 .logo {
   position: relative;
@@ -746,19 +747,20 @@ a {
 }
 .updates {
   color: rgb(255, 209, 0);
-  text-align: center;
-  margin-left: 5px;
-  margin-bottom: 10px;
-  padding-bottom: 5px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 208, 0, 0.1);
+  padding: 5px 15px;
+  background-color: rgba(0,0,0,.1);
 }
+
 .updates span {
   text-shadow: #000 0 0 8px;
-  padding: 0 10px;
+  font-size: 14px;
+  margin: auto;
 }
 
 .showNewUpdate {
   color: rgb(40, 158, 40);
-  text-transform: none;
 }
 
 /* width */
