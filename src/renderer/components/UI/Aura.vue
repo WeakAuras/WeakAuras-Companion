@@ -18,7 +18,8 @@
     />
     <div class="upgrade-text">
       <div class="current-version">
-        {{ $t("app.aura.currentversion" /* Current: */) }} v{{ aura.version }}
+        <!-- {{ $t("app.aura.currentversion" /* Current: */) }}-->
+        v{{ aura.version }}
       </div>
       <div class="wago-version" :title="aura.modified | fromNow($i18n.locale)">
         v{{ aura.wagoVersion }}
@@ -115,20 +116,21 @@ export default {
   font-family: "Roboto Mono", monospace;
   font-weight: 600;
   text-shadow: #000000 0 1px 0;
-  width: 120px;
+  width: 50px;
   display: flex;
 }
 .current-version {
   font-size: 9px;
   color: #777;
   width: 70px;
-  padding-top: 13px;
+  line-height: 32px;
   text-align: left;
+  padding-top: 1px;
 }
 .wago-version {
   text-shadow: rgba(219, 185, 50, 0.267) 0 0 5px;
   text-align: right;
   width: 30px;
-  padding-top: 8px;
+  line-height: 32px;
 }
 </style>
