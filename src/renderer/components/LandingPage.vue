@@ -36,7 +36,11 @@
           <span v-else>{{ $t("app.main.updates" /* Updates */) }}</span>
         </div>
         <div id="aura-list">
-          <Aura v-for="aura in aurasSorted" :aura="aura" :key="aura.id"></Aura>
+          <Aura
+            v-for="aura in aurasFilteredAndSorted"
+            :aura="aura"
+            :key="aura.id"
+          ></Aura>
         </div>
       </div>
       <Config v-if="configStep === 1" :config="config"></Config>
@@ -166,7 +170,7 @@ export default {
     accountHash() {
       return hash.hashFnv32a(this.config.account.value, true);
     },
-    aurasSorted() {
+    aurasFilteredAndSorted() {
       function compare(a, b) {
         if (a.modified > b.modified) return -1;
         if (a.modified < b.modified) return 1;
@@ -177,7 +181,11 @@ export default {
           aura =>
             !!aura.encoded &&
             aura.wagoVersion > aura.version &&
-            !this.privateOrDeleted
+            !this.privateOrDeleted &&
+            !(
+              this.config.ignoreOwnAuras &&
+              aura.author === this.config.wagoUsername
+            )
         )
         .sort(compare);
     }
@@ -332,7 +340,14 @@ export default {
               // !! size of request is not checked, can lead to too long urls
               ids: this.auras
                 .filter(
-                  aura => !aura.privateOrDeleted && !aura.ignoreWagoUpdate
+                  aura =>
+                    !aura.privateOrDeleted &&
+                    !aura.ignoreWagoUpdate &&
+                    !(
+                      this.config.ignoreOwnAuras &&
+                      !!aura.author &&
+                      aura.author === this.config.wagoUsername
+                    )
                 )
                 .map(aura => aura.slug)
                 .join()
@@ -353,24 +368,22 @@ export default {
             response.data.forEach(wagoData => {
               this.auras.forEach((aura, index) => {
                 if (aura.slug === wagoData.slug) {
-                  // fetch aura data if :
-                  // latest version on wago is newer than what is in WeakAurasSavedVariable
-                  // and there isn't already an encoded string saved for latest version
-                  // and you are not the author
+                  this.auras[index].name = wagoData.name;
+                  this.auras[index].author = wagoData.username;
+                  this.auras[index].created = new Date(wagoData.created);
                   if (
+                    // get string if no string or current version is older than wago's
                     wagoData.version > aura.version &&
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
                         wagoData.version > aura.wagoVersion)) &&
-                    ((this.config.ignoreOwnAuras &&
-                      wagoData.username !== this.config.wagoUsername) ||
-                      !this.config.ignoreOwnAuras)
+                    !(
+                      this.config.ignoreOwnAuras &&
+                      wagoData.username === this.config.wagoUsername
+                    )
                   ) {
-                    this.auras[index].created = new Date(wagoData.created);
                     this.auras[index].modified = new Date(wagoData.modified);
-                    this.auras[index].author = wagoData.username;
                     this.auras[index].wagoVersion = wagoData.version;
-                    this.auras[index].name = wagoData.name;
                     promises.push(
                       this.$http.get("https://data.wago.io/api/raw/encoded", {
                         params: {
@@ -516,17 +529,14 @@ export default {
               "encoded",
               "wagoVersion"
             ];
-            const countStrings = this.auras.filter(aura => !!aura.encoded)
-              .length;
-            this.auras
-              .filter(aura => !!aura.encoded)
-              .forEach(aura => {
-                LuaOutput += `  ['${aura.slug}'] = {\n`;
-                fields.forEach(field => {
-                  LuaOutput += `    ${field} = "${aura[field]}",\n`;
-                });
-                LuaOutput += "  },\n";
+            const countStrings = this.aurasFilteredAndSorted.length;
+            this.aurasFilteredAndSorted.forEach(aura => {
+              LuaOutput += `  ['${aura.slug}'] = {\n`;
+              fields.forEach(field => {
+                LuaOutput += `    ${field} = "${aura[field]}",\n`;
               });
+              LuaOutput += "  },\n";
+            });
             LuaOutput += "}";
 
             // write message if new aura or failed getting infos for at least one
