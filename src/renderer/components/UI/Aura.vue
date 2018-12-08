@@ -1,14 +1,21 @@
 <template>
   <div class="aura">
     <a
-      :href="aura.slug | wago"
-      :title="aura.slug | wago"
       class="wago_icon"
       target="_blank"
-    ></a>
+      :href="aura.slug | wago"
+      :title="aura.slug | wago"
+    />
     <div class="aura_name_container">
-      <span class="aura_name" :title="childs">{{ aura.name }}</span>
+      <span class="aura_name" :title="childs" v-html="aura.name" />
     </div>
+    <a
+      class="author"
+      target="_blank"
+      :href="aura.author | wagoAuthor"
+      :title="aura.author | wagoAuthor"
+      v-html="aura.author"
+    />
     <div class="upgrade-text">
       <div class="current-version">
         {{ $t("app.aura.currentversion" /* Current: */) }} v{{ aura.version }}
@@ -29,6 +36,10 @@ export default {
     wago: value => {
       if (!value) return "";
       return `https://wago.io/${value}`;
+    },
+    wagoAuthor: value => {
+      if (!value) return "";
+      return `https://wago.io/p/${value}`;
     },
     fromNow: (value, locale) => {
       if (!value) return "n/a";
@@ -60,23 +71,24 @@ export default {
   overflow: hidden;
   font-family: "Roboto Mono", monospace;
   font-size: 11px;
+  flex-direction: row;
 }
 .aura_name_container {
-  width: 100%;
-  margin: auto;
   text-align: left;
+  flex: 1;
+  overflow: hidden;
 }
 .aura_name {
-  width: 90%;
+  width: 95%;
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: 10px;
   display: inline-block;
   font-weight: 600;
-  margin: auto 0;
   font-size: 12px;
   text-shadow: #000000 0 1px 0;
   text-align: left;
+  line-height: 32px;
 }
 .wago_icon {
   height: 100%;
@@ -85,6 +97,19 @@ export default {
 }
 .wago_icon {
   content: url("~@/assets/wago_plain.png");
+}
+.author {
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 12px;
+  text-align: left;
+  line-height: 32px;
+}
+.author:before {
+  content: "@";
 }
 .upgrade-text {
   font-family: "Roboto Mono", monospace;
