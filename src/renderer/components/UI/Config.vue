@@ -239,7 +239,7 @@ select,
   font-weight: 600;
   padding: 4px 5px 4px;
   border-left: 2px solid rgb(255, 209, 0);
-  background-color: rgba(0,0,0,.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .block {
   margin-left: 10px;

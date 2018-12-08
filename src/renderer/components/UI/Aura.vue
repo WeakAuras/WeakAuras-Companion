@@ -58,7 +58,6 @@ export default {
 </script>
 
 <style scoped>
-
 .aura {
   background-color: #1d1d1d;
   color: rgb(255, 209, 0);

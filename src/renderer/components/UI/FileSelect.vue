@@ -4,7 +4,9 @@
       <p class="configlabel">
         {{ $t("app.fileselect.wowfolder" /* World of Warcraft folder */) }}
       </p>
-      <div class="fakeinput pointer"><span class="wow-path">{{ path }}&nbsp;</span></div>
+      <div class="fakeinput pointer">
+        <span class="wow-path">{{ path }}&nbsp;</span>
+      </div>
       <div class="pointer-icon" />
     </span>
     <input type="file" webkitdirectory @change="handleFileChange" />

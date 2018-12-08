@@ -648,7 +648,7 @@ end`
   cursor: default;
 }
 body {
-  font-family: 'Noto Sans SC', sans-serif;
+  font-family: "Noto Sans SC", sans-serif;
   font-weight: 400;
   background-color: #171717;
   color: white;
@@ -682,7 +682,7 @@ footer {
   overflow: auto;
   height: 65%;
   text-align: center;
-  background-color: rgba(0,0,0,.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .logo {
   position: relative;
@@ -750,7 +750,7 @@ a {
   text-align: left;
   border-bottom: 1px solid rgba(255, 208, 0, 0.1);
   padding: 5px 15px;
-  background-color: rgba(0,0,0,.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .updates span {

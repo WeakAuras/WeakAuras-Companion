@@ -126,7 +126,7 @@ export default {
 }
 
 .btn-issue {
-  background-color: #ad0600
+  background-color: #ad0600;
 }
 .btn-reset {
   background-color: #a80000;
@@ -134,6 +134,6 @@ export default {
   height: 30px;
 }
 .btn-reset:hover {
-   background-color: #f30707;
+  background-color: #f30707;
 }
 </style>
