@@ -46,11 +46,12 @@ export default {
 }
 
 .fakeinput {
-  background-color: white;
+  background-color: #eee;
   width: 270px;
   height: 27px;
-  font-size: 14px;
-  overflow-x: hidden;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;
   color: black;
