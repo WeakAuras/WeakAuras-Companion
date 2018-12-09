@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus, no-bitwise */
+
 module.exports = {
   hashFnv32a: (str, asString, seed) => {
     // Calculate a 32 bit FNV-1a hash
