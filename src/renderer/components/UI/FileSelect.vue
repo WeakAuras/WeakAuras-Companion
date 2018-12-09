@@ -9,19 +9,32 @@
       </div>
       <div class="pointer-icon" />
     </span>
-    <input type="file" webkitdirectory @change="handleFileChange" />
+    <input type="file" webkitdirectory @click="handleFileClick" @change="handleFileChange" />
   </label>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      dialogOpen: false
+    };
+  },
   props: {
     path: null
   },
   methods: {
     handleFileChange(e) {
+      this.dialogOpen = false;
       if (e) {
         this.$emit("update:path", e.target.files[0].path);
+      }
+    },
+    handleFileClick(e) {
+      if (this.dialogOpen) {
+        e.preventDefault();
+      } else {
+        this.dialogOpen = true;
       }
     }
   }
@@ -46,7 +59,6 @@ export default {
 .pointer-icon:hover {
   background-image: url("~@/assets/folder-icon-active.png");
 }
-
 .fakeinput {
   background-color: #eee;
   width: 270px;
