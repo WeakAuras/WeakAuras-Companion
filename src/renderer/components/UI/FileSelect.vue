@@ -1,5 +1,5 @@
 <template>
-  <label class="file-select">
+  <label class="file-select" @click="handleInputClick">
     <span class="select-button">
       <p class="configlabel">
         {{ $t("app.fileselect.wowfolder" /* World of Warcraft folder */) }}
@@ -7,7 +7,7 @@
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}&nbsp;</span>
       </div>
-      <div class="pointer-icon" @click="handlePointerClick" />
+      <div class="pointer-icon" />
     </span>
   </label>
 </template>
@@ -25,7 +25,7 @@ export default {
     path: null
   },
   methods: {
-    handlePointerClick() {
+    handleInputClick() {
       if (!this.dialogOpen) {
         this.dialogOpen = true;
 
