@@ -541,8 +541,8 @@ export default {
 
             // write message if new aura or failed getting infos for at least one
             if (newStrings.length > 0 || failStrings.length > 0) {
-              let fail;
-              let neew;
+              let failStr;
+              let newStr;
               let msg = this.$tc(
                 "app.main.installTotal",
                 countStrings,
@@ -551,25 +551,25 @@ export default {
                 } /* {n} update ready for installation | {n} updates ready for installation */
               );
               if (newStrings.length > 0) {
-                neew = this.$tc(
+                newStr = this.$tc(
                   "app.main.installNew",
                   newStrings.length,
                   { n: newStrings.length } /* {n} new | {n} news */
                 );
               }
               if (failStrings.length > 0) {
-                fail = this.$tc(
+                failStr = this.$tc(
                   "app.main.installFail",
                   failStrings.length,
                   { n: failStrings.length } /* {n} fail | {n} fails */
                 );
               }
-              if (!!neew && !!fail) {
-                msg = `${msg} (${neew}, ${fail})`;
-              } else if (neew) {
-                msg = `${msg} (${neew})`;
-              } else if (fail) {
-                msg = `${msg} (${fail})`;
+              if (!!newStr && !!failStr) {
+                msg = `${msg} (${newStr}, ${failStr})`;
+              } else if (newStr) {
+                msg = `${msg} (${newStr})`;
+              } else if (failStr) {
+                msg = `${msg} (${failStr})`;
               }
               this.showNewUpdate = true;
               this.message(msg, "ok");
