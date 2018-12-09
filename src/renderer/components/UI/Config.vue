@@ -8,9 +8,9 @@
       <img
         v-if="config.wowpath.valided"
         class="green"
-        :src="require(`@/assets/ok-icon.png`)"
+        :src="require(`@/assets/ok.png`)"
       />
-      <img v-else class="red" :src="require(`@/assets/error-icon.png`)" />
+      <img v-else class="red" :src="require(`@/assets/error.png`)" />
       <span v-if="config.wowpath.valided">
         <p class="label">
           {{ $t("app.config.selectAccount" /* Select Account */) }}
@@ -23,9 +23,9 @@
         <img
           v-if="config.account.valided"
           class="green"
-          :src="require(`@/assets/ok-icon.png`)"
+          :src="require(`@/assets/ok.png`)"
         />
-        <img v-else class="red" :src="require(`@/assets/error-icon.png`)" />
+        <img v-else class="red" :src="require(`@/assets/error.png`)" />
       </span>
     </div>
     <div class="title">
@@ -36,11 +36,13 @@
         {{ $t("app.config.wagoAccount" /* Wago Account (optional) */) }}
       </p>
       <input type="text" v-model="wagoUsername" size="11" />
-      <v-button @click="config.wagoUsername = wagoUsername">Ok</v-button>
+      <v-button @click="config.wagoUsername = wagoUsername">{{
+        $t("app.config.ok" /* Ok */)
+      }}</v-button>
       <img
         v-if="config.wagoUsername"
         class="green"
-        :src="require(`@/assets/ok-icon.png`)"
+        :src="require(`@/assets/ok.png`)"
       />
       <br /><br />
       <checkbox v-model="config.ignoreOwnAuras">

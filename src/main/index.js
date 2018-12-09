@@ -24,7 +24,7 @@ const winURL =
     : `file://${__dirname}/index.html`;
 
 const iconpath = path.join(
-  __static, // eslint-disable-line no-undef
+  __static,
   `icon.${process.platform === "darwin" ? "png" : "ico"}`
 );
 

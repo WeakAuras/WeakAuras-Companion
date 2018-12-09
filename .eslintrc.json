@@ -1,14 +1,14 @@
 {
     "extends": [
-        "eslint:recommended",
         "airbnb-base",
         "plugin:prettier/recommended",
-        "plugin:vue/base",
         "plugin:vue/essential"
     ],
+    "globals": {
+        "__static": true
+    },
     "rules": {
         "linebreak-style": "off",
-        "no-console": "off",
         "semi": 0
     },
     "settings": {
