@@ -76,7 +76,7 @@
     "electron-updater": "^4.0.5",
     "luaparse": "^0.2.1",
     "moment": "^2.22.2",
-    "vue": "^2.5.18",
+    "vue": "^2.5.19",
     "vue-electron": "^1.0.6",
     "vue-i18n": "^8.4.0",
     "vue-router": "^3.0.2"
