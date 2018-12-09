@@ -1,9 +1,5 @@
-
 <template>
-  <div 
-    class="checkbox"
-    @click="simulateCheckboxClick"
-  >
+  <div class="checkbox" @click="triggerInputClick">
     <input
       type="checkbox"
       ref="checkbox"
@@ -11,13 +7,8 @@
       :checked="value"
       @change="$emit('input', $event.target.checked)"
     />
-    <div 
-      class="checkbox__box"
-      :class="{ 'checkbox__box--checked': value }"
-    />
-    <label>
-      <slot></slot>
-    </label>
+    <div class="checkbox__box" :class="{ 'checkbox__box--checked': value }" />
+    <label> <slot></slot> </label>
   </div>
 </template>
 
@@ -25,25 +16,25 @@
 export default {
   inheritAttrs: false,
   methods: {
-    simulateCheckboxClick() {
+    triggerInputClick() {
       this.$refs.checkbox.click();
     }
   },
-  props: [ "value" ]
-}
+  props: ["value"]
+};
 </script>
 
 <style scoped>
 input[type="checkbox"] {
   display: none;
 }
-input[type="checkbox"] + .checkbox__box:focus {
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
-}
 input[type="checkbox"]:disabled + .checkbox__box {
   background-color: #dddddd;
   box-shadow: none;
   cursor: auto;
+}
+input[type="checkbox"] + .checkbox__box:focus {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 }
 .checkbox {
   align-items: center;

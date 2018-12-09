@@ -9,7 +9,12 @@
       </div>
       <div class="pointer-icon" />
     </span>
-    <input type="file" webkitdirectory @click="handleFileClick" @change="handleFileChange" />
+    <input
+      type="file"
+      webkitdirectory
+      @click="handleFileClick"
+      @change="handleFileChange"
+    />
   </label>
 </template>
 

@@ -44,7 +44,9 @@
       />
       <br /><br />
       <checkbox v-model="config.ignoreOwnAuras">
-        {{ $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */) }}
+        {{
+          $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */)
+        }}
       </checkbox>
     </div>
     <div class="title">
@@ -61,13 +63,19 @@
         ></option> </select
       ><br /><br />
       <checkbox v-model="config.notify">
-        {{ $t("app.config.notification" /* Receive a notification when auras get updated */) }}
+        {{
+          $t(
+            "app.config.notification" /* Receive a notification when auras get updated */
+          )
+        }}
       </checkbox>
       <br /><br />
       <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
       <div class="option">
         <checkbox v-model="config.autostart">
-          {{ $t("app.config.autoStart" /* Launch client with your computer */) }}
+          {{
+            $t("app.config.autoStart" /* Launch client with your computer */)
+          }}
         </checkbox>
       </div>
       <div class="option">
@@ -91,6 +99,7 @@ import AutoLaunch from "auto-launch";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import FileSelect from "./FileSelect.vue";
+
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
@@ -107,10 +116,10 @@ export default {
       wagoUsername: this.config.wagoUsername
     };
   },
-  components: { 
+  components: {
     Checkbox,
-    FileSelect, 
-    "v-button": Button 
+    FileSelect,
+    "v-button": Button
   },
   methods: {
     reset() {

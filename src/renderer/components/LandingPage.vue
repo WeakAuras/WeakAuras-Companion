@@ -48,8 +48,7 @@
     </main>
     <footer>
       <a
-        v-for="media in medias.weakauras"
-        v-if="media.footer"
+        v-for="media in footerMedias"
         v-bind:key="media.name"
         :href="media.url"
         target="_blank"
@@ -188,6 +187,13 @@ export default {
             )
         )
         .sort(compare);
+    },
+    footerMedias() {
+      if (this.medias && this.medias.weakauras) {
+        return this.medias.weakauras.filter(media => media.footer);
+      }
+
+      return [];
     }
   },
   methods: {
