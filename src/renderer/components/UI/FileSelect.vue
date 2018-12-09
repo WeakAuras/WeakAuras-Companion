@@ -7,18 +7,14 @@
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}&nbsp;</span>
       </div>
-      <div class="pointer-icon" />
+      <div class="pointer-icon" @click="handlePointerClick" />
     </span>
-    <input
-      type="file"
-      webkitdirectory
-      @click="handleFileClick"
-      @change="handleFileChange"
-    />
   </label>
 </template>
 
 <script>
+import { remote } from "electron";
+
 export default {
   data() {
     return {
@@ -29,17 +25,20 @@ export default {
     path: null
   },
   methods: {
-    handleFileChange(e) {
-      this.dialogOpen = false;
-      if (e) {
-        this.$emit("update:path", e.target.files[0].path);
-      }
-    },
-    handleFileClick(e) {
-      if (this.dialogOpen) {
-        e.preventDefault();
-      } else {
+    handlePointerClick() {
+      if (!this.dialogOpen) {
         this.dialogOpen = true;
+
+        remote.dialog.showOpenDialog(
+          { properties: ["openDirectory"] },
+          paths => {
+            this.dialogOpen = false;
+
+            if (paths && paths.length) {
+              this.$emit("update:path", paths[0]);
+            }
+          }
+        );
       }
     }
   }

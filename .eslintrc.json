@@ -1,14 +1,14 @@
 {
     "extends": [
         "airbnb-base",
-        "eslint:recommended",
         "plugin:vue/base",
         "plugin:vue/essential",
         "plugin:prettier/recommended"
     ],
     "rules": {
-        "semi": 0,
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "no-console": "off",
+        "semi": 0
     },
     "settings": {
         "import/core-modules": [ "electron" ]
