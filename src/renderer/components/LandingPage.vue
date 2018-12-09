@@ -541,26 +541,37 @@ export default {
 
             // write message if new aura or failed getting infos for at least one
             if (newStrings.length > 0 || failStrings.length > 0) {
-              let msg;
-              if (failStrings.length > 0) {
-                msg = this.$t(
-                  "app.main.updateDoneFail",
-                  {
-                    total: countStrings,
-                    new: newStrings.length,
-                    fail: failStrings.length
-                  } /* {total} update ready for installation ({new} new, {fail} fail) */
+              let fail;
+              let neew;
+              let msg = this.$tc(
+                "app.main.installTotal",
+                countStrings,
+                {
+                  n: countStrings
+                } /* {n} update ready for installation | {n} updates ready for installation */
+              );
+              if (newStrings.length > 0) {
+                neew = this.$tc(
+                  "app.main.installNew",
+                  newStrings.length,
+                  { n: newStrings.length } /* {n} new | {n} news */
                 );
-              } else {
-                msg = this.$t(
-                  "app.main.updateDone",
-                  {
-                    total: countStrings,
-                    new: newStrings.length
-                  } /* {total} update ready for installation ({new} new) */
-                );
-                this.showNewUpdate = true;
               }
+              if (failStrings.length > 0) {
+                fail = this.$tc(
+                  "app.main.installFail",
+                  failStrings.length,
+                  { n: failStrings.length } /* {n} fail | {n} fails */
+                );
+              }
+              if (!!neew && !!fail) {
+                msg = `${msg} (${neew}, ${fail})`;
+              } else if (neew) {
+                msg = `${msg} (${neew})`;
+              } else if (fail) {
+                msg = `${msg} (${fail})`;
+              }
+              this.showNewUpdate = true;
               this.message(msg, "ok");
             } else {
               this.showNewUpdate = false;
