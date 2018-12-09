@@ -1,10 +1,10 @@
 {
     "extends": [
-        "airbnb-base",
         "eslint:recommended",
+        "airbnb-base",
+        "plugin:prettier/recommended",
         "plugin:vue/base",
-        "plugin:vue/essential",
-        "plugin:prettier/recommended"
+        "plugin:vue/essential"
     ],
     "rules": {
         "linebreak-style": "off",
