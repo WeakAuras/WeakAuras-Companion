@@ -1,6 +1,7 @@
 {
     "extends": [
         "airbnb-base",
+        "eslint:recommended",
         "plugin:vue/base",
         "plugin:vue/essential",
         "plugin:prettier/recommended"
