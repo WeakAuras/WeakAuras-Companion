@@ -57,7 +57,7 @@ let rendererConfig = {
         }
       },
       {
-        test: /\.js$/,
+        test: /\.m?js$/,
         use: "babel-loader",
         exclude: /node_modules/
       },

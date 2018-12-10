@@ -18,7 +18,7 @@ let mainConfig = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.m?js$/,
         use: 'babel-loader',
         exclude: /node_modules/
       },
