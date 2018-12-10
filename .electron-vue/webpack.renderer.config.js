@@ -11,7 +11,6 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
-const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 
 /**
  * List of node_modules to include in webpack bundle
@@ -134,16 +133,6 @@ let rendererConfig = {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       VERSION: `"${require("../package.json").version}"`
-    }),
-    new GoogleFontsPlugin({
-      fonts: [
-        {
-          family: "Noto Sans SC",
-          variants: ["300", "400", "600", "700"],
-          category: "sans-serif",
-          subsets: ["latin", "cyrillic"]
-        }
-      ]
     })
   ],
   output: {

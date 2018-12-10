@@ -1,0 +1,27 @@
+/* https://google-webfonts-helper.herokuapp.com/fonts/noto-sans-sc?subsets=latin,cyrillic */
+/* noto-sans-sc-300 - cyrillic_latin */
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 300;
+  src: local("Noto Sans SC Light"), local("NotoSansSC-Light"),
+    url("./noto-sans-sc-v4-cyrillic_latin-300.woff2") format("woff2"); /* Super Modern Browsers */
+}
+
+/* noto-sans-sc-regular - cyrillic_latin */
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Noto Sans SC Regular"), local("NotoSansSC-Regular"),
+    url("./noto-sans-sc-v4-cyrillic_latin-regular.woff2") format("woff2"); /* Super Modern Browsers */
+}
+
+/* noto-sans-sc-700 - cyrillic_latin */
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Noto Sans SC Bold"), local("NotoSansSC-Bold"),
+    url("./noto-sans-sc-v4-cyrillic_latin-700.woff2") format("woff2"); /* Super Modern Browsers */
+}

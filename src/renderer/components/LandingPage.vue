@@ -656,6 +656,8 @@ end`
 </script>
 
 <style>
+@import "../assets/fonts/fonts.css";
+
 * {
   box-sizing: border-box;
   margin: 0;
