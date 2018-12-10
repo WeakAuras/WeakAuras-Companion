@@ -44,7 +44,6 @@ export default {
 #ui-titletext {
   max-height: 32px;
   flex: auto;
-  font: 12px/32px "Segoe UI", Arial, sans-serif;
   color: #fff;
   text-indent: 10px;
 }
