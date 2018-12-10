@@ -1,5 +1,5 @@
 <template>
-  <label class="file-select">
+  <label class="file-select" @click="handleInputClick">
     <span class="select-button">
       <p class="configlabel">
         {{ $t("app.fileselect.wowfolder" /* World of Warcraft folder */) }}
@@ -9,19 +9,36 @@
       </div>
       <div class="pointer-icon" />
     </span>
-    <input type="file" webkitdirectory @change="handleFileChange" />
   </label>
 </template>
 
 <script>
+import { remote } from "electron";
+
 export default {
+  data() {
+    return {
+      dialogOpen: false
+    };
+  },
   props: {
     path: null
   },
   methods: {
-    handleFileChange(e) {
-      if (e) {
-        this.$emit("update:path", e.target.files[0].path);
+    handleInputClick() {
+      if (!this.dialogOpen) {
+        this.dialogOpen = true;
+
+        remote.dialog.showOpenDialog(
+          { properties: ["openDirectory"] },
+          paths => {
+            this.dialogOpen = false;
+
+            if (paths && paths.length) {
+              this.$emit("update:path", paths[0]);
+            }
+          }
+        );
       }
     }
   }
@@ -46,7 +63,6 @@ export default {
 .pointer-icon:hover {
   background-image: url("~@/assets/folder-icon-active.png");
 }
-
 .fakeinput {
   background-color: #eee;
   width: 270px;

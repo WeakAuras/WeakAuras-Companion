@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus, no-bitwise */
+
 module.exports = {
   hashFnv32a: (str, asString, seed) => {
     // Calculate a 32 bit FNV-1a hash
@@ -7,7 +9,8 @@ module.exports = {
 
     for (i = 0, l = str.length; i < l; i++) {
       hval ^= str.charCodeAt(i);
-      hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
+      hval +=
+        (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
     }
     if (asString) {
       // Convert to 8 digit hex string

@@ -45,12 +45,11 @@
         :src="require(`@/assets/ok.png`)"
       />
       <br /><br />
-      <input
-        id="ignoreOwnAuras"
-        type="checkbox"
-        v-model="config.ignoreOwnAuras"
-      />
-      {{ $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */) }}
+      <checkbox v-model="config.ignoreOwnAuras">
+        {{
+          $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */)
+        }}
+      </checkbox>
     </div>
     <div class="title">
       {{ $t("app.config.clientSettings" /* Client Settings */) }}
@@ -65,33 +64,26 @@
           :key="lang.value"
         ></option> </select
       ><br /><br />
-      <input type="checkbox" id="update-notification" v-model="config.notify" />
-      <label for="update-notification">
+      <checkbox v-model="config.notify">
         {{
           $t(
             "app.config.notification" /* Receive a notification when auras get updated */
           )
         }}
-      </label>
+      </checkbox>
       <br /><br />
       <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
       <div class="option">
-        <input id="autostart" type="checkbox" v-model="config.autostart" />
-        <label for="autostart">
+        <checkbox v-model="config.autostart">
           {{
             $t("app.config.autoStart" /* Launch client with your computer */)
           }}
-        </label>
+        </checkbox>
       </div>
       <div class="option">
-        <input
-          id="startminimize"
-          type="checkbox"
-          v-model="config.startminimize"
-        />
-        <label for="startminimize">
+        <checkbox v-model="config.startminimize">
           {{ $t("app.config.minimized" /* Start client minimized */) }}
-        </label>
+        </checkbox>
       </div>
     </div>
     <br /><br />
@@ -103,17 +95,16 @@
 </template>
 
 <script>
+import fs from "fs";
 import path from "path";
-import FileSelect from "./FileSelect.vue";
+import AutoLaunch from "auto-launch";
 import Button from "./Button.vue";
-
-const fs = require("fs");
-const AutoLaunch = require("auto-launch");
+import Checkbox from "./Checkbox.vue";
+import FileSelect from "./FileSelect.vue";
 
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
-
 export default {
   props: ["config"],
   data() {
@@ -127,7 +118,11 @@ export default {
       wagoUsername: this.config.wagoUsername
     };
   },
-  components: { FileSelect, "v-button": Button },
+  components: {
+    Checkbox,
+    FileSelect,
+    "v-button": Button
+  },
   methods: {
     reset() {
       this.$parent.reset();
@@ -245,77 +240,15 @@ select,
   margin-left: 10px;
   font-size: 15px;
 }
-
 .option {
   margin-bottom: 5px;
 }
-
-/* Checkboxes */
-input[type="checkbox"] {
-  position: relative;
-  cursor: pointer;
-  padding: 0;
-  margin-right: 8px;
-}
-
-input[type="checkbox"]:before {
-  content: "";
-  margin-right: 10px;
-  display: inline-block;
-  vertical-align: text-top;
-  position: relative;
-  bottom: 1px;
-  right: 1px;
-  border-radius: 2px;
-  width: 20px;
-  height: 20px;
-  background: #e7e7e7;
-}
-
-input[type="checkbox"]:hover:before {
-  background: #e7e7e7;
-}
-
-input[type="checkbox"]:focus:before {
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
-}
-
-input[type="checkbox"]:checked:before {
-  background: #2b2b2b;
-}
-
-input[type="checkbox"]:disabled {
-  color: #1d1d1d;
-  cursor: auto;
-}
-
-input[type="checkbox"]:disabled:before {
-  box-shadow: none;
-  background: #ddd;
-}
-
-input[type="checkbox"]:checked:after {
-  content: "";
-  position: absolute;
-  background-image: url("~@/assets/checkmark.png");
-  background-size: contain;
-  width: 15px;
-  height: 15px;
-  left: 2px;
-  top: 2px;
-}
-input[type="checkbox"] + label {
-  margin-bottom: 5px;
-  padding-bottom: 5px;
-}
-
 .subtitle {
   font-size: 18px;
   margin-bottom: 5px;
   font-weight: 600;
   color: white;
 }
-
 .form-control.language {
   width: 110px;
 }
