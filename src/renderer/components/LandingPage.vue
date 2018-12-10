@@ -27,7 +27,7 @@
           :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
         <br />
-        <div class="updates">
+        <div class="updates" v-if="aurasFilteredAndSorted.length > 0">
           <span v-if="showNewUpdate" class="showNewUpdate">{{
             $t(
               "app.main.newUpdates" /* We found the following updates for you, they can now be applied in-game: */
@@ -39,7 +39,7 @@
           <Aura
             v-for="aura in aurasFilteredAndSorted"
             :aura="aura"
-            :key="aura.id"
+            :key="aura.slug"
           ></Aura>
         </div>
       </div>
