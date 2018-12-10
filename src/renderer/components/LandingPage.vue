@@ -656,8 +656,6 @@ end`
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,700&amp;subset=chinese-simplified,cyrillic,japanese,vietnamese");
-
 * {
   box-sizing: border-box;
   margin: 0;

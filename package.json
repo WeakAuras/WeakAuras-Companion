@@ -70,6 +70,7 @@
     ]
   },
   "dependencies": {
+    "@beyonk/google-fonts-webpack-plugin": "^1.2.1",
     "auto-launch": "^5.0.5",
     "axios": "^0.18.0",
     "electron-store": "^2.0.0",
