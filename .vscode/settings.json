@@ -1,4 +1,5 @@
 {
+  "editor.formatOnSave": false,
   "eslint.autoFixOnSave": true,
   "eslint.validate": [{
       "language": "javascript",
@@ -11,7 +12,13 @@
     {
       "language": "html",
       "autoFix": true
+    },
+    {
+      "language": "css",
+      "autoFix": true
     }
   ],
-  "editor.formatOnSave": false
+  "prettier.eslintIntegration": true,
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
 }
