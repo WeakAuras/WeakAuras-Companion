@@ -51,7 +51,10 @@ export default {
   },
   computed: {
     childs() {
-      return this.aura.ids.join("\n");
+      if (typeof this.aura.ids !== "undefined") {
+        return this.aura.ids.join("\n");
+      }
+      return 0;
     }
   }
 };

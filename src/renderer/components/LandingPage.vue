@@ -323,7 +323,7 @@ export default {
                 } else {
                   // there is already an aura with same "slug"
                   this.auras.forEach((aura, index) => {
-                    if (aura.slug === slug) {
+                    if (aura.slug === slug && typeof aura.ids !== "undefined") {
                       // add aura id to the "ids" if necessary
                       if (aura.ids.indexOf(id) === -1) {
                         this.auras[index].ids.push(id);
