@@ -70,7 +70,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import path from "path";
 import moment from "moment";
 import Button from "./UI/Button.vue";
@@ -121,7 +122,7 @@ const defaultValues = {
   showNewUpdate: false
 };
 
-export default {
+export default Vue.extend({
   name: "landing-page",
   components: {
     RefreshButton,
@@ -652,7 +653,7 @@ end`
       }
     }
   }
-};
+});
 </script>
 
 <style>

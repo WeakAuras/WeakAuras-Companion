@@ -30,8 +30,9 @@
 
 <script>
 import moment from "moment";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   props: ["aura"],
   filters: {
     wago: value => {
@@ -57,7 +58,7 @@ export default {
       return 0;
     }
   }
-};
+});
 </script>
 
 <style scoped>
