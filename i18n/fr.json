@@ -29,6 +29,7 @@
   "app.main.newUpdates": "Les mises à jours suivantes ont été trouvé, elles peuvent être installé dans le jeux:",
   "app.main.updates": "Mises à jours",
   "app.menu.about": "A propos",
+  "app.menu.help": "Help",
   "app.menu.main": "Mettre à jour",
   "app.menu.settings": "Paramètres",
   "app.refreshbutton.finishsetup": "La configuration n'est pas terminée",
