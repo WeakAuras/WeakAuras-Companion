@@ -488,6 +488,8 @@ export default Vue.extend({
                 this.writeAddonData(newStrings, failStrings);
                 this.fetching = false;
                 this.schedule.lastUpdate = new Date();
+                // refresh page
+                this.$nextTick();
               });
           })
           .catch(error => {
