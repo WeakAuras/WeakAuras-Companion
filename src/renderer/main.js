@@ -2,7 +2,6 @@ import Vue from "vue";
 import axios from "axios";
 import VueI18n from "vue-i18n";
 import VueElectron from "vue-electron";
-
 import App from "./App.vue";
 import router from "./router";
 

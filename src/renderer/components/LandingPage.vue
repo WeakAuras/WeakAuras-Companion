@@ -18,6 +18,10 @@
       <v-button type="menu" @click="configStep = 2">{{
         $t("app.menu.about" /* About */)
       }}</v-button>
+      <span class="seperator">|</span>
+      <v-button type="menu" @click="configStep = 3">{{
+        $t("app.menu.help" /* Help */)
+      }}</v-button>
     </header>
     <main>
       <div v-if="configStep === 0" id="dashboard">
@@ -45,6 +49,7 @@
       </div>
       <Config v-if="configStep === 1" :config="config"></Config>
       <about v-if="configStep === 2"></about>
+      <help v-if="configStep === 3"></help>
     </main>
     <footer>
       <a
@@ -80,6 +85,7 @@ import Message from "./UI/Message.vue";
 import Aura from "./UI/Aura.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
+import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 
 const fs = require("fs");
@@ -130,6 +136,7 @@ export default Vue.extend({
     Aura,
     Config,
     About,
+    Help,
     TitleBar,
     "v-button": Button
   },
@@ -488,6 +495,8 @@ export default Vue.extend({
                 this.writeAddonData(newStrings, failStrings);
                 this.fetching = false;
                 this.schedule.lastUpdate = new Date();
+                // refresh page
+                this.$nextTick();
               });
           })
           .catch(error => {
@@ -670,6 +679,7 @@ body {
   font-weight: 400;
   background-color: #171717;
   color: white;
+  overflow-y: hidden;
 }
 #wrapper {
   height: 100vh;
