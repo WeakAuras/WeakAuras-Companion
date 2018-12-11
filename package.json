@@ -74,7 +74,6 @@
     "axios": "^0.18.0",
     "electron-store": "^2.0.0",
     "electron-updater": "^4.0.5",
-    "leader-line": "^1.0.5",
     "luaparse": "^0.2.1",
     "moment": "^2.22.2",
     "vue": "^2.5.19",
