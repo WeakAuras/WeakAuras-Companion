@@ -8,7 +8,7 @@ export default new Router({
     {
       path: "/",
       name: "landing-page",
-      component: require("@/components/LandingPage").default // eslint-disable-line global-require, import/no-unresolved
+      component: require("@/components/LandingPage").default // eslint-disable-line global-require
     },
     {
       path: "*",
