@@ -560,10 +560,16 @@ export default Vue.extend({
             if (newStrings.length > 0 && failStrings.length > 0) {
               this.showNewUpdate = true;
               this.message(
-                `${this.$tc("app.main.installTotal", countStrings)} (${this.$tc(
+                `${this.$tc(
+                  "app.main.installTotal",
+                  countStrings /* 0 updates ready for installation | 1 update ready for installation | {n} updates ready for installation */
+                )} (${this.$tc(
                   "app.main.installNew",
-                  newStrings.length
-                )}, ${this.$tc("app.main.installFail", failStrings.length)})`,
+                  newStrings.length /* 0 news | 1 new | {n} news */
+                )}, ${this.$tc(
+                  "app.main.installFail",
+                  failStrings.length /* 0 fails | 1 fail | {n} fails */
+                )})`,
                 "ok"
               );
             } else if (newStrings.length > 0) {
