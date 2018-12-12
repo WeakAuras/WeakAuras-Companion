@@ -259,6 +259,7 @@ export default Vue.extend({
       if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
       const WeakAurasSavedVariable = path.join(
         this.config.wowpath.value,
+        "_retail_",
         "WTF",
         "Account",
         this.config.account.value,
@@ -520,6 +521,7 @@ export default Vue.extend({
       if (this.config.wowpath.valided) {
         const AddonFolder = path.join(
           this.config.wowpath.value,
+          "_retail_",
           "Interface",
           "Addons",
           "WeakAurasCompanion"
