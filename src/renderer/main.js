@@ -3,7 +3,6 @@ import axios from "axios";
 import VueI18n from "vue-i18n";
 import VueElectron from "vue-electron";
 import Toasted from "vue-toasted";
-import { remote } from "electron";
 import App from "./App.vue";
 import router from "./router";
 
@@ -70,14 +69,6 @@ const i18n = new VueI18n({
     de,
     ru
   }
-});
-
-remote.globalShortcut.register("CommandOrControl+Shift+I", () => {
-  remote.BrowserWindow.getFocusedWindow().webContents.openDevTools();
-});
-
-window.addEventListener("beforeunload", () => {
-  remote.globalShortcut.unregisterAll();
 });
 
 /* eslint-disable no-new */

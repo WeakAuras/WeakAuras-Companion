@@ -3,6 +3,7 @@ import { app, BrowserWindow, Tray, Menu, shell, ipcMain } from "electron";
 import path from "path";
 import { autoUpdater } from "electron-updater";
 
+const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 
 const store = new Store();
@@ -100,6 +101,10 @@ function createWindow() {
     if (mainWindow.webContents.getURL() !== winURL) {
       event.preventDefault();
     }
+  });
+
+  electronLocalshortcut.register(mainWindow, "Ctrl+Shift+I", () => {
+    mainWindow.webContents.openDevTools();
   });
 }
 
