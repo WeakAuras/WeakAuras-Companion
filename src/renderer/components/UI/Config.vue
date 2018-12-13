@@ -157,7 +157,7 @@ export default {
             // add option for each account found
             fs.readdirSync(accountFolder).forEach(file => {
               if (file !== "SavedVariables") {
-                this.config.account.choices.push({ name: file });
+                this.config.account.choices.push({ name: file, auras: [] });
                 this.config.wowpath.valided = true;
               }
             });

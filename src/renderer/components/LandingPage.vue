@@ -98,12 +98,14 @@ const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
 
+const internalVersion = 1;
+
 const defaultValues = {
   configStep: 0,
-  auras: [], // array of auras, slug field must be unique
   messages: [],
   fetching: false, // use for avoid spamming refresh button and show spinner
   config: {
+    // everything in this object will be auto-save and restore
     wowpath: {
       value: null,
       valided: false
@@ -118,7 +120,8 @@ const defaultValues = {
     autostart: false,
     startminimize: false,
     notify: true,
-    lang: "en"
+    lang: "en",
+    internalVersion
   },
   schedule: {
     id: null, // 1h setTimeout id
@@ -155,7 +158,7 @@ export default Vue.extend({
     },
     config: {
       handler() {
-        this.save(["config"]);
+        store.set("config", this.config);
       },
       deep: true
     }
@@ -200,35 +203,56 @@ export default Vue.extend({
       if (this.medias && this.medias.weakauras) {
         return this.medias.weakauras.filter(media => media.footer);
       }
-
       return [];
+    },
+    auras: {
+      get() {
+        if (this.config.account.value) {
+          const index = this.config.account.choices.findIndex(
+            account => account.name === this.config.account.value
+          );
+          if (index !== -1) return this.config.account.choices[index].auras;
+        }
+        return [];
+      },
+      set(newValue) {
+        if (this.config.account.value) {
+          const index = this.config.account.choices.findIndex(
+            account => account.name === this.config.account.value
+          );
+          if (index !== -1) this.config.account.choices[index].auras = newValue;
+        }
+      }
     }
   },
   methods: {
     reset() {
-      this.config = JSON.parse(JSON.stringify(defaultValues.config));
       while (this.messages.length > 0) {
         this.messages.pop();
       }
-      while (this.auras.length > 0) {
-        this.auras.pop();
-      }
       store.clear();
+      this.config = JSON.parse(JSON.stringify(defaultValues.config));
     },
     open(link) {
       this.$electron.shell.openExternal(link);
     },
-    save(fields) {
-      fields.forEach(field => {
-        store.set(field, this[field]);
-      });
-    },
     restore() {
-      Object.entries(store.store).forEach(data => {
-        const { 0: key, 1: value } = data;
-        this[key] = value;
-      });
+      this.config = store.get("config");
       this.$i18n.locale = this.config.lang;
+
+      const previousVersion = store.get("config").internalVersion || 0;
+      if (this.config.internalVersion < internalVersion) {
+        /* migration */
+        if (previousVersion < 1) {
+          // this.auras moved to this.config.account.choices[index].auras
+          // this.auras is now a computed property
+          this.auras = store.get("auras");
+          store.clear();
+          store.set("config", this.config);
+        }
+
+        this.config.internalVersion = internalVersion;
+      }
     },
     message(text, type) {
       const date = moment().format("hh:mm:ss");
@@ -492,7 +516,6 @@ export default Vue.extend({
               })
               .then(() => {
                 // we are done with wago API, update data.lua
-                this.save(["auras"]);
                 this.writeAddonData(newStrings, failStrings);
                 this.fetching = false;
                 this.schedule.lastUpdate = new Date();
