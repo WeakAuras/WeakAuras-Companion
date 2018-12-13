@@ -219,21 +219,24 @@ export default Vue.extend({
       this.$electron.shell.openExternal(link);
     },
     restore() {
-      this.config = store.get("config");
-      this.$i18n.locale = this.config.lang;
+      const tmp = store.get("config");
+      if (tmp) {
+        this.config = tmp;
+        this.$i18n.locale = this.config.lang;
 
-      const previousVersion = store.get("config").internalVersion || 0;
-      if (this.config.internalVersion < internalVersion) {
-        /* migration */
-        if (previousVersion < 1) {
-          // this.auras moved to this.config.account.choices[index].auras
-          // this.auras is now a computed property
-          this.auras = store.get("auras");
-          store.clear();
-          store.set("config", this.config);
+        const previousVersion = store.get("config").internalVersion || 0;
+        if (this.config.internalVersion < internalVersion) {
+          /* migration */
+          if (previousVersion < 1) {
+            // this.auras moved to this.config.account.choices[index].auras
+            // this.auras is now a computed property
+            this.auras = store.get("auras");
+            store.clear();
+            store.set("config", this.config);
+          }
+
+          this.config.internalVersion = internalVersion;
         }
-
-        this.config.internalVersion = internalVersion;
       }
     },
     message(text, type) {
