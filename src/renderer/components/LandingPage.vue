@@ -7,21 +7,30 @@
       <span>{{ $t("app.main.companion" /* Companion */) }}</span>
     </div>
     <header>
-      <v-button type="menu" @click="configStep = 0">{{
-        $t("app.menu.main" /* Main */)
-      }}</v-button>
-      <span class="seperator">|</span>
-      <v-button type="menu" @click="configStep = 1">{{
-        $t("app.menu.settings" /* Settings */)
-      }}</v-button>
-      <span class="seperator">|</span>
-      <v-button type="menu" @click="configStep = 2">{{
-        $t("app.menu.help" /* Help */)
-      }}</v-button>
-      <span class="seperator">|</span>
-      <v-button type="menu" @click="configStep = 3">{{
-        $t("app.menu.about" /* About */)
-      }}</v-button>
+      <v-button
+        type="menu"
+        @click="configStep = 0"
+        v-bind:class="{ active: configStep === 0 }"
+        >{{ $t("app.menu.main" /* Main */) }}</v-button
+      >
+      <v-button
+        type="menu"
+        @click="configStep = 1"
+        v-bind:class="{ active: configStep === 1 }"
+        >{{ $t("app.menu.settings" /* Settings */) }}</v-button
+      >
+      <v-button
+        type="menu"
+        @click="configStep = 2"
+        v-bind:class="{ active: configStep === 2 }"
+        >{{ $t("app.menu.help" /* Help */) }}</v-button
+      >
+      <v-button
+        type="menu"
+        @click="configStep = 3"
+        v-bind:class="{ active: configStep === 3 }"
+        >{{ $t("app.menu.about" /* About */) }}</v-button
+      >
     </header>
     <main>
       <div v-if="configStep === 0" id="dashboard">
@@ -716,6 +725,7 @@ header {
   text-align: right;
   height: 50px;
   margin: 15px 15px 0 0;
+  font-size: 0;
 }
 main {
   flex: 1;
@@ -787,14 +797,24 @@ a {
   text-shadow: 0 0 1em black;
   width: auto;
   border: none;
-  border-radius: 2px;
+  border-radius: 0;
   font-weight: 600;
   font-size: 14px;
-  margin: 2px;
+  min-width: 70px;
+  border-right: 1px solid rgba(255, 255, 255, 0.226);
+  transition: background-color 0.2s ease-in;
+}
+header .btn-menu:last-child {
+  border-right: none;
 }
 .btn.btn-menu:hover {
-  background-color: #444;
+  background-color: rgba(255, 255, 255, 0.11);
 }
+
+.btn-menu.active {
+  background-color: #87817f77 !important;
+}
+
 .seperator {
   text-shadow: 0 0 1em black;
 }
