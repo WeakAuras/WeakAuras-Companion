@@ -2,6 +2,7 @@ import Vue from "vue";
 import axios from "axios";
 import VueI18n from "vue-i18n";
 import VueElectron from "vue-electron";
+import Toasted from "vue-toasted";
 import App from "./App.vue";
 import router from "./router";
 
@@ -19,6 +20,7 @@ Vue.prototype.$http = axios;
 Vue.http = Vue.prototype.$http;
 Vue.config.productionTip = false;
 
+Vue.use(Toasted);
 Vue.use(VueI18n);
 
 const defaultPluralRules = VueI18n.prototype.getChoiceIndex;

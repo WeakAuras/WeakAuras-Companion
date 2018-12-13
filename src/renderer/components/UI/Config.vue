@@ -67,7 +67,7 @@
       <checkbox v-model="config.notify">
         {{
           $t(
-            "app.config.notification" /* Receive a notification when auras get updated */
+            "app.config.notification" /* System notification when new updates are ready for in-game installation */
           )
         }}
       </checkbox>

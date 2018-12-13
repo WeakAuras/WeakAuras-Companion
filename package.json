@@ -79,7 +79,8 @@
     "vue": "^2.5.19",
     "vue-electron": "^1.0.6",
     "vue-i18n": "^8.4.0",
-    "vue-router": "^3.0.2"
+    "vue-router": "^3.0.2",
+    "vue-toasted": "^1.1.26"
   },
   "devDependencies": {
     "@babel/core": "7.2.0",

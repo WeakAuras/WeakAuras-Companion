@@ -40,15 +40,7 @@
           :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
         <br />
-        <div class="updates" v-if="aurasFilteredAndSorted.length > 0">
-          <span v-if="showNewUpdate" class="showNewUpdate">{{
-            $t(
-              "app.main.newUpdates" /* We found the following updates for you, they can now be applied in-game: */
-            )
-          }}</span>
-          <span v-else>{{ $t("app.main.updates" /* Updates */) }}</span>
-        </div>
-        <div id="aura-list">
+        <div id="aura-list" v-if="aurasFilteredAndSorted.length > 0">
           <Aura
             v-for="aura in aurasFilteredAndSorted"
             :aura="aura"
@@ -73,13 +65,6 @@
           :title="media.name"
         />
       </a>
-      <div id="messages" ref="messages">
-        <message
-          v-for="message in messages"
-          :key="message.id"
-          :message="message"
-        ></message>
-      </div>
     </footer>
   </div>
 </template>
@@ -90,7 +75,6 @@ import path from "path";
 import moment from "moment";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
-import Message from "./UI/Message.vue";
 import Aura from "./UI/Aura.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
@@ -128,7 +112,7 @@ const defaultValues = {
     ignoreOwnAuras: true,
     autostart: false,
     startminimize: false,
-    notify: true,
+    notify: false,
     lang: "en",
     internalVersion
   },
@@ -136,15 +120,13 @@ const defaultValues = {
     id: null, // 1h setTimeout id
     lastUpdate: null
   },
-  medias,
-  showNewUpdate: false
+  medias
 };
 
 export default Vue.extend({
   name: "landing-page",
   components: {
     RefreshButton,
-    Message,
     Aura,
     Config,
     About,
@@ -156,15 +138,6 @@ export default Vue.extend({
     return JSON.parse(JSON.stringify(defaultValues));
   },
   watch: {
-    configStep() {
-      if (this.configStep === 0) {
-        // scroll down
-        this.$nextTick(() => {
-          const { messages } = this.$refs;
-          messages.scrollTop = messages.scrollHeight;
-        });
-      }
-    },
     config: {
       handler() {
         store.set("config", this.config);
@@ -271,10 +244,10 @@ export default Vue.extend({
         text,
         type
       });
-      // scroll down
-      this.$nextTick(() => {
-        const { messages } = this.$refs;
-        messages.scrollTop = messages.scrollHeight;
+      this.$toasted.show(text, {
+        theme: "toasted-primary",
+        position: "bottom-right",
+        duration: 5000
       });
     },
     clearMessages() {
@@ -589,10 +562,7 @@ export default Vue.extend({
             });
             LuaOutput += "}";
 
-            this.showNewUpdate = false;
-
             if (newStrings.length > 0 && failStrings.length > 0) {
-              this.showNewUpdate = true;
               this.message(
                 `${this.$tc(
                   "app.main.installTotal",
@@ -604,25 +574,28 @@ export default Vue.extend({
                   "app.main.installFail",
                   failStrings.length /* no fail | 1 fail | {n} fails */
                 )})`,
-                "ok"
+                "success"
               );
             } else if (newStrings.length > 0) {
-              this.showNewUpdate = true;
               this.message(
                 `${this.$tc("app.main.installTotal", countStrings)} (${this.$tc(
                   "app.main.installNew",
                   newStrings.length
                 )})`,
-                "ok"
+                "success"
               );
             } else if (failStrings.length > 0) {
-              this.showNewUpdate = true;
               this.message(
                 `${this.$tc("app.main.installTotal", countStrings)} (${this.$tc(
                   "app.main.installFail",
                   failStrings.length
                 )})`,
-                "ok"
+                "error"
+              );
+            } else {
+              this.message(
+                this.$tc("app.main.installTotal", countStrings),
+                "info"
               );
             }
 
@@ -829,10 +802,6 @@ header .btn-menu:last-child {
   text-shadow: #000 0 0 8px;
   font-size: 14px;
   margin: auto;
-}
-
-.showNewUpdate {
-  color: rgb(40, 158, 40);
 }
 
 /* width */
