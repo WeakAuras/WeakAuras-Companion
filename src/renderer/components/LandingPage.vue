@@ -596,13 +596,13 @@ export default Vue.extend({
               this.message(
                 `${this.$tc(
                   "app.main.installTotal",
-                  countStrings /* 0 updates ready for installation | 1 update ready for installation | {n} updates ready for installation */
+                  countStrings /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
                 )} (${this.$tc(
                   "app.main.installNew",
-                  newStrings.length /* 0 news | 1 new | {n} news */
+                  newStrings.length /* no news | 1 new | {n} news */
                 )}, ${this.$tc(
                   "app.main.installFail",
-                  failStrings.length /* 0 fails | 1 fail | {n} fails */
+                  failStrings.length /* no fail | 1 fail | {n} fails */
                 )})`,
                 "ok"
               );
