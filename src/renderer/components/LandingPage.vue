@@ -16,11 +16,11 @@
       }}</v-button>
       <span class="seperator">|</span>
       <v-button type="menu" @click="configStep = 2">{{
-        $t("app.menu.about" /* About */)
+        $t("app.menu.help" /* Help */)
       }}</v-button>
       <span class="seperator">|</span>
       <v-button type="menu" @click="configStep = 3">{{
-        $t("app.menu.help" /* Help */)
+        $t("app.menu.about" /* About */)
       }}</v-button>
     </header>
     <main>
