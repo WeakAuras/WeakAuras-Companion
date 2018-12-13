@@ -148,6 +148,7 @@ export default {
         // test if ${wowpath}\WTF\Account exists
         const accountFolder = path.join(
           this.config.wowpath.value,
+          "_retail_",
           "WTF",
           "Account"
         );
@@ -156,7 +157,7 @@ export default {
             // add option for each account found
             fs.readdirSync(accountFolder).forEach(file => {
               if (file !== "SavedVariables") {
-                this.config.account.choices.push({ name: file });
+                this.config.account.choices.push({ name: file, auras: [] });
                 this.config.wowpath.valided = true;
               }
             });
@@ -171,6 +172,7 @@ export default {
       if (this.config.wowpath.valided && !!this.config.account.value) {
         const WeakAurasSavedVariable = path.join(
           this.config.wowpath.value,
+          "_retail_",
           "WTF",
           "Account",
           this.config.account.value,
