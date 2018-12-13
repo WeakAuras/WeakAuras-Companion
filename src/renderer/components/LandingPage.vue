@@ -57,8 +57,8 @@
         </div>
       </div>
       <Config v-if="configStep === 1" :config="config"></Config>
-      <about v-if="configStep === 2"></about>
-      <help v-if="configStep === 3"></help>
+      <help v-if="configStep === 2"></help>
+      <about v-if="configStep === 3"></about>
     </main>
     <footer>
       <a
