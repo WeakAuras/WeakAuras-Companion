@@ -37,7 +37,7 @@
       </p>
       <input type="text" v-model="wagoUsername" size="11" />
       <v-button @click="config.wagoUsername = wagoUsername">{{
-        $t("app.config.ok" /* Ok */)
+        $t("app.config.ok" /* OK */)
       }}</v-button>
       <img
         v-if="config.wagoUsername"
