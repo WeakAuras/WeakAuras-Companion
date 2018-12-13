@@ -72,7 +72,7 @@ const i18n = new VueI18n({
   }
 });
 
-remote.globalShortcut.register("CommandOrControl+Shift+K", () => {
+remote.globalShortcut.register("CommandOrControl+Shift+I", () => {
   remote.BrowserWindow.getFocusedWindow().webContents.openDevTools();
 });
 
