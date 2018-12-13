@@ -589,42 +589,41 @@ export default Vue.extend({
             });
             LuaOutput += "}";
 
-            // write message if new aura or failed getting infos for at least one
-            if (newStrings.length > 0 || failStrings.length > 0) {
-              let failStr;
-              let newStr;
-              let msg = this.$tc(
-                "app.main.installTotal",
-                countStrings,
-                {
-                  n: countStrings
-                } /* {n} update ready for installation | {n} updates ready for installation */
-              );
-              if (newStrings.length > 0) {
-                newStr = this.$tc(
-                  "app.main.installNew",
-                  newStrings.length,
-                  { n: newStrings.length } /* {n} new | {n} news */
-                );
-              }
-              if (failStrings.length > 0) {
-                failStr = this.$tc(
-                  "app.main.installFail",
-                  failStrings.length,
-                  { n: failStrings.length } /* {n} fail | {n} fails */
-                );
-              }
-              if (!!newStr && !!failStr) {
-                msg = `${msg} (${newStr}, ${failStr})`;
-              } else if (newStr) {
-                msg = `${msg} (${newStr})`;
-              } else if (failStr) {
-                msg = `${msg} (${failStr})`;
-              }
+            this.showNewUpdate = false;
+
+            if (newStrings.length > 0 && failStrings.length > 0) {
               this.showNewUpdate = true;
-              this.message(msg, "ok");
-            } else {
-              this.showNewUpdate = false;
+              this.message(
+                `${this.$tc(
+                  "app.main.installTotal",
+                  countStrings /* 0 updates ready for installation | 1 update ready for installation | {n} updates ready for installation */
+                )} (${this.$tc(
+                  "app.main.installNew",
+                  newStrings.length /* 0 news | 1 new | {n} news */
+                )}, ${this.$tc(
+                  "app.main.installFail",
+                  failStrings.length /* 0 fails | 1 fail | {n} fails */
+                )})`,
+                "ok"
+              );
+            } else if (newStrings.length > 0) {
+              this.showNewUpdate = true;
+              this.message(
+                `${this.$tc("app.main.installTotal", countStrings)} (${this.$tc(
+                  "app.main.installNew",
+                  newStrings.length
+                )})`,
+                "ok"
+              );
+            } else if (failStrings.length > 0) {
+              this.showNewUpdate = true;
+              this.message(
+                `${this.$tc("app.main.installTotal", countStrings)} (${this.$tc(
+                  "app.main.installFail",
+                  failStrings.length
+                )})`,
+                "ok"
+              );
             }
 
             // notify if there are new auras ready for update
