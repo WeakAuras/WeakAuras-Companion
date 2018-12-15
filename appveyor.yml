@@ -6,24 +6,20 @@ environment:
 
 image: Visual Studio 2017
 
-cache:
-  - node_modules
-  - '%USERPROFILE%\.electron'
-  - '%USERPROFILE%\AppData\Local\Yarn\cache'
-
 init:
   - git config --global core.autocrlf input
 
 install:
-  - ps: Install-Product node 8 x64
+  - ps: Install-Product node 10 x64
   - set CI=true
+  - ps: if($env:APPVEYOR_REPO_TAG -eq 'False' -and "$env:APPVEYOR_PULL_REQUEST_NUMBER" -eq '') { npm --no-git-tag-version version prerelease }
   - yarn
-  - node --version
 
 build_script:
   - yarn build
 
 on_success:
-  - ps: Get-ChildItem .\build\*.exe | % { Push-AppveyorArtifact $_.FullName }  
+  - ps: Get-ChildItem .\build\*.exe | % { Push-AppveyorArtifact $_.FullName }
 
-test: off
+test_script:
+  #- ps: if($env:APPVEYOR_REPO_TAG -eq 'True') { yarn dist } else { echo "Not a tag, not publishing" }
