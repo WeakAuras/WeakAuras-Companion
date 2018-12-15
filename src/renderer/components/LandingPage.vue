@@ -297,7 +297,7 @@ export default Vue.extend({
           return;
         }
 
-        const pattern = /(https:\/\/wago.io\/)([^/]+)\/?(\d*)/;
+        const pattern = /(https:\/\/wago.io\/)([^/]+)\//;
         WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
           if (obj.key.value === "displays") {
             obj.value.fields.forEach(obj2 => {
@@ -306,17 +306,24 @@ export default Vue.extend({
               let version;
               let ignoreWagoUpdate;
               let id;
+              let uid = null;
 
               obj2.value.fields.forEach(obj3 => {
                 if (obj3.key.value === "id") {
                   id = obj3.value.value;
+                }
+                if (obj3.key.value === "uid") {
+                  uid = obj3.value.value;
+                }
+                if (obj3.key.value === "version") {
+                  version = obj3.value.value;
                 }
                 if (obj3.key.value === "ignoreWagoUpdate") {
                   ignoreWagoUpdate = obj3.value.value;
                 }
                 if (obj3.key.value === "url") {
                   url = obj3.value.value;
-                  ({ 2: slug, 3: version } = url.match(pattern));
+                  ({ 2: slug } = url.match(pattern));
                 }
               });
 
@@ -336,15 +343,26 @@ export default Vue.extend({
                     author: null,
                     encoded: null,
                     privateOrDeleted: false,
-                    ids: [id]
+                    ids: [id],
+                    uids: uid ? [uid] : []
                   });
                 } else {
                   // there is already an aura with same "slug"
                   this.auras.forEach((aura, index) => {
-                    if (aura.slug === slug && typeof aura.ids !== "undefined") {
-                      // add aura id to the "ids" if necessary
+                    if (aura.slug === slug) {
+                      if (typeof aura.ids === "undefined") {
+                        this.auras[index].ids = [];
+                      }
+                      if (typeof aura.uids === "undefined") {
+                        this.auras[index].uids = [];
+                      }
+                      // add aura id to "ids" if necessary
                       if (aura.ids.indexOf(id) === -1) {
                         this.auras[index].ids.push(id);
+                      }
+                      // add aura uid to "uids" if necessary
+                      if (uid && aura.uids.indexOf(uid) === -1) {
+                        this.auras[index].uids.push(uid);
                       }
                       // check if version field needs to be updated
                       if (aura.version < version) {
@@ -546,23 +564,26 @@ export default Vue.extend({
           } else {
             // Make data.lua
             let LuaOutput = "-- file generated automatically\n";
+            let LuaUids = "  uids = {\n";
             LuaOutput += "WeakAurasCompanion = {\n";
-            const fields = [
-              "name",
-              "created",
-              "modified",
-              "author",
-              "encoded",
-              "wagoVersion"
-            ];
+            const fields = ["name", "author", "encoded", "wagoVersion"];
             const countStrings = this.aurasFilteredAndSorted.length;
+            LuaOutput += "  slugs = {\n";
             this.aurasFilteredAndSorted.forEach(aura => {
-              LuaOutput += `  ['${aura.slug}'] = {\n`;
+              LuaOutput += `    ['${aura.slug}'] = {\n`;
               fields.forEach(field => {
-                LuaOutput += `    ${field} = "${aura[field]}",\n`;
+                LuaOutput += `      ${field} = "${aura[field]}",\n`;
               });
-              LuaOutput += "  },\n";
+              if (aura.uids) {
+                aura.uids.forEach(uid => {
+                  LuaUids += `    ['${uid}'] = '${aura.slug}',\n`;
+                });
+              }
+              LuaOutput += "    },\n";
             });
+            LuaOutput += "  },\n";
+            LuaOutput += LuaUids;
+            LuaOutput += "  }\n";
             LuaOutput += "}";
 
             if (newStrings.length > 0 && failStrings.length > 0) {
