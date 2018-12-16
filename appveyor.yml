@@ -1,4 +1,4 @@
-version: 0.1.{build}
+version: '{build}'
 
 environment:
   matrix:
@@ -15,8 +15,7 @@ install:
   - set CI=true
   - yarn
 
-build_script:
-  - yarn build
+build: off
 
 on_success:
   - ps: Get-ChildItem .\build\*.exe | % { Push-AppveyorArtifact $_.FullName }
