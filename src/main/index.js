@@ -2,11 +2,16 @@
 import { app, BrowserWindow, Tray, Menu, shell, ipcMain } from "electron";
 import path from "path";
 import { autoUpdater } from "electron-updater";
+import log from "electron-log";
 
 const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 
 const store = new Store();
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = "info";
+log.info("App starting...");
 
 /**
  * Set `__static` path to static files in production
@@ -121,6 +126,8 @@ if (!app.requestSingleInstanceLock()) {
 
   app.on("ready", () => {
     createWindow();
+    if (process.env.NODE_ENV === "production")
+      autoUpdater.checkForUpdatesAndNotify();
   });
 }
 
@@ -154,8 +161,4 @@ ipcMain.on("close", () => {
 
 autoUpdater.on("update-downloaded", () => {
   autoUpdater.quitAndInstall();
-});
-
-app.on("ready", () => {
-  if (process.env.NODE_ENV === "production") autoUpdater.checkForUpdates();
 });
