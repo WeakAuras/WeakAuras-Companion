@@ -3,6 +3,7 @@ version: 0.1.{build}
 environment:
   matrix:
     - platform: x64
+    - nodejs_version: 10
 
 image: Visual Studio 2017
 
@@ -10,9 +11,8 @@ init:
   - git config --global core.autocrlf input
 
 install:
-  - ps: Install-Product node 10 x64
+  - ps: Install-Product node $env:nodejs_version $env:platform
   - set CI=true
-  - ps: if($env:APPVEYOR_REPO_TAG -eq 'False' -and "$env:APPVEYOR_PULL_REQUEST_NUMBER" -eq '') { npm --no-git-tag-version version prerelease }
   - yarn
 
 build_script:
@@ -22,4 +22,4 @@ on_success:
   - ps: Get-ChildItem .\build\*.exe | % { Push-AppveyorArtifact $_.FullName }
 
 test_script:
-  #- ps: if($env:APPVEYOR_REPO_TAG -eq 'True') { yarn dist } else { echo "Not a tag, not publishing" }
+  - yarn dist
