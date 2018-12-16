@@ -3,7 +3,6 @@ version: '{build}'
 environment:
   matrix:
     - platform: x64
-    - nodejs_version: 10
 
 image: Visual Studio 2017
 
@@ -11,7 +10,7 @@ init:
   - git config --global core.autocrlf input
 
 install:
-  - ps: Install-Product node $env:nodejs_version $env:platform
+  - ps: Install-Product node 10 x64
   - set CI=true
   - yarn
 
