@@ -10,6 +10,9 @@ init:
   - git config --global core.autocrlf input
 
 install:
+  - ps: iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
+  - cmd: appveyor-tools\secure-file -decrypt path-to\encrypted-filename.ext.enc -secret %CertSecret%
+  - sh: ./appveyor-tools/secure-file -decrypt path-to/encrypted-filename.ext.enc -secret $CertSecret
   - ps: Install-Product node 10 x64
   - set CI=true
   - yarn
