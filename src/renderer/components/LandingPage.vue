@@ -324,7 +324,8 @@ export default Vue.extend({
                 }
                 if (obj3.key.value === "url") {
                   url = obj3.value.value;
-                  ({ 2: slug } = url.match(pattern));
+                  const result = url.match(pattern);
+                  if (result) ({ 2: slug } = url.match(pattern));
                 }
               });
 
