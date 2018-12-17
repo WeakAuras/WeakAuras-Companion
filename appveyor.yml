@@ -11,7 +11,7 @@ init:
 
 install:
   - ps: iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
-  - cmd: appveyor-tools\secure-file -decrypt C:\projects\weakauras-companion\msa_digicert_CI.p12.enc -secret %CertSecret%
+  - cmd: appveyor-tools\secure-file -decrypt C:\projects\weakauras-companion\msa_digicert_CIAV.p12.enc -secret %CertSecret%
   - ps: Install-Product node 10 x64
   - set CI=true
   - yarn
