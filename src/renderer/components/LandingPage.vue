@@ -193,7 +193,8 @@ export default Vue.extend({
           const index = this.config.account.choices.findIndex(
             account => account.name === this.config.account.value
           );
-          if (index !== -1) return this.config.account.choices[index].auras;
+          if (index !== -1)
+            return this.config.account.choices[index].auras || [];
         }
         return [];
       },
