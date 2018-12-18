@@ -298,13 +298,13 @@ export default Vue.extend({
           return;
         }
 
-        const pattern = /(https:\/\/wago.io\/)([^/]+)\//;
+        const pattern = /(https:\/\/wago.io\/)([^/]+)/;
         WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
           if (obj.key.value === "displays") {
             obj.value.fields.forEach(obj2 => {
               let slug;
               let url;
-              let version;
+              let version = 1;
               let ignoreWagoUpdate;
               let id;
               let uid = null;
