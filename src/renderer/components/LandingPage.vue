@@ -248,11 +248,20 @@ export default Vue.extend({
         text,
         type
       });
-      this.$toasted.show(text, {
+      const options = {
         theme: "toasted-primary",
         position: "bottom-right",
-        duration: 5000
-      });
+        duration: 8000,
+        action: {
+          text: this.$t("app.main.close" /* Close */),
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      };
+      if (type === "success") this.$toasted.success(text, options);
+      else if (type === "error") this.$toasted.error(text, options);
+      else this.$toasted.show(text, options);
     },
     clearMessages() {
       while (this.messages.length > 0) {
@@ -600,7 +609,7 @@ export default Vue.extend({
                   "app.main.installFail",
                   failStrings.length /* no fail | 1 fail | {n} fails */
                 )})`,
-                "success"
+                "info"
               );
             } else if (newStrings.length > 0) {
               this.message(
@@ -608,7 +617,7 @@ export default Vue.extend({
                   "app.main.installNew",
                   newStrings.length
                 )})`,
-                "success"
+                "info"
               );
             } else if (failStrings.length > 0) {
               this.message(
