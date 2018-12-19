@@ -40,9 +40,9 @@
           :lastUpdate="schedule.lastUpdate"
         ></refreshButton>
         <br />
-        <div id="aura-list" v-if="aurasFilteredAndSorted.length > 0">
+        <div id="aura-list" v-if="aurasWithUpdateSorted.length > 0">
           <Aura
-            v-for="aura in aurasFilteredAndSorted"
+            v-for="aura in aurasWithUpdateSorted"
             :aura="aura"
             :key="aura.slug"
           ></Aura>
@@ -162,30 +162,28 @@ export default Vue.extend({
     accountHash() {
       return hash.hashFnv32a(this.config.account.value, true);
     },
-    aurasFilteredAndSorted() {
-      function compare(a, b) {
-        if (a.modified > b.modified) return -1;
-        if (a.modified < b.modified) return 1;
-        return 0;
-      }
-      return this.auras
-        .filter(
-          aura =>
-            !!aura.encoded &&
-            aura.wagoVersion > aura.version &&
-            !this.privateOrDeleted &&
-            !(
-              this.config.ignoreOwnAuras &&
-              aura.author === this.config.wagoUsername
-            )
-        )
-        .sort(compare);
+    aurasWithUpdateSorted() {
+      return this.aurasWithUpdate
+        .slice(0)
+        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
     },
     footerMedias() {
       if (this.medias && this.medias.weakauras) {
         return this.medias.weakauras.filter(media => media.footer);
       }
       return [];
+    },
+    aurasWithUpdate() {
+      return this.auras.filter(
+        aura =>
+          !!aura.encoded &&
+          aura.wagoVersion > aura.version &&
+          !aura.privateOrDeleted &&
+          !(
+            this.config.ignoreOwnAuras &&
+            aura.author === this.config.wagoUsername
+          )
+      );
     },
     auras: {
       get() {
@@ -585,9 +583,9 @@ export default Vue.extend({
             let LuaUids = "  uids = {\n";
             LuaOutput += "WeakAurasCompanion = {\n";
             const fields = ["name", "author", "encoded", "wagoVersion"];
-            const countStrings = this.aurasFilteredAndSorted.length;
+            const countStrings = this.aurasWithUpdateSorted.length;
             LuaOutput += "  slugs = {\n";
-            this.aurasFilteredAndSorted.forEach(aura => {
+            this.aurasWithUpdateSorted.forEach(aura => {
               LuaOutput += `    ['${aura.slug}'] = {\n`;
               fields.forEach(field => {
                 LuaOutput += `      ${field} = "${aura[field]}",\n`;
