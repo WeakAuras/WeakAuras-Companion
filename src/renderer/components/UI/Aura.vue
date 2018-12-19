@@ -21,7 +21,11 @@
         <!-- {{ $t("app.aura.currentversion" /* Current: */) }}-->
         v{{ aura.version }}
       </div>
-      <div class="wago-version" :title="aura.modified | fromNow($i18n.locale)">
+      <div
+        class="wago-version"
+        :title="currentTime | fromNow($i18n.locale)"
+        @mouseover="updateCurrentTime()"
+      >
         v{{ aura.wagoVersion }}
       </div>
     </div>
@@ -34,6 +38,11 @@ import Vue from "vue";
 
 export default Vue.extend({
   props: ["aura"],
+  data() {
+    return {
+      currentTime: null
+    };
+  },
   filters: {
     wago: value => {
       if (!value) return "";
@@ -56,6 +65,12 @@ export default Vue.extend({
         return this.aura.ids.join("\n");
       }
       return 0;
+    }
+  },
+  methods: {
+    updateCurrentTime() {
+      this.currentTime = null;
+      this.currentTime = this.aura.modified;
     }
   }
 });
