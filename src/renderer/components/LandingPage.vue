@@ -726,6 +726,11 @@ body {
   background-color: #171717;
   color: white;
   overflow-y: hidden;
+  user-select: none;
+}
+a:not([draggable="true"]),
+img:not([draggable="true"]) {
+  -webkit-user-drag: none;
 }
 #wrapper {
   height: 100vh;
