@@ -203,7 +203,14 @@ export default Vue.extend({
           const index = this.config.account.choices.findIndex(
             account => account.name === this.config.account.value
           );
-          if (index !== -1) this.config.account.choices[index].auras = newValue;
+          if (index !== -1) {
+            this.config.account.choices[index].auras = newValue;
+            this.$set(
+              this.config.account.choices,
+              index,
+              this.config.account.choices[index]
+            );
+          }
         }
       }
     }
