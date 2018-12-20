@@ -18,24 +18,24 @@
           <li>
             {{
               $t(
-                "app.help.s2_1" /* Companion make a list of your auras with a link to wago */
+                "app.help.s2_1" /* Companion makes a list of your auras with a link to wago */
+              )
+            }}
+          </li>
+          <li>
+            {{ $t("app.help.s2_2" /* Companion sends the list to Wago API */) }}
+          </li>
+          <li>
+            {{
+              $t(
+                "app.help.s2_3" /* Wago sends updated import strings and Companion compares versions */
               )
             }}
           </li>
           <li>
             {{
               $t(
-                "app.help.s2_2" /* Companion send the list to Wago API and compare versions */
-              )
-            }}
-          </li>
-          <li>
-            {{ $t("app.help.s2_3" /* Wago send updated import strings */) }}
-          </li>
-          <li>
-            {{
-              $t(
-                "app.help.s2_4" /* Companion create a new "WeakAurasCompanion" addon automatically, this is where new import strings are saved */
+                "app.help.s2_4" /* Companion creates a new "WeakAurasCompanion" addon automatically, this is where new import strings are saved */
               )
             }}
           </li>
@@ -45,7 +45,7 @@
       <li>
         {{
           $t(
-            "app.help.s3" /* The first time you start WeakAuras Companion, a new addon will be created in your World of Warcraft addon folder, you will have to restart the game for it to be able to read the new files. */
+            "app.help.s3" /* The first time you start WeakAuras Companion, you will have to restart the game for it to be able to read the addon. */
           )
         }}
       </li>
@@ -64,7 +64,7 @@
       <li>
         {{
           $t(
-            "app.help.s5" /* You can skip a version or ignore completely updates */
+            "app.help.s5" /* You can skip a version or ignore updates completely */
           )
         }}<br />
         <img :src="require(`@/assets/ingame2.png`)" class="center" />
