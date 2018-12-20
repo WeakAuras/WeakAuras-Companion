@@ -85,6 +85,7 @@ const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
 const hash = require("./libs/hash.js");
+const localserver = require("./libs/localserver.js");
 const medias = require("./libs/contacts.js");
 
 const store = new Store();
@@ -157,6 +158,10 @@ export default Vue.extend({
       this.configStep = 0;
       this.compareSVwithWago();
     }
+    localserver.start();
+  },
+  destroyed() {
+    localserver.stop();
   },
   computed: {
     accountHash() {
