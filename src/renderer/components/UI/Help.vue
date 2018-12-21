@@ -50,7 +50,7 @@
         }}
       </li>
 
-      <li>
+      <li class="reset">
         {{
           $t(
             "app.help.s4_1" /* Update your auras in-game by clicking the update button */
@@ -126,7 +126,7 @@ ul {
 }
 .follow > li {
   display: block;
-  margin-top: 7px;
+  margin-top: 17px;
 }
 .follow > li:before {
   content: counters(item, ".") ". ";
@@ -143,5 +143,8 @@ li > img {
 }
 a {
   color: #3f51b5;
+}
+.reset {
+  margin-top: 0px !important;
 }
 </style>
