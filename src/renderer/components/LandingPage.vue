@@ -540,11 +540,76 @@ export default Vue.extend({
               })
               .then(() => {
                 // we are done with wago API, update data.lua
-                this.writeAddonData(newStrings, failStrings);
-                this.fetching = false;
-                this.schedule.lastUpdate = new Date();
-                // refresh page
-                this.$nextTick();
+                try {
+                  this.writeAddonData(newStrings, failStrings);
+                  // refresh page
+                  this.$nextTick(() => {
+                    const countStrings = this.aurasWithUpdateSorted.length;
+                    if (newStrings.length > 0 && failStrings.length > 0) {
+                      this.message(
+                        `${this.$tc(
+                          "app.main.installTotal",
+                          countStrings /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+                        )} (${this.$tc(
+                          "app.main.installNew",
+                          newStrings.length /* no news | 1 new | {n} news */
+                        )}, ${this.$tc(
+                          "app.main.installFail",
+                          failStrings.length /* no fail | 1 fail | {n} fails */
+                        )})`,
+                        "info"
+                      );
+                    } else if (newStrings.length > 0) {
+                      this.message(
+                        `${this.$tc(
+                          "app.main.installTotal",
+                          countStrings
+                        )} (${this.$tc(
+                          "app.main.installNew",
+                          newStrings.length
+                        )})`,
+                        "info"
+                      );
+                    } else if (failStrings.length > 0) {
+                      this.message(
+                        `${this.$tc(
+                          "app.main.installTotal",
+                          countStrings
+                        )} (${this.$tc(
+                          "app.main.installFail",
+                          failStrings.length
+                        )})`,
+                        "error"
+                      );
+                    } else {
+                      this.message(
+                        this.$tc("app.main.installTotal", countStrings),
+                        "info"
+                      );
+                    }
+
+                    // notify if there are new auras ready for update
+                    if (this.config.notify && newStrings.length > 0) {
+                      const myNotification = new Notification(
+                        "WeakAuras Update",
+                        {
+                          body: newStrings.join("\n")
+                        }
+                      );
+                      myNotification.onclick = () => {
+                        this.$electron.ipcRenderer.send("open");
+                      };
+                    }
+                  });
+                } finally {
+                  this.fetching = false;
+                  this.schedule.lastUpdate = new Date();
+                  // schedule in 1 hour
+                  this.schedule.id = setTimeout(
+                    this.compareSVwithWago,
+                    1000 * 60 * 60
+                  );
+                }
               });
           })
           .catch(error => {
@@ -564,7 +629,7 @@ export default Vue.extend({
           });
       });
     },
-    writeAddonData(newStrings, failStrings) {
+    writeAddonData() {
       if (this.config.wowpath.valided) {
         const AddonFolder = path.join(
           this.config.wowpath.value,
@@ -582,82 +647,35 @@ export default Vue.extend({
               ),
               "error"
             );
-          } else {
-            // Make data.lua
-            let LuaOutput = "-- file generated automatically\n";
-            let LuaUids = "  uids = {\n";
-            LuaOutput += "WeakAurasCompanion = {\n";
-            const fields = ["name", "author", "encoded", "wagoVersion"];
-            const countStrings = this.aurasWithUpdateSorted.length;
-            LuaOutput += "  slugs = {\n";
-            this.aurasWithUpdateSorted.forEach(aura => {
-              LuaOutput += `    ['${aura.slug}'] = {\n`;
-              fields.forEach(field => {
-                LuaOutput += `      ${field} = "${aura[field]}",\n`;
-              });
-              if (aura.uids) {
-                aura.uids.forEach(uid => {
-                  LuaUids += `    ['${uid}'] = '${aura.slug}',\n`;
-                });
-              }
-              LuaOutput += "    },\n";
+            throw new Error("errorCantCreateAddon");
+          }
+          // Make data.lua
+          let LuaOutput = "-- file generated automatically\n";
+          let LuaUids = "  uids = {\n";
+          LuaOutput += "WeakAurasCompanion = {\n";
+          const fields = ["name", "author", "encoded", "wagoVersion"];
+          LuaOutput += "  slugs = {\n";
+          this.aurasWithUpdateSorted.forEach(aura => {
+            LuaOutput += `    ['${aura.slug}'] = {\n`;
+            fields.forEach(field => {
+              LuaOutput += `      ${field} = "${aura[field]}",\n`;
             });
-            LuaOutput += "  },\n";
-            LuaOutput += LuaUids;
-            LuaOutput += "  }\n";
-            LuaOutput += "}";
-
-            if (newStrings.length > 0 && failStrings.length > 0) {
-              this.message(
-                `${this.$tc(
-                  "app.main.installTotal",
-                  countStrings /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
-                )} (${this.$tc(
-                  "app.main.installNew",
-                  newStrings.length /* no news | 1 new | {n} news */
-                )}, ${this.$tc(
-                  "app.main.installFail",
-                  failStrings.length /* no fail | 1 fail | {n} fails */
-                )})`,
-                "info"
-              );
-            } else if (newStrings.length > 0) {
-              this.message(
-                `${this.$tc("app.main.installTotal", countStrings)} (${this.$tc(
-                  "app.main.installNew",
-                  newStrings.length
-                )})`,
-                "info"
-              );
-            } else if (failStrings.length > 0) {
-              this.message(
-                `${this.$tc("app.main.installTotal", countStrings)} (${this.$tc(
-                  "app.main.installFail",
-                  failStrings.length
-                )})`,
-                "error"
-              );
-            } else {
-              this.message(
-                this.$tc("app.main.installTotal", countStrings),
-                "info"
-              );
-            }
-
-            // notify if there are new auras ready for update
-            if (this.config.notify && newStrings.length > 0) {
-              const myNotification = new Notification("WeakAuras Update", {
-                body: newStrings.join("\n")
+            if (aura.uids) {
+              aura.uids.forEach(uid => {
+                LuaUids += `    ['${uid}'] = '${aura.slug}',\n`;
               });
-              myNotification.onclick = () => {
-                this.$electron.ipcRenderer.send("open");
-              };
             }
+            LuaOutput += "    },\n";
+          });
+          LuaOutput += "  },\n";
+          LuaOutput += LuaUids;
+          LuaOutput += "  }\n";
+          LuaOutput += "}";
 
-            const files = [
-              {
-                name: "WeakAurasCompanion.toc",
-                data: `## Interface: 80100
+          const files = [
+            {
+              name: "WeakAurasCompanion.toc",
+              data: `## Interface: 80100
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: 1.0.0
@@ -668,47 +686,37 @@ export default Vue.extend({
 
 data.lua
 init.lua`
-              },
-              {
-                name: "init.lua",
-                data: `-- file generated automatically
+            },
+            {
+              name: "init.lua",
+              data: `-- file generated automatically
 local L = WeakAuras.L
 local count = WeakAuras.CountWagoUpdates()
 
 if count > 0 then
-  C_Timer.After(1, function() WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)) end)
+C_Timer.After(1, function() WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)) end)
 end`
-              },
-              {
-                name: "data.lua",
-                data: LuaOutput
+            },
+            {
+              name: "data.lua",
+              data: LuaOutput
+            }
+          ];
+
+          files.forEach(file => {
+            fs.writeFile(path.join(AddonFolder, file.name), file.data, err2 => {
+              if (err2) {
+                this.message(
+                  this.$t(
+                    "app.main.errorFileSave",
+                    { file: file.name } /* {file} could not be saved */
+                  ),
+                  "error"
+                );
+                throw new Error("errorFileSave");
               }
-            ];
-
-            files.forEach(file => {
-              fs.writeFile(
-                path.join(AddonFolder, file.name),
-                file.data,
-                err2 => {
-                  if (err2) {
-                    this.message(
-                      this.$t(
-                        "app.main.errorFileSave",
-                        { file: file.name } /* {file} could not be saved */
-                      ),
-                      "error"
-                    );
-                  }
-                }
-              );
             });
-
-            // schedule in 1 hour
-            this.schedule.id = setTimeout(
-              this.compareSVwithWago,
-              1000 * 60 * 60
-            );
-          }
+          });
         });
       }
     }
