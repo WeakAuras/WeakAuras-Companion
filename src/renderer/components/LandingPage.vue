@@ -527,7 +527,7 @@ export default Vue.extend({
                 this.message(
                   this.$t(
                     "app.main.errorWagoAnswer",
-                    { error } /* Can't read wago answer\n{error} */
+                    { error } /* Can't read Wago answer\n{error} */
                   ),
                   "error"
                 );
@@ -552,7 +552,7 @@ export default Vue.extend({
                           countStrings /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
                         )} (${this.$tc(
                           "app.main.installNew",
-                          newStrings.length /* no news | 1 new | {n} news */
+                          newStrings.length /* no new updates | 1 new | {n} new updates */
                         )}, ${this.$tc(
                           "app.main.installFail",
                           failStrings.length /* no fail | 1 fail | {n} fails */
@@ -616,7 +616,7 @@ export default Vue.extend({
             this.message(
               this.$t(
                 "app.main.errorWagoAnswer",
-                { error } /* Can't read wago answer\n{error} */
+                { error } /* Can't read Wago answer\n{error} */
               ),
               "error"
             );
@@ -643,7 +643,7 @@ export default Vue.extend({
           if (err && err.code !== "EEXIST") {
             this.message(
               this.$t(
-                "app.main.errorCantCreateAddon" /* Can't create Addon directory */
+                "app.main.errorCantCreateAddon" /* Can't create addon directory */
               ),
               "error"
             );

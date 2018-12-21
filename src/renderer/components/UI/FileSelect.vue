@@ -2,7 +2,7 @@
   <label class="file-select" @click="handleInputClick">
     <span class="select-button">
       <p class="configlabel">
-        {{ $t("app.fileselect.wowfolder" /* World of Warcraft folder */) }}
+        {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
       </p>
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}&nbsp;</span>

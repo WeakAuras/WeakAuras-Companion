@@ -4,38 +4,42 @@
       <li>
         {{
           $t(
-            "app.help.s1" /* Configure WeakAuras Companion, you will need at least to set your World Of Warcraft folder and Account */
+            "app.help.s1" /* Configure WeakAuras Companion, you will need to at least set your World of Warcraft Folder and Account. */
           )
         }}
       </li>
       <li>
         {{
           $t(
-            "app.help.s2" /* Fetch updates, this is done automatically once every hour */
+            "app.help.s2" /* Click on 'Fetch Updates', this is also done automatically once every hour. */
           )
         }}
         <ol class="follow">
           <li>
             {{
               $t(
-                "app.help.s2_1" /* Companion makes a list of your auras with a link to wago */
-              )
-            }}
-          </li>
-          <li>
-            {{ $t("app.help.s2_2" /* Companion sends the list to Wago API */) }}
-          </li>
-          <li>
-            {{
-              $t(
-                "app.help.s2_3" /* Wago sends updated import strings and Companion compares versions */
+                "app.help.s2_1" /* Companion creates a list of your auras with a link to Wago. */
               )
             }}
           </li>
           <li>
             {{
               $t(
-                "app.help.s2_4" /* Companion creates a new "WeakAurasCompanion" addon automatically, this is where new import strings are saved */
+                "app.help.s2_2" /* Companion sends the list to the Wago API. */
+              )
+            }}
+          </li>
+          <li>
+            {{
+              $t(
+                "app.help.s2_3" /* Wago sends updated import strings and Companion compares versions. */
+              )
+            }}
+          </li>
+          <li>
+            {{
+              $t(
+                "app.help.s2_4" /* Companion creates a new "WeakAurasCompanion" addon automatically, this is where new import strings are saved. */
               )
             }}
           </li>
@@ -45,7 +49,7 @@
       <li>
         {{
           $t(
-            "app.help.s3" /* The first time you start WeakAuras Companion, you will have to restart the game for it to be able to read the addon. */
+            "app.help.s3" /* The first time you start WeakAuras Companion, you will have to restart the game for it to be able to load the addon. */
           )
         }}
       </li>
@@ -53,18 +57,18 @@
       <li class="reset">
         {{
           $t(
-            "app.help.s4_1" /* Update your auras in-game by clicking the update button */
+            "app.help.s4_1" /* Update your auras in-game by clicking the update button next to them */
           )
         }}
         <img :src="require(`@/assets/wagoupdate_logo.png`)" />
-        {{ $t("app.help.s4_2" /* in WeakAuras Options */) }}<br />
+        {{ $t("app.help.s4_2" /* in the WeakAuras options. */) }}<br />
         <img :src="require(`@/assets/ingame.png`)" class="center" /><br /><br />
         <img :src="require(`@/assets/diagram.gif`)" class="center" />
       </li>
       <li>
         {{
           $t(
-            "app.help.s5" /* You can skip a version or ignore updates completely */
+            "app.help.s5" /* You can always skip a version or just ignore updates completely. */
           )
         }}<br />
         <img :src="require(`@/assets/ingame2.png`)" class="center" />
@@ -74,28 +78,32 @@
     <br />
     <div>
       {{
-        $t("app.help.bug" /* If you encounter a bug, please make a ticket on */)
+        $t(
+          "app.help.bug" /* If you encounter a bug, please create a ticket on */
+        )
       }}
       <a
         target="_blank"
         href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new"
         >GitHub</a
       >
-      {{ $t("app.help.bugend" /* with: */) }}<br />
+      {{ $t("app.help.bugend" /* containing: */) }}<br />
       <ul>
-        <li>{{ $t("app.help.bug.s1" /* A description of your problem */) }}</li>
-        <li>{{ $t("app.help.bug.s2" /* Steps to reproduce */) }}</li>
+        <li>
+          {{ $t("app.help.bug.s1" /* A description of your problem. */) }}
+        </li>
+        <li>{{ $t("app.help.bug.s2" /* The steps to reproduce it. */) }}</li>
         <li>
           {{
             $t(
-              "app.help.bug.s3" /* Screenshot if it helps understand your issue */
+              "app.help.bug.s3" /* A screenshot if it helps to understand your issue. */
             )
           }}
         </li>
         <li>
           {{
             $t(
-              "app.help.bug.s4" /* Type [Ctrl+Shift+I] to access the console and copy any error */
+              "app.help.bug.s4" /* Error logs, type Ctrl+Shift+I to access the console and copy any error that might show up. */
             )
           }}
         </li>

@@ -38,7 +38,7 @@
       {{
         $t(
           "app.about.version",
-          { version: version } /* WeakAuras Companion version {version} */
+          { version: version } /* WeakAuras Companion v{version} */
         )
       }}
     </div>

@@ -3,13 +3,13 @@
     <br /><br />
     <spinner :spin="fetching"></spinner>
     <v-button v-if="usable" @click="refresh" type="refresh">
-      {{ $t("app.refreshbutton.label" /* Fetch updates */) }}
+      {{ $t("app.refreshbutton.label" /* Fetch Updates */) }}
     </v-button>
     <v-button v-else @click="gotoconfig" type="issue">
       {{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}
     </v-button>
     <div id="lastupdate">
-      {{ $t("app.refreshbutton.lastupdate" /* Last update: */) }}
+      {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       {{ lastUpdate | fromNow($i18n.locale) }}
     </div>
   </div>

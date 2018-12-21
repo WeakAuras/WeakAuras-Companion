@@ -13,7 +13,7 @@
       <img v-else class="red" :src="require(`@/assets/error.png`)" />
       <span v-if="config.wowpath.valided">
         <p class="label">
-          {{ $t("app.config.selectAccount" /* Select Account */) }}
+          {{ $t("app.config.selectAccount" /* Select WoW Account */) }}
         </p>
         <select v-model="config.account.value" class="form-control">
           <option v-for="item in config.account.choices" :key="item.name">{{
@@ -33,7 +33,7 @@
     </div>
     <div class="block">
       <p class="label">
-        {{ $t("app.config.wagoAccount" /* Wago Account (optional) */) }}
+        {{ $t("app.config.wagoAccount" /* Set Wago Account (optional) */) }}
       </p>
       <input type="text" v-model="wagoUsername" size="11" />
       <v-button @click="config.wagoUsername = wagoUsername">{{
