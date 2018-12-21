@@ -17,18 +17,19 @@ deploy:
   provider: releases
   on:
     tags: true
-  script: |
-  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    export CERTIFICATE_P12=$CSC_LINK;
-    echo $CERTIFICATE_OSX_P12 | base64 — decode > $CERTIFICATE_P12;
-    export KEYCHAIN=build.keychain;
-    security create-keychain -p mysecretpassword $KEYCHAIN;
-    security default-keychain -s $KEYCHAIN;
-    security unlock-keychain -p mysecretpassword $KEYCHAIN;
-    security import $CERTIFICATE_P12 -k $KEYCHAIN -P $CSC_KEY_PASSWORD -T /usr/bin/codesign;
+  script:
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      export CERTIFICATE_P12=$CSC_LINK;
+      echo $CERTIFICATE_OSX_P12 | base64 — decode > $CERTIFICATE_P12;
+      export KEYCHAIN=build.keychain;
+      security create-keychain -p mysecretpassword $KEYCHAIN;
+      security default-keychain -s $KEYCHAIN;
+      security unlock-keychain -p mysecretpassword $KEYCHAIN;
+      security import $CERTIFICATE_P12 -k $KEYCHAIN -P $CSC_KEY_PASSWORD -T /usr/bin/codesign;
 
-    yarn dist
-  fi
+      yarn dist
+    fi
 branches:
   only:
   - master
