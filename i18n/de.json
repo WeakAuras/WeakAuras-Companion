@@ -43,6 +43,7 @@
   "app.main.installFail": "no fail | 1 fail | {n} fails",
   "app.main.installNew": "no new updates | 1 new | {n} new updates",
   "app.main.installTotal": "no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation",
+  "app.main.nothingToFetch": "no updates available",
   "app.menu.about": "About",
   "app.menu.help": "Help",
   "app.menu.main": "Main",

@@ -396,24 +396,34 @@ export default Vue.extend({
             });
           }
         });
+        const fetchAuras = this.auras
+          .filter(
+            aura =>
+              !aura.privateOrDeleted &&
+              !aura.ignoreWagoUpdate &&
+              !(
+                this.config.ignoreOwnAuras &&
+                !!aura.author &&
+                aura.author === this.config.wagoUsername
+              )
+          )
+          .map(aura => aura.slug);
+        if (fetchAuras.length === 0) {
+          this.message(
+            this.$t("app.main.nothingToFetch" /* no updates available */),
+            "info"
+          );
+          this.fetching = false;
+          this.schedule.lastUpdate = new Date();
+          this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
+          return;
+        }
         // get data from wago api
         this.$http
           .get("https://data.wago.io/api/check/weakauras", {
             params: {
               // !! size of request is not checked, can lead to too long urls
-              ids: this.auras
-                .filter(
-                  aura =>
-                    !aura.privateOrDeleted &&
-                    !aura.ignoreWagoUpdate &&
-                    !(
-                      this.config.ignoreOwnAuras &&
-                      !!aura.author &&
-                      aura.author === this.config.wagoUsername
-                    )
-                )
-                .map(aura => aura.slug)
-                .join()
+              ids: fetchAuras.join()
             },
             headers: {
               Identifier: this.accountHash,
@@ -541,7 +551,7 @@ export default Vue.extend({
               .then(() => {
                 // we are done with wago API, update data.lua
                 try {
-                  this.writeAddonData(newStrings, failStrings);
+                  this.writeAddonData();
                   // refresh page
                   this.$nextTick(() => {
                     const countStrings = this.aurasWithUpdateSorted.length;
