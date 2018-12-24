@@ -19,7 +19,7 @@
     <div class="upgrade-text">
       <div class="current-version">
         <!-- {{ $t("app.aura.currentversion" /* Current: */) }}-->
-        v<span v-if="aura.semver" v-html="aura.version" /><span
+        v<span v-if="aura.semver" v-html="aura.semver" /><span
           v-else
           v-html="aura.version"
         />
