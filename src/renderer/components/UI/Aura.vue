@@ -19,14 +19,20 @@
     <div class="upgrade-text">
       <div class="current-version">
         <!-- {{ $t("app.aura.currentversion" /* Current: */) }}-->
-        v{{ aura.version }}
+        v<span v-if="aura.semver" v-html="aura.version" /><span
+          v-else
+          v-html="aura.version"
+        />
       </div>
       <div
         class="wago-version"
         :title="currentTime | fromNow($i18n.locale)"
         @mouseover="updateCurrentTime()"
       >
-        v{{ aura.wagoVersion }}
+        v<span v-if="aura.wagoSemver" v-html="aura.wagoSemver" /><span
+          v-else
+          v-html="aura.wagoVersion"
+        />
       </div>
     </div>
   </div>
@@ -130,13 +136,12 @@ export default Vue.extend({
 .upgrade-text {
   font-weight: 600;
   text-shadow: #000000 0 1px 0;
-  width: 50px;
   display: flex;
 }
 .current-version {
   font-size: 9px;
   color: #777;
-  width: 70px;
+  width: 55px;
   line-height: 32px;
   text-align: left;
   padding-top: 1px;
@@ -144,7 +149,7 @@ export default Vue.extend({
 .wago-version {
   text-shadow: rgba(219, 185, 50, 0.267) 0 0 5px;
   text-align: right;
-  width: 30px;
+  width: 55px;
   line-height: 32px;
 }
 </style>

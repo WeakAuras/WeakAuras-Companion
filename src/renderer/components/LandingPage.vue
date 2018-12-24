@@ -324,6 +324,7 @@ export default Vue.extend({
               let slug;
               let url;
               let version = 1;
+              let semver;
               let ignoreWagoUpdate;
               let id;
               let uid = null;
@@ -337,6 +338,9 @@ export default Vue.extend({
                 }
                 if (obj3.key.value === "version") {
                   version = obj3.value.value;
+                }
+                if (obj3.key.value === "semver") {
+                  semver = obj3.value.value;
                 }
                 if (obj3.key.value === "ignoreWagoUpdate") {
                   ignoreWagoUpdate = obj3.value.value;
@@ -357,8 +361,11 @@ export default Vue.extend({
                   this.auras.push({
                     slug,
                     version,
+                    semver,
                     ignoreWagoUpdate,
                     wagoVersion: null,
+                    wagoSemver: null,
+                    changelog: null,
                     created: null,
                     modified: null,
                     author: null,
@@ -444,6 +451,8 @@ export default Vue.extend({
                   this.auras[index].name = wagoData.name;
                   this.auras[index].author = wagoData.username;
                   this.auras[index].created = new Date(wagoData.created);
+                  this.auras[index].wagoSemver = wagoData.versionString;
+                  this.auras[index].changelog = wagoData.changelog;
                   if (
                     // get string if no string or current version is older than wago's
                     wagoData.version > aura.version &&
@@ -663,13 +672,23 @@ export default Vue.extend({
           let LuaOutput = "-- file generated automatically\n";
           let LuaUids = "  uids = {\n";
           LuaOutput += "WeakAurasCompanion = {\n";
-          const fields = ["name", "author", "encoded", "wagoVersion"];
+          const fields = [
+            "name",
+            "author",
+            "encoded",
+            "wagoVersion",
+            "wagoSemver"
+          ];
           LuaOutput += "  slugs = {\n";
           this.aurasWithUpdateSorted.forEach(aura => {
             LuaOutput += `    ['${aura.slug}'] = {\n`;
             fields.forEach(field => {
               LuaOutput += `      ${field} = "${aura[field]}",\n`;
             });
+            if (aura.changelog.text) {
+              const sanitize = aura.changelog.text; // TODO !!
+              LuaOutput += `      versionNote = "${sanitize}",\n`;
+            }
             if (aura.uids) {
               aura.uids.forEach(uid => {
                 LuaUids += `    ['${uid}'] = '${aura.slug}',\n`;
