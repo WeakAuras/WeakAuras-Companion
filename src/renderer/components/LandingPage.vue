@@ -87,6 +87,7 @@ const Store = require("electron-store");
 const hash = require("./libs/hash.js");
 const localserver = require("./libs/localserver.js");
 const medias = require("./libs/contacts.js");
+const sanitize = require("./libs/sanitize.js");
 
 const store = new Store();
 luaparse.defaultOptions.comments = false;
@@ -686,8 +687,13 @@ export default Vue.extend({
               LuaOutput += `      ${field} = "${aura[field]}",\n`;
             });
             if (aura.changelog.text) {
-              const sanitize = aura.changelog.text; // TODO !!
-              LuaOutput += `      versionNote = "${sanitize}",\n`;
+              let sanitized;
+              if (aura.changelog.format === "bbcode") {
+                sanitized = sanitize.bbcode(aura.changelog.text);
+              } else if (aura.changelog.format === "markdown") {
+                sanitized = sanitize.markdown(aura.changelog.text);
+              }
+              LuaOutput += `      versionNote = "${sanitized}",\n`;
             }
             if (aura.uids) {
               aura.uids.forEach(uid => {
