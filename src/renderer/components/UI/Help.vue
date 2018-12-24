@@ -43,6 +43,13 @@
               )
             }}
           </li>
+          <li>
+            {{
+              $t(
+                "app.help.s2_5" /* Restart World of Warcraft or reload your UI. */
+              )
+            }}
+          </li>
         </ol>
       </li>
 

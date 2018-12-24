@@ -29,6 +29,7 @@
   "app.help.s2_2": "Companion envoi la liste à l'API de Wago.",
   "app.help.s2_3": "Wago envoi les mises à jour et Companion compare les versions",
   "app.help.s2_4": "Companion crait un nouvel addon \"WeakAurasCompanion\" automatiquement, c'est là que les mises à jours sont sauvegardés.",
+  "app.help.s2_5": "Redémarrez World of Warcraft ou rechargez votre interface.",
   "app.help.s3": "La première fois que vous lancez WeakAuras Companion, World of Warcraft doit être redémarré pour pouvoir charger l'addon.",
   "app.help.s4_1": "Mettez à jour vos auras dans le jeux en cliquant sur l'icone de mise à jour",
   "app.help.s4_2": "dans les options de WeakAuras.",
