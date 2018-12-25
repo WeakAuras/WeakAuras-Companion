@@ -686,14 +686,16 @@ export default Vue.extend({
             fields.forEach(field => {
               LuaOutput += `      ${field} = "${aura[field]}",\n`;
             });
-            if (typeof this.aura.changelog.text !== "undefined") {
-              let sanitized;
-              if (aura.changelog.format === "bbcode") {
-                sanitized = sanitize.bbcode(aura.changelog.text);
-              } else if (aura.changelog.format === "markdown") {
-                sanitized = sanitize.markdown(aura.changelog.text);
+            if (typeof this.aura.changelog !== "undefined") {
+              if (typeof this.aura.changelog.text !== "undefined") {
+                let sanitized;
+                if (aura.changelog.format === "bbcode") {
+                  sanitized = sanitize.bbcode(aura.changelog.text);
+                } else if (aura.changelog.format === "markdown") {
+                  sanitized = sanitize.markdown(aura.changelog.text);
+                }
+                LuaOutput += `      versionNote = "${sanitized}",\n`;
               }
-              LuaOutput += `      versionNote = "${sanitized}",\n`;
             }
             if (aura.uids) {
               aura.uids.forEach(uid => {

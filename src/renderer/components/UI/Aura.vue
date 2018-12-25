@@ -71,13 +71,15 @@ export default Vue.extend({
     childs() {
       let output = "";
       if (typeof this.aura.ids !== "undefined") {
-        if (typeof this.aura.changelog.text !== "undefined") {
-          if (this.aura.changelog.format === "bbcode") {
-            output += sanitize.bbcode(this.aura.changelog.text);
-          } else if (this.aura.changelog.format === "markdown") {
-            output += sanitize.markdown(this.aura.changelog.text);
+        if (typeof this.aura.changelog !== "undefined") {
+          if (typeof this.aura.changelog.text !== "undefined") {
+            if (this.aura.changelog.format === "bbcode") {
+              output += sanitize.bbcode(this.aura.changelog.text);
+            } else if (this.aura.changelog.format === "markdown") {
+              output += sanitize.markdown(this.aura.changelog.text);
+            }
+            output += "\n\n";
           }
-          output += "\n\n";
         }
         output += this.aura.ids.join("\n");
       }
