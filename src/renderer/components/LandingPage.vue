@@ -876,6 +876,7 @@ header .btn-menu:last-child {
 }
 .btn.btn-menu:hover {
   background-color: rgba(255, 255, 255, 0.11);
+  color: rgb(255, 209, 0);
 }
 
 .btn-menu.active {
@@ -934,6 +935,7 @@ header .btn-menu:last-child {
 
 .toasted-container.bottom-right {
   right: 30px;
+  bottom: 50px;
 }
 .toasted-container.bottom-right .action {
   color: rgb(255, 209, 0);

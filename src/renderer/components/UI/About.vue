@@ -5,7 +5,6 @@
         <div class="title">
           {{ $t("app.about.weakaurasteam" /* WeakAuras Team */) }}
         </div>
-        <br />
         <div
           v-for="media in medias.weakauras"
           class="media-item"
@@ -23,7 +22,6 @@
       </div>
       <div style="flex: 50%">
         <div class="title">{{ $t("app.about.wago" /* Wago */) }}</div>
-        <br />
         <div v-for="media in medias.wago" class="media-item" :key="media.name">
           <a :href="media.url" target="_blank">
             <img
@@ -97,5 +95,11 @@ export default {
   bottom: 15px;
   right: 15px;
   text-align: right;
+}
+.title {
+  margin-bottom: 15px;
+}
+a:hover {
+  color: rgb(255, 209, 0);
 }
 </style>

@@ -100,8 +100,8 @@ export default Vue.extend({
   background-color: #1d1d1d;
   color: rgb(255, 209, 0);
   margin: 1px;
-  height: 32px;
-  padding: 2px 10px;
+  height: 36px;
+  padding: 2px 15px;
   vertical-align: middle;
   white-space: nowrap;
   display: flex;
