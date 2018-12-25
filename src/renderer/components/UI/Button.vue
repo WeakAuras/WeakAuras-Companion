@@ -139,7 +139,6 @@ export default {
 .btn-link {
   background: #171717;
   border: 1px solid #0f0f0f;
-  padding: 5px;
 }
 .btn-link:hover {
   background: #222;

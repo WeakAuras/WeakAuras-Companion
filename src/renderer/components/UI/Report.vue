@@ -58,9 +58,14 @@ export default {
   display: block;
   margin: 5px auto;
   transition: background-color ease-in-out 0.2s;
+  padding: 0;
 }
 .btn-link a {
   font-size: 16px;
+  width: 100%;
+  height: 100%;
+  display: block;
+  line-height: 34px;
 }
 h1 {
   margin-bottom: 30px;
