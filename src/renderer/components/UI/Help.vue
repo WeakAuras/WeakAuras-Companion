@@ -69,8 +69,8 @@
           )
         }}
         <img :src="require(`@/assets/wagoupdate_logo.png`)" />
-        {{ $t("app.help.s4_2" /* in the WeakAuras options. */) }}
-        <img :src="require(`@/assets/ingame.png`)" class="center" />
+        {{ $t("app.help.s4_2" /* in the WeakAuras options. */) }}<br />
+        <img :src="require(`@/assets/ingame.png`)" class="center" /><br />
         <img :src="require(`@/assets/diagram.gif`)" class="center" />
       </li>
       <li>
@@ -85,7 +85,7 @@
     <br />
     <br />
     <div class="title">{{ $t("app.help.foundbug" /* Found a bug? */) }}</div>
-    <div>
+    <div class="paragraph">
       {{
         $t(
           "app.help.bug" /* If you encounter a bug, please create a ticket on */
@@ -134,7 +134,7 @@
   margin-left: 60%;
 }
 #help > ol {
-  margin-left: 0;
+  margin-left: 15px;
   padding-left: 0;
 }
 ol,
@@ -161,6 +161,7 @@ li > img {
   left: 50%;
   transform: translate(-50%, 0);
   margin: 20px 0 0;
+  max-width: 100%;
 }
 a {
   color: rgb(255, 209, 0);
@@ -171,5 +172,8 @@ a:hover {
 }
 .reset {
   margin-top: 0px !important;
+}
+.paragraph {
+  margin-left: 15px;
 }
 </style>

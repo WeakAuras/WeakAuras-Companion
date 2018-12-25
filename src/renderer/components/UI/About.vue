@@ -83,7 +83,7 @@ export default {
   align-items: center;
 }
 .media-item {
-  margin: 10px 5px;
+  margin: 10px 15px;
 }
 .logo {
   opacity: 1;

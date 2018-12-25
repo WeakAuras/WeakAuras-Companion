@@ -228,13 +228,13 @@ select,
   color: #1e1e1e;
 }
 .title {
-  margin: 25px 0 10px;
+  margin: 20px 0 10px;
 }
 #config .title:first-child {
   margin-top: 5px;
 }
 .block {
-  margin-left: 10px;
+  margin-left: 15px;
   font-size: 15px;
 }
 .option {
