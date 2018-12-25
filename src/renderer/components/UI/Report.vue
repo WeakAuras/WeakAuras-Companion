@@ -11,7 +11,6 @@
             {{ $t("app.report.companion" /* Companion */) }}
           </a>
         </v-button>
-        <br />
         <v-button type="link">
           <a
             href="https://github.com/WeakAuras/WeakAuras2/issues/new"
@@ -53,10 +52,11 @@ export default {
   position: relative;
   top: 35%;
 }
-.btn-link {
+.btn.btn-link {
   min-width: 200px;
   min-height: 40px;
-  margin-bottom: 5px;
+  display: block;
+  margin: 5px auto;
   transition: background-color ease-in-out 0.2s;
 }
 .btn-link a {
