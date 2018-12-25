@@ -71,6 +71,12 @@ function createWindow() {
         mainWindow.show();
       }
     },
+    {
+      label: "Check for Companion Updates",
+      click: () => {
+        autoUpdater.checkForUpdatesAndNotify();
+      }
+    },
     { type: "separator" },
     {
       label: "Fetch Updates",
