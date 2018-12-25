@@ -42,6 +42,8 @@
 import moment from "moment";
 import Vue from "vue";
 
+const sanitize = require("../libs/sanitize.js");
+
 export default Vue.extend({
   props: ["aura"],
   data() {
@@ -67,10 +69,19 @@ export default Vue.extend({
   },
   computed: {
     childs() {
+      let output = "";
       if (typeof this.aura.ids !== "undefined") {
-        return this.aura.ids.join("\n");
+        if (typeof this.aura.changelog.text !== "undefined") {
+          if (this.aura.changelog.format === "bbcode") {
+            output += sanitize.bbcode(this.aura.changelog.text);
+          } else if (this.aura.changelog.format === "markdown") {
+            output += sanitize.markdown(this.aura.changelog.text);
+          }
+          output += "\n\n";
+        }
+        output += this.aura.ids.join("\n");
       }
-      return 0;
+      return output;
     }
   },
   methods: {
