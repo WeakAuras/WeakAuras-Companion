@@ -957,7 +957,7 @@ header .btn-menu:last-child {
 }
 
 .toasted-container.bottom-right {
-  right: 30px;
+  right: 15px;
   bottom: 50px;
 }
 .toasted-container.bottom-right .action {

@@ -98,6 +98,7 @@ export default {
 }
 .title {
   margin-bottom: 15px;
+  margin-right: 10px;
 }
 a:hover {
   color: rgb(255, 209, 0);
