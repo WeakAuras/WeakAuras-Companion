@@ -17,6 +17,7 @@
   "app.config.wagoAccount": "Учетная запись Wago (необязательно)",
   "app.config.wagoSettings": "Настройки Wago",
   "app.fileselect.wowfolder": "Расположение World of Warcraft",
+  "app.footer.reportbug": "Report a bug",
   "app.help.bug": "If you encounter a bug, please create a ticket on",
   "app.help.bug.s1": "A description of your problem.",
   "app.help.bug.s2": "The steps to reproduce it.",
@@ -54,5 +55,8 @@
   "app.menu.settings": "Настройки",
   "app.refreshbutton.finishsetup": "Finish Setup",
   "app.refreshbutton.label": "Проверить обновления на Wago",
-  "app.refreshbutton.lastupdate": "Последняя проверка:"
+  "app.refreshbutton.lastupdate": "Последняя проверка:",
+  "app.report.addon": "AddOn",
+  "app.report.companion": "Companion",
+  "app.report.title": "Report a bug"
 }

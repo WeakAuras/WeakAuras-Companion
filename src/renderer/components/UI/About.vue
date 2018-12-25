@@ -91,7 +91,7 @@ export default {
 .app-info {
   font-size: 12px;
   color: rgb(173, 173, 173);
-  position: fixed;
+  position: absolute;
   bottom: 15px;
   right: 15px;
   text-align: right;
