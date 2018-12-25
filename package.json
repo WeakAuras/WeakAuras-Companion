@@ -80,7 +80,7 @@
     "moment": "^2.23.0",
     "vue": "^2.5.21",
     "vue-electron": "^1.0.6",
-    "vue-i18n": "^8.5.0",
+    "vue-i18n": "^8.6.0",
     "vue-router": "^3.0.2",
     "vue-toasted": "^1.1.26"
   },
@@ -97,7 +97,7 @@
     "chalk": "^2.4.1",
     "copy-webpack-plugin": "^4.6.0",
     "cross-env": "^5.2.0",
-    "css-loader": "^2.0.2",
+    "css-loader": "^2.1.0",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
     "electron": "^4.0.0",
@@ -130,7 +130,7 @@
     "vue-template-compiler": "^2.5.21",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.13",
+    "webpack-dev-server": "^3.1.14",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.1.5"
   }
