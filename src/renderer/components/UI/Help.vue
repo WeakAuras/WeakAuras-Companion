@@ -121,7 +121,7 @@
 
 <style scoped>
 #help {
-  padding: 10px 50px;
+  padding: 10px 30px;
   text-align: left;
   height: 100%;
   position: relative;
@@ -130,11 +130,14 @@
 .updateButton {
   margin-left: 60%;
 }
+#help > ol {
+  margin-left: 0;
+  padding-left: 0;
+}
 ol,
 ul {
-  padding-left: 10px;
   font-size: small;
-  margin-left: 20px;
+  margin-left: 30px;
 }
 .follow {
   counter-reset: item;

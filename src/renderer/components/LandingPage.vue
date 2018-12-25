@@ -923,4 +923,19 @@ header .btn-menu:last-child {
   float: right;
   vertical-align: bottom;
 }
+
+.title {
+  font-size: 25px;
+  font-weight: 600;
+  padding: 4px 10px 4px;
+  border-left: 2px solid rgb(255, 209, 0);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.toasted-container.bottom-right {
+  right: 30px;
+}
+.toasted-container.bottom-right .action {
+  color: rgb(255, 209, 0);
+}
 </style>
