@@ -93,9 +93,9 @@ export default {
 .app-info {
   font-size: 12px;
   color: rgb(173, 173, 173);
-  position: absolute;
-  bottom: 0;
-  right: 20px;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
   text-align: right;
 }
 </style>
