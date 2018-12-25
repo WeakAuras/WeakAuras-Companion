@@ -9246,10 +9246,10 @@ vue-html-loader@^1.2.4:
     loader-utils "^1.0.2"
     object-assign "^4.1.0"
 
-vue-i18n@^8.5.0:
-  version "8.5.0"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.5.0.tgz#e6679b7fd1a13124c05565dabc28302b7cc23af0"
-  integrity sha512-2wz2E9iFeFZ2zAimbZwzU8X/e27fW3UvwVMHox74dp8RXexs6GfW93LU1kttgsmA/06/WjQlSK60NCMkNX6Y6A==
+vue-i18n@^8.6.0:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.6.0.tgz#63848b183cf6f100436bcdd84382416e43b07188"
+  integrity sha512-h2zKbspC/yKulfPN1Vp/bewOeFKCRr4tFPDJF+ev/zsSvNs9lORh3Hsq643ELoQJYsUmpWigHkKnRDST6Sz8zw==
 
 vue-loader@^15.4.2:
   version "15.4.2"
