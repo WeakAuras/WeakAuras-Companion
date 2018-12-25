@@ -2,8 +2,9 @@
   <div id="about">
     <div style="display: flex">
       <div style="flex: 50%">
-        <h2>{{ $t("app.about.weakaurasteam" /* WeakAuras Team */) }}</h2>
-        <br />
+        <div class="title">
+          {{ $t("app.about.weakaurasteam" /* WeakAuras Team */) }}
+        </div>
         <div
           v-for="media in medias.weakauras"
           class="media-item"
@@ -20,8 +21,7 @@
         </div>
       </div>
       <div style="flex: 50%">
-        <h2>{{ $t("app.about.wago" /* Wago */) }}</h2>
-        <br />
+        <div class="title">{{ $t("app.about.wago" /* Wago */) }}</div>
         <div v-for="media in medias.wago" class="media-item" :key="media.name">
           <a :href="media.url" target="_blank">
             <img
@@ -66,7 +66,7 @@ export default {
 
 <style scoped>
 #about {
-  padding: 10px 50px;
+  padding: 10px 30px;
   text-align: left;
   height: 100%;
   position: relative;
@@ -83,7 +83,7 @@ export default {
   align-items: center;
 }
 .media-item {
-  margin: 10px 5px;
+  margin: 10px 15px;
 }
 .logo {
   opacity: 1;
@@ -92,8 +92,15 @@ export default {
   font-size: 12px;
   color: rgb(173, 173, 173);
   position: absolute;
-  bottom: 0;
-  right: 20px;
+  bottom: 15px;
+  right: 15px;
   text-align: right;
+}
+.title {
+  margin-bottom: 15px;
+  margin-right: 10px;
+}
+a:hover {
+  color: rgb(255, 209, 0);
 }
 </style>

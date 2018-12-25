@@ -1,5 +1,6 @@
 <template>
   <div id="help" ref="help">
+    <div class="title">{{ $t("app.help.title" /* Setup steps */) }}</div>
     <ol class="follow">
       <li>
         {{
@@ -69,7 +70,7 @@
         }}
         <img :src="require(`@/assets/wagoupdate_logo.png`)" />
         {{ $t("app.help.s4_2" /* in the WeakAuras options. */) }}<br />
-        <img :src="require(`@/assets/ingame.png`)" class="center" /><br /><br />
+        <img :src="require(`@/assets/ingame.png`)" class="center" /><br />
         <img :src="require(`@/assets/diagram.gif`)" class="center" />
       </li>
       <li>
@@ -83,7 +84,8 @@
     </ol>
     <br />
     <br />
-    <div>
+    <div class="title">{{ $t("app.help.foundbug" /* Found a bug? */) }}</div>
+    <div class="paragraph">
       {{
         $t(
           "app.help.bug" /* If you encounter a bug, please create a ticket on */
@@ -121,27 +123,31 @@
 
 <style scoped>
 #help {
-  padding: 10px 50px;
+  padding: 10px 30px;
   text-align: left;
   height: 100%;
   position: relative;
   overflow: auto;
+  transition: all ease-in 1s;
 }
 .updateButton {
   margin-left: 60%;
 }
+#help > ol {
+  margin-left: 15px;
+  padding-left: 0;
+}
 ol,
 ul {
-  padding-left: 10px;
   font-size: small;
-  margin-left: 20px;
+  margin-left: 30px;
 }
 .follow {
   counter-reset: item;
 }
 .follow > li {
   display: block;
-  margin-top: 17px;
+  margin-top: 10px;
 }
 .follow > li:before {
   content: counters(item, ".") ". ";
@@ -154,12 +160,20 @@ li > img {
   position: relative;
   left: 50%;
   transform: translate(-50%, 0);
-  margin: 10px 0;
+  margin: 20px 0 0;
+  max-width: 100%;
 }
 a {
-  color: #3f51b5;
+  color: rgb(255, 209, 0);
+  font-weight: 700;
+}
+a:hover {
+  color: rgb(255, 228, 106);
 }
 .reset {
   margin-top: 0px !important;
+}
+.paragraph {
+  margin-left: 15px;
 }
 </style>

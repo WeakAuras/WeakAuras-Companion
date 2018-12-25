@@ -1,71 +1,80 @@
 <template>
   <div id="wrapper">
-    <TitleBar></TitleBar>
-    <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-background" />
-    <div class="logos">
-      <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-top" />
-      <span>{{ $t("app.main.companion" /* Companion */) }}</span>
-    </div>
-    <header>
-      <v-button
-        type="menu"
-        @click="configStep = 0"
-        v-bind:class="{ active: configStep === 0 }"
-        >{{ $t("app.menu.main" /* Main */) }}</v-button
-      >
-      <v-button
-        type="menu"
-        @click="configStep = 1"
-        v-bind:class="{ active: configStep === 1 }"
-        >{{ $t("app.menu.settings" /* Settings */) }}</v-button
-      >
-      <v-button
-        type="menu"
-        @click="configStep = 2"
-        v-bind:class="{ active: configStep === 2 }"
-        >{{ $t("app.menu.help" /* Help */) }}</v-button
-      >
-      <v-button
-        type="menu"
-        @click="configStep = 3"
-        v-bind:class="{ active: configStep === 3 }"
-        >{{ $t("app.menu.about" /* About */) }}</v-button
-      >
-    </header>
-    <main>
-      <div v-if="configStep === 0" id="dashboard">
-        <refreshButton
-          :usable="config.wowpath.valided && config.account.valided"
-          :fetching="fetching"
-          :lastUpdate="schedule.lastUpdate"
-        ></refreshButton>
-        <br />
-        <div id="aura-list" v-if="aurasWithUpdateSorted.length > 0">
-          <Aura
-            v-for="aura in aurasWithUpdateSorted"
-            :aura="aura"
-            :key="aura.slug"
-          ></Aura>
-        </div>
+    <div class="main-container" v-bind:class="{ blurred: reportIsShown }">
+      <TitleBar></TitleBar>
+      <img
+        :src="require(`@/assets/weakauras.png`)"
+        class="wa-logo-background"
+      />
+      <div class="logos">
+        <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-top" />
+        <span>{{ $t("app.main.companion" /* Companion */) }}</span>
       </div>
-      <Config v-if="configStep === 1" :config="config"></Config>
-      <help v-if="configStep === 2"></help>
-      <about v-if="configStep === 3"></about>
-    </main>
-    <footer>
-      <a
-        v-for="media in footerMedias"
-        v-bind:key="media.name"
-        :href="media.url"
-        target="_blank"
-      >
-        <img
-          :src="require(`@/assets/${media.name}.png`)"
-          class="logo"
-          :title="media.name"
-        />
-      </a>
-    </footer>
+      <header>
+        <v-button
+          type="menu"
+          @click="configStep = 0"
+          v-bind:class="{ active: configStep === 0 }"
+          >{{ $t("app.menu.main" /* Main */) }}</v-button
+        >
+        <v-button
+          type="menu"
+          @click="configStep = 1"
+          v-bind:class="{ active: configStep === 1 }"
+          >{{ $t("app.menu.settings" /* Settings */) }}</v-button
+        >
+        <v-button
+          type="menu"
+          @click="configStep = 2"
+          v-bind:class="{ active: configStep === 2 }"
+          >{{ $t("app.menu.help" /* Help */) }}</v-button
+        >
+        <v-button
+          type="menu"
+          @click="configStep = 3"
+          v-bind:class="{ active: configStep === 3 }"
+          >{{ $t("app.menu.about" /* About */) }}</v-button
+        >
+      </header>
+      <main>
+        <div v-if="configStep === 0" id="dashboard">
+          <refreshButton
+            :usable="config.wowpath.valided && config.account.valided"
+            :fetching="fetching"
+            :lastUpdate="schedule.lastUpdate"
+          ></refreshButton>
+          <br />
+          <div id="aura-list" v-if="aurasWithUpdateSorted.length > 0">
+            <Aura
+              v-for="aura in aurasWithUpdateSorted"
+              :aura="aura"
+              :key="aura.slug"
+            ></Aura>
+          </div>
+        </div>
+        <Config v-if="configStep === 1" :config="config"></Config>
+        <help v-if="configStep === 2"></help>
+        <about v-if="configStep === 3"></about>
+      </main>
+      <footer>
+        <a
+          v-for="media in footerMedias"
+          v-bind:key="media.name"
+          :href="media.url"
+          target="_blank"
+        >
+          <img
+            :src="require(`@/assets/${media.name}.png`)"
+            class="logo"
+            :title="media.name"
+          />
+        </a>
+        <a class="reportbug" @click="toggleReport">
+          {{ $t("app.footer.reportbug" /* Found a bug? */) }}
+        </a>
+      </footer>
+    </div>
+    <Report v-if="reportIsShown"></Report>
   </div>
 </template>
 
@@ -80,6 +89,7 @@ import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
 import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
+import Report from "./UI/Report.vue";
 
 const fs = require("fs");
 const luaparse = require("luaparse");
@@ -97,6 +107,7 @@ const internalVersion = 1;
 
 const defaultValues = {
   configStep: 0,
+  reportIsShown: false,
   messages: [],
   fetching: false, // use for avoid spamming refresh button and show spinner
   config: {
@@ -134,6 +145,7 @@ export default Vue.extend({
     About,
     Help,
     TitleBar,
+    Report,
     "v-button": Button
   },
   data() {
@@ -649,6 +661,9 @@ export default Vue.extend({
           });
       });
     },
+    toggleReport() {
+      this.reportIsShown = !this.reportIsShown;
+    },
     writeAddonData() {
       if (this.config.wowpath.valided) {
         const AddonFolder = path.join(
@@ -784,9 +799,16 @@ img:not([draggable="true"]) {
 }
 #wrapper {
   height: 100vh;
+  position: relative;
+}
+.main-container {
+  height: 100%;
+  width: 100%;
   display: flex;
+  position: absolute;
   background-size: cover;
   flex-direction: column;
+  transition: filter ease-in-out 0.2s;
 }
 header {
   text-align: right;
@@ -876,6 +898,7 @@ header .btn-menu:last-child {
 }
 .btn.btn-menu:hover {
   background-color: rgba(255, 255, 255, 0.11);
+  color: rgb(255, 209, 0);
 }
 
 .btn-menu.active {
@@ -922,5 +945,34 @@ header .btn-menu:last-child {
 #messages {
   float: right;
   vertical-align: bottom;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 600;
+  padding: 4px 10px 4px;
+  margin-bottom: 10px;
+  border-left: 2px solid rgb(255, 209, 0);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.toasted-container.bottom-right {
+  right: 15px;
+  bottom: 50px;
+}
+.toasted-container.bottom-right .action {
+  color: rgb(255, 209, 0);
+}
+
+.reportbug {
+  font-size: 11px;
+  color: #777;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  text-shadow: #000 1px 0;
+}
+.reportbug:hover {
+  color: #aaa;
 }
 </style>

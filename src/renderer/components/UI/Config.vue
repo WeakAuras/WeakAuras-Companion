@@ -227,19 +227,14 @@ select,
   background-color: #eee;
   color: #1e1e1e;
 }
+.title {
+  margin: 20px 0 10px;
+}
 #config .title:first-child {
   margin-top: 5px;
 }
-.title {
-  font-size: 25px;
-  margin: 25px 0 10px;
-  font-weight: 600;
-  padding: 4px 5px 4px;
-  border-left: 2px solid rgb(255, 209, 0);
-  background-color: rgba(0, 0, 0, 0.1);
-}
 .block {
-  margin-left: 10px;
+  margin-left: 15px;
   font-size: 15px;
 }
 .option {

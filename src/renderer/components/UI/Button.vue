@@ -9,7 +9,8 @@
       { 'btn-menu': type == 'menu' },
       { 'btn-refresh': type == 'refresh' },
       { 'btn-issue': type == 'issue' },
-      { 'btn-reset': type == 'reset' }
+      { 'btn-reset': type == 'reset' },
+      { 'btn-link': type == 'link' }
     ]"
     :title="title"
     @click="callback($event)"
@@ -34,7 +35,6 @@ export default {
   font-family: inherit;
   display: inline-block;
   padding: 3px 8px;
-  margin-bottom: 0;
   font-size: 12px;
   height: 25px;
   line-height: 1.4;
@@ -135,5 +135,12 @@ export default {
 }
 .btn-reset:hover {
   background-color: #f30707;
+}
+.btn-link {
+  background: #171717;
+  border: 1px solid #0f0f0f;
+}
+.btn-link:hover {
+  background: #222;
 }
 </style>
