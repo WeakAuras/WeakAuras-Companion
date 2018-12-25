@@ -929,6 +929,7 @@ header .btn-menu:last-child {
   font-size: 25px;
   font-weight: 600;
   padding: 4px 10px 4px;
+  margin-bottom: 10px;
   border-left: 2px solid rgb(255, 209, 0);
   background-color: rgba(0, 0, 0, 0.1);
 }

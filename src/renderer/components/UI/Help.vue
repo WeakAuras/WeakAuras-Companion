@@ -1,5 +1,6 @@
 <template>
   <div id="help" ref="help">
+    <div class="title">{{ $t("app.help.title" /* Setup steps */) }}</div>
     <ol class="follow">
       <li>
         {{
@@ -83,6 +84,7 @@
     </ol>
     <br />
     <br />
+    <div class="title">{{ $t("app.help.foundbug" /* Found a bug? */) }}</div>
     <div>
       {{
         $t(
