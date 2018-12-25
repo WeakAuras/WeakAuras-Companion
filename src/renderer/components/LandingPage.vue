@@ -686,8 +686,8 @@ export default Vue.extend({
             fields.forEach(field => {
               LuaOutput += `      ${field} = "${aura[field]}",\n`;
             });
-            if (typeof this.aura.changelog !== "undefined") {
-              if (typeof this.aura.changelog.text !== "undefined") {
+            if (typeof aura.changelog !== "undefined") {
+              if (typeof aura.changelog.text !== "undefined") {
                 let sanitized;
                 if (aura.changelog.format === "bbcode") {
                   sanitized = sanitize.bbcode(aura.changelog.text);
