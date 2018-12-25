@@ -68,8 +68,8 @@
           )
         }}
         <img :src="require(`@/assets/wagoupdate_logo.png`)" />
-        {{ $t("app.help.s4_2" /* in the WeakAuras options. */) }}<br />
-        <img :src="require(`@/assets/ingame.png`)" class="center" /><br /><br />
+        {{ $t("app.help.s4_2" /* in the WeakAuras options. */) }}
+        <img :src="require(`@/assets/ingame.png`)" class="center" />
         <img :src="require(`@/assets/diagram.gif`)" class="center" />
       </li>
       <li>
@@ -126,6 +126,7 @@
   height: 100%;
   position: relative;
   overflow: auto;
+  transition: all ease-in 1s;
 }
 .updateButton {
   margin-left: 60%;
@@ -144,7 +145,7 @@ ul {
 }
 .follow > li {
   display: block;
-  margin-top: 17px;
+  margin-top: 10px;
 }
 .follow > li:before {
   content: counters(item, ".") ". ";
@@ -157,10 +158,14 @@ li > img {
   position: relative;
   left: 50%;
   transform: translate(-50%, 0);
-  margin: 10px 0;
+  margin: 20px 0 0;
 }
 a {
-  color: #3f51b5;
+  color: rgb(255, 209, 0);
+  font-weight: 700;
+}
+a:hover {
+  color: rgb(255, 228, 106);
 }
 .reset {
   margin-top: 0px !important;
