@@ -572,12 +572,12 @@ export default Vue.extend({
                   this.writeAddonData();
                   // refresh page
                   this.$nextTick(() => {
-                    const countStrings = this.aurasWithUpdateSorted.length;
+                    const total = this.aurasWithUpdate.length;
                     if (news.length > 0 && fails.length > 0) {
                       this.message(
                         `${this.$tc(
                           "app.main.installTotal",
-                          countStrings /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+                          total /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
                         )} (${this.$tc(
                           "app.main.installNew",
                           news.length /* no new updates | 1 new | {n} new updates */
@@ -591,7 +591,7 @@ export default Vue.extend({
                       this.message(
                         `${this.$tc(
                           "app.main.installTotal",
-                          countStrings
+                          total
                         )} (${this.$tc("app.main.installNew", news.length)})`,
                         "info"
                       );
@@ -599,13 +599,13 @@ export default Vue.extend({
                       this.message(
                         `${this.$tc(
                           "app.main.installTotal",
-                          countStrings
+                          total
                         )} (${this.$tc("app.main.installFail", fails.length)})`,
                         "error"
                       );
                     } else {
                       this.message(
-                        this.$tc("app.main.installTotal", countStrings),
+                        this.$tc("app.main.installTotal", total),
                         "info"
                       );
                     }
