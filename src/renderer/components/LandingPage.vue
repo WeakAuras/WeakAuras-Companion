@@ -291,7 +291,7 @@ export default Vue.extend({
         "SavedVariables",
         "WeakAuras.lua"
       );
-      // this.message("Looking for updates on wago", "info");
+
       // Read WeakAuras.lua
       fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data) => {
         if (err) {
@@ -399,6 +399,8 @@ export default Vue.extend({
             });
           }
         });
+
+        // Make a list of uniq auras to fetch
         const fetchAuras = this.auras
           .filter(
             aura =>
@@ -411,6 +413,8 @@ export default Vue.extend({
               )
           )
           .map(aura => aura.slug);
+
+        // Test if list is empty
         if (fetchAuras.length === 0) {
           this.message(
             this.$t("app.main.nothingToFetch" /* no updates available */),
@@ -421,7 +425,8 @@ export default Vue.extend({
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
           return;
         }
-        // get data from wago api
+
+        // Get data from Wago api
         this.$http
           .get("https://data.wago.io/api/check/weakauras", {
             params: {
@@ -439,7 +444,7 @@ export default Vue.extend({
             crossdomain: true
           })
           .then(response => {
-            // this.message("Auras's metadata received from Wago API", "ok");
+            // metadata received from Wago API
             const promises = [];
             response.data.forEach(wagoData => {
               this.auras.forEach((aura, index) => {
@@ -449,8 +454,8 @@ export default Vue.extend({
                   this.auras[index].created = new Date(wagoData.created);
                   this.auras[index].wagoSemver = wagoData.versionString;
                   this.auras[index].changelog = wagoData.changelog;
+                  // Check if encoded string needs to be fetched
                   if (
-                    // get string if no string or current version is older than wago's
                     wagoData.version > aura.version &&
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
@@ -483,6 +488,7 @@ export default Vue.extend({
               });
             });
 
+            // catch response error
             const promisesResolved = promises.map(promise =>
               promise.catch(err2 => ({
                 config: { params: { id: err2.config.params.id } },
@@ -490,8 +496,9 @@ export default Vue.extend({
               }))
             );
 
-            const newStrings = [];
-            const failStrings = [];
+            // Get each encoded string
+            const news = [];
+            const fails = [];
             this.$http
               .all(promisesResolved)
               .then(
@@ -501,7 +508,7 @@ export default Vue.extend({
                     if (arg.status === 200) {
                       this.auras.forEach((aura, index) => {
                         if (aura.slug === id) {
-                          newStrings.push(aura.name);
+                          news.push(aura.name);
                           this.auras[index].encoded = arg.data;
                         }
                       });
@@ -518,7 +525,7 @@ export default Vue.extend({
                             ),
                             "error"
                           );
-                          failStrings.push(aura.name);
+                          fails.push(aura.name);
                           this.auras[index].privateOrDeleted = true;
                         }
                       });
@@ -531,7 +538,7 @@ export default Vue.extend({
                             }" http code: ${arg.status}`,
                             "error"
                           );
-                          failStrings.push(aura.name);
+                          fails.push(aura.name);
                         }
                       });
                     }
@@ -560,40 +567,34 @@ export default Vue.extend({
                   // refresh page
                   this.$nextTick(() => {
                     const countStrings = this.aurasWithUpdateSorted.length;
-                    if (newStrings.length > 0 && failStrings.length > 0) {
+                    if (news.length > 0 && fails.length > 0) {
                       this.message(
                         `${this.$tc(
                           "app.main.installTotal",
                           countStrings /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
                         )} (${this.$tc(
                           "app.main.installNew",
-                          newStrings.length /* no new updates | 1 new | {n} new updates */
+                          news.length /* no new updates | 1 new | {n} new updates */
                         )}, ${this.$tc(
                           "app.main.installFail",
-                          failStrings.length /* no fail | 1 fail | {n} fails */
+                          fails.length /* no fail | 1 fail | {n} fails */
                         )})`,
                         "info"
                       );
-                    } else if (newStrings.length > 0) {
+                    } else if (news.length > 0) {
                       this.message(
                         `${this.$tc(
                           "app.main.installTotal",
                           countStrings
-                        )} (${this.$tc(
-                          "app.main.installNew",
-                          newStrings.length
-                        )})`,
+                        )} (${this.$tc("app.main.installNew", news.length)})`,
                         "info"
                       );
-                    } else if (failStrings.length > 0) {
+                    } else if (fails.length > 0) {
                       this.message(
                         `${this.$tc(
                           "app.main.installTotal",
                           countStrings
-                        )} (${this.$tc(
-                          "app.main.installFail",
-                          failStrings.length
-                        )})`,
+                        )} (${this.$tc("app.main.installFail", fails.length)})`,
                         "error"
                       );
                     } else {
@@ -604,11 +605,11 @@ export default Vue.extend({
                     }
 
                     // notify if there are new auras ready for update
-                    if (this.config.notify && newStrings.length > 0) {
+                    if (this.config.notify && news.length > 0) {
                       const myNotification = new Notification(
                         "WeakAuras Update",
                         {
-                          body: newStrings.join("\n")
+                          body: news.join("\n")
                         }
                       );
                       myNotification.onclick = () => {
