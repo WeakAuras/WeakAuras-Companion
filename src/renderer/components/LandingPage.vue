@@ -98,6 +98,7 @@ const hash = require("./libs/hash.js");
 const localserver = require("./libs/localserver.js");
 const medias = require("./libs/contacts.js");
 const sanitize = require("./libs/sanitize.js");
+const wowstat = require("./libs/wowstat.js");
 
 const store = new Store();
 luaparse.defaultOptions.comments = false;
@@ -273,7 +274,10 @@ export default Vue.extend({
       };
       if (type === "success") this.$toasted.success(text, options);
       else if (type === "error") this.$toasted.error(text, options);
-      else this.$toasted.show(text, options);
+      else if (type === "blue") {
+        options.duration = null;
+        this.$toasted.info(text, options);
+      } else this.$toasted.show(text, options);
     },
     compareSVwithWago() {
       if (!this.config.wowpath.valided || !this.config.account.valided) {
@@ -669,6 +673,17 @@ export default Vue.extend({
               "error"
             );
             throw new Error("errorCantCreateAddon");
+          }
+          if (!err) {
+            const isWowOpen = wowstat.isOpen(this.config.wowpath.value);
+            if (isWowOpen) {
+              this.message(
+                this.$t(
+                  "app.main.firstInstall" /* WeakAurasCompanion addon added to World of Warcraft, don't forget to restart the game */
+                ),
+                "blue"
+              );
+            }
           }
           // Make data.lua
           let LuaOutput = "-- file generated automatically\n";

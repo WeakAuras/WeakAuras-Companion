@@ -44,6 +44,7 @@
   "app.main.errorFileSave": "{file} n'a pas pu être sauvegardé",
   "app.main.errorSavedvariable": "Erreur lors de la lecture de WeakAuras.lua",
   "app.main.errorWagoAnswer": "Impossible de lire la réponse de Wago\n{error}",
+  "app.main.firstInstall": "WeakAurasCompanion addon added to World of Warcraft, don't forget to restart the game",
   "app.main.installFail": "aucune erreur | 1 erreur | {n} erreurs",
   "app.main.installNew": "aucun nouveauté | 1 nouveauté | {n} nouveautés",
   "app.main.installTotal": "aucune mise à jour | 1 mise à jour prête à être installé en jeux | {n} mises à jours prêtes à être installé en jeux",
