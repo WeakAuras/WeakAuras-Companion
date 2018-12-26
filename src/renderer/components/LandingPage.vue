@@ -108,7 +108,6 @@ const internalVersion = 1;
 const defaultValues = {
   configStep: 0,
   reportIsShown: false,
-  messages: [],
   fetching: false, // use for avoid spamming refresh button and show spinner
   config: {
     // everything in this object will be auto-save and restore
@@ -233,9 +232,6 @@ export default Vue.extend({
   },
   methods: {
     reset() {
-      while (this.messages.length > 0) {
-        this.messages.pop();
-      }
       store.clear();
       this.config = JSON.parse(JSON.stringify(defaultValues.config));
     },
@@ -264,13 +260,6 @@ export default Vue.extend({
       }
     },
     message(text, type) {
-      const date = moment().format("hh:mm:ss");
-      this.messages.push({
-        id: this.messages.length,
-        time: date,
-        text,
-        type
-      });
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
@@ -286,13 +275,7 @@ export default Vue.extend({
       else if (type === "error") this.$toasted.error(text, options);
       else this.$toasted.show(text, options);
     },
-    clearMessages() {
-      while (this.messages.length > 0) {
-        this.messages.pop();
-      }
-    },
     compareSVwithWago() {
-      this.clearMessages();
       if (!this.config.wowpath.valided || !this.config.account.valided) {
         return;
       }
@@ -940,11 +923,6 @@ header .btn-menu:last-child {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
-
-#messages {
-  float: right;
-  vertical-align: bottom;
 }
 
 .title {
