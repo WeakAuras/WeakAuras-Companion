@@ -299,6 +299,7 @@ export default Vue.extend({
             `An error ocurred reading file: ${err.message}`,
             "error"
           );
+          this.fetching = false;
           return;
         }
         // Parse WeakAuras.lua
@@ -310,6 +311,7 @@ export default Vue.extend({
             ),
             "error"
           );
+          this.fetching = false;
           return;
         }
 
