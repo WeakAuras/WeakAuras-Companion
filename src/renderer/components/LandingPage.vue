@@ -688,6 +688,7 @@ export default Vue.extend({
           // Make data.lua
           let LuaOutput = "-- file generated automatically\n";
           let LuaUids = "  uids = {\n";
+          let LuaIds = "  ids = {\n";
           LuaOutput += "WeakAurasCompanion = {\n";
           const fields = [
             "name",
@@ -715,13 +716,18 @@ export default Vue.extend({
             }
             if (aura.uids) {
               aura.uids.forEach(uid => {
-                LuaUids += `    ['${uid}'] = '${aura.slug}',\n`;
+                LuaUids += `    ["${uid}"] = "${aura.slug}",\n`;
+              });
+              aura.ids.forEach(id => {
+                LuaIds += `    ["${id}"] = "${aura.slug}",\n`;
               });
             }
             LuaOutput += "    },\n";
           });
           LuaOutput += "  },\n";
           LuaOutput += LuaUids;
+          LuaOutput += "  },\n";
+          LuaOutput += LuaIds;
           LuaOutput += "  }\n";
           LuaOutput += "}";
 
