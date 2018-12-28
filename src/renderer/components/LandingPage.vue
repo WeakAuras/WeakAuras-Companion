@@ -429,7 +429,7 @@ export default Vue.extend({
         // Test if list is empty
         if (fetchAuras.length === 0) {
           this.message(
-            this.$t("app.main.nothingToFetch" /* no updates available */),
+            this.$t("app.main.nothingToFetch" /* No updates available */),
             "info"
           );
           this.fetching = false;
@@ -632,7 +632,9 @@ export default Vue.extend({
             if (isWOWOpen(this.config.wowpath.value)) {
               newInstall = true;
               const toast = this.message(
-                this.$t("app.main.needrestart" /* restart World of Warcraft */),
+                this.$t(
+                  "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
+                ),
                 "blue"
               );
               afterWOWRestart(this.config.wowpath.value, () => {
@@ -741,13 +743,13 @@ end`
         this.message(
           `${this.$tc(
             "app.main.installTotal",
-            total /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+            total /* No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
           )} (${this.$tc(
             "app.main.installNew",
-            news /* no new updates | 1 new | {n} news */
+            news /* No new updates | 1 new | {n} new */
           )}, ${this.$tc(
             "app.main.installFail",
-            fails /* no fail | 1 fail | {n} fails */
+            fails /* No fail | 1 failed | {n} failed */
           )})`,
           "info"
         );
@@ -755,16 +757,18 @@ end`
         this.message(
           `${this.$tc(
             "app.main.installTotal",
-            total /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+            total /* No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
           )} (${this.$tc(
             "app.main.installNew",
-            news /* no new updates | 1 new | {n} news */
+            news /* No new updates | 1 new | {n} new */
           )})`,
           "info"
         );
         if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
           const toast = this.message(
-            this.$t("app.main.needreload" /* reload World of Warcraft */),
+            this.$t(
+              "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
+            ),
             "blue"
           );
           afterWOWReload(this.config.wowpath.value, () => {
