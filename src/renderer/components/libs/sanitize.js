@@ -1,10 +1,12 @@
 module.exports = {
   bbcode: str => {
     let output = str || "";
-    output = output.replace(
-      /\[([a-z]+)(=[\w\d.,\\/"'#,-]*)*( *[a-z0-9]+=.+)*\](.*?)\[\/\1\]/gi,
-      "$4"
-    );
+    output = output
+      .replace(
+        /\[([a-z]+)(=[\w\d.,\\/"'#,-]*)*( *[a-z0-9]+=.+)*\](.*?)\[\/\1\]/gi,
+        "$4"
+      )
+      .replace(/"/g, '\\"');
     return output;
   },
   markdown: str => {
@@ -39,7 +41,8 @@ module.exports = {
       // Remove inline code
       .replace(/`(.+?)`/g, "$1")
       // Replace two or more newlines with exactly two? Not entirely sure this belongs here...
-      .replace(/\n{2,}/g, "\n\n");
+      .replace(/\n{2,}/g, "\n\n")
+      .replace(/"/g, '\\"');
     return output;
   }
 };
