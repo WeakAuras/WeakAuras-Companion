@@ -48,6 +48,8 @@
   "app.main.installFail": "aucune erreur | 1 erreur | {n} erreurs",
   "app.main.installNew": "aucun nouveauté | 1 nouveauté | {n} nouveautés",
   "app.main.installTotal": "aucune mise à jour | 1 mise à jour prête à être installé en jeux | {n} mises à jours prêtes à être installé en jeux",
+  "app.main.needreload": "reload World of Warcraft",
+  "app.main.needrestart": "restart World of Warcraft",
   "app.main.nothingToFetch": "no updates available",
   "app.main.updates": "Mises à jours",
   "app.menu.about": "A propos",

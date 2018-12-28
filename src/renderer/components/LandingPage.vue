@@ -82,6 +82,11 @@
 import Vue from "vue";
 import path from "path";
 import moment from "moment";
+import {
+  isOpen as isWOWOpen,
+  afterReload as afterWOWReload,
+  afterRestart as afterWOWRestart
+} from "./libs/wowstat";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import Aura from "./UI/Aura.vue";
@@ -98,7 +103,6 @@ const hash = require("./libs/hash.js");
 const localserver = require("./libs/localserver.js");
 const medias = require("./libs/contacts.js");
 const sanitize = require("./libs/sanitize.js");
-const wowstat = require("./libs/wowstat.js");
 
 const store = new Store();
 luaparse.defaultOptions.comments = false;
@@ -272,12 +276,14 @@ export default Vue.extend({
           }
         }
       };
-      if (type === "success") this.$toasted.success(text, options);
-      else if (type === "error") this.$toasted.error(text, options);
-      else if (type === "blue") {
+      if (type === "success") return this.$toasted.success(text, options);
+      if (type === "error") return this.$toasted.error(text, options);
+      if (type === "blue") {
         options.duration = null;
-        this.$toasted.info(text, options);
-      } else this.$toasted.show(text, options);
+        options.action = null;
+        return this.$toasted.info(text, options);
+      }
+      return this.$toasted.show(text, options);
     },
     compareSVwithWago() {
       if (!this.config.wowpath.valided || !this.config.account.valided) {
@@ -569,60 +575,7 @@ export default Vue.extend({
               .then(() => {
                 // we are done with wago API, update data.lua
                 try {
-                  this.writeAddonData();
-                  // refresh page
-                  this.$nextTick(() => {
-                    const total = this.aurasWithUpdate.length;
-                    if (news.length > 0 && fails.length > 0) {
-                      this.message(
-                        `${this.$tc(
-                          "app.main.installTotal",
-                          total /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
-                        )} (${this.$tc(
-                          "app.main.installNew",
-                          news.length /* no new updates | 1 new | {n} new updates */
-                        )}, ${this.$tc(
-                          "app.main.installFail",
-                          fails.length /* no fail | 1 fail | {n} fails */
-                        )})`,
-                        "info"
-                      );
-                    } else if (news.length > 0) {
-                      this.message(
-                        `${this.$tc(
-                          "app.main.installTotal",
-                          total
-                        )} (${this.$tc("app.main.installNew", news.length)})`,
-                        "info"
-                      );
-                    } else if (fails.length > 0) {
-                      this.message(
-                        `${this.$tc(
-                          "app.main.installTotal",
-                          total
-                        )} (${this.$tc("app.main.installFail", fails.length)})`,
-                        "error"
-                      );
-                    } else {
-                      this.message(
-                        this.$tc("app.main.installTotal", total),
-                        "info"
-                      );
-                    }
-
-                    // notify if there are new auras ready for update
-                    if (this.config.notify && news.length > 0) {
-                      const myNotification = new Notification(
-                        "WeakAuras Update",
-                        {
-                          body: news.join("\n")
-                        }
-                      );
-                      myNotification.onclick = () => {
-                        this.$electron.ipcRenderer.send("open");
-                      };
-                    }
-                  });
+                  this.writeAddonData(news.length, fails.length);
                 } finally {
                   this.fetching = false;
                   this.schedule.lastUpdate = new Date();
@@ -654,7 +607,8 @@ export default Vue.extend({
     toggleReport() {
       this.reportIsShown = !this.reportIsShown;
     },
-    writeAddonData() {
+    writeAddonData(news, fails) {
+      let newInstall = false;
       if (this.config.wowpath.valided) {
         const AddonFolder = path.join(
           this.config.wowpath.value,
@@ -675,14 +629,15 @@ export default Vue.extend({
             throw new Error("errorCantCreateAddon");
           }
           if (!err) {
-            const isWowOpen = wowstat.isOpen(this.config.wowpath.value);
-            if (isWowOpen) {
-              this.message(
-                this.$t(
-                  "app.main.firstInstall" /* WeakAurasCompanion addon added to World of Warcraft, don't forget to restart the game */
-                ),
+            if (isWOWOpen(this.config.wowpath.value)) {
+              newInstall = true;
+              const toast = this.message(
+                this.$t("app.main.needrestart" /* restart World of Warcraft */),
                 "blue"
               );
+              afterWOWRestart(this.config.wowpath.value, () => {
+                toast.goAway(0);
+              });
             }
           }
           // Make data.lua
@@ -776,7 +731,66 @@ end`
               }
             });
           });
+          this.afterUpdateNotification(newInstall, news, fails);
         });
+      }
+    },
+    afterUpdateNotification(newInstall, news, fails) {
+      const total = this.aurasWithUpdate.length;
+      if (news > 0 && fails > 0) {
+        this.message(
+          `${this.$tc(
+            "app.main.installTotal",
+            total /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+          )} (${this.$tc(
+            "app.main.installNew",
+            news /* no new updates | 1 new | {n} news */
+          )}, ${this.$tc(
+            "app.main.installFail",
+            fails /* no fail | 1 fail | {n} fails */
+          )})`,
+          "info"
+        );
+      } else if (news > 0) {
+        this.message(
+          `${this.$tc(
+            "app.main.installTotal",
+            total /* no update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+          )} (${this.$tc(
+            "app.main.installNew",
+            news /* no new updates | 1 new | {n} news */
+          )})`,
+          "info"
+        );
+        if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
+          const toast = this.message(
+            this.$t("app.main.needreload" /* reload World of Warcraft */),
+            "blue"
+          );
+          afterWOWReload(this.config.wowpath.value, () => {
+            toast.goAway(0);
+          });
+        }
+      } else if (fails > 0) {
+        this.message(
+          `${this.$tc("app.main.installTotal", total)} (${this.$tc(
+            "app.main.installFail",
+            fails
+          )})`,
+          "error"
+        );
+      } else {
+        this.message(this.$tc("app.main.installTotal", total), "info");
+      }
+
+      // system notification
+      if (this.config.notify && news.length > 0) {
+        const myNotification = new Notification("WeakAuras Update", {
+          body: news.join("\n")
+        });
+        myNotification.onclick = () => {
+          this.$electron.ipcRenderer.send("open");
+        };
       }
     }
   }
