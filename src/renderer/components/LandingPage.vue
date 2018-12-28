@@ -403,6 +403,7 @@ export default Vue.extend({
                       // check if version field needs to be updated
                       if (aura.version < version) {
                         this.auras[index].version = version;
+                        this.auras[index].semver = semver;
                       }
                     }
                   });
