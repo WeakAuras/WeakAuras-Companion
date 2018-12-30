@@ -57,15 +57,17 @@ export default {
 }
 .btn-issue,
 .btn-refresh {
-  background-color: #333;
-  padding: 10px;
-  font-size: large;
-  color: white;
+  background-color: #e6e6e6;
+  padding: 15px;
+  height: 60px;
+  font-size: 16px;
+  color: #101010;
+  font-weight: 600;
   border-radius: 2px;
-  height: auto;
+  vertical-align: top;
 }
 .btn-refresh:hover {
-  background-color: rgb(71, 71, 71);
+  background-color: #d6d6d6;
 }
 .btn-menu {
   width: 60px;
