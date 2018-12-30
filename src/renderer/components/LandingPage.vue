@@ -839,7 +839,7 @@ img:not([draggable="true"]) {
 }
 header {
   text-align: right;
-  height: 104px;
+  height: 76px;
   font-size: 0;
   background-color: #101010;
   -webkit-app-region: drag;
@@ -882,6 +882,51 @@ a {
   opacity: 1;
 }
 
+/* Companion logo */
+.app-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 18px;
+  left: 18px;
+}
+.logo-img {
+  height: 40px;
+  transition: all 0.2s ease-in-out;
+}
+.app-logo span {
+  font-weight: 300;
+  font-size: 22px;
+  margin-left: 5px;
+  color: #e4e4e4;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Menu */
+.btn.btn-menu {
+  background: transparent;
+  color: #e6e6e6;
+  padding: 0 18px;
+  text-align: center;
+  width: auto;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 3px solid transparent;
+  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
+    font-size 0.2s ease-in-out;
+}
+.btn.btn-menu:hover {
+  background-color: #1f1f1f;
+}
+.btn-menu.active {
+  background-color: #171717;
+  border-bottom: 3px solid #c4c4c4;
+}
+
 /* Main page container */
 #dashboard {
   height: 100%;
@@ -906,51 +951,6 @@ a {
   z-index: -99;
   opacity: 0.02;
   margin-right: 10px;
-}
-
-/* Companion logo */
-.app-logo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  top: 28px;
-  left: 28px;
-}
-.logo-img {
-  height: 48px;
-  transition: all 0.2s ease-in-out;
-}
-.app-logo span {
-  font-weight: 300;
-  font-size: 28px;
-  margin-left: 5px;
-  color: #e4e4e4;
-  transition: all 0.2s ease-in-out;
-}
-
-/* Menu */
-.btn.btn-menu {
-  background: transparent;
-  color: #e6e6e6;
-  padding: 0 15px;
-  text-align: center;
-  width: auto;
-  height: 100%;
-  border: none;
-  border-radius: 0;
-  font-weight: 600;
-  font-size: 16px;
-  border-bottom: 3px solid transparent;
-  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
-    font-size 0.2s ease-in-out;
-}
-.btn.btn-menu:hover {
-  background-color: #1f1f1f;
-}
-.btn-menu.active {
-  background-color: #171717;
-  border-bottom: 3px solid #c4c4c4;
 }
 
 /* Scrollbar */
@@ -1005,7 +1005,10 @@ a {
     font-size: 22px;
     padding: 0 15px;
   }
-
+  .app-logo {
+    top: 28px;
+    left: 28px;
+  }
   .app-logo .logo-img {
     height: 68px;
   }
