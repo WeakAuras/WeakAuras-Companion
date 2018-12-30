@@ -864,10 +864,11 @@ main {
   overflow-y: hidden;
 }
 footer {
-  padding: 10px 15px;
+  padding: 14px 2.35vw;
   /* height: 40px; */
   text-align: left;
   background: #101010;
+  transition: all 0.2s ease-in-out;
 }
 
 .title {
@@ -887,11 +888,13 @@ a {
 
 .logo {
   position: relative;
+  top: 5px;
   display: inline-block;
   line-height: 1;
-  width: 1.2em;
-  height: auto;
-  opacity: 0.7;
+  width: auto;
+  height: 1.4em;
+  opacity: 0.4;
+  margin-right: 3px;
 }
 .logo:hover {
   opacity: 1;
@@ -954,7 +957,7 @@ a {
   overflow: auto;
   height: 65%;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.1);
+  margin: 0 2.35vw;
 }
 
 /* Background WA logo */
@@ -1003,11 +1006,11 @@ a {
 
 /* Report Page */
 .reportbug {
-  font-size: 11px;
+  font-size: 12px;
   color: #777;
   position: absolute;
-  right: 15px;
-  bottom: 15px;
+  right: 2.35vw;
+  bottom: 17px;
   text-shadow: #000 1px 0;
 }
 .reportbug:hover {
@@ -1016,6 +1019,7 @@ a {
 
 /* 800px+ only */
 @media screen and (min-width: 800px) {
+  /* Header */
   .btn.btn-menu {
     font-size: 22px;
     padding: 0 15px;
@@ -1027,13 +1031,23 @@ a {
   .app-logo .logo-img {
     height: 68px;
   }
-
   .app-logo span {
     font-size: 36px;
   }
-
   header {
     height: 125px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 20px 2.35vw;
+  }
+  .logo {
+    height: 30px;
+  }
+  .reportbug {
+    font-size: 16px;
+    bottom: 26px;
   }
 }
 </style>
