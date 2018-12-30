@@ -1,6 +1,6 @@
 <template>
   <div id="ui-titlebar">
-    <div id="ui-titletext">&nbsp;</div>
+    <div id="ui-titletext"></div>
     <div id="ui-titlecontrols">
       <button class="ui-btn minimize" @click="minBtn">
         <svg x="0px" y="0px" viewBox="0 0 10.2 1">
@@ -35,10 +35,14 @@ export default {
 #ui-titlebar {
   display: flex;
   position: fixed;
+  float: right;
   top: 0;
-  width: 100%;
-  height: 20px;
-  background: transparent;
+  right: 0;
+  width: 70px;
+  height: 28px;
+  margin-left: auto;
+  background-color: #10101091;
+  border-radius: 0 0 0 10px;
   user-select: none;
   cursor: default;
   -webkit-app-region: drag;

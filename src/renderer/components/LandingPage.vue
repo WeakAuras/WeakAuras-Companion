@@ -855,6 +855,7 @@ header {
   text-align: right;
   height: 76px;
   font-size: 0;
+  padding-right: 2.35vw;
   background-color: #101010;
   -webkit-app-region: drag;
   transition: all 0.2s ease-in-out;
@@ -1004,8 +1005,19 @@ a {
   right: 15px;
   bottom: 50px;
 }
+
 .toasted-container.bottom-right .action {
-  color: rgb(255, 209, 0);
+  color: #101010;
+}
+
+.toasted-container.bottom-right .error .action {
+  color: #e6e6e6;
+}
+
+.toasted-container .default {
+  background-color: #e6e6e6;
+  color: #101010;
+  font-weight: 400;
 }
 
 /* Report Page */
