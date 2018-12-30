@@ -955,15 +955,22 @@ a {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
+  position: absolute;
+  width: 10px;
+  background: #212121;
+  border-radius: 35px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #3a3a3a;
+  border: 1px solid #292828;
+  border-radius: 35px;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(172, 172, 172);
+  background: #c4c4c4;
+  border: 2px solid #212121;
+  border-radius: 5px;
+  width: 8px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
