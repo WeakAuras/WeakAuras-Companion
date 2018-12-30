@@ -2,10 +2,24 @@
   <div id="wrapper">
     <div class="main-container" v-bind:class="{ blurred: reportIsShown }">
       <TitleBar></TitleBar>
-      <img
-        :src="require(`@/assets/weakauras.png`)"
+      <svg
         class="wa-logo-background"
-      />
+        width="917"
+        height="365"
+        viewBox="0 0 917 365"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0 0H121.909L339.456 365H212.74L0 0Z" fill="#191919" />
+        <path
+          d="M600.936 277.243L549.121 365H916.525L702.164 0H584.503L678.24 174.619L735.646 277.243H600.936Z"
+          fill="#191919"
+        />
+        <path
+          d="M584.503 0L422.237 266.623L378.639 197.368L325.817 113.469H226.993H203.908L356.895 365H486.015L702.164 0H584.503Z"
+          fill="#191919"
+        />
+      </svg>
       <div class="app-logo">
         <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
         <span>{{ $t("app.main.companion" /* Companion */) }}</span>
@@ -815,7 +829,7 @@ end`
 body {
   font-family: "Noto Sans SC", sans-serif;
   font-weight: 400;
-  background-color: #171717;
+  background-color: #131313;
   color: white;
   overflow-y: hidden;
   user-select: none;
@@ -853,6 +867,7 @@ footer {
   padding: 10px 15px;
   /* height: 40px; */
   text-align: left;
+  background: #101010;
 }
 
 .title {
@@ -949,8 +964,8 @@ a {
   height: 100%;
   object-fit: contain;
   z-index: -99;
-  opacity: 0.02;
-  margin-right: 10px;
+  padding: 20% 12%;
+  fill: #191919;
 }
 
 /* Scrollbar */
