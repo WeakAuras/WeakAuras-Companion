@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 const http = require("http");
 
+let stash;
+
 // is app is in development mode or if origin is wago then allow the request
 function allowRequest(req) {
   if (
@@ -50,6 +52,15 @@ function LocalServerRequestHandler(req, res) {
       console.log(body);
       if (body.action === "Add-Import") {
         // do things...
+        const { 2: slug } = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
+        if (stash.findIndex(aura => aura.url === body.url) === -1)
+          stash.push({
+            name: body.name,
+            encoded: body.import,
+            slug,
+            user: body.user,
+            version: body.version
+          });
       }
       res.writeHead(200, {
         "Content-Type": "application/json",
@@ -68,7 +79,8 @@ const localServer = http.createServer(LocalServerRequestHandler);
 const localServerPort = 24642;
 
 module.exports = {
-  start: () => {
+  start: v => {
+    stash = v;
     localServer.listen(localServerPort, "127.0.0.1");
   },
 

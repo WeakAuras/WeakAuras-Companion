@@ -75,6 +75,7 @@
       </footer>
     </div>
     <Report v-if="reportIsShown"></Report>
+    <Stash v-if="stash.length > 0" :stash="stash"></Stash>
   </div>
 </template>
 
@@ -95,6 +96,7 @@ import About from "./UI/About.vue";
 import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
+import Stash from "./UI/Stash.vue";
 
 const fs = require("fs");
 const luaparse = require("luaparse");
@@ -137,7 +139,8 @@ const defaultValues = {
     id: null, // 1h setTimeout id
     lastUpdate: null
   },
-  medias
+  medias,
+  stash: [] // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
 };
 
 export default Vue.extend({
@@ -150,6 +153,7 @@ export default Vue.extend({
     Help,
     TitleBar,
     Report,
+    Stash,
     "v-button": Button
   },
   data() {
@@ -161,7 +165,29 @@ export default Vue.extend({
         store.set("config", this.config);
       },
       deep: true
-    }
+    },
+    stash: {
+      handler() {
+        // eslint-disable-next-line no-console
+        console.log(`stash changed => ${this.stash.length}`);
+        if (this.stash.length === 1) {
+          const toast = this.message(
+            this.$t(
+              "app.main.needreloadstash" /* Reload World of Warcraft's UI to receive pushed auras */
+            ),
+            "blue"
+          );
+          afterWOWReload(this.config.wowpath.value, () => {
+            toast.goAway(0);
+            this.stash = [];
+            // eslint-disable-next-line no-console
+            console.log("reload ok => empty stash");
+          });
+        }
+        this.writeAddonData(null, null, true);
+      }
+    },
+    deep: true
   },
   mounted() {
     // refresh on event (tray icon)
@@ -175,7 +201,7 @@ export default Vue.extend({
       this.configStep = 0;
       this.compareSVwithWago();
     }
-    localserver.start();
+    localserver.start(this.stash);
   },
   destroyed() {
     localserver.stop();
@@ -608,7 +634,7 @@ export default Vue.extend({
     toggleReport() {
       this.reportIsShown = !this.reportIsShown;
     },
-    writeAddonData(news, fails) {
+    writeAddonData(news, fails, noNotification) {
       let newInstall = false;
       if (this.config.wowpath.valided) {
         const AddonFolder = path.join(
@@ -686,8 +712,20 @@ export default Vue.extend({
           LuaOutput += LuaUids;
           LuaOutput += "  },\n";
           LuaOutput += LuaIds;
+          LuaOutput += "  },\n";
+          LuaOutput += "  stash = {\n";
+          const fields2 = ["name", "encoded", "author", "version"];
+          this.stash.forEach(aura => {
+            LuaOutput += `    ['${aura.slug}'] = {\n`;
+            fields2.forEach(field => {
+              LuaOutput += `      ${field} = "${aura[field]}",\n`;
+            });
+            LuaOutput += "    },\n";
+          });
           LuaOutput += "  }\n";
           LuaOutput += "}";
+
+          /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
 
           const files = [
             {
@@ -734,7 +772,8 @@ end`
               }
             });
           });
-          this.afterUpdateNotification(newInstall, news, fails);
+          if (!noNotification)
+            this.afterUpdateNotification(newInstall, news, fails);
         });
       }
     },

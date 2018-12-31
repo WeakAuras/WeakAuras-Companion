@@ -49,6 +49,7 @@
   "app.main.installNew": "No new updates | 1 new | {n} new",
   "app.main.installTotal": "No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation",
   "app.main.needreload": "Reload World of Warcraft's UI to see new updates in WeakAuras's options",
+  "app.main.needreloadstash": "Reload World of Warcraft's UI to receive pushed auras",
   "app.main.needrestart": "Restart World of Warcraft to see new updates in WeakAuras's options",
   "app.main.nothingToFetch": "No updates available",
   "app.main.updates": "Обновления",
@@ -61,5 +62,6 @@
   "app.refreshbutton.lastupdate": "Последняя проверка:",
   "app.report.addon": "AddOn",
   "app.report.companion": "Companion",
-  "app.report.title": "Report a bug"
+  "app.report.title": "Report a bug",
+  "app.stash.title": "Stash"
 }
