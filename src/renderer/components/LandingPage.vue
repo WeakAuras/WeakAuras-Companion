@@ -168,8 +168,6 @@ export default Vue.extend({
     },
     stash: {
       handler() {
-        // eslint-disable-next-line no-console
-        console.log(`stash changed => ${this.stash.length}`);
         if (this.stash.length === 1) {
           const toast = this.message(
             this.$t(
@@ -179,9 +177,9 @@ export default Vue.extend({
           );
           afterWOWReload(this.config.wowpath.value, () => {
             toast.goAway(0);
-            this.stash = [];
-            // eslint-disable-next-line no-console
-            console.log("reload ok => empty stash");
+            while (this.stash.length > 0) {
+              this.stash.pop();
+            }
           });
         }
         this.writeAddonData(null, null, true);

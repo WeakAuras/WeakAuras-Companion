@@ -49,9 +49,8 @@ function LocalServerRequestHandler(req, res) {
   // otherwise it should be a POST, parse and process the data
   if (req.method === "POST") {
     getPostData(req, body => {
-      console.log(body);
+      // console.log(body);
       if (body.action === "Add-Import") {
-        // do things...
         const { 2: slug } = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
         if (stash.findIndex(aura => aura.url === body.url) === -1)
           stash.push({
