@@ -600,7 +600,7 @@ export default Vue.extend({
               .then(() => {
                 // we are done with wago API, update data.lua
                 try {
-                  this.writeAddonData(news.length, fails.length);
+                  this.writeAddonData(news, fails);
                 } finally {
                   this.fetching = false;
                   this.schedule.lastUpdate = new Date();
@@ -777,28 +777,30 @@ end`
     },
     afterUpdateNotification(newInstall, news, fails) {
       const total = this.aurasWithUpdate.length;
-      if (news > 0 && fails > 0) {
+      const newsCount = news.length;
+      const failsCount = fails.length;
+      if (newsCount > 0 && failsCount > 0) {
         this.message(
           `${this.$tc(
             "app.main.installTotal",
             total /* No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
           )} (${this.$tc(
             "app.main.installNew",
-            news /* No new updates | 1 new | {n} new */
+            newsCount /* No new updates | 1 new | {n} new */
           )}, ${this.$tc(
             "app.main.installFail",
-            fails /* No fail | 1 failed | {n} failed */
+            failsCount /* No fail | 1 failed | {n} failed */
           )})`,
           "info"
         );
-      } else if (news > 0) {
+      } else if (newsCount > 0) {
         this.message(
           `${this.$tc(
             "app.main.installTotal",
             total /* No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
           )} (${this.$tc(
             "app.main.installNew",
-            news /* No new updates | 1 new | {n} new */
+            newsCount /* No new updates | 1 new | {n} new */
           )})`,
           "info"
         );
@@ -813,11 +815,11 @@ end`
             toast.goAway(0);
           });
         }
-      } else if (fails > 0) {
+      } else if (failsCount > 0) {
         this.message(
           `${this.$tc("app.main.installTotal", total)} (${this.$tc(
             "app.main.installFail",
-            fails
+            failsCount
           )})`,
           "error"
         );
@@ -826,7 +828,7 @@ end`
       }
 
       // system notification
-      if (this.config.notify && news.length > 0) {
+      if (this.config.notify && newsCount > 0) {
         const myNotification = new Notification("WeakAuras Update", {
           body: news.join("\n")
         });
