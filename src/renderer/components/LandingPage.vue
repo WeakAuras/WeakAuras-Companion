@@ -683,7 +683,7 @@ export default Vue.extend({
           this.aurasWithUpdateSorted.forEach(aura => {
             LuaOutput += `    ['${aura.slug}'] = {\n`;
             fields.forEach(field => {
-              LuaOutput += `      ${field} = "${aura[field]}",\n`;
+              LuaOutput += `      ${field} = [[${aura[field]}]],\n`;
             });
             if (typeof aura.changelog !== "undefined") {
               if (typeof aura.changelog.text !== "undefined") {
@@ -693,15 +693,15 @@ export default Vue.extend({
                 } else if (aura.changelog.format === "markdown") {
                   sanitized = sanitize.markdown(aura.changelog.text);
                 }
-                LuaOutput += `      versionNote = "${sanitized}",\n`;
+                LuaOutput += `      versionNote = [[${sanitized}]],\n`;
               }
             }
             if (aura.uids) {
               aura.uids.forEach(uid => {
-                LuaUids += `    ["${uid}"] = "${aura.slug}",\n`;
+                LuaUids += `    ["${uid}"] = [[${aura.slug}]],\n`;
               });
               aura.ids.forEach(id => {
-                LuaIds += `    ["${id}"] = "${aura.slug}",\n`;
+                LuaIds += `    ["${id}"] = [[${aura.slug}]],\n`;
               });
             }
             LuaOutput += "    },\n";
@@ -716,7 +716,7 @@ export default Vue.extend({
           this.stash.forEach(aura => {
             LuaOutput += `    ['${aura.slug}'] = {\n`;
             fields2.forEach(field => {
-              LuaOutput += `      ${field} = "${aura[field]}",\n`;
+              LuaOutput += `      ${field} = [[${aura[field]}]],\n`;
             });
             LuaOutput += "    },\n";
           });

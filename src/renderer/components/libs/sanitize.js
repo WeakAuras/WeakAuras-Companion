@@ -6,7 +6,7 @@ module.exports = {
         /\[([a-z]+)(=[\w\d.,\\/"'#,-]*)*( *[a-z0-9]+=.+)*\](.*?)\[\/\1\]/gi,
         "$4"
       )
-      .replace(/"/g, '\\"');
+      .replace(/\[\[/g, "\\[[");
     return output;
   },
   markdown: str => {
@@ -42,7 +42,7 @@ module.exports = {
       .replace(/`(.+?)`/g, "$1")
       // Replace two or more newlines with exactly two? Not entirely sure this belongs here...
       .replace(/\n{2,}/g, "\n\n")
-      .replace(/"/g, '\\"');
+      .replace(/\[\[/g, "\\[[");
     return output;
   }
 };
