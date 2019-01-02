@@ -11,8 +11,14 @@
           :key="media.name"
         >
           <a :href="media.url" target="_blank">
+            <i
+              v-if="!media.asset"
+              class="fab"
+              v-bind:class="['fa-' + media.name]"
+            ></i>
             <img
-              :src="require(`@/assets/${media.name}.png`)"
+              v-else
+              :src="require(`@/${media.asset}`)"
               class="logo"
               :title="media.name"
             />
@@ -24,8 +30,15 @@
         <div class="title">{{ $t("app.about.wago" /* Wago */) }}</div>
         <div v-for="media in medias.wago" class="media-item" :key="media.name">
           <a :href="media.url" target="_blank">
+            <i :class="media.name"></i>
+            <i
+              v-if="!media.asset"
+              class="fab"
+              v-bind:class="['fa-' + media.name]"
+            ></i>
             <img
-              :src="require(`@/assets/${media.name}.png`)"
+              v-else
+              :src="require(`@/${media.asset}`)"
               class="logo"
               :title="media.name"
             />
@@ -88,6 +101,7 @@ export default {
 .logo {
   opacity: 1;
   top: 0;
+  filter: invert();
 }
 .app-info {
   font-size: 12px;
@@ -103,5 +117,10 @@ export default {
 }
 a:hover {
   color: rgb(255, 209, 0);
+}
+.fab {
+  margin-right: 5px;
+  font-size: 22px;
+  color: #e6e6e6 !important;
 }
 </style>

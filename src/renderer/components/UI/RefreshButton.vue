@@ -1,19 +1,7 @@
 <template>
   <div id="sync" v-bind:class="{ top: aurasShown > 0 }">
     <v-button v-if="usable" @click="refresh" type="refresh">
-      <svg
-        v-bind:class="{ spin: fetching }"
-        width="32"
-        height="44"
-        viewBox="0 0 32 44"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M16 6V0L8 8L16 16V10C22.62 10 28 15.38 28 22C28 24.02 27.5 25.94 26.6 27.6L29.52 30.52C31.08 28.06 32 25.14 32 22C32 13.16 24.84 6 16 6ZM16 34C9.38 34 4 28.62 4 22C4 19.98 4.5 18.06 5.4 16.4L2.48 13.48C0.919999 15.94 0 18.86 0 22C0 30.84 7.16 38 16 38V44L24 36L16 28V34Z"
-          fill="#101010"
-        />
-      </svg>
+      <i v-bind:class="{ spin: fetching }" class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </v-button>
     <v-button v-else @click="gotoconfig" type="issue">
@@ -92,10 +80,14 @@ export default {
 }
 .btn-refresh span {
   position: relative;
-  bottom: 9px;
+  bottom: 8px;
+  line-height: 50px;
+  cursor: pointer;
 }
-.btn-refresh svg {
-  height: 30px;
+.material-icons {
+  font-size: 34px;
+  vertical-align: top;
+  cursor: pointer;
 }
 /* Spin Animation */
 .spin {
@@ -107,6 +99,7 @@ export default {
 }
 
 .btn-refresh {
+  padding: 12px 15px;
   padding-left: 13px;
 }
 

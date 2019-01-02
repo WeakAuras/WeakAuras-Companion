@@ -78,8 +78,14 @@
           :href="media.url"
           target="_blank"
         >
+          <i
+            v-if="!media.asset"
+            class="fab footer-logo"
+            v-bind:class="['fa-' + media.name]"
+          ></i>
           <img
-            :src="require(`@/assets/${media.name}.png`)"
+            v-else
+            :src="require(`@/${media.asset}`)"
             class="logo"
             :title="media.name"
           />
@@ -819,7 +825,9 @@ end`
 
 <style>
 @import "../assets/fonts/fonts.css";
-
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://use.fontawesome.com/releases/v5.6.3/css/brands.css");
+@import url("https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css");
 /* General (All Pages) */
 * {
   box-sizing: border-box;
@@ -900,6 +908,15 @@ a {
 }
 .logo:hover {
   opacity: 1;
+}
+.footer-logo {
+  color: #777;
+  font-size: 18px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.footer-logo:hover {
+  color: #e6e6e6;
 }
 
 /* Companion logo */

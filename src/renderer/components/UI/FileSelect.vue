@@ -7,7 +7,7 @@
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}&nbsp;</span>
       </div>
-      <div class="pointer-icon" />
+      <i class="material-icons folder">folder_open</i>
     </span>
   </label>
 </template>
@@ -50,19 +50,6 @@ export default {
 .file-select > input[type="file"] {
   display: none;
 }
-.pointer-icon {
-  display: inline-block;
-  border-radius: 2px;
-  cursor: pointer;
-  vertical-align: top;
-  background-image: url("~@/assets/folder-icon.png");
-  background-size: contain;
-  height: 27px;
-  width: 27px;
-}
-.pointer-icon:hover {
-  background-image: url("~@/assets/folder-icon-active.png");
-}
 .fakeinput {
   background-color: #eee;
   width: 270px;
@@ -74,6 +61,11 @@ export default {
   color: black;
   border-radius: 2px;
   padding: 0 5px;
+}
+.folder {
+  position: relative;
+  top: 2px;
+  cursor: pointer;
 }
 .btn {
   display: inline-block;

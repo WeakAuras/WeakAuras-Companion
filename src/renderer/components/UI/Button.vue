@@ -65,9 +65,12 @@ export default {
   font-weight: 600;
   border-radius: 2px;
   vertical-align: top;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
 .btn-refresh:hover {
-  background-color: #d6d6d6;
+  background-color: #191919;
+  color: #e6e6e6;
 }
 .btn-menu {
   width: 60px;
