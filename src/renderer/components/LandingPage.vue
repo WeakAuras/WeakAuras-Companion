@@ -854,7 +854,7 @@ img:not([draggable="true"]) {
 }
 header {
   text-align: right;
-  height: 76px;
+  height: 100px;
   font-size: 0;
   padding-right: 2.35vw;
   background-color: #101010;
@@ -908,11 +908,11 @@ a {
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  top: 18px;
-  left: 18px;
+  top: 25px;
+  left: 25px;
 }
 .logo-img {
-  height: 40px;
+  height: 50px;
   transition: all 0.2s ease-in-out;
 }
 .app-logo span {
