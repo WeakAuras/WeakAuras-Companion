@@ -56,6 +56,7 @@
             :usable="config.wowpath.valided && config.account.valided"
             :fetching="fetching"
             :lastUpdate="schedule.lastUpdate"
+            :aurasShown="aurasWithUpdateSorted.length"
           ></refreshButton>
           <br />
           <div id="aura-list" v-if="aurasWithUpdateSorted.length > 0">

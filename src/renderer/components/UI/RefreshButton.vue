@@ -1,8 +1,8 @@
 <template>
-  <div id="sync">
-    <spinner :spin="fetching"></spinner>
+  <div id="sync" v-bind:class="{ top: aurasShown > 0 }">
     <v-button v-if="usable" @click="refresh" type="refresh">
       <svg
+        v-bind:class="{ spin: fetching }"
         width="38"
         height="37"
         viewBox="0 0 38 37"
@@ -28,18 +28,17 @@
 
 <script>
 import moment from "moment";
-import Spinner from "./Spinner.vue";
 import Button from "./Button.vue";
 
 export default {
   name: "refreshButton",
-  props: ["usable", "fetching", "lastUpdate"],
+  props: ["usable", "fetching", "lastUpdate", "aurasShown"],
   data() {
     return {
       lastUpdateTimer: null
     };
   },
-  components: { Spinner, "v-button": Button },
+  components: { "v-button": Button },
   methods: {
     refresh() {
       this.$parent.compareSVwithWago();
@@ -83,6 +82,9 @@ export default {
   margin: auto;
   transition: all 0.2s ease-in-out;
 }
+#sync.top {
+  margin-top: 40px;
+}
 #lastupdate {
   margin-top: 5px;
   font-size: small;
@@ -95,5 +97,23 @@ export default {
 }
 .btn-refresh svg {
   height: 30px;
+  padding-right: 1.1px;
+}
+/* Spin Animation */
+.spin {
+  animation-name: spin;
+  animation-duration: 800ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }
 </style>
