@@ -3,15 +3,15 @@
     <v-button v-if="usable" @click="refresh" type="refresh">
       <svg
         v-bind:class="{ spin: fetching }"
-        width="38"
-        height="37"
-        viewBox="0 0 38 37"
+        width="32"
+        height="44"
+        viewBox="0 0 32 44"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M0 18.5C0 28.7 8.1 37 18 37C22.4 37 26.5 35.3 29.7 32.6C31 31.4 31.1 29.4 29.9 28.1C28.8 27 27 26.9 25.8 28C23.7 29.8 21.1 30.9 18.1 30.9C11.5 30.9 6.20001 25.4 6.20001 18.6C6.20001 11.8 11.6 6.3 18.1 6.3C22 6.3 25.5 8.3 27.7 11.3C28.5 12.4 27.9 13.9 26.6 14.4C26.2 14.6 25.9 15 25.9 15.5C25.9 16 26.2 16.4 26.6 16.6L33.5 19.6C33.8 19.7 34.1 19.7 34.4 19.6C34.7 19.5 34.9 19.3 35 19L38 12C38.2 11.6 38.1 11 37.8 10.7C37.5 10.4 37 10.2 36.5 10.4C35.5 10.8 34.3 10.3 33.8 9.4C30.7 3.9 24.9 0.100015 18.2 0.100015C8.10001 1.53257e-05 0 8.30001 0 18.5Z"
-          fill="#101010"
+          d="M16 6V0L8 8L16 16V10C22.62 10 28 15.38 28 22C28 24.02 27.5 25.94 26.6 27.6L29.52 30.52C31.08 28.06 32 25.14 32 22C32 13.16 24.84 6 16 6ZM16 34C9.38 34 4 28.62 4 22C4 19.98 4.5 18.06 5.4 16.4L2.48 13.48C0.919999 15.94 0 18.86 0 22C0 30.84 7.16 38 16 38V44L24 36L16 28V34Z"
+          fill="black"
         />
       </svg>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
@@ -93,11 +93,9 @@ export default {
 .btn-refresh span {
   position: relative;
   bottom: 9px;
-  margin-left: 5px;
 }
 .btn-refresh svg {
   height: 30px;
-  padding-left: 1.1px;
 }
 /* Spin Animation */
 .spin {
@@ -108,12 +106,16 @@ export default {
   animation-fill-mode: forwards;
 }
 
+.btn-refresh {
+  padding-left: 13px;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(-360deg);
   }
 }
 </style>
