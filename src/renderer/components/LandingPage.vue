@@ -349,6 +349,8 @@ export default Vue.extend({
           return;
         }
 
+        const slugs = []; /* save found slugs for deleting orphan */
+
         const pattern = /(https:\/\/wago.io\/)([^/]+)/;
         WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
           if (obj.key.value === "displays") {
@@ -385,6 +387,7 @@ export default Vue.extend({
               });
 
               if (slug) {
+                if (slugs.indexOf(slug) === -1) slugs.push(slug);
                 const { length } = this.auras.filter(
                   aura => aura.slug === slug
                 );
@@ -436,6 +439,12 @@ export default Vue.extend({
             });
           }
         });
+
+        // remove orphans
+        for (let index = this.auras.length - 1; index > -1; index -= 1) {
+          if (slugs.indexOf(this.auras[index].slug) === -1)
+            this.auras.slice(index, 1);
+        }
 
         // Make a list of uniq auras to fetch
         const fetchAuras = this.auras
