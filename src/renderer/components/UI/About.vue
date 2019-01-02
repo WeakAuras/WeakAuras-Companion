@@ -87,6 +87,7 @@ export default {
 }
 .logo {
   opacity: 1;
+  top: 0;
 }
 .app-info {
   font-size: 12px;
