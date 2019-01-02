@@ -103,7 +103,6 @@ const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
 const hash = require("./libs/hash.js");
-const localserver = require("./libs/localserver.js");
 const medias = require("./libs/contacts.js");
 const sanitize = require("./libs/sanitize.js");
 
@@ -142,7 +141,8 @@ const defaultValues = {
   },
   medias,
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
-  updateToast: null
+  updateToast: null,
+  reloadToast: null
 };
 
 export default Vue.extend({
@@ -171,18 +171,43 @@ export default Vue.extend({
     stash: {
       handler() {
         if (this.stash.length === 1) {
-          const toast = this.message(
-            this.$t(
-              "app.main.needreloadstash" /* Reload World of Warcraft's UI to receive pushed auras */
-            ),
-            "blue"
-          );
-          afterWOWReload(this.config.wowpath.value, () => {
-            toast.goAway(0);
-            while (this.stash.length > 0) {
-              this.stash.pop();
-            }
-          });
+          if (!this.reloadToast) {
+            const options = {
+              theme: "toasted-primary",
+              position: "bottom-right",
+              duration: null,
+              onComplete: () => {
+                this.reloadToast = null;
+              },
+              action: [
+                {
+                  text: "Cancel",
+                  onClick: () => {
+                    while (this.stash.length > 0) {
+                      this.stash.pop();
+                    }
+                  }
+                }
+              ]
+            };
+            this.reloadToast = this.$toasted.info(
+              this.$t(
+                "app.main.needreloadstash" /* Reload World of Warcraft's UI to receive pushed auras */
+              ),
+              options
+            );
+            afterWOWReload(this.config.wowpath.value, () => {
+              while (this.stash.length > 0) {
+                this.stash.pop();
+              }
+            });
+          }
+        }
+        if (this.stash.length === 0) {
+          if (this.reloadToast) {
+            this.reloadToast.goAway(0);
+            this.reloadToast = null;
+          }
         }
         this.writeAddonData(null, null, true);
       }
@@ -193,6 +218,17 @@ export default Vue.extend({
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
+    });
+    this.$electron.ipcRenderer.on("linkHandler", (event, link) => {
+      const pattern = /(weakauras-companion:\/\/wago\/push\/)(([^/]+))/;
+      if (link) {
+        const result = link.match(pattern);
+        let slug;
+        if (result) ({ 2: slug } = result);
+        if (slug) {
+          this.wagoPushHandler(slug);
+        }
+      }
     });
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
       const options = {
@@ -268,10 +304,6 @@ export default Vue.extend({
       this.configStep = 0;
       this.compareSVwithWago();
     }
-    localserver.start(this.stash);
-  },
-  destroyed() {
-    localserver.stop();
   },
   computed: {
     accountHash() {
@@ -371,12 +403,76 @@ export default Vue.extend({
       };
       if (type === "success") return this.$toasted.success(text, options);
       if (type === "error") return this.$toasted.error(text, options);
-      if (type === "blue") {
-        options.duration = null;
-        options.action = null;
-        return this.$toasted.info(text, options);
-      }
       return this.$toasted.show(text, options);
+    },
+    wagoPushHandler(slug) {
+      if (this.stash.findIndex(aura => aura.slug === slug) === -1) {
+        // Get data from Wago api
+        this.$http
+          .get("https://data.wago.io/api/check/weakauras", {
+            params: {
+              ids: slug
+            },
+            headers: {
+              Identifier: this.accountHash,
+              "Content-Security-Policy": [
+                "script-src",
+                "self",
+                "https://data.wago.io"
+              ]
+            },
+            crossdomain: true
+          })
+          .then(response => {
+            // metadata received from Wago API
+            response.data.forEach(wagoData => {
+              const aura = {
+                slug: wagoData.slug,
+                name: wagoData.name,
+                author: wagoData.username,
+                wagoVersion: wagoData.version,
+                wagoSemver: wagoData.versionString,
+                versionNote: wagoData.changelog
+              };
+              this.$http
+                .get("https://data.wago.io/api/raw/encoded", {
+                  params: {
+                    id: slug
+                  },
+                  headers: {
+                    Identifier: this.accountHash,
+                    "Content-Security-Policy": [
+                      "script-src",
+                      "self",
+                      "https://data.wago.io"
+                    ]
+                  },
+                  crossdomain: true
+                })
+                .then(response2 => {
+                  aura.encoded = response2.data;
+                  this.stash.push(aura);
+                })
+                .catch(err2 => {
+                  this.message(
+                    `Error receiving encoded string for "${
+                      aura.name
+                    }" http code: ${err2.response.status}`,
+                    "error"
+                  );
+                });
+            });
+          })
+          .catch(error => {
+            this.message(
+              this.$t(
+                "app.main.errorWagoAnswer",
+                { error } /* Can't read Wago answer\n{error} */
+              ),
+              "error"
+            );
+          });
+      }
     },
     compareSVwithWago() {
       if (!this.config.wowpath.valided || !this.config.account.valided) {
@@ -734,15 +830,25 @@ export default Vue.extend({
           if (!err) {
             if (isWOWOpen(this.config.wowpath.value)) {
               newInstall = true;
-              const toast = this.message(
-                this.$t(
-                  "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
-                ),
-                "blue"
-              );
-              afterWOWRestart(this.config.wowpath.value, () => {
-                toast.goAway(0);
-              });
+              if (!this.reloadToast) {
+                const options = {
+                  theme: "toasted-primary",
+                  position: "bottom-right",
+                  duration: null,
+                  onComplete: () => {
+                    this.reloadToast = null;
+                  }
+                };
+                this.reloadToast = this.$toasted.info(
+                  this.$t(
+                    "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
+                  ),
+                  options
+                );
+                afterWOWRestart(this.config.wowpath.value, () => {
+                  if (this.reloadToast) this.reloadToast.goAway(0);
+                });
+              }
             }
           }
           // Make data.lua
@@ -790,12 +896,22 @@ export default Vue.extend({
           LuaOutput += LuaIds;
           LuaOutput += "  },\n";
           LuaOutput += "  stash = {\n";
-          const fields2 = ["name", "encoded", "author", "version"];
           this.stash.forEach(aura => {
             LuaOutput += `    ['${aura.slug}'] = {\n`;
-            fields2.forEach(field => {
+            fields.forEach(field => {
               LuaOutput += `      ${field} = [[${aura[field]}]],\n`;
             });
+            if (typeof aura.changelog !== "undefined") {
+              if (typeof aura.changelog.text !== "undefined") {
+                let sanitized;
+                if (aura.changelog.format === "bbcode") {
+                  sanitized = sanitize.bbcode(aura.changelog.text);
+                } else if (aura.changelog.format === "markdown") {
+                  sanitized = sanitize.markdown(aura.changelog.text);
+                }
+                LuaOutput += `      versionNote = [[${sanitized}]],\n`;
+              }
+            }
             LuaOutput += "    },\n";
           });
           LuaOutput += "  }\n";
@@ -883,15 +999,25 @@ end`
           "info"
         );
         if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
-          const toast = this.message(
-            this.$t(
-              "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
-            ),
-            "blue"
-          );
-          afterWOWReload(this.config.wowpath.value, () => {
-            toast.goAway(0);
-          });
+          if (!this.reloadToast) {
+            const options = {
+              theme: "toasted-primary",
+              position: "bottom-right",
+              duration: null,
+              onComplete: () => {
+                this.reloadToast = null;
+              }
+            };
+            this.reloadToast = this.$toasted(
+              this.$t(
+                "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
+              ),
+              options
+            );
+            afterWOWReload(this.config.wowpath.value, () => {
+              if (this.reloadToast) this.reloadToast.goAway(0);
+            });
+          }
         }
       } else if (failsCount > 0) {
         this.message(

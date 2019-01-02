@@ -34,6 +34,12 @@ const iconpath = path.join(
   `icon.${process.platform === "darwin" ? "png" : "ico"}`
 );
 
+function handleLinks(link) {
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send("linkHandler", link);
+  }
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     minHeight: 550,
@@ -61,6 +67,15 @@ function createWindow() {
       mainWindow.show();
       mainWindow.focus();
     }
+  });
+
+  // Protocol handler for win32
+  if (process.platform === "win32") {
+    handleLinks(process.argv.pop());
+  }
+
+  mainWindow.on("closed", () => {
+    mainWindow = null;
   });
 
   tray = new Tray(iconpath);
@@ -122,7 +137,11 @@ function createWindow() {
 if (!app.requestSingleInstanceLock()) {
   app.quit();
 } else {
-  app.on("second-instance", () => {
+  app.on("second-instance", (event, argv) => {
+    // Protocol handler for win32
+    if (process.platform === "win32") {
+      handleLinks(argv.pop());
+    }
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
       if (!mainWindow.isVisible()) mainWindow.show();
@@ -151,6 +170,13 @@ app.on("activate", () => {
 
 // important for notifications on Windows
 app.setAppUserModelId("wtf.weakauras.companion");
+app.setAsDefaultProtocolClient("weakauras-companion");
+
+// Protocol handler for osx
+app.on("open-url", (event, url) => {
+  event.preventDefault();
+  handleLinks(url);
+});
 
 // event use when clicking on notifications
 ipcMain.on("open", () => {
@@ -170,24 +196,36 @@ ipcMain.on("installUpdates", () => {
 
 // updater functions
 autoUpdater.on("checking-for-update", () => {
-  mainWindow.webContents.send("updaterHandler", "checking-for-update");
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send("updaterHandler", "checking-for-update");
+  }
 });
 autoUpdater.on("update-available", () => {
-  mainWindow.webContents.send("updaterHandler", "update-available");
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send("updaterHandler", "update-available");
+  }
 });
 autoUpdater.on("update-not-available", () => {
-  mainWindow.webContents.send("updaterHandler", "update-not-available");
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send("updaterHandler", "update-not-available");
+  }
 });
 autoUpdater.on("error", err => {
-  mainWindow.webContents.send("updaterHandler", "error", err);
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send("updaterHandler", "error", err);
+  }
 });
 autoUpdater.on("download-progress", progressObj => {
-  mainWindow.webContents.send(
-    "updaterHandler",
-    "download-progress",
-    progressObj
-  );
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send(
+      "updaterHandler",
+      "download-progress",
+      progressObj
+    );
+  }
 });
 autoUpdater.on("update-downloaded", () => {
-  mainWindow.webContents.send("updaterHandler", "update-downloaded");
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send("updaterHandler", "update-downloaded");
+  }
 });
