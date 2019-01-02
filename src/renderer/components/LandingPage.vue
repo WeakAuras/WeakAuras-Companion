@@ -1033,38 +1033,4 @@ a {
 .reportbug:hover {
   color: #aaa;
 }
-
-/* 800px+ only */
-@media screen and (min-width: 800px) {
-  /* Header */
-  .btn.btn-menu {
-    font-size: 22px;
-    padding: 0 15px;
-  }
-  .app-logo {
-    top: 28px;
-    left: 28px;
-  }
-  .app-logo .logo-img {
-    height: 68px;
-  }
-  .app-logo span {
-    font-size: 36px;
-  }
-  header {
-    height: 125px;
-  }
-
-  /* Footer */
-  footer {
-    padding: 20px 2.35vw;
-  }
-  .logo {
-    height: 30px;
-  }
-  .reportbug {
-    font-size: 16px;
-    bottom: 26px;
-  }
-}
 </style>
