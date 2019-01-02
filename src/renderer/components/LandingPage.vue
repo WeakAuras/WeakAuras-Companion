@@ -88,6 +88,7 @@ import {
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart
 } from "./libs/wowstat";
+import formatBytes from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import Aura from "./UI/Aura.vue";
@@ -140,7 +141,8 @@ const defaultValues = {
     lastUpdate: null
   },
   medias,
-  stash: [] // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
+  stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
+  updateToast: null
 };
 
 export default Vue.extend({
@@ -191,6 +193,73 @@ export default Vue.extend({
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
+    });
+    this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
+      const options = {
+        theme: "toasted-primary",
+        position: "bottom-right",
+        duration: null,
+        onComplete: () => {
+          this.updateToast = null;
+        }
+      };
+      let text = null;
+      if (status === "checking-for-update") {
+        text = "Checking for client update...";
+      }
+      if (status === "update-available") {
+        text = "Client update available.";
+      }
+      if (status === "update-not-available") {
+        if (this.updateToast) this.updateToast.goAway(0);
+        return;
+      }
+      if (status === "error") {
+        text = `Error in updater. ${arg}`;
+        options.action = [
+          {
+            text: "Close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        ];
+      }
+      if (status === "download-progress") {
+        text = `Download ${formatBytes(arg.bytesPerSecond)}/s`;
+        text = `${text} - ${Math.floor(arg.percent)}%`;
+        text = `${text} (${formatBytes(arg.transferred)}/${formatBytes(
+          arg.total
+        )})`;
+      }
+      if (status === "update-downloaded") {
+        if (this.updateToast) this.updateToast.goAway(0);
+        text = "Client update downloaded";
+        options.action = [
+          {
+            text: "Install",
+            onClick: (e, toastObject) => {
+              this.$electron.ipcRenderer.send("installUpdates");
+              toastObject.goAway(0);
+            }
+          },
+          {
+            text: "Later",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        ];
+        this.$toasted.show(text, options);
+        return;
+      }
+      if (text) {
+        if (this.updateToast) {
+          this.updateToast.text(text);
+        } else {
+          this.updateToast = this.$toasted.show(text, options);
+        }
+      }
     });
     this.restore();
     if (!this.config.wowpath.valided || !this.config.account.valided) {

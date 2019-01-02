@@ -164,7 +164,30 @@ ipcMain.on("close", () => {
   app.isQuiting = true;
   app.quit();
 });
-
-autoUpdater.on("update-downloaded", () => {
+ipcMain.on("installUpdates", () => {
   autoUpdater.quitAndInstall();
+});
+
+// updater functions
+autoUpdater.on("checking-for-update", () => {
+  mainWindow.webContents.send("updaterHandler", "checking-for-update");
+});
+autoUpdater.on("update-available", () => {
+  mainWindow.webContents.send("updaterHandler", "update-available");
+});
+autoUpdater.on("update-not-available", () => {
+  mainWindow.webContents.send("updaterHandler", "update-not-available");
+});
+autoUpdater.on("error", err => {
+  mainWindow.webContents.send("updaterHandler", "error", err);
+});
+autoUpdater.on("download-progress", progressObj => {
+  mainWindow.webContents.send(
+    "updaterHandler",
+    "download-progress",
+    progressObj
+  );
+});
+autoUpdater.on("update-downloaded", () => {
+  mainWindow.webContents.send("updaterHandler", "update-downloaded");
 });
