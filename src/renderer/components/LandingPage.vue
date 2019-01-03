@@ -181,7 +181,7 @@ export default Vue.extend({
               },
               action: [
                 {
-                  text: "Cancel",
+                  text: this.$t("app.main.cancel" /* Cancel */),
                   onClick: () => {
                     while (this.stash.length > 0) {
                       this.stash.pop();
@@ -241,20 +241,27 @@ export default Vue.extend({
       };
       let text = null;
       if (status === "checking-for-update") {
-        text = "Checking for client update...";
+        text = this.$t(
+          "app.main.checkingupdate" /* Checking for client update... */
+        );
       }
       if (status === "update-available") {
-        text = "Client update available.";
+        text = this.$t(
+          "app.main.updateavailable" /* Client update available. */
+        );
       }
       if (status === "update-not-available") {
         if (this.updateToast) this.updateToast.goAway(0);
         return;
       }
       if (status === "error") {
-        text = `Error in updater. ${arg}`;
+        text = this.$t(
+          "app.main.updateerror",
+          { arg } /* Error in updater. {arg} */
+        );
         options.action = [
           {
-            text: "Close",
+            text: this.$t("app.main.close" /* Close */),
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
             }
@@ -262,25 +269,27 @@ export default Vue.extend({
         ];
       }
       if (status === "download-progress") {
-        text = `Download ${formatBytes(arg.bytesPerSecond)}/s`;
-        text = `${text} - ${Math.floor(arg.percent)}%`;
-        text = `${text} (${formatBytes(arg.transferred)}/${formatBytes(
-          arg.total
-        )})`;
+        text = `${this.$t("app.main.download" /* Download */)} ${formatBytes(
+          arg.bytesPerSecond
+        )}/s - ${Math.floor(arg.percent)}% (${formatBytes(
+          arg.transferred
+        )}/${formatBytes(arg.total)})`;
       }
       if (status === "update-downloaded") {
         if (this.updateToast) this.updateToast.goAway(0);
-        text = "Client update downloaded";
+        text = this.$t(
+          "app.main.updatedownload" /* Client update downloaded */
+        );
         options.action = [
           {
-            text: "Install",
+            text: this.$t("app.main.install" /* Install */),
             onClick: (e, toastObject) => {
               this.$electron.ipcRenderer.send("installUpdates");
               toastObject.goAway(0);
             }
           },
           {
-            text: "Later",
+            text: this.$t("app.main.later" /* Later */),
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
             }
@@ -455,9 +464,13 @@ export default Vue.extend({
                 })
                 .catch(err2 => {
                   this.message(
-                    `Error receiving encoded string for "${
-                      aura.name
-                    }" http code: ${err2.response.status}`,
+                    this.$t(
+                      "app.main.stringReceiveError",
+                      {
+                        aura: aura.name,
+                        status: err2.response.status
+                      } /* Error receiving encoded string for {aura} http code: {status} */
+                    ),
                     "error"
                   );
                 });
@@ -744,9 +757,13 @@ export default Vue.extend({
                       this.auras.forEach(aura => {
                         if (aura.slug === id) {
                           this.message(
-                            `Error receiving encoded string for "${
-                              aura.name
-                            }" http code: ${arg.status}`,
+                            this.$t(
+                              "app.main.stringReceiveError",
+                              {
+                                aura: aura.name,
+                                status: arg.status
+                              } /* Error receiving encoded string for {aura} http code: {status} */
+                            ),
                             "error"
                           );
                           fails.push(aura.name);
