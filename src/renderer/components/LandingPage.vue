@@ -79,7 +79,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 import path from "path";
 import moment from "moment";
