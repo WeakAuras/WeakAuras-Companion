@@ -213,6 +213,7 @@ autoUpdater.on("update-not-available", () => {
 autoUpdater.on("error", err => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "error", err);
+    mainWindow.setProgressBar(-1);
   }
 });
 autoUpdater.on("download-progress", progressObj => {
@@ -222,10 +223,12 @@ autoUpdater.on("download-progress", progressObj => {
       "download-progress",
       progressObj
     );
+    mainWindow.setProgressBar(progressObj.percent / 100);
   }
 });
 autoUpdater.on("update-downloaded", () => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-downloaded");
+    mainWindow.setProgressBar(-1);
   }
 });
