@@ -11,14 +11,8 @@
           :key="media.name"
         >
           <a :href="media.url" target="_blank">
-            <i
-              v-if="!media.asset"
-              class="fab"
-              v-bind:class="['fa-' + media.name]"
-            ></i>
             <img
-              v-else
-              :src="require(`@/${media.asset}`)"
+              :src="require(`@/assets/social-icons/${media.name}.svg`)"
               class="logo"
               :title="media.name"
             />
@@ -31,14 +25,8 @@
         <div v-for="media in medias.wago" class="media-item" :key="media.name">
           <a :href="media.url" target="_blank">
             <i :class="media.name"></i>
-            <i
-              v-if="!media.asset"
-              class="fab"
-              v-bind:class="['fa-' + media.name]"
-            ></i>
             <img
-              v-else
-              :src="require(`@/${media.asset}`)"
+              :src="require(`@/assets/social-icons/${media.name}.svg`)"
               class="logo"
               :title="media.name"
             />
@@ -100,8 +88,8 @@ export default {
 }
 .logo {
   opacity: 1;
+  width: 25px;
   top: 0;
-  filter: invert();
 }
 .app-info {
   font-size: 12px;
