@@ -819,7 +819,6 @@ end`
 
 <style>
 @import "../assets/fonts/fonts.css";
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 /* General (All Pages) */
 * {
   box-sizing: border-box;
