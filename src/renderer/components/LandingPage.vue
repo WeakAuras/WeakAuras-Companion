@@ -979,7 +979,8 @@ a {
 
 /* Aura list */
 #aura-list {
-  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
   height: 65%;
   text-align: center;
   margin: 0 2.35vw 15px;
