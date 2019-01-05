@@ -1029,7 +1029,7 @@ a {
 }
 
 .toasted-container.bottom-right .action {
-  color: #101010;
+  color: #e6e6e6;
 }
 
 .toasted-container.bottom-right .error .action {
@@ -1037,8 +1037,8 @@ a {
 }
 
 .toasted-container .default {
-  background-color: #e6e6e6;
-  color: #101010;
+  background-color: #191919;
+  color: #e6e6e6;
   font-weight: 400;
 }
 
