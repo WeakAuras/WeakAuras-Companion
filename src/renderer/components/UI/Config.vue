@@ -227,8 +227,8 @@ select,
   font-size: small;
   border-radius: 2px;
   border: none;
-  background-color: #eee;
-  color: #1e1e1e;
+  background-color: #e6e6e6;
+  color: #010101;
 }
 .title {
   margin: 20px 0 10px;

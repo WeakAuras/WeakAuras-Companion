@@ -59,7 +59,10 @@
             :aurasShown="aurasWithUpdateSorted.length"
           ></refreshButton>
           <br />
-          <div id="aura-list" v-if="aurasWithUpdateSorted.length > 0">
+          <div
+            id="aura-list"
+            v-bind:class="{ hidden: aurasWithUpdateSorted.length <= 0 }"
+          >
             <Aura
               v-for="aura in aurasWithUpdateSorted"
               :aura="aura"
@@ -866,7 +869,6 @@ main {
 }
 footer {
   padding: 14px 2.35vw;
-  /* height: 40px; */
   text-align: left;
   background: #101010;
   transition: all 0.2s ease-in-out;
@@ -908,6 +910,14 @@ a {
 }
 .footer-logo:hover {
   color: #e6e6e6;
+}
+
+.hidden {
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* Companion logo */
@@ -972,22 +982,23 @@ a {
   border: 1px solid #212121;
   border-radius: 8px;
   padding: 5px;
+  transition: height 0.4s ease-in-out;
 }
 
 /* Background WA logo */
 .wa-logo-background {
   position: absolute;
-  width: 100%;
-  height: 100%;
   object-fit: contain;
   z-index: -99;
-  padding: 20% 12%;
+  width: 100%;
+  height: 100%;
+  padding: 100px;
   fill: #191919;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  position: absolute;
+  position: relative;
   width: 10px;
   background: #212121;
   border-radius: 35px;
@@ -1011,8 +1022,8 @@ a {
 
 /* Toasts */
 .toasted-container.bottom-right {
-  right: 15px;
-  bottom: 50px;
+  right: 2.35vw;
+  bottom: 70px;
 }
 
 .toasted-container.bottom-right .action {

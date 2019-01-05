@@ -51,14 +51,14 @@ export default {
   display: none;
 }
 .fakeinput {
-  background-color: #eee;
+  background-color: #e6e6e6;
   width: 270px;
   height: 27px;
   font-size: 13px;
   white-space: nowrap;
   display: inline-table;
   table-layout: fixed;
-  color: black;
+  color: #010101;
   border-radius: 2px;
   padding: 0 5px;
 }

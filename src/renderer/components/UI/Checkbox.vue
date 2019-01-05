@@ -44,14 +44,14 @@ input[type="checkbox"] + .checkbox__box:focus {
   user-select: none;
 }
 .checkbox__box {
-  background-color: #e7e7e7;
+  background-color: #e6e6e6;
   border-radius: 2px;
   height: 20px;
   margin-right: 10px;
   width: 20px;
 }
 .checkbox__box--checked {
-  background-color: #2b2b2b;
+  background-color: #191919;
   background-image: url("~@/assets/checkmark.png");
   background-position: center;
   background-repeat: no-repeat;

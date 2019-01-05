@@ -5,7 +5,8 @@
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </v-button>
     <v-button v-else @click="gotoconfig" type="issue">
-      {{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}
+      <i class="material-icons error">error_outline</i>
+      <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </v-button>
     <div id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
@@ -68,16 +69,18 @@ export default {
   text-align: center;
   width: 100%;
   margin: auto;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 #sync.top {
-  margin-top: 40px;
+  position: relative;
+  top: 10px;
 }
 #lastupdate {
   margin-top: 5px;
   font-size: small;
   color: #e6e6e6;
 }
+.btn-issue span,
 .btn-refresh span {
   position: relative;
   bottom: 8px;
@@ -97,7 +100,7 @@ export default {
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
-
+.btn-issue,
 .btn-refresh {
   padding: 12px 15px;
   padding-left: 13px;

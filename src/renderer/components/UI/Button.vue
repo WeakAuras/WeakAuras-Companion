@@ -47,6 +47,8 @@ export default {
   border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
   -webkit-app-region: no-drag;
+  background-color: #e6e6e6;
+  color: #101010;
 }
 .btn:focus {
   outline: none;
@@ -65,7 +67,7 @@ export default {
   font-weight: 600;
   border-radius: 2px;
   vertical-align: top;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
   cursor: pointer;
 }
 .btn-refresh:hover {
@@ -144,9 +146,8 @@ export default {
 }
 .btn-link {
   background: #171717;
-  border: 1px solid #0f0f0f;
 }
 .btn-link:hover {
-  background: #222;
+  background: #101010;
 }
 </style>

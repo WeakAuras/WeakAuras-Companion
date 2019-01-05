@@ -93,10 +93,10 @@ export default {
 }
 .app-info {
   font-size: 12px;
-  color: rgb(173, 173, 173);
+  color: #777;
   position: absolute;
   bottom: 15px;
-  right: 15px;
+  right: 2.35vw;
   text-align: right;
 }
 .title {
