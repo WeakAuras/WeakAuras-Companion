@@ -35,8 +35,8 @@ branches:
   - master
   - "/^greenkeeper/.*$/"
 before_install:
-- openssl aes-256-cbc -K $encrypted_e7df8235be93_key -iv $encrypted_e7df8235be93_iv
-  -in msa_digicert_CI.p12.enc -out msa_digicert_CI.p12 -d
+- if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then openssl aes-256-cbc -K $encrypted_e7df8235be93_key -iv $encrypted_e7df8235be93_iv
+  -in msa_digicert_CI.p12.enc -out msa_digicert_CI.p12 -d; fi
 env:
   global:
     secure: gPbstPjYZFJKvxoS6ZxpZSTrRXx20KczVgRlkL8eJoSaz+ZS3rVpq7JgGWkXQWMHZLWsOfvzRZsODN7b4c0WPJ1jfS0Lpyquq7aftL2HWX5CzMpcnRObAWkIbQ9nDcWFLfgjL5rKXVL7+yJM7DIk0ZLypi/dK7TBmebMhKTb47+NipG/UkIgDe40VL9nQOq4Jcv1QUaGci3AgsYkhwxWDm5YdxuLEQGm3G5VoIL7anjKlJM7QDwgNkiyFBIOFvLNiEcgcGy9VzBGkjqhEq+gQV2Vp65+bobG/9QIqu3ElwoWLHlTOMou5BxT/4eS56iNf0GAxkLkCzIToKs9WOhb+Esdklui1oMO4NQJLzAjr41nGcz9lw0skQOt0fxio2sPDLvymocDTcctFeD/lGS6f+7uhfTQUyd5ZX6ZFGFv++xuRrzPN9blcMa3R4imTkyxwlbFJTQiEaWNc6sKkMP8jF+yxO0Gluu/oLD4WVoMcxwiptDZngKYgrwxRBn+GrOOPupbkfFV2M0977B9wirKX49n3yRawP7S4jd4LSuRvo1qXwXcUl2xL+ozUhDMqQjxixGZ8mde/Dhw0ktkVYLInjngeRFTWX8f43FTbhMeASzZMfNoFkJqywPUWbtY0k+O2R3eRLm+z4WpMHFz+uDOly8aFwYUIuptAb1IKTrk7/8=
