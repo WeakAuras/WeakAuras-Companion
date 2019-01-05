@@ -25,30 +25,32 @@
         <span>{{ $t("app.main.companion" /* Companion */) }}</span>
       </div>
       <header>
-        <v-button
-          type="menu"
-          @click="configStep = 0"
-          v-bind:class="{ active: configStep === 0 }"
-          >{{ $t("app.menu.main" /* Main */) }}</v-button
-        >
-        <v-button
-          type="menu"
-          @click="configStep = 1"
-          v-bind:class="{ active: configStep === 1 }"
-          >{{ $t("app.menu.settings" /* Settings */) }}</v-button
-        >
-        <v-button
-          type="menu"
-          @click="configStep = 2"
-          v-bind:class="{ active: configStep === 2 }"
-          >{{ $t("app.menu.help" /* Help */) }}</v-button
-        >
-        <v-button
-          type="menu"
-          @click="configStep = 3"
-          v-bind:class="{ active: configStep === 3 }"
-          >{{ $t("app.menu.about" /* About */) }}</v-button
-        >
+        <div class="menu-btns">
+          <v-button
+            type="menu"
+            @click="configStep = 0"
+            v-bind:class="{ active: configStep === 0 }"
+            >{{ $t("app.menu.main" /* Main */) }}</v-button
+          >
+          <v-button
+            type="menu"
+            @click="configStep = 1"
+            v-bind:class="{ active: configStep === 1 }"
+            >{{ $t("app.menu.settings" /* Settings */) }}</v-button
+          >
+          <v-button
+            type="menu"
+            @click="configStep = 2"
+            v-bind:class="{ active: configStep === 2 }"
+            >{{ $t("app.menu.help" /* Help */) }}</v-button
+          >
+          <v-button
+            type="menu"
+            @click="configStep = 3"
+            v-bind:class="{ active: configStep === 3 }"
+            >{{ $t("app.menu.about" /* About */) }}</v-button
+          >
+        </div>
       </header>
       <main>
         <div v-if="configStep === 0" id="dashboard">
@@ -858,10 +860,13 @@ header {
   text-align: right;
   height: 100px;
   font-size: 0;
-  padding-right: 2.35vw;
   background-color: #101010;
-  -webkit-app-region: drag;
   transition: all 0.2s ease-in-out;
+}
+.menu-btns {
+  height: 100%;
+  margin-right: 2.35vw;
+  -webkit-app-region: drag;
 }
 main {
   flex: 1;

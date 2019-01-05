@@ -58,7 +58,7 @@ export default {
 #ui-titlecontrols {
   -webkit-app-region: no-drag;
   max-width: 144px;
-  max-height: 12px;
+  max-height: 28px;
   text-align: right;
 }
 .ui-btn {
