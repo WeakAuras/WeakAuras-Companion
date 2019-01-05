@@ -8,7 +8,6 @@ module.exports = {
       name: "youtube",
       url: "https://www.youtube.com/channel/UCEuzJlrsz27wUWlWn_HSEeg"
     },
-    { name: "facebook", url: "https://facebook.com/WeakAuras" },
     { name: "curse", url: "https://mods.curse.com/addons/wow/weakauras-2" }
   ],
   wago: [
