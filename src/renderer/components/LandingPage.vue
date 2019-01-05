@@ -876,7 +876,6 @@ footer {
   padding: 14px 2.35vw;
   text-align: left;
   background: #101010;
-  transition: all 0.2s ease-in-out;
 }
 
 .title {
@@ -932,7 +931,7 @@ a {
   justify-content: space-between;
   position: fixed;
   top: 25px;
-  left: 25px;
+  left: 2.35vw;
 }
 .logo-img {
   height: 50px;

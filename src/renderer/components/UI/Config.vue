@@ -192,7 +192,7 @@ export default {
 
 <style scoped>
 #config {
-  padding: 5px 0 5px 30px;
+  padding: 5px 0 5px 2.35vw;
   text-align: left;
   overflow: auto;
   height: 100%;
