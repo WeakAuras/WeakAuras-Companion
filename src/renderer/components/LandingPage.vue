@@ -1242,7 +1242,7 @@ a {
 
 /* Aura list */
 #aura-list {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   height: 65%;
   text-align: center;
