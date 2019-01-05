@@ -30,25 +30,25 @@
             type="menu"
             @click="configStep = 0"
             v-bind:class="{ active: configStep === 0 }"
-            >{{ $t("app.menu.main" /* Main */) }}</v-button
+            ><span>{{ $t("app.menu.main" /* Main */) }}</span></v-button
           >
           <v-button
             type="menu"
             @click="configStep = 1"
             v-bind:class="{ active: configStep === 1 }"
-            >{{ $t("app.menu.settings" /* Settings */) }}</v-button
+            ><span>{{ $t("app.menu.settings" /* Settings */) }}</span></v-button
           >
           <v-button
             type="menu"
             @click="configStep = 2"
             v-bind:class="{ active: configStep === 2 }"
-            >{{ $t("app.menu.help" /* Help */) }}</v-button
+            ><span>{{ $t("app.menu.help" /* Help */) }}</span></v-button
           >
           <v-button
             type="menu"
             @click="configStep = 3"
             v-bind:class="{ active: configStep === 3 }"
-            >{{ $t("app.menu.about" /* About */) }}</v-button
+            ><span>{{ $t("app.menu.about" /* About */) }}</span></v-button
           >
         </div>
       </header>
@@ -876,7 +876,6 @@ footer {
   padding: 14px 2.35vw;
   text-align: left;
   background: #101010;
-  transition: all 0.2s ease-in-out;
 }
 
 .title {
@@ -932,7 +931,7 @@ a {
   justify-content: space-between;
   position: fixed;
   top: 25px;
-  left: 25px;
+  left: 2.35vw;
 }
 .logo-img {
   height: 50px;
@@ -961,6 +960,10 @@ a {
   border-bottom: 3px solid transparent;
   transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
     font-size 0.2s ease-in-out;
+}
+.btn.btn-menu span {
+  position: relative;
+  top: 3px;
 }
 .btn.btn-menu:hover {
   background-color: #1f1f1f;

@@ -67,7 +67,7 @@ export default {
 
 <style scoped>
 #about {
-  padding: 10px 30px;
+  padding: 10px 2.35vw;
   text-align: left;
   height: 100%;
   position: relative;
