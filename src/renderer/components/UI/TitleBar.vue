@@ -1,6 +1,6 @@
 <template>
   <div id="ui-titlebar">
-    <div id="ui-titletext">&nbsp;</div>
+    <div id="ui-titletext"></div>
     <div id="ui-titlecontrols">
       <button class="ui-btn minimize" @click="minBtn">
         <svg x="0px" y="0px" viewBox="0 0 10.2 1">
@@ -34,15 +34,23 @@ export default {
 <style scoped>
 #ui-titlebar {
   display: flex;
-  width: 100%;
-  height: 32px;
-  background: #171717;
+  position: fixed;
+  float: right;
+  top: 0;
+  right: 0;
+  width: 70px;
+  height: 28px;
+  margin-left: auto;
+  background-color: #10101091;
+  border-radius: 0 0 0 10px;
   user-select: none;
   cursor: default;
   -webkit-app-region: drag;
+  padding-right: 13px;
+  z-index: 999;
 }
 #ui-titletext {
-  max-height: 32px;
+  max-height: 12px;
   flex: auto;
   color: #fff;
   text-indent: 10px;
@@ -50,14 +58,15 @@ export default {
 #ui-titlecontrols {
   -webkit-app-region: no-drag;
   max-width: 144px;
-  max-height: 32px;
+  max-height: 28px;
   text-align: right;
 }
 .ui-btn {
   margin: 0;
-  width: 48px;
-  height: 32px;
+  width: 20px;
+  height: 16px;
   border: 0;
+  border-radius: 2px;
   outline: 0;
   background: transparent;
 }
@@ -73,7 +82,7 @@ export default {
   fill: #fff;
 }
 .ui-btn svg {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
 }
 </style>

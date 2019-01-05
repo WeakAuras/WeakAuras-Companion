@@ -123,12 +123,11 @@
 
 <style scoped>
 #help {
-  padding: 10px 30px;
+  padding: 10px 2.35vw;
   text-align: left;
   height: 100%;
   position: relative;
   overflow: auto;
-  transition: all ease-in 1s;
 }
 .updateButton {
   margin-left: 60%;

@@ -47,6 +47,8 @@ export default {
   border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
   -webkit-app-region: no-drag;
+  background-color: #e6e6e6;
+  color: #101010;
 }
 .btn:focus {
   outline: none;
@@ -57,15 +59,20 @@ export default {
 }
 .btn-issue,
 .btn-refresh {
-  background-color: #333;
-  padding: 10px;
-  font-size: large;
-  color: white;
+  background-color: #e6e6e6;
+  padding: 15px;
+  height: 60px;
+  font-size: 16px;
+  color: #101010;
+  font-weight: 600;
   border-radius: 2px;
-  height: auto;
+  vertical-align: top;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
 }
 .btn-refresh:hover {
-  background-color: rgb(71, 71, 71);
+  background-color: #191919;
+  color: #e6e6e6;
 }
 .btn-menu {
   width: 60px;
@@ -126,7 +133,8 @@ export default {
 }
 
 .btn-issue {
-  background-color: #ad0600;
+  background-color: #a80000;
+  color: #e6e6e6;
 }
 .btn-reset {
   background-color: #a80000;
@@ -138,9 +146,8 @@ export default {
 }
 .btn-link {
   background: #171717;
-  border: 1px solid #0f0f0f;
 }
 .btn-link:hover {
-  background: #222;
+  background: #101010;
 }
 </style>

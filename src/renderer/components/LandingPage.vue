@@ -2,39 +2,55 @@
   <div id="wrapper">
     <div class="main-container" v-bind:class="{ blurred: reportIsShown }">
       <TitleBar></TitleBar>
-      <img
-        :src="require(`@/assets/weakauras.png`)"
+      <svg
         class="wa-logo-background"
-      />
-      <div class="logos">
-        <img :src="require(`@/assets/weakauras.png`)" class="wa-logo-top" />
+        width="917"
+        height="365"
+        viewBox="0 0 917 365"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M0 0H121.909L339.456 365H212.74L0 0Z" fill="#191919" />
+        <path
+          d="M600.936 277.243L549.121 365H916.525L702.164 0H584.503L678.24 174.619L735.646 277.243H600.936Z"
+          fill="#191919"
+        />
+        <path
+          d="M584.503 0L422.237 266.623L378.639 197.368L325.817 113.469H226.993H203.908L356.895 365H486.015L702.164 0H584.503Z"
+          fill="#191919"
+        />
+      </svg>
+      <div class="app-logo">
+        <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
         <span>{{ $t("app.main.companion" /* Companion */) }}</span>
       </div>
       <header>
-        <v-button
-          type="menu"
-          @click="configStep = 0"
-          v-bind:class="{ active: configStep === 0 }"
-          >{{ $t("app.menu.main" /* Main */) }}</v-button
-        >
-        <v-button
-          type="menu"
-          @click="configStep = 1"
-          v-bind:class="{ active: configStep === 1 }"
-          >{{ $t("app.menu.settings" /* Settings */) }}</v-button
-        >
-        <v-button
-          type="menu"
-          @click="configStep = 2"
-          v-bind:class="{ active: configStep === 2 }"
-          >{{ $t("app.menu.help" /* Help */) }}</v-button
-        >
-        <v-button
-          type="menu"
-          @click="configStep = 3"
-          v-bind:class="{ active: configStep === 3 }"
-          >{{ $t("app.menu.about" /* About */) }}</v-button
-        >
+        <div class="menu-btns">
+          <v-button
+            type="menu"
+            @click="configStep = 0"
+            v-bind:class="{ active: configStep === 0 }"
+            ><span>{{ $t("app.menu.main" /* Main */) }}</span></v-button
+          >
+          <v-button
+            type="menu"
+            @click="configStep = 1"
+            v-bind:class="{ active: configStep === 1 }"
+            ><span>{{ $t("app.menu.settings" /* Settings */) }}</span></v-button
+          >
+          <v-button
+            type="menu"
+            @click="configStep = 2"
+            v-bind:class="{ active: configStep === 2 }"
+            ><span>{{ $t("app.menu.help" /* Help */) }}</span></v-button
+          >
+          <v-button
+            type="menu"
+            @click="configStep = 3"
+            v-bind:class="{ active: configStep === 3 }"
+            ><span>{{ $t("app.menu.about" /* About */) }}</span></v-button
+          >
+        </div>
       </header>
       <main>
         <div v-if="configStep === 0" id="dashboard">
@@ -42,9 +58,13 @@
             :usable="config.wowpath.valided && config.account.valided"
             :fetching="fetching"
             :lastUpdate="schedule.lastUpdate"
+            :aurasShown="aurasWithUpdateSorted.length"
           ></refreshButton>
           <br />
-          <div id="aura-list" v-if="aurasWithUpdateSorted.length > 0">
+          <div
+            id="aura-list"
+            v-bind:class="{ hidden: aurasWithUpdateSorted.length <= 0 }"
+          >
             <Aura
               v-for="aura in aurasWithUpdateSorted"
               :aura="aura"
@@ -64,7 +84,7 @@
           target="_blank"
         >
           <img
-            :src="require(`@/assets/${media.name}.png`)"
+            :src="require(`@/assets/social-icons/${media.name}.svg`)"
             class="logo"
             :title="media.name"
           />
@@ -1064,7 +1084,7 @@ end`
 
 <style>
 @import "../assets/fonts/fonts.css";
-
+/* General (All Pages) */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -1074,7 +1094,7 @@ end`
 body {
   font-family: "Noto Sans SC", sans-serif;
   font-weight: 400;
-  background-color: #171717;
+  background-color: #131313;
   color: white;
   overflow-y: hidden;
   user-select: none;
@@ -1098,134 +1118,24 @@ img:not([draggable="true"]) {
 }
 header {
   text-align: right;
-  height: 50px;
-  margin: 15px 15px 0 0;
+  height: 100px;
   font-size: 0;
+  background-color: #101010;
+  transition: all 0.2s ease-in-out;
+}
+.menu-btns {
+  height: 100%;
+  margin-right: 2.35vw;
+  -webkit-app-region: drag;
 }
 main {
   flex: 1;
   overflow-y: hidden;
 }
 footer {
-  padding: 10px 15px;
-  /* height: 40px; */
+  padding: 14px 2.35vw;
   text-align: left;
-}
-#dashboard {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-#aura-list {
-  overflow: auto;
-  height: 65%;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-.logo {
-  position: relative;
-  display: inline-block;
-  line-height: 1;
-  width: 1.2em;
-  height: auto;
-  opacity: 0.7;
-}
-.logo:hover {
-  opacity: 1;
-}
-.wa-logo-background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  z-index: -99;
-  opacity: 0.02;
-  margin-right: 10px;
-}
-.logos {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  padding: 15px;
-  top: 24px;
-}
-.wa-logo-top {
-  height: 45px;
-}
-.logos span {
-  font-weight: 300;
-  font-size: 24px;
-  margin-left: 5px;
-  color: rgb(226, 226, 226);
-}
-a {
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-.btn.btn-menu {
-  background: transparent;
-  color: #f2f2f2;
-  padding: 5px 10px;
-  text-align: center;
-  text-shadow: 0 0 1em black;
-  width: auto;
-  border: none;
-  border-radius: 0;
-  font-weight: 600;
-  font-size: 14px;
-  min-width: 70px;
-  border-right: 1px solid rgba(255, 255, 255, 0.226);
-  transition: background-color 0.2s ease-in;
-}
-header .btn-menu:last-child {
-  border-right: none;
-}
-.btn.btn-menu:hover {
-  background-color: rgba(255, 255, 255, 0.11);
-  color: rgb(255, 209, 0);
-}
-
-.btn-menu.active {
-  background-color: #87817f77 !important;
-}
-
-.seperator {
-  text-shadow: 0 0 1em black;
-}
-.updates {
-  color: rgb(255, 209, 0);
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 208, 0, 0.1);
-  padding: 5px 15px;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.updates span {
-  text-shadow: #000 0 0 8px;
-  font-size: 14px;
-  margin: auto;
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #3a3a3a;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: rgb(172, 172, 172);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #101010;
 }
 
 .title {
@@ -1237,20 +1147,172 @@ header .btn-menu:last-child {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.toasted-container.bottom-right {
-  right: 15px;
-  bottom: 50px;
-}
-.toasted-container.bottom-right .action {
-  color: rgb(255, 209, 0);
+a {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
 }
 
+.logo {
+  position: relative;
+  top: 2px;
+  display: inline-block;
+  line-height: 1;
+  width: auto;
+  height: 1.4em;
+  opacity: 0.4;
+  margin-right: 3px;
+}
+.logo:hover {
+  opacity: 1;
+}
+.footer-logo {
+  color: #777;
+  font-size: 18px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.footer-logo:hover {
+  color: #e6e6e6;
+}
+
+.hidden {
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Companion logo */
+.app-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 25px;
+  left: 2.35vw;
+}
+.logo-img {
+  height: 50px;
+  transition: all 0.2s ease-in-out;
+}
+.app-logo span {
+  font-weight: 300;
+  font-size: 22px;
+  margin-left: 5px;
+  color: #e4e4e4;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Menu */
+.btn.btn-menu {
+  background: transparent;
+  color: #e6e6e6;
+  padding: 0 18px;
+  text-align: center;
+  width: auto;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 3px solid transparent;
+  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
+    font-size 0.2s ease-in-out;
+}
+.btn.btn-menu span {
+  position: relative;
+  top: 3px;
+}
+.btn.btn-menu:hover {
+  background-color: #1f1f1f;
+}
+.btn-menu.active {
+  background-color: #171717;
+  border-bottom: 3px solid #c4c4c4;
+}
+
+/* Main page container */
+#dashboard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Aura list */
+#aura-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 65%;
+  text-align: center;
+  margin: 0 2.35vw 15px;
+  border-radius: 8px;
+  transition: height 0.4s ease-in-out;
+}
+
+/* Background WA logo */
+.wa-logo-background {
+  position: absolute;
+  object-fit: contain;
+  z-index: -99;
+  width: 100%;
+  height: 100%;
+  padding: 100px;
+  fill: #191919;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  position: relative;
+  width: 10px;
+  background: #212121;
+  border-radius: 35px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  border: 1px solid #292828;
+  border-radius: 35px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border: 2px solid #212121;
+  border-radius: 5px;
+  width: 8px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Toasts */
+.toasted-container.bottom-right {
+  right: 2.35vw;
+  bottom: 70px;
+}
+
+.toasted-container.bottom-right .action {
+  color: #e6e6e6;
+}
+
+.toasted-container.bottom-right .error .action {
+  color: #e6e6e6;
+}
+
+.toasted-container .default {
+  background-color: #191919;
+  color: #e6e6e6;
+  font-weight: 400;
+}
+
+/* Report Page */
 .reportbug {
-  font-size: 11px;
+  font-size: 12px;
   color: #777;
   position: absolute;
-  right: 15px;
-  bottom: 15px;
+  right: 2.35vw;
+  bottom: 19px;
   text-shadow: #000 1px 0;
 }
 .reportbug:hover {

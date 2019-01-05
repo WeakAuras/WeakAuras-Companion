@@ -5,12 +5,10 @@
     </div>
     <div class="block">
       <file-select :path.sync="config.wowpath.value"></file-select>
-      <img
-        v-if="config.wowpath.valided"
-        class="green"
-        :src="require(`@/assets/ok.png`)"
-      />
-      <img v-else class="red" :src="require(`@/assets/error.png`)" />
+      <i v-if="config.wowpath.valided" class="material-icons green folder"
+        >check_circle_outline</i
+      >
+      <i v-else class="material-icons red folder">error_outline</i>
       <span v-if="config.wowpath.valided">
         <p class="label">
           {{ $t("app.config.selectAccount" /* Select WoW Account */) }}
@@ -20,12 +18,10 @@
             item.name
           }}</option>
         </select>
-        <img
-          v-if="config.account.valided"
-          class="green"
-          :src="require(`@/assets/ok.png`)"
-        />
-        <img v-else class="red" :src="require(`@/assets/error.png`)" />
+        <i v-if="config.account.valided" class="material-icons green"
+          >check_circle_outline</i
+        >
+        <i v-else class="material-icons red">error_outline</i>
       </span>
     </div>
     <div class="title">
@@ -39,11 +35,9 @@
       <v-button @click="config.wagoUsername = wagoUsername">{{
         $t("app.config.ok" /* OK */)
       }}</v-button>
-      <img
-        v-if="config.wagoUsername"
-        class="green"
-        :src="require(`@/assets/ok.png`)"
-      />
+      <i v-if="config.wagoUsername" class="material-icons green">
+        check_circle_outline</i
+      >
       <br /><br />
       <checkbox v-model="config.ignoreOwnAuras">
         {{
@@ -198,7 +192,7 @@ export default {
 
 <style scoped>
 #config {
-  padding: 5px 0 5px 30px;
+  padding: 5px 0 5px 2.35vw;
   text-align: left;
   overflow: auto;
   height: 100%;
@@ -210,12 +204,21 @@ label,
   margin: 2px 0 3px;
   font-size: 14px;
 }
+.red {
+  color: #ff3333;
+}
+.green {
+  color: #11ba11;
+}
 .red,
 .green {
   border-radius: 2px;
-  width: 27px;
-  height: 27px;
+  vertical-align: middle;
+}
+.material-icons.folder {
   vertical-align: top;
+  position: relative;
+  top: 3px;
 }
 input,
 select,
@@ -224,8 +227,8 @@ select,
   font-size: small;
   border-radius: 2px;
   border: none;
-  background-color: #eee;
-  color: #1e1e1e;
+  background-color: #e6e6e6;
+  color: #010101;
 }
 .title {
   margin: 20px 0 10px;

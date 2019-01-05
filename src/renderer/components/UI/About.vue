@@ -12,7 +12,7 @@
         >
           <a :href="media.url" target="_blank">
             <img
-              :src="require(`@/assets/${media.name}.png`)"
+              :src="require(`@/assets/social-icons/${media.name}.svg`)"
               class="logo"
               :title="media.name"
             />
@@ -24,8 +24,9 @@
         <div class="title">{{ $t("app.about.wago" /* Wago */) }}</div>
         <div v-for="media in medias.wago" class="media-item" :key="media.name">
           <a :href="media.url" target="_blank">
+            <i :class="media.name"></i>
             <img
-              :src="require(`@/assets/${media.name}.png`)"
+              :src="require(`@/assets/social-icons/${media.name}.svg`)"
               class="logo"
               :title="media.name"
             />
@@ -66,7 +67,7 @@ export default {
 
 <style scoped>
 #about {
-  padding: 10px 30px;
+  padding: 10px 2.35vw;
   text-align: left;
   height: 100%;
   position: relative;
@@ -87,13 +88,15 @@ export default {
 }
 .logo {
   opacity: 1;
+  width: 25px;
+  top: 0;
 }
 .app-info {
   font-size: 12px;
-  color: rgb(173, 173, 173);
+  color: #777;
   position: absolute;
   bottom: 15px;
-  right: 15px;
+  right: 2.35vw;
   text-align: right;
 }
 .title {
@@ -102,5 +105,10 @@ export default {
 }
 a:hover {
   color: rgb(255, 209, 0);
+}
+.fab {
+  margin-right: 5px;
+  font-size: 22px;
+  color: #e6e6e6 !important;
 }
 </style>
