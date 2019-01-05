@@ -97,8 +97,8 @@ export default Vue.extend({
 
 <style scoped>
 .aura {
-  background-color: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #101010c9;
+  border: 1px solid #101010;
   color: rgb(255, 209, 0);
   margin: 1px;
   height: 36px;

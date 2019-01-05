@@ -978,10 +978,7 @@ a {
   height: 65%;
   text-align: center;
   margin: 0 2.35vw 15px;
-  background-color: rgba(0, 0, 0, 0.25);
-  border: 1px solid #212121;
   border-radius: 8px;
-  padding: 5px;
   transition: height 0.4s ease-in-out;
 }
 
