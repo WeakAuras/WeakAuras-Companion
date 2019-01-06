@@ -30,25 +30,25 @@
             type="menu"
             @click="configStep = 0"
             v-bind:class="{ active: configStep === 0 }"
-            ><span>{{ $t("app.menu.main" /* Main */) }}</span></v-button
+            >{{ $t("app.menu.main" /* Main */) }}</v-button
           >
           <v-button
             type="menu"
             @click="configStep = 1"
             v-bind:class="{ active: configStep === 1 }"
-            ><span>{{ $t("app.menu.settings" /* Settings */) }}</span></v-button
+            >{{ $t("app.menu.settings" /* Settings */) }}</v-button
           >
           <v-button
             type="menu"
             @click="configStep = 2"
             v-bind:class="{ active: configStep === 2 }"
-            ><span>{{ $t("app.menu.help" /* Help */) }}</span></v-button
+            >{{ $t("app.menu.help" /* Help */) }}</v-button
           >
           <v-button
             type="menu"
             @click="configStep = 3"
             v-bind:class="{ active: configStep === 3 }"
-            ><span>{{ $t("app.menu.about" /* About */) }}</span></v-button
+            >{{ $t("app.menu.about" /* About */) }}</v-button
           >
         </div>
       </header>
