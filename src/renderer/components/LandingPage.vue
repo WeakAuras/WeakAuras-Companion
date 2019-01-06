@@ -630,6 +630,13 @@ export default Vue.extend({
                         this.auras[index].version = version;
                         this.auras[index].semver = semver;
                       }
+                      // check if a rollback was made
+                      if (aura.version > version) {
+                        this.auras[index].version = version;
+                        this.auras[index].semver = semver;
+                        this.auras[index].wagoVersion = null;
+                        this.auras[index].encoded = null;
+                      }
                     }
                   });
                 }
