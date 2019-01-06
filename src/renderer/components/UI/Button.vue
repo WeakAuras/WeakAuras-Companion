@@ -59,20 +59,21 @@ export default {
 }
 .btn-issue,
 .btn-refresh {
-  background-color: #e6e6e6;
+  background-color: rgba(18, 18, 18, 0.95);
+  border: 1px solid #fff;
   padding: 15px;
   height: 60px;
   font-size: 16px;
-  color: #101010;
+  color: #fff;
   font-weight: 600;
-  border-radius: 2px;
+  border-radius: 4px;
   vertical-align: top;
   transition: all 0.1s ease-in-out;
   cursor: pointer;
 }
 .btn-refresh:hover {
-  background-color: #191919;
-  color: #e6e6e6;
+  background-color: #fff;
+  color: #2d2c2c;
 }
 .btn-menu {
   width: 60px;
@@ -133,8 +134,11 @@ export default {
 }
 
 .btn-issue {
-  background-color: #a80000;
-  color: #e6e6e6;
+  color: #ff3333;
+  border-color: #ff3333;
+}
+.btn-issue:hover {
+  background-color: #ffffff;
 }
 .btn-reset {
   background-color: #a80000;
