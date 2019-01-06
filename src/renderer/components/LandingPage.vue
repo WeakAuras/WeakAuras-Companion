@@ -1313,6 +1313,10 @@ a {
   font-weight: 400;
 }
 
+.toasted-container.bottom-right > .toasted > .action {
+  text-decoration: none;
+}
+
 /* Report Page */
 .reportbug {
   font-size: 12px;
