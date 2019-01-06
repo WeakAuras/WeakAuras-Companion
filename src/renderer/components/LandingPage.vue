@@ -277,7 +277,7 @@ export default Vue.extend({
       if (status === "error") {
         text = this.$t(
           "app.main.updateerror",
-          { arg } /* Error in updater. {arg} */
+          { arg: arg.code } /* Error in updater. {arg} */
         );
         options.action = [
           {
