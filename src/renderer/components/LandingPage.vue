@@ -1132,7 +1132,7 @@ header {
 }
 .menu-btns {
   height: 100%;
-  margin-right: 2.35vw;
+  margin-right: 85px;
   -webkit-app-region: drag;
 }
 main {
@@ -1223,7 +1223,7 @@ a {
   border: none;
   border-radius: 0;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   border-bottom: 3px solid transparent;
   transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
     font-size 0.2s ease-in-out;

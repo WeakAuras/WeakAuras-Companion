@@ -43,7 +43,7 @@ function handleLinks(link) {
 function createWindow() {
   mainWindow = new BrowserWindow({
     minHeight: 550,
-    minWidth: 600,
+    minWidth: 800,
     frame: false,
     resizable: true,
     backgroundColor: "#252525",
