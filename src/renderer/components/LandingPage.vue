@@ -256,6 +256,7 @@ export default Vue.extend({
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
+        className: "update",
         duration: null
       };
       this.updater.status = status;
@@ -396,7 +397,7 @@ export default Vue.extend({
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
-        duration: 8000,
+        duration: null,
         action: {
           text: this.$t("app.main.close" /* Close */),
           onClick: (e, toastObject) => {
@@ -1174,24 +1175,91 @@ end`
 .toasted-container.bottom-right {
   right: 2.35vw;
   bottom: 70px;
-}
-
-.toasted-container.bottom-right .action {
-  color: #e6e6e6;
-}
-
-.toasted-container.bottom-right .error .action {
-  color: #e6e6e6;
-}
-
-.toasted-container .default {
-  background-color: #191919;
-  color: #e6e6e6;
-  font-weight: 400;
-}
-
-.toasted-container.bottom-right > .toasted > .action {
-  text-decoration: none;
+  .toasted-primary {
+    padding: 0;
+    font-weight: 500;
+    text-align: left;
+    justify-content: left;
+    &:before {
+      margin: 0 10px 0 10px;
+      display: inline-block;
+    }
+    &.default {
+      // Default Toast
+      background-color: rgba(17, 17, 17, 0.95);
+      color: #e6e6e6;
+      font-weight: 500;
+      &:before {
+        content: "";
+        width: 22px;
+        height: 22px;
+        background: url("~@/assets/wow-logo.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
+    &.error {
+      // Error Toast
+      .action {
+        color: #e6e6e6;
+        &:before {
+          border-right-color: #e6e6e69a;
+        }
+      }
+      &:before {
+        content: "\e001";
+        font-family: "Material Icons";
+        font-size: 22px;
+      }
+    }
+    &.update {
+      // Update Toast
+      &:before {
+        content: "\e8d7";
+        font-family: "Material Icons";
+        font-size: 22px;
+        background: none;
+        width: auto;
+        height: auto;
+        color: #51ae42;
+      }
+    }
+    .action {
+      color: #e6e6e6;
+      text-decoration: none;
+      padding: 0 20px;
+      line-height: 38px;
+      // border-left: 1px solid #383838;
+      border-radius: 0;
+      margin: 0;
+      margin-left: auto;
+      justify-content: right;
+      &:last-of-type:not(:only-of-type) {
+        padding-right: 20px;
+        border-left: none;
+        font-weight: 500;
+        padding-left: 0;
+        margin-left: 0;
+        &:before {
+          content: unset;
+        }
+      }
+      &:hover {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+      }
+      &:before {
+        content: "";
+        position: relative;
+        top: 7px;
+        font-size: 31px;
+        line-height: 0;
+        width: 15px;
+        border-right: 1px solid #383838;
+        height: 30px;
+        margin-right: 20px;
+      }
+    }
+  }
 }
 
 /* Report Page */
