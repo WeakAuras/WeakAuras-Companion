@@ -8,7 +8,6 @@
   body {
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
-    background-color: #131313;
     color: white;
     overflow-y: hidden;
     user-select: none;
@@ -20,6 +19,8 @@
   #wrapper {
     height: 100vh;
     position: relative;
+    border-radius: 8px;
+    background:#131313;
   }
   .main-container {
     height: 100%;
@@ -32,6 +33,7 @@
   }
   header {
     text-align: right;
+    border-radius: 8px 8px 0 0;
     height: 100px;
     font-size: 0;
     background-color: #101010;
@@ -50,6 +52,7 @@
     padding: 14px 2.35vw;
     text-align: left;
     background: #101010;
+    border-radius: 0 0 8px 8px;
   }
 
   .title {
@@ -85,9 +88,9 @@
     font-size: 18px;
     margin-right: 8px;
     cursor: pointer;
-  }
-  .footer-logo:hover {
-    color: #e6e6e6;
+    &:hover {
+      color: #e6e6e6;
+    }
   }
 
   .hidden {

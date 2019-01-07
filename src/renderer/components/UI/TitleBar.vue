@@ -42,12 +42,12 @@ export default {
   height: 28px;
   margin-left: auto;
   background-color: #10101091;
-  border-radius: 0 0 0 10px;
   user-select: none;
   cursor: default;
   -webkit-app-region: drag;
   padding-right: 13px;
   z-index: 999;
+  border-radius: 8px;
 }
 #ui-titletext {
   max-height: 12px;

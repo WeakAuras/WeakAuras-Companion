@@ -45,8 +45,8 @@ function createWindow() {
     minHeight: 550,
     minWidth: 800,
     frame: false,
+    transparent: true,
     resizable: true,
-    backgroundColor: "#252525",
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
       webSecurity: process.env.NODE_ENV !== "development",
