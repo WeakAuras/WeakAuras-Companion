@@ -71,6 +71,7 @@ export default {
   text-align: left;
   height: 100%;
   position: relative;
+  font-weight: 500;
 }
 #about a {
   display: flex;

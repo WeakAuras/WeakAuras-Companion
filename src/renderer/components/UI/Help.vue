@@ -128,6 +128,7 @@
   height: 100%;
   position: relative;
   overflow: auto;
+  font-weight: 500;
 }
 .updateButton {
   margin-left: 60%;

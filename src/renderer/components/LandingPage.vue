@@ -94,7 +94,7 @@
         </a>
         <div class="app-update">
           <i
-            v-if="updater.status === 'update-downloaded' || true"
+            v-if="updater.status === 'update-downloaded'"
             class="material-icons update-available"
             @click="installUpdates"
             v-tooltip="'Install Update'"
@@ -413,7 +413,7 @@ export default Vue.extend({
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
-        duration: null,
+        duration: 8000,
         action: {
           text: this.$t("app.main.close" /* Close */),
           onClick: (e, toastObject) => {
