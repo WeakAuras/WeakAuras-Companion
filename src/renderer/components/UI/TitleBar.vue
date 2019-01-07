@@ -60,11 +60,12 @@ export default {
   max-width: 144px;
   max-height: 28px;
   text-align: right;
+  margin: auto;
 }
 .ui-btn {
   margin: 0;
-  width: 20px;
-  height: 16px;
+  width: 21px;
+  height: 17px;
   border: 0;
   border-radius: 2px;
   outline: 0;
