@@ -92,6 +92,18 @@
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
         </a>
+        <div class="app-update">
+          <i
+            v-if="updater.status === 'update-downloaded'"
+            class="material-icons update-available"
+            @click="installUpdates"
+            >system_update_alt
+          </i>
+          <div v-if="updater.status === 'download-progress'" class="updating">
+            <span class="progress">{{ updater.progress }}%</span>
+            <i class="material-icons icon">sync</i>
+          </div>
+        </div>
       </footer>
     </div>
     <Report v-if="reportIsShown"></Report>
@@ -1059,6 +1071,9 @@ end`
           this.$electron.ipcRenderer.send("open");
         };
       }
+    },
+    installUpdates() {
+      this.$electron.ipcRenderer.send("installUpdates");
     }
   }
 });
@@ -1266,12 +1281,60 @@ end`
 .reportbug {
   font-size: 12px;
   color: #777;
-  position: absolute;
-  right: 2.35vw;
-  bottom: 19px;
+  vertical-align: bottom;
+  line-height: 25px;
+  float: right;
   text-shadow: #000 1px 0;
 }
 .reportbug:hover {
   color: #aaa;
+}
+
+// Update Icon
+.app-update {
+  color: #777;
+  float: right;
+  margin-right: 15px;
+  .updating {
+    display: inline;
+    .icon {
+      animation: spin;
+      animation-duration: 3000ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+    .progress {
+      font-size: 14px;
+      font-weight: 500;
+      margin: auto;
+      vertical-align: middle;
+      position: relative;
+      bottom: 7px;
+    }
+  }
+  .update-available {
+    animation: pulse 2s infinite;
+    cursor: pointer;
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  70% {
+    text-shadow: 0 0 40px rgba(238, 255, 4, 0);
+  }
+  100% {
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
 </style>
