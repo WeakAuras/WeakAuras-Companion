@@ -1,29 +1,87 @@
-/* https://google-webfonts-helper.herokuapp.com/fonts/noto-sans-sc?subsets=latin,cyrillic */
-/* noto-sans-sc-300 - cyrillic_latin */
+/** =================== MONTSERRAT =================== **/
+
+/** Montserrat Light **/
 @font-face {
-  font-family: "Noto Sans SC";
-  font-style: normal;
+  font-family: "Montserrat";
   font-weight: 300;
-  src: local("Noto Sans SC Light"), local("NotoSansSC-Light"),
-    url("./noto-sans-sc-v4-cyrillic_latin-300.woff2") format("woff2"); /* Super Modern Browsers */
+  font-style: normal;
+  src: url("Montserrat-Light.woff2") format("woff2");
 }
 
-/* noto-sans-sc-regular - cyrillic_latin */
+/** Montserrat Regular **/
 @font-face {
-  font-family: "Noto Sans SC";
-  font-style: normal;
+  font-family: "Montserrat";
   font-weight: 400;
-  src: local("Noto Sans SC Regular"), local("NotoSansSC-Regular"),
-    url("./noto-sans-sc-v4-cyrillic_latin-regular.woff2") format("woff2"); /* Super Modern Browsers */
+  font-style: normal;
+  src: url("Montserrat-Regular.woff2") format("woff2");
 }
 
-/* noto-sans-sc-700 - cyrillic_latin */
+/** Montserrat Medium **/
 @font-face {
-  font-family: "Noto Sans SC";
+  font-family: "Montserrat";
+  font-weight: 500;
   font-style: normal;
+  src: url("Montserrat-Medium.woff2") format("woff2");
+}
+
+
+/** Montserrat SemiBold **/
+@font-face {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-style: normal;
+  src: url("Montserrat-SemiBold.woff2") format("woff2");
+}
+
+
+/** Montserrat Bold **/
+@font-face {
+  font-family: "Montserrat";
   font-weight: 700;
-  src: local("Noto Sans SC Bold"), local("NotoSansSC-Bold"),
-    url("./noto-sans-sc-v4-cyrillic_latin-700.woff2") format("woff2"); /* Super Modern Browsers */
+  font-style: normal;
+  src: url("Montserrat-Bold.woff2") format("woff2");
+}
+
+/** =================== MONTSERRAT ALTERNATES =================== **/
+
+/** Montserrat Alternates Light **/
+@font-face {
+  font-family: "Montserrat Alternates";
+  font-weight: 300;
+  font-style: normal;
+  src: url("MontserratAlternates-Light.woff2") format("woff2");
+}
+
+/** Montserrat Alternates Regular **/
+@font-face {
+  font-family: "Montserrat Alternates";
+  font-weight: 400;
+  font-style: normal;
+  src: url("MontserratAlternates-Regular.woff2") format("woff2");
+}
+
+/** Montserrat Alternates Medium **/
+@font-face {
+  font-family: "Montserrat Alternates";
+  font-weight: 500;
+  font-style: normal;
+  src: url("MontserratAlternates-Medium.woff2") format("woff2");
+}
+
+/** Montserrat Alternates SemiBold **/
+@font-face {
+  font-family: "Montserrat Alternates";
+  font-weight: 600;
+  font-style: normal;
+  src: url("MontserratAlternates-SemiBold.woff2") format("woff2");
+}
+
+/** Montserrat Alternates Bold **/
+@font-face {
+  font-family: "Montserrat Alternates";
+  font-weight: 700;
+  font-style: normal;
+  src: url("MontserratAlternates-Bold.woff2") format("woff2");
 }
 
 
