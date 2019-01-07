@@ -284,6 +284,7 @@ export default Vue.extend({
           "app.main.updateerror",
           { arg: arg.code } /* Error in updater. {arg} */
         );
+        options.className = "update update-error";
         options.action = [
           {
             text: this.$t("app.main.close" /* Close */),
@@ -1042,7 +1043,7 @@ end`
                 this.reloadToast = null;
               }
             };
-            this.reloadToast = this.$toasted(
+            this.reloadToast = this.$toasted.info(
               this.$t(
                 "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
               ),
@@ -1241,6 +1242,13 @@ end`
         height: auto;
         color: #51ae42;
       }
+      &.update-error:before {
+        color: #f44336;
+      }
+    }
+    &.info {
+      background-color: rgba(0, 42, 70, 0.95);
+      padding: 0 20px;
     }
     .action {
       color: #e6e6e6;
