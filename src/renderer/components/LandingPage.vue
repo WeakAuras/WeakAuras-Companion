@@ -108,7 +108,6 @@ import {
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart
 } from "./libs/wowstat";
-import formatBytes from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import Aura from "./UI/Aura.vue";
@@ -161,8 +160,11 @@ const defaultValues = {
   },
   medias,
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
-  updateToast: null,
-  reloadToast: null
+  reloadToast: null,
+  updater: {
+    status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
+    progress: null
+  }
 };
 
 export default Vue.extend({
@@ -254,25 +256,12 @@ export default Vue.extend({
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
-        duration: null,
-        onComplete: () => {
-          this.updateToast = null;
-        }
+        duration: null
       };
+      this.updater.status = status;
       let text = null;
-      if (status === "checking-for-update") {
-        text = this.$t(
-          "app.main.checkingupdate" /* Checking for client update... */
-        );
-      }
-      if (status === "update-available") {
-        text = this.$t(
-          "app.main.updateavailable" /* Client update available. */
-        );
-      }
-      if (status === "update-not-available") {
-        if (this.updateToast) this.updateToast.goAway(0);
-        return;
+      if (status === "download-progress") {
+        this.updater.progress = Math.floor(arg.percent);
       }
       if (status === "error") {
         text = this.$t(
@@ -287,16 +276,9 @@ export default Vue.extend({
             }
           }
         ];
-      }
-      if (status === "download-progress") {
-        text = `${this.$t("app.main.download" /* Download */)} ${formatBytes(
-          arg.bytesPerSecond
-        )}/s - ${Math.floor(arg.percent)}% (${formatBytes(
-          arg.transferred
-        )}/${formatBytes(arg.total)})`;
+        this.$toasted.show(text, options);
       }
       if (status === "update-downloaded") {
-        if (this.updateToast) this.updateToast.goAway(0);
         text = this.$t(
           "app.main.updatedownload" /* Client update downloaded */
         );
@@ -316,14 +298,6 @@ export default Vue.extend({
           }
         ];
         this.$toasted.show(text, options);
-        return;
-      }
-      if (text) {
-        if (this.updateToast) {
-          this.updateToast.text(text);
-        } else {
-          this.updateToast = this.$toasted.show(text, options);
-        }
       }
     });
     this.restore();
