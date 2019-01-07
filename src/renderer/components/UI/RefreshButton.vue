@@ -69,7 +69,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #sync {
   text-align: center;
   width: 100%;

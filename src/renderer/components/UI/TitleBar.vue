@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #ui-titlebar {
   display: flex;
   position: fixed;

@@ -121,7 +121,7 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 #help {
   padding: 10px 2.35vw;
   text-align: left;

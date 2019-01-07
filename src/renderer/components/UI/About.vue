@@ -65,7 +65,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #about {
   padding: 10px 2.35vw;
   text-align: left;

@@ -95,7 +95,7 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .aura {
   background-color: #101010c9;
   border: 1px solid #101010;

@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* Don't forget to hide the original file input! */
 .file-select > input[type="file"] {
   display: none;

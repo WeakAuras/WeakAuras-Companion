@@ -30,7 +30,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 .btn {
   font-family: inherit;
   display: inline-block;
