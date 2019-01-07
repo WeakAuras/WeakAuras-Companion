@@ -94,9 +94,10 @@
         </a>
         <div class="app-update">
           <i
-            v-if="updater.status === 'update-downloaded'"
+            v-if="updater.status === 'update-downloaded' || true"
             class="material-icons update-available"
             @click="installUpdates"
+            v-tooltip="'Install Update'"
             >system_update_alt
           </i>
           <div v-if="updater.status === 'download-progress'" class="updating">
@@ -115,6 +116,7 @@
 import Vue from "vue";
 import path from "path";
 import moment from "moment";
+import VTooltip from "v-tooltip";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
@@ -137,6 +139,7 @@ const hash = require("./libs/hash.js");
 const medias = require("./libs/contacts.js");
 const sanitize = require("./libs/sanitize.js");
 
+Vue.use(VTooltip);
 const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;

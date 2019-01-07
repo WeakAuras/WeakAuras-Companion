@@ -4,16 +4,19 @@
       class="wago_icon"
       target="_blank"
       :href="aura.slug | wago"
-      :title="aura.slug | wago"
+      v-tooltip="wago(aura.slug)"
     />
     <div class="aura_name_container">
-      <span class="aura_name" :title="childs" v-html="aura.name" />
+      <span class="aura_name" v-tooltip="childs" v-html="aura.name" />
     </div>
     <a
       class="author"
       target="_blank"
-      :href="aura.author | wagoAuthor"
-      :title="aura.author | wagoAuthor"
+      :href="wagoAuthor"
+      v-tooltip="{
+        content: wagoAuthor(aura.author),
+        classes: ['small']
+      }"
       v-html="aura.author"
     />
     <div class="upgrade-text">
@@ -26,7 +29,10 @@
       </div>
       <div
         class="wago-version"
-        :title="currentTime | fromNow($i18n.locale)"
+        v-tooltip="{
+          content: fromNow(currentTime, $i18n.locale),
+          classes: ['small']
+        }"
         @mouseover="updateCurrentTime()"
       >
         v<span v-if="aura.wagoSemver" v-html="aura.wagoSemver" /><span
@@ -41,9 +47,11 @@
 <script>
 import moment from "moment";
 import Vue from "vue";
+import VTooltip from "v-tooltip";
 
 const sanitize = require("../libs/sanitize.js");
 
+Vue.use(VTooltip);
 export default Vue.extend({
   props: ["aura"],
   data() {
@@ -90,6 +98,20 @@ export default Vue.extend({
     updateCurrentTime() {
       this.currentTime = null;
       this.currentTime = this.aura.modified;
+    },
+    wago(value) {
+      if (!value) return "";
+      return `https://wago.io/${value}`;
+    },
+    wagoAuthor(author) {
+      if (!author) return "";
+      return `https://wago.io/p/${author}`;
+    },
+    fromNow(value, locale) {
+      if (!value) return "n/a";
+      return moment(value)
+        .locale(locale)
+        .fromNow();
     }
   }
 });
@@ -110,6 +132,10 @@ export default Vue.extend({
   font-size: 11px;
   flex-direction: row;
   border-radius: 4px;
+  transition: background-color ease-in-out 0.2s;
+  &:hover {
+    background-color: #161616c9;
+  }
 }
 .aura_name_container {
   text-align: left;
