@@ -622,7 +622,7 @@ export default Vue.extend({
         // remove orphans
         for (let index = this.auras.length - 1; index > -1; index -= 1) {
           if (slugs.indexOf(this.auras[index].slug) === -1)
-            this.auras.slice(index, 1);
+            this.auras.splice(index, 1);
         }
 
         // Make a list of uniq auras to fetch
@@ -1026,7 +1026,7 @@ end`
                 this.reloadToast = null;
               }
             };
-            this.reloadToast = this.$toasted(
+            this.reloadToast = this.$toasted.show(
               this.$t(
                 "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
               ),
