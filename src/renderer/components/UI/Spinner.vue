@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .sk-fading-circle {
   width: 40px;
   height: 40px;

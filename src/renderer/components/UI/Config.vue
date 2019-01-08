@@ -190,7 +190,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #config {
   padding: 5px 0 5px 2.35vw;
   text-align: left;
