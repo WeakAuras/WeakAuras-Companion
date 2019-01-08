@@ -544,7 +544,7 @@ export default Vue.extend({
                   uid = obj3.value.value;
                 }
                 if (obj3.key.value === "version") {
-                  version = obj3.value.value;
+                  version = Number(obj3.value.value);
                 }
                 if (obj3.key.value === "semver") {
                   semver = obj3.value.value;
