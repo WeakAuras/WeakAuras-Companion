@@ -883,7 +883,7 @@ export default Vue.extend({
           this.config.wowpath.value,
           "_retail_",
           "Interface",
-          "Addons",
+          "AddOns",
           "WeakAurasCompanion"
         );
         // Make folder
