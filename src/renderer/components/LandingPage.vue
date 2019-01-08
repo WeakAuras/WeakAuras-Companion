@@ -329,6 +329,7 @@ export default Vue.extend({
           !!aura.encoded &&
           aura.wagoVersion > aura.version &&
           !aura.privateOrDeleted &&
+          !aura.ignoreWagoUpdate &&
           !(
             this.config.ignoreOwnAuras &&
             aura.author === this.config.wagoUsername
@@ -531,7 +532,7 @@ export default Vue.extend({
               let url;
               let version = 0;
               let semver;
-              let ignoreWagoUpdate;
+              let ignoreWagoUpdate = false;
               let id;
               let uid = null;
 
@@ -599,6 +600,8 @@ export default Vue.extend({
                       if (uid && aura.uids.indexOf(uid) === -1) {
                         this.auras[index].uids.push(uid);
                       }
+                      // update ignore flag
+                      this.auras[index].ignoreWagoUpdate = ignoreWagoUpdate;
                       // check if version field needs to be updated
                       if (aura.version < version) {
                         this.auras[index].version = version;
