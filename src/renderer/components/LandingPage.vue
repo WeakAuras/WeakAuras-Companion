@@ -529,7 +529,7 @@ export default Vue.extend({
             obj.value.fields.forEach(obj2 => {
               let slug;
               let url;
-              let version = 1;
+              let version = 0;
               let semver;
               let ignoreWagoUpdate;
               let id;
