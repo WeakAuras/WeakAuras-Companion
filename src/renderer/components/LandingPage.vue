@@ -639,7 +639,7 @@ export default Vue.extend({
         // remove orphans
         for (let index = this.auras.length - 1; index > -1; index -= 1) {
           if (slugs.indexOf(this.auras[index].slug) === -1)
-            this.auras.slice(index, 1);
+            this.auras.splice(index, 1);
         }
 
         // Make a list of uniq auras to fetch
