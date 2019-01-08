@@ -1007,11 +1007,50 @@ init.lua`
             {
               name: "init.lua",
               data: `-- file generated automatically
+local versionTarget = "2.11.0-beta2"
+if not WeakAuras.versionString then return end
+
+local function needUpdate(actual, target)
+  if actual == target then return false end
+
+  local function splitByDot(str)
+    str = str or ""
+    local t, count = {}, 0
+    str:gsub("([^%.%-]+)", function(c)
+      count = count + 1
+      t[count] = c
+    end)
+    return t
+  end
+  
+  actual = splitByDot(actual)
+  target = splitByDot(target)
+  
+  local c = 1
+  while target[c] do
+    if not actual[c] then
+      return false
+    end
+    if actual[c] < target[c] then
+      return true
+    end
+    c = c + 1
+  end
+  return false
+end
+
+if needUpdate(WeakAuras.versionString, versionTarget) then
+  WeakAuras.prettyPrint(("WeakAuras Companion requires WeakAuras version >= %s"):format(versionTarget))
+  return
+else
+  WeakAuras.prettyPrint("WeakAuras Companion is in beta stage, we do not advise to use it yet, and if you do join https://discord.gg/wa2 #companion-app")
+end
+
 local L = WeakAuras.L
 local count = WeakAuras.CountWagoUpdates()
 
 if count > 0 then
-C_Timer.After(1, function() WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)) end)
+  C_Timer.After(1, function() WeakAuras.prettyPrint((L["There are %i updates to your auras ready to be installed!"]):format(count)) end)
 end`
             },
             {
