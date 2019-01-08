@@ -29,7 +29,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 .message {
   text-align: center;
   font-size: 11px;

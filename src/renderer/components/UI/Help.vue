@@ -149,13 +149,14 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 #help {
   padding: 10px 2.35vw;
   text-align: left;
   height: 100%;
   position: relative;
   overflow: auto;
+  font-weight: 500;
 }
 .updateButton {
   margin-left: 60%;

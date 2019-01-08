@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #ui-titlebar {
   display: flex;
   position: fixed;
@@ -42,12 +42,12 @@ export default {
   height: 28px;
   margin-left: auto;
   background-color: #10101091;
-  border-radius: 0 0 0 10px;
   user-select: none;
   cursor: default;
   -webkit-app-region: drag;
   padding-right: 13px;
   z-index: 999;
+  border-radius: 8px;
 }
 #ui-titletext {
   max-height: 12px;
@@ -60,11 +60,12 @@ export default {
   max-width: 144px;
   max-height: 28px;
   text-align: right;
+  margin: auto;
 }
 .ui-btn {
   margin: 0;
-  width: 20px;
-  height: 16px;
+  width: 21px;
+  height: 17px;
   border: 0;
   border-radius: 2px;
   outline: 0;

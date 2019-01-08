@@ -92,6 +92,19 @@
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
         </a>
+        <div class="app-update">
+          <i
+            v-if="updater.status === 'update-downloaded'"
+            class="material-icons update-available"
+            @click="installUpdates"
+            v-tooltip="'Install Update'"
+            >system_update_alt
+          </i>
+          <div v-if="updater.status === 'download-progress'" class="updating">
+            <span class="progress">{{ updater.progress }}%</span>
+            <i class="material-icons icon">sync</i>
+          </div>
+        </div>
       </footer>
     </div>
     <Report v-if="reportIsShown"></Report>
@@ -103,6 +116,7 @@
 import Vue from "vue";
 import path from "path";
 import moment from "moment";
+import VTooltip from "v-tooltip";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
@@ -125,6 +139,7 @@ const hash = require("./libs/hash.js");
 const medias = require("./libs/contacts.js");
 const sanitize = require("./libs/sanitize.js");
 
+Vue.use(VTooltip);
 const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
@@ -257,6 +272,7 @@ export default Vue.extend({
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
+        className: "update",
         duration: null
       };
       this.updater.status = status;
@@ -269,6 +285,7 @@ export default Vue.extend({
           "app.main.updateerror",
           { arg: arg.code } /* Error in updater. {arg} */
         );
+        options.className = "update update-error";
         options.action = [
           {
             text: this.$t("app.main.close" /* Close */),
@@ -905,6 +922,12 @@ export default Vue.extend({
                   theme: "toasted-primary",
                   position: "bottom-right",
                   duration: null,
+                  action: {
+                    text: this.$t("app.main.close" /* Close */),
+                    onClick: (e, toastObject) => {
+                      toastObject.goAway(0);
+                    }
+                  },
                   onComplete: () => {
                     this.reloadToast = null;
                   }
@@ -1125,11 +1148,17 @@ end`
               theme: "toasted-primary",
               position: "bottom-right",
               duration: null,
+              action: {
+                text: this.$t("app.main.close" /* Close */),
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                }
+              },
               onComplete: () => {
                 this.reloadToast = null;
               }
             };
-            this.reloadToast = this.$toasted.show(
+            this.reloadToast = this.$toasted.info(
               this.$t(
                 "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
               ),
@@ -1164,112 +1193,18 @@ end`
           this.$electron.ipcRenderer.send("open");
         };
       }
+    },
+    installUpdates() {
+      this.$electron.ipcRenderer.send("installUpdates");
     }
   }
 });
 </script>
 
-<style>
+<style lang="scss">
 @import "../assets/fonts/fonts.css";
-/* General (All Pages) */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  cursor: default;
-}
-body {
-  font-family: "Noto Sans SC", sans-serif;
-  font-weight: 400;
-  background-color: #131313;
-  color: white;
-  overflow-y: hidden;
-  user-select: none;
-}
-a:not([draggable="true"]),
-img:not([draggable="true"]) {
-  -webkit-user-drag: none;
-}
-#wrapper {
-  height: 100vh;
-  position: relative;
-}
-.main-container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  position: absolute;
-  background-size: cover;
-  flex-direction: column;
-  transition: filter ease-in-out 0.2s;
-}
-header {
-  text-align: right;
-  height: 100px;
-  font-size: 0;
-  background-color: #101010;
-  transition: all 0.2s ease-in-out;
-}
-.menu-btns {
-  height: 100%;
-  margin-right: 2.35vw;
-  -webkit-app-region: drag;
-}
-main {
-  flex: 1;
-  overflow-y: hidden;
-}
-footer {
-  padding: 14px 2.35vw;
-  text-align: left;
-  background: #101010;
-}
-
-.title {
-  font-size: 25px;
-  font-weight: 600;
-  padding: 4px 10px 4px;
-  margin-bottom: 10px;
-  border-left: 2px solid rgb(255, 209, 0);
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-a {
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.logo {
-  position: relative;
-  top: 2px;
-  display: inline-block;
-  line-height: 1;
-  width: auto;
-  height: 1.4em;
-  opacity: 0.4;
-  margin-right: 3px;
-}
-.logo:hover {
-  opacity: 1;
-}
-.footer-logo {
-  color: #777;
-  font-size: 18px;
-  margin-right: 8px;
-  cursor: pointer;
-}
-.footer-logo:hover {
-  color: #e6e6e6;
-}
-
-.hidden {
-  width: 0 !important;
-  height: 0 !important;
-  opacity: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
+@import "../assets/css/globals.scss";
+@import "../assets/css/common.scss";
 
 /* Companion logo */
 .app-logo {
@@ -1303,7 +1238,7 @@ a {
   border: none;
   border-radius: 0;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   border-bottom: 3px solid transparent;
   transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
     font-size 0.2s ease-in-out;
@@ -1374,39 +1309,177 @@ a {
 }
 
 /* Toasts */
+$toastbg: rgba(29, 29, 29, 0.97);
+$toastfont: #e6e6e6;
+$iconDefaultColor: #51ae42;
+$errorColor: #f44336;
+$infoColor: #0b96e6;
+$iconSize: 26px;
 .toasted-container.bottom-right {
   right: 2.35vw;
   bottom: 70px;
-}
-
-.toasted-container.bottom-right .action {
-  color: #e6e6e6;
-}
-
-.toasted-container.bottom-right .error .action {
-  color: #e6e6e6;
-}
-
-.toasted-container .default {
-  background-color: #191919;
-  color: #e6e6e6;
-  font-weight: 400;
-}
-
-.toasted-container.bottom-right > .toasted > .action {
-  text-decoration: none;
+  .toasted-primary {
+    padding: 0;
+    font-weight: 500;
+    text-align: left;
+    justify-content: left;
+    &:before {
+      margin: 0 10px 0 10px;
+      display: inline-block;
+    }
+    &.default {
+      // Default Toast
+      background-color: $toastbg;
+      color: $toastfont;
+      font-weight: 500;
+      &:before {
+        content: "";
+        width: 22px;
+        height: 22px;
+        background: url("~@/assets/wow-logo.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
+    &.error {
+      // Error Toast
+      background-color: $toastbg;
+      color: $toastfont;
+      &:before {
+        content: "\e001";
+        font-family: "Material Icons";
+        font-size: $iconSize;
+        color: $errorColor;
+        margin: 0 8px;
+      }
+    }
+    &.update {
+      // Update Toast
+      background-color: $toastbg;
+      color: $toastfont;
+      &:before {
+        content: "\e8d7";
+        font-family: "Material Icons";
+        font-size: $iconSize;
+        background: none;
+        width: auto;
+        height: auto;
+        color: $iconDefaultColor;
+      }
+      &.update-error:before {
+        color: $errorColor;
+      }
+    }
+    &.info {
+      padding: 0 0px;
+      background-color: $toastbg;
+      &:before {
+        content: "\e88f";
+        font-family: "Material Icons";
+        font-size: $iconSize;
+        background: none;
+        width: auto;
+        height: auto;
+        color: $infoColor;
+        margin: 0 8px;
+      }
+    }
+    .action {
+      color: #e6e6e6;
+      text-decoration: none;
+      padding: 0 20px;
+      line-height: 38px;
+      // border-left: 1px solid #383838;
+      border-radius: 0;
+      margin: 0;
+      margin-left: auto;
+      justify-content: right;
+      &:last-of-type:not(:only-of-type) {
+        padding-right: 20px;
+        border-left: none;
+        font-weight: 500;
+        padding-left: 0;
+        margin-left: 0;
+        &:before {
+          content: unset;
+        }
+      }
+      &:hover {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+      }
+      &:before {
+        content: "";
+        position: relative;
+        top: 7px;
+        font-size: 31px;
+        line-height: 0;
+        width: 15px;
+        border-right: 1px solid #383838;
+        height: 30px;
+        margin-right: 20px;
+      }
+    }
+  }
 }
 
 /* Report Page */
 .reportbug {
   font-size: 12px;
   color: #777;
-  position: absolute;
-  right: 2.35vw;
-  bottom: 19px;
+  vertical-align: bottom;
+  line-height: 25px;
+  float: right;
   text-shadow: #000 1px 0;
 }
 .reportbug:hover {
   color: #aaa;
+}
+
+// Update Icon
+.app-update {
+  color: #777;
+  float: right;
+  margin-right: 15px;
+  .updating {
+    display: inline;
+    .icon {
+      animation: spin;
+      animation-duration: 3000ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+    .progress {
+      font-size: 14px;
+      font-weight: 500;
+      margin: auto;
+      vertical-align: middle;
+      position: relative;
+      bottom: 7px;
+    }
+  }
+  .update-available {
+    animation: pulse 2s infinite;
+    cursor: pointer;
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  70% {
+    text-shadow: 0 0 40px rgba(238, 255, 4, 0);
+  }
+  100% {
+    text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
 </style>

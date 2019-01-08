@@ -1,14 +1,19 @@
 <template>
   <div id="sync" v-bind:class="{ top: aurasShown > 0 }">
-    <v-button v-if="usable" @click="refresh" type="refresh">
-      <i v-bind:class="{ spin: fetching }" class="material-icons sync">sync</i>
+    <v-button
+      v-bind:class="{ spin: fetching }"
+      v-if="usable"
+      @click="refresh"
+      type="refresh"
+    >
+      <i class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </v-button>
     <v-button v-else @click="gotoconfig" type="issue">
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </v-button>
-    <div id="lastupdate">
+    <div id="lastupdate" v-if="lastUpdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ lastUpdate | fromNow($i18n.locale) }}</b>
     </div>
@@ -64,7 +69,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #sync {
   text-align: center;
   width: 100%;
@@ -76,7 +81,7 @@ export default {
   top: 10px;
 }
 #lastupdate {
-  margin-top: 5px;
+  margin-top: 10px;
   font-size: small;
   color: #e6e6e6;
 }
@@ -92,8 +97,13 @@ export default {
   vertical-align: top;
   cursor: pointer;
 }
+.btn-refresh.spin {
+  background: #ababab;
+  border-color: transparent;
+  color: #313131;
+}
 /* Spin Animation */
-.spin {
+.spin .sync {
   animation-name: spin;
   animation-duration: 800ms;
   animation-iteration-count: infinite;

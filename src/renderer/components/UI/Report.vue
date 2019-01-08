@@ -37,7 +37,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
 #report {
   width: 100%;
   height: 100%;
