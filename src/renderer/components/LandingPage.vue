@@ -870,6 +870,12 @@ export default Vue.extend({
                   theme: "toasted-primary",
                   position: "bottom-right",
                   duration: null,
+                  action: {
+                    text: this.$t("app.main.close" /* Close */),
+                    onClick: (e, toastObject) => {
+                      toastObject.goAway(0);
+                    }
+                  },
                   onComplete: () => {
                     this.reloadToast = null;
                   }
@@ -1039,6 +1045,12 @@ end`
               theme: "toasted-primary",
               position: "bottom-right",
               duration: null,
+              action: {
+                text: this.$t("app.main.close" /* Close */),
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                }
+              },
               onComplete: () => {
                 this.reloadToast = null;
               }
@@ -1191,6 +1203,12 @@ end`
 }
 
 /* Toasts */
+$toastbg: rgba(29, 29, 29, 0.97);
+$toastfont: #e6e6e6;
+$iconDefaultColor: #51ae42;
+$errorColor: #f44336;
+$infoColor: #0b96e6;
+$iconSize: 26px;
 .toasted-container.bottom-right {
   right: 2.35vw;
   bottom: 70px;
@@ -1205,8 +1223,8 @@ end`
     }
     &.default {
       // Default Toast
-      background-color: rgba(17, 17, 17, 0.95);
-      color: #e6e6e6;
+      background-color: $toastbg;
+      color: $toastfont;
       font-weight: 500;
       &:before {
         content: "";
@@ -1219,36 +1237,46 @@ end`
     }
     &.error {
       // Error Toast
-      .action {
-        color: #e6e6e6;
-        &:before {
-          border-right-color: #e6e6e69a;
-        }
-      }
+      background-color: $toastbg;
+      color: $toastfont;
       &:before {
         content: "\e001";
         font-family: "Material Icons";
-        font-size: 22px;
+        font-size: $iconSize;
+        color: $errorColor;
+        margin: 0 8px;
       }
     }
     &.update {
       // Update Toast
+      background-color: $toastbg;
+      color: $toastfont;
       &:before {
         content: "\e8d7";
         font-family: "Material Icons";
-        font-size: 22px;
+        font-size: $iconSize;
         background: none;
         width: auto;
         height: auto;
-        color: #51ae42;
+        color: $iconDefaultColor;
       }
       &.update-error:before {
-        color: #f44336;
+        color: $errorColor;
       }
     }
     &.info {
-      background-color: rgba(0, 42, 70, 0.95);
-      padding: 0 20px;
+      padding: 0 0px;
+      background-color: $toastbg;
+      &:before {
+        content: "\e88f";
+        font-family: "Material Icons";
+        font-size: $iconSize;
+        background: none;
+        width: auto;
+        height: auto;
+        color: $infoColor;
+        margin: 0 8px;
+      }
     }
     .action {
       color: #e6e6e6;
