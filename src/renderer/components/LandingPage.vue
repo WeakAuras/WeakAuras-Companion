@@ -129,6 +129,7 @@ const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
 
+const debug = false;
 const internalVersion = 1;
 
 const defaultValues = {
@@ -338,6 +339,10 @@ export default Vue.extend({
     },
     auras: {
       get() {
+        if (debug) {
+          // eslint-disable-next-line no-console
+          console.log(`auras getter`);
+        }
         if (this.config.account.value) {
           const index = this.config.account.choices.findIndex(
             account => account.name === this.config.account.value
@@ -348,6 +353,10 @@ export default Vue.extend({
         return [];
       },
       set(newValue) {
+        if (debug) {
+          // eslint-disable-next-line no-console
+          console.log(`auras setter - newValue: ${JSON.stringify(newValue)}`);
+        }
         if (this.config.account.value) {
           const index = this.config.account.choices.findIndex(
             account => account.name === this.config.account.value
@@ -611,6 +620,14 @@ export default Vue.extend({
                       }
                       // check if a rollback was made
                       if (aura.version > version) {
+                        if (debug) {
+                          // eslint-disable-next-line no-console
+                          console.log(
+                            `rollback on ${aura.slug} ${
+                              aura.version
+                            }>${version}`
+                          );
+                        }
                         this.auras[index].version = version;
                         this.auras[index].semver = semver;
                       }
@@ -624,8 +641,13 @@ export default Vue.extend({
 
         // remove orphans
         for (let index = this.auras.length - 1; index > -1; index -= 1) {
-          if (slugs.indexOf(this.auras[index].slug) === -1)
+          if (slugs.indexOf(this.auras[index].slug) === -1) {
+            if (debug) {
+              // eslint-disable-next-line no-console
+              console.log(`delete orphan: ${this.auras[index].slug}`);
+            }
             this.auras.splice(index, 1);
+          }
         }
 
         // Make a list of uniq auras to fetch
@@ -641,6 +663,11 @@ export default Vue.extend({
               )
           )
           .map(aura => aura.slug);
+
+        if (debug) {
+          // eslint-disable-next-line no-console
+          console.log(`fetchAuras: ${fetchAuras.join()}`);
+        }
 
         // Test if list is empty
         if (fetchAuras.length === 0) {
@@ -693,6 +720,20 @@ export default Vue.extend({
                       wagoData.username === this.config.wagoUsername
                     )
                   ) {
+                    if (debug) {
+                      // eslint-disable-next-line no-console
+                      console.log(
+                        `add to promises - aura: ${JSON.stringify(
+                          this.auras[index]
+                        )}`
+                      );
+                      // eslint-disable-next-line no-console
+                      console.log(
+                        `add to promises - wagoData: ${JSON.stringify(
+                          wagoData
+                        )}`
+                      );
+                    }
                     this.auras[index].modified = new Date(wagoData.modified);
                     this.auras[index].wagoVersion = wagoData.version;
                     promises.push(
@@ -737,6 +778,14 @@ export default Vue.extend({
                       this.auras.forEach((aura, index) => {
                         if (aura.slug === id) {
                           news.push(aura.name);
+                          if (debug) {
+                            // eslint-disable-next-line no-console
+                            console.log(
+                              `add encoded string to ${
+                                this.auras[index].slug
+                              } ${this.auras[index].name}`
+                            );
+                          }
                           this.auras[index].encoded = arg.data;
                         }
                       });
@@ -994,6 +1043,14 @@ end`
       const total = this.aurasWithUpdate.length;
       const newsCount = news.length;
       const failsCount = fails.length;
+      if (debug) {
+        // eslint-disable-next-line no-console
+        console.log(`total: ${this.aurasWithUpdate.join()}`);
+        // eslint-disable-next-line no-console
+        console.log(`new: ${news.join()}`);
+        // eslint-disable-next-line no-console
+        console.log(`fail: ${fails.join()}`);
+      }
       if (newsCount > 0 && failsCount > 0) {
         this.message(
           `${this.$tc(
