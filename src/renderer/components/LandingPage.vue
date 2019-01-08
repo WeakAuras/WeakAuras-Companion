@@ -1036,7 +1036,10 @@ end`
               options
             );
             afterWOWReload(this.config.wowpath.value, () => {
-              if (this.reloadToast) this.reloadToast.goAway(0);
+              if (this.reloadToast) {
+                this.reloadToast.goAway(0);
+                this.reloadToast = null;
+              }
             });
           }
         }
