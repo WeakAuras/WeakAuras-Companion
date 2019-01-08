@@ -84,6 +84,34 @@
     </ol>
     <br />
     <br />
+    <div class="title">
+      {{ $t("app.help.auraAuthorsTitle" /* Tips for Authors */) }}
+    </div>
+    <div class="paragraph">
+      {{
+        $t(
+          "app.help.auraAuthorsText1" /* If you publish auras to Wago, we recommend these settings: */
+        )
+      }}
+      <ul>
+        <li>
+          {{
+            this.$t(
+              "app.help.auraAuthorsText2" /* In the Companion App, write your Wago username into the "Wago Account" setting. */
+            )
+          }}
+        </li>
+        <li>
+          {{
+            this.$t(
+              "app.help.auraAuthorsText3" /* In WeakAuras, set the "Ignore all Updates" option to true for any aura you'v modified heavily. */
+            )
+          }}
+        </li>
+      </ul>
+      <br />
+      <br />
+    </div>
     <div class="title">{{ $t("app.help.foundbug" /* Found a bug? */) }}</div>
     <div class="paragraph">
       {{
