@@ -611,8 +611,6 @@ export default Vue.extend({
                       if (aura.version > version) {
                         this.auras[index].version = version;
                         this.auras[index].semver = semver;
-                        this.auras[index].wagoVersion = null;
-                        this.auras[index].encoded = null;
                       }
                     }
                   });
