@@ -81,7 +81,8 @@ export default Vue.extend({
             output += "\n\n";
           }
         }
-        output += this.aura.ids.join("\n");
+        const { ids } = this.aura;
+        output += ids.sort().join("\n");
       }
       return output;
     }
