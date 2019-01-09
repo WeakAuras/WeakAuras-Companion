@@ -3,29 +3,39 @@
     <a
       class="wago_icon"
       target="_blank"
-      :href="aura.slug | wago"
-      v-tooltip="wago(aura.slug)"
+      :href="wagoURL(aura.slug)"
+      v-tooltip="{
+        content: wagoURL(aura.slug),
+        html: false
+      }"
     />
     <div class="aura_name_container">
-      <span class="aura_name" v-tooltip="childs" v-html="aura.name" />
+      <span
+        class="aura_name"
+        v-tooltip="{
+          content: childs,
+          html: false
+        }"
+        >{{ aura.name }}
+      </span>
     </div>
     <a
       class="author"
       target="_blank"
-      :href="wagoAuthor"
+      :href="wagoAuthorURL(aura.author)"
       v-tooltip="{
-        content: wagoAuthor(aura.author),
-        classes: ['small']
+        content: wagoAuthorURL(aura.author),
+        classes: ['small'],
+        html: false
       }"
-      v-html="aura.author"
-    />
+    >
+      {{ aura.author }}
+    </a>
     <div class="upgrade-text">
       <div class="current-version">
         <!-- {{ $t("app.aura.currentversion" /* Current: */) }}-->
-        v<span v-if="aura.semver" v-html="aura.semver" /><span
-          v-else
-          v-html="aura.version"
-        />
+        v<span v-if="aura.semver">{{ aura.semver }}</span>
+        <span v-else>{{ aura.version }}</span>
       </div>
       <div
         class="wago-version"
@@ -35,10 +45,8 @@
         }"
         @mouseover="updateCurrentTime()"
       >
-        v<span v-if="aura.wagoSemver" v-html="aura.wagoSemver" /><span
-          v-else
-          v-html="aura.wagoVersion"
-        />
+        v<span v-if="aura.wagoSemver">{{ aura.wagoSemver }}</span>
+        <span v-else>{{ aura.wagoVersion }}</span>
       </div>
     </div>
   </div>
@@ -58,22 +66,6 @@ export default Vue.extend({
     return {
       currentTime: null
     };
-  },
-  filters: {
-    wago: value => {
-      if (!value) return "";
-      return `https://wago.io/${value}`;
-    },
-    wagoAuthor: value => {
-      if (!value) return "";
-      return `https://wago.io/p/${value}`;
-    },
-    fromNow: (value, locale) => {
-      if (!value) return "n/a";
-      return moment(value)
-        .locale(locale)
-        .fromNow();
-    }
   },
   computed: {
     childs() {
@@ -100,11 +92,11 @@ export default Vue.extend({
       this.currentTime = null;
       this.currentTime = this.aura.modified;
     },
-    wago(value) {
+    wagoURL(value) {
       if (!value) return "";
       return `https://wago.io/${value}`;
     },
-    wagoAuthor(author) {
+    wagoAuthorURL(author) {
       if (!author) return "";
       return `https://wago.io/p/${author}`;
     },
