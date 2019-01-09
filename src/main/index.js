@@ -31,7 +31,7 @@ const winURL =
 
 const iconpath = path.join(
   __static,
-  `icon.${process.platform === "darwin" ? "png" : "ico"}`
+  `icon.${process.platform === "win32" ? "ico" : "png"}`
 );
 
 function handleLinks(link) {
