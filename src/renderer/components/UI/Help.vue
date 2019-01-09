@@ -104,7 +104,7 @@
         <li>
           {{
             this.$t(
-              "app.help.auraAuthorsText3" /* In WeakAuras, set the "Ignore all Updates" option to true for any aura you'v modified heavily. */
+              "app.help.auraAuthorsText3" /* In WeakAuras, select the "Ignore all Updates" option for any aura you've modified heavily. */
             )
           }}
         </li>
