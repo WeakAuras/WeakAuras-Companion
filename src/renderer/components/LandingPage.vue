@@ -69,6 +69,7 @@
               v-for="aura in aurasWithUpdateSorted"
               :aura="aura"
               :key="aura.slug"
+              v-on:tooltip="updateTooltip"
             ></Aura>
           </div>
         </div>
@@ -109,6 +110,13 @@
     </div>
     <Report v-if="reportIsShown"></Report>
     <Stash v-if="stash.length > 0" :stash="stash"></Stash>
+    <div id="tooltip" :class="tooltip.class || ''">{{ tooltip.text }}</div>
+    <div
+      v-if="tooltip.html"
+      id="tooltip"
+      :class="tooltip.class || ''"
+      v-html="tooltip.html"
+    />
   </div>
 </template>
 
@@ -180,7 +188,8 @@ const defaultValues = {
   updater: {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
     progress: null
-  }
+  },
+  tooltip: {}
 };
 
 export default Vue.extend({
@@ -325,6 +334,31 @@ export default Vue.extend({
       this.configStep = 0;
       this.compareSVwithWago();
     }
+    // track mouse position for tooltip
+    /* eslint-disable */
+    document.getElementById("app").onmousemove = event => {
+      if (!this.tooltip.text && !this.tooltip.html) return;
+      this.$nextTick(() => {
+        let x = event.clientX + 10;
+        let y = event.clientY;
+        let box = document.getElementById("tooltip");
+        console.log(box)
+        // if tooltip would be too close to the right edge then put it on the left
+        if (x + box.offsetWidth > window.innerWidth - 20) {
+          x = x - 20 - box.offsetWidth;
+        }
+        // attempt to center tooltip vertically with cursor; with window top/bottom constraints
+        if (y - box.offsetHeight / 2 < 20) {
+          y = 20;
+        } else if (y - box.offsetHeight / 2 > window.innerHeight - 20) {
+          y = window.innerHeight - 20;
+        } else {
+          y -= box.offsetHeight / 2;
+        }
+        box.style.left = x + 'px';
+        box.style.top = y + 'px';
+      });
+    };
   },
   computed: {
     accountHash() {
@@ -1196,6 +1230,13 @@ end`
     },
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
+    },
+    updateTooltip(obj) {
+      if (obj) {
+        this.tooltip = obj;
+      } else {
+        this.tooltip = {};
+      }
     }
   }
 });
@@ -1481,5 +1522,24 @@ $iconSize: 26px;
   100% {
     text-shadow: 0 0 0 rgba(255, 255, 255, 0);
   }
+}
+
+/* Tooltip */
+#tooltip {
+  position: absolute;
+  top: -1000px;
+  left: -1000px;
+  max-width: 40%;
+  max-height: 40%;
+  overflow: hidden;
+  padding: 6px;
+  background: rgba(0, 0, 0, .9);
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: pre;
+}
+#tooltip.small {
+  font-size: 10px;
 }
 </style>
