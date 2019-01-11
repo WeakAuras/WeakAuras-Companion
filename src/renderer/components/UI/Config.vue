@@ -134,6 +134,7 @@ export default {
     },
     // eslint-disable-next-line func-names
     "config.wowpath.value": function() {
+      this.config.wowpath.valided = false;
       if (this.config.wowpath.value) {
         // clean Accounts options
         while (this.config.account.choices.length > 0) {
@@ -149,20 +150,23 @@ export default {
         fs.access(accountFolder, fs.constants.F_OK, err => {
           if (!err) {
             // add option for each account found
-            fs.readdirSync(accountFolder).forEach(file => {
-              if (file !== "SavedVariables") {
+            fs.readdirSync(accountFolder)
+              .filter(
+                file =>
+                  file !== "SavedVariables" &&
+                  fs.statSync(path.join(accountFolder, file)).isDirectory()
+              )
+              .forEach(file => {
                 this.config.account.choices.push({ name: file, auras: [] });
                 this.config.wowpath.valided = true;
-              }
-            });
-          } else {
-            this.config.wowpath.valided = false;
+              });
           }
         });
       }
     },
     // eslint-disable-next-line func-names
     "config.account.value": function() {
+      this.config.account.valided = false;
       if (this.config.wowpath.valided && !!this.config.account.value) {
         const WeakAurasSavedVariable = path.join(
           this.config.wowpath.value,
@@ -176,8 +180,6 @@ export default {
         fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
           if (!err) {
             this.config.account.valided = true;
-          } else {
-            this.config.account.valided = false;
           }
         });
       }
