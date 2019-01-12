@@ -1,10 +1,24 @@
 <template>
   <div id="about">
-    <div style="display: flex">
+    <div id="main">
+      <h2>WeakAuras Companion</h2>
+      <br />
+      <p>
+        Developed with Electron &amp; Vue<br />
+        Version: {{ version }}<br />
+        Licence: GPLv2<br />
+        Sources on
+        <a
+          href="https://github.com/WeakAuras/WeakAuras-Companion"
+          target="_blank"
+          >GitHub</a
+        >
+      </p>
+      <br />
+    </div>
+    <div id="links">
       <div style="flex: 50%">
-        <div class="title">
-          {{ $t("app.about.weakaurasteam" /* WeakAuras Team */) }}
-        </div>
+        <div class="title">WeakAuras</div>
         <div
           v-for="media in medias.weakauras"
           class="media-item"
@@ -21,7 +35,7 @@
         </div>
       </div>
       <div style="flex: 50%">
-        <div class="title">{{ $t("app.about.wago" /* Wago */) }}</div>
+        <div class="title">Wago</div>
         <div v-for="media in medias.wago" class="media-item" :key="media.name">
           <a :href="media.url" target="_blank">
             <i :class="media.name"></i>
@@ -34,14 +48,6 @@
           </a>
         </div>
       </div>
-    </div>
-    <div class="app-info">
-      {{
-        $t(
-          "app.about.version",
-          { version: version } /* WeakAuras Companion v{version} */
-        )
-      }}
     </div>
   </div>
 </template>
@@ -73,8 +79,7 @@ export default {
   position: relative;
   font-weight: 500;
 }
-#about a {
-  display: flex;
+#links a {
   align-items: center;
 }
 #about img {
@@ -84,6 +89,17 @@ export default {
   flex: 50%;
   align-items: center;
 }
+#main {
+  font-weight: 100;
+  text-align: center;
+  width: 100%;
+  margin: auto;
+}
+#links {
+  display: flex;
+  width: 400px;
+  margin: auto;
+}
 .media-item {
   margin: 10px 15px;
 }
@@ -91,14 +107,6 @@ export default {
   opacity: 1;
   width: 25px;
   top: 0;
-}
-.app-info {
-  font-size: 12px;
-  color: #777;
-  position: absolute;
-  bottom: 15px;
-  right: 2.35vw;
-  text-align: right;
 }
 .title {
   margin-bottom: 15px;
