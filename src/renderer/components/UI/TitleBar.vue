@@ -38,14 +38,12 @@ export default {
   float: right;
   top: 0;
   right: 0;
-  width: 70px;
+  width: 100px;
   height: 28px;
   margin-left: auto;
-  background-color: #10101091;
   user-select: none;
   cursor: default;
   -webkit-app-region: drag;
-  padding-right: 13px;
   z-index: 999;
   border-radius: 8px;
 }
@@ -60,30 +58,32 @@ export default {
   max-width: 144px;
   max-height: 28px;
   text-align: right;
-  margin: auto;
-}
-.ui-btn {
-  margin: 0;
-  width: 21px;
-  height: 17px;
-  border: 0;
-  border-radius: 2px;
-  outline: 0;
-  background: transparent;
-}
-.ui-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.ui-btn.close:hover {
-  background: #e81123;
-}
-.ui-btn svg path,
-.ui-btn svg rect,
-.ui-btn svg polygon {
-  fill: #fff;
-}
-.ui-btn svg {
-  width: 9px;
-  height: 9px;
+  .ui-btn {
+    margin: 0;
+    width: 40px;
+    height: 100%;
+    border: 0;
+    border-radius: 0 8px 0 0;
+    outline: 0;
+    background: transparent;
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    &.close:hover {
+      background: #e81123;
+    }
+    svg {
+      width: 9px;
+      height: 9px;
+      path,
+      rect,
+      polygon {
+        fill: #fff;
+      }
+    }
+    &:first-child {
+      border-radius: 0;
+    }
+  }
 }
 </style>
