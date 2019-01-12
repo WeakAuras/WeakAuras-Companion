@@ -348,6 +348,7 @@ export default Vue.extend({
           aura.wagoVersion > aura.version &&
           !aura.privateOrDeleted &&
           !aura.ignoreWagoUpdate &&
+          !!aura.topLevel &&
           !(
             this.config.ignoreOwnAuras &&
             aura.author === this.config.wagoUsername
@@ -548,6 +549,11 @@ export default Vue.extend({
           return;
         }
 
+        // Set all auras topLevel = null to avoid bugs after user move his auras
+        this.auras.forEach((aura, index) => {
+          this.auras[index].topLevel = null;
+        });
+
         const slugs = []; /* save found slugs for deleting orphan */
 
         const pattern = /(https:\/\/wago.io\/)([^/]+)/;
@@ -561,6 +567,7 @@ export default Vue.extend({
               let ignoreWagoUpdate = false;
               let id;
               let uid = null;
+              let topLevel = true;
 
               obj2.value.fields.forEach(obj3 => {
                 if (obj3.key.value === "id") {
@@ -582,6 +589,9 @@ export default Vue.extend({
                   url = obj3.value.value;
                   const result = url.match(pattern);
                   if (result) ({ 2: slug } = url.match(pattern));
+                }
+                if (obj3.key.value === "parent") {
+                  topLevel = false;
                 }
               });
 
@@ -606,6 +616,7 @@ export default Vue.extend({
                     encoded: null,
                     privateOrDeleted: false,
                     ids: [id],
+                    topLevel: topLevel ? id : null,
                     uids: uid ? [uid] : []
                   });
                 } else {
@@ -618,6 +629,7 @@ export default Vue.extend({
                       if (typeof aura.uids === "undefined") {
                         this.auras[index].uids = [];
                       }
+                      if (topLevel) this.auras[index].topLevel = id;
                       // add aura id to "ids" if necessary
                       if (aura.ids.indexOf(id) === -1) {
                         this.auras[index].ids.push(id);
@@ -673,6 +685,7 @@ export default Vue.extend({
             aura =>
               !aura.privateOrDeleted &&
               !aura.ignoreWagoUpdate &&
+              !!aura.topLevel &&
               !(
                 this.config.ignoreOwnAuras &&
                 !!aura.author &&
