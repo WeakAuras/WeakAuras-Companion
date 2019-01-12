@@ -81,9 +81,11 @@
       </div>
     </div>
     <br /><br />
-    <v-button @click="reset" type="reset">{{
-      $t("app.config.reset" /* Reset Settings and Data */)
-    }}</v-button>
+    <div class="block">
+      <v-button @click="reset" type="reset">{{
+        $t("app.config.reset" /* Reset Settings and Data */)
+      }}</v-button>
+    </div>
     <br /><br />
   </div>
 </template>
