@@ -281,10 +281,10 @@ export default Vue.extend({
         this.updater.progress = Math.floor(arg.percent);
       }
       if (status === "error") {
-        text = this.$t(
-          "app.main.updateerror",
-          { arg: arg.code } /* Error in updater. {arg} */
-        );
+        text = [
+          this.$t("app.main.updateerror" /* Error in updater. */),
+          arg.code
+        ];
         options.className = "update update-error";
         options.action = [
           {
@@ -431,9 +431,25 @@ export default Vue.extend({
           }
         }
       };
-      if (type === "success") return this.$toasted.success(text, options);
-      if (type === "error") return this.$toasted.error(text, options);
-      return this.$toasted.show(text, options);
+      let msg;
+      if (typeof text === "object") {
+        const div = document.createElement("div");
+        div.className = "msg";
+        div.innerHTML += text[0];
+        for (let i = 1; i < text.length; i += 1) {
+          const line = document.createElement("span");
+          line.className = "small-text";
+          line.innerHTML += text[i];
+          div.appendChild(line);
+        }
+        options.className = "multiline";
+        msg = div;
+      } else {
+        msg = text;
+      }
+      if (type === "success") return this.$toasted.success(msg, options);
+      if (type === "error") return this.$toasted.error(msg, options);
+      return this.$toasted.show(msg, options);
     },
     wagoPushHandler(slug) {
       if (this.stash.findIndex(aura => aura.slug === slug) === -1) {
@@ -485,13 +501,20 @@ export default Vue.extend({
                 })
                 .catch(err2 => {
                   this.message(
-                    this.$t(
-                      "app.main.stringReceiveError",
-                      {
-                        aura: aura.name,
-                        status: err2.response.status
-                      } /* Error receiving encoded string for {aura} http code: {status} */
-                    ),
+                    [
+                      this.$t(
+                        "app.main.stringReceiveError-1",
+                        {
+                          aura: aura.name
+                        } /* Error receiving encoded string for {aura} */
+                      ),
+                      this.$t(
+                        "app.main.stringReceiveError-2",
+                        {
+                          status: err2.response.status
+                        } /* http code: {status} */
+                      )
+                    ],
                     "error"
                   );
                 });
@@ -499,10 +522,12 @@ export default Vue.extend({
           })
           .catch(error => {
             this.message(
-              this.$t(
-                "app.main.errorWagoAnswer",
-                { error } /* Can't read Wago answer\n{error} */
-              ),
+              [
+                this.$t(
+                  "app.main.errorWagoAnswer" /* Can't read Wago answer */
+                ),
+                error
+              ],
               "error"
             );
           });
@@ -811,12 +836,17 @@ export default Vue.extend({
                       this.auras.forEach((aura, index) => {
                         if (aura.slug === id) {
                           this.message(
-                            this.$t(
-                              "app.main.errorApiString404",
-                              {
-                                aura: aura.name
-                              } /* Could not receive string for {aura}, aura is private or was removed, ignoring this aura for next checks */
-                            ),
+                            [
+                              this.$t(
+                                "app.main.errorApiString404-1",
+                                {
+                                  aura: aura.name
+                                } /* Could not receive string for {aura} */
+                              ),
+                              this.$t(
+                                "app.main.errorApiString404-2" /* Aura is private or was removed, ignoring this aura for next checks */
+                              )
+                            ],
                             "error"
                           );
                           fails.push(aura.name);
@@ -845,10 +875,12 @@ export default Vue.extend({
               )
               .catch(error => {
                 this.message(
-                  this.$t(
-                    "app.main.errorWagoAnswer",
-                    { error } /* Can't read Wago answer\n{error} */
-                  ),
+                  [
+                    this.$t(
+                      "app.main.errorWagoAnswer" /* Can't read Wago answer */
+                    ),
+                    error
+                  ],
                   "error"
                 );
                 this.fetching = false;
@@ -875,10 +907,12 @@ export default Vue.extend({
           })
           .catch(error => {
             this.message(
-              this.$t(
-                "app.main.errorWagoAnswer",
-                { error } /* Can't read Wago answer\n{error} */
-              ),
+              [
+                this.$t(
+                  "app.main.errorWagoAnswer" /* Can't read Wago answer */
+                ),
+                error
+              ],
               "error"
             );
             this.fetching = false;
@@ -1318,12 +1352,14 @@ $infoColor: #0b96e6;
 $iconSize: 26px;
 .toasted-container.bottom-right {
   right: 2.35vw;
+  margin-left: 2.35vw;
   bottom: 70px;
   .toasted-primary {
     padding: 0;
     font-weight: 500;
     text-align: left;
     justify-content: left;
+    margin-left: auto;
     &:before {
       margin: 0 10px 0 10px;
       display: inline-block;
@@ -1370,6 +1406,9 @@ $iconSize: 26px;
       &.update-error:before {
         color: $errorColor;
       }
+    }
+    &.multiline {
+      padding: 5px 0;
     }
     &.info {
       padding: 0 0px;
@@ -1419,6 +1458,11 @@ $iconSize: 26px;
         height: 30px;
         margin-right: 20px;
       }
+    }
+    .small-text {
+      font-size: 11px;
+      width: 100%;
+      display: block;
     }
   }
 }
