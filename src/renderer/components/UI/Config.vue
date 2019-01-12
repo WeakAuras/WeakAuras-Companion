@@ -205,7 +205,7 @@ export default {
 label,
 .label {
   color: #eee;
-  margin: 2px 0 3px;
+  margin: 5px 0;
   font-size: 14px;
 }
 .red {
