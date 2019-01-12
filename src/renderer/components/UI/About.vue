@@ -19,33 +19,40 @@
     <div id="links">
       <div style="flex: 50%">
         <div class="title">WeakAuras</div>
-        <div
-          v-for="media in medias.weakauras"
-          class="media-item"
-          :key="media.name"
-        >
-          <a :href="media.url" target="_blank">
-            <img
-              :src="require(`@/assets/social-icons/${media.name}.svg`)"
-              class="logo"
-              :title="media.name"
-            />
-            {{ media.name | capitalize }}
-          </a>
+        <div class="items">
+          <div
+            v-for="media in medias.weakauras"
+            class="media-item"
+            :key="media.name"
+          >
+            <a :href="media.url" target="_blank">
+              <img
+                :src="require(`@/assets/social-icons/${media.name}.svg`)"
+                class="logo"
+                :title="media.name"
+              />
+              {{ media.name | capitalize }}
+            </a>
+          </div>
         </div>
       </div>
       <div style="flex: 50%">
         <div class="title">Wago</div>
-        <div v-for="media in medias.wago" class="media-item" :key="media.name">
-          <a :href="media.url" target="_blank">
-            <i :class="media.name"></i>
-            <img
-              :src="require(`@/assets/social-icons/${media.name}.svg`)"
-              class="logo"
-              :title="media.name"
-            />
-            {{ media.name | capitalize }}
-          </a>
+        <div class="items">
+          <div
+            v-for="media in medias.wago"
+            class="media-item"
+            :key="media.name"
+          >
+            <a :href="media.url" target="_blank">
+              <img
+                :src="require(`@/assets/social-icons/${media.name}.svg`)"
+                class="logo"
+                :title="media.name"
+              />
+              {{ media.name | capitalize }}
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -81,9 +88,12 @@ export default {
 }
 #links a {
   align-items: center;
+  vertical-align: middle;
 }
 #about img {
   margin-right: 10px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 #about > .valign {
   flex: 50%;
@@ -99,9 +109,13 @@ export default {
   display: flex;
   width: 400px;
   margin: auto;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding-bottom: 5px;
 }
 .media-item {
   margin: 10px 15px;
+  cursor: pointer;
 }
 .logo {
   opacity: 1;
@@ -109,8 +123,10 @@ export default {
   top: 0;
 }
 .title {
-  margin-bottom: 15px;
-  margin-right: 10px;
+  border-left: none;
+  border-bottom: 2px solid rgb(255, 209, 0);
+  border-radius: 8px 8px 0 0;
+  text-align: center;
 }
 a:hover {
   color: rgb(255, 209, 0);
@@ -119,5 +135,8 @@ a:hover {
   margin-right: 5px;
   font-size: 22px;
   color: #e6e6e6 !important;
+}
+.items {
+  margin: 0 30px;
 }
 </style>
