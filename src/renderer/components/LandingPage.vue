@@ -2,24 +2,6 @@
   <div id="wrapper">
     <div class="main-container" v-bind:class="{ blurred: reportIsShown }">
       <TitleBar></TitleBar>
-      <svg
-        class="wa-logo-background"
-        width="917"
-        height="365"
-        viewBox="0 0 917 365"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0 0H121.909L339.456 365H212.74L0 0Z" fill="#191919" />
-        <path
-          d="M600.936 277.243L549.121 365H916.525L702.164 0H584.503L678.24 174.619L735.646 277.243H600.936Z"
-          fill="#191919"
-        />
-        <path
-          d="M584.503 0L422.237 266.623L378.639 197.368L325.817 113.469H226.993H203.908L356.895 365H486.015L702.164 0H584.503Z"
-          fill="#191919"
-        />
-      </svg>
       <div class="app-logo">
         <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
         <span>{{ $t("app.main.companion" /* Companion */) }}</span>
@@ -1319,17 +1301,6 @@ end`
   margin: 0 2.35vw 15px;
   border-radius: 8px;
   transition: height 0.4s ease-in-out;
-}
-
-/* Background WA logo */
-.wa-logo-background {
-  position: absolute;
-  object-fit: contain;
-  z-index: -99;
-  width: 100%;
-  height: 100%;
-  padding: 100px;
-  fill: #191919;
 }
 
 /* Scrollbar */
