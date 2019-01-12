@@ -101,3 +101,10 @@ a {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+button,
+select,
+input,
+.fakeinput {
+  @extend %fontdefault;
+}

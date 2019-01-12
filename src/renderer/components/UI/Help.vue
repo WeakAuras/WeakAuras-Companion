@@ -181,7 +181,8 @@
 }
 ol,
 ul {
-  font-size: small;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 15px;
   margin-left: 30px;
 }
 .follow {
@@ -189,7 +190,7 @@ ul {
 }
 .follow > li {
   display: block;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .follow > li:before {
   content: counters(item, ".") ". ";
@@ -217,5 +218,6 @@ a:hover {
 }
 .paragraph {
   margin-left: 15px;
+  font-family: "Source Sans Pro", sans-serif;
 }
 </style>

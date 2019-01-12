@@ -205,14 +205,14 @@ export default {
 label,
 .label {
   color: #eee;
-  margin: 2px 0 3px;
+  margin: 10px 0 5px;
   font-size: 14px;
 }
 .red {
-  color: #ff3333;
+  color: #f44336;
 }
 .green {
-  color: #11ba11;
+  color: #51ae42;
 }
 .red,
 .green {

@@ -61,6 +61,7 @@ export default {
   color: #010101;
   border-radius: 2px;
   padding: 0 5px;
+  margin-right: 3px;
 }
 .folder {
   position: relative;
