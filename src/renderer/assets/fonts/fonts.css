@@ -79,3 +79,51 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 200;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('WOFF2/TTF/SourceSansPro-ExtraLight.ttf.woff2') format('woff2');
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('WOFF2/TTF/SourceSansPro-Light.ttf.woff2') format('woff2');
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('WOFF2/TTF/SourceSansPro-Regular.ttf.woff2') format('woff2');
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('WOFF2/TTF/SourceSansPro-Semibold.ttf.woff2') format('woff2');
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('WOFF2/TTF/SourceSansPro-Bold.ttf.woff2') format('woff2');
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('WOFF2/TTF/SourceSansPro-Black.ttf.woff2') format('woff2');
+}
