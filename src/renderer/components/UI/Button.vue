@@ -141,6 +141,7 @@ export default {
   background-color: #ffffff;
 }
 .btn-reset {
+  padding: 5px;
   background-color: #a80000;
   color: white;
   height: 30px;
