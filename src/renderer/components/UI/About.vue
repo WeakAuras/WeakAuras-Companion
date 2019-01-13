@@ -109,7 +109,6 @@ export default {
   display: flex;
   width: 400px;
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding-bottom: 5px;
 }
@@ -127,6 +126,7 @@ export default {
   border-bottom: 2px solid rgb(255, 209, 0);
   border-radius: 8px 8px 0 0;
   text-align: center;
+  background-color: rgba(0, 0, 0, 0);
 }
 a:hover {
   color: rgb(255, 209, 0);
