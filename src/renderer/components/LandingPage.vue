@@ -1079,20 +1079,22 @@ local function needUpdate(actual, target)
     target = splitByDot(target)
     
     local c = 1
-    while target[c] do
-        if not actual[c] then
-            return false
-        end
-        if actual[c] ~= target[c] then
-            if tonumber(actual[c]) ~= nil and tonumber(target[c]) ~= nil then
-                return tonumber(actual[c]) < tonumber(target[c])
-            else
-                return actual[c] < target[c]
-            end
-        end
-        c = c + 1
+  while true do
+    if not target[c] then
+      return c <= 4
+    end      
+    if not actual[c] then
+      return false
     end
-    return true
+    if actual[c] ~= target[c] then
+      if tonumber(actual[c]) ~= nil and tonumber(target[c]) ~= nil then
+        return tonumber(actual[c]) < tonumber(target[c])
+      else
+        return actual[c] < target[c]
+      end
+    end
+    c = c + 1
+  end
 end
 
 if needUpdate(WeakAuras.versionString, versionTarget) then
