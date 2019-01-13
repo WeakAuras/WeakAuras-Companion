@@ -6,6 +6,7 @@
 
 ## A WeakAuras <> Wago.io bridge made with electron-vue.
 
+![preview](https://i.imgur.com/PObZNPi.png)
 
 #### Installation
 
