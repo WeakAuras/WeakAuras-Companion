@@ -6117,7 +6117,7 @@ lodash.toplainobject@^3.0.0:
     lodash._basecopy "^3.0.0"
     lodash.keysin "^3.0.0"
 
-lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@~4.17.10:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -9520,10 +9520,10 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.5.21:
-  version "2.5.21"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.5.21.tgz#a57ceb903177e8f643560a8d639a0f8db647054a"
-  integrity sha512-Vmk5Cv7UcmI99B9nXJEkaK262IQNnHp5rJYo+EwYpe2epTAXqcVyExhV6pk8jTkxQK2vRc8v8KmZBAwdmUZvvw==
+vue-template-compiler@^2.5.22:
+  version "2.5.22"
+  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.5.22.tgz#c3d3c02c65f1908205c4fbd3b0ef579e51239955"
+  integrity sha512-1VTw/NPTUeHNiwhkq6NkFzO7gYLjFCueBN0FX8NEiQIemd5EUMQ5hxrF7O0zCPo5tae+U9S/scETPea+hIz8Eg==
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -9538,10 +9538,10 @@ vue-toasted@^1.1.26:
   resolved "https://registry.yarnpkg.com/vue-toasted/-/vue-toasted-1.1.26.tgz#1333d1a42157ab78389c3810023a49ba94e69c7b"
   integrity sha512-Z4/gfPcqdzsRvif7UITrZOkh3C6jm0yQKJyr9kX31IGWXor5dNipE1Sc5SnlL5RLmY7vlLa+SqIjc9Gbpy7V0g==
 
-vue@^2.5.21:
-  version "2.5.21"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.21.tgz#3d33dcd03bb813912ce894a8303ab553699c4a85"
-  integrity sha512-Aejvyyfhn0zjVeLvXd70h4hrE4zZDx1wfZqia6ekkobLmUZ+vNFQer53B4fu0EjWBSiqApxPejzkO1Znt3joxQ==
+vue@^2.5.22:
+  version "2.5.22"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.22.tgz#3bf88041af08b8539c37b268b70ca79245e9cc30"
+  integrity sha512-pxY3ZHlXNJMFQbkjEgGVMaMMkSV1ONpz+4qB55kZuJzyJOhn6MSy/YZdzhdnumegNzVTL/Dn3Pp4UrVBYt1j/g==
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
