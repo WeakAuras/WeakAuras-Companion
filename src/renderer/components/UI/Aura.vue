@@ -33,7 +33,6 @@
     </a>
     <div class="upgrade-text">
       <div class="current-version">
-        <!-- {{ $t("app.aura.currentversion" /* Current: */) }}-->
         v<span v-if="aura.semver">{{ aura.semver }}</span>
         <span v-else>{{ aura.version }}</span>
       </div>
