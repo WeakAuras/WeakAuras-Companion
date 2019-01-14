@@ -8,6 +8,12 @@
 
 ![preview](https://i.imgur.com/PObZNPi.png)
 
+![preview2](https://i.imgur.com/cffdU0N.png)
+
+![preview3](https://i.imgur.com/VVCWrfE.png)
+
+![preview4](https://i.imgur.com/48uLOw8.png)
+
 #### Installation
 
 * Require WeakAuras version >= 2.11-beta2
