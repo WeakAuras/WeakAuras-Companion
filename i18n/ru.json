@@ -1,4 +1,8 @@
 {
+  "app.about.license": "License: {license}",
+  "app.about.source": "Sources on",
+  "app.about.tools": "Developed with {tools}",
+  "app.about.version": "Version: {version}",
   "app.about.wago": "Wago",
   "app.config.autoStart": "Запускать приложение при загрузке компьютера",
   "app.config.clientSettings": "Настройки приложения",
@@ -55,6 +59,7 @@
   "app.main.installFail": "No fail | 1 failed | {n} failed",
   "app.main.installNew": "No new updates | 1 new | {n} new",
   "app.main.installTotal": "No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation",
+  "app.main.installUpdate": "Install client update",
   "app.main.later": "Later",
   "app.main.needreload": "Reload World of Warcraft's UI to see new updates in WeakAuras's options",
   "app.main.needreloadstash": "Reload World of Warcraft's UI to receive pushed auras",

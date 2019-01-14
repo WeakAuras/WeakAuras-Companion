@@ -79,7 +79,9 @@
             v-if="updater.status === 'update-downloaded'"
             class="material-icons update-available"
             @click="installUpdates"
-            v-tooltip="'Install Update'"
+            v-tooltip="
+              this.$t('app.main.installUpdate' /* Install client update */)
+            "
             >system_update_alt
           </i>
           <div v-if="updater.status === 'download-progress'" class="updating">
