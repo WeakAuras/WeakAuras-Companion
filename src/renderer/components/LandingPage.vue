@@ -996,7 +996,7 @@ export default Vue.extend({
           ];
           LuaOutput += "  slugs = {\n";
           this.aurasWithUpdateSorted.forEach(aura => {
-            LuaOutput += `    ['${aura.slug}'] = {\n`;
+            LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
             fields.forEach(field => {
               LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
             });
@@ -1013,10 +1013,14 @@ export default Vue.extend({
             }
             if (aura.uids) {
               aura.uids.forEach(uid => {
-                LuaUids += `    ["${uid}"] = [=[${aura.slug}]=],\n`;
+                LuaUids += `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
+                  aura.slug
+                }]=],\n`;
               });
               aura.ids.forEach(id => {
-                LuaIds += `    ["${id}"] = [=[${aura.slug}]=],\n`;
+                LuaIds += `    ["${id.replace(/"/g, '\\"')}"] = [=[${
+                  aura.slug
+                }]=],\n`;
               });
             }
             LuaOutput += "    },\n";
@@ -1028,7 +1032,7 @@ export default Vue.extend({
           LuaOutput += "  },\n";
           LuaOutput += "  stash = {\n";
           this.stash.forEach(aura => {
-            LuaOutput += `    ['${aura.slug}'] = {\n`;
+            LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
             fields.forEach(field => {
               LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
             });
