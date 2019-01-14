@@ -5,7 +5,7 @@
       <div class="links">
         <v-button type="link">
           <a
-            href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new"
+            href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
             target="_blank"
           >
             {{ $t("app.report.companion" /* Companion */) }}
