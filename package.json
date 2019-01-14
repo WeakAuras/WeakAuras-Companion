@@ -93,7 +93,7 @@
     "@babel/preset-env": "7.2.3",
     "@babel/register": "7.0.0",
     "@types/jest": "^23.3.12",
-    "ajv": "^6.6.2",
+    "ajv": "^6.7.0",
     "babel-loader": "8.0.5",
     "babili-webpack-plugin": "^0.1.2",
     "cfonts": "^2.3.1",
