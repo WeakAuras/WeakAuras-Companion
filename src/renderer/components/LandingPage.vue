@@ -854,13 +854,20 @@ export default Vue.extend({
                       this.auras.forEach(aura => {
                         if (aura.slug === id) {
                           this.message(
-                            this.$t(
-                              "app.main.stringReceiveError",
-                              {
-                                aura: aura.name,
-                                status: arg.status
-                              } /* Error receiving encoded string for {aura} http code: {status} */
-                            ),
+                            [
+                              this.$t(
+                                "app.main.stringReceiveError-1",
+                                {
+                                  aura: aura.name
+                                } /* Error receiving encoded string for {aura} */
+                              ),
+                              this.$t(
+                                "app.main.stringReceiveError-2",
+                                {
+                                  status: arg.status
+                                } /* http code: {status} */
+                              )
+                            ],
                             "error"
                           );
                           fails.push(aura.name);
