@@ -1110,8 +1110,6 @@ if needUpdate(WeakAuras.versionString, versionTarget) then
   WeakAuras.prettyPrint(("WeakAuras Companion requires WeakAuras version >= %s"):format(versionTarget))
   WeakAurasCompanion = nil
   return
-else
-  WeakAuras.prettyPrint("WeakAuras Companion is in beta stage, we do not advise to use it yet, and if you do join https://discord.gg/wa2 #companion-app")
 end
 
 local L = WeakAuras.L
