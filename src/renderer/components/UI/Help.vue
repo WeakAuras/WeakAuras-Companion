@@ -90,7 +90,7 @@
     <div class="paragraph">
       {{
         $t(
-          "app.help.auraAuthorsText1" /* If you publish auras to Wago, we recommend these settings: */
+          "app.help.auraAuthorsText1" /* If you publish auras on Wago, we recommend these settings: */
         )
       }}
       <ul>

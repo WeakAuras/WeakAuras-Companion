@@ -4,10 +4,25 @@
       <h2>WeakAuras Companion</h2>
       <br />
       <p>
-        Developed with Electron &amp; Vue<br />
-        Version: {{ version }}<br />
-        Licence: GPLv2<br />
-        Sources on
+        {{
+          $t(
+            "app.about.tools",
+            { tools: "Electron &amp; Vue" } /* Developed with {tools} */
+          )
+        }}<br />
+        {{
+          $t(
+            "app.about.version",
+            { version: version } /* Version: {version} */
+          )
+        }}<br />
+        {{
+          $t(
+            "app.about.license",
+            { license: "GPLv2" } /* License: {license} */
+          )
+        }}<br />
+        {{ $t("app.about.source" /* Sources on */) }}
         <a
           href="https://github.com/WeakAuras/WeakAuras-Companion"
           target="_blank"
