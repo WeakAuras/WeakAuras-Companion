@@ -4,7 +4,13 @@
       {{ $t("app.config.gameSettings" /* Game Settings */) }}
     </div>
     <div class="block">
-      <file-select :path.sync="config.wowpath.value"></file-select>
+      <file-select
+        :path.sync="config.wowpath.value"
+        :defaultPath="defaultWOWPath"
+        >{{
+          $t("app.fileselect.wowfolder" /* World of Warcraft Folder */)
+        }}</file-select
+      >
       <i v-if="config.wowpath.valided" class="material-icons green folder"
         >check_circle_outline</i
       >
@@ -98,6 +104,13 @@ import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import FileSelect from "./FileSelect.vue";
 
+const userDataPath = require("electron").remote.app.getPath("userData");
+
+const wowDefaultPath =
+  process.platform === "win32"
+    ? path.join("C:", "Program Files (x86)", "World of Warcraft")
+    : "";
+
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
@@ -123,6 +136,19 @@ export default {
     reset() {
       this.$parent.reset();
       this.wagoUsername = null;
+    }
+  },
+  computed: {
+    choiceIndex() {
+      return this.config.account.choices.findIndex(
+        account => account.name === this.config.account.value
+      );
+    },
+    defaultWOWPath() {
+      return wowDefaultPath;
+    },
+    defaultBackupPath() {
+      return path.join(userDataPath, "WeakAurasData-Backup");
     }
   },
   watch: {
