@@ -1,9 +1,7 @@
 <template>
   <label class="file-select" @click="handleInputClick">
     <span class="select-button">
-      <p class="configlabel">
-        {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
-      </p>
+      <p class="configlabel"><slot></slot></p>
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}&nbsp;</span>
       </div>
@@ -22,7 +20,9 @@ export default {
     };
   },
   props: {
-    path: null
+    path: null,
+    createDirectory: null,
+    defaultPath: null
   },
   methods: {
     handleInputClick() {
@@ -30,7 +30,12 @@ export default {
         this.dialogOpen = true;
 
         remote.dialog.showOpenDialog(
-          { properties: ["openDirectory"] },
+          {
+            properties: ["openDirectory"],
+            createDirectory: this.createDirectory,
+            defaultPath: this.path || this.defaultPath,
+            openDirectory: true
+          },
           paths => {
             this.dialogOpen = false;
 
