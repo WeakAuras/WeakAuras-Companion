@@ -32,12 +32,6 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
         if (err) throw err;
       });
     });
-  } else {
-    // eslint-disable-next-line no-console
-    console.log(
-      `totalsize: ${totalsize / (1024 * 1024)} maxsize: ${maxsize /
-        (1024 * 1024)}`
-    );
   }
 }
 

@@ -4,6 +4,7 @@
   "app.about.tools": "Разработано с {tools}",
   "app.about.version": "Версия: {version}",
   "app.config.autoStart": "Запускать приложение при загрузке компьютера",
+  "app.config.backup": "WeakAuras Backup",
   "app.config.clientSettings": "Настройки приложения",
   "app.config.gameSettings": "Настройки игры",
   "app.config.ignoreOwnAuras": "Игнорировать ауры из вашей учетной записи",
