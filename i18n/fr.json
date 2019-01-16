@@ -4,7 +4,6 @@
   "app.about.tools": "Developpé avec {tools}",
   "app.about.version": "Version: {version}",
   "app.config.autoStart": "Démarrer le client avec votre ordinateur",
-  "app.config.backup": "Backup",
   "app.config.clientSettings": "Paramètres du Client",
   "app.config.gameSettings": "Paramètres du Jeux",
   "app.config.ignoreOwnAuras": "Ignorer les auras de votre compte",

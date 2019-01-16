@@ -4,7 +4,6 @@
   "app.about.tools": "Entwickelt mit {tools}",
   "app.about.version": "Version: {version}",
   "app.config.autoStart": "Client starten, wenn mein Computer gestartet wird",
-  "app.config.backup": "Backup",
   "app.config.clientSettings": "Client Einstellungen",
   "app.config.gameSettings": "Spiel Einstellungen",
   "app.config.ignoreOwnAuras": "Auras von deinem Account ignorieren",

@@ -71,18 +71,40 @@
           )
         }}
       </checkbox>
-      <div
-        v-if="
-          config.account.choices[choiceIndex] &&
-            config.account.choices[choiceIndex].backup
-        "
-      >
-        <br /><br />
-        <p class="label subtitle">{{ $t("app.config.backup" /* Backup */) }}</p>
-        <checkbox v-model="config.account.choices[choiceIndex].backup.active"
-          >Activate</checkbox
+
+      <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
+      <div class="option">
+        <checkbox v-model="config.autostart">
+          {{
+            $t("app.config.autoStart" /* Launch client with your computer */)
+          }}
+        </checkbox>
+      </div>
+      <div class="option">
+        <checkbox v-model="config.startminimize">
+          {{ $t("app.config.minimized" /* Start client minimized */) }}
+        </checkbox>
+      </div>
+    </div>
+    <div
+      v-if="
+        config.account.choices[choiceIndex] &&
+          config.account.choices[choiceIndex].backup
+      "
+    >
+      <div class="title">
+        {{ $t("app.config.backup" /* WeakAuras Backup */) }}
+      </div>
+      <div class="block">
+        <p class="label subtitle">
+          <checkbox v-model="config.account.choices[choiceIndex].backup.active"
+            >Activate</checkbox
+          >
+        </p>
+        <div
+          v-if="config.account.choices[choiceIndex].backup.active"
+          style="display: inline;"
         >
-        <div v-if="config.account.choices[choiceIndex].backup.active">
           <file-select
             :path.sync="config.account.choices[choiceIndex].backup.path"
             :createDirectory="true"
@@ -98,20 +120,6 @@
             <option value="500">500mb</option>
           </select>
         </div>
-      </div>
-      <br /><br />
-      <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
-      <div class="option">
-        <checkbox v-model="config.autostart">
-          {{
-            $t("app.config.autoStart" /* Launch client with your computer */)
-          }}
-        </checkbox>
-      </div>
-      <div class="option">
-        <checkbox v-model="config.startminimize">
-          {{ $t("app.config.minimized" /* Start client minimized */) }}
-        </checkbox>
       </div>
     </div>
     <br /><br />
@@ -166,7 +174,9 @@ export default {
       wagoUsername: this.config.wagoUsername,
       choiceIndex: this.config.account.choices.findIndex(
         account => account.name === this.config.account.value
-      )
+      ),
+      defaultWOWPath: wowDefaultPath,
+      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
     };
   },
   components: {
@@ -178,14 +188,6 @@ export default {
     reset() {
       this.$parent.reset();
       this.wagoUsername = null;
-    }
-  },
-  computed: {
-    defaultWOWPath() {
-      return wowDefaultPath;
-    },
-    defaultBackupPath() {
-      return path.join(userDataPath, "WeakAurasData-Backup");
     }
   },
   watch: {

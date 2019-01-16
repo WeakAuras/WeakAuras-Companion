@@ -4,7 +4,7 @@
   "app.about.tools": "Developed with {tools}",
   "app.about.version": "Version: {version}",
   "app.config.autoStart": "Launch client with your computer",
-  "app.config.backup": "Backup",
+  "app.config.backup": "WeakAuras Backup",
   "app.config.clientSettings": "Client Settings",
   "app.config.gameSettings": "Game Settings",
   "app.config.ignoreOwnAuras": "Ignore auras from your account",
