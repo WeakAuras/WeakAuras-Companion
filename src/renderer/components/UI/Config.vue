@@ -4,7 +4,13 @@
       {{ $t("app.config.gameSettings" /* Game Settings */) }}
     </div>
     <div class="block">
-      <file-select :path.sync="config.wowpath.value"></file-select>
+      <file-select
+        :path.sync="config.wowpath.value"
+        :defaultPath="defaultWOWPath"
+        >{{
+          $t("app.fileselect.wowfolder" /* World of Warcraft Folder */)
+        }}</file-select
+      >
       <i v-if="config.wowpath.valided" class="material-icons green folder"
         >check_circle_outline</i
       >
@@ -65,7 +71,7 @@
           )
         }}
       </checkbox>
-      <br /><br />
+
       <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
       <div class="option">
         <checkbox v-model="config.autostart">
@@ -78,6 +84,42 @@
         <checkbox v-model="config.startminimize">
           {{ $t("app.config.minimized" /* Start client minimized */) }}
         </checkbox>
+      </div>
+    </div>
+    <div
+      v-if="
+        config.account.choices[choiceIndex] &&
+          config.account.choices[choiceIndex].backup
+      "
+    >
+      <div class="title">
+        {{ $t("app.config.backup" /* WeakAuras Backup */) }}
+      </div>
+      <div class="block">
+        <p class="label subtitle">
+          <checkbox v-model="config.account.choices[choiceIndex].backup.active"
+            >Activate</checkbox
+          >
+        </p>
+        <div
+          v-if="config.account.choices[choiceIndex].backup.active"
+          style="display: inline;"
+        >
+          <file-select
+            :path.sync="config.account.choices[choiceIndex].backup.path"
+            :createDirectory="true"
+            :defaultPath="defaultBackupPath"
+            >{{
+              $t("app.fileselect.backupfolder" /* Backup Folder */)
+            }}</file-select
+          >
+          <p class="label">Dedicated size</p>
+          <select v-model="config.account.choices[choiceIndex].backup.maxsize">
+            <option value="50">50mb</option>
+            <option value="100">100mb</option>
+            <option value="500">500mb</option>
+          </select>
+        </div>
       </div>
     </div>
     <br /><br />
@@ -98,6 +140,24 @@ import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import FileSelect from "./FileSelect.vue";
 
+const regedit = require("regedit");
+
+let wowDefaultPath = "";
+if (process.platform === "win32") {
+  const key =
+    "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
+
+  regedit.list(key, (err, result) => {
+    if (err) throw err;
+    else {
+      // eslint-disable-next-line no-console
+      wowDefaultPath = path.join(result[key].values.InstallPath.value, "..");
+    }
+  });
+}
+
+const userDataPath = require("electron").remote.app.getPath("userData");
+
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
@@ -111,7 +171,12 @@ export default {
         { value: "fr", text: "Français (fr)" },
         { value: "ru", text: "Русский (ru)" }
       ],
-      wagoUsername: this.config.wagoUsername
+      wagoUsername: this.config.wagoUsername,
+      choiceIndex: this.config.account.choices.findIndex(
+        account => account.name === this.config.account.value
+      ),
+      defaultWOWPath: wowDefaultPath,
+      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
     };
   },
   components: {
@@ -159,7 +224,16 @@ export default {
                   fs.statSync(path.join(accountFolder, file)).isDirectory()
               )
               .forEach(file => {
-                this.config.account.choices.push({ name: file, auras: [] });
+                this.config.account.choices.push({
+                  name: file,
+                  auras: [],
+                  backup: {
+                    active: true,
+                    path: path.join(userDataPath, "WeakAurasData-Backup"),
+                    maxsize: 100,
+                    fileSize: null
+                  }
+                });
                 this.config.wowpath.valided = true;
               });
           }
@@ -182,6 +256,9 @@ export default {
         fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
           if (!err) {
             this.config.account.valided = true;
+            this.choiceIndex = this.config.account.choices.findIndex(
+              account => account.name === this.config.account.value
+            );
           }
         });
       }

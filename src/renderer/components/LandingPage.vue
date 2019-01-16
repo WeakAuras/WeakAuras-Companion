@@ -101,6 +101,7 @@ import Vue from "vue";
 import path from "path";
 import moment from "moment";
 import VTooltip from "v-tooltip";
+import backupIfRequired from "./libs/backup";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
@@ -116,6 +117,7 @@ import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Stash from "./UI/Stash.vue";
 
+const userDataPath = require("electron").remote.app.getPath("userData");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
@@ -304,7 +306,11 @@ export default Vue.extend({
         this.$toasted.show(text, options);
       }
     });
+    // load config
     this.restore();
+    // create default backup folder
+    fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
+    // send to panel setting on load if config is not ok
     if (!this.config.wowpath.valided || !this.config.account.valided) {
       this.configStep = 1;
     } else {
@@ -404,6 +410,32 @@ export default Vue.extend({
 
           this.config.internalVersion = internalVersion;
         }
+        // add initial backup info if missing
+        this.config.account.choices.forEach((choice, index) => {
+          if (!choice.backup) {
+            fs.access(
+              this.weakaurasSavedvariable(choice.name),
+              fs.constants.F_OK,
+              err => {
+                if (!err) {
+                  this.config.account.choices[index].backup = {
+                    active: true,
+                    path: path.join(userDataPath, "WeakAurasData-Backup"),
+                    maxsize: 100,
+                    fileSize: null
+                  };
+                } else {
+                  this.config.account.choices[index].backup = {
+                    active: false,
+                    path: path.join(userDataPath, "WeakAurasData-Backup"),
+                    maxsize: 100,
+                    fileSize: null
+                  };
+                }
+              }
+            );
+          }
+        });
       }
     },
     message(text, type) {
@@ -527,17 +559,11 @@ export default Vue.extend({
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
       if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
-      const WeakAurasSavedVariable = path.join(
-        this.config.wowpath.value,
-        "_retail_",
-        "WTF",
-        "Account",
-        this.config.account.value,
-        "SavedVariables",
-        "WeakAuras.lua"
-      );
 
       // Read WeakAuras.lua
+      const WeakAurasSavedVariable = this.weakaurasSavedvariable(
+        this.config.account.value
+      );
       fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data) => {
         if (err) {
           this.message(
@@ -1149,6 +1175,7 @@ end`
             this.afterUpdateNotification(newInstall, news, fails);
         });
       }
+      this.backup();
     },
     afterUpdateNotification(newInstall, news, fails) {
       const total = this.aurasWithUpdate.length;
@@ -1241,6 +1268,29 @@ end`
     },
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
+    },
+    weakaurasSavedvariable(accountName) {
+      return path.join(
+        this.config.wowpath.value,
+        "_retail_",
+        "WTF",
+        "Account",
+        accountName,
+        "SavedVariables",
+        "WeakAuras.lua"
+      );
+    },
+    backup() {
+      this.config.account.choices.forEach((choice, index) => {
+        backupIfRequired(
+          this.weakaurasSavedvariable(choice.name),
+          choice.backup,
+          choice.name,
+          fileSize => {
+            this.config.account.choices[index].backup.fileSize = fileSize;
+          }
+        );
+      });
     }
   }
 });
