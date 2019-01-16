@@ -101,6 +101,7 @@ import Vue from "vue";
 import path from "path";
 import moment from "moment";
 import VTooltip from "v-tooltip";
+import backupIfRequired from "./libs/backup";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
@@ -116,6 +117,7 @@ import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Stash from "./UI/Stash.vue";
 
+const userDataPath = require("electron").remote.app.getPath("userData");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
@@ -304,7 +306,11 @@ export default Vue.extend({
         this.$toasted.show(text, options);
       }
     });
+    // load config
     this.restore();
+    // create default backup folder
+    fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
+    // send to panel setting on load if config is not ok
     if (!this.config.wowpath.valided || !this.config.account.valided) {
       this.configStep = 1;
     } else {
@@ -404,6 +410,19 @@ export default Vue.extend({
 
           this.config.internalVersion = internalVersion;
         }
+        // add initial backup info if missing
+        this.config.account.choices.forEach((choice, index) => {
+          if (!choice.backup) {
+            // eslint-disable-next-line no-console
+            console.log("init this.config.account.choices[index].backup");
+            this.config.account.choices[index].backup = {
+              active: true,
+              path: path.join(userDataPath, "WeakAurasData-Backup"),
+              maxsize: 100,
+              fileSize: null
+            };
+          }
+        });
       }
     },
     message(text, type) {
@@ -1149,6 +1168,7 @@ end`
             this.afterUpdateNotification(newInstall, news, fails);
         });
       }
+      this.backup();
     },
     afterUpdateNotification(newInstall, news, fails) {
       const total = this.aurasWithUpdate.length;
@@ -1241,6 +1261,27 @@ end`
     },
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
+    },
+    backup() {
+      this.config.account.choices.forEach((choice, index) => {
+        const WeakAurasSavedVariable = path.join(
+          this.config.wowpath.value,
+          "_retail_",
+          "WTF",
+          "Account",
+          choice.name,
+          "SavedVariables",
+          "WeakAuras.lua"
+        );
+        backupIfRequired(
+          WeakAurasSavedVariable,
+          choice.backup,
+          choice.name,
+          fileSize => {
+            this.config.account.choices[index].backup.fileSize = fileSize;
+          }
+        );
+      });
     }
   }
 });

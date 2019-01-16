@@ -71,6 +71,34 @@
           )
         }}
       </checkbox>
+      <div
+        v-if="
+          config.account.choices[choiceIndex] &&
+            config.account.choices[choiceIndex].backup
+        "
+      >
+        <br /><br />
+        <p class="label subtitle">{{ $t("app.config.backup" /* Backup */) }}</p>
+        <checkbox v-model="config.account.choices[choiceIndex].backup.active"
+          >Activate</checkbox
+        >
+        <div v-if="config.account.choices[choiceIndex].backup.active">
+          <file-select
+            :path.sync="config.account.choices[choiceIndex].backup.path"
+            :createDirectory="true"
+            :defaultPath="defaultBackupPath"
+            >{{
+              $t("app.fileselect.backupfolder" /* Backup Folder */)
+            }}</file-select
+          >
+          <p class="label">Dedicated size</p>
+          <select v-model="config.account.choices[choiceIndex].backup.maxsize">
+            <option value="50">50mb</option>
+            <option value="100">100mb</option>
+            <option value="500">500mb</option>
+          </select>
+        </div>
+      </div>
       <br /><br />
       <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
       <div class="option">
@@ -124,7 +152,10 @@ export default {
         { value: "fr", text: "Français (fr)" },
         { value: "ru", text: "Русский (ru)" }
       ],
-      wagoUsername: this.config.wagoUsername
+      wagoUsername: this.config.wagoUsername,
+      choiceIndex: this.config.account.choices.findIndex(
+        account => account.name === this.config.account.value
+      )
     };
   },
   components: {
@@ -139,11 +170,6 @@ export default {
     }
   },
   computed: {
-    choiceIndex() {
-      return this.config.account.choices.findIndex(
-        account => account.name === this.config.account.value
-      );
-    },
     defaultWOWPath() {
       return wowDefaultPath;
     },
@@ -185,7 +211,16 @@ export default {
                   fs.statSync(path.join(accountFolder, file)).isDirectory()
               )
               .forEach(file => {
-                this.config.account.choices.push({ name: file, auras: [] });
+                this.config.account.choices.push({
+                  name: file,
+                  auras: [],
+                  backup: {
+                    active: true,
+                    path: path.join(userDataPath, "WeakAurasData-Backup"),
+                    maxsize: 100,
+                    fileSize: null
+                  }
+                });
                 this.config.wowpath.valided = true;
               });
           }
@@ -208,6 +243,9 @@ export default {
         fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
           if (!err) {
             this.config.account.valided = true;
+            this.choiceIndex = this.config.account.choices.findIndex(
+              account => account.name === this.config.account.value
+            );
           }
         });
       }
