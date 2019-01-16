@@ -413,14 +413,27 @@ export default Vue.extend({
         // add initial backup info if missing
         this.config.account.choices.forEach((choice, index) => {
           if (!choice.backup) {
-            // eslint-disable-next-line no-console
-            console.log("init this.config.account.choices[index].backup");
-            this.config.account.choices[index].backup = {
-              active: true,
-              path: path.join(userDataPath, "WeakAurasData-Backup"),
-              maxsize: 100,
-              fileSize: null
-            };
+            fs.access(
+              this.weakaurasSavedvariable(choice.name),
+              fs.constants.F_OK,
+              err => {
+                if (!err) {
+                  this.config.account.choices[index].backup = {
+                    active: true,
+                    path: path.join(userDataPath, "WeakAurasData-Backup"),
+                    maxsize: 100,
+                    fileSize: null
+                  };
+                } else {
+                  this.config.account.choices[index].backup = {
+                    active: false,
+                    path: path.join(userDataPath, "WeakAurasData-Backup"),
+                    maxsize: 100,
+                    fileSize: null
+                  };
+                }
+              }
+            );
           }
         });
       }
@@ -546,17 +559,11 @@ export default Vue.extend({
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
       if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
-      const WeakAurasSavedVariable = path.join(
-        this.config.wowpath.value,
-        "_retail_",
-        "WTF",
-        "Account",
-        this.config.account.value,
-        "SavedVariables",
-        "WeakAuras.lua"
-      );
 
       // Read WeakAuras.lua
+      const WeakAurasSavedVariable = this.weakaurasSavedvariable(
+        this.config.account.value
+      );
       fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data) => {
         if (err) {
           this.message(
@@ -1262,19 +1269,21 @@ end`
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
     },
+    weakaurasSavedvariable(accountName) {
+      return path.join(
+        this.config.wowpath.value,
+        "_retail_",
+        "WTF",
+        "Account",
+        accountName,
+        "SavedVariables",
+        "WeakAuras.lua"
+      );
+    },
     backup() {
       this.config.account.choices.forEach((choice, index) => {
-        const WeakAurasSavedVariable = path.join(
-          this.config.wowpath.value,
-          "_retail_",
-          "WTF",
-          "Account",
-          choice.name,
-          "SavedVariables",
-          "WeakAuras.lua"
-        );
         backupIfRequired(
-          WeakAurasSavedVariable,
+          this.weakaurasSavedvariable(choice.name),
           choice.backup,
           choice.name,
           fileSize => {
