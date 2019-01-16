@@ -69,16 +69,14 @@ export default Vue.extend({
   computed: {
     childs() {
       let output = "";
-      if (typeof this.aura.ids !== "undefined") {
-        if (typeof this.aura.changelog !== "undefined") {
-          if (typeof this.aura.changelog.text !== "undefined") {
-            if (this.aura.changelog.format === "bbcode") {
-              output += sanitize.bbcode(this.aura.changelog.text);
-            } else if (this.aura.changelog.format === "markdown") {
-              output += sanitize.markdown(this.aura.changelog.text);
-            }
-            output += "\n\n";
+      if (this.aura.ids) {
+        if (this.aura.changelog && this.aura.changelog.text) {
+          if (this.aura.changelog.format === "bbcode") {
+            output += sanitize.bbcode(this.aura.changelog.text);
+          } else if (this.aura.changelog.format === "markdown") {
+            output += sanitize.markdown(this.aura.changelog.text);
           }
+          output += "\n\n";
         }
         const { ids } = this.aura;
         output += ids.sort().join("\n");
