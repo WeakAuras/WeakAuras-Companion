@@ -132,12 +132,23 @@ import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import FileSelect from "./FileSelect.vue";
 
-const userDataPath = require("electron").remote.app.getPath("userData");
+const regedit = require("regedit");
 
-const wowDefaultPath =
-  process.platform === "win32"
-    ? path.join("C:", "Program Files (x86)", "World of Warcraft")
-    : "";
+let wowDefaultPath = "";
+if (process.platform === "win32") {
+  const key =
+    "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
+
+  regedit.list(key, (err, result) => {
+    if (err) throw err;
+    else {
+      // eslint-disable-next-line no-console
+      wowDefaultPath = path.join(result[key].values.InstallPath.value, "..");
+    }
+  });
+}
+
+const userDataPath = require("electron").remote.app.getPath("userData");
 
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
