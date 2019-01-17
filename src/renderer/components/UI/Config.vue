@@ -233,7 +233,7 @@ export default {
                   name: file,
                   auras: [],
                   backup: {
-                    active: true,
+                    active: null,
                     path: path.join(userDataPath, "WeakAurasData-Backup"),
                     maxsize: 100,
                     fileSize: null
@@ -264,6 +264,13 @@ export default {
             this.choiceIndex = this.config.account.choices.findIndex(
               account => account.name === this.config.account.value
             );
+            if (
+              this.config.account.choices[this.choiceIndex].backup.active ===
+              null
+            )
+              this.config.account.choices[
+                this.choiceIndex
+              ].backup.active = true;
           }
         });
       }
