@@ -4,7 +4,9 @@
   "app.about.tools": "Разработано с {tools}",
   "app.about.version": "Версия: {version}",
   "app.config.autoStart": "Запускать приложение при загрузке компьютера",
-  "app.config.backup": "WeakAuras Backup",
+  "app.config.backup.activate": "Activate",
+  "app.config.backup.dedicatedsize": "Dedicated size",
+  "app.config.backup.title": "WeakAuras Backup",
   "app.config.clientSettings": "Настройки приложения",
   "app.config.gameSettings": "Настройки игры",
   "app.config.ignoreOwnAuras": "Игнорировать ауры из вашей учетной записи",
@@ -14,6 +16,7 @@
   "app.config.ok": "OK",
   "app.config.reset": "Сбросить настройки и данные",
   "app.config.selectAccount": "Выберите учетную запись",
+  "app.config.showallauras": "Show auras without updates",
   "app.config.startup": "Запуск",
   "app.config.wagoAccount": "Учетная запись Wago (необязательно)",
   "app.config.wagoSettings": "Настройки Wago",
@@ -79,5 +82,6 @@
   "app.report.addon": "Аддон",
   "app.report.companion": "Приложение",
   "app.report.title": "Сообщить об ошибке",
-  "app.stash.title": "Stash"
+  "app.stash.title": "Stash",
+  "config.backup.backupfolder": "Backup Folder"
 }

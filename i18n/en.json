@@ -4,7 +4,9 @@
   "app.about.tools": "Developed with {tools}",
   "app.about.version": "Version: {version}",
   "app.config.autoStart": "Launch client with your computer",
-  "app.config.backup": "WeakAuras Backup",
+  "app.config.backup.activate": "Activate",
+  "app.config.backup.dedicatedsize": "Dedicated size",
+  "app.config.backup.title": "WeakAuras Backup",
   "app.config.clientSettings": "Client Settings",
   "app.config.gameSettings": "Game Settings",
   "app.config.ignoreOwnAuras": "Ignore auras from your account",
@@ -14,6 +16,7 @@
   "app.config.ok": "OK",
   "app.config.reset": "Reset Settings and Data",
   "app.config.selectAccount": "Select WoW Account",
+  "app.config.showallauras": "Show auras without updates",
   "app.config.startup": "Startup",
   "app.config.wagoAccount": "Set Wago Account (optional)",
   "app.config.wagoSettings": "Wago Settings",
@@ -79,5 +82,6 @@
   "app.report.addon": "AddOn",
   "app.report.companion": "Companion",
   "app.report.title": "Report a bug",
-  "app.stash.title": "Stash"
+  "app.stash.title": "Stash",
+  "config.backup.backupfolder": "Backup Folder"
 }

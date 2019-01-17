@@ -55,6 +55,9 @@
       {{ $t("app.config.clientSettings" /* Client Settings */) }}
     </div>
     <div class="block">
+      <checkbox v-model="config.showAllAuras">
+        {{ $t("app.config.showallauras" /* Show auras without updates */) }}
+      </checkbox>
       <p class="label">{{ $t("app.config.lang" /* Language */) }}</p>
       <select v-model="config.lang" class="form-control language">
         <option
@@ -93,13 +96,13 @@
       "
     >
       <div class="title">
-        {{ $t("app.config.backup" /* WeakAuras Backup */) }}
+        {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
       </div>
       <div class="block">
         <p class="label subtitle">
-          <checkbox v-model="config.account.choices[choiceIndex].backup.active"
-            >Activate</checkbox
-          >
+          <checkbox v-model="config.account.choices[choiceIndex].backup.active">
+            {{ $t("app.config.backup.activate" /* Activate */) }}
+          </checkbox>
         </p>
         <div
           v-if="config.account.choices[choiceIndex].backup.active"
@@ -109,11 +112,12 @@
             :path.sync="config.account.choices[choiceIndex].backup.path"
             :createDirectory="true"
             :defaultPath="defaultBackupPath"
-            >{{
-              $t("app.fileselect.backupfolder" /* Backup Folder */)
-            }}</file-select
           >
-          <p class="label">Dedicated size</p>
+            {{ $t("config.backup.backupfolder" /* Backup Folder */) }}
+          </file-select>
+          <p class="label">
+            {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
+          </p>
           <select v-model="config.account.choices[choiceIndex].backup.maxsize">
             <option value="50">50mb</option>
             <option value="100">100mb</option>

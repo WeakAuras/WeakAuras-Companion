@@ -48,9 +48,12 @@
             v-bind:class="{ hidden: aurasWithUpdateSorted.length <= 0 }"
           >
             <Aura
-              v-for="aura in aurasWithUpdateSorted"
+              v-for="aura in config.showAllAuras
+                ? aurasSorted
+                : aurasWithUpdateSorted"
               :aura="aura"
               :key="aura.slug"
+              :showAllAuras="config.showAllAuras"
             ></Aura>
           </div>
         </div>
@@ -154,6 +157,7 @@ const defaultValues = {
     startminimize: false,
     notify: false,
     lang: "en",
+    showAllAuras: false,
     internalVersion
   },
   schedule: {
@@ -322,16 +326,28 @@ export default Vue.extend({
     accountHash() {
       return hash.hashFnv32a(this.config.account.value, true);
     },
-    aurasWithUpdateSorted() {
-      return this.aurasWithUpdate
-        .slice(0)
-        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
-    },
     footerMedias() {
       if (this.medias && this.medias.weakauras) {
         return this.medias.weakauras.filter(media => media.footer);
       }
       return [];
+    },
+    aurasWithUpdateSorted() {
+      return this.aurasWithUpdate
+        .slice(0)
+        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+    },
+    aurasSorted() {
+      return this.auras
+        .filter(
+          aura =>
+            !!aura.topLevel &&
+            !(
+              this.config.ignoreOwnAuras &&
+              aura.author === this.config.wagoUsername
+            )
+        )
+        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
     },
     aurasWithUpdate() {
       return this.auras.filter(
@@ -777,7 +793,6 @@ export default Vue.extend({
                   this.auras[index].wagoSemver = wagoData.versionString;
                   this.auras[index].changelog = wagoData.changelog;
                   this.auras[index].modified = new Date(wagoData.modified);
-                  this.auras[index].wagoVersion = wagoData.version;
                   // Check if encoded string needs to be fetched
                   if (
                     wagoData.version > aura.version &&
@@ -803,8 +818,6 @@ export default Vue.extend({
                         )}`
                       );
                     }
-                    this.auras[index].modified = new Date(wagoData.modified);
-                    this.auras[index].wagoVersion = wagoData.version;
                     promises.push(
                       this.$http.get("https://data.wago.io/api/raw/encoded", {
                         params: {

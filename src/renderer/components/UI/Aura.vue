@@ -1,5 +1,10 @@
 <template>
-  <div class="aura">
+  <div
+    class="aura"
+    v-bind:class="{
+      notAnUpdate: showAllAuras && aura.version == aura.wagoVersion
+    }"
+  >
     <a
       class="wago_icon"
       target="_blank"
@@ -18,6 +23,12 @@
         }"
         >{{ aura.name }}
       </span>
+    </div>
+    <div
+      v-if="showAllAuras && aura.version < aura.wagoVersion"
+      class="update-ready"
+    >
+      update ready
     </div>
     <a
       class="author"
@@ -60,7 +71,7 @@ const sanitize = require("../libs/sanitize.js");
 
 Vue.use(VTooltip);
 export default Vue.extend({
-  props: ["aura"],
+  props: ["aura", "showAllAuras"],
   data() {
     return {
       currentTime: null
@@ -142,6 +153,10 @@ export default Vue.extend({
   font-size: 12px;
   text-shadow: #000000 0 1px 0;
   text-align: left;
+  line-height: 32px;
+}
+.update-ready {
+  float: right;
   line-height: 32px;
 }
 .wago_icon {
