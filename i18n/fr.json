@@ -5,7 +5,9 @@
   "app.about.version": "Version: {version}",
   "app.config.autoStart": "Démarrer le client avec votre ordinateur",
   "app.config.backup.activate": "Activate",
+  "app.config.backup.backupfolder": "Backup Folder",
   "app.config.backup.dedicatedsize": "Dedicated size",
+  "app.config.backup.openfolder": "Ouvrir dans l'Explorateur",
   "app.config.backup.title": "WeakAuras Backup",
   "app.config.clientSettings": "Paramètres du Client",
   "app.config.gameSettings": "Paramètres du Jeux",
@@ -82,6 +84,5 @@
   "app.report.addon": "AddOn",
   "app.report.companion": "Companion",
   "app.report.title": "Report a bug",
-  "app.stash.title": "Stash",
-  "config.backup.backupfolder": "Backup Folder"
+  "app.stash.title": "Stash"
 }

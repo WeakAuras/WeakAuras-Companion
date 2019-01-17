@@ -113,8 +113,11 @@
             :createDirectory="true"
             :defaultPath="defaultBackupPath"
           >
-            {{ $t("config.backup.backupfolder" /* Backup Folder */) }}
+            {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
           </file-select>
+          <span class="explorer" @click="openBackupDir()">
+            {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
+          </span>
           <p class="label">
             {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
           </p>
@@ -140,6 +143,7 @@
 import fs from "fs";
 import path from "path";
 import AutoLaunch from "auto-launch";
+import { shell } from "electron";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import FileSelect from "./FileSelect.vue";
@@ -193,6 +197,9 @@ export default {
     reset() {
       this.$parent.reset();
       this.wagoUsername = null;
+    },
+    openBackupDir() {
+      shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
     }
   },
   watch: {
@@ -344,5 +351,8 @@ select,
 }
 .form-control.language {
   width: 110px;
+}
+.explorer {
+  cursor: pointer;
 }
 </style>

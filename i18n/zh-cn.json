@@ -5,7 +5,9 @@
   "app.about.version": "版本: {version}",
   "app.config.autoStart": "开机时启动客户端",
   "app.config.backup.activate": "启用",
+  "app.config.backup.backupfolder": "备份路径",
   "app.config.backup.dedicatedsize": "Dedicated size",
+  "app.config.backup.openfolder": "Open in Explorer",
   "app.config.backup.title": "WeakAuras备份",
   "app.config.clientSettings": "客户端选项",
   "app.config.gameSettings": "游戏选项",
@@ -82,6 +84,5 @@
   "app.report.addon": "插件",
   "app.report.companion": "Companion",
   "app.report.title": "反馈一个Bug",
-  "app.stash.title": "Stash",
-  "config.backup.backupfolder": "备份路径"
+  "app.stash.title": "Stash"
 }
