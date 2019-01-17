@@ -61,7 +61,7 @@
   "app.main.install": "Install",
   "app.main.installFail": "No fail | 1 failed | {n} failed",
   "app.main.installNew": "No new updates | 1 new | {n} new",
-  "app.main.installTotal": "No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation",
+  "app.main.installTotal": "Everything is already up to date! | 1 update ready for in-game installation | {n} updates ready for in-game installation",
   "app.main.installUpdate": "Install client update",
   "app.main.later": "Later",
   "app.main.needreload": "Reload World of Warcraft's UI to see new updates in WeakAuras's options",

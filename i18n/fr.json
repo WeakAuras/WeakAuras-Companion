@@ -61,7 +61,7 @@
   "app.main.install": "Installer",
   "app.main.installFail": "Aucune erreur | 1 erreur | {n} erreurs",
   "app.main.installNew": "Aucun nouveauté | 1 nouveauté | {n} nouveautés",
-  "app.main.installTotal": "Aucune mise à jour | 1 mise à jour prête à être installé en jeux | {n} mises à jours prêtes à être installé en jeux",
+  "app.main.installTotal": "Tout est déjà à jour! | 1 mise à jour prête à être installé en jeux | {n} mises à jours prêtes à être installé en jeux",
   "app.main.installUpdate": "Install client update",
   "app.main.later": "Plus tard",
   "app.main.needreload": "Rechargez l'interface de World of Warcraft pour voir les mises à jour dans les options de WeakAuras",

@@ -1209,7 +1209,7 @@ end`
         this.message(
           `${this.$tc(
             "app.main.installTotal",
-            total /* No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+            total /* Everything is already up to date! | 1 update ready for in-game installation | {n} updates ready for in-game installation */
           )} (${this.$tc(
             "app.main.installNew",
             newsCount /* No new updates | 1 new | {n} new */
@@ -1223,7 +1223,7 @@ end`
         this.message(
           `${this.$tc(
             "app.main.installTotal",
-            total /* No update available | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+            total /* Everything is already up to date! | 1 update ready for in-game installation | {n} updates ready for in-game installation */
           )} (${this.$tc(
             "app.main.installNew",
             newsCount /* No new updates | 1 new | {n} new */
