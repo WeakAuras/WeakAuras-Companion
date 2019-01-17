@@ -776,6 +776,8 @@ export default Vue.extend({
                   this.auras[index].created = new Date(wagoData.created);
                   this.auras[index].wagoSemver = wagoData.versionString;
                   this.auras[index].changelog = wagoData.changelog;
+                  this.auras[index].modified = new Date(wagoData.modified);
+                  this.auras[index].wagoVersion = wagoData.version;
                   // Check if encoded string needs to be fetched
                   if (
                     wagoData.version > aura.version &&
