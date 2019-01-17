@@ -170,6 +170,7 @@ export default {
   data() {
     return {
       langs: [
+        { value: "zhcn", text: "中文 (zhcn)" },
         { value: "de", text: "Deutsch (de)" },
         { value: "en", text: "English (en)" },
         { value: "fr", text: "Français (fr)" },
