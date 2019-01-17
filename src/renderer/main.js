@@ -10,7 +10,7 @@ const en = require("../../i18n/en.json");
 const fr = require("../../i18n/fr.json");
 const de = require("../../i18n/de.json");
 const ru = require("../../i18n/ru.json");
-const zhcn = require("../../i18n/zhcn.json");
+const zhcn = require("../../i18n/zh-cn.json");
 
 if (!process.env.IS_WEB) {
   Vue.use(VueElectron);
@@ -69,7 +69,7 @@ const i18n = new VueI18n({
     fr,
     de,
     ru,
-    zhcn
+    "zh-cn": zhcn
   }
 });
 
