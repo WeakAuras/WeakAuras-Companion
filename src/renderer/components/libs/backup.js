@@ -1,4 +1,5 @@
 import path from "path";
+import moment from "moment";
 
 const archiver = require("archiver");
 const fs = require("fs");
@@ -38,8 +39,9 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
 function backupIfRequired(filename, config, accountName, callback) {
   if (config && config.active) {
     const stats = fs.statSync(filename);
-    const zipFile = `weakauras-${accountName}-${stats.mtimeMs}.zip`;
     if (stats.size !== config.fileSize) {
+      const date = moment(stats.mtimeMs).format("YYYYMMDDHHmmss");
+      const zipFile = `weakauras-${accountName}-${date}.zip`;
       const fileContents = fs.createReadStream(filename);
       const writeStream = fs.createWriteStream(path.join(config.path, zipFile));
       const archive = archiver("zip", {
