@@ -822,6 +822,7 @@ export default Vue.extend({
                       })
                     );
                   }
+                  this.auras[index].wagoVersion = wagoData.version;
                 }
               });
             });
