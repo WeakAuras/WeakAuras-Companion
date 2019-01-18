@@ -43,7 +43,6 @@ export default {
   margin-left: auto;
   user-select: none;
   cursor: default;
-  -webkit-app-region: drag;
   z-index: 999;
   border-radius: 8px;
 }
@@ -54,7 +53,6 @@ export default {
   text-indent: 10px;
 }
 #ui-titlecontrols {
-  -webkit-app-region: no-drag;
   max-width: 144px;
   max-height: 28px;
   text-align: right;

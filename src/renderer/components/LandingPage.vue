@@ -2,11 +2,11 @@
   <div id="wrapper">
     <div class="main-container" v-bind:class="{ blurred: reportIsShown }">
       <TitleBar></TitleBar>
-      <div class="app-logo">
-        <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
-        <span>{{ $t("app.main.companion" /* Companion */) }}</span>
-      </div>
-      <header>
+      <header @mousedown="onMouseDown">
+        <div class="app-logo">
+          <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
+          <span>{{ $t("app.main.companion" /* Companion */) }}</span>
+        </div>
         <div class="menu-btns">
           <v-button
             type="menu"
@@ -135,6 +135,10 @@ luaparse.defaultOptions.scope = true;
 
 const debug = false;
 const internalVersion = 1;
+
+let animationId;
+let mouseX;
+let mouseY;
 
 const defaultValues = {
   configStep: 0,
@@ -400,6 +404,23 @@ export default Vue.extend({
     }
   },
   methods: {
+    onMouseDown(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      document.addEventListener("mouseup", this.onMouseUp);
+      requestAnimationFrame(this.moveWindow);
+    },
+    onMouseUp() {
+      document.removeEventListener("mouseup", this.onMouseUp);
+      cancelAnimationFrame(animationId);
+    },
+    moveWindow() {
+      this.$electron.ipcRenderer.send("windowMoving", {
+        mouseX,
+        mouseY
+      });
+      animationId = requestAnimationFrame(this.moveWindow);
+    },
     reset() {
       store.clear();
       this.config = JSON.parse(JSON.stringify(defaultValues.config));

@@ -1,5 +1,13 @@
 /* eslint-disable no-underscore-dangle */
-import { app, BrowserWindow, Tray, Menu, shell, ipcMain } from "electron";
+import {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu,
+  shell,
+  ipcMain,
+  screen
+} from "electron";
 import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
@@ -192,6 +200,10 @@ ipcMain.on("close", () => {
 });
 ipcMain.on("installUpdates", () => {
   autoUpdater.quitAndInstall();
+});
+ipcMain.on("windowMoving", (e, { mouseX, mouseY }) => {
+  const { x, y } = screen.getCursorScreenPoint();
+  mainWindow.setPosition(x - mouseX, y - mouseY);
 });
 
 // updater functions

@@ -46,7 +46,6 @@ export default {
   border: 1px solid transparent;
   border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
-  -webkit-app-region: no-drag;
   background-color: #e6e6e6;
   color: #101010;
 }
