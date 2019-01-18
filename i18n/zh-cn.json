@@ -4,6 +4,7 @@
   "app.about.tools": "使用 {tools} 开发",
   "app.about.version": "版本: {version}",
   "app.config.account.notvalidtooltip": "We can’t find any data from WeakAuras in this account. Do you have the addon installed?",
+  "app.config.account.selectaccounttooltip": "Select an account",
   "app.config.autoStart": "开机时启动客户端",
   "app.config.backup.activate": "启用",
   "app.config.backup.backupfolder": "备份路径",

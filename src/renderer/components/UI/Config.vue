@@ -27,6 +27,18 @@
           check_circle_outline
         </i>
         <i
+          v-else-if="!config.account.value"
+          class="material-icons red"
+          v-tooltip="{
+            content: $t(
+              'app.config.account.selectaccounttooltip' /* Select an account */
+            ),
+            html: false
+          }"
+        >
+          error_outline
+        </i>
+        <i
           v-else
           class="material-icons red"
           v-tooltip="{

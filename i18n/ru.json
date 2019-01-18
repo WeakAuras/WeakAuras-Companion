@@ -4,6 +4,7 @@
   "app.about.tools": "Разработано с {tools}",
   "app.about.version": "Версия: {version}",
   "app.config.account.notvalidtooltip": "We can’t find any data from WeakAuras in this account. Do you have the addon installed?",
+  "app.config.account.selectaccounttooltip": "Select an account",
   "app.config.autoStart": "Запускать приложение при загрузке компьютера",
   "app.config.backup.activate": "Activate",
   "app.config.backup.backupfolder": "Backup Folder",
