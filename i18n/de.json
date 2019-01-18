@@ -3,6 +3,7 @@
   "app.about.source": "Quelltext auf",
   "app.about.tools": "Entwickelt mit {tools}",
   "app.about.version": "Version: {version}",
+  "app.config.account.notvalidtooltip": "We can’t find any data from WeakAuras in this account. Do you have the addon installed?",
   "app.config.autoStart": "Client starten, wenn mein Computer gestartet wird",
   "app.config.backup.activate": "Activate",
   "app.config.backup.backupfolder": "Backup Folder",

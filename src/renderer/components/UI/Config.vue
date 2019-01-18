@@ -7,27 +7,37 @@
       <file-select
         :path.sync="config.wowpath.value"
         :defaultPath="defaultWOWPath"
-        >{{
-          $t("app.fileselect.wowfolder" /* World of Warcraft Folder */)
-        }}</file-select
       >
-      <i v-if="config.wowpath.valided" class="material-icons green folder"
-        >check_circle_outline</i
-      >
+        {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
+      </file-select>
+      <i v-if="config.wowpath.valided" class="material-icons green folder">
+        check_circle_outline
+      </i>
       <i v-else class="material-icons red folder">error_outline</i>
       <span v-if="config.wowpath.valided">
         <p class="label">
           {{ $t("app.config.selectAccount" /* Select WoW Account */) }}
         </p>
         <select v-model="config.account.value" class="form-control">
-          <option v-for="item in config.account.choices" :key="item.name">{{
-            item.name
-          }}</option>
+          <option v-for="item in config.account.choices" :key="item.name">
+            {{ item.name }}
+          </option>
         </select>
-        <i v-if="config.account.valided" class="material-icons green"
-          >check_circle_outline</i
+        <i v-if="config.account.valided" class="material-icons green">
+          check_circle_outline
+        </i>
+        <i
+          v-else
+          class="material-icons red"
+          v-tooltip="{
+            content: $t(
+              'app.config.account.notvalidtooltip' /* We can’t find any data from WeakAuras in this account. Do you have the addon installed? */
+            ),
+            html: false
+          }"
         >
-        <i v-else class="material-icons red">error_outline</i>
+          error_outline
+        </i>
       </span>
     </div>
     <div class="title">
@@ -42,8 +52,8 @@
         $t("app.config.ok" /* OK */)
       }}</v-button>
       <i v-if="config.wagoUsername" class="material-icons green">
-        check_circle_outline</i
-      >
+        check_circle_outline
+      </i>
       <br /><br />
       <checkbox v-model="config.ignoreOwnAuras">
         {{
@@ -142,12 +152,15 @@
 <script>
 import fs from "fs";
 import path from "path";
+import Vue from "vue";
+import VTooltip from "v-tooltip";
 import AutoLaunch from "auto-launch";
 import { shell } from "electron";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import FileSelect from "./FileSelect.vue";
 
+Vue.use(VTooltip);
 const regedit = require("regedit");
 
 let wowDefaultPath = "";
@@ -169,7 +182,7 @@ const userDataPath = require("electron").remote.app.getPath("userData");
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
-export default {
+export default Vue.extend({
   props: ["config"],
   data() {
     return {
@@ -287,7 +300,7 @@ export default {
       this.$i18n.locale = this.config.lang;
     }
   }
-};
+});
 </script>
 
 <style scoped lang="scss">
