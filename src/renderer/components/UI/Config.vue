@@ -112,6 +112,7 @@
       </div>
     </div>
     <div
+      class="backup"
       v-if="
         config.account.choices[choiceIndex] &&
           config.account.choices[choiceIndex].backup
@@ -121,7 +122,7 @@
         {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
       </div>
       <div class="block">
-        <p class="label subtitle">
+        <p class="label">
           <checkbox v-model="config.account.choices[choiceIndex].backup.active">
             {{ $t("app.config.backup.activate" /* Activate */) }}
           </checkbox>
@@ -322,6 +323,10 @@ export default Vue.extend({
   overflow: auto;
   height: 100%;
   width: 100%;
+
+  .backup {
+    margin-top: 15px;
+  }
 }
 label,
 .label {
