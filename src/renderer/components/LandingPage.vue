@@ -357,7 +357,6 @@ export default Vue.extend({
         aura =>
           !!aura.encoded &&
           aura.wagoVersion > aura.version &&
-          !aura.privateOrDeleted &&
           !aura.ignoreWagoUpdate &&
           !!aura.topLevel &&
           !(
@@ -679,7 +678,6 @@ export default Vue.extend({
                     modified: null,
                     author: null,
                     encoded: null,
-                    privateOrDeleted: false,
                     ids: [id],
                     topLevel: topLevel ? id : null,
                     uids: uid ? [uid] : []
@@ -736,7 +734,6 @@ export default Vue.extend({
         const fetchAuras = this.auras
           .filter(
             aura =>
-              !aura.privateOrDeleted &&
               !aura.ignoreWagoUpdate &&
               !!aura.topLevel &&
               !(
@@ -843,28 +840,6 @@ export default Vue.extend({
                         if (aura.slug === id) {
                           news.push(aura.name);
                           this.auras[index].encoded = arg.data;
-                        }
-                      });
-                    } else if (arg.status === 404) {
-                      // private or deleted aura
-                      this.auras.forEach((aura, index) => {
-                        if (aura.slug === id) {
-                          this.message(
-                            [
-                              this.$t(
-                                "app.main.errorApiString404-1",
-                                {
-                                  aura: aura.name
-                                } /* Could not receive string for {aura} */
-                              ),
-                              this.$t(
-                                "app.main.errorApiString404-2" /* Aura is private or was removed, ignoring this aura for next checks */
-                              )
-                            ],
-                            "error"
-                          );
-                          fails.push(aura.name);
-                          this.auras[index].privateOrDeleted = true;
                         }
                       });
                     } else {
