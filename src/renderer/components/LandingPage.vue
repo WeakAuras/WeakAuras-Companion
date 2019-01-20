@@ -1064,42 +1064,39 @@ init.lua`
             {
               name: "init.lua",
               data: `-- file generated automatically
-local versionTarget = "2.11.0-beta2"
+local versionTarget = "2.11.0"
 if not WeakAuras.versionString then return end
 
 local function needUpdate(actual, target)
-    if actual == target then return false end
-    
-    local function splitByDot(str)
-        str = str or ""
-        local t, count = {}, 0
-        str:gsub("([^%.%-]+)", function(c)
-                count = count + 1
-                t[count] = c
-        end)
-        return t
-    end
-    
-    actual = splitByDot(actual)
-    target = splitByDot(target)
-    
-    local c = 1
-  while true do
-    if not target[c] then
-      return c <= 4
-    end      
-    if not actual[c] then
-      return false
-    end
-    if actual[c] ~= target[c] then
-      if tonumber(actual[c]) ~= nil and tonumber(target[c]) ~= nil then
-        return tonumber(actual[c]) < tonumber(target[c])
-      else
-        return actual[c] < target[c]
+   if actual == target then return false end
+   
+   local function splitByDot(str)
+      str = str or ""
+      local t, count = {}, 0
+      str:gsub("([^%.%-]+)", function(c)
+            count = count + 1
+            t[count] = c
+      end)
+      return t
+   end
+   
+   actual = splitByDot(actual)
+   target = splitByDot(target)
+   
+   local c = 1
+   while true do
+      if not target[c] or not actual[c] then
+         return false
+      end      
+      if actual[c] ~= target[c] then
+         if tonumber(actual[c]) ~= nil and tonumber(target[c]) ~= nil then
+            return tonumber(actual[c]) < tonumber(target[c])
+         else
+            return actual[c] < target[c]
+         end
       end
-    end
-    c = c + 1
-  end
+      c = c + 1
+   end
 end
 
 if needUpdate(WeakAuras.versionString, versionTarget) then
