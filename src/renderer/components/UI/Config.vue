@@ -380,7 +380,7 @@ select,
   color: white;
 }
 .form-control.language {
-  width: 110px;
+  width: 150px;
 }
 .explorer {
   cursor: pointer;
