@@ -112,6 +112,7 @@
       </div>
     </div>
     <div
+      class="backup"
       v-if="
         config.account.choices[choiceIndex] &&
           config.account.choices[choiceIndex].backup
@@ -121,7 +122,7 @@
         {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
       </div>
       <div class="block">
-        <p class="label subtitle">
+        <p class="label">
           <checkbox v-model="config.account.choices[choiceIndex].backup.active">
             {{ $t("app.config.backup.activate" /* Activate */) }}
           </checkbox>
@@ -137,9 +138,9 @@
           >
             {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
           </file-select>
-          <span class="explorer" @click="openBackupDir()">
+          <p class="explorer" @click="openBackupDir()">
             {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
-          </span>
+          </p>
           <p class="label">
             {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
           </p>
@@ -322,6 +323,10 @@ export default Vue.extend({
   overflow: auto;
   height: 100%;
   width: 100%;
+
+  .backup {
+    margin-top: 15px;
+  }
 }
 label,
 .label {
@@ -375,9 +380,13 @@ select,
   color: white;
 }
 .form-control.language {
-  width: 110px;
+  width: 150px;
 }
 .explorer {
   cursor: pointer;
+  font-size: 12px;
+  margin-top: 5px;
+  color: rgb(255, 209, 0);
+  font-weight: 500;
 }
 </style>
