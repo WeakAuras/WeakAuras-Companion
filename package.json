@@ -81,7 +81,7 @@
     "electron-updater": "^4.0.6",
     "hasha": "^3.0.0",
     "luaparse": "^0.2.1",
-    "moment": "^2.23.0",
+    "moment": "^2.24.0",
     "regedit": "^3.0.2",
     "tail": "^2.0.2",
     "v-tooltip": "^2.0.0-rc.33",
