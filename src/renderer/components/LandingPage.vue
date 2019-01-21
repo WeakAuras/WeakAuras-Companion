@@ -1100,7 +1100,7 @@ local function needUpdate(actual, target)
    end
 end
 
-if (WeakAuras.projectDateInt and (WeakAuras.projectDateInt == "Dev" or versionTargetInt >= tonnumber(WeakAuras.projectDateInt)))
+if (WeakAuras.projectDateInt and (WeakAuras.projectDateInt == "Dev" or versionTargetInt >= tonumber(WeakAuras.projectDateInt)))
 or (not WeakAuras.projectDateInt and needUpdate(WeakAuras.versionString, versionTarget))
 then
   WeakAuras.prettyPrint(("WeakAuras Companion requires WeakAuras version >= %s"):format(versionTarget))
