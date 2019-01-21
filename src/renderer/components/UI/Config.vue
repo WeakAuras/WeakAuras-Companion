@@ -138,9 +138,9 @@
           >
             {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
           </file-select>
-          <span class="explorer" @click="openBackupDir()">
+          <p class="explorer" @click="openBackupDir()">
             {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
-          </span>
+          </p>
           <p class="label">
             {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
           </p>
@@ -384,5 +384,9 @@ select,
 }
 .explorer {
   cursor: pointer;
+  font-size: 12px;
+  margin-top: 5px;
+  color: rgb(255, 209, 0);
+  font-weight: 500;
 }
 </style>
