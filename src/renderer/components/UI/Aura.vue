@@ -24,8 +24,11 @@
         >{{ aura.name }}
       </span>
     </div>
+    <div v-if="showAllAuras && aura.ignoreWagoUpdate" class="ignored">
+      updates disabled
+    </div>
     <div
-      v-if="showAllAuras && aura.version < aura.wagoVersion"
+      v-else-if="showAllAuras && aura.version < aura.wagoVersion"
       class="update-ready"
     >
       update ready
@@ -158,6 +161,11 @@ export default Vue.extend({
 .update-ready {
   float: right;
   line-height: 32px;
+}
+.ignored {
+  float: right;
+  line-height: 32px;
+  color: grey;
 }
 .wago_icon {
   height: 90%;

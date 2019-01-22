@@ -786,6 +786,7 @@ export default Vue.extend({
                   this.auras[index].changelog = wagoData.changelog;
                   this.auras[index].modified = new Date(wagoData.modified);
                   // Check if encoded string needs to be fetched
+                    !aura.ignoreWagoUpdate &&
                   if (
                     wagoData.version > aura.version &&
                     (aura.encoded === null ||
