@@ -25,13 +25,13 @@
       </span>
     </div>
     <div v-if="showAllAuras && aura.ignoreWagoUpdate" class="ignored">
-      updates disabled
+      {{ $t("app.aura.updatedisabled" /* updates disabled */) }}
     </div>
     <div
       v-else-if="showAllAuras && aura.version < aura.wagoVersion"
       class="update-ready"
     >
-      update ready
+      {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
     <a
       class="author"
