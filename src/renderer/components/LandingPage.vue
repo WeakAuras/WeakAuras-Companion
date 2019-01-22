@@ -734,7 +734,6 @@ export default Vue.extend({
         const fetchAuras = this.auras
           .filter(
             aura =>
-              !aura.ignoreWagoUpdate &&
               !!aura.topLevel &&
               !(
                 this.config.ignoreOwnAuras &&
@@ -755,7 +754,7 @@ export default Vue.extend({
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
           return;
         }
-
+        const received = [];
         // Get data from Wago api
         this.$http
           .get("https://data.wago.io/api/check/weakauras", {
@@ -777,8 +776,12 @@ export default Vue.extend({
             // metadata received from Wago API
             const promises = [];
             response.data.forEach(wagoData => {
+              received.push(wagoData.slug);
+              // eslint-disable-next-line no-underscore-dangle
+              received.push(wagoData._id);
               this.auras.forEach((aura, index) => {
-                if (aura.slug === wagoData.slug) {
+                // eslint-disable-next-line no-underscore-dangle
+                if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
                   this.auras[index].name = wagoData.name;
                   this.auras[index].author = wagoData.username;
                   this.auras[index].created = new Date(wagoData.created);
@@ -786,8 +789,8 @@ export default Vue.extend({
                   this.auras[index].changelog = wagoData.changelog;
                   this.auras[index].modified = new Date(wagoData.modified);
                   // Check if encoded string needs to be fetched
-                    !aura.ignoreWagoUpdate &&
                   if (
+                    !aura.ignoreWagoUpdate &&
                     wagoData.version > aura.version &&
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
@@ -888,6 +891,16 @@ export default Vue.extend({
                 );
               })
               .then(() => {
+                fetchAuras.forEach(toFetch => {
+                  if (received.indexOf(toFetch) === -1) {
+                    // no data received for this aura => remove from list
+                    this.auras.forEach((aura, index) => {
+                      if (aura && aura.slug === toFetch) {
+                        this.auras.splice(index, 1);
+                      }
+                    });
+                  }
+                });
                 // we are done with wago API, update data.lua
                 try {
                   this.writeAddonData(news, fails);
