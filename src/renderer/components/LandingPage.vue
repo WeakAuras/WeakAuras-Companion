@@ -1079,7 +1079,7 @@ init.lua`
               name: "init.lua",
               data: `-- file generated automatically
 local versionTarget = "2.11.0"
-local versionTargetInt = 20190120141147
+local buildTimeTarget = 20190123023201
 if not WeakAuras.versionString then return end
 
 local function needUpdate(actual, target)
@@ -1114,8 +1114,8 @@ local function needUpdate(actual, target)
    end
 end
 
-if (WeakAuras.projectDateInt and not (WeakAuras.projectDateInt == "Dev" or tonumber(WeakAuras.projectDateInt) >= versionTargetInt))
-or (not WeakAuras.projectDateInt and needUpdate(WeakAuras.versionString, versionTarget))
+if (WeakAuras.buildTime and not (WeakAuras.buildTime == "Dev" or tonumber(WeakAuras.buildTime) >= buildTimeTarget))
+or (not WeakAuras.buildTime and needUpdate(WeakAuras.versionString, versionTarget))
 then
   WeakAuras.prettyPrint(("WeakAuras Companion requires WeakAuras version >= %s"):format(versionTarget))
   WeakAurasCompanion = nil
