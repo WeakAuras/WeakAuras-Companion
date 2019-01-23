@@ -274,6 +274,9 @@ export default Vue.extend({
                 });
                 this.config.wowpath.valided = true;
               });
+          } else {
+            // eslint-disable-next-line no-console
+            console.log(`Error: ${err}`);
           }
         });
       }
@@ -304,6 +307,9 @@ export default Vue.extend({
               this.config.account.choices[
                 this.choiceIndex
               ].backup.active = true;
+          } else {
+            // eslint-disable-next-line no-console
+            console.log(`Error: ${err}`);
           }
         });
       }
