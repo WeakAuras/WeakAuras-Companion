@@ -268,7 +268,6 @@ export default Vue.extend({
         className: "update",
         duration: null
       };
-      // eslint-disable-next-line no-console
       console.log(`updaterHandler: ${status} - ${JSON.stringify(arg)}`);
       this.updater.status = status;
       let text = null;
