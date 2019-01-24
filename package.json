@@ -54,7 +54,10 @@
       "icon": "build/icons/icon.ico",
       "publish": {
         "provider": "github"
-      }
+      },
+      "extraResources": [
+        "node_modules/regedit/vbs/*"
+      ]
     },
     "linux": {
       "icon": "build/icons"

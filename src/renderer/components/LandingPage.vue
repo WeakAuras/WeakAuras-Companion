@@ -110,6 +110,7 @@ import {
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart
 } from "./libs/wowstat";
+import { wowDefaultPath } from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import Aura from "./UI/Aura.vue";
@@ -146,7 +147,7 @@ const defaultValues = {
   config: {
     // everything in this object will be auto-save and restore
     wowpath: {
-      value: null,
+      value: "",
       valided: false
     },
     account: {
@@ -314,6 +315,12 @@ export default Vue.extend({
     });
     // load config
     this.restore();
+    // set default wow path of not valid
+    if (!this.config.wowpath.valided) {
+      wowDefaultPath().then(value => {
+        this.config.wowpath.value = value;
+      });
+    }
     // create default backup folder
     fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
     // send to panel setting on load if config is not ok
@@ -413,6 +420,9 @@ export default Vue.extend({
     reset() {
       store.clear();
       this.config = JSON.parse(JSON.stringify(defaultValues.config));
+      wowDefaultPath().then(value => {
+        this.config.wowpath.value = value;
+      });
     },
     open(link) {
       this.$electron.shell.openExternal(link);
