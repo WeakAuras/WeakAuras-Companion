@@ -45,7 +45,11 @@
           <br />
           <div
             id="aura-list"
-            v-bind:class="{ hidden: aurasWithUpdateSorted.length <= 0 }"
+            v-bind:class="{
+              hidden: config.showAllAuras
+                ? aurasSorted.length <= 0
+                : aurasWithUpdateSorted.length <= 0
+            }"
           >
             <Aura
               v-for="aura in config.showAllAuras
