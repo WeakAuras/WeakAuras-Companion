@@ -40,7 +40,11 @@
             :usable="config.wowpath.valided && config.account.valided"
             :fetching="fetching"
             :lastUpdate="schedule.lastUpdate"
-            :aurasShown="aurasWithUpdateSorted.length"
+            :aurasShown="
+              config.showAllAuras
+                ? aurasSorted.length
+                : aurasWithUpdateSorted.length
+            "
           ></refreshButton>
           <br />
           <div
