@@ -201,6 +201,9 @@ ipcMain.on("close", () => {
 ipcMain.on("installUpdates", () => {
   autoUpdater.quitAndInstall();
 });
+ipcMain.on("checkUpdates", () => {
+  autoUpdater.checkForUpdatesAndNotify();
+});
 ipcMain.on("windowMoving", (e, { mouseX, mouseY }) => {
   const { x, y } = screen.getCursorScreenPoint();
   mainWindow.setPosition(x - mouseX, y - mouseY);

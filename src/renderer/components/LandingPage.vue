@@ -338,6 +338,8 @@ export default Vue.extend({
       this.configStep = 0;
       this.compareSVwithWago();
     }
+    // check for app updates in 2 hours
+    setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
   computed: {
     accountHash() {
@@ -403,6 +405,11 @@ export default Vue.extend({
     }
   },
   methods: {
+    checkCompanionUpdates() {
+      this.$electron.ipcRenderer.send("checkUpdates");
+      // check for app updates in 2 hours
+      setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
+    },
     onMouseDown(e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
