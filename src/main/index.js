@@ -139,7 +139,7 @@ function createWindow() {
   });
 
   electronLocalshortcut.register(mainWindow, "Ctrl+Shift+I", () => {
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools({ mode: "detach" });
   });
 }
 
