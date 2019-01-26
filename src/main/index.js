@@ -54,6 +54,7 @@ function createWindow() {
     minWidth: 900,
     frame: false,
     transparent: true,
+    backgroundColor: "#00ffffff",
     resizable: true,
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
