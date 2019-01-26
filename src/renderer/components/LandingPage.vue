@@ -396,12 +396,7 @@ export default Vue.extend({
             account => account.name === this.config.account.value
           );
           if (index !== -1) {
-            this.config.account.choices[index].auras = newValue;
-            this.$set(
-              this.config.account.choices,
-              index,
-              this.config.account.choices[index]
-            );
+            this.$set(this.config.account.choices[index], "auras", newValue);
           }
         }
       }
@@ -461,21 +456,12 @@ export default Vue.extend({
               this.weakaurasSavedvariable(choice.name),
               fs.constants.F_OK,
               err => {
-                if (!err) {
-                  this.config.account.choices[index].backup = {
-                    active: true,
-                    path: path.join(userDataPath, "WeakAurasData-Backup"),
-                    maxsize: 100,
-                    fileSize: null
-                  };
-                } else {
-                  this.config.account.choices[index].backup = {
-                    active: false,
-                    path: path.join(userDataPath, "WeakAurasData-Backup"),
-                    maxsize: 100,
-                    fileSize: null
-                  };
-                }
+                this.$set(this.config.account.choices[index], "backup", {
+                  active: !err,
+                  path: path.join(userDataPath, "WeakAurasData-Backup"),
+                  maxsize: 100,
+                  fileSize: null
+                });
               }
             );
           }
