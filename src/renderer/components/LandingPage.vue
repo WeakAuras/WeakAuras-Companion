@@ -212,29 +212,27 @@ export default Vue.extend({
       handler() {
         if (this.stash.length === 1) {
           if (!this.reloadToast) {
-            const options = {
-              theme: "toasted-primary",
-              position: "bottom-right",
-              duration: null,
-              onComplete: () => {
-                this.reloadToast = null;
-              },
-              action: [
-                {
-                  text: this.$t("app.main.cancel" /* Cancel */),
-                  onClick: () => {
-                    while (this.stash.length > 0) {
-                      this.stash.pop();
-                    }
-                  }
-                }
-              ]
-            };
-            this.reloadToast = this.$toasted.info(
+            this.reloadToast = this.message(
               this.$t(
                 "app.main.needreloadstash" /* Reload World of Warcraft's UI to receive pushed auras */
               ),
-              options
+              "info",
+              {
+                duration: null,
+                onComplete: () => {
+                  this.reloadToast = null;
+                },
+                action: [
+                  {
+                    text: this.$t("app.main.cancel" /* Cancel */),
+                    onClick: () => {
+                      while (this.stash.length > 0) {
+                        this.stash.pop();
+                      }
+                    }
+                  }
+                ]
+              }
             );
             afterWOWReload(this.config.wowpath.value, () => {
               while (this.stash.length > 0) {
@@ -271,54 +269,53 @@ export default Vue.extend({
       }
     });
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
-      const options = {
-        theme: "toasted-primary",
-        position: "bottom-right",
-        className: "update",
-        duration: null
-      };
       console.log(`updaterHandler: ${status} - ${JSON.stringify(arg)}`);
       this.updater.status = status;
-      let text = null;
       if (status === "download-progress") {
         this.updater.progress = Math.floor(arg.percent);
       }
       if (status === "error") {
-        text = [
-          this.$t("app.main.updateerror" /* Error in updater. */),
-          arg.code
-        ];
-        options.className = "update update-error";
-        options.action = [
+        this.message(
+          [this.$t("app.main.updateerror" /* Error in updater. */), arg.code],
+          null,
           {
-            text: this.$t("app.main.close" /* Close */),
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
-            }
+            className: "update update-error",
+            duration: null,
+            action: [
+              {
+                text: this.$t("app.main.close" /* Close */),
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                }
+              }
+            ]
           }
-        ];
-        this.$toasted.show(text, options);
+        );
       }
       if (status === "update-downloaded") {
-        text = this.$t(
-          "app.main.updatedownload" /* Client update downloaded */
-        );
-        options.action = [
+        this.message(
+          this.$t("app.main.updatedownload" /* Client update downloaded */),
+          null,
           {
-            text: this.$t("app.main.install" /* Install */),
-            onClick: (e, toastObject) => {
-              this.$electron.ipcRenderer.send("installUpdates");
-              toastObject.goAway(0);
-            }
-          },
-          {
-            text: this.$t("app.main.later" /* Later */),
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
-            }
+            className: "update",
+            duration: null,
+            action: [
+              {
+                text: this.$t("app.main.install" /* Install */),
+                onClick: (e, toastObject) => {
+                  this.$electron.ipcRenderer.send("installUpdates");
+                  toastObject.goAway(0);
+                }
+              },
+              {
+                text: this.$t("app.main.later" /* Later */),
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                }
+              }
+            ]
           }
-        ];
-        this.$toasted.show(text, options);
+        );
       }
     });
     // load config
@@ -475,7 +472,7 @@ export default Vue.extend({
         });
       }
     },
-    message(text, type) {
+    message(text, type, overrideOptions = {}) {
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
@@ -487,6 +484,9 @@ export default Vue.extend({
           }
         }
       };
+      Object.keys(overrideOptions).forEach(key => {
+        options[key] = overrideOptions[key];
+      });
       let msg;
       if (typeof text === "object") {
         const div = document.createElement("div");
@@ -498,12 +498,14 @@ export default Vue.extend({
           line.innerHTML += text[i];
           div.appendChild(line);
         }
-        options.className = "multiline";
+        options.className = options.className
+          ? `${options.className} multiline`
+          : " multiline";
         msg = div;
       } else {
         msg = text;
       }
-      if (type === "success") return this.$toasted.success(msg, options);
+      if (type === "info") return this.$toasted.info(msg, options);
       if (type === "error") return this.$toasted.error(msg, options);
       return this.$toasted.show(msg, options);
     },
@@ -756,8 +758,7 @@ export default Vue.extend({
         // Test if list is empty
         if (fetchAuras.length === 0) {
           this.message(
-            this.$t("app.main.nothingToFetch" /* No updates available */),
-            "info"
+            this.$t("app.main.nothingToFetch" /* No updates available */)
           );
           this.fetching = false;
           this.schedule.lastUpdate = new Date();
@@ -972,25 +973,17 @@ export default Vue.extend({
             if (isWOWOpen(this.config.wowpath.value)) {
               newInstall = true;
               if (!this.reloadToast) {
-                const options = {
-                  theme: "toasted-primary",
-                  position: "bottom-right",
-                  duration: null,
-                  action: {
-                    text: this.$t("app.main.close" /* Close */),
-                    onClick: (e, toastObject) => {
-                      toastObject.goAway(0);
-                    }
-                  },
-                  onComplete: () => {
-                    this.reloadToast = null;
-                  }
-                };
-                this.reloadToast = this.$toasted.info(
+                this.reloadToast = this.message(
                   this.$t(
                     "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
                   ),
-                  options
+                  "info",
+                  {
+                    duration: null,
+                    onComplete: () => {
+                      this.reloadToast = null;
+                    }
+                  }
                 );
                 afterWOWRestart(this.config.wowpath.value, () => {
                   if (this.reloadToast) this.reloadToast.goAway(0);
@@ -1180,8 +1173,7 @@ end`
           )}, ${this.$tc(
             "app.main.installFail",
             failsCount /* No fail | 1 failed | {n} failed */
-          )})`,
-          "info"
+          )})`
         );
       } else if (newsCount > 0) {
         this.message(
@@ -1191,30 +1183,21 @@ end`
           )} (${this.$tc(
             "app.main.installNew",
             newsCount /* No new updates | 1 new | {n} new */
-          )})`,
-          "info"
+          )})`
         );
         if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
           if (!this.reloadToast) {
-            const options = {
-              theme: "toasted-primary",
-              position: "bottom-right",
-              duration: null,
-              action: {
-                text: this.$t("app.main.close" /* Close */),
-                onClick: (e, toastObject) => {
-                  toastObject.goAway(0);
-                }
-              },
-              onComplete: () => {
-                this.reloadToast = null;
-              }
-            };
-            this.reloadToast = this.$toasted.info(
+            this.reloadToast = this.message(
               this.$t(
                 "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
               ),
-              options
+              "info",
+              {
+                duration: null,
+                onComplete: () => {
+                  this.reloadToast = null;
+                }
+              }
             );
             afterWOWReload(this.config.wowpath.value, () => {
               if (this.reloadToast) {
@@ -1233,7 +1216,7 @@ end`
           "error"
         );
       } else {
-        this.message(this.$tc("app.main.installTotal", total), "info");
+        this.message(this.$tc("app.main.installTotal", total));
       }
 
       // system notification
