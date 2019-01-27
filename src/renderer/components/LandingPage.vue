@@ -179,6 +179,7 @@ const defaultValues = {
   medias,
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
   reloadToast: null,
+  updateToast: null,
   updater: {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
     progress: null
@@ -293,29 +294,34 @@ export default Vue.extend({
         );
       }
       if (status === "update-downloaded") {
-        this.message(
-          this.$t("app.main.updatedownload" /* Client update downloaded */),
-          null,
-          {
-            className: "update",
-            duration: null,
-            action: [
-              {
-                text: this.$t("app.main.install" /* Install */),
-                onClick: (e, toastObject) => {
-                  this.$electron.ipcRenderer.send("installUpdates");
-                  toastObject.goAway(0);
-                }
+        if (!this.updateToast) {
+          this.message(
+            this.$t("app.main.updatedownload" /* Client update downloaded */),
+            null,
+            {
+              className: "update",
+              duration: null,
+              onComplete: () => {
+                this.updateToast = null;
               },
-              {
-                text: this.$t("app.main.later" /* Later */),
-                onClick: (e, toastObject) => {
-                  toastObject.goAway(0);
+              action: [
+                {
+                  text: this.$t("app.main.install" /* Install */),
+                  onClick: (e, toastObject) => {
+                    this.$electron.ipcRenderer.send("installUpdates");
+                    toastObject.goAway(0);
+                  }
+                },
+                {
+                  text: this.$t("app.main.later" /* Later */),
+                  onClick: (e, toastObject) => {
+                    toastObject.goAway(0);
+                  }
                 }
-              }
-            ]
-          }
-        );
+              ]
+            }
+          );
+        }
       }
     });
     // load config
