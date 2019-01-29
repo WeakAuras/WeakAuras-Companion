@@ -777,6 +777,7 @@ export default Vue.extend({
         // remove orphans
         for (let index = this.auras.length - 1; index > -1; index -= 1) {
           if (slugs.indexOf(this.auras[index].slug) === -1) {
+            console.log(`remove orphan ${this.auras[index].slug}`);
             this.auras.splice(index, 1);
           }
         }
@@ -941,11 +942,14 @@ export default Vue.extend({
                 );
               })
               .then(() => {
+                // console.log(`fetchAuras: ${JSON.stringify(fetchAuras)}`);
+                // console.log(`received: ${JSON.stringify(received)}`);
                 fetchAuras.forEach(toFetch => {
                   if (received.indexOf(toFetch) === -1) {
                     // no data received for this aura => remove from list
                     this.auras.forEach((aura, index) => {
                       if (aura && aura.slug === toFetch) {
+                        console.log(`no data received for ${aura.slug}`);
                         this.auras.splice(index, 1);
                       }
                     });
