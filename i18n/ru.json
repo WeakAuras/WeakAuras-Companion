@@ -81,6 +81,7 @@
   "app.main.stringReceiveError-2": "Код http: {status}",
   "app.main.updatedownload": "Обновление приложения загружено",
   "app.main.updateerror": "Ошибка при обновлении приложения",
+  "app.main.updatefound": "Companion Update available",
   "app.menu.about": "О программе",
   "app.menu.help": "Справка",
   "app.menu.main": "Главная",

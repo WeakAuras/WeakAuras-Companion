@@ -81,6 +81,7 @@
   "app.main.stringReceiveError-2": "http代码: {status}",
   "app.main.updatedownload": "客户端更新已下载",
   "app.main.updateerror": "更新程序错误",
+  "app.main.updatefound": "Companion Update available",
   "app.menu.about": "关于",
   "app.menu.help": "帮助",
   "app.menu.main": "主页",

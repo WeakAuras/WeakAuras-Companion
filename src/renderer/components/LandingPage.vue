@@ -91,6 +91,19 @@
         </a>
         <div class="app-update">
           <i
+            v-if="isMac && updater.status === 'update-available'"
+            class="material-icons update-available"
+            @click="
+              open(
+                'https://github.com/WeakAuras/WeakAuras-Companion/releases/latest'
+              )
+            "
+            v-tooltip="
+              this.$t('app.main.installUpdate' /* Install client update */)
+            "
+            >system_update_alt
+          </i>
+          <i
             v-if="updater.status === 'update-downloaded'"
             class="material-icons update-available"
             @click="installUpdates"
@@ -99,6 +112,9 @@
             "
             >system_update_alt
           </i>
+          <div v-if="updater.status === 'checking-for-update'" class="updating">
+            <i class="material-icons icon">sync</i>
+          </div>
           <div v-if="updater.status === 'download-progress'" class="updating">
             <span class="progress">{{ updater.progress }}%</span>
             <i class="material-icons icon">sync</i>
@@ -190,7 +206,8 @@ const defaultValues = {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
     progress: null,
     scheduleId: null // for 24h auto-updater
-  }
+  },
+  isMac: process.platform === "darwin"
 };
 
 export default Vue.extend({
@@ -282,21 +299,24 @@ export default Vue.extend({
       if (status === "download-progress") {
         this.updater.progress = Math.floor(arg.percent);
       }
+      if (status === "update-available" && this.isMac) {
+        // show download toast on Macs
+        this.message(
+          this.$t("app.main.updatefound" /* Companion Update available */),
+          null,
+          {
+            className: "update",
+            duration: null
+          }
+        );
+      }
       if (status === "error") {
         this.message(
-          [this.$t("app.main.updateerror" /* Error in updater. */), arg.code],
+          [this.$t("app.main.updateerror" /* Error in updater */), arg.code],
           null,
           {
             className: "update update-error",
-            duration: null,
-            action: [
-              {
-                text: this.$t("app.main.close" /* Close */),
-                onClick: (e, toastObject) => {
-                  toastObject.goAway(0);
-                }
-              }
-            ]
+            duration: null
           }
         );
       }

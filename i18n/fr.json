@@ -81,6 +81,7 @@
   "app.main.stringReceiveError-2": "http code: {status}",
   "app.main.updatedownload": "Mise à jour du Client téléchargée.",
   "app.main.updateerror": "Error pendant la mise à jour. {arg}",
+  "app.main.updatefound": "Companion Update available",
   "app.menu.about": "A propos",
   "app.menu.help": "Aide",
   "app.menu.main": "Mettre à jour",
