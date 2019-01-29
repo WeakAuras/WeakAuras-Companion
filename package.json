@@ -1,6 +1,6 @@
 {
   "name": "weakauras-companion",
-  "version": "1.0.19",
+  "version": "1.1.4-beta2",
   "author": "Buds <mrbouyou@gmail.com>",
   "description": "WeakAuras Companion App",
   "license": "GPL-2.0-or-later",
@@ -54,7 +54,10 @@
       "icon": "build/icons/icon.ico",
       "publish": {
         "provider": "github"
-      }
+      },
+      "extraResources": [
+        "node_modules/regedit/vbs/*"
+      ]
     },
     "linux": {
       "icon": "build/icons"
@@ -71,7 +74,7 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
+    "@babel/runtime": "^7.3.0",
     "archiver": "^3.0.0",
     "auto-launch": "^5.0.5",
     "axios": "^0.18.0",
@@ -94,7 +97,7 @@
   "devDependencies": {
     "@babel/core": "7.2.2",
     "@babel/plugin-transform-runtime": "7.2.0",
-    "@babel/preset-env": "7.3.1",
+    "@babel/preset-env": "7.3.0",
     "@babel/register": "7.0.0",
     "@types/jest": "^23.3.13",
     "ajv": "^6.7.0",
@@ -107,7 +110,7 @@
     "css-loader": "^2.1.0",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron": "^4.0.2",
+    "electron": "^4.0.1",
     "electron-builder": "^20.38.4",
     "electron-debug": "^2.1.0",
     "electron-devtools-installer": "^2.2.4",
@@ -115,7 +118,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-formatter-friendly": "^6.0.0",
-    "eslint-import-resolver-webpack": "^0.11.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-prettier": "^3.0.0",
@@ -127,7 +130,7 @@
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
     "node-sass": "^4.11.0",
-    "prettier": "^1.16.1",
+    "prettier": "^1.16.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "ts-jest": "^23.10.5",

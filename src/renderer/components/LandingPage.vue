@@ -40,12 +40,20 @@
             :usable="config.wowpath.valided && config.account.valided"
             :fetching="fetching"
             :lastUpdate="schedule.lastUpdate"
-            :aurasShown="aurasWithUpdateSorted.length"
+            :aurasShown="
+              config.showAllAuras
+                ? aurasSorted.length
+                : aurasWithUpdateSorted.length
+            "
           ></refreshButton>
           <br />
           <div
             id="aura-list"
-            v-bind:class="{ hidden: aurasWithUpdateSorted.length <= 0 }"
+            v-bind:class="{
+              hidden: config.showAllAuras
+                ? aurasSorted.length <= 0
+                : aurasWithUpdateSorted.length <= 0
+            }"
           >
             <Aura
               v-for="aura in config.showAllAuras
@@ -57,7 +65,11 @@
             ></Aura>
           </div>
         </div>
-        <Config v-if="configStep === 1" :config="config"></Config>
+        <Config
+          v-if="configStep === 1"
+          :config="config"
+          :updaterStatus="updater.status"
+        ></Config>
         <help v-if="configStep === 2"></help>
         <about v-if="configStep === 3"></about>
       </main>
@@ -79,6 +91,19 @@
         </a>
         <div class="app-update">
           <i
+            v-if="isMac && updater.status === 'update-available'"
+            class="material-icons update-available"
+            @click="
+              open(
+                'https://github.com/WeakAuras/WeakAuras-Companion/releases/latest'
+              )
+            "
+            v-tooltip="
+              this.$t('app.main.installUpdate' /* Install client update */)
+            "
+            >system_update_alt
+          </i>
+          <i
             v-if="updater.status === 'update-downloaded'"
             class="material-icons update-available"
             @click="installUpdates"
@@ -87,6 +112,9 @@
             "
             >system_update_alt
           </i>
+          <div v-if="updater.status === 'checking-for-update'" class="updating">
+            <i class="material-icons icon">sync</i>
+          </div>
           <div v-if="updater.status === 'download-progress'" class="updating">
             <span class="progress">{{ updater.progress }}%</span>
             <i class="material-icons icon">sync</i>
@@ -110,6 +138,7 @@ import {
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart
 } from "./libs/wowstat";
+import { wowDefaultPath } from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import Aura from "./UI/Aura.vue";
@@ -146,7 +175,7 @@ const defaultValues = {
   config: {
     // everything in this object will be auto-save and restore
     wowpath: {
-      value: null,
+      value: "",
       valided: false
     },
     account: {
@@ -161,6 +190,7 @@ const defaultValues = {
     notify: false,
     lang: "en",
     showAllAuras: false,
+    beta: null,
     internalVersion
   },
   schedule: {
@@ -170,10 +200,13 @@ const defaultValues = {
   medias,
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
   reloadToast: null,
+  updateToast: null,
   updater: {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
-    progress: null
-  }
+    progress: null,
+    scheduleId: null // for 24h auto-updater
+  },
+  isMac: process.platform === "darwin"
 };
 
 export default Vue.extend({
@@ -203,29 +236,27 @@ export default Vue.extend({
       handler() {
         if (this.stash.length === 1) {
           if (!this.reloadToast) {
-            const options = {
-              theme: "toasted-primary",
-              position: "bottom-right",
-              duration: null,
-              onComplete: () => {
-                this.reloadToast = null;
-              },
-              action: [
-                {
-                  text: this.$t("app.main.cancel" /* Cancel */),
-                  onClick: () => {
-                    while (this.stash.length > 0) {
-                      this.stash.pop();
-                    }
-                  }
-                }
-              ]
-            };
-            this.reloadToast = this.$toasted.info(
+            this.reloadToast = this.message(
               this.$t(
                 "app.main.needreloadstash" /* Reload World of Warcraft's UI to receive pushed auras */
               ),
-              options
+              "info",
+              {
+                duration: null,
+                onComplete: () => {
+                  this.reloadToast = null;
+                },
+                action: [
+                  {
+                    text: this.$t("app.main.cancel" /* Cancel */),
+                    onClick: () => {
+                      while (this.stash.length > 0) {
+                        this.stash.pop();
+                      }
+                    }
+                  }
+                ]
+              }
             );
             afterWOWReload(this.config.wowpath.value, () => {
               while (this.stash.length > 0) {
@@ -246,6 +277,9 @@ export default Vue.extend({
     deep: true
   },
   mounted() {
+    this.$electron.ipcRenderer.on("setAllowPrerelease", allowPrerelease => {
+      this.beta = allowPrerelease;
+    });
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
@@ -262,59 +296,71 @@ export default Vue.extend({
       }
     });
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
-      const options = {
-        theme: "toasted-primary",
-        position: "bottom-right",
-        className: "update",
-        duration: null
-      };
-      // eslint-disable-next-line no-console
       console.log(`updaterHandler: ${status} - ${JSON.stringify(arg)}`);
       this.updater.status = status;
-      let text = null;
       if (status === "download-progress") {
         this.updater.progress = Math.floor(arg.percent);
       }
-      if (status === "error") {
-        text = [
-          this.$t("app.main.updateerror" /* Error in updater. */),
-          arg.code
-        ];
-        options.className = "update update-error";
-        options.action = [
+      if (status === "update-available" && this.isMac) {
+        // show download toast on Macs
+        this.message(
+          this.$t("app.main.updatefound" /* Companion Update available */),
+          null,
           {
-            text: this.$t("app.main.close" /* Close */),
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
-            }
+            className: "update",
+            duration: null
           }
-        ];
-        this.$toasted.show(text, options);
+        );
+      }
+      if (status === "error") {
+        this.message(
+          [this.$t("app.main.updateerror" /* Error in updater */), arg.code],
+          null,
+          {
+            className: "update update-error",
+            duration: null
+          }
+        );
       }
       if (status === "update-downloaded") {
-        text = this.$t(
-          "app.main.updatedownload" /* Client update downloaded */
-        );
-        options.action = [
-          {
-            text: this.$t("app.main.install" /* Install */),
-            onClick: (e, toastObject) => {
-              this.$electron.ipcRenderer.send("installUpdates");
-              toastObject.goAway(0);
+        if (!this.updateToast) {
+          this.message(
+            this.$t("app.main.updatedownload" /* Client update downloaded */),
+            null,
+            {
+              className: "update",
+              duration: null,
+              onComplete: () => {
+                this.updateToast = null;
+              },
+              action: [
+                {
+                  text: this.$t("app.main.install" /* Install */),
+                  onClick: (e, toastObject) => {
+                    this.$electron.ipcRenderer.send("installUpdates");
+                    toastObject.goAway(0);
+                  }
+                },
+                {
+                  text: this.$t("app.main.later" /* Later */),
+                  onClick: (e, toastObject) => {
+                    toastObject.goAway(0);
+                  }
+                }
+              ]
             }
-          },
-          {
-            text: this.$t("app.main.later" /* Later */),
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
-            }
-          }
-        ];
-        this.$toasted.show(text, options);
+          );
+        }
       }
     });
     // load config
     this.restore();
+    // set default wow path of not valid
+    if (!this.config.wowpath.valided) {
+      wowDefaultPath().then(value => {
+        this.config.wowpath.value = value;
+      });
+    }
     // create default backup folder
     fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
     // send to panel setting on load if config is not ok
@@ -324,6 +370,8 @@ export default Vue.extend({
       this.configStep = 0;
       this.compareSVwithWago();
     }
+    // check for app updates in 2 hours
+    setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
   computed: {
     accountHash() {
@@ -382,18 +430,22 @@ export default Vue.extend({
             account => account.name === this.config.account.value
           );
           if (index !== -1) {
-            this.config.account.choices[index].auras = newValue;
-            this.$set(
-              this.config.account.choices,
-              index,
-              this.config.account.choices[index]
-            );
+            this.$set(this.config.account.choices[index], "auras", newValue);
           }
         }
       }
     }
   },
   methods: {
+    checkCompanionUpdates() {
+      this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
+      // check for app updates in 24 hours
+      if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
+      this.updater.scheduleId = setTimeout(
+        this.checkCompanionUpdates,
+        1000 * 3600 * 24
+      );
+    },
     onMouseDown(e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -414,6 +466,9 @@ export default Vue.extend({
     reset() {
       store.clear();
       this.config = JSON.parse(JSON.stringify(defaultValues.config));
+      wowDefaultPath().then(value => {
+        this.config.wowpath.value = value;
+      });
     },
     open(link) {
       this.$electron.shell.openExternal(link);
@@ -444,28 +499,19 @@ export default Vue.extend({
               this.weakaurasSavedvariable(choice.name),
               fs.constants.F_OK,
               err => {
-                if (!err) {
-                  this.config.account.choices[index].backup = {
-                    active: true,
-                    path: path.join(userDataPath, "WeakAurasData-Backup"),
-                    maxsize: 100,
-                    fileSize: null
-                  };
-                } else {
-                  this.config.account.choices[index].backup = {
-                    active: false,
-                    path: path.join(userDataPath, "WeakAurasData-Backup"),
-                    maxsize: 100,
-                    fileSize: null
-                  };
-                }
+                this.$set(this.config.account.choices[index], "backup", {
+                  active: !err,
+                  path: path.join(userDataPath, "WeakAurasData-Backup"),
+                  maxsize: 100,
+                  fileSize: null
+                });
               }
             );
           }
         });
       }
     },
-    message(text, type) {
+    message(text, type, overrideOptions = {}) {
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
@@ -477,6 +523,9 @@ export default Vue.extend({
           }
         }
       };
+      Object.keys(overrideOptions).forEach(key => {
+        options[key] = overrideOptions[key];
+      });
       let msg;
       if (typeof text === "object") {
         const div = document.createElement("div");
@@ -488,12 +537,14 @@ export default Vue.extend({
           line.innerHTML += text[i];
           div.appendChild(line);
         }
-        options.className = "multiline";
+        options.className = options.className
+          ? `${options.className} multiline`
+          : " multiline";
         msg = div;
       } else {
         msg = text;
       }
-      if (type === "success") return this.$toasted.success(msg, options);
+      if (type === "info") return this.$toasted.info(msg, options);
       if (type === "error") return this.$toasted.error(msg, options);
       return this.$toasted.show(msg, options);
     },
@@ -734,7 +785,6 @@ export default Vue.extend({
         const fetchAuras = this.auras
           .filter(
             aura =>
-              !aura.ignoreWagoUpdate &&
               !!aura.topLevel &&
               !(
                 this.config.ignoreOwnAuras &&
@@ -747,15 +797,14 @@ export default Vue.extend({
         // Test if list is empty
         if (fetchAuras.length === 0) {
           this.message(
-            this.$t("app.main.nothingToFetch" /* No updates available */),
-            "info"
+            this.$t("app.main.nothingToFetch" /* No updates available */)
           );
           this.fetching = false;
           this.schedule.lastUpdate = new Date();
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
           return;
         }
-
+        const received = [];
         // Get data from Wago api
         this.$http
           .get("https://data.wago.io/api/check/weakauras", {
@@ -777,8 +826,12 @@ export default Vue.extend({
             // metadata received from Wago API
             const promises = [];
             response.data.forEach(wagoData => {
+              received.push(wagoData.slug);
+              // eslint-disable-next-line no-underscore-dangle
+              received.push(wagoData._id);
               this.auras.forEach((aura, index) => {
-                if (aura.slug === wagoData.slug) {
+                // eslint-disable-next-line no-underscore-dangle
+                if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
                   this.auras[index].name = wagoData.name;
                   this.auras[index].author = wagoData.username;
                   this.auras[index].created = new Date(wagoData.created);
@@ -787,6 +840,7 @@ export default Vue.extend({
                   this.auras[index].modified = new Date(wagoData.modified);
                   // Check if encoded string needs to be fetched
                   if (
+                    !aura.ignoreWagoUpdate &&
                     wagoData.version > aura.version &&
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
@@ -887,6 +941,16 @@ export default Vue.extend({
                 );
               })
               .then(() => {
+                fetchAuras.forEach(toFetch => {
+                  if (received.indexOf(toFetch) === -1) {
+                    // no data received for this aura => remove from list
+                    this.auras.forEach((aura, index) => {
+                      if (aura && aura.slug === toFetch) {
+                        this.auras.splice(index, 1);
+                      }
+                    });
+                  }
+                });
                 // we are done with wago API, update data.lua
                 try {
                   this.writeAddonData(news, fails);
@@ -948,25 +1012,17 @@ export default Vue.extend({
             if (isWOWOpen(this.config.wowpath.value)) {
               newInstall = true;
               if (!this.reloadToast) {
-                const options = {
-                  theme: "toasted-primary",
-                  position: "bottom-right",
-                  duration: null,
-                  action: {
-                    text: this.$t("app.main.close" /* Close */),
-                    onClick: (e, toastObject) => {
-                      toastObject.goAway(0);
-                    }
-                  },
-                  onComplete: () => {
-                    this.reloadToast = null;
-                  }
-                };
-                this.reloadToast = this.$toasted.info(
+                this.reloadToast = this.message(
                   this.$t(
                     "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
                   ),
-                  options
+                  "info",
+                  {
+                    duration: null,
+                    onComplete: () => {
+                      this.reloadToast = null;
+                    }
+                  }
                 );
                 afterWOWRestart(this.config.wowpath.value, () => {
                   if (this.reloadToast) this.reloadToast.goAway(0);
@@ -1065,7 +1121,7 @@ init.lua`
               name: "init.lua",
               data: `-- file generated automatically
 local versionTarget = "2.11.0"
-local versionTargetInt = 20190120141147
+local buildTimeTarget = 20190123023201
 if not WeakAuras.versionString then return end
 
 local function needUpdate(actual, target)
@@ -1100,8 +1156,8 @@ local function needUpdate(actual, target)
    end
 end
 
-if (WeakAuras.projectDateInt and (WeakAuras.projectDateInt == "Dev" or versionTargetInt >= tonnumber(WeakAuras.projectDateInt)))
-or (not WeakAuras.projectDateInt and needUpdate(WeakAuras.versionString, versionTarget))
+if (WeakAuras.buildTime and not (WeakAuras.buildTime == "Dev" or tonumber(WeakAuras.buildTime) >= buildTimeTarget))
+or (not WeakAuras.buildTime and needUpdate(WeakAuras.versionString, versionTarget))
 then
   WeakAuras.prettyPrint(("WeakAuras Companion requires WeakAuras version >= %s"):format(versionTarget))
   WeakAurasCompanion = nil
@@ -1156,8 +1212,7 @@ end`
           )}, ${this.$tc(
             "app.main.installFail",
             failsCount /* No fail | 1 failed | {n} failed */
-          )})`,
-          "info"
+          )})`
         );
       } else if (newsCount > 0) {
         this.message(
@@ -1167,30 +1222,21 @@ end`
           )} (${this.$tc(
             "app.main.installNew",
             newsCount /* No new updates | 1 new | {n} new */
-          )})`,
-          "info"
+          )})`
         );
         if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
           if (!this.reloadToast) {
-            const options = {
-              theme: "toasted-primary",
-              position: "bottom-right",
-              duration: null,
-              action: {
-                text: this.$t("app.main.close" /* Close */),
-                onClick: (e, toastObject) => {
-                  toastObject.goAway(0);
-                }
-              },
-              onComplete: () => {
-                this.reloadToast = null;
-              }
-            };
-            this.reloadToast = this.$toasted.info(
+            this.reloadToast = this.message(
               this.$t(
                 "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
               ),
-              options
+              "info",
+              {
+                duration: null,
+                onComplete: () => {
+                  this.reloadToast = null;
+                }
+              }
             );
             afterWOWReload(this.config.wowpath.value, () => {
               if (this.reloadToast) {
@@ -1209,7 +1255,7 @@ end`
           "error"
         );
       } else {
-        this.message(this.$tc("app.main.installTotal", total), "info");
+        this.message(this.$tc("app.main.installTotal", total));
       }
 
       // system notification

@@ -110,6 +110,23 @@
           {{ $t("app.config.minimized" /* Start client minimized */) }}
         </checkbox>
       </div>
+
+      <p class="label subtitle">
+        {{ $t("app.config.autoupdater" /* Auto-Update */) }}
+      </p>
+      <div class="option">
+        <checkbox v-model="config.beta">
+          {{
+            $t("app.config.autoupdater.beta" /* Use Companion Beta channel */)
+          }}
+        </checkbox>
+        <br />
+        <v-button @click="checkUpdates">
+          {{
+            $t("app.config.autoupdater.check" /* Check for Companion Updates */)
+          }}
+        </v-button>
+      </div>
     </div>
     <div
       class="backup"
@@ -154,9 +171,9 @@
     </div>
     <br /><br />
     <div class="block">
-      <v-button @click="reset" type="reset">{{
-        $t("app.config.reset" /* Reset Settings and Data */)
-      }}</v-button>
+      <v-button @click="reset" type="reset">
+        {{ $t("app.config.reset" /* Reset Settings and Data */) }}
+      </v-button>
     </div>
     <br /><br />
   </div>
@@ -172,23 +189,9 @@ import { shell } from "electron";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import FileSelect from "./FileSelect.vue";
+import { wowDefaultPath } from "../libs/utilities";
 
 Vue.use(VTooltip);
-const regedit = require("regedit");
-
-let wowDefaultPath = "";
-if (process.platform === "win32") {
-  const key =
-    "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
-
-  regedit.list(key, (err, result) => {
-    if (err) throw err;
-    else {
-      // eslint-disable-next-line no-console
-      wowDefaultPath = path.join(result[key].values.InstallPath.value, "..");
-    }
-  });
-}
 
 const userDataPath = require("electron").remote.app.getPath("userData");
 
@@ -196,7 +199,7 @@ const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
 export default Vue.extend({
-  props: ["config"],
+  props: ["config", "updaterStatus"],
   data() {
     return {
       langs: [
@@ -210,9 +213,14 @@ export default Vue.extend({
       choiceIndex: this.config.account.choices.findIndex(
         account => account.name === this.config.account.value
       ),
-      defaultWOWPath: wowDefaultPath,
+      defaultWOWPath: "",
       defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
     };
+  },
+  mount() {
+    wowDefaultPath().then(value => {
+      this.defaultWOWPath = value;
+    });
   },
   components: {
     Checkbox,
@@ -226,6 +234,10 @@ export default Vue.extend({
     },
     openBackupDir() {
       shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
+    },
+    checkUpdates() {
+      if (this.updaterStatus !== "checking-for-update")
+        this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
     }
   },
   watch: {
@@ -274,6 +286,8 @@ export default Vue.extend({
                 });
                 this.config.wowpath.valided = true;
               });
+          } else {
+            console.log(`Error: ${err}`);
           }
         });
       }
@@ -304,6 +318,8 @@ export default Vue.extend({
               this.config.account.choices[
                 this.choiceIndex
               ].backup.active = true;
+          } else {
+            console.log(`Error: ${err}`);
           }
         });
       }

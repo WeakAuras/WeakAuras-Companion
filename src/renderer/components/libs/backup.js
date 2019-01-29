@@ -21,13 +21,11 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
   );
 
   if (totalsize > maxsize && maxsize >= 5 * 1024 * 1024) {
-    // eslint-disable-next-line no-console
     console.log(
       `backup size exceeded for account ${accountName} ${totalsize} > ${maxsize}`
     );
     // delete 2 last files
     files.slice(-2).forEach(v => {
-      // eslint-disable-next-line no-console
       console.log(`delete backup file ${path.join(dirPath, v.name)}`);
       fs.unlink(path.join(dirPath, v.name), err => {
         if (err) throw err;
@@ -49,7 +47,6 @@ function backupIfRequired(filename, config, accountName, callback) {
       });
       writeStream
         .on("close", () => {
-          // eslint-disable-next-line no-console
           console.log(`Backup: ${zipFile} saved`);
           deleteOldFiles(
             config.path,

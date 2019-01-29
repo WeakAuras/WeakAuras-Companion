@@ -19,11 +19,7 @@ export default {
       dialogOpen: false
     };
   },
-  props: {
-    path: null,
-    createDirectory: null,
-    defaultPath: null
-  },
+  props: ["path", "createDirectory", "defaultPath"],
   methods: {
     handleInputClick() {
       if (!this.dialogOpen) {

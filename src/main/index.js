@@ -16,7 +16,15 @@ const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 
 const store = new Store();
+const { beta } = store.get("config");
 
+if (process.platform === "darwin") {
+  autoUpdater.autoDownload = false;
+}
+
+autoUpdater.allowDowngrade = true;
+autoUpdater.allowPrerelease =
+  (autoUpdater.allowPrerelease && beta === null) || beta === true;
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
@@ -54,6 +62,7 @@ function createWindow() {
     minWidth: 900,
     frame: false,
     transparent: true,
+    backgroundColor: "#00ffffff",
     resizable: true,
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
@@ -84,6 +93,13 @@ function createWindow() {
 
   mainWindow.on("closed", () => {
     mainWindow = null;
+  });
+
+  mainWindow.webContents.once("dom-ready", () => {
+    mainWindow.webContents.send(
+      "setAllowPrerelease",
+      autoUpdater.allowPrerelease
+    );
   });
 
   tray = new Tray(iconpath);
@@ -138,7 +154,7 @@ function createWindow() {
   });
 
   electronLocalshortcut.register(mainWindow, "Ctrl+Shift+I", () => {
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools({ mode: "detach" });
   });
 }
 
@@ -201,6 +217,10 @@ ipcMain.on("close", () => {
 ipcMain.on("installUpdates", () => {
   autoUpdater.quitAndInstall();
 });
+ipcMain.on("checkUpdates", isBeta => {
+  autoUpdater.allowPrerelease = isBeta === true;
+  autoUpdater.checkForUpdatesAndNotify();
+});
 ipcMain.on("windowMoving", (e, { mouseX, mouseY }) => {
   const { x, y } = screen.getCursorScreenPoint();
   mainWindow.setPosition(x - mouseX, y - mouseY);
@@ -212,9 +232,9 @@ autoUpdater.on("checking-for-update", () => {
     mainWindow.webContents.send("updaterHandler", "checking-for-update");
   }
 });
-autoUpdater.on("update-available", () => {
+autoUpdater.on("update-available", info => {
   if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send("updaterHandler", "update-available");
+    mainWindow.webContents.send("updaterHandler", "update-available", info);
   }
 });
 autoUpdater.on("update-not-available", () => {
