@@ -17,6 +17,9 @@ const Store = require("electron-store");
 
 const store = new Store();
 
+if (process.platform === "darwin") {
+  autoUpdater.autoDownload = false;
+}
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
