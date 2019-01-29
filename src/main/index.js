@@ -25,7 +25,6 @@ if (process.platform === "darwin") {
 autoUpdater.allowDowngrade = true;
 autoUpdater.allowPrerelease =
   (autoUpdater.allowPrerelease && beta === null) || beta === true;
-global.allowPrerelease = autoUpdater.allowPrerelease;
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
@@ -94,6 +93,13 @@ function createWindow() {
 
   mainWindow.on("closed", () => {
     mainWindow = null;
+  });
+
+  mainWindow.webContents.once("dom-ready", () => {
+    mainWindow.webContents.send(
+      "setAllowPrerelease",
+      autoUpdater.allowPrerelease
+    );
   });
 
   tray = new Tray(iconpath);

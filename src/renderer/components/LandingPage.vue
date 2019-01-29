@@ -150,7 +150,6 @@ import Report from "./UI/Report.vue";
 import Stash from "./UI/Stash.vue";
 
 const userDataPath = require("electron").remote.app.getPath("userData");
-const allowPrerelease = require("electron").remote.getGlobal("allowPrerelease");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
@@ -191,7 +190,7 @@ const defaultValues = {
     notify: false,
     lang: "en",
     showAllAuras: false,
-    beta: allowPrerelease,
+    beta: null,
     internalVersion
   },
   schedule: {
@@ -278,6 +277,9 @@ export default Vue.extend({
     deep: true
   },
   mounted() {
+    this.$electron.ipcRenderer.on("setAllowPrerelease", allowPrerelease => {
+      this.beta = allowPrerelease;
+    });
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
