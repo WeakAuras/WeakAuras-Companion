@@ -120,12 +120,6 @@
             $t("app.config.autoupdater.beta" /* Use Companion Beta channel */)
           }}
         </checkbox>
-        <br />
-        <v-button @click="checkUpdates">
-          {{
-            $t("app.config.autoupdater.check" /* Check for Companion Updates */)
-          }}
-        </v-button>
       </div>
     </div>
     <div
@@ -199,7 +193,7 @@ const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
 export default Vue.extend({
-  props: ["config", "updaterStatus"],
+  props: ["config"],
   data() {
     return {
       langs: [
@@ -234,10 +228,6 @@ export default Vue.extend({
     },
     openBackupDir() {
       shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
-    },
-    checkUpdates() {
-      if (this.updaterStatus !== "checking-for-update")
-        this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
     }
   },
   watch: {
@@ -327,6 +317,10 @@ export default Vue.extend({
     // eslint-disable-next-line func-names
     "config.lang": function() {
       this.$i18n.locale = this.config.lang;
+    },
+    // eslint-disable-next-line func-names
+    "config.beta": function() {
+      this.$parent.checkCompanionUpdates();
     }
   }
 });

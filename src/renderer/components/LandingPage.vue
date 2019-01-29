@@ -65,11 +65,7 @@
             ></Aura>
           </div>
         </div>
-        <Config
-          v-if="configStep === 1"
-          :config="config"
-          :updaterStatus="updater.status"
-        ></Config>
+        <Config v-if="configStep === 1" :config="config"></Config>
         <help v-if="configStep === 2"></help>
         <about v-if="configStep === 3"></about>
       </main>
@@ -99,7 +95,9 @@
               )
             "
             v-tooltip="
-              this.$t('app.main.installUpdate' /* Install client update */)
+              `${this.$t(
+                'app.main.installUpdate' /* Install client update */
+              )}: v${updater.version}`
             "
             >system_update_alt
           </i>
@@ -108,11 +106,19 @@
             class="material-icons update-available"
             @click="installUpdates"
             v-tooltip="
-              this.$t('app.main.installUpdate' /* Install client update */)
+              `${this.$t(
+                'app.main.installUpdate' /* Install client update */
+              )}: v${updater.version}`
             "
             >system_update_alt
           </i>
-          <div v-if="updater.status === 'checking-for-update'" class="updating">
+          <div
+            v-if="
+              updater.status === 'checking-for-update' ||
+                (updater.status === 'update-available' && !isMac)
+            "
+            class="updating"
+          >
             <i class="material-icons icon">sync</i>
           </div>
           <div v-if="updater.status === 'download-progress'" class="updating">
@@ -204,7 +210,8 @@ const defaultValues = {
   updater: {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
     progress: null,
-    scheduleId: null // for 24h auto-updater
+    scheduleId: null, // for 2h auto-updater
+    version: null
   },
   isMac: process.platform === "darwin"
 };
@@ -277,9 +284,12 @@ export default Vue.extend({
     deep: true
   },
   mounted() {
-    this.$electron.ipcRenderer.on("setAllowPrerelease", allowPrerelease => {
-      this.beta = allowPrerelease;
-    });
+    this.$electron.ipcRenderer.on(
+      "setAllowPrerelease",
+      (event, allowPrerelease) => {
+        this.config.beta = allowPrerelease;
+      }
+    );
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
@@ -297,6 +307,10 @@ export default Vue.extend({
     });
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
       console.log(`updaterHandler: ${status} - ${JSON.stringify(arg)}`);
+      if (status === "checkForUpdates") {
+        this.updater.version = arg.updateInfo.version;
+        return;
+      }
       this.updater.status = status;
       if (status === "download-progress") {
         this.updater.progress = Math.floor(arg.percent);
@@ -439,11 +453,11 @@ export default Vue.extend({
   methods: {
     checkCompanionUpdates() {
       this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
-      // check for app updates in 24 hours
+      // check for app updates in 2 hours
       if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
       this.updater.scheduleId = setTimeout(
         this.checkCompanionUpdates,
-        1000 * 3600 * 24
+        1000 * 3600 * 2
       );
     },
     onMouseDown(e) {
@@ -465,7 +479,9 @@ export default Vue.extend({
     },
     reset() {
       store.clear();
+      const { beta } = this.config;
       this.config = JSON.parse(JSON.stringify(defaultValues.config));
+      this.config.beta = beta;
       wowDefaultPath().then(value => {
         this.config.wowpath.value = value;
       });
