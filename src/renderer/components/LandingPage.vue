@@ -65,7 +65,11 @@
             ></Aura>
           </div>
         </div>
-        <Config v-if="configStep === 1" :config="config"></Config>
+        <Config
+          v-if="configStep === 1"
+          :config="config"
+          :updaterStatus="updater.status"
+        ></Config>
         <help v-if="configStep === 2"></help>
         <about v-if="configStep === 3"></about>
       </main>
@@ -130,6 +134,7 @@ import Report from "./UI/Report.vue";
 import Stash from "./UI/Stash.vue";
 
 const userDataPath = require("electron").remote.app.getPath("userData");
+const allowPrerelease = require("electron").remote.getGlobal("allowPrerelease");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");
@@ -170,6 +175,7 @@ const defaultValues = {
     notify: false,
     lang: "en",
     showAllAuras: false,
+    beta: allowPrerelease,
     internalVersion
   },
   schedule: {
@@ -182,7 +188,8 @@ const defaultValues = {
   updateToast: null,
   updater: {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
-    progress: null
+    progress: null,
+    scheduleId: null // for 24h auto-updater
   }
 };
 
@@ -409,9 +416,13 @@ export default Vue.extend({
   },
   methods: {
     checkCompanionUpdates() {
-      this.$electron.ipcRenderer.send("checkUpdates");
-      // check for app updates in 2 hours
-      setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
+      this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
+      // check for app updates in 24 hours
+      if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
+      this.updater.scheduleId = setTimeout(
+        this.checkCompanionUpdates,
+        1000 * 3600 * 24
+      );
     },
     onMouseDown(e) {
       mouseX = e.clientX;

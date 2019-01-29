@@ -110,6 +110,23 @@
           {{ $t("app.config.minimized" /* Start client minimized */) }}
         </checkbox>
       </div>
+
+      <p class="label subtitle">
+        {{ $t("app.config.autoupdater" /* Auto-Update */) }}
+      </p>
+      <div class="option">
+        <checkbox v-model="config.beta">
+          {{
+            $t("app.config.autoupdater.beta" /* Use Companion Beta channel */)
+          }}
+        </checkbox>
+        <br />
+        <v-button @click="checkUpdates">
+          {{
+            $t("app.config.autoupdater.check" /* Check for Companion Updates */)
+          }}
+        </v-button>
+      </div>
     </div>
     <div
       class="backup"
@@ -154,9 +171,9 @@
     </div>
     <br /><br />
     <div class="block">
-      <v-button @click="reset" type="reset">{{
-        $t("app.config.reset" /* Reset Settings and Data */)
-      }}</v-button>
+      <v-button @click="reset" type="reset">
+        {{ $t("app.config.reset" /* Reset Settings and Data */) }}
+      </v-button>
     </div>
     <br /><br />
   </div>
@@ -182,7 +199,7 @@ const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
 export default Vue.extend({
-  props: ["config"],
+  props: ["config", "updaterStatus"],
   data() {
     return {
       langs: [
@@ -217,6 +234,10 @@ export default Vue.extend({
     },
     openBackupDir() {
       shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
+    },
+    checkUpdates() {
+      if (this.updaterStatus !== "checking-for-update")
+        this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
     }
   },
   watch: {
