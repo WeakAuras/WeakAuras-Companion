@@ -16,14 +16,15 @@ const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 
 const store = new Store();
-const { beta } = store.get("config");
+const config = store.get("config");
 let cancellationToken;
 
 if (process.platform === "darwin") {
   autoUpdater.autoDownload = false;
 }
 autoUpdater.allowDowngrade = true;
-autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || beta === true;
+autoUpdater.allowPrerelease =
+  autoUpdater.allowPrerelease || (config && config.beta === true);
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
