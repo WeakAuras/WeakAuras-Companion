@@ -59,7 +59,12 @@
       <p class="label">
         {{ $t("app.config.wagoAccount" /* Set Wago Account (optional) */) }}
       </p>
-      <input type="text" v-model="wagoUsername" size="11" />
+      <input
+        type="text"
+        v-model="wagoUsername"
+        size="11"
+        v-on:keyup.enter="config.wagoUsername = wagoUsername"
+      />
       <v-button @click="config.wagoUsername = wagoUsername">{{
         $t("app.config.ok" /* OK */)
       }}</v-button>
