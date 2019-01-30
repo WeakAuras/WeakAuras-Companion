@@ -461,14 +461,18 @@ export default Vue.extend({
       );
     },
     onMouseDown(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      document.addEventListener("mouseup", this.onMouseUp);
-      requestAnimationFrame(this.moveWindow);
+      if (e.button === 0) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        document.addEventListener("mouseup", this.onMouseUp);
+        requestAnimationFrame(this.moveWindow);
+      }
     },
-    onMouseUp() {
-      document.removeEventListener("mouseup", this.onMouseUp);
-      cancelAnimationFrame(animationId);
+    onMouseUp(e) {
+      if (e.button === 0) {
+        document.removeEventListener("mouseup", this.onMouseUp);
+        cancelAnimationFrame(animationId);
+      }
     },
     moveWindow() {
       this.$electron.ipcRenderer.send("windowMoving", {
