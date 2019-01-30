@@ -60,6 +60,9 @@
         "node_modules/regedit/vbs/*"
       ]
     },
+    "nsis": {
+      "deleteAppDataOnUninstall": true
+    },
     "linux": {
       "icon": "build/icons"
     }
