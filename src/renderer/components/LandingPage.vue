@@ -562,7 +562,7 @@ export default Vue.extend({
         }
         options.className = options.className
           ? `${options.className} multiline`
-          : " multiline";
+          : "multiline";
         msg = div;
       } else {
         msg = text;
