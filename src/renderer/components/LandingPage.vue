@@ -315,14 +315,17 @@ export default Vue.extend({
       if (status === "download-progress") {
         this.updater.progress = Math.floor(arg.percent);
       }
-      if (status === "update-available" && this.isMac) {
+      if (status === "update-available" && this.isMac && !this.updateToast) {
         // show download toast on Macs
-        this.message(
+        this.updateToast = this.message(
           this.$t("app.main.updatefound" /* Companion Update available */),
           null,
           {
             className: "update",
-            duration: null
+            duration: null,
+            onComplete: () => {
+              this.updateToast = null;
+            }
           }
         );
       }
@@ -338,7 +341,7 @@ export default Vue.extend({
       }
       if (status === "update-downloaded") {
         if (!this.updateToast) {
-          this.message(
+          this.updateToast = this.message(
             this.$t("app.main.updatedownload" /* Client update downloaded */),
             null,
             {
