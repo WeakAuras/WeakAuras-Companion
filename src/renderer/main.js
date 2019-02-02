@@ -15,7 +15,7 @@ const zhcn = require("../../i18n/zh-cn.json");
 if (!process.env.IS_WEB) {
   Vue.use(VueElectron);
 }
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 15000;
 
 Vue.prototype.$http = axios;
 Vue.http = Vue.prototype.$http;
