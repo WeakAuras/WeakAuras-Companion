@@ -306,7 +306,7 @@ export default Vue.extend({
       }
     });
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
-      console.log(`updaterHandler: ${status} - ${JSON.stringify(arg)}`);
+      console.log(`updaterHandler: ${status}`);
       if (status === "checkForUpdates") {
         this.updater.version = arg.updateInfo.version;
         return;
@@ -637,6 +637,7 @@ export default Vue.extend({
                     ],
                     "error"
                   );
+                  console.log(JSON.stringify(err2));
                 });
             });
           })
@@ -650,6 +651,7 @@ export default Vue.extend({
               ],
               "error"
             );
+            console.log(JSON.stringify(error));
           });
       }
     },
@@ -671,6 +673,7 @@ export default Vue.extend({
             `An error ocurred reading file: ${err.message}`,
             "error"
           );
+          console.log(JSON.stringify(err));
           this.fetching = false;
           return;
         }
@@ -957,6 +960,7 @@ export default Vue.extend({
                   ],
                   "error"
                 );
+                console.log(JSON.stringify(error));
                 this.fetching = false;
                 // schedule in 30mn on error
                 this.schedule.id = setTimeout(
@@ -1002,6 +1006,7 @@ export default Vue.extend({
               ],
               "error"
             );
+            console.log(JSON.stringify(error));
             this.fetching = false;
             // schedule in 30mn on error
             this.schedule.id = setTimeout(
@@ -1033,6 +1038,7 @@ export default Vue.extend({
               ),
               "error"
             );
+            console.log(JSON.stringify(err));
             throw new Error("errorCantCreateAddon");
           }
           if (!err) {
