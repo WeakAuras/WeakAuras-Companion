@@ -287,7 +287,7 @@ export default Vue.extend({
     this.$electron.ipcRenderer.on(
       "setAllowPrerelease",
       (event, allowPrerelease) => {
-        this.config.beta = allowPrerelease;
+        this.$set(this.config, "beta", allowPrerelease);
       }
     );
     // refresh on event (tray icon)
