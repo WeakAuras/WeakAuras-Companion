@@ -4,7 +4,6 @@ import VueI18n from "vue-i18n";
 import VueElectron from "vue-electron";
 import Toasted from "vue-toasted";
 import App from "./App.vue";
-import router from "./router";
 
 const en = require("../../i18n/en.json");
 const fr = require("../../i18n/fr.json");
@@ -12,17 +11,15 @@ const de = require("../../i18n/de.json");
 const ru = require("../../i18n/ru.json");
 const zhcn = require("../../i18n/zh-cn.json");
 
-if (!process.env.IS_WEB) {
-  Vue.use(VueElectron);
-}
+Vue.use(VueElectron);
+Vue.use(Toasted);
+Vue.use(VueI18n);
+
 axios.defaults.timeout = 15000;
 
 Vue.prototype.$http = axios;
 Vue.http = Vue.prototype.$http;
 Vue.config.productionTip = false;
-
-Vue.use(Toasted);
-Vue.use(VueI18n);
 
 const defaultPluralRules = VueI18n.prototype.getChoiceIndex;
 
@@ -76,7 +73,6 @@ const i18n = new VueI18n({
 /* eslint-disable no-new */
 new Vue({
   components: { App },
-  router,
   i18n,
   template: "<App/>"
 }).$mount("#app");
