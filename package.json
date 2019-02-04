@@ -103,7 +103,7 @@
     "@babel/preset-env": "7.3.0",
     "@babel/register": "7.0.0",
     "@types/jest": "^23.3.13",
-    "ajv": "^6.7.0",
+    "ajv": "^6.8.1",
     "babel-loader": "8.0.5",
     "babili-webpack-plugin": "^0.1.2",
     "cfonts": "^2.4.0",
