@@ -1,10 +1,15 @@
 <template>
-  <div id="app"><router-view></router-view></div>
+  <div id="app"><landing-page></landing-page></div>
 </template>
 
 <script>
+import LandingPage from "@/components/LandingPage";
+
 export default {
-  name: "wa-update"
+  name: "wa-update",
+  components: {
+    LandingPage
+  }
 };
 </script>
 

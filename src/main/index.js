@@ -16,15 +16,15 @@ const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 
 const store = new Store();
-const { beta } = store.get("config");
+const config = store.get("config");
+let cancellationToken;
 
 if (process.platform === "darwin") {
   autoUpdater.autoDownload = false;
 }
-
 autoUpdater.allowDowngrade = true;
 autoUpdater.allowPrerelease =
-  (autoUpdater.allowPrerelease && beta === null) || beta === true;
+  autoUpdater.allowPrerelease || (config && config.beta === true);
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
@@ -113,7 +113,17 @@ function createWindow() {
     {
       label: "Check for Companion Updates",
       click: () => {
-        autoUpdater.checkForUpdatesAndNotify();
+        if (cancellationToken) {
+          cancellationToken.cancel();
+        }
+        autoUpdater.checkForUpdatesAndNotify().then(UpdateCheckResult => {
+          mainWindow.webContents.send(
+            "updaterHandler",
+            "checkForUpdates",
+            UpdateCheckResult
+          );
+          ({ cancellationToken } = UpdateCheckResult);
+        });
       }
     },
     { type: "separator" },
@@ -175,8 +185,16 @@ if (!app.requestSingleInstanceLock()) {
 
   app.on("ready", () => {
     createWindow();
-    if (process.env.NODE_ENV === "production")
-      autoUpdater.checkForUpdatesAndNotify();
+    if (process.env.NODE_ENV === "production") {
+      autoUpdater.checkForUpdatesAndNotify().then(UpdateCheckResult => {
+        mainWindow.webContents.send(
+          "updaterHandler",
+          "checkForUpdates",
+          UpdateCheckResult
+        );
+        ({ cancellationToken } = UpdateCheckResult);
+      });
+    }
   });
 }
 
@@ -217,9 +235,19 @@ ipcMain.on("close", () => {
 ipcMain.on("installUpdates", () => {
   autoUpdater.quitAndInstall();
 });
-ipcMain.on("checkUpdates", isBeta => {
+ipcMain.on("checkUpdates", (event, isBeta) => {
+  if (cancellationToken) {
+    cancellationToken.cancel();
+  }
   autoUpdater.allowPrerelease = isBeta === true;
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdatesAndNotify().then(UpdateCheckResult => {
+    mainWindow.webContents.send(
+      "updaterHandler",
+      "checkForUpdates",
+      UpdateCheckResult
+    );
+    ({ cancellationToken } = UpdateCheckResult);
+  });
 });
 ipcMain.on("windowMoving", (e, { mouseX, mouseY }) => {
   const { x, y } = screen.getCursorScreenPoint();

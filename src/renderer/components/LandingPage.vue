@@ -65,11 +65,7 @@
             ></Aura>
           </div>
         </div>
-        <Config
-          v-if="configStep === 1"
-          :config="config"
-          :updaterStatus="updater.status"
-        ></Config>
+        <Config v-if="configStep === 1" :config="config"></Config>
         <help v-if="configStep === 2"></help>
         <about v-if="configStep === 3"></about>
       </main>
@@ -99,7 +95,9 @@
               )
             "
             v-tooltip="
-              this.$t('app.main.installUpdate' /* Install client update */)
+              `${this.$t(
+                'app.main.installUpdate' /* Install client update */
+              )}: v${updater.version}`
             "
             >system_update_alt
           </i>
@@ -108,11 +106,19 @@
             class="material-icons update-available"
             @click="installUpdates"
             v-tooltip="
-              this.$t('app.main.installUpdate' /* Install client update */)
+              `${this.$t(
+                'app.main.installUpdate' /* Install client update */
+              )}: v${updater.version}`
             "
             >system_update_alt
           </i>
-          <div v-if="updater.status === 'checking-for-update'" class="updating">
+          <div
+            v-if="
+              updater.status === 'checking-for-update' ||
+                (updater.status === 'update-available' && !isMac)
+            "
+            class="updating"
+          >
             <i class="material-icons icon">sync</i>
           </div>
           <div v-if="updater.status === 'download-progress'" class="updating">
@@ -204,7 +210,8 @@ const defaultValues = {
   updater: {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
     progress: null,
-    scheduleId: null // for 24h auto-updater
+    scheduleId: null, // for 2h auto-updater
+    version: null
   },
   isMac: process.platform === "darwin"
 };
@@ -277,9 +284,12 @@ export default Vue.extend({
     deep: true
   },
   mounted() {
-    this.$electron.ipcRenderer.on("setAllowPrerelease", allowPrerelease => {
-      this.beta = allowPrerelease;
-    });
+    this.$electron.ipcRenderer.on(
+      "setAllowPrerelease",
+      (event, allowPrerelease) => {
+        this.$set(this.config, "beta", allowPrerelease);
+      }
+    );
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
@@ -296,19 +306,26 @@ export default Vue.extend({
       }
     });
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
-      console.log(`updaterHandler: ${status} - ${JSON.stringify(arg)}`);
+      console.log(`updaterHandler: ${status}`);
+      if (status === "checkForUpdates") {
+        this.updater.version = arg.updateInfo.version;
+        return;
+      }
       this.updater.status = status;
       if (status === "download-progress") {
         this.updater.progress = Math.floor(arg.percent);
       }
-      if (status === "update-available" && this.isMac) {
+      if (status === "update-available" && this.isMac && !this.updateToast) {
         // show download toast on Macs
-        this.message(
+        this.updateToast = this.message(
           this.$t("app.main.updatefound" /* Companion Update available */),
           null,
           {
             className: "update",
-            duration: null
+            duration: null,
+            onComplete: () => {
+              this.updateToast = null;
+            }
           }
         );
       }
@@ -324,7 +341,7 @@ export default Vue.extend({
       }
       if (status === "update-downloaded") {
         if (!this.updateToast) {
-          this.message(
+          this.updateToast = this.message(
             this.$t("app.main.updatedownload" /* Client update downloaded */),
             null,
             {
@@ -439,22 +456,26 @@ export default Vue.extend({
   methods: {
     checkCompanionUpdates() {
       this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
-      // check for app updates in 24 hours
+      // check for app updates in 2 hours
       if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
       this.updater.scheduleId = setTimeout(
         this.checkCompanionUpdates,
-        1000 * 3600 * 24
+        1000 * 3600 * 2
       );
     },
     onMouseDown(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      document.addEventListener("mouseup", this.onMouseUp);
-      requestAnimationFrame(this.moveWindow);
+      if (e.button === 0) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        document.addEventListener("mouseup", this.onMouseUp);
+        requestAnimationFrame(this.moveWindow);
+      }
     },
-    onMouseUp() {
-      document.removeEventListener("mouseup", this.onMouseUp);
-      cancelAnimationFrame(animationId);
+    onMouseUp(e) {
+      if (e.button === 0) {
+        document.removeEventListener("mouseup", this.onMouseUp);
+        cancelAnimationFrame(animationId);
+      }
     },
     moveWindow() {
       this.$electron.ipcRenderer.send("windowMoving", {
@@ -465,7 +486,9 @@ export default Vue.extend({
     },
     reset() {
       store.clear();
+      const { beta } = this.config;
       this.config = JSON.parse(JSON.stringify(defaultValues.config));
+      this.config.beta = beta;
       wowDefaultPath().then(value => {
         this.config.wowpath.value = value;
       });
@@ -539,7 +562,7 @@ export default Vue.extend({
         }
         options.className = options.className
           ? `${options.className} multiline`
-          : " multiline";
+          : "multiline";
         msg = div;
       } else {
         msg = text;
@@ -614,6 +637,7 @@ export default Vue.extend({
                     ],
                     "error"
                   );
+                  console.log(JSON.stringify(err2));
                 });
             });
           })
@@ -627,6 +651,7 @@ export default Vue.extend({
               ],
               "error"
             );
+            console.log(JSON.stringify(error));
           });
       }
     },
@@ -648,6 +673,7 @@ export default Vue.extend({
             `An error ocurred reading file: ${err.message}`,
             "error"
           );
+          console.log(JSON.stringify(err));
           this.fetching = false;
           return;
         }
@@ -777,6 +803,7 @@ export default Vue.extend({
         // remove orphans
         for (let index = this.auras.length - 1; index > -1; index -= 1) {
           if (slugs.indexOf(this.auras[index].slug) === -1) {
+            console.log(`remove orphan ${this.auras[index].slug}`);
             this.auras.splice(index, 1);
           }
         }
@@ -933,6 +960,7 @@ export default Vue.extend({
                   ],
                   "error"
                 );
+                console.log(JSON.stringify(error));
                 this.fetching = false;
                 // schedule in 30mn on error
                 this.schedule.id = setTimeout(
@@ -941,11 +969,14 @@ export default Vue.extend({
                 );
               })
               .then(() => {
+                // console.log(`fetchAuras: ${JSON.stringify(fetchAuras)}`);
+                // console.log(`received: ${JSON.stringify(received)}`);
                 fetchAuras.forEach(toFetch => {
                   if (received.indexOf(toFetch) === -1) {
                     // no data received for this aura => remove from list
                     this.auras.forEach((aura, index) => {
                       if (aura && aura.slug === toFetch) {
+                        console.log(`no data received for ${aura.slug}`);
                         this.auras.splice(index, 1);
                       }
                     });
@@ -975,6 +1006,7 @@ export default Vue.extend({
               ],
               "error"
             );
+            console.log(JSON.stringify(error));
             this.fetching = false;
             // schedule in 30mn on error
             this.schedule.id = setTimeout(
@@ -1006,6 +1038,7 @@ export default Vue.extend({
               ),
               "error"
             );
+            console.log(JSON.stringify(err));
             throw new Error("errorCantCreateAddon");
           }
           if (!err) {
