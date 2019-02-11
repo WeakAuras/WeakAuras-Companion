@@ -106,7 +106,7 @@
     "ajv": "^6.8.1",
     "babel-loader": "8.0.5",
     "babili-webpack-plugin": "^0.1.2",
-    "cfonts": "^2.4.0",
+    "cfonts": "^2.4.2",
     "chalk": "^2.4.2",
     "copy-webpack-plugin": "^4.6.0",
     "cross-env": "^5.2.0",
