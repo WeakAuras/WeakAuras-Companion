@@ -828,6 +828,7 @@ export default Vue.extend({
           );
           this.fetching = false;
           this.schedule.lastUpdate = new Date();
+          if (this.schedule.id) clearTimeout(this.schedule.id);
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
           return;
         }
@@ -963,6 +964,7 @@ export default Vue.extend({
                 console.log(JSON.stringify(error));
                 this.fetching = false;
                 // schedule in 30mn on error
+                if (this.schedule.id) clearTimeout(this.schedule.id);
                 this.schedule.id = setTimeout(
                   this.compareSVwithWago,
                   1000 * 60 * 30
@@ -989,6 +991,7 @@ export default Vue.extend({
                   this.fetching = false;
                   this.schedule.lastUpdate = new Date();
                   // schedule in 1 hour
+                  if (this.schedule.id) clearTimeout(this.schedule.id);
                   this.schedule.id = setTimeout(
                     this.compareSVwithWago,
                     1000 * 60 * 60
@@ -1009,6 +1012,7 @@ export default Vue.extend({
             console.log(JSON.stringify(error));
             this.fetching = false;
             // schedule in 30mn on error
+            if (this.schedule.id) clearTimeout(this.schedule.id);
             this.schedule.id = setTimeout(
               this.compareSVwithWago,
               1000 * 60 * 30
