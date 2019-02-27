@@ -219,6 +219,9 @@ export default Vue.extend({
   mount() {
     wowDefaultPath().then(value => {
       this.defaultWOWPath = value;
+      if (this.config.wowpath.value === "") {
+        this.config.wowpath.value = value;
+      }
     });
   },
   components: {
