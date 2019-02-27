@@ -409,7 +409,7 @@ export default Vue.extend({
       return this.auras
         .filter(
           aura =>
-            !!aura.topLevel &&
+            (!!aura.topLevel || aura.regionType !== "group") &&
             !(
               this.config.ignoreOwnAuras &&
               aura.author === this.config.wagoUsername
@@ -423,7 +423,7 @@ export default Vue.extend({
           !!aura.encoded &&
           aura.wagoVersion > aura.version &&
           !aura.ignoreWagoUpdate &&
-          !!aura.topLevel &&
+          (!!aura.topLevel || aura.regionType !== "group") &&
           !(
             this.config.ignoreOwnAuras &&
             aura.author === this.config.wagoUsername
@@ -757,7 +757,8 @@ export default Vue.extend({
                     encoded: null,
                     ids: [id],
                     topLevel: topLevel ? id : null,
-                    uids: uid ? [uid] : []
+                    uids: uid ? [uid] : [],
+                    regionType: null
                   });
                 } else {
                   // there is already an aura with same "slug"
@@ -768,6 +769,9 @@ export default Vue.extend({
                       }
                       if (typeof aura.uids === "undefined") {
                         this.auras[index].uids = [];
+                      }
+                      if (typeof aura.regionType === "undefined") {
+                        this.auras[index].regionType = null;
                       }
                       if (topLevel) this.auras[index].topLevel = id;
                       // add aura id to "ids" if necessary
@@ -812,7 +816,7 @@ export default Vue.extend({
         const fetchAuras = this.auras
           .filter(
             aura =>
-              !!aura.topLevel &&
+              // !!aura.topLevel &&
               !(
                 this.config.ignoreOwnAuras &&
                 !!aura.author &&
@@ -866,9 +870,11 @@ export default Vue.extend({
                   this.auras[index].wagoSemver = wagoData.versionString;
                   this.auras[index].changelog = wagoData.changelog;
                   this.auras[index].modified = new Date(wagoData.modified);
+                  this.auras[index].regionType = wagoData.regionType;
                   // Check if encoded string needs to be fetched
                   if (
                     !aura.ignoreWagoUpdate &&
+                    (aura.topLevel || aura.regionType !== "group") &&
                     wagoData.version > aura.version &&
                     (aura.encoded === null ||
                       (!!aura.wagoVersion &&
