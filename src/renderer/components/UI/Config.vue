@@ -71,6 +71,21 @@
       <i v-if="config.wagoUsername" class="material-icons green">
         check_circle_outline
       </i>
+      <p class="label">
+        {{ $t("app.config.wagoApiKey" /* Set Wago API Key (optional) */) }}
+      </p>
+      <input
+        type="text"
+        v-model="wagoApiKey"
+        size="11"
+        v-on:keyup.enter="config.wagoApiKey = wagoApiKey"
+      />
+      <v-button @click="config.wagoApiKey = wagoApiKey">{{
+        $t("app.config.ok" /* OK */)
+      }}</v-button>
+      <i v-if="config.wagoApiKey" class="material-icons green">
+        check_circle_outline
+      </i>
       <br /><br />
       <checkbox v-model="config.ignoreOwnAuras">
         {{
@@ -209,6 +224,7 @@ export default Vue.extend({
         { value: "ru", text: "Русский (ru)" }
       ],
       wagoUsername: this.config.wagoUsername,
+      wagoApiKey: this.config.wagoApiKey,
       choiceIndex: this.config.account.choices.findIndex(
         account => account.name === this.config.account.value
       ),

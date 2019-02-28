@@ -28,6 +28,7 @@
   "app.config.showallauras": "Auras ohne Updates zeigen",
   "app.config.startup": "Start",
   "app.config.wagoAccount": "Wago Account auswählen (optional)",
+  "app.config.wagoApiKey": "Set Wago API Key (optional)",
   "app.config.wagoSettings": "Wago Einstellungen",
   "app.fileselect.backupfolder": "Backup Ordner",
   "app.fileselect.wowfolder": "World of Warcraft Ordner",

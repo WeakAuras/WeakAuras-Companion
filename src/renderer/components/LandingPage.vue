@@ -190,6 +190,7 @@ const defaultValues = {
       choices: []
     },
     wagoUsername: null, // ignore your own auras
+    wagoApiKey: null,
     ignoreOwnAuras: true,
     autostart: false,
     startminimize: false,
@@ -532,6 +533,9 @@ export default Vue.extend({
             );
           }
         });
+        // add field for wagoApiKey
+        if (typeof this.config.wagoApiKey === "undefined")
+          this.$set(this.config, "wagoApiKey", null);
       }
     },
     message(text, type, overrideOptions = {}) {
@@ -585,7 +589,8 @@ export default Vue.extend({
                 "script-src",
                 "self",
                 "https://data.wago.io"
-              ]
+              ],
+              "api-key": this.config.wagoApiKey
             },
             crossdomain: true
           })
@@ -611,7 +616,8 @@ export default Vue.extend({
                       "script-src",
                       "self",
                       "https://data.wago.io"
-                    ]
+                    ],
+                    "api-key": this.config.wagoApiKey
                   },
                   crossdomain: true
                 })
