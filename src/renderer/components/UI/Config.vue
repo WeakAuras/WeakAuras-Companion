@@ -86,8 +86,14 @@
       <v-button @click="config.wagoApiKey = wagoApiKey">{{
         $t("app.config.ok" /* OK */)
       }}</v-button>
-      <i v-if="config.wagoApiKey" class="material-icons green">
+      <i v-if="config.wagoApiKey && checkApiKey()" class="material-icons green">
         check_circle_outline
+      </i>
+      <i
+        v-else-if="config.wagoApiKey && !checkApiKey()"
+        class="material-icons red"
+      >
+        error_outline
       </i>
       <br /><br />
       <checkbox v-model="config.ignoreOwnAuras">
@@ -255,6 +261,9 @@ export default Vue.extend({
     },
     openBackupDir() {
       shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
+    },
+    checkApiKey() {
+      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
     }
   },
   watch: {
