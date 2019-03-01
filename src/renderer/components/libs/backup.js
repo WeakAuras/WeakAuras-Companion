@@ -13,7 +13,7 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
       name: v,
       stats: fs.statSync(path.join(dirPath, v))
     }))
-    .sort((a, b) => a.stats.mtime.getTime() - b.stats.mtime.getTime());
+    .sort((a, b) => b.stats.mtime.getTime() - a.stats.mtime.getTime());
 
   const totalsize = files.reduce(
     (accumulator, currentValue) => accumulator + currentValue.stats.size,
