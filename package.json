@@ -140,7 +140,7 @@
     "typescript": "^3.3.3333",
     "url-loader": "^1.0.1",
     "vue-html-loader": "^1.2.4",
-    "vue-loader": "^15.6.4",
+    "vue-loader": "^15.7.0",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.7",
     "webpack": "^4.29.5",
