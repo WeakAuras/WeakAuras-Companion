@@ -117,7 +117,7 @@
     "electron-builder": "^20.38.5",
     "electron-debug": "^2.1.0",
     "electron-devtools-installer": "^2.2.4",
-    "eslint": "^5.14.1",
+    "eslint": "^5.15.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-formatter-friendly": "^6.0.0",
