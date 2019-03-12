@@ -4719,10 +4719,10 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-hasha@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/hasha/-/hasha-3.0.0.tgz#52a32fab8569d41ca69a61ff1a214f8eb7c8bd39"
-  integrity sha1-UqMvq4Vp1BymmmH/GiFPjrfIvTk=
+hasha@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/hasha/-/hasha-4.0.0.tgz#42395b2f43e43721fa9a15fad09eb207cd67891b"
+  integrity sha512-l1Ly05OPK1xy9c1TEJafatzvA8KaDuiPh1Zai+OURc8U6y2BHS6keIV6mPhYJezgVIaAl8qU49mPC2IrlNLxow==
   dependencies:
     is-stream "^1.0.1"
 
