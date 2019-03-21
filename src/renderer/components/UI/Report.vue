@@ -3,22 +3,22 @@
     <div class="container">
       <h1>{{ $t("app.report.title" /* Report a bug */) }}</h1>
       <div class="links">
-        <v-button type="link">
+        <Button type="link">
           <a
             href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
             target="_blank"
           >
             {{ $t("app.report.companion" /* Companion */) }}
           </a>
-        </v-button>
-        <v-button type="link">
+        </Button>
+        <Button type="link">
           <a
             href="https://github.com/WeakAuras/WeakAuras2/issues/new"
             target="_blank"
           >
             {{ $t("app.report.addon" /* AddOn */) }}
           </a>
-        </v-button>
+        </Button>
       </div>
     </div>
   </div>
@@ -27,9 +27,7 @@
 import Button from "./Button.vue";
 
 export default {
-  components: {
-    "v-button": Button
-  },
+  components: { Button },
   methods: {
     close() {
       this.$parent.toggleReport();

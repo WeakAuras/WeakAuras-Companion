@@ -65,9 +65,9 @@
         size="11"
         @keyup.enter="config.wagoUsername = wagoUsername"
       />
-      <v-button @click="config.wagoUsername = wagoUsername">{{
+      <Button @click="config.wagoUsername = wagoUsername">{{
         $t("app.config.ok" /* OK */)
-      }}</v-button>
+      }}</Button>
       <i v-if="config.wagoUsername" class="material-icons green">
         check_circle_outline
       </i>
@@ -83,9 +83,9 @@
         size="11"
         @keyup.enter="config.wagoApiKey = wagoApiKey"
       />
-      <v-button @click="config.wagoApiKey = wagoApiKey">{{
+      <Button @click="config.wagoApiKey = wagoApiKey">{{
         $t("app.config.ok" /* OK */)
-      }}</v-button>
+      }}</Button>
       <i v-if="config.wagoApiKey && checkApiKey()" class="material-icons green">
         check_circle_outline
       </i>
@@ -194,9 +194,9 @@
     </div>
     <br /><br />
     <div class="block">
-      <v-button type="reset" @click="reset">
+      <Button type="reset" @click="reset">
         {{ $t("app.config.reset" /* Reset Settings and Data */) }}
-      </v-button>
+      </Button>
     </div>
     <br /><br />
   </div>
@@ -225,7 +225,7 @@ export default Vue.extend({
   components: {
     Checkbox,
     FileSelect,
-    "v-button": Button
+    Button
   },
   props: ["config"],
   data() {

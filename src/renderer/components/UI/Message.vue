@@ -9,13 +9,13 @@
       v-html="message.text"
     ></a>
     <span v-else v-html="message.text"></span>
-    <v-button
+    <Button
       :type="message.type"
       :title="message.time"
       size="mini"
       v-html="message.type"
     >
-    </v-button>
+    </Button>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ import Button from "./Button.vue";
 
 export default {
   name: "Message",
-  components: { "v-button": Button },
+  components: { Button },
   props: ["message"]
 };
 </script>

@@ -8,35 +8,35 @@
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
         </div>
         <div class="menu-btns">
-          <v-button
+          <Button
             type="menu"
             :class="{ active: configStep === 0 }"
             @click="configStep = 0"
-            >{{ $t("app.menu.main" /* Main */) }}</v-button
+            >{{ $t("app.menu.main" /* Main */) }}</Button
           >
-          <v-button
+          <Button
             type="menu"
             :class="{ active: configStep === 1 }"
             @click="configStep = 1"
-            >{{ $t("app.menu.settings" /* Settings */) }}</v-button
+            >{{ $t("app.menu.settings" /* Settings */) }}</Button
           >
-          <v-button
+          <Button
             type="menu"
             :class="{ active: configStep === 2 }"
             @click="configStep = 2"
-            >{{ $t("app.menu.help" /* Help */) }}</v-button
+            >{{ $t("app.menu.help" /* Help */) }}</Button
           >
-          <v-button
+          <Button
             type="menu"
             :class="{ active: configStep === 3 }"
             @click="configStep = 3"
-            >{{ $t("app.menu.about" /* About */) }}</v-button
+            >{{ $t("app.menu.about" /* About */) }}</Button
           >
         </div>
       </header>
       <main>
         <div v-if="configStep === 0" id="dashboard">
-          <refreshButton
+          <RefreshButton
             :usable="config.wowpath.valided && config.account.valided"
             :fetching="fetching"
             :last-update="schedule.lastUpdate"
@@ -45,7 +45,7 @@
                 ? aurasSorted.length
                 : aurasWithUpdateSorted.length
             "
-          ></refreshButton>
+          ></RefreshButton>
           <br />
           <div
             id="aura-list"
@@ -66,8 +66,8 @@
           </div>
         </div>
         <Config v-if="configStep === 1" :config="config"></Config>
-        <help v-if="configStep === 2"></help>
-        <about v-if="configStep === 3"></about>
+        <Help v-if="configStep === 2"></Help>
+        <About v-if="configStep === 3"></About>
       </main>
       <footer>
         <a
@@ -228,7 +228,7 @@ export default Vue.extend({
     TitleBar,
     Report,
     Stash,
-    "v-button": Button
+    Button
   },
   data() {
     return JSON.parse(JSON.stringify(defaultValues));

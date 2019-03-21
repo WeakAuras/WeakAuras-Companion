@@ -1,6 +1,6 @@
 <template>
   <div id="sync" :class="{ top: aurasShown > 0 }">
-    <v-button
+    <Button
       v-if="usable"
       :class="{ spin: fetching }"
       type="refresh"
@@ -8,11 +8,11 @@
     >
       <i class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
-    </v-button>
-    <v-button v-else type="issue" @click="gotoconfig">
+    </Button>
+    <Button v-else type="issue" @click="gotoconfig">
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
-    </v-button>
+    </Button>
     <div v-if="lastUpdate" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ lastUpdate | fromNow($i18n.locale) }}</b>
@@ -26,7 +26,7 @@ import Button from "./Button.vue";
 
 export default {
   name: "RefreshButton",
-  components: { "v-button": Button },
+  components: { Button },
   filters: {
     fromNow: (value, locale) => {
       if (!value) return "n/a";
