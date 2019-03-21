@@ -20,5 +20,6 @@
   ],
   "prettier.eslintIntegration": true,
   "vetur.format.defaultFormatter.js": "prettier-eslint",
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatter.html": "prettier",
+  "vetur.validation.template": false
 }
