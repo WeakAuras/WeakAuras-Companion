@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <div class="main-container" v-bind:class="{ blurred: reportIsShown }">
+    <div class="main-container" :class="{ blurred: reportIsShown }">
       <TitleBar></TitleBar>
       <header @mousedown="onMouseDown">
         <div class="app-logo">
@@ -10,26 +10,26 @@
         <div class="menu-btns">
           <v-button
             type="menu"
+            :class="{ active: configStep === 0 }"
             @click="configStep = 0"
-            v-bind:class="{ active: configStep === 0 }"
             >{{ $t("app.menu.main" /* Main */) }}</v-button
           >
           <v-button
             type="menu"
+            :class="{ active: configStep === 1 }"
             @click="configStep = 1"
-            v-bind:class="{ active: configStep === 1 }"
             >{{ $t("app.menu.settings" /* Settings */) }}</v-button
           >
           <v-button
             type="menu"
+            :class="{ active: configStep === 2 }"
             @click="configStep = 2"
-            v-bind:class="{ active: configStep === 2 }"
             >{{ $t("app.menu.help" /* Help */) }}</v-button
           >
           <v-button
             type="menu"
+            :class="{ active: configStep === 3 }"
             @click="configStep = 3"
-            v-bind:class="{ active: configStep === 3 }"
             >{{ $t("app.menu.about" /* About */) }}</v-button
           >
         </div>
@@ -39,8 +39,8 @@
           <refreshButton
             :usable="config.wowpath.valided && config.account.valided"
             :fetching="fetching"
-            :lastUpdate="schedule.lastUpdate"
-            :aurasShown="
+            :last-update="schedule.lastUpdate"
+            :auras-shown="
               config.showAllAuras
                 ? aurasSorted.length
                 : aurasWithUpdateSorted.length
@@ -49,7 +49,7 @@
           <br />
           <div
             id="aura-list"
-            v-bind:class="{
+            :class="{
               hidden: config.showAllAuras
                 ? aurasSorted.length <= 0
                 : aurasWithUpdateSorted.length <= 0
@@ -59,9 +59,9 @@
               v-for="aura in config.showAllAuras
                 ? aurasSorted
                 : aurasWithUpdateSorted"
-              :aura="aura"
               :key="aura.slug"
-              :showAllAuras="config.showAllAuras"
+              :aura="aura"
+              :show-all-auras="config.showAllAuras"
             ></Aura>
           </div>
         </div>
@@ -72,7 +72,7 @@
       <footer>
         <a
           v-for="media in footerMedias"
-          v-bind:key="media.name"
+          :key="media.name"
           :href="media.url"
           target="_blank"
         >
@@ -88,28 +88,28 @@
         <div class="app-update">
           <i
             v-if="isMac && updater.status === 'update-available'"
+            v-tooltip="
+              `${this.$t(
+                'app.main.installUpdate' /* Install client update */
+              )}: v${updater.version}`
+            "
             class="material-icons update-available"
             @click="
               open(
                 'https://github.com/WeakAuras/WeakAuras-Companion/releases/latest'
               )
             "
-            v-tooltip="
-              `${this.$t(
-                'app.main.installUpdate' /* Install client update */
-              )}: v${updater.version}`
-            "
             >system_update_alt
           </i>
           <i
             v-if="updater.status === 'update-downloaded'"
-            class="material-icons update-available"
-            @click="installUpdates"
             v-tooltip="
               `${this.$t(
                 'app.main.installUpdate' /* Install client update */
               )}: v${updater.version}`
             "
+            class="material-icons update-available"
+            @click="installUpdates"
             >system_update_alt
           </i>
           <div
@@ -218,7 +218,7 @@ const defaultValues = {
 };
 
 export default Vue.extend({
-  name: "landing-page",
+  name: "LandingPage",
   components: {
     RefreshButton,
     Aura,
@@ -232,6 +232,69 @@ export default Vue.extend({
   },
   data() {
     return JSON.parse(JSON.stringify(defaultValues));
+  },
+  computed: {
+    accountHash() {
+      return hash.hashFnv32a(this.config.account.value, true);
+    },
+    footerMedias() {
+      if (this.medias && this.medias.weakauras) {
+        return this.medias.weakauras.filter(media => media.footer);
+      }
+      return [];
+    },
+    aurasWithUpdateSorted() {
+      return this.aurasWithUpdate
+        .slice(0)
+        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+    },
+    aurasSorted() {
+      return this.auras
+        .filter(
+          aura =>
+            (!!aura.topLevel || aura.regionType !== "group") &&
+            !(
+              this.config.ignoreOwnAuras &&
+              aura.author === this.config.wagoUsername
+            )
+        )
+        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+    },
+    aurasWithUpdate() {
+      return this.auras.filter(
+        aura =>
+          !!aura.encoded &&
+          aura.wagoVersion > aura.version &&
+          !aura.ignoreWagoUpdate &&
+          (!!aura.topLevel || aura.regionType !== "group") &&
+          !(
+            this.config.ignoreOwnAuras &&
+            aura.author === this.config.wagoUsername
+          )
+      );
+    },
+    auras: {
+      get() {
+        if (this.config.account.value) {
+          const index = this.config.account.choices.findIndex(
+            account => account.name === this.config.account.value
+          );
+          if (index !== -1)
+            return this.config.account.choices[index].auras || [];
+        }
+        return [];
+      },
+      set(newValue) {
+        if (this.config.account.value) {
+          const index = this.config.account.choices.findIndex(
+            account => account.name === this.config.account.value
+          );
+          if (index !== -1) {
+            this.$set(this.config.account.choices[index], "auras", newValue);
+          }
+        }
+      }
+    }
   },
   watch: {
     config: {
@@ -390,69 +453,6 @@ export default Vue.extend({
     }
     // check for app updates in 2 hours
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
-  },
-  computed: {
-    accountHash() {
-      return hash.hashFnv32a(this.config.account.value, true);
-    },
-    footerMedias() {
-      if (this.medias && this.medias.weakauras) {
-        return this.medias.weakauras.filter(media => media.footer);
-      }
-      return [];
-    },
-    aurasWithUpdateSorted() {
-      return this.aurasWithUpdate
-        .slice(0)
-        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
-    },
-    aurasSorted() {
-      return this.auras
-        .filter(
-          aura =>
-            (!!aura.topLevel || aura.regionType !== "group") &&
-            !(
-              this.config.ignoreOwnAuras &&
-              aura.author === this.config.wagoUsername
-            )
-        )
-        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
-    },
-    aurasWithUpdate() {
-      return this.auras.filter(
-        aura =>
-          !!aura.encoded &&
-          aura.wagoVersion > aura.version &&
-          !aura.ignoreWagoUpdate &&
-          (!!aura.topLevel || aura.regionType !== "group") &&
-          !(
-            this.config.ignoreOwnAuras &&
-            aura.author === this.config.wagoUsername
-          )
-      );
-    },
-    auras: {
-      get() {
-        if (this.config.account.value) {
-          const index = this.config.account.choices.findIndex(
-            account => account.name === this.config.account.value
-          );
-          if (index !== -1)
-            return this.config.account.choices[index].auras || [];
-        }
-        return [];
-      },
-      set(newValue) {
-        if (this.config.account.value) {
-          const index = this.config.account.choices.findIndex(
-            account => account.name === this.config.account.value
-          );
-          if (index !== -1) {
-            this.$set(this.config.account.choices[index], "auras", newValue);
-          }
-        }
-      }
-    }
   },
   methods: {
     checkCompanionUpdates() {
@@ -1175,7 +1175,7 @@ if not WeakAuras.versionString then return end
 
 local function needUpdate(actual, target)
    if actual == target then return false end
-   
+
    local function splitByDot(str)
       str = str or ""
       local t, count = {}, 0
@@ -1185,15 +1185,15 @@ local function needUpdate(actual, target)
       end)
       return t
    end
-   
+
    actual = splitByDot(actual)
    target = splitByDot(target)
-   
+
    local c = 1
    while true do
       if not target[c] or not actual[c] then
          return false
-      end      
+      end
       if actual[c] ~= target[c] then
          if tonumber(actual[c]) ~= nil and tonumber(target[c]) ~= nil then
             return tonumber(actual[c]) < tonumber(target[c])

@@ -1,8 +1,8 @@
 <template>
   <div class="checkbox" @click="triggerInputClick">
     <input
-      type="checkbox"
       ref="checkbox"
+      type="checkbox"
       v-bind="$attrs"
       :checked="value"
       @change="$emit('input', $event.target.checked)"
@@ -15,12 +15,12 @@
 <script>
 export default {
   inheritAttrs: false,
+  props: ["value"],
   methods: {
     triggerInputClick() {
       this.$refs.checkbox.click();
     }
-  },
-  props: ["value"]
+  }
 };
 </script>
 

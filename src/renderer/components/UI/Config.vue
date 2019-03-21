@@ -6,7 +6,7 @@
     <div class="block">
       <file-select
         :path.sync="config.wowpath.value"
-        :defaultPath="defaultWOWPath"
+        :default-path="defaultWOWPath"
       >
         {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
       </file-select>
@@ -28,25 +28,25 @@
         </i>
         <i
           v-else-if="!config.account.value"
-          class="material-icons red"
           v-tooltip="{
             content: $t(
               'app.config.account.selectaccounttooltip' /* Select an account */
             ),
             html: false
           }"
+          class="material-icons red"
         >
           error_outline
         </i>
         <i
           v-else
-          class="material-icons red"
           v-tooltip="{
             content: $t(
               'app.config.account.notvalidtooltip' /* We can’t find any data from WeakAuras in this account. Do you have the addon installed? */
             ),
             html: false
           }"
+          class="material-icons red"
         >
           error_outline
         </i>
@@ -60,10 +60,10 @@
         {{ $t("app.config.wagoAccount" /* Set Wago Account (optional) */) }}
       </p>
       <input
-        type="text"
         v-model="wagoUsername"
+        type="text"
         size="11"
-        v-on:keyup.enter="config.wagoUsername = wagoUsername"
+        @keyup.enter="config.wagoUsername = wagoUsername"
       />
       <v-button @click="config.wagoUsername = wagoUsername">{{
         $t("app.config.ok" /* OK */)
@@ -78,10 +78,10 @@
         >
       </p>
       <input
-        type="password"
         v-model="wagoApiKey"
+        type="password"
         size="11"
-        v-on:keyup.enter="config.wagoApiKey = wagoApiKey"
+        @keyup.enter="config.wagoApiKey = wagoApiKey"
       />
       <v-button @click="config.wagoApiKey = wagoApiKey">{{
         $t("app.config.ok" /* OK */)
@@ -113,9 +113,9 @@
       <select v-model="config.lang" class="form-control language">
         <option
           v-for="lang in langs"
+          :key="lang.value"
           :value="lang.value"
           v-html="lang.text"
-          :key="lang.value"
         ></option> </select
       ><br /><br />
       <checkbox v-model="config.notify">
@@ -152,11 +152,11 @@
       </div>
     </div>
     <div
-      class="backup"
       v-if="
         config.account.choices[choiceIndex] &&
           config.account.choices[choiceIndex].backup
       "
+      class="backup"
     >
       <div class="title">
         {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
@@ -173,8 +173,8 @@
         >
           <file-select
             :path.sync="config.account.choices[choiceIndex].backup.path"
-            :createDirectory="true"
-            :defaultPath="defaultBackupPath"
+            :create-directory="true"
+            :default-path="defaultBackupPath"
           >
             {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
           </file-select>
@@ -194,7 +194,7 @@
     </div>
     <br /><br />
     <div class="block">
-      <v-button @click="reset" type="reset">
+      <v-button type="reset" @click="reset">
         {{ $t("app.config.reset" /* Reset Settings and Data */) }}
       </v-button>
     </div>
@@ -222,6 +222,11 @@ const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
 export default Vue.extend({
+  components: {
+    Checkbox,
+    FileSelect,
+    "v-button": Button
+  },
   props: ["config"],
   data() {
     return {
@@ -248,23 +253,6 @@ export default Vue.extend({
         this.config.wowpath.value = value;
       }
     });
-  },
-  components: {
-    Checkbox,
-    FileSelect,
-    "v-button": Button
-  },
-  methods: {
-    reset() {
-      this.$parent.reset();
-      this.wagoUsername = null;
-    },
-    openBackupDir() {
-      shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
-    },
-    checkApiKey() {
-      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
-    }
   },
   watch: {
     // eslint-disable-next-line func-names
@@ -357,6 +345,18 @@ export default Vue.extend({
     // eslint-disable-next-line func-names
     "config.beta": function() {
       this.$parent.checkCompanionUpdates();
+    }
+  },
+  methods: {
+    reset() {
+      this.$parent.reset();
+      this.wagoUsername = null;
+    },
+    openBackupDir() {
+      shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
+    },
+    checkApiKey() {
+      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
     }
   }
 });

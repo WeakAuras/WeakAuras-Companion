@@ -1,26 +1,26 @@
 <template>
   <div
     class="aura"
-    v-bind:class="{
+    :class="{
       notAnUpdate: showAllAuras && aura.version == aura.wagoVersion
     }"
   >
     <a
-      class="wago_icon"
-      target="_blank"
-      :href="wagoURL(aura.slug)"
       v-tooltip="{
         content: wagoURL(aura.slug),
         html: false
       }"
+      class="wago_icon"
+      target="_blank"
+      :href="wagoURL(aura.slug)"
     />
     <div class="aura_name_container">
       <span
-        class="aura_name"
         v-tooltip="{
           content: childs,
           html: false
         }"
+        class="aura_name"
         >{{ aura.name }}
       </span>
     </div>
@@ -34,14 +34,14 @@
       {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
     <a
-      class="author"
-      target="_blank"
-      :href="wagoAuthorURL(aura.author)"
       v-tooltip="{
         content: wagoAuthorURL(aura.author),
         classes: ['small'],
         html: false
       }"
+      class="author"
+      target="_blank"
+      :href="wagoAuthorURL(aura.author)"
     >
       {{ aura.author }}
     </a>
@@ -51,11 +51,11 @@
         <span v-else>{{ aura.version }}</span>
       </div>
       <div
-        class="wago-version"
         v-tooltip="{
           content: fromNow(currentTime, $i18n.locale),
           classes: ['small']
         }"
+        class="wago-version"
         @mouseover="updateCurrentTime()"
       >
         v<span v-if="aura.wagoSemver">{{ aura.wagoSemver }}</span>

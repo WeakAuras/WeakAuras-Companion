@@ -6,7 +6,7 @@
 import LandingPage from "@/components/LandingPage";
 
 export default {
-  name: "wa-update",
+  name: "WeakAurasCompanion",
   components: {
     LandingPage
   }

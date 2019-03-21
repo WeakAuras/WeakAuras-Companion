@@ -14,12 +14,12 @@
 import { remote } from "electron";
 
 export default {
+  props: ["path", "createDirectory", "defaultPath"],
   data() {
     return {
       dialogOpen: false
     };
   },
-  props: ["path", "createDirectory", "defaultPath"],
   methods: {
     handleInputClick() {
       if (!this.dialogOpen) {

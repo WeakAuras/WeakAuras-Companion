@@ -23,9 +23,9 @@
 import Button from "./Button.vue";
 
 export default {
-  name: "message",
-  props: ["message"],
-  components: { "v-button": Button }
+  name: "Message",
+  components: { "v-button": Button },
+  props: ["message"]
 };
 </script>
 

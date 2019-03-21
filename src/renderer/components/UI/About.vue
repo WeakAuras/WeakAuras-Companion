@@ -37,8 +37,8 @@
         <div class="items">
           <div
             v-for="media in medias.weakauras"
-            class="media-item"
             :key="media.name"
+            class="media-item"
           >
             <a :href="media.url" target="_blank">
               <img
@@ -56,8 +56,8 @@
         <div class="items">
           <div
             v-for="media in medias.wago"
-            class="media-item"
             :key="media.name"
+            class="media-item"
           >
             <a :href="media.url" target="_blank">
               <img
@@ -79,16 +79,16 @@ const medias = require("../libs/contacts.js");
 
 // console.log(`VERSION: ${VERSION}`);
 export default {
-  name: "about",
+  name: "About",
+  filters: {
+    capitalize: string => string.charAt(0).toUpperCase() + string.slice(1)
+  },
   data() {
     return {
       medias,
       // eslint-disable-next-line no-undef
       version: VERSION
     };
-  },
-  filters: {
-    capitalize: string => string.charAt(0).toUpperCase() + string.slice(1)
   }
 };
 </script>

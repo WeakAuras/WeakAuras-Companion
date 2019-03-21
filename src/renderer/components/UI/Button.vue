@@ -1,7 +1,7 @@
 <template>
   <button
     class="btn"
-    v-bind:class="[
+    :class="[
       { 'btn-default': type == 'info' },
       { 'btn-positive': type == 'ok' },
       { 'btn-negative': type == 'error' },

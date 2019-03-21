@@ -2,7 +2,8 @@
     "extends": [
         "airbnb-base",
         "plugin:prettier/recommended",
-        "plugin:vue/essential"
+        "plugin:vue/recommended",
+        "prettier/vue"
     ],
     "globals": {
         "__static": true
@@ -10,7 +11,9 @@
     "rules": {
         "linebreak-style": "off",
         "no-console": "off",
-        "semi": 0
+        "semi": 0,
+        "vue/require-prop-types": "off",
+        "vue/no-v-html": "off"
     },
     "settings": {
         "import/core-modules": [ "electron" ],

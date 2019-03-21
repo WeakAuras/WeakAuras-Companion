@@ -1,19 +1,19 @@
 <template>
-  <div id="sync" v-bind:class="{ top: aurasShown > 0 }">
+  <div id="sync" :class="{ top: aurasShown > 0 }">
     <v-button
-      v-bind:class="{ spin: fetching }"
       v-if="usable"
-      @click="refresh"
+      :class="{ spin: fetching }"
       type="refresh"
+      @click="refresh"
     >
       <i class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </v-button>
-    <v-button v-else @click="gotoconfig" type="issue">
+    <v-button v-else type="issue" @click="gotoconfig">
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </v-button>
-    <div id="lastupdate" v-if="lastUpdate">
+    <div v-if="lastUpdate" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ lastUpdate | fromNow($i18n.locale) }}</b>
     </div>
@@ -25,14 +25,30 @@ import moment from "moment";
 import Button from "./Button.vue";
 
 export default {
-  name: "refreshButton",
+  name: "RefreshButton",
+  components: { "v-button": Button },
+  filters: {
+    fromNow: (value, locale) => {
+      if (!value) return "n/a";
+      return moment(value)
+        .locale(locale)
+        .fromNow();
+    }
+  },
   props: ["usable", "fetching", "lastUpdate", "aurasShown"],
   data() {
     return {
       lastUpdateTimer: null
     };
   },
-  components: { "v-button": Button },
+  watch: {
+    fetching() {
+      this.scheduleTimer();
+    }
+  },
+  beforeDestroy() {
+    clearInterval(this.lastUpdateTimer);
+  },
   methods: {
     refresh() {
       this.$parent.compareSVwithWago();
@@ -47,24 +63,8 @@ export default {
       }, 1000 * 60);
     }
   },
-  filters: {
-    fromNow: (value, locale) => {
-      if (!value) return "n/a";
-      return moment(value)
-        .locale(locale)
-        .fromNow();
-    }
-  },
   mount() {
     this.scheduleTimer();
-  },
-  watch: {
-    fetching() {
-      this.scheduleTimer();
-    }
-  },
-  beforeDestroy() {
-    clearInterval(this.lastUpdateTimer);
   }
 };
 </script>
