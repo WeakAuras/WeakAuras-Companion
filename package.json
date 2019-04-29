@@ -94,7 +94,7 @@
     "vue-toasted": "^1.1.26"
   },
   "devDependencies": {
-    "@babel/core": "7.4.3",
+    "@babel/core": "7.4.4",
     "@babel/plugin-transform-runtime": "7.4.3",
     "@babel/preset-env": "7.4.3",
     "@babel/register": "7.4.0",
