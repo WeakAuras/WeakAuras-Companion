@@ -95,7 +95,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
-    "@babel/plugin-transform-runtime": "7.4.3",
+    "@babel/plugin-transform-runtime": "7.4.4",
     "@babel/preset-env": "7.4.3",
     "@babel/register": "7.4.0",
     "@types/jest": "^24.0.12",
