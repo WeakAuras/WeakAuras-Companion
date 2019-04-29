@@ -89,7 +89,7 @@
     "v-tooltip": "^2.0.1",
     "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
-    "vue-i18n": "^8.10.0",
+    "vue-i18n": "^8.11.1",
     "vue-router": "^3.0.6",
     "vue-toasted": "^1.1.26"
   },
