@@ -17,7 +17,9 @@
     "dist": "yarn build --publish onTagOrDraft",
     "lint": "eslint --format node_modules/eslint-formatter-friendly src/.",
     "postinstall": "",
-    "changelog": "wsl.exe -e ./generate_changelog.sh"
+    "changelog": "wsl.exe -e ./generate_changelog.sh",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "build": {
     "productName": "WeakAuras Companion",
@@ -91,7 +93,8 @@
     "vue-electron": "^1.0.6",
     "vue-i18n": "^8.11.2",
     "vue-router": "^3.0.6",
-    "vue-toasted": "^1.1.26"
+    "vue-toasted": "^1.1.26",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
@@ -144,5 +147,6 @@
     "webpack-dev-server": "^3.3.1",
     "webpack-hot-middleware": "^2.24.4",
     "webpack-merge": "^4.2.1"
-  }
+  },
+  "snyk": true
 }
