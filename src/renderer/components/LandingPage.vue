@@ -1216,29 +1216,24 @@ end`
       const total = this.aurasWithUpdate.length;
       const newsCount = news.length;
       const failsCount = fails.length;
+      const translatedTotal = this.$tc(
+        "app.main.installTotal",
+        total /* Everything is already up to date! | 1 update ready for in-game installation | {n} updates ready for in-game installation */
+      );
+      const translatedNew = this.$tc(
+        "app.main.installNew",
+        newsCount /* No new updates | 1 new | {n} new */
+      );
+      const translatedFail = this.$tc(
+        "app.main.installFail",
+        failsCount /* No fail | 1 failed | {n} failed */
+      );
       if (newsCount > 0 && failsCount > 0) {
         this.message(
-          `${this.$tc(
-            "app.main.installTotal",
-            total /* Everything is already up to date! | 1 update ready for in-game installation | {n} updates ready for in-game installation */
-          )} (${this.$tc(
-            "app.main.installNew",
-            newsCount /* No new updates | 1 new | {n} new */
-          )}, ${this.$tc(
-            "app.main.installFail",
-            failsCount /* No fail | 1 failed | {n} failed */
-          )})`
+          `${translatedTotal} (${translatedNew}, ${translatedFail})`
         );
       } else if (newsCount > 0) {
-        this.message(
-          `${this.$tc(
-            "app.main.installTotal",
-            total /* Everything is already up to date! | 1 update ready for in-game installation | {n} updates ready for in-game installation */
-          )} (${this.$tc(
-            "app.main.installNew",
-            newsCount /* No new updates | 1 new | {n} new */
-          )})`
-        );
+        this.message(`${translatedTotal} (${translatedNew}`);
         if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
           if (!this.reloadToast) {
             this.reloadToast = this.message(
@@ -1262,13 +1257,7 @@ end`
           }
         }
       } else if (failsCount > 0) {
-        this.message(
-          `${this.$tc("app.main.installTotal", total)} (${this.$tc(
-            "app.main.installFail",
-            failsCount
-          )})`,
-          "error"
-        );
+        this.message(`${translatedTotal} (${translatedFail}`, "error");
       } else {
         this.message(this.$tc("app.main.installTotal", total));
       }
