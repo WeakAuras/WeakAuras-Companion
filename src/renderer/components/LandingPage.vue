@@ -1184,7 +1184,7 @@ else
       WeakAuras.prettyPrint(WeakAuras.L["There are %i updates to your auras ready to be installed!"]:format(count))
     end
   end)
-end
+end`
             },
             {
               name: "data.lua",
