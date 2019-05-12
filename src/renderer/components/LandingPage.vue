@@ -1173,7 +1173,7 @@ init.lua`
 local buildTimeTarget = 20190123023201
 local waBuildTime = tonumber(WeakAuras.buildTime)
 
-if waBuildTime and buildTimeTarget < waBuildTime then
+if waBuildTime and waBuildTime < buildTimeTarget then
   WeakAurasCompanion = nil
 else
   local loadedFrame = CreateFrame("FRAME")
