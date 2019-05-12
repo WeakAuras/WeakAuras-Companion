@@ -6,7 +6,8 @@ import {
   Menu,
   shell,
   ipcMain,
-  screen
+  screen,
+  Notification
 } from "electron";
 import path from "path";
 import { autoUpdater } from "electron-updater";
@@ -117,7 +118,7 @@ function createWindow() {
         if (cancellationToken) {
           cancellationToken.cancel();
         }
-        autoUpdater.checkForUpdatesAndNotify().then(UpdateCheckResult => {
+        autoUpdater.checkForUpdates().then(UpdateCheckResult => {
           mainWindow.webContents.send(
             "updaterHandler",
             "checkForUpdates",
@@ -187,7 +188,7 @@ if (!app.requestSingleInstanceLock()) {
   app.on("ready", () => {
     createWindow();
     if (process.env.NODE_ENV === "production") {
-      autoUpdater.checkForUpdatesAndNotify().then(UpdateCheckResult => {
+      autoUpdater.checkForUpdates().then(UpdateCheckResult => {
         mainWindow.webContents.send(
           "updaterHandler",
           "checkForUpdates",
@@ -241,7 +242,7 @@ ipcMain.on("checkUpdates", (event, isBeta) => {
     cancellationToken.cancel();
   }
   autoUpdater.allowPrerelease = isBeta === true;
-  autoUpdater.checkForUpdatesAndNotify().then(UpdateCheckResult => {
+  autoUpdater.checkForUpdates().then(UpdateCheckResult => {
     mainWindow.webContents.send(
       "updaterHandler",
       "checkForUpdates",
@@ -265,6 +266,14 @@ autoUpdater.on("update-available", info => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-available", info);
   }
+  const imagePath = path.join(__static, "icon.png");
+  new Notification({
+    title: "A new update is ready to install",
+    body: `WeakAuras Companion version ${
+      info.version
+    } has been downloaded and will be automatically installed on exit`,
+    icon: imagePath
+  }).show();
 });
 autoUpdater.on("update-not-available", () => {
   if (mainWindow && mainWindow.webContents) {
