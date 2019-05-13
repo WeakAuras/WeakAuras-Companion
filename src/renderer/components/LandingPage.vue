@@ -469,7 +469,7 @@ export default Vue.extend({
         mouseX = e.clientX;
         mouseY = e.clientY;
         document.addEventListener("mouseup", this.onMouseUp);
-        requestAnimationFrame(this.moveWindow);
+        animationId = requestAnimationFrame(this.moveWindow);
       }
     },
     onMouseUp(e) {
