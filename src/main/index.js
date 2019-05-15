@@ -298,7 +298,7 @@ autoUpdater.on("update-downloaded", info => {
     title: "A new update is ready to install",
     body: `WeakAuras Companion version ${
       info.version
-    } has been downloaded and will be automatically installed on exit`,
+    } has been downloaded and will be automatically installed when you close it`,
     icon: imagePath
   }).show();
 });
