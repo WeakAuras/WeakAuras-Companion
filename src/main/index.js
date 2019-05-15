@@ -266,14 +266,6 @@ autoUpdater.on("update-available", info => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-available", info);
   }
-  const imagePath = path.join(__static, "icon.png");
-  new Notification({
-    title: "A new update is ready to install",
-    body: `WeakAuras Companion version ${
-      info.version
-    } has been downloaded and will be automatically installed on exit`,
-    icon: imagePath
-  }).show();
 });
 autoUpdater.on("update-not-available", () => {
   if (mainWindow && mainWindow.webContents) {
@@ -296,9 +288,17 @@ autoUpdater.on("download-progress", progressObj => {
     mainWindow.setProgressBar(progressObj.percent / 100);
   }
 });
-autoUpdater.on("update-downloaded", () => {
+autoUpdater.on("update-downloaded", info => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-downloaded");
     mainWindow.setProgressBar(-1);
   }
+  const imagePath = path.join(__static, "icon.png");
+  new Notification({
+    title: "A new update is ready to install",
+    body: `WeakAuras Companion version ${
+      info.version
+    } has been downloaded and will be automatically installed on exit`,
+    icon: imagePath
+  }).show();
 });
