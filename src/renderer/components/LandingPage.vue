@@ -1162,7 +1162,7 @@ export default Vue.extend({
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## Dependencies: WeakAuras, WeakAurasOptions
+## Dependencies: WeakAuras
 
 data.lua
 init.lua`
