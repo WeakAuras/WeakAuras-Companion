@@ -17,6 +17,18 @@ Vue.use(VueI18n);
 
 axios.defaults.timeout = 15000;
 
+/* uncomment to debug api requests
+axios.interceptors.request.use(request => {
+  console.log("Starting Request", request);
+  return request;
+});
+
+axios.interceptors.response.use(response => {
+  console.log("Response:", response);
+  return response;
+});
+*/
+
 Vue.prototype.$http = axios;
 Vue.http = Vue.prototype.$http;
 Vue.config.productionTip = false;
