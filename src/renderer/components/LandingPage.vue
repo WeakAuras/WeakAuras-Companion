@@ -761,6 +761,7 @@ export default Vue.extend({
                     modified: null,
                     author: null,
                     encoded: null,
+                    wagoid: null,
                     ids: [id],
                     topLevel: topLevel ? id : null,
                     uids: uid ? [uid] : [],
@@ -877,6 +878,8 @@ export default Vue.extend({
                   this.auras[index].changelog = wagoData.changelog;
                   this.auras[index].modified = new Date(wagoData.modified);
                   this.auras[index].regionType = wagoData.regionType;
+                  // eslint-disable-next-line no-underscore-dangle
+                  this.auras[index].wagoid = wagoData._id;
                   // Check if encoded string needs to be fetched
                   if (
                     !aura.ignoreWagoUpdate &&
@@ -893,7 +896,8 @@ export default Vue.extend({
                     promises.push(
                       this.$http.get("https://data.wago.io/api/raw/encoded", {
                         params: {
-                          id: aura.slug
+                          // eslint-disable-next-line no-underscore-dangle
+                          wagoid: wagoData._id
                         },
                         headers: {
                           Identifier: this.accountHash,
@@ -915,7 +919,7 @@ export default Vue.extend({
             // catch response error
             const promisesResolved = promises.map(promise =>
               promise.catch(err2 => ({
-                config: { params: { id: err2.config.params.id } },
+                config: { params: { id: err2.config.params.wagoid } },
                 status: err2.response.status
               }))
             );
@@ -928,17 +932,17 @@ export default Vue.extend({
               .then(
                 this.$http.spread((...args) => {
                   args.forEach(arg => {
-                    const { id } = arg.config.params;
+                    const { wagoid } = arg.config.params;
                     if (arg.status === 200) {
                       this.auras.forEach((aura, index) => {
-                        if (aura.slug === id) {
+                        if (aura.wagoid === wagoid) {
                           news.push(aura.name);
                           this.auras[index].encoded = arg.data;
                         }
                       });
                     } else {
                       this.auras.forEach(aura => {
-                        if (aura.slug === id) {
+                        if (aura.wagoid === wagoid) {
                           this.message(
                             [
                               this.$t(
