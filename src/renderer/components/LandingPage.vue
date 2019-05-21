@@ -897,7 +897,7 @@ export default Vue.extend({
                       this.$http.get("https://data.wago.io/api/raw/encoded", {
                         params: {
                           // eslint-disable-next-line no-underscore-dangle
-                          wagoid: wagoData._id
+                          id: wagoData._id
                         },
                         headers: {
                           Identifier: this.accountHash,
