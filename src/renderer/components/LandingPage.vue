@@ -919,7 +919,7 @@ export default Vue.extend({
             // catch response error
             const promisesResolved = promises.map(promise =>
               promise.catch(err2 => ({
-                config: { params: { id: err2.config.params.wagoid } },
+                config: { params: { id: err2.config.params.id } },
                 status: err2.response.status
               }))
             );
@@ -932,17 +932,17 @@ export default Vue.extend({
               .then(
                 this.$http.spread((...args) => {
                   args.forEach(arg => {
-                    const { wagoid } = arg.config.params;
+                    const { id } = arg.config.params;
                     if (arg.status === 200) {
                       this.auras.forEach((aura, index) => {
-                        if (aura.wagoid === wagoid) {
+                        if (aura.wagoid === id) {
                           news.push(aura.name);
                           this.auras[index].encoded = arg.data;
                         }
                       });
                     } else {
                       this.auras.forEach(aura => {
-                        if (aura.wagoid === wagoid) {
+                        if (aura.wagoid === id) {
                           this.message(
                             [
                               this.$t(
