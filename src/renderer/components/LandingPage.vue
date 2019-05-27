@@ -35,9 +35,38 @@
         </div>
       </header>
       <main>
+        <div v-if="configStep === 0 || configStep === 1" id="selectors">
+          <div v-if="config.wowpath.valided" id="version-selector">
+            <select v-model="config.wowpath.version" class="form-control">
+              <option
+                v-for="version in config.wowpath.versions"
+                :key="version.name"
+              >
+                {{ version.name }}
+              </option>
+            </select>
+          </div>
+          <div
+            v-if="config.wowpath.valided && versionIndex !== -1"
+            id="account-selector"
+          >
+            <select
+              v-model="config.wowpath.versions[versionIndex].account"
+              class="form-control"
+            >
+              <option
+                v-for="account in config.wowpath.versions[versionIndex]
+                  .accounts"
+                :key="account.name"
+              >
+                {{ account.name }}
+              </option>
+            </select>
+          </div>
+        </div>
         <div v-if="configStep === 0" id="dashboard">
           <RefreshButton
-            :usable="config.wowpath.valided && config.account.valided"
+            :usable="config.wowpath.valided && WeakAurasSaved()"
             :fetching="fetching"
             :last-update="schedule.lastUpdate"
             :auras-shown="
@@ -65,7 +94,12 @@
             ></Aura>
           </div>
         </div>
-        <Config v-if="configStep === 1" :config="config"></Config>
+        <Config
+          v-if="configStep === 1"
+          :config="config"
+          :versionindex="versionIndex"
+          :accountindex="accountIndex"
+        ></Config>
         <Help v-if="configStep === 2"></Help>
         <About v-if="configStep === 3"></About>
       </main>
@@ -182,12 +216,9 @@ const defaultValues = {
     // everything in this object will be auto-save and restore
     wowpath: {
       value: "",
+      versions: [],
+      version: "",
       valided: false
-    },
-    account: {
-      value: null, // name of the account selected
-      valided: false,
-      choices: []
     },
     wagoUsername: null, // ignore your own auras
     wagoApiKey: null,
@@ -235,13 +266,33 @@ export default Vue.extend({
   },
   computed: {
     accountHash() {
-      return hash.hashFnv32a(this.config.account.value, true);
+      if (this.accountIndex !== -1) {
+        const { account } = this.config.wowpath.versions[this.versionIndex];
+        return hash.hashFnv32a(account, true);
+      }
+      return null;
     },
     footerMedias() {
       if (this.medias && this.medias.weakauras) {
         return this.medias.weakauras.filter(media => media.footer);
       }
       return [];
+    },
+    versionIndex() {
+      return this.config.wowpath.versions.findIndex(
+        version => version.name === this.config.wowpath.version
+      );
+    },
+    accountIndex() {
+      if (this.versionIndex !== -1)
+        return this.config.wowpath.versions[
+          this.versionIndex
+        ].accounts.findIndex(
+          account =>
+            account.name ===
+            this.config.wowpath.versions[this.versionIndex].account
+        );
+      return -1;
     },
     aurasWithUpdateSorted() {
       return this.aurasWithUpdate
@@ -275,24 +326,30 @@ export default Vue.extend({
     },
     auras: {
       get() {
-        if (this.config.account.value) {
-          const index = this.config.account.choices.findIndex(
-            account => account.name === this.config.account.value
-          );
-          if (index !== -1)
-            return this.config.account.choices[index].auras || [];
+        if (this.config.wowpath.version) {
+          if (this.accountIndex !== -1) {
+            return (
+              this.config.wowpath.versions[this.versionIndex].accounts[
+                this.accountIndex
+              ].auras || []
+            );
+          }
         }
         return [];
       },
       set(newValue) {
-        if (this.config.account.value) {
-          const index = this.config.account.choices.findIndex(
-            account => account.name === this.config.account.value
-          );
-          if (index !== -1) {
-            this.$set(this.config.account.choices[index], "auras", newValue);
+        if (this.config.wowpath.version) {
+          if (this.accountIndex !== -1) {
+            this.$set(
+              this.config.wowpath.versions[this.versionIndex].accounts[
+                this.accountIndex
+              ],
+              "auras",
+              newValue
+            );
           }
         }
+        return [];
       }
     }
   },
@@ -445,7 +502,7 @@ export default Vue.extend({
     // create default backup folder
     fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
     // send to panel setting on load if config is not ok
-    if (!this.config.wowpath.valided || !this.config.account.valided) {
+    if (!this.config.wowpath.valided) {
       this.configStep = 1;
     } else {
       this.configStep = 0;
@@ -485,6 +542,39 @@ export default Vue.extend({
       });
       animationId = requestAnimationFrame(this.moveWindow);
     },
+    WeakAurasSaved(version, account) {
+      let WeakAurasSavedVariable;
+      if (version && account) {
+        WeakAurasSavedVariable = path.join(
+          this.config.wowpath.value,
+          version,
+          "WTF",
+          "Account",
+          account,
+          "SavedVariables",
+          "WeakAuras.lua"
+        );
+      } else if (this.accountIndex !== -1) {
+        WeakAurasSavedVariable = path.join(
+          this.config.wowpath.value,
+          this.config.wowpath.version,
+          "WTF",
+          "Account",
+          this.config.wowpath.versions[this.versionIndex].account,
+          "SavedVariables",
+          "WeakAuras.lua"
+        );
+      }
+      if (WeakAurasSavedVariable) {
+        try {
+          fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
+          return WeakAurasSavedVariable;
+        } catch (e) {
+          return false;
+        }
+      }
+      return false;
+    },
     reset() {
       store.clear();
       const { beta } = this.config;
@@ -516,26 +606,6 @@ export default Vue.extend({
 
           this.config.internalVersion = internalVersion;
         }
-        // add initial backup info if missing
-        this.config.account.choices.forEach((choice, index) => {
-          if (!choice.backup) {
-            fs.access(
-              this.weakaurasSavedvariable(choice.name),
-              fs.constants.F_OK,
-              err => {
-                this.$set(this.config.account.choices[index], "backup", {
-                  active: !err,
-                  path: path.join(userDataPath, "WeakAurasData-Backup"),
-                  maxsize: 100,
-                  fileSize: null
-                });
-              }
-            );
-          }
-        });
-        // add field for wagoApiKey
-        if (typeof this.config.wagoApiKey === "undefined")
-          this.$set(this.config, "wagoApiKey", null);
       }
     },
     message(text, type, overrideOptions = {}) {
@@ -662,7 +732,8 @@ export default Vue.extend({
       }
     },
     compareSVwithWago() {
-      if (!this.config.wowpath.valided || !this.config.account.valided) {
+      const WeakAurasSavedVariable = this.WeakAurasSaved();
+      if (!WeakAurasSavedVariable) {
         return;
       }
       if (this.fetching) return; // prevent spamming button
@@ -670,9 +741,6 @@ export default Vue.extend({
       if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
 
       // Read WeakAuras.lua
-      const WeakAurasSavedVariable = this.weakaurasSavedvariable(
-        this.config.account.value
-      );
       fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data) => {
         if (err) {
           this.message(
@@ -1041,10 +1109,10 @@ export default Vue.extend({
     },
     writeAddonData(news, fails, noNotification) {
       let newInstall = false;
-      if (this.config.wowpath.valided) {
+      if (this.config.wowpath.valided && this.version !== "") {
         const AddonFolder = path.join(
           this.config.wowpath.value,
-          "_retail_",
+          this.config.wowpath.version,
           "Interface",
           "AddOns",
           "WeakAurasCompanion"
@@ -1281,27 +1349,20 @@ end`
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
     },
-    weakaurasSavedvariable(accountName) {
-      return path.join(
-        this.config.wowpath.value,
-        "_retail_",
-        "WTF",
-        "Account",
-        accountName,
-        "SavedVariables",
-        "WeakAuras.lua"
-      );
-    },
     backup() {
-      this.config.account.choices.forEach((choice, index) => {
-        backupIfRequired(
-          this.weakaurasSavedvariable(choice.name),
-          choice.backup,
-          choice.name,
-          fileSize => {
-            this.config.account.choices[index].backup.fileSize = fileSize;
-          }
-        );
+      this.config.wowpath.versions.forEach((version, versionindex) => {
+        version.accounts.forEach((account, accountindex) => {
+          backupIfRequired(
+            this.WeakAurasSaved(version.name, account.name),
+            account.backup,
+            `${version.name}#${account.name}`,
+            fileSize => {
+              this.config.wowpath.versions[versionindex].accounts[
+                accountindex
+              ].backup.fileSize = fileSize;
+            }
+          );
+        });
       });
     }
   }
@@ -1367,6 +1428,19 @@ end`
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+/* WoW Version & Account selection */
+#selectors {
+  position: fixed;
+  top: 100px;
+  right: 0;
+}
+#version-selector {
+  float: right;
+}
+#account-selector {
+  float: right;
 }
 
 /* Aura list */

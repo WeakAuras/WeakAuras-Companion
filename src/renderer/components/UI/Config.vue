@@ -14,43 +14,6 @@
         check_circle_outline
       </i>
       <i v-else class="material-icons red folder">error_outline</i>
-      <span v-if="config.wowpath.valided">
-        <p class="label">
-          {{ $t("app.config.selectAccount" /* Select WoW Account */) }}
-        </p>
-        <select v-model="config.account.value" class="form-control">
-          <option v-for="item in config.account.choices" :key="item.name">
-            {{ item.name }}
-          </option>
-        </select>
-        <i v-if="config.account.valided" class="material-icons green">
-          check_circle_outline
-        </i>
-        <i
-          v-else-if="!config.account.value"
-          v-tooltip="{
-            content: $t(
-              'app.config.account.selectaccounttooltip' /* Select an account */
-            ),
-            html: false
-          }"
-          class="material-icons red"
-        >
-          error_outline
-        </i>
-        <i
-          v-else
-          v-tooltip="{
-            content: $t(
-              'app.config.account.notvalidtooltip' /* We can’t find any data from WeakAuras in this account. Do you have the addon installed? */
-            ),
-            html: false
-          }"
-          class="material-icons red"
-        >
-          error_outline
-        </i>
-      </span>
     </div>
     <div class="title">
       {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
@@ -151,28 +114,22 @@
         </checkbox>
       </div>
     </div>
-    <div
-      v-if="
-        config.account.choices[choiceIndex] &&
-          config.account.choices[choiceIndex].backup
-      "
-      class="backup"
-    >
+    <div v-if="account !== null" class="backup">
       <div class="title">
         {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
+        <span class="title_comment"
+          >{{ config.wowpath.version }} > {{ account.name }}</span
+        >
       </div>
       <div class="block">
         <p class="label">
-          <checkbox v-model="config.account.choices[choiceIndex].backup.active">
+          <checkbox v-model="account.backup.active">
             {{ $t("app.config.backup.activate" /* Activate */) }}
           </checkbox>
         </p>
-        <div
-          v-if="config.account.choices[choiceIndex].backup.active"
-          style="display: inline;"
-        >
+        <div v-if="account.backup.active" style="display: inline;">
           <file-select
-            :path.sync="config.account.choices[choiceIndex].backup.path"
+            :path.sync="account.backup.path"
             :create-directory="true"
             :default-path="defaultBackupPath"
           >
@@ -184,7 +141,7 @@
           <p class="label">
             {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
           </p>
-          <select v-model="config.account.choices[choiceIndex].backup.maxsize">
+          <select v-model="account.backup.maxsize">
             <option value="50">50mb</option>
             <option value="100">100mb</option>
             <option value="500">500mb</option>
@@ -227,7 +184,7 @@ export default Vue.extend({
     FileSelect,
     Button
   },
-  props: ["config"],
+  props: ["config", "versionindex", "accountindex"],
   data() {
     return {
       langs: [
@@ -239,12 +196,18 @@ export default Vue.extend({
       ],
       wagoUsername: this.config.wagoUsername,
       wagoApiKey: this.config.wagoApiKey,
-      choiceIndex: this.config.account.choices.findIndex(
-        account => account.name === this.config.account.value
-      ),
       defaultWOWPath: "",
       defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
     };
+  },
+  computed: {
+    account() {
+      if (this.versionindex !== -1 && this.accountindex !== -1)
+        return this.config.wowpath.versions[this.versionindex].accounts[
+          this.accountindex
+        ];
+      return null;
+    }
   },
   mount() {
     wowDefaultPath().then(value => {
@@ -267,71 +230,68 @@ export default Vue.extend({
     "config.wowpath.value": function() {
       this.config.wowpath.valided = false;
       if (this.config.wowpath.value) {
-        // clean Accounts options
-        while (this.config.account.choices.length > 0) {
-          this.config.account.choices.pop();
-        }
-        // test if ${wowpath}\WTF\Account exists
-        const accountFolder = path.join(
-          this.config.wowpath.value,
-          "_retail_",
-          "WTF",
-          "Account"
-        );
-        fs.access(accountFolder, fs.constants.F_OK, err => {
+        // test if ${wowpath}\Data exists
+        const wowpath = this.config.wowpath.value;
+        const DataFolder = path.join(wowpath, "Data");
+        fs.access(DataFolder, fs.constants.F_OK, err => {
           if (!err) {
-            // add option for each account found
-            fs.readdirSync(accountFolder)
+            fs.readdirSync(wowpath)
               .filter(
-                file =>
-                  file !== "SavedVariables" &&
-                  fs.statSync(path.join(accountFolder, file)).isDirectory()
+                versionDir =>
+                  versionDir.match(/^_.*_$/) &&
+                  fs.statSync(path.join(wowpath, versionDir)).isDirectory()
               )
-              .forEach(file => {
-                this.config.account.choices.push({
-                  name: file,
-                  auras: [],
-                  backup: {
-                    active: null,
-                    path: path.join(userDataPath, "WeakAurasData-Backup"),
-                    maxsize: 100,
-                    fileSize: null
+              .forEach(versionDir => {
+                if (typeof this.config.wowpath.versions === "undefined") {
+                  this.$set(this.config.wowpath, "versions", []);
+                }
+                const { versions } = this.config.wowpath;
+                const wowVersionIndex =
+                  versions.push({
+                    name: versionDir,
+                    accounts: [],
+                    account: ""
+                  }) - 1;
+                const accountFolder = path.join(
+                  wowpath,
+                  versionDir,
+                  "WTF",
+                  "Account"
+                );
+                fs.access(accountFolder, fs.constants.F_OK, err2 => {
+                  if (!err2) {
+                    // add option for each account found
+                    fs.readdirSync(accountFolder)
+                      .filter(
+                        accountFile =>
+                          accountFile !== "SavedVariables" &&
+                          fs
+                            .statSync(path.join(accountFolder, accountFile))
+                            .isDirectory()
+                      )
+                      .forEach(accountFile => {
+                        this.config.wowpath.versions[
+                          wowVersionIndex
+                        ].accounts.push({
+                          name: accountFile,
+                          auras: [],
+                          backup: {
+                            active: true,
+                            path: path.join(
+                              userDataPath,
+                              "WeakAurasData-Backup"
+                            ),
+                            maxsize: 100,
+                            fileSize: null
+                          }
+                        });
+                        this.config.wowpath.valided = true;
+                      });
+                  } else {
+                    console.log(`Error: ${err2}`);
                   }
                 });
-                this.config.wowpath.valided = true;
               });
-          } else {
-            console.log(`Error: ${err}`);
-          }
-        });
-      }
-    },
-    // eslint-disable-next-line func-names
-    "config.account.value": function() {
-      this.config.account.valided = false;
-      if (this.config.wowpath.valided && !!this.config.account.value) {
-        const WeakAurasSavedVariable = path.join(
-          this.config.wowpath.value,
-          "_retail_",
-          "WTF",
-          "Account",
-          this.config.account.value,
-          "SavedVariables",
-          "WeakAuras.lua"
-        );
-        fs.access(WeakAurasSavedVariable, fs.constants.F_OK, err => {
-          if (!err) {
-            this.config.account.valided = true;
-            this.choiceIndex = this.config.account.choices.findIndex(
-              account => account.name === this.config.account.value
-            );
-            if (
-              this.config.account.choices[this.choiceIndex].backup.active ===
-              null
-            )
-              this.config.account.choices[
-                this.choiceIndex
-              ].backup.active = true;
           } else {
             console.log(`Error: ${err}`);
           }
@@ -353,7 +313,7 @@ export default Vue.extend({
       this.wagoUsername = null;
     },
     openBackupDir() {
-      shell.openItem(this.config.account.choices[this.choiceIndex].backup.path);
+      shell.openItem(this.account.backup.path);
     },
     checkApiKey() {
       return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
@@ -434,6 +394,10 @@ select,
   margin-top: 5px;
   color: rgb(255, 209, 0);
   font-weight: 500;
+}
+.title_comment {
+  font-size: 18px;
+  color: rgb(255, 209, 0);
 }
 
 @font-face {

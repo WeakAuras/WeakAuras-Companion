@@ -35,7 +35,7 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
 }
 
 function backupIfRequired(filename, config, accountName, callback) {
-  if (config && config.active) {
+  if (config && config.active && filename) {
     const stats = fs.statSync(filename);
     if (stats.size !== config.fileSize) {
       const date = moment(stats.mtimeMs).format("YYYYMMDDHHmmss");
