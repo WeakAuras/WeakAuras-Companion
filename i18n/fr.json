@@ -32,6 +32,7 @@
   "app.config.wagoSettings": "Paramètres de Wago",
   "app.fileselect.backupfolder": "Backup Folder",
   "app.fileselect.wowfolder": "Dossier de World of Warcraft",
+  "app.footer.getweakauras": "Get WeakAuras!",
   "app.footer.reportbug": "Signaler un bug",
   "app.help.auraAuthorsText1": "Si vous publiez vos auras sur Wago, nous vous recommandons d'utiliser ces paramètres:",
   "app.help.auraAuthorsText2": "Dans l'application Companion, tapez votre nom d'utilisateur Wago dans le champs \"Compte Wago\".",

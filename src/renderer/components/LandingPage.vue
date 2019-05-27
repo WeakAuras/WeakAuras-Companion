@@ -111,19 +111,24 @@
       </main>
       <footer>
         <a
-          v-for="media in footerMedias"
-          :key="media.name"
-          :href="media.url"
+          class="getweakauras"
+          href="https://www.curseforge.com/wow/addons/weakauras-2"
           target="_blank"
         >
           <img
-            :src="require(`@/assets/social-icons/${media.name}.svg`)"
+            :src="require(`@/assets/social-icons/curse.svg`)"
             class="logo"
-            :title="media.name"
+            title="CurseForge"
           />
+          {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
+          <img
+            :src="require(`@/assets/social-icons/bug_report.svg`)"
+            class="logo invert"
+            title="Bug"
+          />
         </a>
         <div class="app-update">
           <i
@@ -1628,6 +1633,21 @@ $iconSize: 26px;
   text-shadow: #000 1px 0;
 }
 .reportbug:hover {
+  color: #aaa;
+}
+.invert {
+  filter: invert(100%);
+}
+/* Get WeakAuras */
+.getweakauras {
+  font-size: 12px;
+  color: #777;
+  vertical-align: bottom;
+  line-height: 25px;
+  float: left;
+  text-shadow: #000 1px 0;
+}
+.getweakauras:hover {
   color: #aaa;
 }
 

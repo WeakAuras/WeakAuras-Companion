@@ -32,6 +32,7 @@
   "app.config.wagoSettings": "Wago选项",
   "app.fileselect.backupfolder": "备份路径",
   "app.fileselect.wowfolder": "魔兽世界路径",
+  "app.footer.getweakauras": "Get WeakAuras!",
   "app.footer.reportbug": "发现Bug？",
   "app.help.auraAuthorsText1": "如果你在Wago上发布你的字符串，我们建议你使用以下设置：",
   "app.help.auraAuthorsText2": "在Companion应用中，在\"Wago账户\"设置中填写你的Wago用户名",

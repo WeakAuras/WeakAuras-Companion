@@ -46,7 +46,7 @@
                 class="logo"
                 :title="media.name"
               />
-              {{ media.name | capitalize }}
+              {{ media.displayName }}
             </a>
           </div>
         </div>
@@ -65,7 +65,7 @@
                 class="logo"
                 :title="media.name"
               />
-              {{ media.name | capitalize }}
+              {{ media.displayName }}
             </a>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default {
 }
 #links {
   display: flex;
-  width: 400px;
+  width: 450px;
   margin: auto;
   border-radius: 8px;
   padding-bottom: 5px;
