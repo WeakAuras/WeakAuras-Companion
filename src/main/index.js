@@ -13,6 +13,8 @@ import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 
+app.commandLine.appendSwitch("no-proxy-server");
+
 const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 
