@@ -231,7 +231,7 @@ export default Vue.extend({
                   fs.statSync(path.join(wowpath, versionDir)).isDirectory()
               )
               .forEach(versionDir => {
-                if (typeof this.config.wowpath.versions === "undefined") {
+                if (!this.config.wowpath.versions) {
                   this.$set(this.config.wowpath, "versions", []);
                 }
                 const { versions } = this.config.wowpath;
