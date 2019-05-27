@@ -91,7 +91,7 @@
   "app.refreshbutton.finishsetup": "Finish Setup",
   "app.refreshbutton.label": "Fetch Updates",
   "app.refreshbutton.lastupdate": "last update:",
-  "app.refreshbutton.selectversion": "Select your WoW version and account",
+  "app.refreshbutton.selectversion": "Please select your WoW Version and Account Name!",
   "app.report.addon": "AddOn",
   "app.report.companion": "Companion",
   "app.report.title": "Report a bug",

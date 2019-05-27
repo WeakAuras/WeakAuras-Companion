@@ -13,14 +13,14 @@
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </Button>
-    <Button v-else-if="!isSvOk" type="issue">
+    <Label v-else-if="!isSvOk" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
-          "app.refreshbutton.selectversion" /* Select your WoW version and account */
+          "app.refreshbutton.selectversion" /* Please select your WoW Version and Account Name! */
         )
       }}</span>
-    </Button>
+    </Label>
     <div v-if="lastUpdate" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ lastUpdate | fromNow($i18n.locale) }}</b>
