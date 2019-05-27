@@ -15,7 +15,11 @@
     </Button>
     <Button v-else-if="!isSvOk" type="issue">
       <i class="material-icons error">error_outline</i>
-      <span>Select your wow version and account</span>
+      <span>{{
+        $t(
+          "app.refreshbutton.selectversion" /* Select your WoW version and account */
+        )
+      }}</span>
     </Button>
     <div v-if="lastUpdate" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}

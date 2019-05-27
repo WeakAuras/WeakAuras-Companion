@@ -90,6 +90,7 @@
   "app.refreshbutton.finishsetup": "结束安装",
   "app.refreshbutton.label": "获取更新",
   "app.refreshbutton.lastupdate": "上次更新:",
+  "app.refreshbutton.selectversion": "Select your WoW version and account",
   "app.report.addon": "插件",
   "app.report.companion": "Companion",
   "app.report.title": "反馈一个Bug",

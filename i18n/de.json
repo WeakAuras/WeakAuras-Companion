@@ -90,6 +90,7 @@
   "app.refreshbutton.finishsetup": "Setup beenden",
   "app.refreshbutton.label": "Nach Updates suchen",
   "app.refreshbutton.lastupdate": "Letztes Update:",
+  "app.refreshbutton.selectversion": "Select your WoW version and account",
   "app.report.addon": "AddOn",
   "app.report.companion": "Companion",
   "app.report.title": "Fehler berichten",

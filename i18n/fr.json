@@ -90,6 +90,7 @@
   "app.refreshbutton.finishsetup": "La configuration n'est pas terminée",
   "app.refreshbutton.label": "Télécharger les mises à jour",
   "app.refreshbutton.lastupdate": "dernière mise à jour:",
+  "app.refreshbutton.selectversion": "Selectionnez votre version de WoW et votre compte",
   "app.report.addon": "AddOn",
   "app.report.companion": "Companion",
   "app.report.title": "Report a bug",

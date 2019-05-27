@@ -90,6 +90,7 @@
   "app.refreshbutton.finishsetup": "Завершите настройку",
   "app.refreshbutton.label": "Получить обновления",
   "app.refreshbutton.lastupdate": "Последняя проверка:",
+  "app.refreshbutton.selectversion": "Select your WoW version and account",
   "app.report.addon": "Аддон",
   "app.report.companion": "Приложение",
   "app.report.title": "Сообщить об ошибке",
