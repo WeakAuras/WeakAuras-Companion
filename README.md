@@ -37,6 +37,6 @@ yarn run build
 ### Extract new translation strings to i18n/*.json files
 
 ```
-yarn run extract-i18n-messages
+yarn run i18n
 ```
 
