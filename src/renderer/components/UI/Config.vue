@@ -220,6 +220,10 @@ export default Vue.extend({
         const DataFolder = path.join(wowpath, "Data");
         fs.access(DataFolder, fs.constants.F_OK, err => {
           if (!err) {
+            // clean Versions options
+            if (this.config.wowpath.versions)
+              while (this.config.wowpath.versions.length > 0)
+                this.config.wowpath.versions.pop();
             fs.readdirSync(wowpath)
               .filter(
                 versionDir =>
