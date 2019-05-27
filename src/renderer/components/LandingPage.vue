@@ -202,7 +202,7 @@ const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
 
-const internalVersion = 1;
+const internalVersion = 2;
 
 let animationId;
 let mouseX;
@@ -590,20 +590,18 @@ export default Vue.extend({
     restore() {
       const tmp = store.get("config");
       if (tmp) {
-        this.config = tmp;
+        this.$set(this.config, tmp);
         this.$i18n.locale = this.config.lang;
 
         const previousVersion = store.get("config").internalVersion || 0;
         if (this.config.internalVersion < internalVersion) {
           /* migration */
-          if (previousVersion < 1) {
-            // this.auras moved to this.config.account.choices[index].auras
-            // this.auras is now a computed property
-            this.auras = store.get("auras");
-            store.clear();
-            store.set("config", this.config);
+          if (previousVersion < 2) {
+            this.config.wowpath.value = "";
+            wowDefaultPath().then(value => {
+              this.config.wowpath.value = value;
+            });
           }
-
           this.config.internalVersion = internalVersion;
         }
       }
