@@ -7,7 +7,7 @@
           "@babel/env",
           {
             "targets": {
-              "node": 7
+              "node": 10
             }
           }
         ]
