@@ -257,6 +257,7 @@ const defaultValues = {
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
   reloadToast: null,
   updateToast: null,
+  settingsWipedToast: null,
   updater: {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
     progress: null,
@@ -446,6 +447,22 @@ export default Vue.extend({
         }
       }
     });
+    this.$electron.ipcRenderer.on("settings-wiped", () => {
+      console.log("hi from receiver");
+      this.settingsWipedToast = this.message(
+        this.$t(
+          "app.main.settingswiped" /* The Companion's Settings have been reset! */
+        ),
+        null,
+        {
+          className: "update update-error",
+          duration: 10,
+          onComplete: () => {
+            this.settingsWipedToast = null;
+          }
+        }
+      );
+    });
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
       console.log(`updaterHandler: ${status}`);
       if (status === "checkForUpdates") {
@@ -603,6 +620,8 @@ export default Vue.extend({
       wowDefaultPath().then(value => {
         this.config.wowpath.value = value;
       });
+      this.$electron.ipcRenderer.send("settings-wiped");
+      console.log("Settings wiped");
     },
     open(link) {
       this.$electron.shell.openExternal(link);

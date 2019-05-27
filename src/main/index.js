@@ -257,7 +257,12 @@ ipcMain.on("windowMoving", (e, { mouseX, mouseY }) => {
   const { x, y } = screen.getCursorScreenPoint();
   mainWindow.setPosition(x - mouseX, y - mouseY);
 });
-
+ipcMain.on("settings-wiped", () => {
+  console.log("ipc received");
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send("settingsWipedToast", "settings-wiped");
+  }
+});
 // updater functions
 autoUpdater.on("checking-for-update", () => {
   if (mainWindow && mainWindow.webContents) {
