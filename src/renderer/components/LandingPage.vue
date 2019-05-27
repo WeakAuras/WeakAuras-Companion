@@ -1631,6 +1631,16 @@ $iconSize: 26px;
   color: #aaa;
 }
 
+/* WoW Version & Account selection */
+select {
+  padding: 5px;
+  font-size: small;
+  border-radius: 2px;
+  border: none;
+  background-color: #e6e6e6;
+  color: #010101;
+}
+
 // Update Icon
 .app-update {
   color: #777;
