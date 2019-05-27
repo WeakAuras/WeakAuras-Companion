@@ -1239,7 +1239,7 @@ end`
           `${translatedTotal} (${translatedNew}, ${translatedFail})`
         );
       } else if (newsCount > 0) {
-        this.message(`${translatedTotal} (${translatedNew}`);
+        this.message(`${translatedTotal} (${translatedNew})`);
         if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
           if (!this.reloadToast) {
             this.reloadToast = this.message(
@@ -1263,7 +1263,7 @@ end`
           }
         }
       } else if (failsCount > 0) {
-        this.message(`${translatedTotal} (${translatedFail}`, "error");
+        this.message(`${translatedTotal} (${translatedFail})`, "error");
       } else {
         this.message(this.$tc("app.main.installTotal", total));
       }
