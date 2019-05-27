@@ -297,9 +297,11 @@ export default Vue.extend({
       return [];
     },
     versionIndex() {
-      return this.config.wowpath.versions.findIndex(
-        version => version.name === this.config.wowpath.version
-      );
+      if (this.config.wowpath.versions)
+        return this.config.wowpath.versions.findIndex(
+          version => version.name === this.config.wowpath.version
+        );
+      return -1;
     },
     accountIndex() {
       if (this.versionIndex !== -1)
