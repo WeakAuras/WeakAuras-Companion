@@ -35,7 +35,7 @@
         </div>
       </header>
       <main>
-        <div v-if="configStep === 0 || configStep === 1" id="selectors">
+        <div v-if="configStep === 0" id="selectors">
           <div v-if="config.wowpath.valided" id="version-selector">
             <select
               v-model="config.wowpath.version"
