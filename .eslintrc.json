@@ -15,6 +15,10 @@
         "vue/require-prop-types": "off",
         "vue/no-v-html": "off"
     },
+    "plugins": [
+        "prettier",
+        "vue"
+    ],
     "settings": {
         "import/core-modules": [ "electron" ],
         "import/resolver": {
