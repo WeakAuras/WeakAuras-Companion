@@ -37,7 +37,11 @@
       <main>
         <div v-if="configStep === 0 || configStep === 1" id="selectors">
           <div v-if="config.wowpath.valided" id="version-selector">
-            <select v-model="config.wowpath.version" class="form-control">
+            <select
+              v-model="config.wowpath.version"
+              class="form-control"
+              @change="compareSVwithWago()"
+            >
               <option
                 v-for="version in config.wowpath.versions"
                 :key="version.name"
@@ -53,6 +57,7 @@
             <select
               v-model="config.wowpath.versions[versionIndex].account"
               class="form-control"
+              @change="compareSVwithWago()"
             >
               <option
                 v-for="account in config.wowpath.versions[versionIndex]
