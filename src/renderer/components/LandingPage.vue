@@ -602,7 +602,7 @@ export default Vue.extend({
     restore() {
       const tmp = store.get("config");
       if (tmp) {
-        this.$set(this.config, tmp);
+        this.config = tmp;
         this.$i18n.locale = this.config.lang;
 
         const previousVersion = store.get("config").internalVersion || 0;
