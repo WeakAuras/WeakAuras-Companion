@@ -606,11 +606,14 @@ export default Vue.extend({
         this.$i18n.locale = this.config.lang;
 
         const previousVersion = store.get("config").internalVersion || 0;
-        if (typeof this.config.backup === "undefined")
+        if (typeof this.config.backup === "undefined") {
+          console.log("add backup settings");
           this.$set(this.config, "backup", defaultValues.backup);
+        }
         if (this.config.internalVersion < internalVersion) {
           /* migration */
           if (previousVersion < 2) {
+            console.log("migration < 2");
             this.config.wowpath.value = "";
             wowDefaultPath().then(value => {
               this.config.wowpath.value = value;
