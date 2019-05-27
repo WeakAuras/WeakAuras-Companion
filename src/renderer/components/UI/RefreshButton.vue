@@ -21,7 +21,7 @@
         )
       }}</span>
     </Label>
-    <div v-if="lastUpdate" id="lastupdate">
+    <div v-if="lastUpdate && isSvOk" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ lastUpdate | fromNow($i18n.locale) }}</b>
     </div>
