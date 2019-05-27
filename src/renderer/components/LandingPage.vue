@@ -71,7 +71,8 @@
         </div>
         <div v-if="configStep === 0" id="dashboard">
           <RefreshButton
-            :usable="config.wowpath.valided && WeakAurasSaved()"
+            :is-settings-ok="config.wowpath.valided"
+            :is-sv-ok="WeakAurasSaved()"
             :fetching="fetching"
             :last-update="schedule.lastUpdate"
             :auras-shown="

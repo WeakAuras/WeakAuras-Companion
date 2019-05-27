@@ -1,7 +1,7 @@
 <template>
   <div id="sync" :class="{ top: aurasShown > 0 }">
     <Button
-      v-if="usable"
+      v-if="isSettingsOk && isSvOk"
       :class="{ spin: fetching }"
       type="refresh"
       @click="refresh"
@@ -9,9 +9,13 @@
       <i class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </Button>
-    <Button v-else type="issue" @click="gotoconfig">
+    <Button v-else-if="!isSettingsOk" type="issue" @click="gotoconfig">
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
+    </Button>
+    <Button v-else-if="!isSvOk" type="issue">
+      <i class="material-icons error">error_outline</i>
+      <span>Select your wow version and account</span>
     </Button>
     <div v-if="lastUpdate" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
@@ -35,7 +39,14 @@ export default {
         .fromNow();
     }
   },
-  props: ["usable", "fetching", "lastUpdate", "aurasShown"],
+  props: [
+    "usable",
+    "fetching",
+    "lastUpdate",
+    "aurasShown",
+    "isSettingsOk",
+    "isSvOk"
+  ],
   data() {
     return {
       lastUpdateTimer: null
