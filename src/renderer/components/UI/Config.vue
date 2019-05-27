@@ -114,24 +114,21 @@
         </checkbox>
       </div>
     </div>
-    <div v-if="account !== null" class="backup">
+    <div class="backup">
       <div class="title">
         {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
-        <span class="title_comment"
-          >{{ config.wowpath.version }} > {{ account.name }}</span
-        >
       </div>
       <div class="block">
         <p class="label">
-          <checkbox v-model="account.backup.active">
+          <checkbox v-model="config.backup.active">
             {{ $t("app.config.backup.activate" /* Activate */) }}
           </checkbox>
         </p>
-        <div v-if="account.backup.active" style="display: inline;">
+        <div v-if="config.backup.active" style="display: inline;">
           <file-select
-            :path.sync="account.backup.path"
+            :path.sync="config.backup.path"
             :create-directory="true"
-            :default-path="defaultBackupPath"
+            :default-path="config.backup.defaultBackupPath"
           >
             {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
           </file-select>
@@ -141,7 +138,7 @@
           <p class="label">
             {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
           </p>
-          <select v-model="account.backup.maxsize">
+          <select v-model="config.backup.maxsize">
             <option value="50">50mb</option>
             <option value="100">100mb</option>
             <option value="500">500mb</option>
@@ -173,8 +170,6 @@ import { wowDefaultPath } from "../libs/utilities";
 
 Vue.use(VTooltip);
 
-const userDataPath = require("electron").remote.app.getPath("userData");
-
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion"
 });
@@ -196,18 +191,8 @@ export default Vue.extend({
       ],
       wagoUsername: this.config.wagoUsername,
       wagoApiKey: this.config.wagoApiKey,
-      defaultWOWPath: "",
-      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
+      defaultWOWPath: ""
     };
-  },
-  computed: {
-    account() {
-      if (this.versionindex !== -1 && this.accountindex !== -1)
-        return this.config.wowpath.versions[this.versionindex].accounts[
-          this.accountindex
-        ];
-      return null;
-    }
   },
   mount() {
     wowDefaultPath().then(value => {
@@ -274,16 +259,7 @@ export default Vue.extend({
                           wowVersionIndex
                         ].accounts.push({
                           name: accountFile,
-                          auras: [],
-                          backup: {
-                            active: true,
-                            path: path.join(
-                              userDataPath,
-                              "WeakAurasData-Backup"
-                            ),
-                            maxsize: 100,
-                            fileSize: null
-                          }
+                          auras: []
                         });
                         this.config.wowpath.valided = true;
                       });
@@ -313,7 +289,7 @@ export default Vue.extend({
       this.wagoUsername = null;
     },
     openBackupDir() {
-      shell.openItem(this.account.backup.path);
+      shell.openItem(this.config.backup.path);
     },
     checkApiKey() {
       return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
@@ -394,10 +370,6 @@ select,
   margin-top: 5px;
   color: rgb(255, 209, 0);
   font-weight: 500;
-}
-.title_comment {
-  font-size: 18px;
-  color: rgb(255, 209, 0);
 }
 
 @font-face {

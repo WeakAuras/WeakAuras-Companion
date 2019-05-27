@@ -234,7 +234,14 @@ const defaultValues = {
     lang: "en",
     showAllAuras: false,
     beta: null,
-    internalVersion
+    internalVersion,
+    backup: {
+      active: true,
+      path: path.join(userDataPath, "WeakAurasData-Backup"),
+      maxsize: 100,
+      fileSize: null,
+      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
+    }
   },
   schedule: {
     id: null, // 1h setTimeout id
@@ -599,6 +606,8 @@ export default Vue.extend({
         this.$i18n.locale = this.config.lang;
 
         const previousVersion = store.get("config").internalVersion || 0;
+        if (typeof this.config.backup === "undefined")
+          this.$set(this.config, "backup", defaultValues.backup);
         if (this.config.internalVersion < internalVersion) {
           /* migration */
           if (previousVersion < 2) {
