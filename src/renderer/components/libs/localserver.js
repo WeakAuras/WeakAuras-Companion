@@ -17,9 +17,11 @@ function allowRequest(req) {
 // parse post data into JSON object
 function getPostData(req, callback) {
   let body = "";
+
   req.on("data", chunk => {
     body += chunk.toString();
   });
+
   req.on("end", () => {
     try {
       const json = JSON.parse(body);
@@ -52,6 +54,7 @@ function LocalServerRequestHandler(req, res) {
       // console.log(body);
       if (body.action === "Add-Import") {
         const { 2: slug } = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
+
         if (stash.findIndex(aura => aura.url === body.url) === -1)
           stash.push({
             name: body.name,
@@ -61,6 +64,7 @@ function LocalServerRequestHandler(req, res) {
             version: body.version
           });
       }
+
       res.writeHead(200, {
         "Content-Type": "application/json",
         "Access-Control-Allow-Methods": "POST, OPTIONS",

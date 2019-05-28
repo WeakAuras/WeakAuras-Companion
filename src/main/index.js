@@ -22,10 +22,12 @@ const store = new Store();
 const config = store.get("config");
 let cancellationToken;
 
+// No auto-updates on macOS
 if (process.platform === "darwin") {
   autoUpdater.autoDownload = false;
 }
 autoUpdater.allowDowngrade = true;
+
 autoUpdater.allowPrerelease =
   autoUpdater.allowPrerelease || (config && config.beta === true);
 autoUpdater.logger = log;
@@ -78,6 +80,7 @@ function createWindow() {
 
   mainWindow.loadURL(winURL);
   mainWindow.setMenu(null);
+
   mainWindow.on("minimize", event => {
     event.preventDefault();
     mainWindow.minimize();
@@ -90,7 +93,7 @@ function createWindow() {
     }
   });
 
-  // Protocol handler for win32
+  // Protocol handler for Windows
   if (process.platform === "win32") {
     handleLinks(process.argv.pop());
   }
@@ -107,6 +110,7 @@ function createWindow() {
   });
 
   tray = new Tray(iconpath);
+
   contextMenu = Menu.buildFromTemplate([
     {
       label: "Open WeakAuras Companion",
@@ -120,6 +124,7 @@ function createWindow() {
         if (cancellationToken) {
           cancellationToken.cancel();
         }
+
         autoUpdater.checkForUpdates().then(UpdateCheckResult => {
           mainWindow.webContents.send(
             "updaterHandler",
@@ -176,11 +181,12 @@ if (!app.requestSingleInstanceLock()) {
   app.quit();
 } else {
   app.on("second-instance", (event, argv) => {
-    // Protocol handler for win32
+    // Protocol handler for Windows
     if (process.platform === "win32") {
       handleLinks(argv.pop());
     }
-    // Someone tried to run a second instance, we should focus our window.
+
+    // Someone tried to run a second instance, focus our window instead
     if (mainWindow) {
       if (!mainWindow.isVisible()) mainWindow.show();
       mainWindow.focus();
@@ -189,6 +195,7 @@ if (!app.requestSingleInstanceLock()) {
 
   app.on("ready", () => {
     createWindow();
+
     if (process.env.NODE_ENV === "production") {
       autoUpdater.checkForUpdates().then(UpdateCheckResult => {
         mainWindow.webContents.send(
@@ -218,32 +225,37 @@ app.on("activate", () => {
 app.setAppUserModelId("wtf.weakauras.companion");
 app.setAsDefaultProtocolClient("weakauras-companion");
 
-// Protocol handler for osx
+// Protocol handler for macOS
 app.on("open-url", (event, url) => {
   event.preventDefault();
   handleLinks(url);
 });
 
-// event use when clicking on notifications
+// event used when clicking on notifications
 ipcMain.on("open", () => {
   mainWindow.show();
   mainWindow.focus();
 });
+
 ipcMain.on("minimize", () => {
   mainWindow.hide();
 });
+
 ipcMain.on("close", () => {
   app.isQuiting = true;
   app.quit();
 });
+
 ipcMain.on("installUpdates", () => {
   autoUpdater.quitAndInstall();
 });
+
 ipcMain.on("checkUpdates", (event, isBeta) => {
   if (cancellationToken) {
     cancellationToken.cancel();
   }
   autoUpdater.allowPrerelease = isBeta === true;
+
   autoUpdater.checkForUpdates().then(UpdateCheckResult => {
     mainWindow.webContents.send(
       "updaterHandler",
@@ -253,32 +265,38 @@ ipcMain.on("checkUpdates", (event, isBeta) => {
     ({ cancellationToken } = UpdateCheckResult);
   });
 });
+
 ipcMain.on("windowMoving", (e, { mouseX, mouseY }) => {
   const { x, y } = screen.getCursorScreenPoint();
   mainWindow.setPosition(x - mouseX, y - mouseY);
 });
+
 // updater functions
 autoUpdater.on("checking-for-update", () => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "checking-for-update");
   }
 });
+
 autoUpdater.on("update-available", info => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-available", info);
   }
 });
+
 autoUpdater.on("update-not-available", () => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-not-available");
   }
 });
+
 autoUpdater.on("error", err => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "error", err);
     mainWindow.setProgressBar(-1);
   }
 });
+
 autoUpdater.on("download-progress", progressObj => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send(
@@ -289,17 +307,19 @@ autoUpdater.on("download-progress", progressObj => {
     mainWindow.setProgressBar(progressObj.percent / 100);
   }
 });
+
 autoUpdater.on("update-downloaded", info => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-downloaded");
     mainWindow.setProgressBar(-1);
   }
   const imagePath = path.join(__static, "icon.png");
+
   new Notification({
     title: "A new update is ready to install",
     body: `WeakAuras Companion version ${
       info.version
-    } has been downloaded and will be automatically installed when you close it`,
+    } has been downloaded and will be automatically installed when you close the app.`,
     icon: imagePath
   }).show();
 });

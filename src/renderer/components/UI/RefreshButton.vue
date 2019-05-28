@@ -73,6 +73,7 @@ export default {
     },
     scheduleTimer() {
       if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
+
       this.lastUpdateTimer = setInterval(() => {
         this.$forceUpdate();
       }, 1000 * 60);

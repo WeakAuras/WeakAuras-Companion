@@ -197,6 +197,7 @@ export default Vue.extend({
   mount() {
     wowDefaultPath().then(value => {
       this.defaultWOWPath = value;
+
       if (this.config.wowpath.value === "") {
         this.config.wowpath.value = value;
       }
@@ -214,16 +215,19 @@ export default Vue.extend({
     // eslint-disable-next-line func-names
     "config.wowpath.value": function() {
       this.config.wowpath.valided = false;
+
       if (this.config.wowpath.value) {
         // test if ${wowpath}\Data exists
         const wowpath = this.config.wowpath.value;
         const DataFolder = path.join(wowpath, "Data");
+
         fs.access(DataFolder, fs.constants.F_OK, err => {
           if (!err) {
             // clean Versions options
             if (this.config.wowpath.versions)
               while (this.config.wowpath.versions.length > 0)
                 this.config.wowpath.versions.pop();
+
             fs.readdirSync(wowpath)
               .filter(
                 versionDir =>
@@ -247,6 +251,7 @@ export default Vue.extend({
                   "WTF",
                   "Account"
                 );
+
                 fs.access(accountFolder, fs.constants.F_OK, err2 => {
                   if (!err2) {
                     // add option for each account found

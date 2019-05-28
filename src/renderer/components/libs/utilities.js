@@ -18,6 +18,7 @@ export function wowDefaultPath() {
     if (process.platform === "win32") {
       const key =
         "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
+
       regedit.list(key, (err, result) => {
         if (err) throw err;
         else {

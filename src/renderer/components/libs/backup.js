@@ -24,9 +24,11 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
     console.log(
       `backup size exceeded for account ${accountName} ${totalsize} > ${maxsize}`
     );
+
     // delete 2 last files
     files.slice(-2).forEach(v => {
-      console.log(`delete backup file ${path.join(dirPath, v.name)}`);
+      console.log(`deleted backup files ${path.join(dirPath, v.name)}`);
+
       fs.unlink(path.join(dirPath, v.name), err => {
         if (err) throw err;
       });
@@ -37,6 +39,7 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
 function backupIfRequired(filename, config, accountName, callback) {
   if (config && config.active && filename) {
     const stats = fs.statSync(filename);
+
     if (stats.size !== config.fileSize) {
       const date = moment(stats.mtimeMs).format("YYYYMMDDHHmmss");
       const zipFile = `weakauras-${accountName}-${date}.zip`;
@@ -45,9 +48,11 @@ function backupIfRequired(filename, config, accountName, callback) {
       const archive = archiver("zip", {
         zlib: { level: 9 } // Sets the compression level.
       });
+
       writeStream
         .on("close", () => {
           console.log(`Backup: ${zipFile} saved`);
+
           deleteOldFiles(
             config.path,
             accountName,

@@ -1,6 +1,7 @@
 module.exports = {
   bbcode: str => {
     let output = str || "";
+
     output = output
       .replace(
         /\[([a-z]+)(=[\w\d.,\\/"'#,-]*)*( *[a-z0-9]+=.+)*\](.*?)\[\/\1\]/gi,
@@ -12,6 +13,7 @@ module.exports = {
   markdown: str => {
     // https://github.com/stiang/remove-markdown/blob/master/index.js
     let output = str || "";
+
     output = output
       // Remove HTML tags
       .replace(/<[^>]*>/g, "")
