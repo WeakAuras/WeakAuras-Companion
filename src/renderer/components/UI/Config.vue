@@ -338,31 +338,38 @@ export default Vue.extend({
   display: flex;
   flex-direction: row;
 }
+
 .config-row-item {
   flex: 50%;
 }
+
 label,
 .label {
   color: #eee;
   margin: 10px 0 5px;
   font-size: 14px;
 }
+
 .red {
   color: #f44336;
 }
+
 .green {
   color: #51ae42;
 }
+
 .red,
 .green {
   border-radius: 2px;
   vertical-align: middle;
 }
+
 .material-icons.folder {
   vertical-align: top;
   position: relative;
   top: 3px;
 }
+
 input,
 select,
 .fakeinput {
@@ -373,31 +380,39 @@ select,
   background-color: #e6e6e6;
   color: #010101;
 }
+
 .title {
   margin: 20px 0 10px;
 }
+
 #config .title:first-child {
   margin-top: 5px;
 }
+
 .block {
   margin-left: 15px;
   font-size: 15px;
 }
+
 .resetbutton {
   margin-top: 20px;
 }
+
 .option {
   margin-bottom: 5px;
 }
+
 .subtitle {
   font-size: 18px;
   margin-bottom: 5px;
   font-weight: 600;
   color: white;
 }
+
 .form-control.language {
   width: 150px;
 }
+
 .explorer {
   cursor: pointer;
   font-size: 12px;
