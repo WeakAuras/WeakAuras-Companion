@@ -76,36 +76,6 @@
         </div>
       </div>
       <div class="config-row-item">
-        <div class="title">
-          {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
-        </div>
-        <div class="block">
-          <p class="label">
-            <checkbox v-model="config.backup.active">
-              {{ $t("app.config.backup.activate" /* Activate */) }}
-            </checkbox>
-          </p>
-          <div v-if="config.backup.active" style="display: inline;">
-            <file-select
-              :path.sync="config.backup.path"
-              :create-directory="true"
-              :default-path="config.backup.defaultBackupPath"
-            >
-              {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
-            </file-select>
-            <p class="explorer" @click="openBackupDir()">
-              {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
-            </p>
-            <p class="label">
-              {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
-            </p>
-            <select v-model="config.backup.maxsize">
-              <option value="50">50mb</option>
-              <option value="100">100mb</option>
-              <option value="500">500mb</option>
-            </select>
-          </div>
-        </div>
         <!-- Wago Settings -->
         <div class="title">
           {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
@@ -162,6 +132,37 @@
               )
             }}
           </checkbox>
+        </div>
+        <!-- WeakAuras Backup Section -->
+        <div class="title">
+          {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
+        </div>
+        <div class="block">
+          <p class="label">
+            <checkbox v-model="config.backup.active">
+              {{ $t("app.config.backup.activate" /* Activate */) }}
+            </checkbox>
+          </p>
+          <div v-if="config.backup.active" style="display: inline;">
+            <file-select
+              :path.sync="config.backup.path"
+              :create-directory="true"
+              :default-path="config.backup.defaultBackupPath"
+            >
+              {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
+            </file-select>
+            <p class="explorer" @click="openBackupDir()">
+              {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
+            </p>
+            <p class="label">
+              {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
+            </p>
+            <select v-model="config.backup.maxsize">
+              <option value="50">50mb</option>
+              <option value="100">100mb</option>
+              <option value="500">500mb</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
