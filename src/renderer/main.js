@@ -82,7 +82,6 @@ const i18n = new VueI18n({
   }
 });
 
-/* eslint-disable no-new */
 new Vue({
   components: { App },
   i18n,
