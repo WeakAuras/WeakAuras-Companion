@@ -15,7 +15,7 @@ install:
   # - yarn policies set-version ^1.15
   - yarn
 
-build: off
+build: "off"
 
 on_success:
   - ps: Get-ChildItem .\build\*.exe | % { Push-AppveyorArtifact $_.FullName }
