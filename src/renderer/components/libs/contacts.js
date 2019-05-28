@@ -7,7 +7,7 @@ module.exports = {
     },
     {
       name: "github",
-      url: "https://github.com/WeakAuras/WeakAuras2",
+      url: "https://github.com/WeakAuras/",
       displayName: "GitHub"
     },
     {
