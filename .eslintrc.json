@@ -1,30 +1,41 @@
 {
-    "extends": [
-        "airbnb-base",
-        "plugin:prettier/recommended",
-        "plugin:vue/recommended",
-        "prettier/vue"
-    ],
-    "globals": {
-        "__static": true
-    },
-    "rules": {
-        "linebreak-style": "off",
-        "no-console": "off",
-        "semi": 0,
-        "vue/require-prop-types": "off",
-        "vue/no-v-html": "off"
-    },
-    "plugins": [
-        "prettier",
-        "vue"
-    ],
-    "settings": {
-        "import/core-modules": [ "electron" ],
-        "import/resolver": {
-            "webpack": {
-                "config": "./.electron-vue/webpack.renderer.config.js"
-            }
-        }
+  "extends": [
+    "airbnb-base",
+    "plugin:prettier/recommended",
+    "plugin:vue/recommended",
+    "prettier/vue"
+  ],
+  "globals": {
+    "__static": true
+  },
+  "rules": {
+    "linebreak-style": "off",
+    "no-console": "off",
+    "semi": 0,
+    "vue/require-prop-types": "off",
+    "vue/no-v-html": "off",
+    "padding-line-between-statements": [
+      "warn",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": [
+          "block",
+          "multiline-block-like",
+          "if",
+          "function",
+          "multiline-expression"
+        ]
+      }
+    ]
+  },
+  "plugins": ["prettier", "vue"],
+  "settings": {
+    "import/core-modules": ["electron"],
+    "import/resolver": {
+      "webpack": {
+        "config": "./.electron-vue/webpack.renderer.config.js"
+      }
     }
+  }
 }
