@@ -16,7 +16,7 @@
   "app.config.backup.dedicatedsize": "Dedicated size",
   "app.config.backup.openfolder": "Ouvrir dans l'Explorateur",
   "app.config.backup.title": "WeakAuras Backup",
-  "app.config.clientSettings": "Paramètres du Client",
+  "app.config.clientSettings": "Paramètres du Companion",
   "app.config.gameSettings": "Paramètres du Jeux",
   "app.config.ignoreOwnAuras": "Ignorer les auras de votre compte",
   "app.config.lang": "Langue",

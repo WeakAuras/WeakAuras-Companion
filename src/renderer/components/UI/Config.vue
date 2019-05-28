@@ -1,158 +1,177 @@
 <template>
   <div id="config">
-    <div class="title">
-      {{ $t("app.config.gameSettings" /* Game Settings */) }}
-    </div>
-    <div class="block">
-      <file-select
-        :path.sync="config.wowpath.value"
-        :default-path="defaultWOWPath"
-      >
-        {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
-      </file-select>
-      <i v-if="config.wowpath.valided" class="material-icons green folder">
-        check_circle_outline
-      </i>
-      <i v-else class="material-icons red folder">error_outline</i>
-    </div>
-    <div class="title">
-      {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
-    </div>
-    <div class="block">
-      <p class="label">
-        {{ $t("app.config.wagoAccount" /* Set Wago Account (optional) */) }}
-      </p>
-      <input
-        v-model="wagoUsername"
-        type="text"
-        size="11"
-        @keyup.enter="config.wagoUsername = wagoUsername"
-      />
-      <Button @click="config.wagoUsername = wagoUsername">{{
-        $t("app.config.ok" /* OK */)
-      }}</Button>
-      <i v-if="config.wagoUsername" class="material-icons green">
-        check_circle_outline
-      </i>
-      <p class="label">
-        {{ $t("app.config.wagoApiKey" /* Set Wago API Key (optional) */) }}
-        <a href="https://wago.io/account" class="explorer" target="_blank"
-          >Get yours</a
-        >
-      </p>
-      <input
-        v-model="wagoApiKey"
-        type="password"
-        size="11"
-        @keyup.enter="config.wagoApiKey = wagoApiKey"
-      />
-      <Button @click="config.wagoApiKey = wagoApiKey">{{
-        $t("app.config.ok" /* OK */)
-      }}</Button>
-      <i v-if="config.wagoApiKey && checkApiKey()" class="material-icons green">
-        check_circle_outline
-      </i>
-      <i
-        v-else-if="config.wagoApiKey && !checkApiKey()"
-        class="material-icons red"
-      >
-        error_outline
-      </i>
-      <br /><br />
-      <checkbox v-model="config.ignoreOwnAuras">
-        {{
-          $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */)
-        }}
-      </checkbox>
-    </div>
-    <div class="title">
-      {{ $t("app.config.clientSettings" /* Client Settings */) }}
-    </div>
-    <div class="block">
-      <checkbox v-model="config.showAllAuras">
-        {{ $t("app.config.showallauras" /* Show auras without updates */) }}
-      </checkbox>
-      <p class="label">{{ $t("app.config.lang" /* Language */) }}</p>
-      <select v-model="config.lang" class="form-control language">
-        <option
-          v-for="lang in langs"
-          :key="lang.value"
-          :value="lang.value"
-          v-html="lang.text"
-        ></option> </select
-      ><br /><br />
-      <checkbox v-model="config.notify">
-        {{
-          $t(
-            "app.config.notification" /* System notification when new updates are ready for in-game installation */
-          )
-        }}
-      </checkbox>
-
-      <p class="label subtitle">{{ $t("app.config.startup" /* Startup */) }}</p>
-      <div class="option">
-        <checkbox v-model="config.autostart">
-          {{
-            $t("app.config.autoStart" /* Launch client with your computer */)
-          }}
-        </checkbox>
-      </div>
-      <div class="option">
-        <checkbox v-model="config.startminimize">
-          {{ $t("app.config.minimized" /* Start client minimized */) }}
-        </checkbox>
-      </div>
-
-      <p class="label subtitle">
-        {{ $t("app.config.autoupdater" /* Auto-Update */) }}
-      </p>
-      <div class="option">
-        <checkbox v-model="config.beta">
-          {{
-            $t("app.config.autoupdater.beta" /* Use Companion Beta channel */)
-          }}
-        </checkbox>
-      </div>
-    </div>
-    <div class="backup">
-      <div class="title">
-        {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
-      </div>
-      <div class="block">
-        <p class="label">
-          <checkbox v-model="config.backup.active">
-            {{ $t("app.config.backup.activate" /* Activate */) }}
-          </checkbox>
-        </p>
-        <div v-if="config.backup.active" style="display: inline;">
+    <div class="config-row">
+      <div class="config-row-item">
+        <!-- Game Settings Section -->
+        <div class="title">
+          {{ $t("app.config.gameSettings" /* Game Settings */) }}
+        </div>
+        <div class="block">
           <file-select
-            :path.sync="config.backup.path"
-            :create-directory="true"
-            :default-path="config.backup.defaultBackupPath"
+            :path.sync="config.wowpath.value"
+            :default-path="defaultWOWPath"
           >
-            {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
+            {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
           </file-select>
-          <p class="explorer" @click="openBackupDir()">
-            {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
-          </p>
-          <p class="label">
-            {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
-          </p>
-          <select v-model="config.backup.maxsize">
-            <option value="50">50mb</option>
-            <option value="100">100mb</option>
-            <option value="500">500mb</option>
+          <i v-if="config.wowpath.valided" class="material-icons green folder">
+            check_circle_outline
+          </i>
+          <i v-else class="material-icons red folder">error_outline</i>
+        </div>
+        <!-- Companion Settings Section -->
+        <div class="title">
+          {{ $t("app.config.clientSettings" /* Companion Settings */) }}
+        </div>
+        <div class="block">
+          <p class="label">{{ $t("app.config.lang" /* Language */) }}</p>
+          <select v-model="config.lang" class="form-control language">
+            <option
+              v-for="lang in langs"
+              :key="lang.value"
+              :value="lang.value"
+              v-html="lang.text"
+            ></option>
           </select>
+          <checkbox v-model="config.showAllAuras">
+            {{ $t("app.config.showallauras" /* Show auras without updates */) }}
+          </checkbox>
+          <checkbox v-model="config.notify">
+            {{
+              $t(
+                "app.config.notification" /* Show notifications when new updates are ready to install */
+              )
+            }}
+          </checkbox>
+
+          <p class="label subtitle">
+            {{ $t("app.config.startup" /* Startup */) }}
+          </p>
+          <div class="option">
+            <checkbox v-model="config.autostart">
+              {{
+                $t(
+                  "app.config.autoStart" /* Launch client with your computer */
+                )
+              }}
+            </checkbox>
+          </div>
+          <div class="option">
+            <checkbox v-model="config.startminimize">
+              {{ $t("app.config.minimized" /* Start client minimized */) }}
+            </checkbox>
+          </div>
+
+          <p class="label subtitle">
+            {{ $t("app.config.autoupdater" /* Auto-Update */) }}
+          </p>
+          <div class="option">
+            <checkbox v-model="config.beta">
+              {{
+                $t(
+                  "app.config.autoupdater.beta" /* Use Companion Beta channel */
+                )
+              }}
+            </checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="config-row-item">
+        <div class="backup">
+          <div class="title">
+            {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
+          </div>
+          <div class="block">
+            <p class="label">
+              <checkbox v-model="config.backup.active">
+                {{ $t("app.config.backup.activate" /* Activate */) }}
+              </checkbox>
+            </p>
+            <div v-if="config.backup.active" style="display: inline;">
+              <file-select
+                :path.sync="config.backup.path"
+                :create-directory="true"
+                :default-path="config.backup.defaultBackupPath"
+              >
+                {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
+              </file-select>
+              <p class="explorer" @click="openBackupDir()">
+                {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
+              </p>
+              <p class="label">
+                {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
+              </p>
+              <select v-model="config.backup.maxsize">
+                <option value="50">50mb</option>
+                <option value="100">100mb</option>
+                <option value="500">500mb</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Wago Settings -->
+        <div class="title">
+          {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
+        </div>
+        <div class="block">
+          <p class="label">
+            {{ $t("app.config.wagoAccount" /* Set Wago Account (optional) */) }}
+          </p>
+          <input
+            v-model="wagoUsername"
+            type="text"
+            size="11"
+            @keyup.enter="config.wagoUsername = wagoUsername"
+          />
+          <Button @click="config.wagoUsername = wagoUsername">{{
+            $t("app.config.ok" /* OK */)
+          }}</Button>
+          <i v-if="config.wagoUsername" class="material-icons green">
+            check_circle_outline
+          </i>
+          <p class="label">
+            {{ $t("app.config.wagoApiKey" /* Set Wago API Key (optional) */) }}
+          </p>
+          <input
+            v-model="wagoApiKey"
+            type="password"
+            size="11"
+            @keyup.enter="config.wagoApiKey = wagoApiKey"
+          />
+          <Button @click="config.wagoApiKey = wagoApiKey">{{
+            $t("app.config.ok" /* OK */)
+          }}</Button>
+          <p>
+            <a href="https://wago.io/account" class="explorer" target="_blank"
+              >Get yours</a
+            >
+          </p>
+          <i
+            v-if="config.wagoApiKey && checkApiKey()"
+            class="material-icons green"
+          >
+            check_circle_outline
+          </i>
+          <i
+            v-else-if="config.wagoApiKey && !checkApiKey()"
+            class="material-icons red"
+          >
+            error_outline
+          </i>
+          <checkbox v-model="config.ignoreOwnAuras">
+            {{
+              $t(
+                "app.config.ignoreOwnAuras" /* Ignore auras from your account */
+              )
+            }}
+          </checkbox>
         </div>
       </div>
     </div>
-    <br /><br />
-    <div class="block">
+    <div class="block resetbutton">
       <Button type="reset" @click="reset">
         {{ $t("app.config.reset" /* Reset Settings and Data */) }}
       </Button>
     </div>
-    <br /><br />
   </div>
 </template>
 
@@ -314,10 +333,17 @@ export default Vue.extend({
   overflow: auto;
   height: 100%;
   width: 100%;
-
   .backup {
     margin-top: 15px;
   }
+}
+
+.config-row {
+  display: flex;
+  flex-direction: row;
+}
+.config-row-item {
+  flex: 50%;
 }
 label,
 .label {
@@ -361,6 +387,9 @@ select,
   margin-left: 15px;
   font-size: 15px;
 }
+.resetbutton {
+  margin-top: 20px;
+}
 .option {
   margin-bottom: 5px;
 }
@@ -391,5 +420,9 @@ select,
 
 input[type="password"] {
   font-family: "pass";
+}
+checkbox {
+  margin-top: 10px;
+  background: red;
 }
 </style>
