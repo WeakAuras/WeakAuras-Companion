@@ -30,6 +30,7 @@
   "app.config.wagoAccount": "Wago Account auswählen (optional)",
   "app.config.wagoApiKey": "Set Wago API Key (optional)",
   "app.config.wagoSettings": "Wago Einstellungen",
+  "app.dropdown.placeholder": "Select",
   "app.fileselect.backupfolder": "Backup Ordner",
   "app.fileselect.wowfolder": "World of Warcraft Ordner",
   "app.footer.getweakauras": "Get WeakAuras!",
@@ -95,5 +96,9 @@
   "app.report.addon": "AddOn",
   "app.report.companion": "Companion",
   "app.report.title": "Fehler berichten",
-  "app.stash.title": "Stash"
+  "app.stash.title": "Stash",
+  "app.wowpath.account": "Account",
+  "app.wowpath.version": "Version",
+  "app.wowversion.account": "Account",
+  "app.wowversion.version": "Version"
 }

@@ -30,6 +30,7 @@
   "app.config.wagoAccount": "设置Wago账号 (可选)",
   "app.config.wagoApiKey": "Set Wago API Key (optional)",
   "app.config.wagoSettings": "Wago选项",
+  "app.dropdown.placeholder": "Select",
   "app.fileselect.backupfolder": "备份路径",
   "app.fileselect.wowfolder": "魔兽世界路径",
   "app.footer.getweakauras": "Get WeakAuras!",
@@ -95,5 +96,9 @@
   "app.report.addon": "插件",
   "app.report.companion": "Companion",
   "app.report.title": "反馈一个Bug",
-  "app.stash.title": "Stash"
+  "app.stash.title": "Stash",
+  "app.wowpath.account": "Account",
+  "app.wowpath.version": "Version",
+  "app.wowversion.account": "Account",
+  "app.wowversion.version": "Version"
 }
