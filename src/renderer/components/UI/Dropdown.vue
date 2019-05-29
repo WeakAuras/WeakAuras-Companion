@@ -65,6 +65,7 @@ export default {
     },
     selectItem(option) {
       this.showMenu = false;
+      this.selected = option;
       this.$emit("input", option);
     }
   }
