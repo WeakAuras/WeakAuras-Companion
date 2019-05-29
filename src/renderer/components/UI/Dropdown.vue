@@ -6,33 +6,26 @@
       :class="{ 'dropdown__toggle--toggled': showMenu }"
       @click="toggleDropdown()"
     >
-      <span>{{ value }}</span>
+      <span>{{ selected }}</span>
       <i :class="{ open: showMenu }" class="material-icons">
         keyboard_arrow_down
       </i>
     </div>
-    <input
-      hidden="hidden"
-      v-bind="$attrs"
-      :value="value"
-      @change="$emit('input', $event.target.value)"
-    />
-    <transition name="slide">
+    <div
+      :style="{ height: showMenu ? height + 'px' : '0px' }"
+      :class="{ 'dropdown__options--toggled': showMenu }"
+      class="dropdown__options"
+    >
       <div
-        v-if="showMenu"
-        :style="{ height: height + 'px' }"
-        class="dropdown__options"
+        v-for="option in options"
+        :key="option.name"
+        class="dropdown__option"
+        :title="option.name"
+        @click="selectItem(option.name)"
       >
-        <div
-          v-for="option in options"
-          :key="option.name"
-          class="dropdown__option"
-          @click="selectItem(option.name)"
-        >
-          <span>{{ option.name }}</span>
-        </div>
+        <span>{{ option.name }}</span>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 
@@ -63,9 +56,7 @@ export default {
     };
   },
   mounted() {
-    if (this.value === "") {
-      this.value = this.placeholder;
-    }
+    this.selected = this.value === "" ? this.placeholder : this.value;
     this.height = this.options.length * 30;
   },
   methods: {
@@ -73,9 +64,8 @@ export default {
       this.showMenu = !this.showMenu;
     },
     selectItem(option) {
-      this.value = option;
       this.showMenu = false;
-      this.$emit("input", this.value);
+      this.$emit("input", option);
     }
   }
 };
@@ -83,9 +73,14 @@ export default {
 
 <style scoped lang="scss">
 $button-color-bg: #101010;
+$border-color-separate: #0d0d0d;
 $highlight-color: #1a1a1a;
 $highlight-color-text: #ffffff;
 $text-color: #e6e6e6;
+$border-color: #191919;
+$border-color-expand: #2c2c2c;
+
+$max-width: 200px;
 .dropdown {
   position: relative;
   z-index: 999;
@@ -101,14 +96,26 @@ $text-color: #e6e6e6;
     position: relative;
     width: 100%;
     min-width: 120px;
+    max-width: $max-width;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     height: 30px;
     background: $button-color-bg;
-    padding: 5px 10px;
+    padding: 5px 30px 5px 10px;
     text-align: left;
     border-radius: 4px;
     cursor: pointer;
+    border: 1px solid $border-color;
+    transition: border-color 0.3s ease-in-out,
+      border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
+
     &--toggled {
       border-radius: 4px 4px 0 0;
+      border-color: $border-color-expand;
+      border-bottom-color: transparent;
+      transition: border-radius 0.3s cubic-bezier(0, 1.95, 0, 1.93);
     }
     &:hover {
       background: $highlight-color;
@@ -119,6 +126,7 @@ $text-color: #e6e6e6;
       right: 4px;
       display: inline-block;
       transition: transform 0.3s ease-in-out;
+      cursor: pointer;
 
       &.open {
         transform: rotate(180deg);
@@ -126,43 +134,46 @@ $text-color: #e6e6e6;
     }
     span {
       cursor: pointer;
-      padding-right: 20px;
     }
   }
   &__options {
-    background: $button-color-bg;
     width: 100%;
     cursor: pointer;
     position: relative;
     border-radius: 0 0 4px 4px;
-    transition: height 0.3s ease-in-out;
+
+    max-width: $max-width;
+    transition: height 0.3s ease-in-out, border-color 0.2s ease-in-out,
+      background 0.2s ease-in-out;
     overflow: hidden;
+    border: 1px solid transparent;
+    &--toggled {
+      background: $button-color-bg;
+      border-color: $border-color-expand;
+      border-top-color: $border-color-separate;
+    }
   }
   &__option {
     cursor: pointer;
     width: 100%;
     height: 30px;
-    padding: 5px;
-    border-radius: 0 0 4px 4px;
+    padding: 5px 25px 5px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:last-child {
+      border-radius: 0 0 4px 4px;
+    }
     position: relative;
     &:hover {
       background: $highlight-color;
     }
 
     span {
-      position: absolute;
-      left: 10px;
-      top: 6px;
       cursor: pointer;
+      padding: 0 5px;
     }
   }
-}
-.slide-enter,
-.slide-leave-to {
-  height: 0 !important;
-}
-.alpha-enter,
-.alpha-leave-to {
-  opacity: 0;
 }
 </style>
