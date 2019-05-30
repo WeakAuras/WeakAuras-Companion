@@ -18,12 +18,12 @@
     >
       <div
         v-for="option in options"
-        :key="option.name"
+        :key="option.value"
         class="dropdown__option"
-        :title="getLabel(option.name)"
-        @click="selectItem(option.name)"
+        :title="option.text"
+        @click="selectItem(option)"
       >
-        <span>{{ getLabel(option.name) }}</span>
+        <span>{{ option.text }}</span>
       </div>
     </div>
   </div>
@@ -62,7 +62,8 @@ export default {
     };
   },
   mounted() {
-    this.selected = this.value === "" ? this.placeholder : this.value;
+    this.selected =
+      this.value === "" ? this.placeholder : this.getLabel(this.value);
     this.height = this.options.length * 30;
   },
   methods: {
@@ -71,15 +72,13 @@ export default {
     },
     selectItem(option) {
       this.showMenu = false;
-      this.selected = option;
-      this.$emit("input", option);
+      this.selected = option.text;
+      this.$emit("input", option.value);
     },
     getLabel(value) {
-      const index = this.optionsLabels.findIndex(
-        option => option.value === value
-      );
+      const index = this.options.findIndex(option => option.value === value);
       if (index === -1) return value;
-      return this.optionsLabels[index].label;
+      return this.options[index].text;
     }
   }
 };
@@ -153,16 +152,16 @@ $max-width: 200px;
   &__options {
     width: 100%;
     cursor: pointer;
-    position: relative;
+    position: absolute;
     border-radius: 0 0 4px 4px;
-
     max-width: $max-width;
-    transition: height 0.3s ease-in-out, border-color 0.2s ease-in-out,
-      background 0.2s ease-in-out;
+    background: $button-color-bg;
+    transition: height 0.3s ease-in-out, border-color 0.2s ease-in-out;
     overflow: hidden;
     border: 1px solid transparent;
+    opacity: 0;
     &--toggled {
-      background: $button-color-bg;
+      opacity: 1;
       border-color: $border-color-expand;
       border-top-color: $border-color-separate;
     }

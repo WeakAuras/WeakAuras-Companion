@@ -72,15 +72,13 @@
       <checkbox v-model="config.showAllAuras">
         {{ $t("app.config.showallauras" /* Show auras without updates */) }}
       </checkbox>
-      <p class="label">{{ $t("app.config.lang" /* Language */) }}</p>
-      <select v-model="config.lang" class="form-control language">
-        <option
-          v-for="lang in langs"
-          :key="lang.value"
-          :value="lang.value"
-          v-html="lang.text"
-        ></option> </select
-      ><br /><br />
+      <Dropdown
+        v-model="config.lang"
+        :options="langs"
+        :label="$t('app.config.lang' /* language */)"
+      >
+      </Dropdown>
+      <br /><br />
       <checkbox v-model="config.notify">
         {{
           $t(
@@ -165,6 +163,7 @@ import AutoLaunch from "auto-launch";
 import { shell } from "electron";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
+import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
 import { wowDefaultPath } from "../libs/utilities";
 
@@ -176,6 +175,7 @@ const AutoLauncher = new AutoLaunch({
 export default Vue.extend({
   components: {
     Checkbox,
+    Dropdown,
     FileSelect,
     Button
   },

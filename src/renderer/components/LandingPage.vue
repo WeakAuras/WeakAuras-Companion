@@ -39,23 +39,22 @@
           <div v-if="config.wowpath.valided" id="version-selector">
             <Dropdown
               v-model="config.wowpath.version"
-              :options="config.wowpath.versions"
-              :options-labels="[
+              :options="[
                 {
                   value: '_retail_',
-                  label: $t('app.version.retail' /* Retail */)
+                  text: $t('app.version.retail' /* Retail */)
                 },
                 {
                   value: '_ptr_',
-                  label: $t('app.version.ptr' /* PTR */)
+                  text: $t('app.version.ptr' /* PTR */)
                 },
                 {
                   value: '_classic_beta_',
-                  label: $t('app.version.classicbeta' /* Classic Beta */)
+                  text: $t('app.version.classicbeta' /* Classic Beta */)
                 },
                 {
                   value: '_classic_',
-                  label: $t('app.version.classic' /* Classic */)
+                  text: $t('app.version.classic' /* Classic */)
                 }
               ]"
               :label="$t('app.wowpath.version' /* Version */)"
@@ -69,7 +68,7 @@
           >
             <Dropdown
               v-model="config.wowpath.versions[versionIndex].account"
-              :options="config.wowpath.versions[versionIndex].accounts"
+              :options="getAccountOptions(versionIndex)"
               :label="$t('app.wowpath.account' /* Account */)"
               @change="compareSVwithWago()"
             >
@@ -1380,6 +1379,13 @@ end`
     },
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
+    },
+    getAccountOptions(versionIndex) {
+      const options = [];
+      this.config.wowpath.versions[versionIndex].accounts.forEach(account => {
+        options.push({ value: account.name, text: account.name });
+      });
+      return options;
     },
     backup() {
       this.config.wowpath.versions.forEach((version, versionindex) => {
