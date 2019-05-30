@@ -6,7 +6,7 @@
       :class="{ 'dropdown__toggle--toggled': showMenu }"
       @click="toggleDropdown()"
     >
-      <span>{{ selected }}</span>
+      <span>{{ getLabel(selected) }}</span>
       <i :class="{ open: showMenu }" class="material-icons">
         keyboard_arrow_down
       </i>
@@ -20,10 +20,10 @@
         v-for="option in options"
         :key="option.name"
         class="dropdown__option"
-        :title="option.name"
+        :title="getLabel(option.name)"
         @click="selectItem(option.name)"
       >
-        <span>{{ option.name }}</span>
+        <span>{{ getLabel(option.name) }}</span>
       </div>
     </div>
   </div>
@@ -38,6 +38,12 @@ export default {
       type: [Array, Object],
       default() {
         return ["0"];
+      }
+    },
+    optionsLabels: {
+      type: Array,
+      default: () => {
+        return [];
       }
     },
     label: { type: [String, null], default: null },
@@ -67,6 +73,13 @@ export default {
       this.showMenu = false;
       this.selected = option;
       this.$emit("input", option);
+    },
+    getLabel(value) {
+      const index = this.optionsLabels.findIndex(
+        option => option.value === value
+      );
+      if (index === -1) return value;
+      return this.optionsLabels[index].label;
     }
   }
 };

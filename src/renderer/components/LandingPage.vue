@@ -40,6 +40,24 @@
             <Dropdown
               v-model="config.wowpath.version"
               :options="config.wowpath.versions"
+              :options-labels="[
+                {
+                  value: '_retail_',
+                  label: $t('app.version.retail' /* Retail */)
+                },
+                {
+                  value: '_ptr_',
+                  label: $t('app.version.ptr' /* PTR */)
+                },
+                {
+                  value: '_classic_beta_',
+                  label: $t('app.version.classicbeta' /* Classic Beta */)
+                },
+                {
+                  value: '_classic_',
+                  label: $t('app.version.classic' /* Classic */)
+                }
+              ]"
               :label="$t('app.wowpath.version' /* Version */)"
               @change="compareSVwithWago()"
             >
