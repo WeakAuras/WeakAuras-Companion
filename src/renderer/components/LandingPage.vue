@@ -1477,6 +1477,7 @@ end`
     },
     getAccountOptions(versionIndex) {
       const options = [];
+
       this.config.wowpath.versions[versionIndex].accounts.forEach(account => {
         options.push({ value: account.name, text: account.name });
       });

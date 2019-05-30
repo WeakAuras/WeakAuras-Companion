@@ -77,6 +77,7 @@ export default {
     },
     getLabel(value) {
       const index = this.options.findIndex(option => option.value === value);
+
       if (index === -1) return value;
       return this.options[index].text;
     }
@@ -100,7 +101,7 @@ $max-width: 200px;
   font-size: 14px;
   font-weight: 500;
   color: $text-color;
-  margin: 0 2px;
+  margin: 0 4px 0 0;
   &__label {
     font-size: 10px;
     padding-left: 5px;

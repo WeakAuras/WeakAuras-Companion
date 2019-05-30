@@ -23,15 +23,11 @@
           {{ $t("app.config.clientSettings" /* Companion Settings */) }}
         </div>
         <div class="block">
-          <p class="label">{{ $t("app.config.lang" /* Language */) }}</p>
-          <select v-model="config.lang" class="form-control language">
-            <option
-              v-for="lang in langs"
-              :key="lang.value"
-              :value="lang.value"
-              v-html="lang.text"
-            ></option>
-          </select>
+          <Dropdown
+            v-model="config.lang"
+            :options="langs"
+            :label="$t('app.config.lang' /* Language */)"
+          />
           <checkbox v-model="config.showAllAuras">
             {{ $t("app.config.showallauras" /* Show auras without updates */) }}
           </checkbox>
