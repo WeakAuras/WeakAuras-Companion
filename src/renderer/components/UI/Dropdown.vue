@@ -95,6 +95,7 @@ $border-color: #191919;
 $border-color-expand: #2c2c2c;
 
 $max-width: 200px;
+$min-width: 140px;
 .dropdown {
   position: relative;
   z-index: 999;
@@ -109,7 +110,7 @@ $max-width: 200px;
   &__toggle {
     position: relative;
     width: 100%;
-    min-width: 120px;
+    min-width: $min-width;
     max-width: $max-width;
 
     text-overflow: ellipsis;
