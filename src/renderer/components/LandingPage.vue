@@ -40,7 +40,7 @@
             <Dropdown
               v-model="config.wowpath.version"
               :options="config.wowpath.versions"
-              :label="`${this.$t('app.wowpath.version' /* Version */)}`"
+              :label="$t('app.wowpath.version' /* Version */)"
               @change="compareSVwithWago()"
             >
             </Dropdown>
@@ -52,7 +52,7 @@
             <Dropdown
               v-model="config.wowpath.versions[versionIndex].account"
               :options="config.wowpath.versions[versionIndex].accounts"
-              :label="`${this.$t('app.wowpath.account' /* Account */)}`"
+              :label="$t('app.wowpath.account' /* Account */)"
               @change="compareSVwithWago()"
             >
             </Dropdown>
