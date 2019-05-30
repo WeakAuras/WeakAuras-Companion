@@ -74,7 +74,12 @@
             :is-settings-ok="config.wowpath.valided"
             :is-sv-ok="WeakAurasSaved()"
             :fetching="fetching"
-            :last-update="schedule.lastUpdate"
+            :last-update="
+              versionIndex !== -1 &&
+                accountIndex !== -1 &&
+                config.wowpath.versions[versionIndex].accounts[accountIndex]
+                  .lastWagoUpdate
+            "
             :auras-shown="
               config.showAllAuras
                 ? aurasSorted.length
@@ -250,8 +255,7 @@ const defaultValues = {
     }
   },
   schedule: {
-    id: null, // 1h setTimeout id
-    lastUpdate: null
+    id: null // 1h setTimeout id
   },
   medias,
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
@@ -980,7 +984,10 @@ export default Vue.extend({
             this.$t("app.main.nothingToFetch" /* No updates available */)
           );
           this.fetching = false;
-          this.schedule.lastUpdate = new Date();
+
+          this.config.wowpath.versions[this.versionIndex].accounts[
+            this.accountIndex
+          ].lastWagoUpdate = new Date();
 
           if (this.schedule.id) clearTimeout(this.schedule.id);
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
@@ -1157,7 +1164,10 @@ export default Vue.extend({
                   this.writeAddonData(news, fails);
                 } finally {
                   this.fetching = false;
-                  this.schedule.lastUpdate = new Date();
+
+                  this.config.wowpath.versions[this.versionIndex].accounts[
+                    this.accountIndex
+                  ].lastWagoUpdate = new Date();
 
                   // schedule in 1 hour
                   if (this.schedule.id) clearTimeout(this.schedule.id);

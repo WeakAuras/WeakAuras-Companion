@@ -286,6 +286,7 @@ export default Vue.extend({
                           wowVersionIndex
                         ].accounts.push({
                           name: accountFile,
+                          lastWagoUpdate: null,
                           auras: []
                         });
                         this.config.wowpath.valided = true;
