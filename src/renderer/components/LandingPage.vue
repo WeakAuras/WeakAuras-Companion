@@ -939,20 +939,12 @@ export default Vue.extend({
                       // update ignore flag
                       this.auras[index].ignoreWagoUpdate = ignoreWagoUpdate;
 
+                      // update version
+                      this.auras[index].version = version;
+                      this.auras[index].semver = semver;
+
                       // wipe encoded if ignored (force re-fetching it on unignore)
                       if (ignoreWagoUpdate) this.auras[index].encoded = null;
-
-                      // check if version field needs to be updated
-                      if (aura.version < version) {
-                        this.auras[index].version = version;
-                        this.auras[index].semver = semver;
-                      }
-
-                      // check if a rollback was made
-                      if (aura.version > version) {
-                        this.auras[index].version = version;
-                        this.auras[index].semver = semver;
-                      }
                     }
                   });
                 }
