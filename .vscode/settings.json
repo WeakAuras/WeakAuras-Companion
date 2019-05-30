@@ -21,5 +21,7 @@
   "prettier.eslintIntegration": true,
   "vetur.format.defaultFormatter.js": "prettier-eslint",
   "vetur.format.defaultFormatter.html": "prettier",
-  "vetur.validation.template": false
+  "vetur.validation.template": false,
+  "eslint.packageManager": "yarn",
+  "npm.packageManager": "yarn"
 }

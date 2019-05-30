@@ -1,0 +1,96 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "presentation": {
+    "echo": false,
+    "reveal": "always",
+    "focus": false,
+    "panel": "new",
+    "showReuseMessage": true
+  },
+  "tasks": [
+    {
+      "label": "npm: build",
+      "type": "npm",
+      "script": "build",
+      "dependsOn": [
+        "npm: lint",
+        "npm: dev"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "npm: dev",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "npm: compile-tools",
+      "type": "npm",
+      "options": {
+        "statusbar": "hide"
+      },
+      "script": "compile-tools",
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    {
+      "label": "npm: lint",
+      "type": "npm",
+      "options": {
+        "statusbar": "hide"
+      },
+      "script": "lint",
+      "group": "test",
+      "problemMatcher": [
+        "$eslint-stylish"
+      ]
+    },
+    {
+      "label": "npm: dist",
+      "type": "npm",
+      "script": "dist",
+      "dependsOn": [
+        "npm: lint",
+        "npm: i18n",
+        "npm: dev"
+      ],
+      "problemMatcher": [
+        "$eslint-stylish"
+      ]
+    },
+    {
+      "label": "npm: i18n",
+      "type": "npm",
+      "script": "i18n",
+      "group": "build",
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    {
+      "label": "generate changelog",
+      "type": "shell",
+      "options": {
+        "statusbar": "hide"
+      },
+      "windows": {
+        "command": "wsl.exe -e ./generate_changelog.sh"
+      },
+      "command": "./generate_changelog.sh"
+    }
+  ]
+}

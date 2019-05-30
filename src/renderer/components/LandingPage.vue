@@ -80,7 +80,12 @@
             :is-settings-ok="config.wowpath.valided"
             :is-sv-ok="WeakAurasSaved()"
             :fetching="fetching"
-            :last-update="schedule.lastUpdate"
+            :last-update="
+              versionIndex !== -1 &&
+                accountIndex !== -1 &&
+                config.wowpath.versions[versionIndex].accounts[accountIndex]
+                  .lastWagoUpdate
+            "
             :auras-shown="
               config.showAllAuras
                 ? aurasSorted.length
@@ -257,8 +262,7 @@ const defaultValues = {
     }
   },
   schedule: {
-    id: null, // 1h setTimeout id
-    lastUpdate: null
+    id: null // 1h setTimeout id
   },
   medias,
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
@@ -414,6 +418,7 @@ export default Vue.extend({
                 ]
               }
             );
+
             afterWOWReload(this.config.wowpath.value, () => {
               while (this.stash.length > 0) {
                 this.stash.pop();
@@ -421,6 +426,7 @@ export default Vue.extend({
             });
           }
         }
+
         if (this.stash.length === 0) {
           if (this.reloadToast) {
             this.reloadToast.goAway(0);
@@ -439,31 +445,40 @@ export default Vue.extend({
         this.$set(this.config, "beta", allowPrerelease);
       }
     );
+
     // refresh on event (tray icon)
     this.$electron.ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
     });
+
     this.$electron.ipcRenderer.on("linkHandler", (event, link) => {
       const pattern = /(weakauras-companion:\/\/wago\/push\/)(([^/]+))/;
+
       if (link) {
         const result = link.match(pattern);
         let slug;
+
         if (result) ({ 2: slug } = result);
+
         if (slug) {
           this.wagoPushHandler(slug);
         }
       }
     });
+
     this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
       console.log(`updaterHandler: ${status}`);
+
       if (status === "checkForUpdates") {
         this.updater.version = arg.updateInfo.version;
         return;
       }
       this.updater.status = status;
+
       if (status === "download-progress") {
         this.updater.progress = Math.floor(arg.percent);
       }
+
       if (status === "update-available" && this.isMac && !this.updateToast) {
         // show download toast on Macs
         this.updateToast = this.message(
@@ -478,6 +493,7 @@ export default Vue.extend({
           }
         );
       }
+
       if (status === "error") {
         this.message(
           [this.$t("app.main.updateerror" /* Error in updater */), arg.code],
@@ -488,6 +504,7 @@ export default Vue.extend({
           }
         );
       }
+
       if (status === "update-downloaded") {
         if (!this.updateToast) {
           this.updateToast = this.message(
@@ -521,6 +538,7 @@ export default Vue.extend({
     });
     // load config
     this.restore();
+
     // set default wow path of not valid
     if (!this.config.wowpath.valided) {
       wowDefaultPath().then(value => {
@@ -529,6 +547,7 @@ export default Vue.extend({
     }
     // create default backup folder
     fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
+
     // send to panel setting on load if config is not ok
     if (!this.config.wowpath.valided) {
       this.configStep = 1;
@@ -542,8 +561,10 @@ export default Vue.extend({
   methods: {
     checkCompanionUpdates() {
       this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
+
       // check for app updates in 2 hours
       if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
+
       this.updater.scheduleId = setTimeout(
         this.checkCompanionUpdates,
         1000 * 3600 * 2
@@ -572,6 +593,7 @@ export default Vue.extend({
     },
     WeakAurasSaved(version, account) {
       let WeakAurasSavedVariable;
+
       if (version && account) {
         WeakAurasSavedVariable = path.join(
           this.config.wowpath.value,
@@ -593,6 +615,7 @@ export default Vue.extend({
           "WeakAuras.lua"
         );
       }
+
       if (WeakAurasSavedVariable) {
         try {
           fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
@@ -608,29 +631,41 @@ export default Vue.extend({
       const { beta } = this.config;
       this.config = JSON.parse(JSON.stringify(defaultValues.config));
       this.config.beta = beta;
+
       wowDefaultPath().then(value => {
         this.config.wowpath.value = value;
       });
+
+      this.message(
+        this.$t(
+          "app.main.settingswiped" /* Companion's settings have been reset! */
+        ),
+        "info"
+      );
     },
     open(link) {
       this.$electron.shell.openExternal(link);
     },
     restore() {
       const tmp = store.get("config");
+
       if (tmp) {
         this.config = tmp;
         this.$i18n.locale = this.config.lang;
 
         const previousVersion = store.get("config").internalVersion || 0;
+
         if (!this.config.backup) {
           console.log("add backup settings");
           this.$set(this.config, "backup", defaultValues.config.backup);
         }
+
         if (this.config.internalVersion < internalVersion) {
           /* migration */
           if (previousVersion < 2) {
             console.log("migration < 2");
             this.config.wowpath.value = "";
+
             wowDefaultPath().then(value => {
               this.config.wowpath.value = value;
             });
@@ -651,20 +686,24 @@ export default Vue.extend({
           }
         }
       };
+
       Object.keys(overrideOptions).forEach(key => {
         options[key] = overrideOptions[key];
       });
       let msg;
+
       if (typeof text === "object") {
         const div = document.createElement("div");
         div.className = "msg";
         div.innerHTML += text[0];
+
         for (let i = 1; i < text.length; i += 1) {
           const line = document.createElement("span");
           line.className = "small-text";
           line.innerHTML += text[i];
           div.appendChild(line);
         }
+
         options.className = options.className
           ? `${options.className} multiline`
           : "multiline";
@@ -672,7 +711,9 @@ export default Vue.extend({
       } else {
         msg = text;
       }
+
       if (type === "info") return this.$toasted.info(msg, options);
+
       if (type === "error") return this.$toasted.error(msg, options);
       return this.$toasted.show(msg, options);
     },
@@ -706,6 +747,7 @@ export default Vue.extend({
                 wagoSemver: wagoData.versionString,
                 versionNote: wagoData.changelog
               };
+
               this.$http
                 .get("https://data.wago.io/api/raw/encoded", {
                   params: {
@@ -764,11 +806,14 @@ export default Vue.extend({
     },
     compareSVwithWago() {
       const WeakAurasSavedVariable = this.WeakAurasSaved();
+
       if (!WeakAurasSavedVariable) {
         return;
       }
+
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
+
       if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
 
       // Read WeakAuras.lua
@@ -784,6 +829,7 @@ export default Vue.extend({
         }
         // Parse WeakAuras.lua
         const WeakAurasSavedData = luaparse.parse(data);
+
         if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
           this.message(
             this.$t(
@@ -803,6 +849,7 @@ export default Vue.extend({
         const slugs = []; /* save found slugs for deleting orphan */
 
         const pattern = /(https:\/\/wago.io\/)([^/]+)/;
+
         WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
           if (obj.key.value === "displays") {
             obj.value.fields.forEach(obj2 => {
@@ -819,23 +866,30 @@ export default Vue.extend({
                 if (obj3.key.value === "id") {
                   id = obj3.value.value;
                 }
+
                 if (obj3.key.value === "uid") {
                   uid = obj3.value.value;
                 }
+
                 if (obj3.key.value === "version") {
                   version = Number(obj3.value.value);
                 }
+
                 if (obj3.key.value === "semver") {
                   semver = obj3.value.value;
                 }
+
                 if (obj3.key.value === "ignoreWagoUpdate") {
                   ignoreWagoUpdate = obj3.value.value;
                 }
+
                 if (obj3.key.value === "url") {
                   url = obj3.value.value;
                   const result = url.match(pattern);
+
                   if (result) ({ 2: slug } = url.match(pattern));
                 }
+
                 if (obj3.key.value === "parent") {
                   topLevel = false;
                 }
@@ -846,6 +900,7 @@ export default Vue.extend({
                 const { length } = this.auras.filter(
                   aura => aura.slug === slug
                 );
+
                 if (length === 0) {
                   // new "slug" found, add it to the list of auras
                   this.auras.push({
@@ -873,35 +928,35 @@ export default Vue.extend({
                       if (typeof aura.ids === "undefined") {
                         this.auras[index].ids = [];
                       }
+
                       if (typeof aura.uids === "undefined") {
                         this.auras[index].uids = [];
                       }
+
                       if (typeof aura.regionType === "undefined") {
                         this.auras[index].regionType = null;
                       }
+
                       if (topLevel) this.auras[index].topLevel = id;
+
                       // add aura id to "ids" if necessary
                       if (aura.ids.indexOf(id) === -1) {
                         this.auras[index].ids.push(id);
                       }
+
                       // add aura uid to "uids" if necessary
                       if (uid && aura.uids.indexOf(uid) === -1) {
                         this.auras[index].uids.push(uid);
                       }
                       // update ignore flag
                       this.auras[index].ignoreWagoUpdate = ignoreWagoUpdate;
+
+                      // update version
+                      this.auras[index].version = version;
+                      this.auras[index].semver = semver;
+
                       // wipe encoded if ignored (force re-fetching it on unignore)
                       if (ignoreWagoUpdate) this.auras[index].encoded = null;
-                      // check if version field needs to be updated
-                      if (aura.version < version) {
-                        this.auras[index].version = version;
-                        this.auras[index].semver = semver;
-                      }
-                      // check if a rollback was made
-                      if (aura.version > version) {
-                        this.auras[index].version = version;
-                        this.auras[index].semver = semver;
-                      }
                     }
                   });
                 }
@@ -937,12 +992,17 @@ export default Vue.extend({
             this.$t("app.main.nothingToFetch" /* No updates available */)
           );
           this.fetching = false;
-          this.schedule.lastUpdate = new Date();
+
+          this.config.wowpath.versions[this.versionIndex].accounts[
+            this.accountIndex
+          ].lastWagoUpdate = new Date();
+
           if (this.schedule.id) clearTimeout(this.schedule.id);
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
           return;
         }
         const received = [];
+
         // Get data from Wago api
         this.$http
           .get("https://data.wago.io/api/check/weakauras", {
@@ -963,10 +1023,12 @@ export default Vue.extend({
           .then(response => {
             // metadata received from Wago API
             const promises = [];
+
             response.data.forEach(wagoData => {
               received.push(wagoData.slug);
               // eslint-disable-next-line no-underscore-dangle
               received.push(wagoData._id);
+
               this.auras.forEach((aura, index) => {
                 // eslint-disable-next-line no-underscore-dangle
                 if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
@@ -979,6 +1041,7 @@ export default Vue.extend({
                   this.auras[index].regionType = wagoData.regionType;
                   // eslint-disable-next-line no-underscore-dangle
                   this.auras[index].wagoid = wagoData._id;
+
                   // Check if encoded string needs to be fetched
                   if (
                     !aura.ignoreWagoUpdate &&
@@ -1026,12 +1089,14 @@ export default Vue.extend({
             // Get each encoded string
             const news = [];
             const fails = [];
+
             this.$http
               .all(promisesResolved)
               .then(
                 this.$http.spread((...args) => {
                   args.forEach(arg => {
                     const { id } = arg.config.params;
+
                     if (arg.status === 200) {
                       this.auras.forEach((aura, index) => {
                         if (aura.wagoid === id) {
@@ -1078,8 +1143,10 @@ export default Vue.extend({
                 );
                 console.log(JSON.stringify(error));
                 this.fetching = false;
+
                 // schedule in 30mn on error
                 if (this.schedule.id) clearTimeout(this.schedule.id);
+
                 this.schedule.id = setTimeout(
                   this.compareSVwithWago,
                   1000 * 60 * 30
@@ -1099,14 +1166,20 @@ export default Vue.extend({
                     });
                   }
                 });
+
                 // we are done with wago API, update data.lua
                 try {
                   this.writeAddonData(news, fails);
                 } finally {
                   this.fetching = false;
-                  this.schedule.lastUpdate = new Date();
+
+                  this.config.wowpath.versions[this.versionIndex].accounts[
+                    this.accountIndex
+                  ].lastWagoUpdate = new Date();
+
                   // schedule in 1 hour
                   if (this.schedule.id) clearTimeout(this.schedule.id);
+
                   this.schedule.id = setTimeout(
                     this.compareSVwithWago,
                     1000 * 60 * 60
@@ -1126,8 +1199,10 @@ export default Vue.extend({
             );
             console.log(JSON.stringify(error));
             this.fetching = false;
+
             // schedule in 30mn on error
             if (this.schedule.id) clearTimeout(this.schedule.id);
+
             this.schedule.id = setTimeout(
               this.compareSVwithWago,
               1000 * 60 * 30
@@ -1140,6 +1215,7 @@ export default Vue.extend({
     },
     writeAddonData(news, fails, noNotification) {
       let newInstall = false;
+
       if (this.config.wowpath.valided && this.version !== "") {
         const AddonFolder = path.join(
           this.config.wowpath.value,
@@ -1148,6 +1224,7 @@ export default Vue.extend({
           "AddOns",
           "WeakAurasCompanion"
         );
+
         // Make folder
         fs.mkdir(AddonFolder, err => {
           if (err && err.code !== "EEXIST") {
@@ -1160,9 +1237,11 @@ export default Vue.extend({
             console.log(JSON.stringify(err));
             throw new Error("errorCantCreateAddon");
           }
+
           if (!err) {
             if (isWOWOpen(this.config.wowpath.value)) {
               newInstall = true;
+
               if (!this.reloadToast) {
                 this.reloadToast = this.message(
                   this.$t(
@@ -1176,6 +1255,7 @@ export default Vue.extend({
                     }
                   }
                 );
+
                 afterWOWRestart(this.config.wowpath.value, () => {
                   if (this.reloadToast) this.reloadToast.goAway(0);
                 });
@@ -1195,14 +1275,18 @@ export default Vue.extend({
             "wagoSemver"
           ];
           LuaOutput += "  slugs = {\n";
+
           this.aurasWithUpdateSorted.forEach(aura => {
             LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+
             fields.forEach(field => {
               LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
             });
+
             if (typeof aura.changelog !== "undefined") {
               if (typeof aura.changelog.text !== "undefined") {
                 let sanitized;
+
                 if (aura.changelog.format === "bbcode") {
                   sanitized = sanitize.bbcode(aura.changelog.text);
                 } else if (aura.changelog.format === "markdown") {
@@ -1211,12 +1295,14 @@ export default Vue.extend({
                 LuaOutput += `      versionNote = [=[${sanitized}]=],\n`;
               }
             }
+
             if (aura.uids) {
               aura.uids.forEach(uid => {
                 LuaUids += `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
                   aura.slug
                 }]=],\n`;
               });
+
               aura.ids.forEach(id => {
                 LuaIds += `    ["${id.replace(/"/g, '\\"')}"] = [=[${
                   aura.slug
@@ -1231,14 +1317,18 @@ export default Vue.extend({
           LuaOutput += LuaIds;
           LuaOutput += "  },\n";
           LuaOutput += "  stash = {\n";
+
           this.stash.forEach(aura => {
             LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+
             fields.forEach(field => {
               LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
             });
+
             if (typeof aura.changelog !== "undefined") {
               if (typeof aura.changelog.text !== "undefined") {
                 let sanitized;
+
                 if (aura.changelog.format === "bbcode") {
                   sanitized = sanitize.bbcode(aura.changelog.text);
                 } else if (aura.changelog.format === "markdown") {
@@ -1311,6 +1401,7 @@ end`
               }
             });
           });
+
           if (!noNotification)
             this.afterUpdateNotification(newInstall, news, fails);
         });
@@ -1333,12 +1424,14 @@ end`
         "app.main.installFail",
         failsCount /* No fail | 1 failed | {n} failed */
       );
+
       if (newsCount > 0 && failsCount > 0) {
         this.message(
           `${translatedTotal} (${translatedNew}, ${translatedFail})`
         );
       } else if (newsCount > 0) {
         this.message(`${translatedTotal} (${translatedNew})`);
+
         if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
           if (!this.reloadToast) {
             this.reloadToast = this.message(
@@ -1353,6 +1446,7 @@ end`
                 }
               }
             );
+
             afterWOWReload(this.config.wowpath.value, () => {
               if (this.reloadToast) {
                 this.reloadToast.goAway(0);
@@ -1372,6 +1466,7 @@ end`
         const myNotification = new Notification("WeakAuras Update", {
           body: news.join("\n")
         });
+
         myNotification.onclick = () => {
           this.$electron.ipcRenderer.send("open");
         };

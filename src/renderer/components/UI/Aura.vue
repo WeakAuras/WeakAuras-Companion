@@ -83,6 +83,7 @@ export default Vue.extend({
   computed: {
     childs() {
       let output = "";
+
       if (this.aura.ids) {
         if (this.aura.changelog && this.aura.changelog.text) {
           if (this.aura.changelog.format === "bbcode") {

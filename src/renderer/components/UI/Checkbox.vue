@@ -42,6 +42,7 @@ input[type="checkbox"] + .checkbox__box:focus {
   display: flex;
   flex-direction: row;
   user-select: none;
+  margin-top: 10px;
 }
 .checkbox__box {
   background-color: #e6e6e6;

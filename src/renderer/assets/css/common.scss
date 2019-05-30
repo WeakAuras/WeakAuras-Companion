@@ -101,6 +101,14 @@ a {
   padding: 0 !important;
 }
 
+.label-issue {
+  font-size: 16px;
+  vertical-align: top;
+  line-height: 32px;
+  color: #ff3333;
+  transition: all 0.1s ease-in-out;
+}
+
 button,
 select,
 input,
