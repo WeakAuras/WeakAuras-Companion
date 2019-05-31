@@ -408,10 +408,6 @@ export default Vue.extend({
     },
     deep: true,
     // eslint-disable-next-line func-names
-    "config.wowpath.value": function() {
-      this.validateWowpath();
-    },
-    // eslint-disable-next-line func-names
     "config.wowpath.version": function() {
       this.accountOptions =
         this.versionSelected &&

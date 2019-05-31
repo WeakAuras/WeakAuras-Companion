@@ -222,6 +222,11 @@ export default Vue.extend({
     // eslint-disable-next-line func-names
     "config.beta": function() {
       this.$parent.checkCompanionUpdates();
+    },
+    // eslint-disable-next-line func-names
+    "config.wowpath.value": function() {
+      console.log("reset wow path from watcher");
+      this.$parent.validateWowpath();
     }
   },
   methods: {
