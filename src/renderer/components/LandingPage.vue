@@ -413,9 +413,12 @@ export default Vue.extend({
     },
     // eslint-disable-next-line func-names
     "config.wowpath.version": function() {
-      this.accountOptions = this.versionSelected.accounts.map(account => {
-        return { value: account.name, text: account.name };
-      });
+      this.accountOptions =
+        this.versionSelected &&
+        this.versionSelected.accounts &&
+        this.versionSelected.accounts.map(account => {
+          return { value: account.name, text: account.name } || [];
+        });
     },
     // eslint-disable-next-line func-names
     "config.wowpath.versions": function() {
@@ -438,15 +441,18 @@ export default Vue.extend({
         }
       ];
 
-      this.versionOptions = this.config.wowpath.versions.map(version => {
-        const label = versionLabels.find(
-          versionLabel => versionLabel.value === version.name
-        );
-        return {
-          value: version.name,
-          text: (label && label.text) || version.name
-        };
-      });
+      this.versionOptions =
+        (this.config.wowpath.versions &&
+          this.config.wowpath.versions.map(version => {
+            const label = versionLabels.find(
+              versionLabel => versionLabel.value === version.name
+            );
+            return {
+              value: version.name,
+              text: (label && label.text) || version.name
+            };
+          })) ||
+        [];
     }
   },
   mounted() {
@@ -1009,7 +1015,7 @@ export default Vue.extend({
           );
           this.fetching = false;
 
-          this.accountSelected.lastWagoUpdate = new Date();
+          this.$set(this.accountSelected, "lastWagoUpdate", new Date());
 
           if (this.schedule.id) clearTimeout(this.schedule.id);
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
@@ -1187,7 +1193,7 @@ export default Vue.extend({
                 } finally {
                   this.fetching = false;
 
-                  this.accountSelected.lastWagoUpdate = new Date();
+                  this.$set(this.accountSelected, "lastWagoUpdate", new Date());
 
                   // schedule in 1 hour
                   if (this.schedule.id) clearTimeout(this.schedule.id);
