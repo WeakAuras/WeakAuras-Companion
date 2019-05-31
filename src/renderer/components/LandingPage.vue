@@ -61,6 +61,8 @@
         <div v-if="configStep === 0" id="dashboard">
           <RefreshButton
             :is-settings-ok="config.wowpath.valided"
+            :is-version-selected="versionIndex !== -1"
+            :is-account-selected="accountIndex !== -1"
             :is-sv-ok="WeakAurasSaved()"
             :fetching="fetching"
             :last-update="
