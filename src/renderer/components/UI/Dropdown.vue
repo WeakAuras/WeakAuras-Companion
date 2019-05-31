@@ -33,7 +33,7 @@
 export default {
   inheritAttrs: false,
   props: {
-    value: { type: [String, Object], default: "" },
+    value: { type: [String, Number, Object], default: "" },
     options: {
       type: [Array, Object],
       default() {
