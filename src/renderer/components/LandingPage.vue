@@ -39,24 +39,7 @@
           <div v-if="config.wowpath.valided" id="version-selector">
             <Dropdown
               v-model="config.wowpath.version"
-              :options="[
-                {
-                  value: '_retail_',
-                  text: $t('app.version.retail' /* Retail */)
-                },
-                {
-                  value: '_ptr_',
-                  text: $t('app.version.ptr' /* PTR */)
-                },
-                {
-                  value: '_classic_beta_',
-                  text: $t('app.version.classicbeta' /* Classic Beta */)
-                },
-                {
-                  value: '_classic_',
-                  text: $t('app.version.classic' /* Classic */)
-                }
-              ]"
+              :options="getVersionOptions()"
               :label="$t('app.wowpath.version' /* Version */)"
               @change="compareSVwithWago()"
             >
@@ -68,7 +51,7 @@
           >
             <Dropdown
               v-model="config.wowpath.versions[versionIndex].account"
-              :options="getAccountOptions(versionIndex)"
+              :options="getAccountOptions()"
               :label="$t('app.wowpath.account' /* Account */)"
               @change="compareSVwithWago()"
             >
@@ -1475,12 +1458,47 @@ end`
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
     },
-    getAccountOptions(versionIndex) {
+    getVersionOptions() {
+      const versionLabels = [
+        {
+          value: "_retail_",
+          text: this.$t("app.version.retail" /* Retail */)
+        },
+        {
+          value: "_ptr_",
+          text: this.$t("app.version.ptr" /* PTR */)
+        },
+        {
+          value: "_classic_beta_",
+          text: this.$t("app.version.classicbeta" /* Classic Beta */)
+        },
+        {
+          value: "_classic_",
+          text: this.$t("app.version.classic" /* Classic */)
+        }
+      ];
       const options = [];
 
-      this.config.wowpath.versions[versionIndex].accounts.forEach(account => {
-        options.push({ value: account.name, text: account.name });
+      this.config.wowpath.versions.forEach(version => {
+        const label = versionLabels.find(
+          versionLabel => versionLabel.value === version.name
+        );
+        let text;
+
+        if (label === "undefined") text = version.name;
+        else ({ text } = label);
+        options.push({ value: version.name, text });
       });
+      return options;
+    },
+    getAccountOptions() {
+      const options = [];
+
+      this.config.wowpath.versions[this.versionIndex].accounts.forEach(
+        account => {
+          options.push({ value: account.name, text: account.name });
+        }
+      );
       return options;
     },
     backup() {
