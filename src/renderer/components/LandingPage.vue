@@ -39,7 +39,7 @@
           <div v-if="config.wowpath.valided" id="version-selector">
             <Dropdown
               v-model="config.wowpath.version"
-              :options="getVersionOptions()"
+              :options="getVersionOptions"
               :label="$t('app.wowpath.version' /* Version */)"
               @change="compareSVwithWago()"
             >
@@ -51,7 +51,7 @@
           >
             <Dropdown
               v-model="config.wowpath.versions[versionIndex].account"
-              :options="getAccountOptions()"
+              :options="getAccountOptions"
               :label="$t('app.wowpath.account' /* Account */)"
               @change="compareSVwithWago()"
             >
@@ -366,6 +366,44 @@ export default Vue.extend({
         }
         return [];
       }
+    },
+    getVersionOptions() {
+      const versionLabels = [
+        {
+          value: "_retail_",
+          text: this.$t("app.version.retail" /* Retail */)
+        },
+        {
+          value: "_ptr_",
+          text: this.$t("app.version.ptr" /* PTR */)
+        },
+        {
+          value: "_classic_beta_",
+          text: this.$t("app.version.classicbeta" /* Classic Beta */)
+        },
+        {
+          value: "_classic_",
+          text: this.$t("app.version.classic" /* Classic */)
+        }
+      ];
+
+      return this.config.wowpath.versions.map(version => {
+        const label = versionLabels.find(
+          versionLabel => versionLabel.value === version.name
+        );
+        let text;
+
+        if (label === "undefined") text = version.name;
+        else ({ text } = label);
+        return { value: version.name, text };
+      });
+    },
+    getAccountOptions() {
+      return this.config.wowpath.versions[this.versionIndex].accounts.map(
+        account => {
+          return { value: account.name, text: account.name };
+        }
+      );
     }
   },
   watch: {
@@ -1457,49 +1495,6 @@ end`
     },
     installUpdates() {
       this.$electron.ipcRenderer.send("installUpdates");
-    },
-    getVersionOptions() {
-      const versionLabels = [
-        {
-          value: "_retail_",
-          text: this.$t("app.version.retail" /* Retail */)
-        },
-        {
-          value: "_ptr_",
-          text: this.$t("app.version.ptr" /* PTR */)
-        },
-        {
-          value: "_classic_beta_",
-          text: this.$t("app.version.classicbeta" /* Classic Beta */)
-        },
-        {
-          value: "_classic_",
-          text: this.$t("app.version.classic" /* Classic */)
-        }
-      ];
-      const options = [];
-
-      this.config.wowpath.versions.forEach(version => {
-        const label = versionLabels.find(
-          versionLabel => versionLabel.value === version.name
-        );
-        let text;
-
-        if (label === "undefined") text = version.name;
-        else ({ text } = label);
-        options.push({ value: version.name, text });
-      });
-      return options;
-    },
-    getAccountOptions() {
-      const options = [];
-
-      this.config.wowpath.versions[this.versionIndex].accounts.forEach(
-        account => {
-          options.push({ value: account.name, text: account.name });
-        }
-      );
-      return options;
     },
     backup() {
       this.config.wowpath.versions.forEach((version, versionindex) => {
