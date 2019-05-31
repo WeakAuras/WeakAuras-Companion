@@ -404,9 +404,9 @@ export default Vue.extend({
           }
         }
         this.writeAddonData(null, null, true);
-      }
+      },
+      deep: true
     },
-    deep: true,
     // eslint-disable-next-line func-names
     "config.wowpath.version": function() {
       this.accountOptions =
