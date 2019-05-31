@@ -389,6 +389,7 @@ export default Vue.extend({
         }
       ];
 
+      if (!this.config.wowpath.versions) return [];
       return this.config.wowpath.versions.map(version => {
         const label = versionLabels.find(
           versionLabel => versionLabel.value === version.name
