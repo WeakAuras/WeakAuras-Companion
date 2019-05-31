@@ -74,7 +74,7 @@
     "@babel/runtime": "^7.4.5",
     "archiver": "^3.0.0",
     "auto-launch": "^5.0.5",
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "electron-localshortcut": "^3.1.0",
     "electron-log": "^3.0.6",
     "electron-store": "^3.2.0",
