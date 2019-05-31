@@ -37,36 +37,25 @@
       <main>
         <div v-if="configStep === 0" id="selectors">
           <div v-if="config.wowpath.valided" id="version-selector">
-            <select
+            <Dropdown
               v-model="config.wowpath.version"
-              class="form-control"
+              :options="getVersionOptions"
+              :label="$t('app.wowpath.version' /* Version */)"
               @change="compareSVwithWago()"
             >
-              <option
-                v-for="version in config.wowpath.versions"
-                :key="version.name"
-              >
-                {{ version.name }}
-              </option>
-            </select>
+            </Dropdown>
           </div>
           <div
             v-if="config.wowpath.valided && versionIndex !== -1"
             id="account-selector"
           >
-            <select
+            <Dropdown
               v-model="config.wowpath.versions[versionIndex].account"
-              class="form-control"
+              :options="getAccountOptions"
+              :label="$t('app.wowpath.account' /* Account */)"
               @change="compareSVwithWago()"
             >
-              <option
-                v-for="account in config.wowpath.versions[versionIndex]
-                  .accounts"
-                :key="account.name"
-              >
-                {{ account.name }}
-              </option>
-            </select>
+            </Dropdown>
           </div>
         </div>
         <div v-if="configStep === 0" id="dashboard">
@@ -204,6 +193,7 @@ import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Stash from "./UI/Stash.vue";
+import Dropdown from "./UI/Dropdown.vue";
 
 const userDataPath = require("electron").remote.app.getPath("userData");
 const fs = require("fs");
@@ -281,7 +271,8 @@ export default Vue.extend({
     TitleBar,
     Report,
     Stash,
-    Button
+    Button,
+    Dropdown
   },
   data() {
     return JSON.parse(JSON.stringify(defaultValues));
@@ -375,6 +366,44 @@ export default Vue.extend({
         }
         return [];
       }
+    },
+    getVersionOptions() {
+      const versionLabels = [
+        {
+          value: "_retail_",
+          text: this.$t("app.version.retail" /* Retail */)
+        },
+        {
+          value: "_ptr_",
+          text: this.$t("app.version.ptr" /* PTR */)
+        },
+        {
+          value: "_classic_beta_",
+          text: this.$t("app.version.classicbeta" /* Classic Beta */)
+        },
+        {
+          value: "_classic_",
+          text: this.$t("app.version.classic" /* Classic */)
+        }
+      ];
+
+      return this.config.wowpath.versions.map(version => {
+        const label = versionLabels.find(
+          versionLabel => versionLabel.value === version.name
+        );
+        let text;
+
+        if (label === "undefined") text = version.name;
+        else ({ text } = label);
+        return { value: version.name, text };
+      });
+    },
+    getAccountOptions() {
+      return this.config.wowpath.versions[this.versionIndex].accounts.map(
+        account => {
+          return { value: account.name, text: account.name };
+        }
+      );
     }
   },
   watch: {
@@ -1550,9 +1579,20 @@ end`
 
 /* WoW Version & Account selection */
 #selectors {
-  position: fixed;
-  top: 100px;
-  right: 0;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  option,
+  select {
+    background: #191919;
+    color: #e6e6e6;
+    margin: 0 5px;
+    border-radius: 6px;
+    width: 120px;
+    &:focus {
+      outline: none;
+    }
+  }
 }
 #version-selector {
   float: right;
@@ -1749,6 +1789,10 @@ $iconSize: 26px;
 }
 
 /* WoW Version & Account selection */
+main {
+  position: relative;
+}
+
 select {
   padding: 5px;
   font-size: small;
