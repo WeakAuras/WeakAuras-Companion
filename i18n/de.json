@@ -5,6 +5,7 @@
   "app.about.version": "Version: {version}",
   "app.aura.updatedisabled": "Updates deaktiviert",
   "app.aura.updateready": "Update verfügbar",
+  "app.aura.versionskip": "version skipped",
   "app.config.account.notvalidtooltip": "Wir konnten keine WeakAura Dateien auf diesem Account finden. Hast du das AddOn installiert?",
   "app.config.account.selectaccounttooltip": "Wähle einen Account",
   "app.config.autoStart": "Client starten, wenn mein Computer gestartet wird",

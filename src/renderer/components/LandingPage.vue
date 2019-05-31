@@ -876,6 +876,7 @@ export default Vue.extend({
               let version = 0;
               let semver;
               let ignoreWagoUpdate = false;
+              let skipWagoUpdate = null;
               let id;
               let uid = null;
               let topLevel = true;
@@ -899,6 +900,10 @@ export default Vue.extend({
 
                 if (obj3.key.value === "ignoreWagoUpdate") {
                   ignoreWagoUpdate = obj3.value.value;
+                }
+
+                if (obj3.key.value === "skipWagoUpdate") {
+                  skipWagoUpdate = obj3.value.value;
                 }
 
                 if (obj3.key.value === "url") {
@@ -926,6 +931,7 @@ export default Vue.extend({
                     version,
                     semver,
                     ignoreWagoUpdate,
+                    skipWagoUpdate,
                     wagoVersion: null,
                     wagoSemver: null,
                     changelog: null,
@@ -966,8 +972,9 @@ export default Vue.extend({
                       if (uid && aura.uids.indexOf(uid) === -1) {
                         this.auras[index].uids.push(uid);
                       }
-                      // update ignore flag
+                      // update ignore flags
                       this.auras[index].ignoreWagoUpdate = ignoreWagoUpdate;
+                      this.auras[index].skipWagoUpdate = skipWagoUpdate;
 
                       // update version
                       this.auras[index].version = version;

@@ -5,6 +5,7 @@
   "app.about.version": "版本: {version}",
   "app.aura.updatedisabled": "updates disabled",
   "app.aura.updateready": "update ready",
+  "app.aura.versionskip": "version skipped",
   "app.config.account.notvalidtooltip": "We can’t find any data from WeakAuras in this account. Do you have the addon installed?",
   "app.config.account.selectaccounttooltip": "Select an account",
   "app.config.autoStart": "开机时启动客户端",

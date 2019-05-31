@@ -28,6 +28,12 @@
       {{ $t("app.aura.updatedisabled" /* updates disabled */) }}
     </div>
     <div
+      v-else-if="aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion"
+      class="ignored"
+    >
+      {{ $t("app.aura.versionskip" /* version skipped */) }}
+    </div>
+    <div
       v-else-if="showAllAuras && aura.version < aura.wagoVersion"
       class="update-ready"
     >

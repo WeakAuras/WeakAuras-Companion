@@ -5,6 +5,7 @@
   "app.about.version": "Version: {version}",
   "app.aura.updatedisabled": "maj désactivé",
   "app.aura.updateready": "maj prête",
+  "app.aura.versionskip": "version skipped",
   "app.config.account.notvalidtooltip": "Nous ne trouvons pas les données WeakAuras sur ce compte. L'addon est-il installé?",
   "app.config.account.selectaccounttooltip": "Sélectionnez un compte",
   "app.config.autoStart": "Démarrer le client avec votre ordinateur",
