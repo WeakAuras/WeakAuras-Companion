@@ -150,14 +150,13 @@
             <p class="explorer" @click="openBackupDir()">
               {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
             </p>
-            <p class="label">
-              {{ $t("app.config.backup.dedicatedsize" /* Dedicated size */) }}
-            </p>
-            <select v-model="config.backup.maxsize">
-              <option value="50">50mb</option>
-              <option value="100">100mb</option>
-              <option value="500">500mb</option>
-            </select>
+            <Dropdown
+              v-model="config.backup.maxsize"
+              :options="backupsize"
+              :label="
+                $t('app.config.backup.dedicatedsize' /* Dedicated size */)
+              "
+            />
           </div>
         </div>
       </div>
@@ -201,6 +200,11 @@ export default Vue.extend({
         { value: "en", text: "English (en)" },
         { value: "fr", text: "Français (fr)" },
         { value: "ru", text: "Русский (ru)" }
+      ],
+      backupsize: [
+        { value: 50, text: "50mb" },
+        { value: 100, text: "100mb" },
+        { value: 500, text: "500mb" }
       ],
       wagoUsername: this.config.wagoUsername,
       wagoApiKey: this.config.wagoApiKey
