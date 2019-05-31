@@ -60,6 +60,9 @@ export default {
     value() {
       this.selected =
         this.value === "" ? this.placeholder : this.getLabel(this.value);
+    },
+    options() {
+      this.height = this.options.length * 30;
     }
   },
   methods: {
