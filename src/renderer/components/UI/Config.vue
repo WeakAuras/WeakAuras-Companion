@@ -171,8 +171,6 @@
 </template>
 
 <script>
-import fs from "fs";
-import path from "path";
 import Vue from "vue";
 import VTooltip from "v-tooltip";
 import AutoLaunch from "auto-launch";
@@ -181,7 +179,6 @@ import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
-import { wowDefaultPath } from "../libs/utilities";
 
 Vue.use(VTooltip);
 
@@ -195,7 +192,7 @@ export default Vue.extend({
     FileSelect,
     Button
   },
-  props: ["config", "versionindex", "accountindex"],
+  props: ["config", "versionindex", "accountindex", "defaultWOWPath"],
   data() {
     return {
       langs: [
@@ -206,8 +203,7 @@ export default Vue.extend({
         { value: "ru", text: "Русский (ru)" }
       ],
       wagoUsername: this.config.wagoUsername,
-      wagoApiKey: this.config.wagoApiKey,
-      defaultWOWPath: ""
+      wagoApiKey: this.config.wagoApiKey
     };
   },
   watch: {
@@ -220,10 +216,6 @@ export default Vue.extend({
       }
     },
     // eslint-disable-next-line func-names
-    "config.wowpath.value": function() {
-      this.validateWowpath();
-    },
-    // eslint-disable-next-line func-names
     "config.lang": function() {
       this.$i18n.locale = this.config.lang;
     },
@@ -231,17 +223,6 @@ export default Vue.extend({
     "config.beta": function() {
       this.$parent.checkCompanionUpdates();
     }
-  },
-  mounted() {
-    wowDefaultPath().then(value => {
-      this.defaultWOWPath = value;
-
-      if (this.config.wowpath.value === "" || !this.config.wowpath.valided) {
-        this.config.wowpath.value = value;
-      }
-
-      if (!this.config.wowpath.valided) this.validateWowpath();
-    });
   },
   methods: {
     reset() {
@@ -253,77 +234,6 @@ export default Vue.extend({
     },
     checkApiKey() {
       return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
-    },
-    validateWowpath() {
-      this.config.wowpath.valided = false;
-
-      if (this.config.wowpath.value) {
-        // test if ${wowpath}\Data exists
-        const wowpath = this.config.wowpath.value;
-        const DataFolder = path.join(wowpath, "Data");
-
-        fs.access(DataFolder, fs.constants.F_OK, err => {
-          if (!err) {
-            // clean Versions options
-            if (this.config.wowpath.versions)
-              while (this.config.wowpath.versions.length > 0)
-                this.config.wowpath.versions.pop();
-
-            fs.readdirSync(wowpath)
-              .filter(
-                versionDir =>
-                  versionDir.match(/^_.*_$/) &&
-                  fs.statSync(path.join(wowpath, versionDir)).isDirectory()
-              )
-              .forEach(versionDir => {
-                if (!this.config.wowpath.versions) {
-                  this.$set(this.config.wowpath, "versions", []);
-                }
-                const { versions } = this.config.wowpath;
-                const wowVersionIndex =
-                  versions.push({
-                    name: versionDir,
-                    accounts: [],
-                    account: ""
-                  }) - 1;
-                const accountFolder = path.join(
-                  wowpath,
-                  versionDir,
-                  "WTF",
-                  "Account"
-                );
-
-                fs.access(accountFolder, fs.constants.F_OK, err2 => {
-                  if (!err2) {
-                    // add option for each account found
-                    fs.readdirSync(accountFolder)
-                      .filter(
-                        accountFile =>
-                          accountFile !== "SavedVariables" &&
-                          fs
-                            .statSync(path.join(accountFolder, accountFile))
-                            .isDirectory()
-                      )
-                      .forEach(accountFile => {
-                        this.config.wowpath.versions[
-                          wowVersionIndex
-                        ].accounts.push({
-                          name: accountFile,
-                          lastWagoUpdate: null,
-                          auras: []
-                        });
-                        this.config.wowpath.valided = true;
-                      });
-                  } else {
-                    console.log(`Error: ${err2}`);
-                  }
-                });
-              });
-          } else {
-            console.log(`Error: ${err}`);
-          }
-        });
-      }
     }
   }
 });

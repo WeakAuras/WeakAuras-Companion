@@ -101,6 +101,7 @@
           :config="config"
           :versionindex="versionIndex"
           :accountindex="accountIndex"
+          :default-w-o-w-path="defaultWOWPath"
         ></Config>
         <Help v-if="configStep === 2"></Help>
         <About v-if="configStep === 3"></About>
@@ -210,7 +211,7 @@ const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
 
-const internalVersion = 2;
+const internalVersion = 3;
 
 let animationId;
 let mouseX;
@@ -259,7 +260,8 @@ const defaultValues = {
     scheduleId: null, // for 2h auto-updater
     version: null
   },
-  isMac: process.platform === "darwin"
+  isMac: process.platform === "darwin",
+  defaultWOWPath: ""
 };
 
 export default Vue.extend({
@@ -343,7 +345,7 @@ export default Vue.extend({
     },
     auras: {
       get() {
-        if (this.config.wowpath.version) {
+        if (this.config.wowpath.valided && this.config.wowpath.version) {
           if (this.accountIndex !== -1) {
             return (
               this.config.wowpath.versions[this.versionIndex].accounts[
@@ -460,7 +462,11 @@ export default Vue.extend({
         this.writeAddonData(null, null, true);
       }
     },
-    deep: true
+    deep: true,
+    // eslint-disable-next-line func-names
+    "config.wowpath.value": function() {
+      this.validateWowpath();
+    }
   },
   mounted() {
     this.$electron.ipcRenderer.on(
@@ -563,10 +569,15 @@ export default Vue.extend({
     // load config
     this.restore();
 
-    // set default wow path of not valid
+    // set default wow path
     if (!this.config.wowpath.valided) {
       wowDefaultPath().then(value => {
-        this.config.wowpath.value = value;
+        this.defaultWOWPath = value;
+
+        if (!this.config.wowpath.valided) {
+          this.config.wowpath.value = value;
+          this.validateWowpath();
+        }
       });
     }
     // create default backup folder
@@ -686,9 +697,10 @@ export default Vue.extend({
 
         if (this.config.internalVersion < internalVersion) {
           /* migration */
-          if (previousVersion < 2) {
-            console.log("migration < 2");
+          if (previousVersion < 3) {
+            console.log("migration < 3");
             this.config.wowpath.value = "";
+            this.config.account = null;
 
             wowDefaultPath().then(value => {
               this.config.wowpath.value = value;
@@ -1514,6 +1526,77 @@ end`
           );
         });
       });
+    },
+    validateWowpath() {
+      this.config.wowpath.valided = false;
+
+      if (this.config.wowpath.value) {
+        // test if ${wowpath}\Data exists
+        const wowpath = this.config.wowpath.value;
+        const DataFolder = path.join(wowpath, "Data");
+
+        fs.access(DataFolder, fs.constants.F_OK, err => {
+          if (!err) {
+            // clean Versions options
+            if (this.config.wowpath.versions)
+              while (this.config.wowpath.versions.length > 0)
+                this.config.wowpath.versions.pop();
+
+            fs.readdirSync(wowpath)
+              .filter(
+                versionDir =>
+                  versionDir.match(/^_.*_$/) &&
+                  fs.statSync(path.join(wowpath, versionDir)).isDirectory()
+              )
+              .forEach(versionDir => {
+                if (!this.config.wowpath.versions) {
+                  this.$set(this.config.wowpath, "versions", []);
+                }
+                const { versions } = this.config.wowpath;
+                const wowVersionIndex =
+                  versions.push({
+                    name: versionDir,
+                    accounts: [],
+                    account: ""
+                  }) - 1;
+                const accountFolder = path.join(
+                  wowpath,
+                  versionDir,
+                  "WTF",
+                  "Account"
+                );
+
+                fs.access(accountFolder, fs.constants.F_OK, err2 => {
+                  if (!err2) {
+                    // add option for each account found
+                    fs.readdirSync(accountFolder)
+                      .filter(
+                        accountFile =>
+                          accountFile !== "SavedVariables" &&
+                          fs
+                            .statSync(path.join(accountFolder, accountFile))
+                            .isDirectory()
+                      )
+                      .forEach(accountFile => {
+                        this.config.wowpath.versions[
+                          wowVersionIndex
+                        ].accounts.push({
+                          name: accountFile,
+                          lastWagoUpdate: null,
+                          auras: []
+                        });
+                        this.config.wowpath.valided = true;
+                      });
+                  } else {
+                    console.log(`Error: ${err2}`);
+                  }
+                });
+              });
+          } else {
+            console.log(`Error: ${err}`);
+          }
+        });
+      }
     }
   }
 });
