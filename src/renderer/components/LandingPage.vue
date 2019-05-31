@@ -42,7 +42,7 @@
           >
             <Dropdown
               v-model="config.wowpath.version"
-              :options="getVersionOptions"
+              :options="versionOptions"
               :label="$t('app.wowpath.version' /* Version */)"
               @change="compareSVwithWago()"
             >
@@ -54,7 +54,7 @@
           >
             <Dropdown
               v-model="versionSelected.account"
-              :options="getAccountOptions"
+              :options="accountOptions"
               :label="$t('app.wowpath.account' /* Account */)"
               @change="compareSVwithWago()"
             >
@@ -257,6 +257,8 @@ const defaultValues = {
     version: null
   },
   isMac: process.platform === "darwin",
+  accountOptions: [],
+  versionOptions: [],
   defaultWOWPath: ""
 };
 
@@ -293,6 +295,7 @@ export default Vue.extend({
     },
     versionSelected() {
       return (
+        this.config.wowpath.version &&
         this.config.wowpath.versions &&
         this.config.wowpath.versions.find(
           version => version.name === this.config.wowpath.version
@@ -350,43 +353,6 @@ export default Vue.extend({
       set(newValue) {
         this.$set(this.accountSelected, "auras", newValue);
       }
-    },
-    getVersionOptions() {
-      const versionLabels = [
-        {
-          value: "_retail_",
-          text: this.$t("app.version.retail" /* Retail */)
-        },
-        {
-          value: "_ptr_",
-          text: this.$t("app.version.ptr" /* PTR */)
-        },
-        {
-          value: "_classic_beta_",
-          text: this.$t("app.version.classicbeta" /* Classic Beta */)
-        },
-        {
-          value: "_classic_",
-          text: this.$t("app.version.classic" /* Classic */)
-        }
-      ];
-
-      return this.config.wowpath.versions.map(version => {
-        return {
-          value: version.name,
-          text:
-            versionLabels.find(
-              versionLabel => versionLabel.value === version.name
-            ).text || version.name
-        };
-      });
-    },
-    getAccountOptions() {
-      return this.config.wowpath.versions
-        .find(version => version.name === this.config.wowpath.version)
-        .accounts.map(account => {
-          return { value: account.name, text: account.name };
-        });
     }
   },
   watch: {
@@ -444,6 +410,43 @@ export default Vue.extend({
     // eslint-disable-next-line func-names
     "config.wowpath.value": function() {
       this.validateWowpath();
+    },
+    // eslint-disable-next-line func-names
+    "config.wowpath.version": function() {
+      this.accountOptions = this.versionSelected.accounts.map(account => {
+        return { value: account.name, text: account.name };
+      });
+    },
+    // eslint-disable-next-line func-names
+    "config.wowpath.versions": function() {
+      const versionLabels = [
+        {
+          value: "_retail_",
+          text: this.$t("app.version.retail" /* Retail */)
+        },
+        {
+          value: "_ptr_",
+          text: this.$t("app.version.ptr" /* PTR */)
+        },
+        {
+          value: "_classic_beta_",
+          text: this.$t("app.version.classicbeta" /* Classic Beta */)
+        },
+        {
+          value: "_classic_",
+          text: this.$t("app.version.classic" /* Classic */)
+        }
+      ];
+
+      this.versionOptions = this.config.wowpath.versions.map(version => {
+        const label = versionLabels.find(
+          versionLabel => versionLabel.value === version.name
+        );
+        return {
+          value: version.name,
+          text: (label && label.text) || version.name
+        };
+      });
     }
   },
   mounted() {
@@ -617,7 +620,7 @@ export default Vue.extend({
           "SavedVariables",
           "WeakAuras.lua"
         );
-      } else if (this.accountSelected) {
+      } else if (this.versionSelected && this.accountSelected) {
         WeakAurasSavedVariable = path.join(
           this.config.wowpath.value,
           this.config.wowpath.version,
@@ -819,11 +822,10 @@ export default Vue.extend({
       }
     },
     compareSVwithWago() {
+      if (!this.versionSelected || !this.accountSelected) return;
       const WeakAurasSavedVariable = this.WeakAurasSaved();
 
-      if (!WeakAurasSavedVariable) {
-        return;
-      }
+      if (!WeakAurasSavedVariable) return;
 
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
