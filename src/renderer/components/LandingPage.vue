@@ -36,7 +36,10 @@
       </header>
       <main>
         <div v-if="configStep === 0" id="selectors">
-          <div v-if="config.wowpath.valided" id="version-selector">
+          <div
+            v-if="config.wowpath.valided && config.wowpath.versions"
+            id="version-selector"
+          >
             <Dropdown
               v-model="config.wowpath.version"
               :options="getVersionOptions"
@@ -46,11 +49,11 @@
             </Dropdown>
           </div>
           <div
-            v-if="config.wowpath.valided && versionIndex !== -1"
+            v-if="config.wowpath.valided && versionSelected"
             id="account-selector"
           >
             <Dropdown
-              v-model="config.wowpath.versions[versionIndex].account"
+              v-model="versionSelected.account"
               :options="getAccountOptions"
               :label="$t('app.wowpath.account' /* Account */)"
               @change="compareSVwithWago()"
@@ -61,16 +64,11 @@
         <div v-if="configStep === 0" id="dashboard">
           <RefreshButton
             :is-settings-ok="config.wowpath.valided"
-            :is-version-selected="versionIndex !== -1"
-            :is-account-selected="accountIndex !== -1"
+            :is-version-selected="versionSelected"
+            :is-account-selected="accountSelected"
             :is-sv-ok="WeakAurasSaved()"
             :fetching="fetching"
-            :last-update="
-              versionIndex !== -1 &&
-                accountIndex !== -1 &&
-                config.wowpath.versions[versionIndex].accounts[accountIndex]
-                  .lastWagoUpdate
-            "
+            :last-update="accountSelected && accountSelected.lastWagoUpdate"
             :auras-shown="
               config.showAllAuras
                 ? aurasSorted.length
@@ -99,8 +97,6 @@
         <Config
           v-if="configStep === 1"
           :config="config"
-          :versionindex="versionIndex"
-          :accountindex="accountIndex"
           :default-w-o-w-path="defaultWOWPath"
         ></Config>
         <Help v-if="configStep === 2"></Help>
@@ -283,8 +279,8 @@ export default Vue.extend({
   },
   computed: {
     accountHash() {
-      if (this.accountIndex !== -1) {
-        const { account } = this.config.wowpath.versions[this.versionIndex];
+      if (this.versionSelected) {
+        const { account } = this.versionSelected;
         return hash.hashFnv32a(account, true);
       }
       return null;
@@ -295,23 +291,21 @@ export default Vue.extend({
       }
       return [];
     },
-    versionIndex() {
-      if (this.config.wowpath.versions)
-        return this.config.wowpath.versions.findIndex(
+    versionSelected() {
+      return (
+        this.config.wowpath.versions &&
+        this.config.wowpath.versions.find(
           version => version.name === this.config.wowpath.version
-        );
-      return -1;
+        )
+      );
     },
-    accountIndex() {
-      if (this.versionIndex !== -1)
-        return this.config.wowpath.versions[
-          this.versionIndex
-        ].accounts.findIndex(
-          account =>
-            account.name ===
-            this.config.wowpath.versions[this.versionIndex].account
-        );
-      return -1;
+    accountSelected() {
+      return (
+        this.versionSelected &&
+        this.versionSelected.accounts.find(
+          account => account.name === this.versionSelected.account
+        )
+      );
     },
     aurasWithUpdateSorted() {
       return this.aurasWithUpdate
@@ -345,30 +339,16 @@ export default Vue.extend({
     },
     auras: {
       get() {
-        if (this.config.wowpath.valided && this.config.wowpath.version) {
-          if (this.accountIndex !== -1) {
-            return (
-              this.config.wowpath.versions[this.versionIndex].accounts[
-                this.accountIndex
-              ].auras || []
-            );
-          }
-        }
-        return [];
+        return (
+          (this.config.wowpath.valided &&
+            this.config.wowpath.version &&
+            this.accountSelected &&
+            this.accountSelected.auras) ||
+          []
+        );
       },
       set(newValue) {
-        if (this.config.wowpath.version) {
-          if (this.accountIndex !== -1) {
-            this.$set(
-              this.config.wowpath.versions[this.versionIndex].accounts[
-                this.accountIndex
-              ],
-              "auras",
-              newValue
-            );
-          }
-        }
-        return [];
+        this.$set(this.accountSelected, "auras", newValue);
       }
     },
     getVersionOptions() {
@@ -391,24 +371,22 @@ export default Vue.extend({
         }
       ];
 
-      if (!this.config.wowpath.versions) return [];
       return this.config.wowpath.versions.map(version => {
-        const label = versionLabels.find(
-          versionLabel => versionLabel.value === version.name
-        );
-        let text;
-
-        if (label === "undefined") text = version.name;
-        else ({ text } = label);
-        return { value: version.name, text };
+        return {
+          value: version.name,
+          text:
+            versionLabels.find(
+              versionLabel => versionLabel.value === version.name
+            ).text || version.name
+        };
       });
     },
     getAccountOptions() {
-      return this.config.wowpath.versions[this.versionIndex].accounts.map(
-        account => {
+      return this.config.wowpath.versions
+        .find(version => version.name === this.config.wowpath.version)
+        .accounts.map(account => {
           return { value: account.name, text: account.name };
-        }
-      );
+        });
     }
   },
   watch: {
@@ -639,13 +617,13 @@ export default Vue.extend({
           "SavedVariables",
           "WeakAuras.lua"
         );
-      } else if (this.accountIndex !== -1) {
+      } else if (this.accountSelected) {
         WeakAurasSavedVariable = path.join(
           this.config.wowpath.value,
           this.config.wowpath.version,
           "WTF",
           "Account",
-          this.config.wowpath.versions[this.versionIndex].account,
+          this.versionSelected.account,
           "SavedVariables",
           "WeakAuras.lua"
         );
@@ -1029,9 +1007,7 @@ export default Vue.extend({
           );
           this.fetching = false;
 
-          this.config.wowpath.versions[this.versionIndex].accounts[
-            this.accountIndex
-          ].lastWagoUpdate = new Date();
+          this.accountSelected.lastWagoUpdate = new Date();
 
           if (this.schedule.id) clearTimeout(this.schedule.id);
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
@@ -1209,9 +1185,7 @@ export default Vue.extend({
                 } finally {
                   this.fetching = false;
 
-                  this.config.wowpath.versions[this.versionIndex].accounts[
-                    this.accountIndex
-                  ].lastWagoUpdate = new Date();
+                  this.accountSelected.lastWagoUpdate = new Date();
 
                   // schedule in 1 hour
                   if (this.schedule.id) clearTimeout(this.schedule.id);
