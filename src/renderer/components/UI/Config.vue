@@ -210,15 +210,6 @@ export default Vue.extend({
       defaultWOWPath: ""
     };
   },
-  mount() {
-    wowDefaultPath().then(value => {
-      this.defaultWOWPath = value;
-
-      if (this.config.wowpath.value === "") {
-        this.config.wowpath.value = value;
-      }
-    });
-  },
   watch: {
     // eslint-disable-next-line func-names
     "config.autostart": function() {
@@ -230,6 +221,40 @@ export default Vue.extend({
     },
     // eslint-disable-next-line func-names
     "config.wowpath.value": function() {
+      this.validateWowpath();
+    },
+    // eslint-disable-next-line func-names
+    "config.lang": function() {
+      this.$i18n.locale = this.config.lang;
+    },
+    // eslint-disable-next-line func-names
+    "config.beta": function() {
+      this.$parent.checkCompanionUpdates();
+    }
+  },
+  mounted() {
+    wowDefaultPath().then(value => {
+      this.defaultWOWPath = value;
+
+      if (this.config.wowpath.value === "" || !this.config.wowpath.valided) {
+        this.config.wowpath.value = value;
+      }
+
+      if (!this.config.wowpath.valided) this.validateWowpath();
+    });
+  },
+  methods: {
+    reset() {
+      this.$parent.reset();
+      this.wagoUsername = null;
+    },
+    openBackupDir() {
+      shell.openItem(this.config.backup.path);
+    },
+    checkApiKey() {
+      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
+    },
+    validateWowpath() {
       this.config.wowpath.valided = false;
 
       if (this.config.wowpath.value) {
@@ -299,26 +324,6 @@ export default Vue.extend({
           }
         });
       }
-    },
-    // eslint-disable-next-line func-names
-    "config.lang": function() {
-      this.$i18n.locale = this.config.lang;
-    },
-    // eslint-disable-next-line func-names
-    "config.beta": function() {
-      this.$parent.checkCompanionUpdates();
-    }
-  },
-  methods: {
-    reset() {
-      this.$parent.reset();
-      this.wagoUsername = null;
-    },
-    openBackupDir() {
-      shell.openItem(this.config.backup.path);
-    },
-    checkApiKey() {
-      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
     }
   }
 });
