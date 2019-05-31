@@ -37,12 +37,6 @@ export default {
     options: {
       type: [Array, Object],
       default() {
-        return ["0"];
-      }
-    },
-    optionsLabels: {
-      type: Array,
-      default: () => {
         return [];
       }
     },
@@ -56,15 +50,17 @@ export default {
   },
   data() {
     return {
-      selected: "",
+      selected:
+        this.value === "" ? this.placeholder : this.getLabel(this.value),
       showMenu: false,
-      height: "auto"
+      height: this.options.length * 30
     };
   },
-  mounted() {
-    this.selected =
-      this.value === "" ? this.placeholder : this.getLabel(this.value);
-    this.height = this.options.length * 30;
+  watch: {
+    value() {
+      this.selected =
+        this.value === "" ? this.placeholder : this.getLabel(this.value);
+    }
   },
   methods: {
     toggleDropdown() {
@@ -74,6 +70,7 @@ export default {
       this.showMenu = false;
       this.selected = option.text;
       this.$emit("input", option.value);
+      this.$emit("change");
     },
     getLabel(value) {
       const index = this.options.findIndex(option => option.value === value);
