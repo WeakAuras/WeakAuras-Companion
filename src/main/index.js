@@ -313,13 +313,15 @@ autoUpdater.on("update-downloaded", info => {
     mainWindow.webContents.send("updaterHandler", "update-downloaded");
     mainWindow.setProgressBar(-1);
   }
-  const imagePath = path.join(__static, "icon.png");
 
   new Notification({
     title: "A new update is ready to install",
     body: `WeakAuras Companion version ${
       info.version
     } has been downloaded and will be automatically installed when you close the app.`,
-    icon: imagePath
+    icon: path.join(
+      __static,
+      process.platform === "win32" ? "bigicon.png" : "icon.png"
+    )
   }).show();
 });
