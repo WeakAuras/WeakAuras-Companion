@@ -638,6 +638,10 @@ export default Vue.extend({
           this.$set(this.config, "backup", defaultValues.config.backup);
         }
 
+        if (!this.config.wowpath.versions) {
+          this.$set(this.config.wowpath, "versions", []);
+        }
+
         if (this.config.internalVersion < internalVersion) {
           /* migration */
           if (previousVersion < 3) {
@@ -645,7 +649,6 @@ export default Vue.extend({
             this.config.wowpath.value = "";
             this.config.wowpath.valided = false;
             this.config.account = null;
-            this.$set(this.config.wowpath, "versions", []);
 
             wowDefaultPath().then(value => {
               this.config.wowpath.value = value;
