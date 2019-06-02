@@ -409,46 +409,7 @@ export default Vue.extend({
     },
     // eslint-disable-next-line func-names
     "config.wowpath.version": function() {
-      this.accountOptions =
-        this.versionSelected &&
-        this.versionSelected.accounts &&
-        this.versionSelected.accounts.map(account => {
-          return { value: account.name, text: account.name } || [];
-        });
-    },
-    // eslint-disable-next-line func-names
-    "config.wowpath.versions": function() {
-      const versionLabels = [
-        {
-          value: "_retail_",
-          text: this.$t("app.version.retail" /* Retail */)
-        },
-        {
-          value: "_ptr_",
-          text: this.$t("app.version.ptr" /* PTR */)
-        },
-        {
-          value: "_classic_beta_",
-          text: this.$t("app.version.classicbeta" /* Classic Beta */)
-        },
-        {
-          value: "_classic_",
-          text: this.$t("app.version.classic" /* Classic */)
-        }
-      ];
-
-      this.versionOptions =
-        (this.config.wowpath.versions &&
-          this.config.wowpath.versions.map(version => {
-            const label = versionLabels.find(
-              versionLabel => versionLabel.value === version.name
-            );
-            return {
-              value: version.name,
-              text: (label && label.text) || version.name
-            };
-          })) ||
-        [];
+      this.buildAccountList();
     }
   },
   mounted() {
@@ -562,17 +523,15 @@ export default Vue.extend({
           this.validateWowpath();
         }
       });
+    } else {
+      this.validateWowpath();
     }
     // create default backup folder
     fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
 
-    // send to panel setting on load if config is not ok
-    if (!this.config.wowpath.valided) {
-      this.configStep = 1;
-    } else {
-      this.configStep = 0;
-      this.compareSVwithWago();
-    }
+    // check updates
+    this.compareSVwithWago();
+
     // check for app updates in 2 hours
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
@@ -652,6 +611,7 @@ export default Vue.extend({
 
       wowDefaultPath().then(value => {
         this.config.wowpath.value = value;
+        this.validateWowpath();
       });
 
       this.message(
@@ -683,7 +643,9 @@ export default Vue.extend({
           if (previousVersion < 3) {
             console.log("migration < 3");
             this.config.wowpath.value = "";
+            this.config.wowpath.valided = false;
             this.config.account = null;
+            this.$set(this.config.wowpath, "versions", []);
 
             wowDefaultPath().then(value => {
               this.config.wowpath.value = value;
@@ -1513,37 +1475,94 @@ end`
       });
     },
     validateWowpath() {
+      console.log("validateWowpath");
       this.config.wowpath.valided = false;
 
       if (this.config.wowpath.value) {
-        // test if ${wowpath}\Data exists
         const wowpath = this.config.wowpath.value;
         const DataFolder = path.join(wowpath, "Data");
 
+        // test if ${wowpath}\Data exists
         fs.access(DataFolder, fs.constants.F_OK, err => {
           if (!err) {
-            // clean Versions options
-            if (this.config.wowpath.versions)
-              while (this.config.wowpath.versions.length > 0)
-                this.config.wowpath.versions.pop();
+            fs.readdir(wowpath, (err2, files) => {
+              if (err2) {
+                console.log(`Error: ${err2}`);
+              } else {
+                let validated = false;
 
-            fs.readdirSync(wowpath)
+                files
+                  .filter(
+                    versionDir =>
+                      versionDir.match(/^_.*_$/) &&
+                      fs.statSync(path.join(wowpath, versionDir)).isDirectory()
+                  )
+                  .forEach(versionDir => {
+                    if (!validated) {
+                      const accountFolder = path.join(
+                        wowpath,
+                        versionDir,
+                        "WTF",
+                        "Account"
+                      );
+
+                      try {
+                        fs.accessSync(accountFolder, fs.constants.F_OK);
+                        validated = true;
+                        this.config.wowpath.valided = true;
+                        this.buildVersionList();
+                        this.buildAccountList();
+                      } catch (err3) {
+                        console.log(`Error: ${err3}`);
+                      }
+                    }
+                  });
+              }
+            });
+          } else {
+            console.log(`Error: ${err}`);
+          }
+        });
+      }
+    },
+    buildVersionList() {
+      console.log("buildVersionList");
+      // reset version & account lists
+      this.versionOptions.splice(0, this.versionOptions.length);
+      this.accountOptions.splice(0, this.accountOptions.length);
+      const versionLabels = [
+        {
+          value: "_retail_",
+          text: this.$t("app.version.retail" /* Retail */)
+        },
+        {
+          value: "_ptr_",
+          text: this.$t("app.version.ptr" /* PTR */)
+        },
+        {
+          value: "_classic_beta_",
+          text: this.$t("app.version.classicbeta" /* Classic Beta */)
+        },
+        {
+          value: "_classic_",
+          text: this.$t("app.version.classic" /* Classic */)
+        }
+      ];
+
+      if (this.config.wowpath.valided) {
+        const wowpath = this.config.wowpath.value;
+
+        fs.readdir(wowpath, (err, files) => {
+          if (err) {
+            console.log(`Error: ${err}`);
+          } else {
+            files
               .filter(
                 versionDir =>
                   versionDir.match(/^_.*_$/) &&
                   fs.statSync(path.join(wowpath, versionDir)).isDirectory()
               )
               .forEach(versionDir => {
-                if (!this.config.wowpath.versions) {
-                  this.$set(this.config.wowpath, "versions", []);
-                }
-                const { versions } = this.config.wowpath;
-                const wowVersionIndex =
-                  versions.push({
-                    name: versionDir,
-                    accounts: [],
-                    account: ""
-                  }) - 1;
                 const accountFolder = path.join(
                   wowpath,
                   versionDir,
@@ -1552,33 +1571,81 @@ end`
                 );
 
                 fs.access(accountFolder, fs.constants.F_OK, err2 => {
-                  if (!err2) {
-                    // add option for each account found
-                    fs.readdirSync(accountFolder)
-                      .filter(
-                        accountFile =>
-                          accountFile !== "SavedVariables" &&
-                          fs
-                            .statSync(path.join(accountFolder, accountFile))
-                            .isDirectory()
-                      )
-                      .forEach(accountFile => {
-                        this.config.wowpath.versions[
-                          wowVersionIndex
-                        ].accounts.push({
-                          name: accountFile,
-                          lastWagoUpdate: null,
-                          auras: []
-                        });
-                        this.config.wowpath.valided = true;
-                      });
-                  } else {
+                  if (err2) {
                     console.log(`Error: ${err2}`);
+                  } else {
+                    const versionFound = this.config.wowpath.versions.find(
+                      version => version.name === versionDir
+                    );
+
+                    if (!versionFound) {
+                      // make version if not found in data
+                      this.config.wowpath.versions.push({
+                        name: versionDir,
+                        accounts: [],
+                        account: ""
+                      });
+                    }
+
+                    const label = versionLabels.find(
+                      versionLabel => versionLabel.value === versionDir
+                    );
+
+                    this.versionOptions.push({
+                      value: versionDir,
+                      text: (label && label.text) || versionDir
+                    });
                   }
                 });
               });
-          } else {
+          }
+        });
+      }
+    },
+    buildAccountList() {
+      console.log("buildAccountList");
+      this.accountOptions.splice(0, this.accountOptions.length);
+
+      if (this.config.wowpath.valided && this.versionSelected) {
+        const versionName = this.versionSelected.name;
+        const accountFolder = path.join(
+          this.config.wowpath.value,
+          versionName,
+          "WTF",
+          "Account"
+        );
+
+        fs.readdir(accountFolder, (err, files) => {
+          if (err) {
             console.log(`Error: ${err}`);
+          } else {
+            files
+              .filter(
+                accountFile =>
+                  accountFile !== "SavedVariables" &&
+                  fs
+                    .statSync(path.join(accountFolder, accountFile))
+                    .isDirectory()
+              )
+              .forEach(accountFile => {
+                const accountFound = this.versionSelected.accounts.find(
+                  account => account.name === accountFile
+                );
+
+                if (!accountFound) {
+                  // make account if not found in data
+                  this.versionSelected.accounts.push({
+                    name: accountFile,
+                    lastWagoUpdate: null,
+                    auras: []
+                  });
+                }
+
+                this.accountOptions.push({
+                  value: accountFile,
+                  text: accountFile
+                });
+              });
           }
         });
       }
