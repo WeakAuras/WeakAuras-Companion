@@ -10,6 +10,7 @@
   "app.config.account.selectaccounttooltip": "Wähle einen Account",
   "app.config.autoStart": "Client starten, wenn mein Computer gestartet wird",
   "app.config.autoupdater": "Auto-Update",
+  "app.config.autoupdater.autoupdate": "Install Companion updates automatically",
   "app.config.autoupdater.beta": "Use Companion Beta channel",
   "app.config.autoupdater.check": "Check for COmpanion Updates",
   "app.config.backup.activate": "Aktivieren",

@@ -10,6 +10,7 @@
   "app.config.account.selectaccounttooltip": "Select an account",
   "app.config.autoStart": "Запускать приложение при загрузке компьютера",
   "app.config.autoupdater": "Auto-Update",
+  "app.config.autoupdater.autoupdate": "Install Companion updates automatically",
   "app.config.autoupdater.beta": "Use Companion Beta channel",
   "app.config.autoupdater.check": "Check for COmpanion Updates",
   "app.config.backup.activate": "Activate",

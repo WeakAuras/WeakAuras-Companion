@@ -233,6 +233,7 @@ const defaultValues = {
     notify: false,
     lang: "en",
     showAllAuras: false,
+    autoupdate: false,
     beta: null,
     internalVersion,
     backup: {

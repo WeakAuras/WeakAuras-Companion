@@ -70,6 +70,15 @@
               }}
             </checkbox>
           </div>
+          <div class="option">
+            <checkbox v-model="config.autoupdate">
+              {{
+                $t(
+                  "app.config.autoupdater.autoupdate" /* Install Companion updates automatically */
+                )
+              }}
+            </checkbox>
+          </div>
         </div>
       </div>
       <div class="config-row-item">

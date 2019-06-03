@@ -317,18 +317,22 @@ autoUpdater.on("update-downloaded", info => {
       mainWindow.setProgressBar(-1);
     }
 
-    new Notification({
-      title: "A new update is ready to install",
-      body: `WeakAuras Companion version ${
-        info.version
-      } has been downloaded and will be automatically installed when you close the app.`,
-      icon: path.join(
-        __static,
-        process.platform === "win32" ? "bigicon.png" : "icon.png"
-      )
-    }).show();
+    if (store.get("config").autoupdate === true) {
+      autoUpdater.quitAndInstall();
+    } else {
+      new Notification({
+        title: "A new update is ready to install",
+        body: `WeakAuras Companion version ${
+          info.version
+        } has been downloaded and will be automatically installed when you close the app.`,
+        icon: path.join(
+          __static,
+          process.platform === "win32" ? "bigicon.png" : "icon.png"
+        )
+      }).show();
 
-    // show install nag only once
-    installNagAlreadyShowed = true;
+      // show install nag only once
+      installNagAlreadyShowed = true;
+    }
   }
 });
