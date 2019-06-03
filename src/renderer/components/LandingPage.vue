@@ -1448,7 +1448,7 @@ end`
       }
 
       // system notification
-      if (this.config.notify && newsCount > 0) {
+      if (!document.hasFocus() && this.config.notify && newsCount > 0) {
         const myNotification = new Notification("WeakAuras Update", {
           body: news.join("\n")
         });
