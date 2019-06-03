@@ -308,20 +308,27 @@ autoUpdater.on("download-progress", progressObj => {
   }
 });
 
-autoUpdater.on("update-downloaded", info => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send("updaterHandler", "update-downloaded");
-    mainWindow.setProgressBar(-1);
-  }
+let installNagAlreadyShowed = false;
 
-  new Notification({
-    title: "A new update is ready to install",
-    body: `WeakAuras Companion version ${
-      info.version
-    } has been downloaded and will be automatically installed when you close the app.`,
-    icon: path.join(
-      __static,
-      process.platform === "win32" ? "bigicon.png" : "icon.png"
-    )
-  }).show();
+autoUpdater.on("update-downloaded", info => {
+  if (!installNagAlreadyShowed) {
+    if (mainWindow && mainWindow.webContents) {
+      mainWindow.webContents.send("updaterHandler", "update-downloaded");
+      mainWindow.setProgressBar(-1);
+    }
+
+    new Notification({
+      title: "A new update is ready to install",
+      body: `WeakAuras Companion version ${
+        info.version
+      } has been downloaded and will be automatically installed when you close the app.`,
+      icon: path.join(
+        __static,
+        process.platform === "win32" ? "bigicon.png" : "icon.png"
+      )
+    }).show();
+
+    // show install nag only once
+    installNagAlreadyShowed = true;
+  }
 });
