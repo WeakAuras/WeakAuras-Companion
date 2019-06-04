@@ -91,7 +91,7 @@ $border-color-separate: #0d0d0d;
 $highlight-color: #1a1a1a;
 $highlight-color-text: #ffffff;
 $text-color: #e6e6e6;
-$border-color: #191919;
+$border-color: #2c2c2c;
 $border-color-expand: #2c2c2c;
 
 $max-width: 200px;
@@ -102,10 +102,10 @@ $min-width: 140px;
   font-size: 14px;
   font-weight: 500;
   color: $text-color;
-  margin: 0 4px 0 0;
+  margin: 10px 4px 10px 0;
   &__label {
-    font-size: 10px;
-    padding-left: 5px;
+    color: #eee;
+    font-size: 15px;
   }
   &__toggle {
     position: relative;
@@ -119,6 +119,8 @@ $min-width: 140px;
     height: 30px;
     background: $button-color-bg;
     padding: 5px 30px 5px 10px;
+    margin-top: 5px;
+    margin-left: 5px;
     text-align: left;
     border-radius: 4px;
     cursor: pointer;
@@ -134,6 +136,7 @@ $min-width: 140px;
     }
     &:hover {
       background: $highlight-color;
+      color: $highlight-color-text;
     }
     i {
       position: absolute;

@@ -49,6 +49,29 @@ export default {
   background-color: #e6e6e6;
   color: #101010;
 }
+
+.btn-ok {
+  display: inline-block;
+  padding: 0px 8px;
+  font-size: 12px;
+  height: 26px;
+  line-height: 26px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: rgba(18, 18, 18, 0.95);
+  border: 1px solid #fff;
+  color: #fff;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+.btn-ok:hover {
+  background-color: #fff;
+  color: #2d2c2c;
+  transition: all 0.1s ease-in-out;
+}
+
 .btn:focus {
   outline: none;
   box-shadow: none;

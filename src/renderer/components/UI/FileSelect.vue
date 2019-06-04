@@ -47,26 +47,48 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$button-color-bg: #101010;
+
+$highlight-color: #1a1a1a;
+$highlight-color-text: #ffffff;
+
+$text-color: #e6e6e6;
+
+$border-color: #2c2c2c;
+$border-color-expand: #2c2c2c;
+$border-color-separate: #0d0d0d;
+
 /* Don't forget to hide the original file input! */
 .file-select > input[type="file"] {
   display: none;
 }
+
 .fakeinput {
-  background-color: #e6e6e6;
+  background-color: $border-color-separate;
   width: 270px;
-  height: 27px;
-  font-size: 13px;
+  height: 30px;
+  font-size: 14px;
   white-space: nowrap;
   display: inline-table;
   table-layout: fixed;
-  color: #010101;
-  border-radius: 2px;
-  padding: 0 5px;
-  margin-right: 3px;
+  color: $text-color;
+  border-radius: 4px;
+  border: 1px solid $border-color;
+  margin-right: 2px;
+  margin-left: 5px;
+  padding: 5px 30px 5px 10px;
 }
+
+.fakeinput:hover {
+  background-color: $highlight-color;
+  border-color: $border-color-expand;
+  color: $highlight-color-text;
+  transition: all 0.1s ease-in-out;
+}
+
 .folder {
   position: relative;
-  top: 2px;
+  top: 5px;
   cursor: pointer;
 }
 .btn {
@@ -75,8 +97,9 @@ export default {
 }
 .configlabel {
   color: #eee;
-  margin: 3px 0 3px;
+  margin-top: 5px;
   font-size: 15px;
+  font-weight: 500;
 }
 .wow-path {
   display: table-cell;

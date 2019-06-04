@@ -1921,12 +1921,15 @@ $iconSize: 26px;
   font-weight: 600;
   opacity: 0.8;
 }
+
 .reportbug:hover {
   opacity: 1;
 }
+
 .invert {
   filter: invert(100%);
 }
+
 /* Get WeakAuras */
 .getweakauras {
   font-size: 12px;
@@ -1938,6 +1941,7 @@ $iconSize: 26px;
   font-weight: 600;
   opacity: 0.5;
 }
+
 .getweakauras:hover {
   opacity: 1;
 }

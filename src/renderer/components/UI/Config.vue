@@ -96,9 +96,9 @@
             size="11"
             @keyup.enter="config.wagoUsername = wagoUsername"
           />
-          <Button @click="config.wagoUsername = wagoUsername">{{
-            $t("app.config.ok" /* OK */)
-          }}</Button>
+          <Button class="btn-ok" @click="config.wagoUsername = wagoUsername">
+            {{ $t("app.config.ok" /* OK */) }}
+          </Button>
           <i v-if="config.wagoUsername" class="material-icons green">
             check_circle_outline
           </i>
@@ -111,7 +111,7 @@
             size="11"
             @keyup.enter="config.wagoApiKey = wagoApiKey"
           />
-          <Button @click="config.wagoApiKey = wagoApiKey">{{
+          <Button class="btn-ok" @click="config.wagoApiKey = wagoApiKey">{{
             $t("app.config.ok" /* OK */)
           }}</Button>
           <i
@@ -295,7 +295,7 @@ label,
 .material-icons.folder {
   vertical-align: top;
   position: relative;
-  top: 3px;
+  top: 5px;
 }
 
 input,
@@ -303,10 +303,16 @@ select,
 .fakeinput {
   padding: 5px;
   font-size: small;
-  border-radius: 2px;
-  border: none;
+  border-radius: 4px;
+  border: 1px solid #010101;
   background-color: #e6e6e6;
   color: #010101;
+}
+
+input:hover {
+  background-color: #eee;
+  border: 1px solid #ffd100;
+  transition: all 0.1s ease-in-out;
 }
 
 .title {
