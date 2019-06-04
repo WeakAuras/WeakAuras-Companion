@@ -50,9 +50,6 @@
     {
       "label": "npm: lint",
       "type": "npm",
-      "options": {
-        "statusbar": "hide"
-      },
       "script": "lint",
       "group": "test",
       "problemMatcher": [
