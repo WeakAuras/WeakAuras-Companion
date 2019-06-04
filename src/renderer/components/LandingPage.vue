@@ -1918,6 +1918,7 @@ $iconSize: 26px;
   line-height: 25px;
   float: right;
   text-shadow: #000 1px 0;
+  font-weight: 600;
 }
 .reportbug:hover {
   color: #aaa;
@@ -1933,6 +1934,7 @@ $iconSize: 26px;
   line-height: 25px;
   float: left;
   text-shadow: #000 1px 0;
+  font-weight: 600;
 }
 .getweakauras:hover {
   color: #aaa;
