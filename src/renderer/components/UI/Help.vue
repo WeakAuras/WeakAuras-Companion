@@ -121,7 +121,7 @@
       }}
       <a
         target="_blank"
-        href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new"
+        href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
         >GitHub</a
       >
       {{ $t("app.help.bugend" /* containing: */) }}<br />
