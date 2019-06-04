@@ -15,8 +15,7 @@
       "type": "npm",
       "script": "build",
       "dependsOn": [
-        "npm: lint",
-        "npm: dev"
+        "npm: lint"
       ],
       "group": {
         "kind": "build",
