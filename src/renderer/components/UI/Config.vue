@@ -114,11 +114,6 @@
           <Button @click="config.wagoApiKey = wagoApiKey">{{
             $t("app.config.ok" /* OK */)
           }}</Button>
-          <p>
-            <a href="https://wago.io/account" class="explorer" target="_blank"
-              >Get yours</a
-            >
-          </p>
           <i
             v-if="config.wagoApiKey && checkApiKey()"
             class="material-icons green"
@@ -131,6 +126,11 @@
           >
             error_outline
           </i>
+          <p>
+            <a href="https://wago.io/account" class="explorer" target="_blank"
+              >Get yours</a
+            >
+          </p>
           <checkbox v-model="config.ignoreOwnAuras">
             {{
               $t(
