@@ -1913,15 +1913,16 @@ $iconSize: 26px;
 /* Report Page */
 .reportbug {
   font-size: 12px;
-  color: #777;
+  color: #e6e6e6;
   vertical-align: bottom;
   line-height: 25px;
   float: right;
   text-shadow: #000 1px 0;
   font-weight: 600;
+  opacity: 0.8;
 }
 .reportbug:hover {
-  color: #aaa;
+  opacity: 1;
 }
 .invert {
   filter: invert(100%);
@@ -1929,15 +1930,16 @@ $iconSize: 26px;
 /* Get WeakAuras */
 .getweakauras {
   font-size: 12px;
-  color: #777;
+  color: #e6e6e6;
   vertical-align: bottom;
   line-height: 25px;
   float: left;
   text-shadow: #000 1px 0;
   font-weight: 600;
+  opacity: 0.5;
 }
 .getweakauras:hover {
-  color: #aaa;
+  opacity: 1;
 }
 
 /* WoW Version & Account selection */
