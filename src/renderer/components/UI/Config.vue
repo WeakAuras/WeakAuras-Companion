@@ -35,7 +35,7 @@
           <checkbox v-model="config.notify">
             {{
               $t(
-                "app.config.notification" /* Show notifications when new updates are ready to install */
+                "app.config.notification" /* Show notifications for new updates */
               )
             }}
           </checkbox>
