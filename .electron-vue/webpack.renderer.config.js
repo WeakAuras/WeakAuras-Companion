@@ -46,7 +46,12 @@ let rendererConfig = {
         use: [
           'vue-style-loader',
           'css-loader',
-          'sass-loader'
+          {
+            loader: 'sass-loader',
+            options: {
+              data: `@import "src/renderer/assets/css/globals.scss";`
+            }
+          }
         ]
       },
       {
