@@ -36,11 +36,17 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
   }
 }
 
-function backupIfRequired(filename, config, accountName, callback) {
+function backupIfRequired(
+  filename,
+  config,
+  previousSize,
+  accountName,
+  callback
+) {
   if (config && config.active && filename) {
     const stats = fs.statSync(filename);
 
-    if (stats.size !== config.fileSize) {
+    if (stats.size !== previousSize) {
       const date = moment(stats.mtimeMs).format("YYYYMMDDHHmmss");
       const zipFile = `weakauras-${accountName}-${date}.zip`;
       const fileContents = fs.createReadStream(filename);

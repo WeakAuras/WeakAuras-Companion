@@ -240,7 +240,6 @@ const defaultValues = {
       active: true,
       path: path.join(userDataPath, "WeakAurasData-Backup"),
       maxsize: 100,
-      fileSize: null,
       defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
     }
   },
@@ -1475,12 +1474,13 @@ end`
         version.accounts.forEach((account, accountindex) => {
           backupIfRequired(
             this.WeakAurasSaved(version.name, account.name),
-            account.backup,
+            this.config.backup,
+            account.savedvariableSize,
             `${version.name}#${account.name}`,
             fileSize => {
               this.config.wowpath.versions[versionindex].accounts[
                 accountindex
-              ].backup.fileSize = fileSize;
+              ].savedvariableSize = fileSize;
             }
           );
         });
@@ -1649,9 +1649,13 @@ end`
                   this.versionSelected.accounts.push({
                     name: accountFile,
                     lastWagoUpdate: null,
-                    auras: []
+                    auras: [],
+                    savedvariableSize: null
                   });
-                }
+                } else if (
+                  typeof accountFound.savedvariableSize === "undefined"
+                )
+                  this.$set(accountFound, "savedvariableSize", null);
 
                 this.accountOptions.push({
                   value: accountFile,
