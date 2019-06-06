@@ -1923,7 +1923,7 @@ $iconSize: 26px;
   float: right;
   text-shadow: #000 1px 0;
   font-weight: 600;
-  opacity: 0.8;
+  opacity: 0.5;
 }
 
 .reportbug:hover {
