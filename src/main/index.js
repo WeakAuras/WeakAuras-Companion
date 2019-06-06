@@ -322,7 +322,7 @@ autoUpdater.on("update-downloaded", info => {
     } else {
       new Notification({
         title: "A new update is ready to install",
-        body: `WeakAuras Companion version ${
+        body: `WeakAuras Companion ${
           info.version
         } has been downloaded and will be automatically installed when you close the app.`,
         icon: path.join(
