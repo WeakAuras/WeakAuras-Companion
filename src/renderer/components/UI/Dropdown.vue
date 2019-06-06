@@ -164,6 +164,7 @@ $min-width: 140px;
     transition: height 0.3s ease-in-out, border-color 0.2s ease-in-out;
     overflow: hidden;
     border: 1px solid transparent;
+    margin-left: 5px;
     opacity: 0;
     &--toggled {
       opacity: 1;
