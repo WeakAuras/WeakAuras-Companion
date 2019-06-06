@@ -304,14 +304,15 @@ select,
   padding: 5px;
   font-size: small;
   border-radius: 4px;
-  border: 1px solid #010101;
-  background-color: #e6e6e6;
-  color: #010101;
+  border: 1px solid #2c2c2c;
+  background-color: #0d0d0d;
+  color: #e6e6e6;
 }
 
 input:hover {
-  background-color: #eee;
-  border: 1px solid #ffd100;
+  color: #ffffff;
+  background-color: #1a1a1a;
+  border: 1px solid #2c2c2c;
   transition: all 0.1s ease-in-out;
 }
 

@@ -45,11 +45,16 @@ input[type="checkbox"] + .checkbox__box:focus {
   margin-top: 10px;
 }
 .checkbox__box {
-  background-color: #e6e6e6;
+  background-color: #0d0d0d;
+  border: 1px solid #2c2c2c;
   border-radius: 2px;
   height: 20px;
   margin-right: 10px;
   width: 20px;
+}
+.checkbox__box:hover {
+  background-color: #1a1a1a;
+  border: 1px solid #2c2c2c;
 }
 .checkbox__box--checked {
   background-color: #191919;
