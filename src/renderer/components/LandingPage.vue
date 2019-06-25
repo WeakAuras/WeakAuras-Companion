@@ -1333,7 +1333,7 @@ export default Vue.extend({
           const files = [
             {
               name: "WeakAurasCompanion.toc",
-              data: `## Interface: 80100
+              data: `## Interface: 80200
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: 1.0.0
