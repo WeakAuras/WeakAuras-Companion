@@ -71,7 +71,7 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.1",
+    "@babel/runtime": "^7.5.2",
     "archiver": "^3.0.0",
     "auto-launch": "^5.0.5",
     "axios": "^0.18.0",
