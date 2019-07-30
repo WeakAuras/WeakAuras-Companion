@@ -115,6 +115,14 @@
           />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
+        <a class="browsewago" href="https://wago.io/weakauras" target="_blank">
+          <img
+            :src="require(`@/assets/social-icons/wago.svg`)"
+            class="logo"
+            title="Wago"
+          />
+          {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
+        </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
           <img
@@ -1947,6 +1955,23 @@ $iconSize: 26px;
 }
 
 .getweakauras:hover {
+  opacity: 1;
+}
+
+/* Browse Wago */
+.browsewago {
+  font-size: 12px;
+  color: #e6e6e6;
+  vertical-align: bottom;
+  line-height: 25px;
+  float: left;
+  text-shadow: #000 1px 0;
+  font-weight: 600;
+  opacity: 0.5;
+  margin-left: 10px;
+}
+
+.browsewago:hover {
   opacity: 1;
 }
 

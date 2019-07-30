@@ -35,6 +35,7 @@
   "app.dropdown.placeholder": "Select",
   "app.fileselect.backupfolder": "备份路径",
   "app.fileselect.wowfolder": "魔兽世界路径",
+  "app.footer.browsewago": "Browse Wago for more auras!",
   "app.footer.getweakauras": "Get WeakAuras!",
   "app.footer.reportbug": "发现Bug？",
   "app.help.auraAuthorsText1": "如果你在Wago上发布你的字符串，我们建议你使用以下设置：",

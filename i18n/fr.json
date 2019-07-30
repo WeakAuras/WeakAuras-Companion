@@ -35,6 +35,7 @@
   "app.dropdown.placeholder": "Selectionner",
   "app.fileselect.backupfolder": "Dossier de sauvegarde",
   "app.fileselect.wowfolder": "Dossier de World of Warcraft",
+  "app.footer.browsewago": "Browse Wago for more auras!",
   "app.footer.getweakauras": "Téléchargez WeakAuras!",
   "app.footer.reportbug": "Signaler un bug",
   "app.help.auraAuthorsText1": "Si vous publiez vos auras sur Wago, nous vous recommandons d'utiliser ces paramètres:",
