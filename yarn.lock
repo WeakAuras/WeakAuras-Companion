@@ -8452,10 +8452,10 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-regedit@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/regedit/-/regedit-3.0.2.tgz#ed653295822ed9183595954e0b5011dcd1a5c4fa"
-  integrity sha512-DUpIt5OL/m8AqpAD97v8lR+n4diK6jMRQN9X+PkxJPBbdBIAiMFCsjRFn7JMUHHfDdAfbgKErQTyl2HD/y039A==
+regedit@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/regedit/-/regedit-3.0.3.tgz#0c2188e15f670de7d5740c5cea9bbebe99497749"
+  integrity sha512-SpHmMKOtiEYx0MiRRC48apBsmThoZ4svZNsYoK8leHd5bdUHV1nYb8pk8gh6Moou7/S9EDi1QsjBTpyXVQrPuQ==
   dependencies:
     debug "^4.1.0"
     if-async "^3.7.4"
