@@ -76,7 +76,7 @@
     "auto-launch": "^5.0.5",
     "axios": "^0.18.0",
     "electron-localshortcut": "^3.1.0",
-    "electron-log": "^3.0.6",
+    "electron-log": "^3.0.7",
     "electron-store": "^4.0.0",
     "electron-updater": "^4.1.2",
     "hasha": "^5.0.0",
