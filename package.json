@@ -83,7 +83,7 @@
     "luaparse": "^0.2.1",
     "moment": "^2.24.0",
     "regedit": "^3.0.3",
-    "tail": "^2.0.2",
+    "tail": "^2.0.3",
     "v-tooltip": "^2.0.2",
     "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
