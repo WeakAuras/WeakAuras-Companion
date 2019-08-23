@@ -1337,11 +1337,14 @@ export default Vue.extend({
           LuaOutput += "}";
 
           /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
-
+          const toc =
+            AddonFolder.toLowerCase().search("classic") === -1
+              ? "80200"
+              : "11302";
           const files = [
             {
               name: "WeakAurasCompanion.toc",
-              data: `## Interface: 80200
+              data: `## Interface: ${toc}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: 1.0.0
