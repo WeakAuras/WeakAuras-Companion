@@ -1215,7 +1215,7 @@ export default Vue.extend({
           this.config.wowpath.value,
           this.config.wowpath.version,
           "Interface",
-          "AddOns",
+          "Addons",
           "WeakAurasCompanion"
         );
 
