@@ -49,7 +49,7 @@ let rendererConfig = {
           {
             loader: 'sass-loader',
             options: {
-              data: `@import "src/renderer/assets/css/globals.scss";`
+              prependData: `@import "src/renderer/assets/css/globals.scss";`
             }
           }
         ]
