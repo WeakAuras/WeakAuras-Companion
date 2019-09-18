@@ -128,7 +128,7 @@
           </i>
           <p>
             <a href="https://wago.io/account" class="explorer" target="_blank"
-              >Get yours</a
+              >{{ $t("app.config.getYours" /* Get yours */) }}</a
             >
           </p>
           <checkbox v-model="config.ignoreOwnAuras">
@@ -209,7 +209,8 @@ export default Vue.extend({
         { value: "de", text: "Deutsch (de)" },
         { value: "en", text: "English (en)" },
         { value: "fr", text: "Français (fr)" },
-        { value: "ru", text: "Русский (ru)" }
+        { value: "ru", text: "Русский (ru)" },
+        { value: "tr", text: "Türkçe (tr)" }
       ],
       backupsize: [
         { value: 50, text: "50mb" },
