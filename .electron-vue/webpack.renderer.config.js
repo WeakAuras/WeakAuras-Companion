@@ -132,6 +132,18 @@ let rendererConfig = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: path.resolve(__dirname, "../src/index.ejs"),
+      templateParameters(compilation, assets, options) {
+        return {
+          compilation: compilation,
+          webpack: compilation.getStats().toJson(),
+          webpackConfig: compilation.options,
+          htmlWebpackPlugin: {
+            files: assets,
+            options: options
+          },
+          process
+        }
+      },
       minify: {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
@@ -142,7 +154,6 @@ let rendererConfig = {
           ? path.resolve(__dirname, "../node_modules")
           : false
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       VERSION: `"${require("../package.json").version}"`
@@ -168,6 +179,7 @@ let rendererConfig = {
  */
 if (process.env.NODE_ENV !== "production") {
   rendererConfig.plugins.push(
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       __static: `"${path.join(__dirname, "../static").replace(/\\/g, "\\\\")}"`
     })
