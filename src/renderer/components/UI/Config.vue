@@ -127,7 +127,9 @@
             error_outline
           </i>
           <p>
-            <a href="https://wago.io/account" class="explorer" target="_blank"
+            <a
+            href="https://wago.io/account"
+            class="explorer" target="_blank"
               >{{ $t("app.config.getYours" /* Get yours */) }}</a
             >
           </p>
