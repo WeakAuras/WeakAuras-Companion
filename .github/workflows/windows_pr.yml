@@ -2,31 +2,30 @@ name: Windows Build
 on: pull_request
 
 jobs:
-    build:
+  build:
+    runs-on: windows-latest
 
-        runs-on: windows-latest
+    strategy:
+      matrix:
+        node: ["10", "12"]
 
-        strategy:
-          matrix:
-            node-version: [11.x]
-
-        steps:
-        - uses: actions/checkout@v1
-        - name: Use Node.js 11
-          uses: actions/setup-node@v1
-          with:
-            node-version: ${{ matrix.node-version }}
-        - name: Install
-          run: yarn
-          env:
-            CI: true
-        - name: Lint
-          run: yarn lint
-        - name: Build
-          run: yarn dist
-          env:
-            CI: true
-        - uses: actions/upload-artifact@master
-          with:
-            name: WeakAuras-Companion-CI
-            path: build/
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install
+        run: yarn
+        env:
+          CI: true
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn dist
+        env:
+          CI: true
+      - uses: actions/upload-artifact@master
+        with:
+          name: WeakAuras-Companion-CI
+          path: build/
