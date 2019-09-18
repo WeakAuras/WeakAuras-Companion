@@ -25,6 +25,7 @@
   "app.config.minimized": "启动时客户端最小化",
   "app.config.notification": "在游戏内更新就绪时播放系统提示",
   "app.config.ok": "OK",
+  "app.config.getYours": "Get yours",
   "app.config.reset": "重置选项和数据",
   "app.config.selectAccount": "选择WoW账号",
   "app.config.showallauras": "显示无需更新的光环",

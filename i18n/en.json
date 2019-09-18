@@ -25,6 +25,7 @@
   "app.config.minimized": "Start client minimized",
   "app.config.notification": "Show notifications for new updates",
   "app.config.ok": "OK",
+  "app.config.getYours": "Get yours",
   "app.config.reset": "Reset Settings and Data",
   "app.config.selectAccount": "Select WoW Account",
   "app.config.showallauras": "Show auras without updates",
