@@ -25,6 +25,7 @@
   "app.config.minimized": "Сворачивать окно приложения в область уведомлений",
   "app.config.notification": "Системное уведомление, когда новые обновления готовы для установки в игре",
   "app.config.ok": "OK",
+  "app.config.getYours": "Get yours",
   "app.config.reset": "Сбросить настройки и данные",
   "app.config.selectAccount": "Выберите учетную запись",
   "app.config.showallauras": "Show auras without updates",
