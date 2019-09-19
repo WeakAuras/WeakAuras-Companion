@@ -25,6 +25,7 @@ jobs:
         run: yarn dist
         env:
           CI: true
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - uses: actions/upload-artifact@master
         with:
           name: WeakAuras-Companion-CI
