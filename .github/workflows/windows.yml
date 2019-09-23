@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-      - uses: actions/upload-artifact@master
-        with:
-          name: WeakAuras-Companion-CI
-          path: build/
+      # - uses: actions/upload-artifact@master
+      #   with:
+      #     name: WeakAuras-Companion-CI
+      #     path: build/
