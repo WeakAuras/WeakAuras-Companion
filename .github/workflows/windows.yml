@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node }}
+      - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
@@ -35,5 +35,5 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
       - uses: actions/upload-artifact@master
         with:
-          name: WeakAuras-Companion-CI-${{ matrix.node }}
+          name: WeakAuras-Companion-CI-Node${{ matrix.node }}
           path: build/
