@@ -1,6 +1,6 @@
 # WeakAuras Companion App
 
-[![Build Status](https://github.com/WeakAuras/WeakAuras-Companion/workflows/Windows%20Build/badge.svg)](https://github.com/WeakAuras/WeakAuras-Companion/actions/Windows%20Build/) [![Build Status](https://github.com/WeakAuras/WeakAuras-Companion/workflows/Linux%20Build/badge.svg)](https://github.com/WeakAuras/WeakAuras-Companion/actions/Linux%20Build/) [![Build Status](https://travis-ci.org/WeakAuras/WeakAuras-Companion.svg?branch=master)](https://travis-ci.org/WeakAuras/WeakAuras-Companion) [![Patreon](https://img.shields.io/badge/patreon-donate-orange.svg)](https://www.patreon.com/weakauras)
+[![Build Status](https://github.com/WeakAuras/WeakAuras-Companion/workflows/Windows%20Build/badge.svg)](https://github.com/WeakAuras/WeakAuras-Companion/actions?workflow=Windows%20Build/) [![Build Status](https://github.com/WeakAuras/WeakAuras-Companion/workflows/Linux%20Build/badge.svg)](https://github.com/WeakAuras/WeakAuras-Companion/actions?workflow=Linux%20Build/) [![Build Status](https://travis-ci.org/WeakAuras/WeakAuras-Companion.svg?branch=master)](https://travis-ci.org/WeakAuras/WeakAuras-Companion) [![Patreon](https://img.shields.io/badge/patreon-donate-orange.svg)](https://www.patreon.com/weakauras)
 
 
 
