@@ -1,0 +1,31 @@
+name: macOS Build
+on: pull_request
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        node: ["10", "12"]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install
+        run: yarn
+        env:
+          CI: true
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn dist:pr
+        env:
+          CI: true
+      - uses: actions/upload-artifact@master
+        with:
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }}
+          path: build/
