@@ -133,7 +133,7 @@
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3",
+    "typescript": "^3.6.4",
     "url-loader": "^2.2.0",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^15.7.1",
