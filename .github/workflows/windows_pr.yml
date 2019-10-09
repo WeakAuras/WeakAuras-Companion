@@ -27,5 +27,5 @@ jobs:
           CI: true
       - uses: actions/upload-artifact@master
         with:
-          name: WeakAuras-Companion-PR-${{ github.head_ref }}-Node${{ matrix.node }}
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }}
           path: build/
