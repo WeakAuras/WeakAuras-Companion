@@ -22,10 +22,9 @@ jobs:
       - name: Lint
         run: yarn lint
       - name: Build
-        run: yarn dist
+        run: yarn dist:pr
         env:
           CI: true
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - uses: actions/upload-artifact@master
         with:
           name: WeakAuras-Companion-PR-${{ github.head_ref }}-Node${{ matrix.node }}
