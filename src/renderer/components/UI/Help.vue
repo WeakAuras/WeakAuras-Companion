@@ -156,7 +156,7 @@
         )
       }}
       <a href="https://discord.gg/wa2" target="_blank">Discord</a>
-      {{ $t("app.help.support.text2" /* #Companion-Help channel. */) }}
+      {{ $t("app.help.support.text2" /* #companion-support channel. */) }}
     </div>
     <br />
     <br />
