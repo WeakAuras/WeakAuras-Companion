@@ -335,17 +335,6 @@ export default Vue.extend({
         )
         .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
     },
-    aurasWithData() {
-      return this.auras.filter(
-        aura =>
-          !!aura.encoded &&
-          (!!aura.topLevel || aura.regionType !== "group") &&
-          !(
-            this.config.ignoreOwnAuras &&
-            aura.author === this.config.wagoUsername
-          )
-      );
-    },
     aurasWithUpdate() {
       return this.auras.filter(
         aura =>
@@ -1053,10 +1042,10 @@ export default Vue.extend({
                   if (
                     !aura.ignoreWagoUpdate &&
                     (aura.topLevel || aura.regionType !== "group") &&
+                    wagoData.version > aura.version &&
                     (aura.encoded === null ||
-                      (wagoData.version > aura.version &&
-                        (!!aura.wagoVersion &&
-                          wagoData.version > aura.wagoVersion))) &&
+                      (!!aura.wagoVersion &&
+                        wagoData.version > aura.wagoVersion)) &&
                     !(
                       this.config.ignoreOwnAuras &&
                       wagoData.username === this.config.wagoUsername
@@ -1281,7 +1270,7 @@ export default Vue.extend({
           ];
           LuaOutput += "  slugs = {\n";
 
-          this.aurasWithData.forEach(aura => {
+          this.aurasWithUpdateSorted.forEach(aura => {
             LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
             fields.forEach(field => {

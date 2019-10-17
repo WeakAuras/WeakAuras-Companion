@@ -6,7 +6,7 @@ import * as path                                           from 'path';
 import { getTranslationObject, getTranslationsFromString } from './Utils';
 
 const run = (): void => {
-  glob('./src/renderer/components/**/*.vue', (err: any, files: string[]) => {
+  glob('./src/components/**/*.vue', (err: any, files: string[]) => {
     const basePath: string = path.resolve(process.cwd());
     const packageJSON: any = JSON.parse(fs.readFileSync(path.join(basePath, 'package.json')).toString());
     const supportedLocales: string[] = packageJSON.config['supported-locales'];

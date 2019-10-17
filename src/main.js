@@ -5,12 +5,12 @@ import VueElectron from "vue-electron";
 import Toasted from "vue-toasted";
 import App from "./App.vue";
 
-const en = require("../../i18n/en.json");
-const fr = require("../../i18n/fr.json");
-const de = require("../../i18n/de.json");
-const ru = require("../../i18n/ru.json");
-const tr = require("../../i18n/tr.json");
-const zhcn = require("../../i18n/zh-cn.json");
+const en = require("../i18n/en.json");
+const fr = require("../i18n/fr.json");
+const de = require("../i18n/de.json");
+const ru = require("../i18n/ru.json");
+const tr = require("../i18n/tr.json");
+const zhcn = require("../i18n/zh-cn.json");
 
 Vue.use(VueElectron);
 Vue.use(Toasted);
@@ -84,8 +84,11 @@ const i18n = new VueI18n({
   }
 });
 
+Vue.config.productionTip = false;
+
 new Vue({
   components: { App },
+  render: h => h(App),
   i18n,
   template: "<App/>"
 }).$mount("#app");
