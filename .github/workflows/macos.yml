@@ -19,19 +19,37 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
       - name: Install
         run: yarn
         env:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
       - name: Lint
         run: yarn lint
+
       - name: Build
         run: yarn dist
         env:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Package Artifacts
+        run: |
+          mkdir artifact-pkg
+          mv dist_electron/*.pkg artifact-pkg/
+          mkdir artifact-zip
+          mv dist_electron/*.zip artifact-zip/
+
       - uses: actions/upload-artifact@master
+        name: Upload PKG
         with:
-          name: WeakAuras-Companion-CI-Node${{ matrix.node }}
-          path: build/
+          name: macOS .pkg
+          path: artifact-pkg
+
+      - uses: actions/upload-artifact@master
+        name: Upload ZIP
+        with:
+          name: macOS .zip
+          path: artifact-zip
