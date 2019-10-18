@@ -1,36 +1,20 @@
 {
   "name": "weakauras-companion",
   "version": "2.0.0",
-  "author": "Buds <mrbouyou@gmail.com>",
   "description": "WeakAuras Companion App",
-  "license": "GPL-2.0-or-later",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
-  },
+  "author": "Buds <mrbouyou@gmail.com>",
   "scripts": {
     "build": "vue-cli-service electron:build",
-    "dev": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps",
+    "lint": "eslint src/.",
     "compile-tools": "./node_modules/.bin/tsc -p ./tools/",
-    "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
+    "dev": "vue-cli-service electron:serve",
     "dist": "yarn build --publish onTagOrDraft",
     "dist:pr": "yarn build --publish=never",
-    "lint": "eslint src/."
+    "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
-  "config": {
-    "default-locale": "en",
-    "supported-locales": [
-      "en",
-      "de",
-      "fr",
-      "ru",
-      "tr",
-      "zh-cn"
-    ]
-  },
   "dependencies": {
     "@babel/runtime": "^7.6.3",
     "archiver": "^3.1.1",
@@ -54,9 +38,9 @@
   "devDependencies": {
     "@babel/core": "7.6.3",
     "@babel/plugin-transform-runtime": "7.6.2",
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
+    "@vue/cli-plugin-babel": "^4.0.4",
+    "@vue/cli-plugin-eslint": "^4.0.4",
+    "@vue/cli-service": "^4.0.4",
     "babel-eslint": "^10.0.1",
     "babel-loader": "8.0.6",
     "babel-minify-webpack-plugin": "^0.3.1",
@@ -98,5 +82,21 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "config": {
+    "default-locale": "en",
+    "supported-locales": [
+      "en",
+      "de",
+      "fr",
+      "ru",
+      "tr",
+      "zh-cn"
+    ]
+  },
+  "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
+  }
 }
