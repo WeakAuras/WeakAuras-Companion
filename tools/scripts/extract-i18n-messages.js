@@ -57,6 +57,7 @@ const run = () => {
       const sortedEntries = sortedKeys.map(key => {
         return `"${key}": "${newI18nObject[key]}"`;
       });
+
       fs.writeFileSync(
         path.join(basePath, "i18n", `${locale}.json`),
         `{\n  ${sortedEntries.join(",\n  ")}\n}\n`

@@ -43,15 +43,15 @@ $t('components.markdown' /*
     </div>`;
 
     expect(getTranslationsFromString(content))
-    .toEqual([
-               '$t(\'test\' /* this is a test */)',
-               '$t(\'test.foo\' /* test (test) [test] test */)',
-               '$t(\'test.foo2\' /* test (test) [test] test */ )',
-               '$t("test.bar" /* test (test) [test] test */ )',
-               '$t(\'App.nav.counter\' /* Counter */)',
-               '$t(\'components.register.submit.notification.text\', model /* We\'ve sent an email to: {email}! */)',
-               '$t(\'components.markdown\' /*\n# Markdown support\\n\n- build on top of marked\\n\n- server side rendering!!!\\n\n- `github style` markdown\n*/)',
-             ]);
+      .toEqual([
+        '$t(\'test\' /* this is a test */)',
+        '$t(\'test.foo\' /* test (test) [test] test */)',
+        '$t(\'test.foo2\' /* test (test) [test] test */ )',
+        '$t("test.bar" /* test (test) [test] test */ )',
+        '$t(\'App.nav.counter\' /* Counter */)',
+        '$t(\'components.register.submit.notification.text\', model /* We\'ve sent an email to: {email}! */)',
+        '$t(\'components.markdown\' /*\n# Markdown support\\n\n- build on top of marked\\n\n- server side rendering!!!\\n\n- `github style` markdown\n*/)',
+      ]);
 
     expect(getTranslationsFromString('')).toEqual([]);
   });
@@ -65,10 +65,10 @@ $t('components.markdown' /*
     </div>`;
 
     expect(getTranslationObject(getTranslationsFromString(content)))
-    .toEqual({
-               'test':     'this is a test',
-               'test.foo': 'test (test) <test> test',
-             });
+      .toEqual({
+        'test': 'this is a test',
+        'test.foo': 'test (test) <test> test',
+      });
   });
 
 });
