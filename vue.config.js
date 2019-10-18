@@ -40,7 +40,7 @@ module.exports = {
           deleteAppDataOnUninstall: true
         },
         linux: {
-          icon: "public/"
+          icon: "public/bigicon.png"
         }
       }
     }
