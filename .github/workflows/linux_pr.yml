@@ -39,17 +39,17 @@ jobs:
       - uses: actions/upload-artifact@master
         name: Upload AppImage
         with:
-          name: Linux .AppImage
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} AppImage
           path: artifact-appimage
 
       - uses: actions/upload-artifact@master
         name: Upload Snap
         with:
-          name: Linux .snap
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} Snap
           path: artifact-snap
 
       - uses: actions/upload-artifact@master
         name: Upload Tarball
         with:
-          name: Linux Tarball
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} Tarball
           path: dist_electron/linux-unpacked
