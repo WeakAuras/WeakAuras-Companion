@@ -27,7 +27,8 @@ module.exports = {
           ]
         },
         mac: {
-          icon: "public/icon.icns"
+          icon: "public/icon.icns",
+          category: "Utility"
         },
         win: {
           icon: "public/icon.ico",
@@ -40,7 +41,8 @@ module.exports = {
           deleteAppDataOnUninstall: true
         },
         linux: {
-          icon: "public/bigicon.png"
+          icon: "public/bigicon.png",
+          category: "Utility"
         }
       }
     }
