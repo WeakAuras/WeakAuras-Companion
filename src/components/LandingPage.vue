@@ -2,7 +2,7 @@
   <div id="wrapper">
     <div class="main-container" :class="{ blurred: reportIsShown }">
       <TitleBar></TitleBar>
-      <header @mousedown="onMouseDown">
+      <header>
         <div class="app-logo">
           <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
