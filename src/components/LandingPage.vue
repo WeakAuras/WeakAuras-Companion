@@ -1694,20 +1694,6 @@ end`
   transition: all 0.2s ease-in-out;
 }
 
-header {
-  -webkit-app-region: drag;
-  width: calc(100% - 85px);
-}
-
-main {
-  -webkit-app-region: no-drag;
-  background-color: #131313;
-}
-
-footer {
-  -webkit-app-region: no-drag;
-}
-
 .main-container {
   -webkit-app-region: drag;
   background-color: #101010;
@@ -2002,9 +1988,12 @@ select {
 
 // Update Icon
 .app-update {
-  color: #777;
+  // color: #777;
   float: right;
   margin-right: 15px;
+  height: 25px;
+  position: relative;
+  bottom: 2px;
   .updating {
     display: inline;
     .icon {

@@ -1,10 +1,10 @@
 /* General (All Pages) */
 @import "./tooltip.scss";
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    cursor: default;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: default;
 }
 body {
   font-family: "Montserrat", sans-serif;
@@ -21,7 +21,7 @@ img:not([draggable="true"]) {
   height: 100vh;
   position: relative;
   border-radius: 8px;
-  background:#131313;
+  background: #131313;
 }
 .main-container {
   height: 100%;
@@ -32,6 +32,7 @@ img:not([draggable="true"]) {
   flex-direction: column;
   transition: filter ease-in-out 0.2s;
 }
+
 header {
   text-align: right;
   border-radius: 8px 8px 0 0;
@@ -39,20 +40,28 @@ header {
   font-size: 0;
   background-color: #101010;
   transition: all 0.2s ease-in-out;
+  -webkit-app-region: drag;
+  width: calc(100% - 85px);
 }
+
 .menu-btns {
   height: 100%;
   // margin-right: 85px;
 }
+
 main {
   flex: 1;
   overflow-y: hidden;
+  -webkit-app-region: no-drag;
+  background-color: #131313;
 }
+
 footer {
-  padding: 14px 2.35vw;
+  padding: 8px 2.35vw;
   text-align: left;
   background: #101010;
   border-radius: 0 0 8px 8px;
+  -webkit-app-region: no-drag;
 }
 
 .title {
