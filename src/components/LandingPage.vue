@@ -1705,6 +1705,7 @@ end`
   position: fixed;
   top: 25px;
   left: 2.35vw;
+  -webkit-app-region: drag;
 }
 .logo-img {
   height: 50px;
@@ -1718,9 +1719,30 @@ end`
   transition: all 0.2s ease-in-out;
 }
 
+header {
+  -webkit-app-region: drag;
+  width: calc(100% - 85px);
+}
+
+main {
+  -webkit-app-region: no-drag;
+  background-color: #131313;
+}
+
+footer {
+  -webkit-app-region: no-drag;
+}
+
+.main-container {
+  -webkit-app-region: drag;
+  background-color: #101010;
+  border-radius: 8px;
+}
+
 /* Menu */
 .btn.btn-menu {
   background: transparent;
+  -webkit-app-region: no-drag;
   color: #e6e6e6;
   padding: 0 18px;
   text-align: center;

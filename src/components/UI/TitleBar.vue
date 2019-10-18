@@ -45,6 +45,7 @@ export default {
   cursor: default;
   z-index: 999;
   border-radius: 8px;
+  -webkit-app-region: no-drag;
 }
 #ui-titletext {
   max-height: 12px;
