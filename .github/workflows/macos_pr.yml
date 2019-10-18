@@ -31,16 +31,16 @@ jobs:
 
       - name: Package Artifacts
         run: |
-          mkdir artifact-pkg
-          mv dist_electron/*.pkg artifact-pkg/
+          mkdir artifact-dmg
+          mv dist_electron/*.dmg artifact-dmg/
           mkdir artifact-zip
           mv dist_electron/*.zip artifact-zip/
 
       - uses: actions/upload-artifact@master
-        name: Upload PKG
+        name: Upload DMG
         with:
-          name: macOS .pkg
-          path: artifact-pkg
+          name: macOS .dmg
+          path: artifact-dmg
 
       - uses: actions/upload-artifact@master
         name: Upload ZIP
