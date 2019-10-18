@@ -217,10 +217,6 @@ luaparse.defaultOptions.scope = true;
 
 const internalVersion = 3;
 
-let animationId;
-let mouseX;
-let mouseY;
-
 const defaultValues = {
   configStep: 0,
   reportIsShown: false,
@@ -565,27 +561,6 @@ export default Vue.extend({
         this.checkCompanionUpdates,
         1000 * 3600 * 2
       );
-    },
-    onMouseDown(e) {
-      if (e.button === 0) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        document.addEventListener("mouseup", this.onMouseUp);
-        animationId = requestAnimationFrame(this.moveWindow);
-      }
-    },
-    onMouseUp(e) {
-      if (e.button === 0) {
-        document.removeEventListener("mouseup", this.onMouseUp);
-        cancelAnimationFrame(animationId);
-      }
-    },
-    moveWindow() {
-      this.$electron.ipcRenderer.send("windowMoving", {
-        mouseX,
-        mouseY
-      });
-      animationId = requestAnimationFrame(this.moveWindow);
     },
     WeakAurasSaved(version, account) {
       let WeakAurasSavedVariable;
