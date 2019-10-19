@@ -1,12 +1,12 @@
 /* tslint:disable:no-console */
 
-import * as glob                                           from 'glob';
-import * as fs                                             from 'fs';
-import * as path                                           from 'path';
+import * as glob from 'glob';
+import * as fs from 'fs';
+import * as path from 'path';
 import { getTranslationObject, getTranslationsFromString } from './Utils';
 
 const run = (): void => {
-  glob('./src/renderer/components/**/*.vue', (err: any, files: string[]) => {
+  glob('./src/components/**/*.vue', (err: any, files: string[]) => {
     const basePath: string = path.resolve(process.cwd());
     const packageJSON: any = JSON.parse(fs.readFileSync(path.join(basePath, 'package.json')).toString());
     const supportedLocales: string[] = packageJSON.config['supported-locales'];
@@ -39,8 +39,8 @@ const run = (): void => {
       });
 
       const newI18nObject: any = locale === defaultLocale
-                                 ? (Object as any).assign({}, i18nFileObject, translations)
-                                 : (Object as any).assign({}, translations, i18nFileObject);
+        ? (Object as any).assign({}, i18nFileObject, translations)
+        : (Object as any).assign({}, translations, i18nFileObject);
 
       /**
        * sort entries

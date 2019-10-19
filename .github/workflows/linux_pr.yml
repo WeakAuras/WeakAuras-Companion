@@ -15,17 +15,41 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
       - name: Install
         run: yarn
         env:
           CI: true
+
       - name: Lint
         run: yarn lint
+
       - name: Build
         run: yarn dist:pr
         env:
           CI: true
+
+      - name: Package Artifacts
+        run: |
+          mkdir artifact-appimage
+          mv dist_electron/*.AppImage artifact-appimage/ || true
+          mkdir artifact-snap
+          mv dist_electron/*.snap artifact-snap/ || true
+
       - uses: actions/upload-artifact@master
+        name: Upload AppImage
         with:
-          name: WeakAuras-Companion-PR-Node${{ matrix.node }}
-          path: build/
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} AppImage
+          path: artifact-appimage
+
+      - uses: actions/upload-artifact@master
+        name: Upload Snap
+        with:
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} Snap
+          path: artifact-snap
+
+      - uses: actions/upload-artifact@master
+        name: Upload Tarball
+        with:
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} Tarball
+          path: dist_electron/linux-unpacked

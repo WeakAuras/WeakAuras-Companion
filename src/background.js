@@ -7,16 +7,23 @@ import {
   shell,
   ipcMain,
   screen,
-  Notification
+  Notification,
+  protocol
 } from "electron";
+import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 
-app.commandLine.appendSwitch("no-proxy-server");
+// Scheme must be registered before the app is ready
+protocol.registerSchemesAsPrivileged([
+  { scheme: "app", privileges: { secure: true, standard: true } }
+]);
 
 const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
+const isDevelopment = process.env.NODE_ENV !== "production";
+const isProduction = process.env.NODE_ENV == "production";
 
 const store = new Store();
 const config = store.get("config");
@@ -38,17 +45,14 @@ log.info("App starting...");
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
-if (process.env.NODE_ENV !== "development") {
-  global.__static = path.join(__dirname, "/static").replace(/\\/g, "\\\\");
+if (isProduction) {
+  global.__static = path.join(__dirname, "/public").replace(/\\/g, "\\\\");
 }
 
 let tray = null;
 let contextMenu = null;
 let mainWindow = null;
-const winURL =
-  process.env.NODE_ENV === "development"
-    ? `http://localhost:9080`
-    : `file://${__dirname}/index.html`;
+let winURL = null;
 
 const iconpath = path.join(
   __static,
@@ -68,6 +72,7 @@ function createWindow() {
     frame: false,
     transparent: true,
     backgroundColor: "#00ffffff",
+    icon: path.join(__static, "icon.png"),
     resizable: true,
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
@@ -78,7 +83,21 @@ function createWindow() {
     show: false
   });
 
-  mainWindow.loadURL(winURL);
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+
+    if (!process.env.IS_TEST) mainWindow.webContents.openDevTools();
+  } else {
+    createProtocol("app");
+    // Load the index.html when not in development
+    mainWindow.loadFile("index.html");
+  }
+
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
+
   mainWindow.setMenu(null);
 
   mainWindow.on("minimize", event => {
@@ -266,11 +285,6 @@ ipcMain.on("checkUpdates", (event, isBeta) => {
   });
 });
 
-ipcMain.on("windowMoving", (e, { mouseX, mouseY }) => {
-  const { x, y } = screen.getCursorScreenPoint();
-  mainWindow.setPosition(x - mouseX, y - mouseY);
-});
-
 // updater functions
 autoUpdater.on("checking-for-update", () => {
   if (mainWindow && mainWindow.webContents) {
@@ -334,3 +348,18 @@ autoUpdater.on("update-downloaded", info => {
     }
   }
 });
+
+// Exit cleanly on request from parent process in development mode.
+if (isDevelopment) {
+  if (process.platform === "win32") {
+    process.on("message", data => {
+      if (data === "graceful-exit") {
+        app.quit();
+      }
+    });
+  } else {
+    process.on("SIGTERM", () => {
+      app.quit();
+    });
+  }
+}

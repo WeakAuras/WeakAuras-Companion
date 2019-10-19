@@ -15,17 +15,35 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
       - name: Install
         run: yarn
         env:
           CI: true
+
       - name: Lint
         run: yarn lint
+
       - name: Build
         run: yarn dist:pr
         env:
           CI: true
+
+      - name: Package Artifacts
+        run: |
+          mkdir artifact-dmg
+          mv dist_electron/*.dmg artifact-dmg/
+          mkdir artifact-zip
+          mv dist_electron/*.zip artifact-zip/
+
       - uses: actions/upload-artifact@master
+        name: Upload DMG
         with:
-          name: WeakAuras-Companion-PR-Node${{ matrix.node }}
-          path: build/
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} DMG
+          path: artifact-dmg
+
+      - uses: actions/upload-artifact@master
+        name: Upload ZIP
+        with:
+          name: WeakAuras-Companion-PR-Node${{ matrix.node }} ZIP
+          path: artifact-zip

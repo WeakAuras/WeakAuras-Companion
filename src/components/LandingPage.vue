@@ -2,7 +2,7 @@
   <div id="wrapper">
     <div class="main-container" :class="{ blurred: reportIsShown }">
       <TitleBar></TitleBar>
-      <header @mousedown="onMouseDown">
+      <header>
         <div class="app-logo">
           <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
@@ -216,10 +216,6 @@ luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
 
 const internalVersion = 3;
-
-let animationId;
-let mouseX;
-let mouseY;
 
 const defaultValues = {
   configStep: 0,
@@ -565,27 +561,6 @@ export default Vue.extend({
         this.checkCompanionUpdates,
         1000 * 3600 * 2
       );
-    },
-    onMouseDown(e) {
-      if (e.button === 0) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        document.addEventListener("mouseup", this.onMouseUp);
-        animationId = requestAnimationFrame(this.moveWindow);
-      }
-    },
-    onMouseUp(e) {
-      if (e.button === 0) {
-        document.removeEventListener("mouseup", this.onMouseUp);
-        cancelAnimationFrame(animationId);
-      }
-    },
-    moveWindow() {
-      this.$electron.ipcRenderer.send("windowMoving", {
-        mouseX,
-        mouseY
-      });
-      animationId = requestAnimationFrame(this.moveWindow);
     },
     WeakAurasSaved(version, account) {
       let WeakAurasSavedVariable;
@@ -1705,6 +1680,7 @@ end`
   position: fixed;
   top: 25px;
   left: 2.35vw;
+  -webkit-app-region: drag;
 }
 .logo-img {
   height: 50px;
@@ -1718,9 +1694,16 @@ end`
   transition: all 0.2s ease-in-out;
 }
 
+.main-container {
+  -webkit-app-region: drag;
+  background-color: #101010;
+  border-radius: 8px;
+}
+
 /* Menu */
 .btn.btn-menu {
   background: transparent;
+  -webkit-app-region: no-drag;
   color: #e6e6e6;
   padding: 0 18px;
   text-align: center;
@@ -2005,9 +1988,12 @@ select {
 
 // Update Icon
 .app-update {
-  color: #777;
+  // color: #777;
   float: right;
   margin-right: 15px;
+  height: 25px;
+  position: relative;
+  bottom: 2px;
   .updating {
     display: inline;
     .icon {

@@ -1,6 +1,5 @@
 {
   "extends": [
-    "airbnb-base",
     "plugin:prettier/recommended",
     "plugin:vue/recommended",
     "prettier/vue"
@@ -29,12 +28,15 @@
       }
     ]
   },
+  "parserOptions": {
+    "parser": "babel-eslint"
+  },
   "plugins": ["prettier", "vue"],
   "settings": {
     "import/core-modules": ["electron"],
     "import/resolver": {
       "webpack": {
-        "config": "./.electron-vue/webpack.renderer.config.js"
+        "config": "webpack"
       }
     }
   }

@@ -76,7 +76,7 @@
 
 <script>
 const medias = require("../libs/contacts.js");
-
+const VERSION = require("../../../package.json").version;
 // console.log(`VERSION: ${VERSION}`);
 export default {
   name: "About",
