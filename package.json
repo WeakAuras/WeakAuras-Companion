@@ -3,6 +3,11 @@
   "version": "2.0.0",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
+  "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
+  },
   "scripts": {
     "build": "vue-cli-service electron:build",
     "lint": "eslint src/.",
@@ -15,6 +20,17 @@
     "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
+  "config": {
+    "default-locale": "en",
+    "supported-locales": [
+      "en",
+      "de",
+      "fr",
+      "ru",
+      "tr",
+      "zh-cn"
+    ]
+  },
   "dependencies": {
     "@babel/runtime": "^7.6.3",
     "archiver": "^3.1.1",
@@ -56,22 +72,18 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
-    "file-loader": "^4.2.0",
     "glob": "^7.1.4",
     "html-webpack-plugin": "^3.2.0",
-    "node-loader": "^0.6.0",
     "node-sass": "^4.12.0",
-    "prettier": "^1.18.0",
+    "prettier": "^1.18.2",
     "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0",
     "typescript": "^3.6.4",
-    "url-loader": "^2.2.0",
     "vue-cli-plugin-electron-builder": "^1.4.0",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.41.0",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   },
   "postcss": {
@@ -82,21 +94,5 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ],
-  "config": {
-    "default-locale": "en",
-    "supported-locales": [
-      "en",
-      "de",
-      "fr",
-      "ru",
-      "tr",
-      "zh-cn"
-    ]
-  },
-  "license": "GPL-2.0-or-later",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
-  }
+  ]
 }
