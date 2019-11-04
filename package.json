@@ -24,6 +24,7 @@
     "default-locale": "en",
     "supported-locales": [
       "en",
+      "es",
       "de",
       "fr",
       "ru",

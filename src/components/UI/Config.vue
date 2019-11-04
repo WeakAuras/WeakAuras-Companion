@@ -211,6 +211,7 @@ export default Vue.extend({
         { value: "zh-cn", text: "中文 (简体) (zh-cn)" },
         { value: "de", text: "Deutsch (de)" },
         { value: "en", text: "English (en)" },
+        { value: "es", text: "Español (es)" },
         { value: "fr", text: "Français (fr)" },
         { value: "ru", text: "Русский (ru)" },
         { value: "tr", text: "Türkçe (tr)" }

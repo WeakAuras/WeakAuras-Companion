@@ -6,6 +6,7 @@ import Toasted from "vue-toasted";
 import App from "./App.vue";
 
 const en = require("../i18n/en.json");
+const es = require("../i18n/es.json");
 const fr = require("../i18n/fr.json");
 const de = require("../i18n/de.json");
 const ru = require("../i18n/ru.json");
@@ -76,6 +77,7 @@ const i18n = new VueI18n({
   fallbackLocale: "en",
   messages: {
     en,
+    es,
     fr,
     de,
     ru,
