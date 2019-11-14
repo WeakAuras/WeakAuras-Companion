@@ -1030,8 +1030,8 @@ export default Vue.extend({
                     (aura.topLevel || aura.regionType !== "group") &&
                     (aura.encoded === null ||
                       (wagoData.version > aura.version &&
-                        (!!aura.wagoVersion &&
-                          wagoData.version > aura.wagoVersion))) &&
+                        !!aura.wagoVersion &&
+                        wagoData.version > aura.wagoVersion)) &&
                     !(
                       this.config.ignoreOwnAuras &&
                       wagoData.username === this.config.wagoUsername
