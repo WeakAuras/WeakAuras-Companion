@@ -10988,10 +10988,10 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
   integrity sha512-iq+S7vZJE60yejDYM0ek6zg308+UZsdtPExWP9VZoCFCz1zkJoXFnAX7aZfd/ZwrkidzdUZL0C/ryW+JwAiIGw==
 
-vue-cli-plugin-electron-builder@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.4.2.tgz#8a8c43d1adb32f60868c1e44cf982002bf69b395"
-  integrity sha512-dN2zbPxjMznsBZ0yFpmUts+Ny8gOjfYB1fb/blOlQXas3C5+AdyYQshnahqLidWU/j3Xk/twStBOsaOZJPOPHQ==
+vue-cli-plugin-electron-builder@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/vue-cli-plugin-electron-builder/-/vue-cli-plugin-electron-builder-1.4.3.tgz#f82872fd10aac7246382122cea625a85379d2818"
+  integrity sha512-nPucf1iuEnCRbPNE1YaOPNXYM0JvPshtD73gVAfAz+jkvuhACqrDGoOLLdKtWiqDUubAy2JR/OXUTs96PTD3CQ==
   dependencies:
     chokidar "^3.0.2"
     electron-builder "^21.2.0"
