@@ -36,7 +36,7 @@ function LocalServerRequestHandler(req, res) {
   // make sure this request is allowed
   if (!allowRequest(req)) {
     res.writeHead(401, { "Content-Type": "application/json" });
-    return res.end(`{ "result": "no" }`);
+    return res.end("{ 'result': 'no' }");
   }
 
   // if browser is doing a CORS check then allow it
@@ -70,12 +70,12 @@ function LocalServerRequestHandler(req, res) {
         "Access-Control-Allow-Methods": "POST, OPTIONS",
         "Access-Control-Allow-Origin": req.headers.origin
       });
-      return res.end(`{"success": true}`);
+      return res.end("{'success': true}");
     });
   } else {
     // method not allowed
     res.writeHead(405, { "Content-Type": "application/json" });
-    return res.end(`{"result": "no"}`);
+    return res.end("{'result': 'no'}");
   }
 }
 const localServer = http.createServer(LocalServerRequestHandler);

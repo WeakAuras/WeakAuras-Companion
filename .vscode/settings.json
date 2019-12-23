@@ -1,29 +1,7 @@
 {
-  "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [{
-      "language": "javascript",
-      "autoFix": true
-    },
-    {
-      "language": "vue",
-      "autoFix": true
-    },
-    {
-      "language": "html",
-      "autoFix": true
-    },
-    {
-      "language": "css",
-      "autoFix": true
-    }
-  ],
-  "vetur.format.defaultFormatter.js": "prettier-eslint",
-  "vetur.format.defaultFormatter.html": "prettier",
-  "vetur.validation.template": false,
-  "eslint.packageManager": "yarn",
-  "npm.packageManager": "yarn",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+    "vetur.format.defaultFormatter.js": "prettier-eslint",
+    "vetur.format.defaultFormatter.html": "prettier",
+    "vetur.validation.template": false,
+    "eslint.packageManager": "yarn",
+    "npm.packageManager": "yarn"
 }
