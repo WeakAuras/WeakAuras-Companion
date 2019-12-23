@@ -190,7 +190,7 @@ import {
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart
 } from "./libs/wowstat";
-import { wowDefaultPath } from "./libs/utilities";
+import { wowDefaultPath, matchFolderNameInsensitive } from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import Aura from "./UI/Aura.vue";
@@ -1193,144 +1193,119 @@ export default Vue.extend({
     toggleReport() {
       this.reportIsShown = !this.reportIsShown;
     },
-    writeAddonData(news, fails, noNotification) {
+    async writeAddonData(news, fails, noNotification) {
       let newInstall = false;
 
       if (this.config.wowpath.valided && this.version !== "") {
-        const AddonFolder = path.join(
+        var AddonPath = ["Interface", "AddOns", "WeakAurasCompanion"];
+        var AddonFolder = path.join(
           this.config.wowpath.value,
-          this.config.wowpath.version,
-          "Interface",
-          "AddOns",
-          "WeakAurasCompanion"
+          this.config.wowpath.version
         );
 
-        // Make folder
-        fs.mkdir(AddonFolder, err => {
-          if (err && err.code !== "EEXIST") {
-            this.message(
-              this.$t(
-                "app.main.errorCantCreateAddon" /* Can't create addon directory */
-              ),
-              "error"
-            );
-            console.log(JSON.stringify(err));
+        while (AddonPath.length) {
+          var check = AddonPath.shift();
+          var folder = await matchFolderNameInsensitive(
+            AddonFolder,
+            check,
+            AddonPath.length === 0
+          );
+
+          if (folder) {
+            AddonFolder = path.join(AddonFolder, folder);
+          } else {
             throw new Error("errorCantCreateAddon");
           }
+        }
+        // Make data.lua
+        let LuaOutput = "-- file generated automatically\n";
+        let LuaUids = "  uids = {\n";
+        let LuaIds = "  ids = {\n";
+        LuaOutput += "WeakAurasCompanion = {\n";
+        const fields = [
+          "name",
+          "author",
+          "encoded",
+          "wagoVersion",
+          "wagoSemver"
+        ];
+        LuaOutput += "  slugs = {\n";
 
-          if (!err) {
-            if (isWOWOpen(this.config.wowpath.value)) {
-              newInstall = true;
+        this.aurasWithData.forEach(aura => {
+          LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
-              if (!this.reloadToast) {
-                this.reloadToast = this.message(
-                  this.$t(
-                    "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
-                  ),
-                  "info",
-                  {
-                    duration: null,
-                    onComplete: () => {
-                      this.reloadToast = null;
-                    }
-                  }
-                );
+          fields.forEach(field => {
+            LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
+          });
 
-                afterWOWRestart(this.config.wowpath.value, () => {
-                  if (this.reloadToast) this.reloadToast.goAway(0);
-                });
+          if (typeof aura.changelog !== "undefined") {
+            if (typeof aura.changelog.text !== "undefined") {
+              let sanitized;
+
+              if (aura.changelog.format === "bbcode") {
+                sanitized = sanitize.bbcode(aura.changelog.text);
+              } else if (aura.changelog.format === "markdown") {
+                sanitized = sanitize.markdown(aura.changelog.text);
               }
+              LuaOutput += `      versionNote = [=[${sanitized}]=],\n`;
             }
           }
-          // Make data.lua
-          let LuaOutput = "-- file generated automatically\n";
-          let LuaUids = "  uids = {\n";
-          let LuaIds = "  ids = {\n";
-          LuaOutput += "WeakAurasCompanion = {\n";
-          const fields = [
-            "name",
-            "author",
-            "encoded",
-            "wagoVersion",
-            "wagoSemver"
-          ];
-          LuaOutput += "  slugs = {\n";
 
-          this.aurasWithData.forEach(aura => {
-            LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
-
-            fields.forEach(field => {
-              LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
+          if (aura.uids) {
+            aura.uids.forEach(uid => {
+              LuaUids += `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
+                aura.slug
+              }]=],\n`;
             });
 
-            if (typeof aura.changelog !== "undefined") {
-              if (typeof aura.changelog.text !== "undefined") {
-                let sanitized;
-
-                if (aura.changelog.format === "bbcode") {
-                  sanitized = sanitize.bbcode(aura.changelog.text);
-                } else if (aura.changelog.format === "markdown") {
-                  sanitized = sanitize.markdown(aura.changelog.text);
-                }
-                LuaOutput += `      versionNote = [=[${sanitized}]=],\n`;
-              }
-            }
-
-            if (aura.uids) {
-              aura.uids.forEach(uid => {
-                LuaUids += `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
-                  aura.slug
-                }]=],\n`;
-              });
-
-              aura.ids.forEach(id => {
-                LuaIds += `    ["${id.replace(/"/g, '\\"')}"] = [=[${
-                  aura.slug
-                }]=],\n`;
-              });
-            }
-            LuaOutput += "    },\n";
-          });
-          LuaOutput += "  },\n";
-          LuaOutput += LuaUids;
-          LuaOutput += "  },\n";
-          LuaOutput += LuaIds;
-          LuaOutput += "  },\n";
-          LuaOutput += "  stash = {\n";
-
-          this.stash.forEach(aura => {
-            LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
-
-            fields.forEach(field => {
-              LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
+            aura.ids.forEach(id => {
+              LuaIds += `    ["${id.replace(/"/g, '\\"')}"] = [=[${
+                aura.slug
+              }]=],\n`;
             });
+          }
+          LuaOutput += "    },\n";
+        });
+        LuaOutput += "  },\n";
+        LuaOutput += LuaUids;
+        LuaOutput += "  },\n";
+        LuaOutput += LuaIds;
+        LuaOutput += "  },\n";
+        LuaOutput += "  stash = {\n";
 
-            if (typeof aura.changelog !== "undefined") {
-              if (typeof aura.changelog.text !== "undefined") {
-                let sanitized;
+        this.stash.forEach(aura => {
+          LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
-                if (aura.changelog.format === "bbcode") {
-                  sanitized = sanitize.bbcode(aura.changelog.text);
-                } else if (aura.changelog.format === "markdown") {
-                  sanitized = sanitize.markdown(aura.changelog.text);
-                }
-                LuaOutput += `      versionNote = [=[${sanitized}]=],\n`;
-              }
-            }
-            LuaOutput += "    },\n";
+          fields.forEach(field => {
+            LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
           });
-          LuaOutput += "  }\n";
-          LuaOutput += "}";
 
-          /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
-          const toc =
-            AddonFolder.toLowerCase().search("classic") === -1
-              ? "80205"
-              : "11303";
-          const files = [
-            {
-              name: "WeakAurasCompanion.toc",
-              data: `## Interface: ${toc}
+          if (typeof aura.changelog !== "undefined") {
+            if (typeof aura.changelog.text !== "undefined") {
+              let sanitized;
+
+              if (aura.changelog.format === "bbcode") {
+                sanitized = sanitize.bbcode(aura.changelog.text);
+              } else if (aura.changelog.format === "markdown") {
+                sanitized = sanitize.markdown(aura.changelog.text);
+              }
+              LuaOutput += `      versionNote = [=[${sanitized}]=],\n`;
+            }
+          }
+          LuaOutput += "    },\n";
+        });
+        LuaOutput += "  }\n";
+        LuaOutput += "}";
+
+        /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
+        const toc =
+          AddonFolder.toLowerCase().search("classic") === -1
+            ? "80205"
+            : "11303";
+        const files = [
+          {
+            name: "WeakAurasCompanion.toc",
+            data: `## Interface: ${toc}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: 1.0.0
@@ -1342,10 +1317,10 @@ export default Vue.extend({
 
 data.lua
 init.lua`
-            },
-            {
-              name: "init.lua",
-              data: `-- file generated automatically
+          },
+          {
+            name: "init.lua",
+            data: `-- file generated automatically
 local buildTimeTarget = 20190123023201
 local waBuildTime = tonumber(WeakAuras.buildTime)
 
@@ -1376,31 +1351,53 @@ else
     end
   end)
 end`
-            },
-            {
-              name: "data.lua",
-              data: LuaOutput
+          },
+          {
+            name: "data.lua",
+            data: LuaOutput
+          }
+        ];
+
+        files.forEach(file => {
+          fs.writeFile(path.join(AddonFolder, file.name), file.data, err2 => {
+            if (err2) {
+              this.message(
+                this.$t(
+                  "app.main.errorFileSave",
+                  { file: file.name } /* {file} could not be saved */
+                ),
+                "error"
+              );
+              throw new Error("errorFileSave");
             }
-          ];
-
-          files.forEach(file => {
-            fs.writeFile(path.join(AddonFolder, file.name), file.data, err2 => {
-              if (err2) {
-                this.message(
-                  this.$t(
-                    "app.main.errorFileSave",
-                    { file: file.name } /* {file} could not be saved */
-                  ),
-                  "error"
-                );
-                throw new Error("errorFileSave");
-              }
-            });
           });
-
-          if (!noNotification)
-            this.afterUpdateNotification(newInstall, news, fails);
         });
+
+        if (!noNotification)
+          this.afterUpdateNotification(newInstall, news, fails);
+
+        if (isWOWOpen(this.config.wowpath.value)) {
+          newInstall = true;
+
+          if (!this.reloadToast) {
+            this.reloadToast = this.message(
+              this.$t(
+                "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
+              ),
+              "info",
+              {
+                duration: null,
+                onComplete: () => {
+                  this.reloadToast = null;
+                }
+              }
+            );
+
+            afterWOWRestart(this.config.wowpath.value, () => {
+              if (this.reloadToast) this.reloadToast.goAway(0);
+            });
+          }
+        }
       }
       this.backup();
     },

@@ -1,4 +1,5 @@
 import path from "path";
+const fs = require("fs");
 
 export function formatBytes(a, b) {
   if (a === 0) return "0 Bytes";
@@ -28,5 +29,34 @@ export function wowDefaultPath() {
     } else {
       resolve("");
     }
+  });
+}
+
+export function matchFolderNameInsensitive(folder, name, create) {
+  return new Promise((done, err) => {
+    var dir = fs.readdir(folder, (err, items) => {
+      for (let i = 0; i < items.length; i++) {
+        if (name.toLowerCase() === items[i].toLowerCase()) {
+          return done(items[i]);
+        }
+      }
+
+      if (!!create) {
+        fs.mkdir(path.join(folder, name), err => {
+          if (err && err.code !== "EEXIST") {
+            this.message(
+              this.$t(
+                "app.main.errorCantCreateAddon" /* Can't create addon directory */
+              ),
+              "error"
+            );
+            console.log(JSON.stringify(err));
+            throw new Error("errorCantCreateAddon");
+          }
+        });
+        return name;
+      }
+      err({ message: `${name} not found at ${folder}` });
+    });
   });
 }
