@@ -22,5 +22,8 @@
   "vetur.format.defaultFormatter.html": "prettier",
   "vetur.validation.template": false,
   "eslint.packageManager": "yarn",
-  "npm.packageManager": "yarn"
+  "npm.packageManager": "yarn",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
