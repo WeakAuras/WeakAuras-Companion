@@ -21,25 +21,22 @@ export default {
     };
   },
   methods: {
-    handleInputClick() {
+    async handleInputClick() {
       if (!this.dialogOpen) {
         this.dialogOpen = true;
 
-        remote.dialog.showOpenDialog(
-          {
-            properties: ["openDirectory"],
-            createDirectory: this.createDirectory,
-            defaultPath: this.path || this.defaultPath,
-            openDirectory: true
-          },
-          paths => {
-            this.dialogOpen = false;
+        const result = await remote.dialog.showOpenDialog({
+          properties: ["openDirectory"],
+          createDirectory: this.createDirectory,
+          defaultPath: this.path || this.defaultPath,
+          openDirectory: true
+        });
 
-            if (paths && paths.length) {
-              this.$emit("update:path", paths[0]);
-            }
-          }
-        );
+        this.dialogOpen = false;
+
+        if (result.filePaths && result.filePaths.length) {
+          this.$emit("update:path", result.filePaths[0]);
+        }
       }
     }
   }
