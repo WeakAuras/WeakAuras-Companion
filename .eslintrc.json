@@ -1,43 +1,44 @@
 {
-  "extends": [
-    "plugin:prettier/recommended",
-    "plugin:vue/recommended",
-    "prettier/vue"
-  ],
-  "globals": {
-    "__static": true
-  },
-  "rules": {
-    "linebreak-style": "off",
-    "no-console": "off",
-    "semi": 0,
-    "vue/require-prop-types": "off",
-    "vue/no-v-html": "off",
-    "padding-line-between-statements": [
-      "warn",
-      {
-        "blankLine": "always",
-        "prev": "*",
-        "next": [
-          "block",
-          "multiline-block-like",
-          "if",
-          "function",
-          "multiline-expression"
+    "extends": [
+        "plugin:prettier/recommended",
+        "plugin:vue/recommended",
+        "prettier/vue"
+    ],
+    "globals": {
+        "__static": true
+    },
+    "rules": {
+        "linebreak-style": "off",
+        "no-console": "off",
+        "semi": 0,
+        "quotes": [1, "double", "avoid-escape"],
+        "vue/require-prop-types": "off",
+        "vue/no-v-html": "off",
+        "padding-line-between-statements": [
+            "warn",
+            {
+                "blankLine": "always",
+                "prev": "*",
+                "next": [
+                    "block",
+                    "multiline-block-like",
+                    "if",
+                    "function",
+                    "multiline-expression"
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "parserOptions": {
-    "parser": "babel-eslint"
-  },
-  "plugins": ["prettier", "vue"],
-  "settings": {
-    "import/core-modules": ["electron"],
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack"
-      }
+    },
+    "parserOptions": {
+        "parser": "babel-eslint"
+    },
+    "plugins": ["prettier", "vue"],
+    "settings": {
+        "import/core-modules": ["electron"],
+        "import/resolver": {
+            "webpack": {
+                "config": "webpack"
+            }
+        }
     }
-  }
 }
