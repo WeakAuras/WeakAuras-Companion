@@ -154,6 +154,12 @@ function createWindow() {
         });
       }
     },
+    {
+      label: "Open DevTools Console",
+      click: () => {
+        mainWindow.webContents.openDevTools({ mode: "detach" });
+      }
+    },
     { type: "separator" },
     {
       label: "Fetch Updates",
