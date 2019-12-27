@@ -142,7 +142,9 @@
             class="material-icons update-available"
             @click="
               open(
-                'https://github.com/WeakAuras/WeakAuras-Companion/releases/latest'
+                config.beta
+                  ? 'https://github.com/WeakAuras/WeakAuras-Companion/releases'
+                  : 'https://github.com/WeakAuras/WeakAuras-Companion/releases/latest'
               )
             "
             >system_update_alt
