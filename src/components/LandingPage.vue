@@ -133,7 +133,7 @@
         </a>
         <div class="app-update">
           <i
-            v-if="isMac && updater.status === 'update-available'"
+            v-if="updater.status === 'update-available'"
             v-tooltip="
               `${this.$t(
                 'app.main.installUpdate' /* Install client update */
@@ -160,13 +160,7 @@
             @click="installUpdates"
             >system_update_alt
           </i>
-          <div
-            v-if="
-              updater.status === 'checking-for-update' ||
-                (updater.status === 'update-available' && !isMac)
-            "
-            class="updating"
-          >
+          <div v-if="updater.status === 'checking-for-update'" class="updating">
             <i class="material-icons icon">sync</i>
           </div>
           <div v-if="updater.status === 'download-progress'" class="updating">

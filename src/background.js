@@ -29,10 +29,7 @@ const store = new Store();
 const config = store.get("config");
 let cancellationToken;
 
-// No auto-updates on macOS and Linux
-if (process.platform === "darwin" || process.platform === "linux") {
-  autoUpdater.autoDownload = false;
-}
+autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 
 autoUpdater.allowPrerelease =
