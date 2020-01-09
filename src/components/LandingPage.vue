@@ -2021,6 +2021,7 @@ select {
   .update-available {
     animation: pulse 2s infinite;
     cursor: pointer;
+    color: $iconDefaultColor;
   }
 }
 @keyframes spin {
