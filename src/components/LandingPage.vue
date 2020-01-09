@@ -464,8 +464,8 @@ export default Vue.extend({
         this.updater.progress = Math.floor(arg.percent);
       }
 
-      if (status === "update-available" && this.isMac && !this.updateToast) {
-        // show download toast on Macs
+      if (status === "update-available" && !this.updateToast) {
+        // show download toast
         this.updateToast = this.message(
           this.$t("app.main.updatefound" /* Companion Update available */),
           null,
