@@ -299,6 +299,20 @@ autoUpdater.on("update-available", info => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-available", info);
   }
+
+  if (!installNagAlreadyShowed) {
+    new Notification({
+      title: "A new update is available",
+      body: `WeakAuras Companion ${info.version} is available for download.`,
+      icon: path.join(
+        __static,
+        process.platform === "win32" ? "bigicon.png" : "icon.png"
+      )
+    }).show();
+
+    // show install nag only once
+    installNagAlreadyShowed = true;
+  }
 });
 
 autoUpdater.on("update-not-available", () => {
