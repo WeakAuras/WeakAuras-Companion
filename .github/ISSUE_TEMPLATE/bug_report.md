@@ -7,6 +7,17 @@ assignees: ''
 
 ---
 
+<!--
+  WeakAuras Companion 2.0.0 "Error in updater"
+
+  An issue in the Electron version in this build break the updater.
+  
+  Please manually upgrade your Companion version from
+  https://github.com/WeakAuras/WeakAuras-Companion/releases/latest
+  
+  More information at https://www.patreon.com/posts/about-companion-32871243
+-->
+
 **Operating System:**
 - [ ] Windows
 - [ ] Mac
