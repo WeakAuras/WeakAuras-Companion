@@ -994,7 +994,8 @@ export default Vue.extend({
                 "script-src",
                 "self",
                 "https://data.wago.io"
-              ]
+              ],
+              "api-key": this.config.wagoApiKey
             },
             crossdomain: true
           })
@@ -1045,7 +1046,8 @@ export default Vue.extend({
                             "script-src",
                             "self",
                             "https://data.wago.io"
-                          ]
+                          ],
+                          "api-key": this.config.wagoApiKey
                         },
                         crossdomain: true
                       })
