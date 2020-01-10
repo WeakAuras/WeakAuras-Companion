@@ -70,6 +70,7 @@
               }}
             </checkbox>
           </div>
+          <!--
           <div class="option">
             <checkbox v-model="config.autoupdate">
               {{
@@ -79,6 +80,7 @@
               }}
             </checkbox>
           </div>
+          -->
         </div>
       </div>
       <div class="config-row-item">
