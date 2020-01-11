@@ -18,6 +18,7 @@
   "app.config.backup.dedicatedsize": "Espace dedié",
   "app.config.backup.openfolder": "Ouvrir dans l'Explorateur",
   "app.config.backup.title": "Sauvegarde WeakAuras",
+  "app.config.badapikey": "Wago API Key should take 64 characters",
   "app.config.clientSettings": "Paramètres du Companion",
   "app.config.gameSettings": "Paramètres du Jeux",
   "app.config.getYours": "Get yours",
