@@ -137,7 +137,7 @@
             v-tooltip="
               `${this.$t(
                 'app.main.installUpdate' /* Install client update */
-              )}: v${updater.version}`
+              )}: v${updater.version} ${updater.releaseNotes}`
             "
             class="material-icons update-available"
             @click="open(`${updater.path}`)"
@@ -249,7 +249,8 @@ const defaultValues = {
     progress: null,
     scheduleId: null, // for 2h auto-updater
     version: null,
-    path: null
+    path: null,
+    releaseNotes: null
   },
   isMac: process.platform === "darwin",
   accountOptions: [],
@@ -461,6 +462,8 @@ export default Vue.extend({
 
       if (status === "update-available" && !this.updateToast) {
         this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
+        this.updater.releaseNotes = arg.releaseNotes || "";
+        console.log(JSON.stringify(arg));
 
         // show download toast
         this.updateToast = this.message(
