@@ -131,7 +131,7 @@
           <p v-if="config.wagoApiKey && !checkApiKey()" class="red">
             {{
               $t(
-                "app.config.badapikey" /* Wago API Key should take 64 characters */
+                "app.config.badapikey" /* Wago API Key should be 64 characters */
               )
             }}
           </p>

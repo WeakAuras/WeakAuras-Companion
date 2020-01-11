@@ -18,7 +18,7 @@
   "app.config.backup.dedicatedsize": "Ayrılan boyut",
   "app.config.backup.openfolder": "Klasörü Aç",
   "app.config.backup.title": "WeakAuras Yedeklemesi",
-  "app.config.badapikey": "Wago API Key should take 64 characters",
+  "app.config.badapikey": "Wago API Key should be 64 characters",
   "app.config.clientSettings": "Companion Ayarları",
   "app.config.gameSettings": "Oyun Ayarları",
   "app.config.getYours": "Kendinizinkini alın",
