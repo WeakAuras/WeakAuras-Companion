@@ -140,13 +140,7 @@
               )}: v${updater.version}`
             "
             class="material-icons update-available"
-            @click="
-              open(
-                config.beta
-                  ? 'https://github.com/WeakAuras/WeakAuras-Companion/releases'
-                  : 'https://github.com/WeakAuras/WeakAuras-Companion/releases/latest'
-              )
-            "
+            @click="open(`${updater.path}`)"
             >system_update_alt
           </i>
           <i
@@ -254,7 +248,8 @@ const defaultValues = {
     status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
     progress: null,
     scheduleId: null, // for 2h auto-updater
-    version: null
+    version: null,
+    path: null
   },
   isMac: process.platform === "darwin",
   accountOptions: [],
@@ -465,6 +460,8 @@ export default Vue.extend({
       }
 
       if (status === "update-available" && !this.updateToast) {
+        this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
+
         // show download toast
         this.updateToast = this.message(
           this.$t("app.main.updatefound" /* Companion Update available */),
