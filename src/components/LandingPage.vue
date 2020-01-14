@@ -1286,7 +1286,7 @@ export default Vue.extend({
         /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
         const toc =
           AddonFolder.toLowerCase().search("classic") === -1
-            ? "80205"
+            ? "80300"
             : "11303";
         const files = [
           {
