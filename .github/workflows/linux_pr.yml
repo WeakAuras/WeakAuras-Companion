@@ -11,12 +11,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node ${{ matrix.node }}
+      - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install
+      - uses: actions/cache@v1
+        id: cache-node
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: steps.cache-node.outputs.cache-hit != 'true'
         run: yarn
         env:
           CI: true
