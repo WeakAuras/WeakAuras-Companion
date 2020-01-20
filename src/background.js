@@ -65,7 +65,7 @@ function handleLinks(link) {
 function createWindow() {
   mainWindow = new BrowserWindow({
     minHeight: 550,
-    minWidth: 900,
+    minWidth: 940,
     frame: false,
     transparent: true,
     backgroundColor: "#00ffffff",
