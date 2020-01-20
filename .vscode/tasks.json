@@ -19,7 +19,9 @@
                 }
             },
             "script": "build",
-            "dependsOn": ["npm: lint"],
+            "dependsOn": [
+                "npm: lint"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -30,7 +32,9 @@
             "type": "npm",
             "script": "dev",
             "isBackground": true,
-            "problemMatcher": ["$eslint-stylish"],
+            "problemMatcher": [
+                "$eslint-stylish"
+            ],
             "group": {
                 "kind": "test",
                 "isDefault": true
@@ -45,28 +49,40 @@
                 }
             },
             "script": "compile-tools",
-            "problemMatcher": ["$tsc"]
+            "problemMatcher": [
+                "$tsc"
+            ]
         },
         {
             "label": "npm: lint",
             "type": "npm",
             "script": "lint",
             "group": "test",
-            "problemMatcher": ["$eslint-stylish"]
+            "problemMatcher": [
+                "$eslint-stylish"
+            ]
         },
         {
             "label": "npm: dist",
             "type": "npm",
             "script": "dist",
-            "dependsOn": ["npm: lint", "npm: i18n", "npm: dev"],
-            "problemMatcher": ["$eslint-stylish"]
+            "dependsOn": [
+                "npm: lint",
+                "npm: i18n",
+                "npm: dev"
+            ],
+            "problemMatcher": [
+                "$eslint-stylish"
+            ]
         },
         {
             "label": "npm: i18n",
             "type": "npm",
             "script": "i18n",
             "group": "build",
-            "problemMatcher": ["$tsc"]
+            "problemMatcher": [
+                "$tsc"
+            ]
         },
         {
             "label": "generate changelog",
