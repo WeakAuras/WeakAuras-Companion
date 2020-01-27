@@ -41,7 +41,7 @@
     "axios": "^0.19.1",
     "core-js": "^3.6.4",
     "electron-localshortcut": "^3.2.1",
-    "electron-log": "^4.0.3",
+    "electron-log": "^4.0.4",
     "electron-store": "^5.1.0",
     "electron-updater": "^4.2.0",
     "luaparse": "^0.2.1",
