@@ -38,7 +38,7 @@
     "@babel/runtime": "^7.8.3",
     "archiver": "^3.1.1",
     "auto-launch": "^5.0.5",
-    "axios": "^0.19.1",
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.0.3",
