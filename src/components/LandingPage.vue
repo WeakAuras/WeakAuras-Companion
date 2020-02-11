@@ -1245,9 +1245,9 @@ export default Vue.extend({
             });
 
             aura.ids.forEach(id => {
-              LuaIds += `    ["${id.replace(/"/g, '\\"')}"] = [=[${
-                aura.slug
-              }]=],\n`;
+              LuaIds += `    ["${id
+                .replace(/\\/g, "\\\\")
+                .replace(/"/g, '\\"')}"] = [=[${aura.slug}]=],\n`;
             });
           }
           LuaOutput += "    },\n";
