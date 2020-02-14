@@ -3,11 +3,6 @@
   "version": "2.0.4",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
-  "license": "GPL-2.0-or-later",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
-  },
   "scripts": {
     "build": "vue-cli-service electron:build",
     "lint": "eslint src/.",
@@ -22,18 +17,6 @@
     "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
-  "config": {
-    "default-locale": "en",
-    "supported-locales": [
-      "en",
-      "es",
-      "de",
-      "fr",
-      "ru",
-      "tr",
-      "zh-cn"
-    ]
-  },
   "dependencies": {
     "@babel/runtime": "^7.8.4",
     "archiver": "^3.1.1",
@@ -59,7 +42,7 @@
     "@babel/plugin-transform-runtime": "7.8.3",
     "@vue/cli-plugin-babel": "^4.2.2",
     "@vue/cli-plugin-eslint": "^4.2.2",
-    "@vue/cli-service": "^4.2.2",
+    "@vue/cli-service": "~4.2.2",
     "babel-eslint": "^10.0.1",
     "babel-loader": "8.0.6",
     "babel-minify-webpack-plugin": "^0.3.1",
@@ -83,11 +66,11 @@
     "typescript": "^3.7.5",
     "vue-cli-plugin-electron-builder": "^1.4.5",
     "vue-html-loader": "^1.2.4",
-    "vue-loader": "^15.8.3",
+    "vue-loader": "^15.9.0",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   },
   "postcss": {
     "plugins": {
@@ -96,5 +79,22 @@
   },
   "browserslist": [
     "last 2 Chrome versions"
-  ]
+  ],
+  "config": {
+    "default-locale": "en",
+    "supported-locales": [
+      "en",
+      "es",
+      "de",
+      "fr",
+      "ru",
+      "tr",
+      "zh-cn"
+    ]
+  },
+  "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
+  }
 }
