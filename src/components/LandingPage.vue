@@ -1571,6 +1571,10 @@ end`
           text: this.$t("app.version.classicbeta" /* Classic Beta */)
         },
         {
+          value: "_classic_ptr_",
+          text: this.$t("app.version.classicptr" /* Classic PTR */)
+        },
+        {
           value: "_classic_",
           text: this.$t("app.version.classic" /* Classic */)
         }
