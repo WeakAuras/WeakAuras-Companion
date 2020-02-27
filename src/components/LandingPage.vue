@@ -396,11 +396,15 @@ export default Vue.extend({
               }
             );
 
-            afterWOWReload(this.config.wowpath.value, () => {
-              while (this.stash.length > 0) {
-                this.stash.pop();
+            afterWOWReload(
+              this.config.wowpath.value,
+              this.config.wowpath.version,
+              () => {
+                while (this.stash.length > 0) {
+                  this.stash.pop();
+                }
               }
-            });
+            );
           }
         }
 
@@ -1345,7 +1349,13 @@ end`
         ];
 
         files.forEach(file => {
-          fs.writeFile(path.join(AddonFolder, file.name), file.data, err2 => {
+          let filepath = path.join(AddonFolder, file.name);
+
+          if (!fs.existsSync(filepath)) {
+            newInstall = true;
+          }
+
+          fs.writeFile(filepath, file.data, err2 => {
             if (err2) {
               this.message(
                 this.$t(
@@ -1362,9 +1372,10 @@ end`
         if (!noNotification)
           this.afterUpdateNotification(newInstall, news, fails);
 
-        if (isWOWOpen(this.config.wowpath.value)) {
-          newInstall = true;
-
+        if (
+          newInstall &&
+          isWOWOpen(this.config.wowpath.value, this.config.wowpath.version)
+        ) {
           if (!this.reloadToast) {
             this.reloadToast = this.message(
               this.$t(
@@ -1379,9 +1390,13 @@ end`
               }
             );
 
-            afterWOWRestart(this.config.wowpath.value, () => {
-              if (this.reloadToast) this.reloadToast.goAway(0);
-            });
+            afterWOWRestart(
+              this.config.wowpath.value,
+              this.config.wowpath.version,
+              () => {
+                if (this.reloadToast) this.reloadToast.goAway(0);
+              }
+            );
           }
         }
       }
@@ -1411,7 +1426,10 @@ end`
       } else if (newsCount > 0) {
         this.message(`${translatedTotal} (${translatedNew})`);
 
-        if (!newInstall && isWOWOpen(this.config.wowpath.value)) {
+        if (
+          !newInstall &&
+          isWOWOpen(this.config.wowpath.value, this.config.wowpath.version)
+        ) {
           if (!this.reloadToast) {
             this.reloadToast = this.message(
               this.$t(
@@ -1426,12 +1444,16 @@ end`
               }
             );
 
-            afterWOWReload(this.config.wowpath.value, () => {
-              if (this.reloadToast) {
-                this.reloadToast.goAway(0);
-                this.reloadToast = null;
+            afterWOWReload(
+              this.config.wowpath.value,
+              this.config.wowpath.version,
+              () => {
+                if (this.reloadToast) {
+                  this.reloadToast.goAway(0);
+                  this.reloadToast = null;
+                }
               }
-            });
+            );
           }
         }
       } else if (failsCount > 0) {
