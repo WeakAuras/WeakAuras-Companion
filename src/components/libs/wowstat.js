@@ -24,6 +24,8 @@ export function afterReload(wowpath, version, callback) {
 
   if (!tail[version]) {
     tail[version] = new Tail(logfile);
+  } else {
+    tail[version].watch();
   }
 
   tail[version].on("line", data => {
@@ -46,13 +48,15 @@ export function afterRestart(wowpath, version, callback) {
 
   if (!tail[version]) {
     tail[version] = new Tail(logfile);
+  } else {
+    tail[version].watch();
   }
 
   tail[version].on("line", data => {
     const event = data.split(/ {2}/)[1];
 
     if (event === "Client Destroy") {
-      tail.unwatch();
+      tail[version].unwatch();
       callback();
     }
   });
