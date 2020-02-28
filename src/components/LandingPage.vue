@@ -1338,6 +1338,13 @@ else
           end
         end
       end
+      local emptyStash = true
+      for _ in pairs(WeakAurasCompanion.stash) do
+        emptyStash = false
+      end
+      if not emptyStash and WeakAuras.StashShow then
+        C_Timer.After(5, function() WeakAuras.StashShow() end)
+      end
     end
   end)
 end`
