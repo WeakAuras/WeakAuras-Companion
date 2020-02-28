@@ -1,7 +1,7 @@
 <template>
   <div id="stash">
     <div class="container">
-      <h1>{{ $t("app.stash.title" /* Stash */) }}</h1>
+      <h1>{{ $t("app.stash.title" /* Import from Wago */) }}</h1>
       <div v-for="aura in stash" :key="aura.slug">
         <div>{{ aura.name }}</div>
       </div>
