@@ -30,7 +30,7 @@
         ]
     },
     "parserOptions": {
-        "parser": "babel-eslint"
+        "ecmaVersion": 2020
     },
     "plugins": ["prettier", "vue"],
     "settings": {
