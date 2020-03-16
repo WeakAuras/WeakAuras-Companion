@@ -33,7 +33,7 @@
     "vue": "^2.6.11",
     "vue-electron": "^1.0.6",
     "vue-i18n": "^8.15.4",
-    "vue-toasted": "^1.1.27"
+    "vue-toasted": "^1.1.28"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "^4.2.3",
