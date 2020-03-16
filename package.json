@@ -24,7 +24,7 @@
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.1.0",
     "electron-store": "^5.1.1",
-    "electron-updater": "^4.2.4",
+    "electron-updater": "^4.2.5",
     "luaparse": "^0.3.0",
     "moment": "^2.24.0",
     "regedit": "^3.0.3",
