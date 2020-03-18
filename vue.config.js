@@ -47,5 +47,5 @@ module.exports = {
       }
     }
   },
-  productionSourceMap: false,
+  productionSourceMap: false
 };

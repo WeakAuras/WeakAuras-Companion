@@ -12,7 +12,7 @@
     "dist:pr": "yarn build --publish=never",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
+    "i18n": "yarn compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
@@ -36,6 +36,7 @@
     "vue-toasted": "^1.1.28"
   },
   "devDependencies": {
+    "@vue/cli": "^4.2.3",
     "@vue/cli-plugin-eslint": "^4.2.3",
     "@vue/cli-service": "~4.2.3",
     "copy-webpack-plugin": "^5.1.1",
@@ -56,7 +57,7 @@
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
     "typescript": "^3.8.3",
-    "vue-cli-plugin-electron-builder": "^1.4.6",
+    "vue-cli-plugin-electron-builder": "~1.4.6",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^15.9.0",
     "vue-style-loader": "^4.1.2",
