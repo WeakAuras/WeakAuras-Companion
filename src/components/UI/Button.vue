@@ -11,6 +11,7 @@
       { 'btn-issue': type == 'issue' },
       { 'btn-reset': type == 'reset' },
       { 'btn-link': type == 'link' },
+      { 'btn-addon': type == 'addon' },
     ]"
     :title="title"
     @click="callback($event)"
@@ -94,6 +95,27 @@ export default {
   cursor: pointer;
 }
 .btn-refresh:hover {
+  background-color: #fff;
+  color: #2d2c2c;
+}
+.btn-addon {
+  background-color: rgba(18, 18, 18, 0.95);
+  border: 1px solid #fff;
+  height: 30px;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 4px;
+  vertical-align: top;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+  text-align: center;
+}
+.btn-addon:hover {
+  background-color: #fff;
+  color: #2d2c2c;
+}
+.btn-addon.active {
   background-color: #fff;
   color: #2d2c2c;
 }

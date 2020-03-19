@@ -71,23 +71,45 @@
             :last-update="accountSelected && accountSelected.lastWagoUpdate"
             :auras-shown="
               config.showAllAuras
-                ? aurasSorted.length
-                : aurasWithUpdateSorted.length
+                ? aurasSortedForView.length
+                : aurasWithUpdateSortedForView.length
             "
           ></RefreshButton>
           <br />
           <div
+            v-if="
+              configStep === 0 &&
+                addonsWithUpdates.length > 0 &&
+                addonsInstalled.length > 1
+            "
+            id="addonbttns"
+          >
+            <label :key="addonSelected">
+              {{ $t("app.main.addons" /* Addons */) }}
+            </label>
+            <br />
+            <Button
+              v-for="(addon, index) in addonsWithUpdates"
+              :key="index"
+              type="addon"
+              :class="{ active: addonSelected === addon.addonName }"
+              @click="addonSelected = addon.addonName"
+            >
+              {{ addon.addonName }}
+            </Button>
+          </div>
+          <div
             id="aura-list"
             :class="{
               hidden: config.showAllAuras
-                ? aurasSorted.length <= 0
-                : aurasWithUpdateSorted.length <= 0,
+                ? aurasSortedForView.length <= 0
+                : aurasWithUpdateSortedForView.length <= 0
             }"
           >
             <Aura
               v-for="aura in config.showAllAuras
-                ? aurasSorted
-                : aurasWithUpdateSorted"
+                ? aurasSortedForView
+                : aurasWithUpdateSortedForView"
               :key="aura.slug"
               :aura="aura"
               :show-all-auras="config.showAllAuras"
@@ -209,6 +231,7 @@ const internalVersion = 3;
 
 const defaultValues = {
   configStep: 0,
+  addonSelected: "WeakAuras",
   reportIsShown: false,
   fetching: false, // use for avoid spamming refresh button and show spinner
   config: {
@@ -289,6 +312,47 @@ export default Vue.extend({
       }
       return [];
     },
+    allAddonConfigs() {
+      const addonConfigs = [
+        {
+          addonName: "WeakAuras",
+          wagoAPI: "https://data.wago.io/api/check/weakauras",
+          dataIndex: null,
+          addonDependency: "WeakAuras",
+          svPath: this.WeakAurasSaved(),
+          isInstalled: this.IsWeakAurasInstalled(),
+          parseFunction: this.parseWeakAurasSVdata
+        },
+        {
+          addonName: "Plater",
+          wagoAPI: "https://data.wago.io/api/check/plater",
+          dataIndex: "Plater",
+          addonDependency: "Plater",
+          svPath: this.PlaterSaved(),
+          isInstalled: this.IsPlaterInstalled(),
+          parseFunction: this.parsePlaterSVdata
+        }
+      ];
+      return addonConfigs;
+    },
+    addonsInstalled() {
+      return this.allAddonConfigs.filter(
+        addonConfig => addonConfig.isInstalled
+      );
+    },
+    addonsWithUpdates() {
+      const addons = [];
+
+      this.addonsInstalled.forEach(addon => {
+        for (let i = 0; i < this.aurasWithUpdate.length; i++) {
+          if (this.aurasWithUpdate[i].auraType === addon.addonName) {
+            addons.push(addon);
+            return;
+          }
+        }
+      });
+      return addons;
+    },
     versionSelected() {
       return (
         this.config.wowpath.version &&
@@ -311,6 +375,11 @@ export default Vue.extend({
         .slice(0)
         .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
     },
+    aurasWithUpdateSortedForView() {
+      return this.aurasWithUpdateForView
+        .slice(0)
+        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+    },
     aurasSorted() {
       return this.auras
         .filter(
@@ -320,6 +389,19 @@ export default Vue.extend({
               this.config.ignoreOwnAuras &&
               aura.author === this.config.wagoUsername
             )
+        )
+        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+    },
+    aurasSortedForView() {
+      return this.auras
+        .filter(
+          aura =>
+            (!!aura.topLevel || aura.regionType !== "group") &&
+            !(
+              this.config.ignoreOwnAuras &&
+              aura.author === this.config.wagoUsername
+            ) &&
+            aura.auraType === this.addonSelected
         )
         .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
     },
@@ -345,6 +427,20 @@ export default Vue.extend({
             this.config.ignoreOwnAuras &&
             aura.author === this.config.wagoUsername
           )
+      );
+    },
+    aurasWithUpdateForView() {
+      return this.auras.filter(
+        aura =>
+          !!aura.encoded &&
+          aura.wagoVersion > aura.version &&
+          !aura.ignoreWagoUpdate &&
+          (!!aura.topLevel || aura.regionType !== "group") &&
+          !(
+            this.config.ignoreOwnAuras &&
+            aura.author === this.config.wagoUsername
+          ) &&
+          aura.auraType === this.addonSelected
       );
     },
     auras: {
@@ -562,6 +658,13 @@ export default Vue.extend({
         1000 * 3600 * 2
       );
     },
+    setFirstAddonInstalledWithUpdatesSelected() {
+      for (let i = 0; i < this.addonsWithUpdates.length; i++) {
+        this.addonSelected = this.addonsWithUpdates[i].addonName;
+        return this.addonSelected;
+      }
+      return this.addonSelected;
+    },
     WeakAurasSaved(version, account) {
       let WeakAurasSavedVariable;
 
@@ -591,6 +694,103 @@ export default Vue.extend({
         try {
           fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
           return WeakAurasSavedVariable;
+        } catch (e) {
+          return false;
+        }
+      }
+      return false;
+    },
+    PlaterSaved(version, account) {
+      let PlaterSavedVariable;
+
+      if (version && account) {
+        PlaterSavedVariable = path.join(
+          this.config.wowpath.value,
+          version,
+          "WTF",
+          "Account",
+          account,
+          "SavedVariables",
+          "Plater.lua"
+        );
+      } else if (this.versionSelected && this.accountSelected) {
+        PlaterSavedVariable = path.join(
+          this.config.wowpath.value,
+          this.config.wowpath.version,
+          "WTF",
+          "Account",
+          this.versionSelected.account,
+          "SavedVariables",
+          "Plater.lua"
+        );
+      }
+
+      if (PlaterSavedVariable) {
+        try {
+          fs.accessSync(PlaterSavedVariable, fs.constants.F_OK);
+          return PlaterSavedVariable;
+        } catch (e) {
+          return false;
+        }
+      }
+      return false;
+    },
+    IsWeakAurasInstalled(version, account) {
+      let AddonFolder;
+
+      if (version && account) {
+        AddonFolder = path.join(
+          this.config.wowpath.value,
+          version,
+          "Interface",
+          "Addons",
+          "WeakAuras"
+        );
+      } else if (this.versionSelected && this.accountSelected) {
+        AddonFolder = path.join(
+          this.config.wowpath.value,
+          this.config.wowpath.version,
+          "Interface",
+          "Addons",
+          "WeakAuras"
+        );
+      }
+
+      if (AddonFolder) {
+        try {
+          fs.accessSync(AddonFolder, fs.constants.F_OK);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+      return false;
+    },
+    IsPlaterInstalled(version, account) {
+      let AddonFolder;
+
+      if (version && account) {
+        AddonFolder = path.join(
+          this.config.wowpath.value,
+          version,
+          "Interface",
+          "Addons",
+          "Plater"
+        );
+      } else if (this.versionSelected && this.accountSelected) {
+        AddonFolder = path.join(
+          this.config.wowpath.value,
+          this.config.wowpath.version,
+          "Interface",
+          "Addons",
+          "Plater"
+        );
+      }
+
+      if (AddonFolder) {
+        try {
+          fs.accessSync(AddonFolder, fs.constants.F_OK);
+          return true;
         } catch (e) {
           return false;
         }
@@ -721,6 +921,7 @@ export default Vue.extend({
                 wagoVersion: wagoData.version,
                 wagoSemver: wagoData.versionString,
                 versionNote: wagoData.changelog,
+                auraType: "WeakAuras",
               };
 
               this.$http
@@ -776,408 +977,571 @@ export default Vue.extend({
           });
       }
     },
-    compareSVwithWago() {
-      if (!this.versionSelected || !this.accountSelected) return;
-      const WeakAurasSavedVariable = this.WeakAurasSaved();
+    parseWeakAurasSVdata(WeakAurasSavedData, config) {
+      const aurasFromFile = [];
 
-      if (!WeakAurasSavedVariable) return;
+      if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
+        this.message(
+          this.$t(
+            "app.main.errorSavedvariable" /* Error while reading WeakAuras.lua */
+          ),
+          "error"
+        );
+        //this.fetching = false;
+        return [];
+      }
+
+      // Set all auras topLevel = null to avoid bugs after user move his auras
+      //this.auras.forEach((aura, index) => {
+      //  this.auras[index].topLevel = null;
+      //});
+
+      const pattern = /(https:\/\/wago.io\/)([^/]+)/;
+
+      WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
+        if (obj.key.value === "displays") {
+          obj.value.fields.forEach(obj2 => {
+            let slug;
+            let url;
+            let version = 0;
+            let semver;
+            let ignoreWagoUpdate = false;
+            let skipWagoUpdate = null;
+            let id;
+            let uid = null;
+            let topLevel = true;
+
+            obj2.value.fields.forEach(obj3 => {
+              if (obj3.key.value === "id") {
+                id = obj3.value.value;
+              }
+
+              if (obj3.key.value === "uid") {
+                uid = obj3.value.value;
+              }
+
+              if (obj3.key.value === "version") {
+                version = Number(obj3.value.value);
+              }
+
+              if (obj3.key.value === "semver") {
+                semver = obj3.value.value;
+              }
+
+              if (obj3.key.value === "ignoreWagoUpdate") {
+                ignoreWagoUpdate = obj3.value.value;
+              }
+
+              if (obj3.key.value === "skipWagoUpdate") {
+                skipWagoUpdate = obj3.value.value;
+              }
+
+              if (obj3.key.value === "url") {
+                url = obj3.value.value;
+                const result = url.match(pattern);
+
+                if (result) ({ 2: slug } = url.match(pattern));
+              }
+
+              if (obj3.key.value === "parent") {
+                topLevel = false;
+              }
+            });
+
+            if (slug) {
+              const foundAura = {
+                id,
+                slug,
+                version,
+                semver,
+                ignoreWagoUpdate,
+                skipWagoUpdate,
+                wagoVersion: null,
+                wagoSemver: null,
+                changelog: null,
+                created: null,
+                modified: null,
+                author: null,
+                encoded: null,
+                wagoid: null,
+                ids: [id],
+                topLevel: topLevel ? id : null,
+                uids: uid ? [uid] : [],
+                regionType: null,
+                auraType: config.addonName,
+                addonConfig: config
+              };
+
+              aurasFromFile.push(foundAura);
+            }
+          });
+        }
+      });
+
+      return aurasFromFile;
+    },
+    parsePlaterSVdata(PlaterSavedData, config) {
+      const aurasFromFile = [];
+
+      if (PlaterSavedData.body[0].variables[0].name !== "PlaterDB") {
+        this.message(
+          this.$t(
+            "app.main.errorSavedvariablePlater" /* Error while reading Plater.lua */
+          ),
+          "error"
+        );
+        //this.fetching = false;
+        return;
+      }
+
+      const pattern = /(https:\/\/wago.io\/)([^/]+)/;
+
+      PlaterSavedData.body[0].init[0].fields.forEach(obj => {
+        if (obj.key.value === "profiles") {
+          obj.value.fields.forEach(profile => {
+            profile.value.fields.forEach(profData => {
+              if (
+                profData.key.value === "script_data" ||
+                profData.key.value === "hook_data"
+              ) {
+                profData.value.fields.forEach(obj2 => {
+                  let slug;
+                  let url;
+                  let version = 0;
+                  let semver;
+                  let ignoreWagoUpdate = false;
+                  let skipWagoUpdate = null;
+                  let id;
+
+                  obj2.value.fields.forEach(obj3 => {
+                    if (obj3.key.value === "Name") {
+                      id = obj3.value.value;
+                    }
+
+                    if (obj3.key.value === "version") {
+                      version = Number(obj3.value.value);
+                    }
+
+                    if (obj3.key.value === "semver") {
+                      semver = obj3.value.value;
+                    }
+
+                    if (obj3.key.value === "ignoreWagoUpdate") {
+                      ignoreWagoUpdate = obj3.value.value;
+                    }
+
+                    if (obj3.key.value === "skipWagoUpdate") {
+                      skipWagoUpdate = obj3.value.value;
+                    }
+
+                    if (obj3.key.value === "url") {
+                      url = obj3.value.value;
+                      const result = url.match(pattern);
+
+                      if (result) ({ 2: slug } = url.match(pattern));
+                    }
+                  });
+
+                  if (slug) {
+                    const foundAura = {
+                      id,
+                      slug,
+                      version,
+                      semver,
+                      ignoreWagoUpdate,
+                      skipWagoUpdate,
+                      wagoVersion: null,
+                      wagoSemver: null,
+                      changelog: null,
+                      created: null,
+                      modified: null,
+                      author: null,
+                      encoded: null,
+                      wagoid: null,
+                      ids: [id],
+                      topLevel: true,
+                      uids: [],
+                      regionType: null,
+                      auraType: config.addonName,
+                      addonConfig: config
+                    };
+
+                    aurasFromFile.push(foundAura);
+                  }
+                });
+              }
+            });
+          });
+        }
+      });
+
+      return aurasFromFile;
+    },
+    async compareSVwithWago() {
+      if (!this.versionSelected || !this.accountSelected) return;
+
+      const addonConfigs = this.addonsInstalled;
 
       if (this.fetching) return; // prevent spamming button
       this.fetching = true; // show animation
 
       if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
 
-      // Read WeakAuras.lua
-      fs.readFile(WeakAurasSavedVariable, "utf-8", (err, data) => {
-        if (err) {
+      let fileAuraData = [];
+
+      for (let index = 0; index < addonConfigs.length; index++) {
+        let conf = addonConfigs[index];
+
+        if (!conf.svPath) {
+          return;
+        }
+
+        try {
+          const data = fs.readFileSync(conf.svPath, "utf-8");
+          // Parse saved data .lua
+          const savedData = luaparse.parse(data);
+
+          fileAuraData = [
+            ...fileAuraData,
+            ...conf.parseFunction(savedData, conf)
+          ];
+        } catch (err) {
           this.message(
             `An error ocurred reading file: ${err.message}`,
             "error"
           );
           console.log(JSON.stringify(err));
-          this.fetching = false;
-          return;
+          //console.log(err.message);
+          continue;
         }
-        // Parse WeakAuras.lua
-        const WeakAurasSavedData = luaparse.parse(data);
+      }
 
-        if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
-          this.message(
-            this.$t(
-              "app.main.errorSavedvariable" /* Error while reading WeakAuras.lua */
-            ),
-            "error"
-          );
-          this.fetching = false;
-          return;
-        }
+      // clean up auras
+      const slugs = [];
 
-        // Set all auras topLevel = null to avoid bugs after user move his auras
-        this.auras.forEach((aura, index) => {
-          this.auras[index].topLevel = null;
-        });
+      for (let index = 0; index < fileAuraData.length; index++) {
+        const foundAura = fileAuraData[index];
+        const slug = fileAuraData[index].slug;
 
-        const slugs = []; /* save found slugs for deleting orphan */
+        const { length } = this.auras.filter(aura => aura.slug === slug);
 
-        const pattern = /(https:\/\/wago.io\/)([^/]+)/;
-
-        WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
-          if (obj.key.value === "displays") {
-            obj.value.fields.forEach((obj2) => {
-              let slug;
-              let url;
-              let version = 0;
-              let semver;
-              let ignoreWagoUpdate = false;
-              let skipWagoUpdate = null;
-              let id;
-              let uid = null;
-              let topLevel = true;
-
-              obj2.value.fields.forEach((obj3) => {
-                if (obj3.key.value === "id") {
-                  id = obj3.value.value;
-                }
-
-                if (obj3.key.value === "uid") {
-                  uid = obj3.value.value;
-                }
-
-                if (obj3.key.value === "version") {
-                  version = Number(obj3.value.value);
-                }
-
-                if (obj3.key.value === "semver") {
-                  semver = obj3.value.value;
-                }
-
-                if (obj3.key.value === "ignoreWagoUpdate") {
-                  ignoreWagoUpdate = obj3.value.value;
-                }
-
-                if (obj3.key.value === "skipWagoUpdate") {
-                  skipWagoUpdate = obj3.value.value;
-                }
-
-                if (obj3.key.value === "url") {
-                  url = obj3.value.value;
-                  const result = url.match(pattern);
-
-                  if (result) ({ 2: slug } = url.match(pattern));
-                }
-
-                if (obj3.key.value === "parent") {
-                  topLevel = false;
-                }
-              });
-
-              if (slug) {
-                if (slugs.indexOf(slug) === -1) slugs.push(slug);
-                const { length } = this.auras.filter(
-                  (aura) => aura.slug === slug
-                );
-
-                if (length === 0) {
-                  // new "slug" found, add it to the list of auras
-                  this.auras.push({
-                    slug,
-                    version,
-                    semver,
-                    ignoreWagoUpdate,
-                    skipWagoUpdate,
-                    wagoVersion: null,
-                    wagoSemver: null,
-                    changelog: null,
-                    created: null,
-                    modified: null,
-                    author: null,
-                    encoded: null,
-                    wagoid: null,
-                    ids: [id],
-                    topLevel: topLevel ? id : null,
-                    uids: uid ? [uid] : [],
-                    regionType: null,
-                  });
-                } else {
-                  // there is already an aura with same "slug"
-                  this.auras.forEach((aura, index) => {
-                    if (aura.slug === slug) {
-                      if (typeof aura.ids === "undefined") {
-                        this.auras[index].ids = [];
-                      }
-
-                      if (typeof aura.uids === "undefined") {
-                        this.auras[index].uids = [];
-                      }
-
-                      if (typeof aura.regionType === "undefined") {
-                        this.auras[index].regionType = null;
-                      }
-
-                      if (topLevel) this.auras[index].topLevel = id;
-
-                      // add aura id to "ids" if necessary
-                      if (aura.ids.indexOf(id) === -1) {
-                        this.auras[index].ids.push(id);
-                      }
-
-                      // add aura uid to "uids" if necessary
-                      if (uid && aura.uids.indexOf(uid) === -1) {
-                        this.auras[index].uids.push(uid);
-                      }
-                      // update ignore flags
-                      this.auras[index].ignoreWagoUpdate = ignoreWagoUpdate;
-                      this.auras[index].skipWagoUpdate = skipWagoUpdate;
-
-                      // update version
-                      this.auras[index].version = version;
-                      this.auras[index].semver = semver;
-
-                      // wipe encoded if ignored (force re-fetching it on unignore)
-                      if (ignoreWagoUpdate) this.auras[index].encoded = null;
-                    }
-                  });
-                }
+        if (length === 0) {
+          // new "slug" found, add it to the list of auras
+          this.auras.push(foundAura);
+        } else {
+          // there is already an aura with same "slug"
+          this.auras.forEach((aura, index) => {
+            if (aura.slug === slug) {
+              if (typeof aura.ids === "undefined") {
+                this.auras[index].ids = [];
               }
-            });
-          }
-        });
 
-        // remove orphans
-        for (let index = this.auras.length - 1; index > -1; index -= 1) {
-          if (slugs.indexOf(this.auras[index].slug) === -1) {
-            console.log(`remove orphan ${this.auras[index].slug}`);
-            this.auras.splice(index, 1);
-          }
+              if (typeof aura.uids === "undefined") {
+                this.auras[index].uids = [];
+              }
+
+              if (typeof aura.regionType === "undefined") {
+                this.auras[index].regionType = null;
+              }
+
+              if (foundAura.topLevel) this.auras[index].topLevel = foundAura.id;
+
+              // add aura id to "ids" if necessary
+              if (aura.ids.indexOf(foundAura.id) === -1) {
+                this.auras[index].ids.push(foundAura.id);
+              }
+
+              // add aura uid to "uids" if necessary
+              if (foundAura.uid && aura.uids.indexOf(foundAura.uid) === -1) {
+                this.auras[index].uids.push(foundAura.uid);
+              }
+              // update ignore flags
+              this.auras[index].ignoreWagoUpdate = foundAura.ignoreWagoUpdate;
+              this.auras[index].skipWagoUpdate = foundAura.skipWagoUpdate;
+
+              // update version
+              this.auras[index].version = foundAura.version;
+              this.auras[index].semver = foundAura.semver;
+
+              // wipe encoded if ignored (force re-fetching it on unignore)
+              if (foundAura.ignoreWagoUpdate) this.auras[index].encoded = null;
+
+              //ensure config
+              this.auras[index].auraType = foundAura.auraType;
+              this.auras[index].addonConfig = foundAura.addonConfig;
+            }
+          });
         }
 
-        // Make a list of uniq auras to fetch
+        if (slugs.indexOf(slug) === -1) slugs.push(slug);
+      }
+
+      // remove orphans
+      for (let index = this.auras.length - 1; index > -1; index -= 1) {
+        if (slugs.indexOf(this.auras[index].slug) === -1) {
+          console.log(`remove orphan ${this.auras[index].slug}`);
+          this.auras.splice(index, 1);
+        }
+      }
+
+      // Get each encoded string
+      const news = [];
+      const fails = [];
+
+      const promisesWagoCallsComplete = [];
+      const promisesWagoDataCallsComplete = [];
+      let allAurasFetched = [];
+      const received = [];
+
+      addonConfigs.forEach((config, index) => {
+        // Make a list of uniqe auras to fetch
         const fetchAuras = this.auras
           .filter(
             (aura) =>
-              // !!aura.topLevel &&
               !(
                 this.config.ignoreOwnAuras &&
                 !!aura.author &&
                 aura.author === this.config.wagoUsername
-              )
+              ) && aura.addonConfig === config
           )
           .map((aura) => aura.slug);
 
         // Test if list is empty
         if (fetchAuras.length === 0) {
-          this.message(
-            this.$t("app.main.nothingToFetch" /* No updates available */)
-          );
-          this.fetching = false;
-
-          this.$set(this.accountSelected, "lastWagoUpdate", new Date());
-
-          if (this.schedule.id) clearTimeout(this.schedule.id);
-          this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
           return;
         }
-        const received = [];
+
+        allAurasFetched = [...allAurasFetched, ...fetchAuras];
 
         // Get data from Wago api
-        this.$http
-          .get("https://data.wago.io/api/check/weakauras", {
-            params: {
-              // !! size of request is not checked, can lead to too long urls
-              ids: fetchAuras.join(),
-            },
-            headers: {
-              Identifier: this.accountHash,
-              "Content-Security-Policy":
-                "script-src 'self' https://data.wago.io",
-              "api-key": this.config.wagoApiKey || "",
-            },
-            crossdomain: true,
-          })
-          .then((response) => {
-            // metadata received from Wago API
-            const promises = [];
-
-            response.data.forEach((wagoData) => {
-              received.push(wagoData.slug);
-              // eslint-disable-next-line no-underscore-dangle
-              received.push(wagoData._id);
-
-              this.auras.forEach((aura, index) => {
+        promisesWagoCallsComplete.push(
+          this.$http
+            .get(config.wagoAPI, {
+              params: {
+                // !! size of request is not checked, can lead to too long urls
+                ids: fetchAuras.join()
+              },
+              headers: {
+                Identifier: this.accountHash,
+                "Content-Security-Policy":
+                  "script-src 'self' https://data.wago.io",
+                "api-key": this.config.wagoApiKey || ""
+              },
+              crossdomain: true
+            })
+            .then(response => {
+              // metadata received from Wago API
+              response.data.forEach(wagoData => {
+                received.push(wagoData.slug);
                 // eslint-disable-next-line no-underscore-dangle
-                if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
-                  this.auras[index].name = wagoData.name;
-                  this.auras[index].author = wagoData.username;
-                  this.auras[index].created = new Date(wagoData.created);
-                  this.auras[index].wagoSemver = wagoData.versionString;
-                  this.auras[index].changelog = wagoData.changelog;
-                  this.auras[index].modified = new Date(wagoData.modified);
-                  this.auras[index].regionType = wagoData.regionType;
+                received.push(wagoData._id);
+
+                this.auras.forEach((aura, index) => {
                   // eslint-disable-next-line no-underscore-dangle
-                  this.auras[index].wagoid = wagoData._id;
-
-                  // Check if encoded string needs to be fetched
                   if (
-                    !aura.ignoreWagoUpdate &&
-                    (aura.topLevel || aura.regionType !== "group") &&
-                    (aura.encoded === null ||
-                      (wagoData.version > aura.version &&
-                        !!aura.wagoVersion &&
-                        wagoData.version > aura.wagoVersion)) &&
-                    !(
-                      this.config.ignoreOwnAuras &&
-                      wagoData.username === this.config.wagoUsername
-                    )
+                    aura.slug === wagoData.slug ||
+                    aura.slug === wagoData._id
                   ) {
-                    promises.push(
-                      this.$http.get("https://data.wago.io/api/raw/encoded", {
-                        params: {
-                          // eslint-disable-next-line no-underscore-dangle
-                          id: wagoData._id,
-                        },
-                        headers: {
-                          Identifier: this.accountHash,
-                          "Content-Security-Policy":
-                            "script-src 'self' https://data.wago.io",
-                          "api-key": this.config.wagoApiKey || "",
-                        },
-                        crossdomain: true,
-                      })
-                    );
-                  }
-                  this.auras[index].wagoVersion = wagoData.version;
-                }
-              });
-            });
+                    this.auras[index].name = wagoData.name;
+                    this.auras[index].author = wagoData.username;
+                    this.auras[index].created = new Date(wagoData.created);
+                    this.auras[index].wagoSemver = wagoData.versionString;
+                    this.auras[index].changelog = wagoData.changelog;
+                    this.auras[index].modified = new Date(wagoData.modified);
+                    this.auras[index].regionType = wagoData.regionType;
+                    // eslint-disable-next-line no-underscore-dangle
+                    this.auras[index].wagoid = wagoData._id;
 
-            // catch response error
-            const promisesResolved = promises.map((promise) =>
-              promise.catch((err2) => ({
-                config: { params: { id: err2.config.params.id } },
-                status: err2.response.status,
-              }))
-            );
+                    //aura.encoded = null;
 
-            // Get each encoded string
-            const news = [];
-            const fails = [];
-
-            this.$http
-              .all(promisesResolved)
-              .then(
-                this.$http.spread((...args) => {
-                  args.forEach((arg) => {
-                    const { id } = arg.config.params;
-
-                    if (arg.status === 200) {
-                      this.auras.forEach((aura, index) => {
-                        if (aura.wagoid === id) {
-                          news.push(aura.name);
-                          this.auras[index].encoded = arg.data;
-                        }
-                      });
-                    } else {
-                      this.auras.forEach((aura) => {
-                        if (aura.wagoid === id) {
-                          this.message(
-                            [
-                              this.$t(
-                                "app.main.stringReceiveError-1",
-                                {
-                                  aura: aura.name,
-                                } /* Error receiving encoded string for {aura} */
-                              ),
-                              this.$t(
-                                "app.main.stringReceiveError-2",
-                                {
-                                  status: arg.status,
-                                } /* http code: {status} */
-                              ),
-                            ],
-                            "error"
-                          );
-                          fails.push(aura.name);
-                        }
-                      });
+                    // Check if encoded string needs to be fetched
+                    if (
+                      !aura.ignoreWagoUpdate &&
+                      (aura.topLevel || aura.regionType !== "group") &&
+                      (aura.encoded === null ||
+                        (wagoData.version > aura.version &&
+                          !!aura.wagoVersion &&
+                          wagoData.version > aura.wagoVersion)) &&
+                      !(
+                        this.config.ignoreOwnAuras &&
+                        wagoData.username === this.config.wagoUsername
+                      )
+                    ) {
+                      promisesWagoDataCallsComplete.push(
+                        this.$http.get("https://data.wago.io/api/raw/encoded", {
+                          params: {
+                            // eslint-disable-next-line no-underscore-dangle
+                            id: wagoData._id
+                          },
+                          headers: {
+                            Identifier: this.accountHash,
+                            "Content-Security-Policy":
+                              "script-src 'self' https://data.wago.io",
+                            "api-key": this.config.wagoApiKey || ""
+                          },
+                          crossdomain: true
+                        })
+                      );
                     }
-                  });
-                })
-              )
-              .catch((error) => {
-                this.message(
-                  [
-                    this.$t(
-                      "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                    ),
-                    error,
-                  ],
-                  "error"
-                );
-                console.log(JSON.stringify(error));
-                this.fetching = false;
-
-                // schedule in 30mn on error
-                if (this.schedule.id) clearTimeout(this.schedule.id);
-
-                this.schedule.id = setTimeout(
-                  this.compareSVwithWago,
-                  1000 * 60 * 30
-                );
-              })
-              .then(() => {
-                // console.log(`fetchAuras: ${JSON.stringify(fetchAuras)}`);
-                // console.log(`received: ${JSON.stringify(received)}`);
-                fetchAuras.forEach((toFetch) => {
-                  if (received.indexOf(toFetch) === -1) {
-                    // no data received for this aura => remove from list
-                    this.auras.forEach((aura, index) => {
-                      if (aura && aura.slug === toFetch) {
-                        console.log(`no data received for ${aura.slug}`);
-                        this.auras.splice(index, 1);
-                      }
-                    });
+                    this.auras[index].wagoVersion = wagoData.version;
                   }
                 });
-
-                // we are done with wago API, update data.lua
-                try {
-                  this.writeAddonData(news, fails);
-                } finally {
-                  this.fetching = false;
-
-                  this.$set(this.accountSelected, "lastWagoUpdate", new Date());
-
-                  // schedule in 1 hour
-                  if (this.schedule.id) clearTimeout(this.schedule.id);
-
-                  this.schedule.id = setTimeout(
-                    this.compareSVwithWago,
-                    1000 * 60 * 60
-                  );
-                }
               });
-          })
-          .catch((error) => {
-            this.message(
-              [
-                this.$t(
-                  "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                ),
-                error,
-              ],
-              "error"
-            );
-            console.log(JSON.stringify(error));
-            this.fetching = false;
+            })
+            .catch(error => {
+              this.message(
+                [
+                  this.$t(
+                    "app.main.errorWagoAnswer" /* Can't read Wago answer */
+                  ),
+                  error
+                ],
+                "error"
+              );
+              console.log(JSON.stringify(error));
 
-            // schedule in 30mn on error
+              // schedule in 30mn on error
+              if (this.schedule.id) clearTimeout(this.schedule.id);
+
+              this.schedule.id = setTimeout(
+                this.compareSVwithWago,
+                1000 * 60 * 30
+              );
+            })
+        );
+      });
+
+      Promise.all(promisesWagoCallsComplete).then(() => {
+        console.log("promisesWagoCallsComplete");
+
+        Promise.all(promisesWagoDataCallsComplete).then(() => {
+          console.log("promisesWagoDataCallsComplete");
+
+          // Test if list is empty
+          if (allAurasFetched.length === 0) {
+            this.message(
+              this.$t("app.main.nothingToFetch" /* No updates available */)
+            );
+
+            this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+
             if (this.schedule.id) clearTimeout(this.schedule.id);
 
             this.schedule.id = setTimeout(
               this.compareSVwithWago,
-              1000 * 60 * 30
+              1000 * 60 * 60
             );
-          });
+            return;
+          }
+
+          // catch response error
+          const promisesResolved = promisesWagoDataCallsComplete.map(promise =>
+            promise.catch(err2 => ({
+              config: { params: { id: err2.config.params.id } },
+              status: err2.response.status
+            }))
+          );
+
+          this.$http
+            .all(promisesResolved)
+            .then(
+              this.$http.spread((...args) => {
+                args.forEach(arg => {
+                  const { id } = arg.config.params;
+
+                  if (arg.status === 200) {
+                    this.auras.forEach((aura, index) => {
+                      if (aura.wagoid === id) {
+                        news.push(aura.name);
+                        this.auras[index].encoded = arg.data;
+                      }
+                    });
+                  } else {
+                    this.auras.forEach(aura => {
+                      if (aura.wagoid === id) {
+                        this.message(
+                          [
+                            this.$t(
+                              "app.main.stringReceiveError-1",
+                              {
+                                aura: aura.name
+                              } /* Error receiving encoded string for {aura} */
+                            ),
+                            this.$t(
+                              "app.main.stringReceiveError-2",
+                              {
+                                status: arg.status
+                              } /* http code: {status} */
+                            )
+                          ],
+                          "error"
+                        );
+                        fails.push(aura.name);
+                      }
+                    });
+                  }
+                });
+              })
+            )
+            .catch(error => {
+              this.message(
+                [
+                  this.$t(
+                    "app.main.errorWagoAnswer" /* Can't read Wago answer */
+                  ),
+                  error
+                ],
+                "error"
+              );
+              console.log(JSON.stringify(error));
+
+              // schedule in 30mn on error
+              if (this.schedule.id) clearTimeout(this.schedule.id);
+
+              this.schedule.id = setTimeout(
+                this.compareSVwithWago,
+                1000 * 60 * 30
+              );
+            })
+            .then(() => {
+              //console.log(allAurasFetched);
+              //console.log(received);
+              // console.log(`allAurasFetched: ${JSON.stringify(allAurasFetched)}`);
+              // console.log(`received: ${JSON.stringify(received)}`);
+              allAurasFetched.forEach(toFetch => {
+                if (received.indexOf(toFetch) === -1) {
+                  // no data received for this aura => remove from list
+                  this.auras.forEach((aura, index) => {
+                    if (aura && aura.slug === toFetch) {
+                      console.log(`no data received for ${aura.slug}`);
+                      this.auras.splice(index, 1);
+                    }
+                  });
+                }
+              });
+
+              // we are done with wago API, update data.lua
+
+              try {
+                this.writeAddonData(news, fails);
+              } finally {
+                this.fetching = false;
+
+                this.setFirstAddonInstalledWithUpdatesSelected();
+
+                this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+
+                this.fetching = false;
+
+                if (this.schedule.id) clearTimeout(this.schedule.id);
+
+                this.schedule.id = setTimeout(
+                  this.compareSVwithWago,
+                  1000 * 60 * 60
+                );
+              }
+            });
+        });
       });
     },
     toggleReport() {
@@ -1185,6 +1549,10 @@ export default Vue.extend({
     },
     async writeAddonData(news, fails, noNotification) {
       let newInstall = false;
+
+      console.log("writeAddonData");
+
+      const addonConfigs = this.addonsInstalled;
 
       if (this.config.wowpath.valided && this.version !== "") {
         var AddonPath = ["Interface", "AddOns", "WeakAurasCompanion"];
@@ -1209,9 +1577,8 @@ export default Vue.extend({
         }
         // Make data.lua
         let LuaOutput = "-- file generated automatically\n";
-        let LuaUids = "  uids = {\n";
-        let LuaIds = "  ids = {\n";
         LuaOutput += "WeakAurasCompanion = {\n";
+        let addonDepts = "";
         const fields = [
           "name",
           "author",
@@ -1219,72 +1586,111 @@ export default Vue.extend({
           "wagoVersion",
           "wagoSemver",
         ];
-        LuaOutput += "  slugs = {\n";
 
-        this.aurasWithData.forEach((aura) => {
-          LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+        addonConfigs.forEach(config => {
+          addonDepts += config.addonName + ",";
 
-          fields.forEach((field) => {
-            LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
-          });
+          let spacing = "";
 
-          if (typeof aura.changelog !== "undefined") {
-            if (typeof aura.changelog.text !== "undefined") {
-              let sanitized;
+          if (config.dataIndex) {
+            LuaOutput += `  ${config.dataIndex} = {\n`;
+            spacing = "  ";
+          }
 
-              if (aura.changelog.format === "bbcode") {
-                sanitized = sanitize.bbcode(aura.changelog.text);
-              } else if (aura.changelog.format === "markdown") {
-                sanitized = sanitize.markdown(aura.changelog.text);
+          let LuaSlugs = spacing + "  slugs = {\n";
+          let LuaUids = spacing + "  uids = {\n";
+          let LuaIds = spacing + "  ids = {\n";
+
+          this.aurasWithData
+            .filter(aura => aura.auraType === config.addonName)
+            .forEach(aura => {
+              LuaSlugs +=
+                spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+
+              fields.forEach(field => {
+                LuaSlugs +=
+                  spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+              });
+
+              if (typeof aura.changelog !== "undefined") {
+                if (typeof aura.changelog.text !== "undefined") {
+                  let sanitized;
+
+                  if (aura.changelog.format === "bbcode") {
+                    sanitized = sanitize.bbcode(aura.changelog.text);
+                  } else if (aura.changelog.format === "markdown") {
+                    sanitized = sanitize.markdown(aura.changelog.text);
+                  }
+
+                  LuaSlugs +=
+                    spacing + `      versionNote = [=[${sanitized}]=],\n`;
+                }
               }
-              LuaOutput += `      versionNote = [=[${sanitized}]=],\n`;
-            }
-          }
 
-          if (aura.uids) {
-            aura.uids.forEach((uid) => {
-              LuaUids += `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
-                aura.slug
-              }]=],\n`;
-            });
+              if (aura.uids && aura.ids) {
+                aura.uids.forEach(uid => {
+                  if (uid) {
+                    LuaUids +=
+                      spacing +
+                      `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
+                        aura.slug
+                      }]=],\n`;
+                  }
+                });
 
-            aura.ids.forEach((id) => {
-              LuaIds += `    ["${id
-                .replace(/\\/g, "\\\\")
-                .replace(/"/g, '\\"')}"] = [=[${aura.slug}]=],\n`;
-            });
-          }
-          LuaOutput += "    },\n";
-        });
-        LuaOutput += "  },\n";
-        LuaOutput += LuaUids;
-        LuaOutput += "  },\n";
-        LuaOutput += LuaIds;
-        LuaOutput += "  },\n";
-        LuaOutput += "  stash = {\n";
-
-        this.stash.forEach((aura) => {
-          LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
-
-          fields.forEach((field) => {
-            LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
-          });
-
-          if (typeof aura.changelog !== "undefined") {
-            if (typeof aura.changelog.text !== "undefined") {
-              let sanitized;
-
-              if (aura.changelog.format === "bbcode") {
-                sanitized = sanitize.bbcode(aura.changelog.text);
-              } else if (aura.changelog.format === "markdown") {
-                sanitized = sanitize.markdown(aura.changelog.text);
+                aura.ids.forEach(id => {
+                  if (id) {
+                    LuaIds +=
+                      spacing +
+                      `    ["${id
+                        .replace(/\\/g, "\\\\")
+                        .replace(/"/g, '\\"')}"] = [=[${aura.slug}]=],\n`;
+                  }
+                });
               }
-              LuaOutput += `      versionNote = [=[${sanitized}]=],\n`;
-            }
+              LuaSlugs += spacing + "    },\n";
+            });
+          LuaOutput += LuaSlugs;
+          LuaOutput += spacing + "  },\n";
+          LuaOutput += LuaUids;
+          LuaOutput += spacing + "  },\n";
+          LuaOutput += LuaIds;
+          LuaOutput += spacing + "  },\n";
+          LuaOutput += spacing + "  stash = {\n";
+
+          this.stash
+            .filter(aura => aura.auraType === config.addonName)
+            .forEach(aura => {
+              LuaOutput +=
+                spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+
+              fields.forEach(field => {
+                LuaOutput +=
+                  spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+              });
+
+              if (typeof aura.changelog !== "undefined") {
+                if (typeof aura.changelog.text !== "undefined") {
+                  let sanitized;
+
+                  if (aura.changelog.format === "bbcode") {
+                    sanitized = sanitize.bbcode(aura.changelog.text);
+                  } else if (aura.changelog.format === "markdown") {
+                    sanitized = sanitize.markdown(aura.changelog.text);
+                  }
+
+                  LuaOutput +=
+                    spacing + `      versionNote = [=[${sanitized}]=],\n`;
+                }
+              }
+              LuaOutput += spacing + "    },\n";
+            });
+          LuaOutput += spacing + "  },\n";
+
+          if (config.dataIndex) {
+            LuaOutput += "  },\n";
           }
-          LuaOutput += "    },\n";
         });
-        LuaOutput += "  }\n";
         LuaOutput += "}";
 
         /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
@@ -1298,12 +1704,12 @@ export default Vue.extend({
             data: `## Interface: ${toc}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 1.0.0
+## Version: 1.1.0
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## Dependencies: WeakAuras
+## OptionalDeps: ${addonDepts}
 
 data.lua
 init.lua`,
@@ -1312,11 +1718,9 @@ init.lua`,
             name: "init.lua",
             data: `-- file generated automatically
 local buildTimeTarget = 20190123023201
-local waBuildTime = tonumber(WeakAuras.buildTime)
+local waBuildTime = tonumber(WeakAuras and WeakAuras.buildTime or 0)
 
-if waBuildTime and waBuildTime < buildTimeTarget then
-  WeakAurasCompanion = nil
-else
+if waBuildTime and waBuildTime > buildTimeTarget then
   local loadedFrame = CreateFrame("FRAME")
   loadedFrame:RegisterEvent("ADDON_LOADED")
   loadedFrame:SetScript("OnEvent", function(_, _, addonName)
@@ -1347,7 +1751,11 @@ else
       end
     end
   end)
-end`,
+end
+
+if Plater and Plater.CheckWagoUpdates then
+    Plater.CheckWagoUpdates()
+end`
           },
           {
             name: "data.lua",
@@ -1767,6 +2175,19 @@ end`,
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+/* WoW addon selection */
+#addonbttns {
+  position: relative;
+  left: 35px;
+  z-index: 999;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  transition: height 0.4s ease-in-out;
+  text-align: left;
+  width: 85%;
+  height: 65px;
 }
 
 /* WoW Version & Account selection */
