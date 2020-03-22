@@ -61,6 +61,36 @@
             </Dropdown>
           </div>
         </div>
+        <div
+          v-if="
+            configStep === 0 &&
+              addonsWithUpdates.length > 0 &&
+              addonsInstalled.length > 1
+          "
+          id="addonbttns"
+        >
+          <label
+            :key="addonSelected"
+            style="cursor: default;
+              color: #eee;
+              font-size: 15px;
+              font-family: 'Montserrat',sans-serif;
+              font-weight: 500;"
+          >
+            {{ $t("app.main.addons" /* Addons */) }}
+          </label>
+          <br />
+          <Button
+            v-for="(addon, index) in addonsInstalled"
+            :key="index"
+            type="addon"
+            :class="{ active: addonSelected === addon.addonName }"
+            :disabled="!addon.isInstalled || !addonHasUpdate(addon.addonName)"
+            @click="addonSelected = addon.addonName"
+          >
+            {{ addon.addonName }}
+          </Button>
+        </div>
         <div v-if="configStep === 0" id="dashboard">
           <RefreshButton
             :is-settings-ok="config.wowpath.valided"
@@ -76,28 +106,6 @@
             "
           ></RefreshButton>
           <br />
-          <div
-            v-if="
-              configStep === 0 &&
-                addonsWithUpdates.length > 0 &&
-                addonsInstalled.length > 1
-            "
-            id="addonbttns"
-          >
-            <label :key="addonSelected">
-              {{ $t("app.main.addons" /* Addons */) }}
-            </label>
-            <br />
-            <Button
-              v-for="(addon, index) in addonsWithUpdates"
-              :key="index"
-              type="addon"
-              :class="{ active: addonSelected === addon.addonName }"
-              @click="addonSelected = addon.addonName"
-            >
-              {{ addon.addonName }}
-            </Button>
-          </div>
           <div
             id="aura-list"
             :class="{
@@ -795,6 +803,16 @@ export default Vue.extend({
           return false;
         }
       }
+      return false;
+    },
+    addonHasUpdate(addonName) {
+      for (let index = 0; index < this.addonsWithUpdates.length; index++) {
+        if (this.addonsWithUpdates[index].addonName === addonName) {
+          console.log("has update " + addonName);
+          return true;
+        }
+      }
+      console.log("has no update " + addonName);
       return false;
     },
     reset() {
@@ -2179,14 +2197,11 @@ end`
 
 /* WoW addon selection */
 #addonbttns {
-  position: relative;
-  left: 35px;
+  position: absolute;
+  left: 20px;
+  top: 35px;
   z-index: 999;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  transition: height 0.4s ease-in-out;
   text-align: left;
-  width: 85%;
   height: 65px;
 }
 
