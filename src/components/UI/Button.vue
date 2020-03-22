@@ -103,13 +103,14 @@ export default {
   border: 1px solid #fff;
   height: 30px;
   font-size: 16px;
-  color: #fff;
+  color: #51ae428c;
   font-weight: 600;
   border-radius: 4px;
   vertical-align: top;
   transition: all 0.1s ease-in-out;
   cursor: pointer;
   text-align: center;
+  margin-right: 4px;
 }
 .btn-addon:hover {
   background-color: #fff;
@@ -117,7 +118,13 @@ export default {
 }
 .btn-addon.active {
   background-color: #fff;
-  color: #2d2c2c;
+  color: #51ae42;
+}
+.btn-addon:disabled {
+  background-color: #777;
+  color: #580909;
+  border-color: #580909;
+  cursor: default;
 }
 .btn-menu {
   width: 60px;
