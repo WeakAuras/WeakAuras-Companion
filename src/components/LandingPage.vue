@@ -915,84 +915,86 @@ export default Vue.extend({
     },
     wagoPushHandler(slug) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1) {
-        // Get data from Wago api
-        this.$http
-          .get("https://data.wago.io/api/check/weakauras", {
-            params: {
-              ids: slug,
-            },
-            headers: {
-              Identifier: this.accountHash,
-              "Content-Security-Policy":
-                "script-src 'self' https://data.wago.io",
-              "api-key": this.config.wagoApiKey || "",
-            },
-            crossdomain: true,
-          })
-          .then((response) => {
-            // metadata received from Wago API
-            response.data.forEach((wagoData) => {
-              const aura = {
-                slug: wagoData.slug,
-                name: wagoData.name,
-                author: wagoData.username,
-                wagoVersion: wagoData.version,
-                wagoSemver: wagoData.versionString,
-                versionNote: wagoData.changelog,
-                auraType: "WeakAuras",
-              };
+        this.addonsInstalled.forEach(addonConf => {
+          // Get data from Wago api
+          this.$http
+            .get(addonConf.wagoAPI, {
+              params: {
+                ids: slug
+              },
+              headers: {
+                Identifier: this.accountHash,
+                "Content-Security-Policy":
+                  "script-src 'self' https://data.wago.io",
+                "api-key": this.config.wagoApiKey || ""
+              },
+              crossdomain: true
+            })
+            .then(response => {
+              // metadata received from Wago API
+              response.data.forEach(wagoData => {
+                const aura = {
+                  slug: wagoData.slug,
+                  name: wagoData.name,
+                  author: wagoData.username,
+                  wagoVersion: wagoData.version,
+                  wagoSemver: wagoData.versionString,
+                  versionNote: wagoData.changelog,
+                  auraType: addonConf.addonName
+                };
 
-              this.$http
-                .get("https://data.wago.io/api/raw/encoded", {
-                  params: {
-                    id: slug,
-                  },
-                  headers: {
-                    Identifier: this.accountHash,
-                    "Content-Security-Policy":
-                      "script-src 'self' https://data.wago.io",
-                    "api-key": this.config.wagoApiKey || "",
-                  },
-                  crossdomain: true,
-                })
-                .then((response2) => {
-                  aura.encoded = response2.data;
-                  this.stash.push(aura);
-                })
-                .catch((err2) => {
-                  this.message(
-                    [
-                      this.$t(
-                        "app.main.stringReceiveError-1",
-                        {
-                          aura: aura.name,
-                        } /* Error receiving encoded string for {aura} */
-                      ),
-                      this.$t(
-                        "app.main.stringReceiveError-2",
-                        {
-                          status: err2.response.status,
-                        } /* http code: {status} */
-                      ),
-                    ],
-                    "error"
-                  );
-                  console.log(JSON.stringify(err2));
-                });
+                this.$http
+                  .get("https://data.wago.io/api/raw/encoded", {
+                    params: {
+                      id: slug
+                    },
+                    headers: {
+                      Identifier: this.accountHash,
+                      "Content-Security-Policy":
+                        "script-src 'self' https://data.wago.io",
+                      "api-key": this.config.wagoApiKey || ""
+                    },
+                    crossdomain: true
+                  })
+                  .then(response2 => {
+                    aura.encoded = response2.data;
+                    this.stash.push(aura);
+                  })
+                  .catch(err2 => {
+                    this.message(
+                      [
+                        this.$t(
+                          "app.main.stringReceiveError-1",
+                          {
+                            aura: aura.name
+                          } /* Error receiving encoded string for {aura} */
+                        ),
+                        this.$t(
+                          "app.main.stringReceiveError-2",
+                          {
+                            status: err2.response.status
+                          } /* http code: {status} */
+                        )
+                      ],
+                      "error"
+                    );
+                    console.log(JSON.stringify(err2));
+                  });
+              });
+            })
+            .catch(error => {
+              this.message(
+                [
+                  this.$t(
+                    "app.main.errorWagoAnswer" /* Can't read Wago answer */
+                  ),
+                  error
+                ],
+                "error"
+              );
+              console.log(JSON.stringify(error));
             });
-          })
-          .catch((error) => {
-            this.message(
-              [
-                this.$t(
-                  "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                ),
-                error,
-              ],
-              "error"
-            );
-            console.log(JSON.stringify(error));
-          });
+        });
       }
     },
     parseWeakAurasSVdata(WeakAurasSavedData, config) {
