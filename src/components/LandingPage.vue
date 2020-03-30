@@ -64,14 +64,15 @@
         <div
           v-if="
             configStep === 0 &&
-              addonsWithUpdates.length > 0 &&
-              addonsInstalled.length > 1
+            addonsWithUpdates.length > 0 &&
+            addonsInstalled.length > 1
           "
           id="addonbttns"
         >
           <label
             :key="addonSelected"
-            style="cursor: default;
+            style="
+              cursor: default;
               color: #eee;
               font-size: 15px;
               font-family: 'Montserrat',sans-serif;
@@ -111,7 +112,7 @@
             :class="{
               hidden: config.showAllAuras
                 ? aurasSortedForView.length <= 0
-                : aurasWithUpdateSortedForView.length <= 0
+                : aurasWithUpdateSortedForView.length <= 0,
             }"
           >
             <Aura
@@ -329,7 +330,7 @@ export default Vue.extend({
           addonDependency: "WeakAuras",
           svPath: this.WeakAurasSaved(),
           isInstalled: this.IsWeakAurasInstalled(),
-          parseFunction: this.parseWeakAurasSVdata
+          parseFunction: this.parseWeakAurasSVdata,
         },
         {
           addonName: "Plater",
@@ -338,20 +339,20 @@ export default Vue.extend({
           addonDependency: "Plater",
           svPath: this.PlaterSaved(),
           isInstalled: this.IsPlaterInstalled(),
-          parseFunction: this.parsePlaterSVdata
-        }
+          parseFunction: this.parsePlaterSVdata,
+        },
       ];
       return addonConfigs;
     },
     addonsInstalled() {
       return this.allAddonConfigs.filter(
-        addonConfig => addonConfig.isInstalled
+        (addonConfig) => addonConfig.isInstalled
       );
     },
     addonsWithUpdates() {
       const addons = [];
 
-      this.addonsInstalled.forEach(addon => {
+      this.addonsInstalled.forEach((addon) => {
         for (let i = 0; i < this.aurasWithUpdate.length; i++) {
           if (this.aurasWithUpdate[i].auraType === addon.addonName) {
             addons.push(addon);
@@ -403,7 +404,7 @@ export default Vue.extend({
     aurasSortedForView() {
       return this.auras
         .filter(
-          aura =>
+          (aura) =>
             (!!aura.topLevel || aura.regionType !== "group") &&
             !(
               this.config.ignoreOwnAuras &&
@@ -439,7 +440,7 @@ export default Vue.extend({
     },
     aurasWithUpdateForView() {
       return this.auras.filter(
-        aura =>
+        (aura) =>
           !!aura.encoded &&
           aura.wagoVersion > aura.version &&
           !aura.ignoreWagoUpdate &&
@@ -915,24 +916,24 @@ export default Vue.extend({
     },
     wagoPushHandler(slug) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1) {
-        this.addonsInstalled.forEach(addonConf => {
+        this.addonsInstalled.forEach((addonConf) => {
           // Get data from Wago api
           this.$http
             .get(addonConf.wagoAPI, {
               params: {
-                ids: slug
+                ids: slug,
               },
               headers: {
                 Identifier: this.accountHash,
                 "Content-Security-Policy":
                   "script-src 'self' https://data.wago.io",
-                "api-key": this.config.wagoApiKey || ""
+                "api-key": this.config.wagoApiKey || "",
               },
-              crossdomain: true
+              crossdomain: true,
             })
-            .then(response => {
+            .then((response) => {
               // metadata received from Wago API
-              response.data.forEach(wagoData => {
+              response.data.forEach((wagoData) => {
                 const aura = {
                   slug: wagoData.slug,
                   name: wagoData.name,
@@ -940,19 +941,19 @@ export default Vue.extend({
                   wagoVersion: wagoData.version,
                   wagoSemver: wagoData.versionString,
                   versionNote: wagoData.changelog,
-                  auraType: addonConf.addonName
+                  auraType: addonConf.addonName,
                 };
 
                 this.$http
                   .get("https://data.wago.io/api/raw/encoded", {
                     params: {
-                      id: slug
+                      id: slug,
                     },
                     headers: {
                       Identifier: this.accountHash,
                       "Content-Security-Policy":
                         "script-src 'self' https://data.wago.io",
-                      "api-key": this.config.wagoApiKey || ""
+                      "api-key": this.config.wagoApiKey || "",
                     },
                     crossdomain: true
                   })
