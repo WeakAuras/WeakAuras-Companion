@@ -8,10 +8,10 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
   const regex = new RegExp(`^weakauras-${accountName}-[0-9.]+.zip$`);
   const files = fs
     .readdirSync(dirPath)
-    .filter(v => v && v.match(regex))
-    .map(v => ({
+    .filter((v) => v && v.match(regex))
+    .map((v) => ({
       name: v,
-      stats: fs.statSync(path.join(dirPath, v))
+      stats: fs.statSync(path.join(dirPath, v)),
     }))
     .sort((a, b) => b.stats.mtime.getTime() - a.stats.mtime.getTime());
 
@@ -26,10 +26,10 @@ function deleteOldFiles(dirPath, accountName, maxsize) {
     );
 
     // delete 2 last files
-    files.slice(-2).forEach(v => {
+    files.slice(-2).forEach((v) => {
       console.log(`deleted backup files ${path.join(dirPath, v.name)}`);
 
-      fs.unlink(path.join(dirPath, v.name), err => {
+      fs.unlink(path.join(dirPath, v.name), (err) => {
         if (err) throw err;
       });
     });
@@ -52,7 +52,7 @@ function backupIfRequired(
       const fileContents = fs.createReadStream(filename);
       const writeStream = fs.createWriteStream(path.join(config.path, zipFile));
       const archive = archiver("zip", {
-        zlib: { level: 9 } // Sets the compression level.
+        zlib: { level: 9 }, // Sets the compression level.
       });
 
       writeStream
@@ -66,7 +66,7 @@ function backupIfRequired(
           );
           callback(stats.size);
         })
-        .on("warning", err => {
+        .on("warning", (err) => {
           if (err.code === "ENOENT") {
             // log warning
           } else {
@@ -74,7 +74,7 @@ function backupIfRequired(
             throw err;
           }
         })
-        .on("error", err => {
+        .on("error", (err) => {
           throw err;
         });
       archive.pipe(writeStream);

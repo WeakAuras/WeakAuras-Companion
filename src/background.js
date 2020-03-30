@@ -8,7 +8,7 @@ import {
   ipcMain,
   screen,
   Notification,
-  protocol
+  protocol,
 } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import path from "path";
@@ -17,7 +17,7 @@ import log from "electron-log";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
-  { scheme: "app", privileges: { secure: true, standard: true } }
+  { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
 const electronLocalshortcut = require("electron-localshortcut");
@@ -75,9 +75,9 @@ function createWindow() {
       disableBlinkFeatures: "Auxclick",
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
-      nodeIntegration: true
+      nodeIntegration: true,
     },
-    show: false
+    show: false,
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -97,7 +97,7 @@ function createWindow() {
 
   mainWindow.setMenu(null);
 
-  mainWindow.on("minimize", event => {
+  mainWindow.on("minimize", (event) => {
     event.preventDefault();
     mainWindow.minimize();
   });
@@ -132,7 +132,7 @@ function createWindow() {
       label: "Open WeakAuras Companion",
       click: () => {
         mainWindow.show();
-      }
+      },
     },
     {
       label: "Check for Companion Updates",
@@ -141,7 +141,7 @@ function createWindow() {
           cancellationToken.cancel();
         }
 
-        autoUpdater.checkForUpdates().then(UpdateCheckResult => {
+        autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
           mainWindow.webContents.send(
             "updaterHandler",
             "checkForUpdates",
@@ -149,20 +149,20 @@ function createWindow() {
           );
           ({ cancellationToken } = UpdateCheckResult);
         });
-      }
+      },
     },
     {
       label: "Open DevTools Console",
       click: () => {
         mainWindow.webContents.openDevTools({ mode: "detach" });
-      }
+      },
     },
     { type: "separator" },
     {
       label: "Fetch Updates",
       click: () => {
         mainWindow.webContents.send("refreshWago");
-      }
+      },
     },
     { type: "separator" },
     {
@@ -170,8 +170,8 @@ function createWindow() {
       click: () => {
         app.isQuiting = true;
         app.quit();
-      }
-    }
+      },
+    },
   ]);
   tray.setContextMenu(contextMenu);
 
@@ -188,7 +188,7 @@ function createWindow() {
     shell.openExternal(url);
   });
 
-  mainWindow.webContents.on("will-navigate", event => {
+  mainWindow.webContents.on("will-navigate", (event) => {
     if (mainWindow.webContents.getURL() !== winURL) {
       event.preventDefault();
     }
@@ -219,7 +219,7 @@ if (!app.requestSingleInstanceLock()) {
     createWindow();
 
     if (process.env.NODE_ENV === "production") {
-      autoUpdater.checkForUpdates().then(UpdateCheckResult => {
+      autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
         mainWindow.webContents.send(
           "updaterHandler",
           "checkForUpdates",
@@ -278,7 +278,7 @@ ipcMain.on("checkUpdates", (event, isBeta) => {
   }
   autoUpdater.allowPrerelease = isBeta === true;
 
-  autoUpdater.checkForUpdates().then(UpdateCheckResult => {
+  autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
     mainWindow.webContents.send(
       "updaterHandler",
       "checkForUpdates",
@@ -295,7 +295,7 @@ autoUpdater.on("checking-for-update", () => {
   }
 });
 
-autoUpdater.on("update-available", info => {
+autoUpdater.on("update-available", (info) => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "update-available", info);
   }
@@ -307,7 +307,7 @@ autoUpdater.on("update-available", info => {
       icon: path.join(
         __static,
         process.platform === "win32" ? "bigicon.png" : "icon.png"
-      )
+      ),
     }).show();
 
     // show install nag only once
@@ -321,14 +321,14 @@ autoUpdater.on("update-not-available", () => {
   }
 });
 
-autoUpdater.on("error", err => {
+autoUpdater.on("error", (err) => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send("updaterHandler", "error", err);
     mainWindow.setProgressBar(-1);
   }
 });
 
-autoUpdater.on("download-progress", progressObj => {
+autoUpdater.on("download-progress", (progressObj) => {
   if (mainWindow && mainWindow.webContents) {
     mainWindow.webContents.send(
       "updaterHandler",
@@ -341,7 +341,7 @@ autoUpdater.on("download-progress", progressObj => {
 
 let installNagAlreadyShowed = false;
 
-autoUpdater.on("update-downloaded", info => {
+autoUpdater.on("update-downloaded", (info) => {
   if (!installNagAlreadyShowed) {
     if (mainWindow && mainWindow.webContents) {
       mainWindow.webContents.send("updaterHandler", "update-downloaded");
@@ -357,7 +357,7 @@ autoUpdater.on("update-downloaded", info => {
         icon: path.join(
           __static,
           process.platform === "win32" ? "bigicon.png" : "icon.png"
-        )
+        ),
       }).show();
 
       // show install nag only once
@@ -369,7 +369,7 @@ autoUpdater.on("update-downloaded", info => {
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
   if (process.platform === "win32") {
-    process.on("message", data => {
+    process.on("message", (data) => {
       if (data === "graceful-exit") {
         app.quit();
       }

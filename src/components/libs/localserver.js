@@ -18,7 +18,7 @@ function allowRequest(req) {
 function getPostData(req, callback) {
   let body = "";
 
-  req.on("data", chunk => {
+  req.on("data", (chunk) => {
     body += chunk.toString();
   });
 
@@ -43,32 +43,32 @@ function LocalServerRequestHandler(req, res) {
   if (req.method === "OPTIONS") {
     res.writeHead(204, {
       "access-control-allow-methods": "POST, OPTIONS",
-      "access-control-allow-origin": req.headers.origin
+      "access-control-allow-origin": req.headers.origin,
     });
     return res.end();
   }
 
   // otherwise it should be a POST, parse and process the data
   if (req.method === "POST") {
-    getPostData(req, body => {
+    getPostData(req, (body) => {
       // console.log(body);
       if (body.action === "Add-Import") {
         const { 2: slug } = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
 
-        if (stash.findIndex(aura => aura.url === body.url) === -1)
+        if (stash.findIndex((aura) => aura.url === body.url) === -1)
           stash.push({
             name: body.name,
             encoded: body.import,
             slug,
             user: body.user,
-            version: body.version
+            version: body.version,
           });
       }
 
       res.writeHead(200, {
         "Content-Type": "application/json",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Origin": req.headers.origin
+        "Access-Control-Allow-Origin": req.headers.origin,
       });
       return res.end("{'success': true}");
     });
@@ -82,12 +82,12 @@ const localServer = http.createServer(LocalServerRequestHandler);
 const localServerPort = 24642;
 
 module.exports = {
-  start: v => {
+  start: (v) => {
     stash = v;
     localServer.listen(localServerPort, "127.0.0.1");
   },
 
   stop: () => {
     localServer.close();
-  }
+  },
 };

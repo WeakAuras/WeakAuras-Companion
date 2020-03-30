@@ -1,5 +1,5 @@
 module.exports = {
-  bbcode: str => {
+  bbcode: (str) => {
     let output = str || "";
 
     output = output
@@ -10,7 +10,7 @@ module.exports = {
       .replace(/\[\[/g, "\\[[");
     return output;
   },
-  markdown: str => {
+  markdown: (str) => {
     // https://github.com/stiang/remove-markdown/blob/master/index.js
     let output = str || "";
 
@@ -46,5 +46,5 @@ module.exports = {
       .replace(/\n{2,}/g, "\n\n")
       .replace(/\[\[/g, "\\[[");
     return output;
-  }
+  },
 };

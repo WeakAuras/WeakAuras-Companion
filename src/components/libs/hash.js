@@ -19,5 +19,5 @@ module.exports = {
       return `0000000${(hval >>> 0).toString(16)}`.substr(-8);
     }
     return hval >>> 0;
-  }
+  },
 };

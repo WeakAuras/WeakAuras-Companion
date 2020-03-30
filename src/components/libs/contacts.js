@@ -3,49 +3,49 @@ module.exports = {
     {
       name: "discord",
       url: "https://discord.gg/wa2",
-      displayName: "Discord"
+      displayName: "Discord",
     },
     {
       name: "github",
       url: "https://github.com/WeakAuras/",
-      displayName: "GitHub"
+      displayName: "GitHub",
     },
     {
       name: "patreon",
       url: "https://www.patreon.com/WeakAuras",
-      displayName: "Patreon"
+      displayName: "Patreon",
     },
     {
       name: "twitter",
       url: "https://twitter.com/WeakAuras",
-      displayName: "Twitter"
+      displayName: "Twitter",
     },
     {
       name: "youtube",
       url: "https://www.youtube.com/channel/UCEuzJlrsz27wUWlWn_HSEeg",
-      displayName: "YouTube"
-    }
+      displayName: "YouTube",
+    },
   ],
   wago: [
     {
       name: "wago",
       url: "https://wago.io/",
-      displayName: "Website"
+      displayName: "Website",
     },
     {
       name: "github",
       url: "https://github.com/oratory/wago.io",
-      displayName: "GitHub"
+      displayName: "GitHub",
     },
     {
       name: "patreon",
       url: "https://www.patreon.com/wago",
-      displayName: "Patreon"
+      displayName: "Patreon",
     },
     {
       name: "twitter",
       url: "https://twitter.com/wago_io",
-      displayName: "Twitter"
-    }
-  ]
+      displayName: "Twitter",
+    },
+  ],
 };

@@ -82,15 +82,15 @@ const i18n = new VueI18n({
     de,
     ru,
     tr,
-    "zh-cn": zhcn
-  }
+    "zh-cn": zhcn,
+  },
 });
 
 Vue.config.productionTip = false;
 
 new Vue({
   components: { App },
-  render: h => h(App),
+  render: (h) => h(App),
   i18n,
-  template: "<App/>"
+  template: "<App/>",
 }).$mount("#app");

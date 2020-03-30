@@ -28,7 +28,7 @@ export function afterReload(wowpath, version, callback) {
     tail[version].watch();
   }
 
-  tail[version].on("line", data => {
+  tail[version].on("line", (data) => {
     const event = data.split(/ {2}/)[1];
 
     if (event === "Client Destroy") {
@@ -52,7 +52,7 @@ export function afterRestart(wowpath, version, callback) {
     tail[version].watch();
   }
 
-  tail[version].on("line", data => {
+  tail[version].on("line", (data) => {
     const event = data.split(/ {2}/)[1];
 
     if (event === "Client Destroy") {

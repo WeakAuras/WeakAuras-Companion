@@ -15,7 +15,7 @@ const regedit = require("regedit");
 regedit.setExternalVBSLocation("resources/node_modules/regedit/vbs");
 
 export function wowDefaultPath() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (process.platform === "win32") {
       const key =
         "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
@@ -42,7 +42,7 @@ export function matchFolderNameInsensitive(folder, name, create) {
       }
 
       if (!!create) {
-        fs.mkdir(path.join(folder, name), err => {
+        fs.mkdir(path.join(folder, name), (err) => {
           if (err && err.code !== "EEXIST") {
             this.message(
               this.$t(
