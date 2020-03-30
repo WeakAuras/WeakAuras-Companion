@@ -81,7 +81,7 @@
             :class="{
               hidden: config.showAllAuras
                 ? aurasSorted.length <= 0
-                : aurasWithUpdateSorted.length <= 0
+                : aurasWithUpdateSorted.length <= 0,
             }"
           >
             <Aura
@@ -178,7 +178,7 @@ import backupIfRequired from "./libs/backup";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
-  afterRestart as afterWOWRestart
+  afterRestart as afterWOWRestart,
 } from "./libs/wowstat";
 import { wowDefaultPath, matchFolderNameInsensitive } from "./libs/utilities";
 import Button from "./UI/Button.vue";
@@ -217,7 +217,7 @@ const defaultValues = {
       value: "",
       versions: [],
       version: "",
-      valided: false
+      valided: false,
     },
     wagoUsername: null, // ignore your own auras
     wagoApiKey: null,
@@ -234,11 +234,11 @@ const defaultValues = {
       active: true,
       path: path.join(userDataPath, "WeakAurasData-Backup"),
       maxsize: 100,
-      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup")
-    }
+      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
+    },
   },
   schedule: {
-    id: null // 1h setTimeout id
+    id: null, // 1h setTimeout id
   },
   medias,
   stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
@@ -250,12 +250,12 @@ const defaultValues = {
     scheduleId: null, // for 2h auto-updater
     version: null,
     path: null,
-    releaseNotes: null
+    releaseNotes: null,
   },
   isMac: process.platform === "darwin",
   accountOptions: [],
   versionOptions: [],
-  defaultWOWPath: ""
+  defaultWOWPath: "",
 };
 
 export default Vue.extend({
@@ -270,7 +270,7 @@ export default Vue.extend({
     Report,
     Stash,
     Button,
-    Dropdown
+    Dropdown,
   },
   data() {
     return JSON.parse(JSON.stringify(defaultValues));
@@ -285,7 +285,7 @@ export default Vue.extend({
     },
     footerMedias() {
       if (this.medias && this.medias.weakauras) {
-        return this.medias.weakauras.filter(media => media.footer);
+        return this.medias.weakauras.filter((media) => media.footer);
       }
       return [];
     },
@@ -294,7 +294,7 @@ export default Vue.extend({
         this.config.wowpath.version &&
         this.config.wowpath.versions &&
         this.config.wowpath.versions.find(
-          version => version.name === this.config.wowpath.version
+          (version) => version.name === this.config.wowpath.version
         )
       );
     },
@@ -302,7 +302,7 @@ export default Vue.extend({
       return (
         this.versionSelected &&
         this.versionSelected.accounts.find(
-          account => account.name === this.versionSelected.account
+          (account) => account.name === this.versionSelected.account
         )
       );
     },
@@ -314,7 +314,7 @@ export default Vue.extend({
     aurasSorted() {
       return this.auras
         .filter(
-          aura =>
+          (aura) =>
             (!!aura.topLevel || aura.regionType !== "group") &&
             !(
               this.config.ignoreOwnAuras &&
@@ -325,7 +325,7 @@ export default Vue.extend({
     },
     aurasWithData() {
       return this.auras.filter(
-        aura =>
+        (aura) =>
           !!aura.encoded &&
           (!!aura.topLevel || aura.regionType !== "group") &&
           !(
@@ -336,7 +336,7 @@ export default Vue.extend({
     },
     aurasWithUpdate() {
       return this.auras.filter(
-        aura =>
+        (aura) =>
           !!aura.encoded &&
           aura.wagoVersion > aura.version &&
           !aura.ignoreWagoUpdate &&
@@ -359,15 +359,15 @@ export default Vue.extend({
       },
       set(newValue) {
         this.$set(this.accountSelected, "auras", newValue);
-      }
-    }
+      },
+    },
   },
   watch: {
     config: {
       handler() {
         store.set("config", this.config);
       },
-      deep: true
+      deep: true,
     },
     stash: {
       handler() {
@@ -390,9 +390,9 @@ export default Vue.extend({
                       while (this.stash.length > 0) {
                         this.stash.pop();
                       }
-                    }
-                  }
-                ]
+                    },
+                  },
+                ],
               }
             );
 
@@ -416,12 +416,12 @@ export default Vue.extend({
         }
         this.writeAddonData(null, null, true);
       },
-      deep: true
+      deep: true,
     },
     // eslint-disable-next-line func-names
-    "config.wowpath.version": function() {
+    "config.wowpath.version": function () {
       this.buildAccountList();
-    }
+    },
   },
   mounted() {
     this.$electron.ipcRenderer.on(
@@ -478,7 +478,7 @@ export default Vue.extend({
             duration: null,
             onComplete: () => {
               this.updateToast = null;
-            }
+            },
           }
         );
       }
@@ -489,7 +489,7 @@ export default Vue.extend({
           null,
           {
             className: "update update-error",
-            duration: null
+            duration: null,
           }
         );
       }
@@ -511,15 +511,15 @@ export default Vue.extend({
                   onClick: (e, toastObject) => {
                     this.$electron.ipcRenderer.send("installUpdates");
                     toastObject.goAway(0);
-                  }
+                  },
                 },
                 {
                   text: this.$t("app.main.later" /* Later */),
                   onClick: (e, toastObject) => {
                     toastObject.goAway(0);
-                  }
-                }
-              ]
+                  },
+                },
+              ],
             }
           );
         }
@@ -530,7 +530,7 @@ export default Vue.extend({
 
     // set default wow path
     if (!this.config.wowpath.valided) {
-      wowDefaultPath().then(value => {
+      wowDefaultPath().then((value) => {
         this.defaultWOWPath = value;
 
         if (!this.config.wowpath.valided) {
@@ -603,7 +603,7 @@ export default Vue.extend({
       this.config = JSON.parse(JSON.stringify(defaultValues.config));
       this.config.beta = beta;
 
-      wowDefaultPath().then(value => {
+      wowDefaultPath().then((value) => {
         this.config.wowpath.value = value;
         this.validateWowpath();
       });
@@ -644,7 +644,7 @@ export default Vue.extend({
             this.config.wowpath.valided = false;
             this.config.account = null;
 
-            wowDefaultPath().then(value => {
+            wowDefaultPath().then((value) => {
               this.config.wowpath.value = value;
             });
           }
@@ -661,11 +661,11 @@ export default Vue.extend({
           text: this.$t("app.main.close" /* Close */),
           onClick: (e, toastObject) => {
             toastObject.goAway(0);
-          }
-        }
+          },
+        },
       };
 
-      Object.keys(overrideOptions).forEach(key => {
+      Object.keys(overrideOptions).forEach((key) => {
         options[key] = overrideOptions[key];
       });
       let msg;
@@ -696,65 +696,65 @@ export default Vue.extend({
       return this.$toasted.show(msg, options);
     },
     wagoPushHandler(slug) {
-      if (this.stash.findIndex(aura => aura.slug === slug) === -1) {
+      if (this.stash.findIndex((aura) => aura.slug === slug) === -1) {
         // Get data from Wago api
         this.$http
           .get("https://data.wago.io/api/check/weakauras", {
             params: {
-              ids: slug
+              ids: slug,
             },
             headers: {
               Identifier: this.accountHash,
               "Content-Security-Policy":
                 "script-src 'self' https://data.wago.io",
-              "api-key": this.config.wagoApiKey || ""
+              "api-key": this.config.wagoApiKey || "",
             },
-            crossdomain: true
+            crossdomain: true,
           })
-          .then(response => {
+          .then((response) => {
             // metadata received from Wago API
-            response.data.forEach(wagoData => {
+            response.data.forEach((wagoData) => {
               const aura = {
                 slug: wagoData.slug,
                 name: wagoData.name,
                 author: wagoData.username,
                 wagoVersion: wagoData.version,
                 wagoSemver: wagoData.versionString,
-                versionNote: wagoData.changelog
+                versionNote: wagoData.changelog,
               };
 
               this.$http
                 .get("https://data.wago.io/api/raw/encoded", {
                   params: {
-                    id: slug
+                    id: slug,
                   },
                   headers: {
                     Identifier: this.accountHash,
                     "Content-Security-Policy":
                       "script-src 'self' https://data.wago.io",
-                    "api-key": this.config.wagoApiKey || ""
+                    "api-key": this.config.wagoApiKey || "",
                   },
-                  crossdomain: true
+                  crossdomain: true,
                 })
-                .then(response2 => {
+                .then((response2) => {
                   aura.encoded = response2.data;
                   this.stash.push(aura);
                 })
-                .catch(err2 => {
+                .catch((err2) => {
                   this.message(
                     [
                       this.$t(
                         "app.main.stringReceiveError-1",
                         {
-                          aura: aura.name
+                          aura: aura.name,
                         } /* Error receiving encoded string for {aura} */
                       ),
                       this.$t(
                         "app.main.stringReceiveError-2",
                         {
-                          status: err2.response.status
+                          status: err2.response.status,
                         } /* http code: {status} */
-                      )
+                      ),
                     ],
                     "error"
                   );
@@ -762,13 +762,13 @@ export default Vue.extend({
                 });
             });
           })
-          .catch(error => {
+          .catch((error) => {
             this.message(
               [
                 this.$t(
                   "app.main.errorWagoAnswer" /* Can't read Wago answer */
                 ),
-                error
+                error,
               ],
               "error"
             );
@@ -821,9 +821,9 @@ export default Vue.extend({
 
         const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
-        WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
+        WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
           if (obj.key.value === "displays") {
-            obj.value.fields.forEach(obj2 => {
+            obj.value.fields.forEach((obj2) => {
               let slug;
               let url;
               let version = 0;
@@ -834,7 +834,7 @@ export default Vue.extend({
               let uid = null;
               let topLevel = true;
 
-              obj2.value.fields.forEach(obj3 => {
+              obj2.value.fields.forEach((obj3) => {
                 if (obj3.key.value === "id") {
                   id = obj3.value.value;
                 }
@@ -874,7 +874,7 @@ export default Vue.extend({
               if (slug) {
                 if (slugs.indexOf(slug) === -1) slugs.push(slug);
                 const { length } = this.auras.filter(
-                  aura => aura.slug === slug
+                  (aura) => aura.slug === slug
                 );
 
                 if (length === 0) {
@@ -896,7 +896,7 @@ export default Vue.extend({
                     ids: [id],
                     topLevel: topLevel ? id : null,
                     uids: uid ? [uid] : [],
-                    regionType: null
+                    regionType: null,
                   });
                 } else {
                   // there is already an aura with same "slug"
@@ -954,7 +954,7 @@ export default Vue.extend({
         // Make a list of uniq auras to fetch
         const fetchAuras = this.auras
           .filter(
-            aura =>
+            (aura) =>
               // !!aura.topLevel &&
               !(
                 this.config.ignoreOwnAuras &&
@@ -962,7 +962,7 @@ export default Vue.extend({
                 aura.author === this.config.wagoUsername
               )
           )
-          .map(aura => aura.slug);
+          .map((aura) => aura.slug);
 
         // Test if list is empty
         if (fetchAuras.length === 0) {
@@ -984,21 +984,21 @@ export default Vue.extend({
           .get("https://data.wago.io/api/check/weakauras", {
             params: {
               // !! size of request is not checked, can lead to too long urls
-              ids: fetchAuras.join()
+              ids: fetchAuras.join(),
             },
             headers: {
               Identifier: this.accountHash,
               "Content-Security-Policy":
                 "script-src 'self' https://data.wago.io",
-              "api-key": this.config.wagoApiKey || ""
+              "api-key": this.config.wagoApiKey || "",
             },
-            crossdomain: true
+            crossdomain: true,
           })
-          .then(response => {
+          .then((response) => {
             // metadata received from Wago API
             const promises = [];
 
-            response.data.forEach(wagoData => {
+            response.data.forEach((wagoData) => {
               received.push(wagoData.slug);
               // eslint-disable-next-line no-underscore-dangle
               received.push(wagoData._id);
@@ -1033,15 +1033,15 @@ export default Vue.extend({
                       this.$http.get("https://data.wago.io/api/raw/encoded", {
                         params: {
                           // eslint-disable-next-line no-underscore-dangle
-                          id: wagoData._id
+                          id: wagoData._id,
                         },
                         headers: {
                           Identifier: this.accountHash,
                           "Content-Security-Policy":
                             "script-src 'self' https://data.wago.io",
-                          "api-key": this.config.wagoApiKey || ""
+                          "api-key": this.config.wagoApiKey || "",
                         },
-                        crossdomain: true
+                        crossdomain: true,
                       })
                     );
                   }
@@ -1051,10 +1051,10 @@ export default Vue.extend({
             });
 
             // catch response error
-            const promisesResolved = promises.map(promise =>
-              promise.catch(err2 => ({
+            const promisesResolved = promises.map((promise) =>
+              promise.catch((err2) => ({
                 config: { params: { id: err2.config.params.id } },
-                status: err2.response.status
+                status: err2.response.status,
               }))
             );
 
@@ -1066,7 +1066,7 @@ export default Vue.extend({
               .all(promisesResolved)
               .then(
                 this.$http.spread((...args) => {
-                  args.forEach(arg => {
+                  args.forEach((arg) => {
                     const { id } = arg.config.params;
 
                     if (arg.status === 200) {
@@ -1077,22 +1077,22 @@ export default Vue.extend({
                         }
                       });
                     } else {
-                      this.auras.forEach(aura => {
+                      this.auras.forEach((aura) => {
                         if (aura.wagoid === id) {
                           this.message(
                             [
                               this.$t(
                                 "app.main.stringReceiveError-1",
                                 {
-                                  aura: aura.name
+                                  aura: aura.name,
                                 } /* Error receiving encoded string for {aura} */
                               ),
                               this.$t(
                                 "app.main.stringReceiveError-2",
                                 {
-                                  status: arg.status
+                                  status: arg.status,
                                 } /* http code: {status} */
-                              )
+                              ),
                             ],
                             "error"
                           );
@@ -1103,13 +1103,13 @@ export default Vue.extend({
                   });
                 })
               )
-              .catch(error => {
+              .catch((error) => {
                 this.message(
                   [
                     this.$t(
                       "app.main.errorWagoAnswer" /* Can't read Wago answer */
                     ),
-                    error
+                    error,
                   ],
                   "error"
                 );
@@ -1127,7 +1127,7 @@ export default Vue.extend({
               .then(() => {
                 // console.log(`fetchAuras: ${JSON.stringify(fetchAuras)}`);
                 // console.log(`received: ${JSON.stringify(received)}`);
-                fetchAuras.forEach(toFetch => {
+                fetchAuras.forEach((toFetch) => {
                   if (received.indexOf(toFetch) === -1) {
                     // no data received for this aura => remove from list
                     this.auras.forEach((aura, index) => {
@@ -1157,13 +1157,13 @@ export default Vue.extend({
                 }
               });
           })
-          .catch(error => {
+          .catch((error) => {
             this.message(
               [
                 this.$t(
                   "app.main.errorWagoAnswer" /* Can't read Wago answer */
                 ),
-                error
+                error,
               ],
               "error"
             );
@@ -1217,14 +1217,14 @@ export default Vue.extend({
           "author",
           "encoded",
           "wagoVersion",
-          "wagoSemver"
+          "wagoSemver",
         ];
         LuaOutput += "  slugs = {\n";
 
-        this.aurasWithData.forEach(aura => {
+        this.aurasWithData.forEach((aura) => {
           LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
-          fields.forEach(field => {
+          fields.forEach((field) => {
             LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
           });
 
@@ -1242,13 +1242,13 @@ export default Vue.extend({
           }
 
           if (aura.uids) {
-            aura.uids.forEach(uid => {
+            aura.uids.forEach((uid) => {
               LuaUids += `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
                 aura.slug
               }]=],\n`;
             });
 
-            aura.ids.forEach(id => {
+            aura.ids.forEach((id) => {
               LuaIds += `    ["${id
                 .replace(/\\/g, "\\\\")
                 .replace(/"/g, '\\"')}"] = [=[${aura.slug}]=],\n`;
@@ -1263,10 +1263,10 @@ export default Vue.extend({
         LuaOutput += "  },\n";
         LuaOutput += "  stash = {\n";
 
-        this.stash.forEach(aura => {
+        this.stash.forEach((aura) => {
           LuaOutput += `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
-          fields.forEach(field => {
+          fields.forEach((field) => {
             LuaOutput += `      ${field} = [=[${aura[field]}]=],\n`;
           });
 
@@ -1306,7 +1306,7 @@ export default Vue.extend({
 ## Dependencies: WeakAuras
 
 data.lua
-init.lua`
+init.lua`,
           },
           {
             name: "init.lua",
@@ -1347,22 +1347,22 @@ else
       end
     end
   end)
-end`
+end`,
           },
           {
             name: "data.lua",
-            data: LuaOutput
-          }
+            data: LuaOutput,
+          },
         ];
 
-        files.forEach(file => {
+        files.forEach((file) => {
           let filepath = path.join(AddonFolder, file.name);
 
           if (!fs.existsSync(filepath)) {
             newInstall = true;
           }
 
-          fs.writeFile(filepath, file.data, err2 => {
+          fs.writeFile(filepath, file.data, (err2) => {
             if (err2) {
               this.message(
                 this.$t(
@@ -1393,7 +1393,7 @@ end`
                 duration: null,
                 onComplete: () => {
                   this.reloadToast = null;
-                }
+                },
               }
             );
 
@@ -1447,7 +1447,7 @@ end`
                 duration: null,
                 onComplete: () => {
                   this.reloadToast = null;
-                }
+                },
               }
             );
 
@@ -1478,7 +1478,7 @@ end`
             icon: path.join(
               __static,
               process.platform === "win32" ? "bigicon.png" : "icon.png"
-            )
+            ),
           }
         );
 
@@ -1499,7 +1499,7 @@ end`
             this.config.backup,
             account.savedvariableSize,
             `${version.name}#${account.name}`,
-            fileSize => {
+            (fileSize) => {
               this.config.wowpath.versions[versionindex].accounts[
                 accountindex
               ].savedvariableSize = fileSize;
@@ -1517,7 +1517,7 @@ end`
         const DataFolder = path.join(wowpath, "Data");
 
         // test if ${wowpath}\Data exists
-        fs.access(DataFolder, fs.constants.F_OK, err => {
+        fs.access(DataFolder, fs.constants.F_OK, (err) => {
           if (!err) {
             fs.readdir(wowpath, (err2, files) => {
               if (err2) {
@@ -1527,11 +1527,11 @@ end`
 
                 files
                   .filter(
-                    versionDir =>
+                    (versionDir) =>
                       versionDir.match(/^_.*_$/) &&
                       fs.statSync(path.join(wowpath, versionDir)).isDirectory()
                   )
-                  .forEach(versionDir => {
+                  .forEach((versionDir) => {
                     if (!validated) {
                       const accountFolder = path.join(
                         wowpath,
@@ -1567,24 +1567,24 @@ end`
       const versionLabels = [
         {
           value: "_retail_",
-          text: this.$t("app.version.retail" /* Retail */)
+          text: this.$t("app.version.retail" /* Retail */),
         },
         {
           value: "_ptr_",
-          text: this.$t("app.version.ptr" /* PTR */)
+          text: this.$t("app.version.ptr" /* PTR */),
         },
         {
           value: "_classic_beta_",
-          text: this.$t("app.version.classicbeta" /* Classic Beta */)
+          text: this.$t("app.version.classicbeta" /* Classic Beta */),
         },
         {
           value: "_classic_ptr_",
-          text: this.$t("app.version.classicptr" /* Classic PTR */)
+          text: this.$t("app.version.classicptr" /* Classic PTR */),
         },
         {
           value: "_classic_",
-          text: this.$t("app.version.classic" /* Classic */)
-        }
+          text: this.$t("app.version.classic" /* Classic */),
+        },
       ];
 
       if (this.config.wowpath.valided) {
@@ -1596,11 +1596,11 @@ end`
           } else {
             files
               .filter(
-                versionDir =>
+                (versionDir) =>
                   versionDir.match(/^_.*_$/) &&
                   fs.statSync(path.join(wowpath, versionDir)).isDirectory()
               )
-              .forEach(versionDir => {
+              .forEach((versionDir) => {
                 const accountFolder = path.join(
                   wowpath,
                   versionDir,
@@ -1608,12 +1608,12 @@ end`
                   "Account"
                 );
 
-                fs.access(accountFolder, fs.constants.F_OK, err2 => {
+                fs.access(accountFolder, fs.constants.F_OK, (err2) => {
                   if (err2) {
                     console.log(`Error: ${err2}`);
                   } else {
                     const versionFound = this.config.wowpath.versions.find(
-                      version => version.name === versionDir
+                      (version) => version.name === versionDir
                     );
 
                     if (!versionFound) {
@@ -1621,17 +1621,17 @@ end`
                       this.config.wowpath.versions.push({
                         name: versionDir,
                         accounts: [],
-                        account: ""
+                        account: "",
                       });
                     }
 
                     const label = versionLabels.find(
-                      versionLabel => versionLabel.value === versionDir
+                      (versionLabel) => versionLabel.value === versionDir
                     );
 
                     this.versionOptions.push({
                       value: versionDir,
-                      text: (label && label.text) || versionDir
+                      text: (label && label.text) || versionDir,
                     });
                   }
                 });
@@ -1659,15 +1659,15 @@ end`
           } else {
             files
               .filter(
-                accountFile =>
+                (accountFile) =>
                   accountFile !== "SavedVariables" &&
                   fs
                     .statSync(path.join(accountFolder, accountFile))
                     .isDirectory()
               )
-              .forEach(accountFile => {
+              .forEach((accountFile) => {
                 const accountFound = this.versionSelected.accounts.find(
-                  account => account.name === accountFile
+                  (account) => account.name === accountFile
                 );
 
                 if (!accountFound) {
@@ -1676,7 +1676,7 @@ end`
                     name: accountFile,
                     lastWagoUpdate: null,
                     auras: [],
-                    savedvariableSize: null
+                    savedvariableSize: null,
                   });
                 } else if (
                   typeof accountFound.savedvariableSize === "undefined"
@@ -1685,14 +1685,14 @@ end`
 
                 this.accountOptions.push({
                   value: accountFile,
-                  text: accountFile
+                  text: accountFile,
                 });
               });
           }
         });
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

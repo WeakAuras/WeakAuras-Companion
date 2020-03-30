@@ -8,8 +8,8 @@ import LandingPage from "@/components/LandingPage";
 export default {
   name: "WeakAurasCompanion",
   components: {
-    LandingPage
-  }
+    LandingPage,
+  },
 };
 </script>
 
