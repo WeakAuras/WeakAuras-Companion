@@ -2,13 +2,13 @@
   <div
     class="aura"
     :class="{
-      notAnUpdate: showAllAuras && aura.version == aura.wagoVersion
+      notAnUpdate: showAllAuras && aura.version == aura.wagoVersion,
     }"
   >
     <a
       v-tooltip="{
         content: wagoURL(aura.slug),
-        html: false
+        html: false,
       }"
       class="wago_icon"
       target="_blank"
@@ -18,7 +18,7 @@
       <span
         v-tooltip="{
           content: childs,
-          html: false
+          html: false,
         }"
         class="aura_name"
         >{{ aura.name }}
@@ -43,7 +43,7 @@
       v-tooltip="{
         content: wagoAuthorURL(aura.author),
         classes: ['small'],
-        html: false
+        html: false,
       }"
       class="author"
       target="_blank"
@@ -59,7 +59,7 @@
       <div
         v-tooltip="{
           content: fromNow(currentTime, $i18n.locale),
-          classes: ['small']
+          classes: ['small'],
         }"
         class="wago-version"
         @mouseover="updateCurrentTime()"
@@ -83,7 +83,7 @@ export default Vue.extend({
   props: ["aura", "showAllAuras"],
   data() {
     return {
-      currentTime: null
+      currentTime: null,
     };
   },
   computed: {
@@ -103,7 +103,7 @@ export default Vue.extend({
         output += ids.sort().join("\n");
       }
       return output;
-    }
+    },
   },
   methods: {
     updateCurrentTime() {
@@ -120,11 +120,9 @@ export default Vue.extend({
     },
     fromNow(value, locale) {
       if (!value) return "n/a";
-      return moment(value)
-        .locale(locale)
-        .fromNow();
-    }
-  }
+      return moment(value).locale(locale).fromNow();
+    },
+  },
 });
 </script>
 

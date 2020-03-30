@@ -204,14 +204,14 @@ import FileSelect from "./FileSelect.vue";
 Vue.use(VTooltip);
 
 const AutoLauncher = new AutoLaunch({
-  name: "WeakAuras Companion"
+  name: "WeakAuras Companion",
 });
 export default Vue.extend({
   components: {
     Checkbox,
     Dropdown,
     FileSelect,
-    Button
+    Button,
   },
   props: ["config", "versionindex", "accountindex", "defaultWOWPath"],
   data() {
@@ -223,20 +223,20 @@ export default Vue.extend({
         { value: "es", text: "Español (es)" },
         { value: "fr", text: "Français (fr)" },
         { value: "ru", text: "Русский (ru)" },
-        { value: "tr", text: "Türkçe (tr)" }
+        { value: "tr", text: "Türkçe (tr)" },
       ],
       backupsize: [
         { value: 50, text: "50mb" },
         { value: 100, text: "100mb" },
-        { value: 500, text: "500mb" }
+        { value: 500, text: "500mb" },
       ],
       wagoUsername: this.config.wagoUsername,
-      wagoApiKey: this.config.wagoApiKey
+      wagoApiKey: this.config.wagoApiKey,
     };
   },
   watch: {
     // eslint-disable-next-line func-names
-    "config.autostart": function() {
+    "config.autostart": function () {
       if (this.config.autostart) {
         AutoLauncher.enable();
       } else {
@@ -244,13 +244,13 @@ export default Vue.extend({
       }
     },
     // eslint-disable-next-line func-names
-    "config.lang": function() {
+    "config.lang": function () {
       this.$i18n.locale = this.config.lang;
     },
     // eslint-disable-next-line func-names
-    "config.beta": function() {
+    "config.beta": function () {
       this.$parent.checkCompanionUpdates();
-    }
+    },
   },
   methods: {
     reset() {
@@ -262,8 +262,8 @@ export default Vue.extend({
     },
     checkApiKey() {
       return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
-    }
-  }
+    },
+  },
 });
 </script>
 

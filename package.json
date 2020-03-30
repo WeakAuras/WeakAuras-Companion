@@ -5,7 +5,7 @@
   "author": "Buds <mrbouyou@gmail.com>",
   "scripts": {
     "build": "vue-cli-service electron:build",
-    "lint": "eslint src/.",
+    "lint": "eslint src/. --ext .js,.vue",
     "compile-tools": "./node_modules/.bin/tsc -p ./tools/",
     "dev": "vue-cli-service electron:serve",
     "dist": "yarn build --publish onTagOrDraft",

@@ -17,7 +17,7 @@ export default {
   props: ["path", "createDirectory", "defaultPath"],
   data() {
     return {
-      dialogOpen: false
+      dialogOpen: false,
     };
   },
   methods: {
@@ -29,7 +29,7 @@ export default {
           properties: ["openDirectory"],
           createDirectory: this.createDirectory,
           defaultPath: this.path || this.defaultPath,
-          openDirectory: true
+          openDirectory: true,
         });
 
         this.dialogOpen = false;
@@ -38,8 +38,8 @@ export default {
           this.$emit("update:path", result.filePaths[0]);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

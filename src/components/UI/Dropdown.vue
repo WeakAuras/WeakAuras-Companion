@@ -38,22 +38,22 @@ export default {
       type: [Array, Object],
       default() {
         return [];
-      }
+      },
     },
     label: { type: [String, null], default: null },
     placeholder: {
       type: String,
       default() {
         return this.$t("app.dropdown.placeholder" /* Select... */);
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       selected:
         this.value === "" ? this.placeholder : this.getLabel(this.value),
       showMenu: false,
-      height: this.options.length * 30
+      height: this.options.length * 30,
     };
   },
   watch: {
@@ -63,7 +63,7 @@ export default {
     },
     options() {
       this.height = this.options.length * 30;
-    }
+    },
   },
   methods: {
     toggleDropdown() {
@@ -76,12 +76,12 @@ export default {
       this.$emit("change");
     },
     getLabel(value) {
-      const index = this.options.findIndex(option => option.value === value);
+      const index = this.options.findIndex((option) => option.value === value);
 
       if (index === -1) return value;
       return this.options[index].text;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -20,7 +20,7 @@
 <script>
 export default {
   name: "Spinner",
-  props: ["spin"]
+  props: ["spin"],
 };
 </script>
 

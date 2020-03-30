@@ -10,7 +10,7 @@
       { 'btn-refresh': type == 'refresh' },
       { 'btn-issue': type == 'issue' },
       { 'btn-reset': type == 'reset' },
-      { 'btn-link': type == 'link' }
+      { 'btn-link': type == 'link' },
     ]"
     :title="title"
     @click="callback($event)"
@@ -25,8 +25,8 @@ export default {
   methods: {
     callback(e) {
       this.$emit("click", e);
-    }
-  }
+    },
+  },
 };
 </script>
 

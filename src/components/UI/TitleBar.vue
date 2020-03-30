@@ -26,8 +26,8 @@ export default {
     },
     closeBtn() {
       this.$electron.ipcRenderer.send("close");
-    }
-  }
+    },
+  },
 };
 </script>
 

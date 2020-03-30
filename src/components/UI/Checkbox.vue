@@ -19,8 +19,8 @@ export default {
   methods: {
     triggerInputClick() {
       this.$refs.checkbox.click();
-    }
-  }
+    },
+  },
 };
 </script>
 

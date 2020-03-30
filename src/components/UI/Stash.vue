@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-  props: ["stash"]
+  props: ["stash"],
 };
 </script>
 <style scoped lang="scss">

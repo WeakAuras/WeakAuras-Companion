@@ -25,7 +25,7 @@ import Button from "./Button.vue";
 export default {
   name: "Message",
   components: { Button },
-  props: ["message"]
+  props: ["message"],
 };
 </script>
 

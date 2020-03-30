@@ -32,7 +32,7 @@
       <br />
     </div>
     <div id="links">
-      <div style="flex: 50%">
+      <div style="flex: 50%;">
         <div class="title">WeakAuras</div>
         <div class="items">
           <div
@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div style="flex: 50%">
+      <div style="flex: 50%;">
         <div class="title">Wago</div>
         <div class="items">
           <div
@@ -81,15 +81,15 @@ const VERSION = require("../../../package.json").version;
 export default {
   name: "About",
   filters: {
-    capitalize: string => string.charAt(0).toUpperCase() + string.slice(1)
+    capitalize: (string) => string.charAt(0).toUpperCase() + string.slice(1),
   },
   data() {
     return {
       medias,
       // eslint-disable-next-line no-undef
-      version: VERSION
+      version: VERSION,
     };
-  }
+  },
 };
 </script>
 

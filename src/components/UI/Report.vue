@@ -31,8 +31,8 @@ export default {
   methods: {
     close() {
       this.$parent.toggleReport();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

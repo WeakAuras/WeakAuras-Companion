@@ -54,10 +54,8 @@ export default {
   filters: {
     fromNow: (value, locale) => {
       if (!value) return "n/a";
-      return moment(value)
-        .locale(locale)
-        .fromNow();
-    }
+      return moment(value).locale(locale).fromNow();
+    },
   },
   props: [
     "usable",
@@ -67,17 +65,17 @@ export default {
     "isSettingsOk",
     "isVersionSelected",
     "isAccountSelected",
-    "isSvOk"
+    "isSvOk",
   ],
   data() {
     return {
-      lastUpdateTimer: null
+      lastUpdateTimer: null,
     };
   },
   watch: {
     fetching() {
       this.scheduleTimer();
-    }
+    },
   },
   beforeDestroy() {
     clearInterval(this.lastUpdateTimer);
@@ -95,11 +93,11 @@ export default {
       this.lastUpdateTimer = setInterval(() => {
         this.$forceUpdate();
       }, 1000 * 60);
-    }
+    },
   },
   mount() {
     this.scheduleTimer();
-  }
+  },
 };
 </script>
 
