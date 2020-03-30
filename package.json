@@ -48,7 +48,7 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-import-resolver-webpack": "^0.12.1",
     "eslint-loader": "^3.0.3",
-    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^6.2.2",
     "glob": "^7.1.6",
