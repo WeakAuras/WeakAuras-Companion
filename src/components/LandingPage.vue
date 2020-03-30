@@ -75,8 +75,9 @@
               cursor: default;
               color: #eee;
               font-size: 15px;
-              font-family: 'Montserrat',sans-serif;
-              font-weight: 500;"
+              font-family: 'Montserrat', sans-serif;
+              font-weight: 500;
+            "
           >
             {{ $t("app.main.addons" /* Addons */) }}
           </label>
@@ -955,27 +956,27 @@ export default Vue.extend({
                         "script-src 'self' https://data.wago.io",
                       "api-key": this.config.wagoApiKey || "",
                     },
-                    crossdomain: true
+                    crossdomain: true,
                   })
-                  .then(response2 => {
+                  .then((response2) => {
                     aura.encoded = response2.data;
                     this.stash.push(aura);
                   })
-                  .catch(err2 => {
+                  .catch((err2) => {
                     this.message(
                       [
                         this.$t(
                           "app.main.stringReceiveError-1",
                           {
-                            aura: aura.name
+                            aura: aura.name,
                           } /* Error receiving encoded string for {aura} */
                         ),
                         this.$t(
                           "app.main.stringReceiveError-2",
                           {
-                            status: err2.response.status
+                            status: err2.response.status,
                           } /* http code: {status} */
-                        )
+                        ),
                       ],
                       "error"
                     );
@@ -983,13 +984,13 @@ export default Vue.extend({
                   });
               });
             })
-            .catch(error => {
+            .catch((error) => {
               this.message(
                 [
                   this.$t(
                     "app.main.errorWagoAnswer" /* Can't read Wago answer */
                   ),
-                  error
+                  error,
                 ],
                 "error"
               );
@@ -1019,9 +1020,9 @@ export default Vue.extend({
 
       const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
-      WeakAurasSavedData.body[0].init[0].fields.forEach(obj => {
+      WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
         if (obj.key.value === "displays") {
-          obj.value.fields.forEach(obj2 => {
+          obj.value.fields.forEach((obj2) => {
             let slug;
             let url;
             let version = 0;
@@ -1032,7 +1033,7 @@ export default Vue.extend({
             let uid = null;
             let topLevel = true;
 
-            obj2.value.fields.forEach(obj3 => {
+            obj2.value.fields.forEach((obj3) => {
               if (obj3.key.value === "id") {
                 id = obj3.value.value;
               }
@@ -1090,7 +1091,7 @@ export default Vue.extend({
                 uids: uid ? [uid] : [],
                 regionType: null,
                 auraType: config.addonName,
-                addonConfig: config
+                addonConfig: config,
               };
 
               aurasFromFile.push(foundAura);
@@ -1117,15 +1118,15 @@ export default Vue.extend({
 
       const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
-      PlaterSavedData.body[0].init[0].fields.forEach(obj => {
+      PlaterSavedData.body[0].init[0].fields.forEach((obj) => {
         if (obj.key.value === "profiles") {
-          obj.value.fields.forEach(profile => {
-            profile.value.fields.forEach(profData => {
+          obj.value.fields.forEach((profile) => {
+            profile.value.fields.forEach((profData) => {
               if (
                 profData.key.value === "script_data" ||
                 profData.key.value === "hook_data"
               ) {
-                profData.value.fields.forEach(obj2 => {
+                profData.value.fields.forEach((obj2) => {
                   let slug;
                   let url;
                   let version = 0;
@@ -1134,7 +1135,7 @@ export default Vue.extend({
                   let skipWagoUpdate = null;
                   let id;
 
-                  obj2.value.fields.forEach(obj3 => {
+                  obj2.value.fields.forEach((obj3) => {
                     if (obj3.key.value === "Name") {
                       id = obj3.value.value;
                     }
@@ -1184,7 +1185,7 @@ export default Vue.extend({
                       uids: [],
                       regionType: null,
                       auraType: config.addonName,
-                      addonConfig: config
+                      addonConfig: config,
                     };
 
                     aurasFromFile.push(foundAura);
@@ -1224,7 +1225,7 @@ export default Vue.extend({
 
           fileAuraData = [
             ...fileAuraData,
-            ...conf.parseFunction(savedData, conf)
+            ...conf.parseFunction(savedData, conf),
           ];
         } catch (err) {
           this.message(
@@ -1244,7 +1245,7 @@ export default Vue.extend({
         const foundAura = fileAuraData[index];
         const slug = fileAuraData[index].slug;
 
-        const { length } = this.auras.filter(aura => aura.slug === slug);
+        const { length } = this.auras.filter((aura) => aura.slug === slug);
 
         if (length === 0) {
           // new "slug" found, add it to the list of auras
@@ -1340,19 +1341,19 @@ export default Vue.extend({
             .get(config.wagoAPI, {
               params: {
                 // !! size of request is not checked, can lead to too long urls
-                ids: fetchAuras.join()
+                ids: fetchAuras.join(),
               },
               headers: {
                 Identifier: this.accountHash,
                 "Content-Security-Policy":
                   "script-src 'self' https://data.wago.io",
-                "api-key": this.config.wagoApiKey || ""
+                "api-key": this.config.wagoApiKey || "",
               },
-              crossdomain: true
+              crossdomain: true,
             })
-            .then(response => {
+            .then((response) => {
               // metadata received from Wago API
-              response.data.forEach(wagoData => {
+              response.data.forEach((wagoData) => {
                 received.push(wagoData.slug);
                 // eslint-disable-next-line no-underscore-dangle
                 received.push(wagoData._id);
@@ -1392,15 +1393,15 @@ export default Vue.extend({
                         this.$http.get("https://data.wago.io/api/raw/encoded", {
                           params: {
                             // eslint-disable-next-line no-underscore-dangle
-                            id: wagoData._id
+                            id: wagoData._id,
                           },
                           headers: {
                             Identifier: this.accountHash,
                             "Content-Security-Policy":
                               "script-src 'self' https://data.wago.io",
-                            "api-key": this.config.wagoApiKey || ""
+                            "api-key": this.config.wagoApiKey || "",
                           },
-                          crossdomain: true
+                          crossdomain: true,
                         })
                       );
                     }
@@ -1409,13 +1410,13 @@ export default Vue.extend({
                 });
               });
             })
-            .catch(error => {
+            .catch((error) => {
               this.message(
                 [
                   this.$t(
                     "app.main.errorWagoAnswer" /* Can't read Wago answer */
                   ),
-                  error
+                  error,
                 ],
                 "error"
               );
@@ -1456,11 +1457,12 @@ export default Vue.extend({
           }
 
           // catch response error
-          const promisesResolved = promisesWagoDataCallsComplete.map(promise =>
-            promise.catch(err2 => ({
-              config: { params: { id: err2.config.params.id } },
-              status: err2.response.status
-            }))
+          const promisesResolved = promisesWagoDataCallsComplete.map(
+            (promise) =>
+              promise.catch((err2) => ({
+                config: { params: { id: err2.config.params.id } },
+                status: err2.response.status,
+              }))
           );
 
           this.$http
@@ -1485,15 +1487,15 @@ export default Vue.extend({
                             this.$t(
                               "app.main.stringReceiveError-1",
                               {
-                                aura: aura.name
+                                aura: aura.name,
                               } /* Error receiving encoded string for {aura} */
                             ),
                             this.$t(
                               "app.main.stringReceiveError-2",
                               {
-                                status: arg.status
+                                status: arg.status,
                               } /* http code: {status} */
-                            )
+                            ),
                           ],
                           "error"
                         );
@@ -1504,13 +1506,13 @@ export default Vue.extend({
                 });
               })
             )
-            .catch(error => {
+            .catch((error) => {
               this.message(
                 [
                   this.$t(
                     "app.main.errorWagoAnswer" /* Can't read Wago answer */
                   ),
-                  error
+                  error,
                 ],
                 "error"
               );
@@ -1529,7 +1531,7 @@ export default Vue.extend({
               //console.log(received);
               // console.log(`allAurasFetched: ${JSON.stringify(allAurasFetched)}`);
               // console.log(`received: ${JSON.stringify(received)}`);
-              allAurasFetched.forEach(toFetch => {
+              allAurasFetched.forEach((toFetch) => {
                 if (received.indexOf(toFetch) === -1) {
                   // no data received for this aura => remove from list
                   this.auras.forEach((aura, index) => {
@@ -1623,12 +1625,12 @@ export default Vue.extend({
           let LuaIds = spacing + "  ids = {\n";
 
           this.aurasWithData
-            .filter(aura => aura.auraType === config.addonName)
-            .forEach(aura => {
+            .filter((aura) => aura.auraType === config.addonName)
+            .forEach((aura) => {
               LuaSlugs +=
                 spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
-              fields.forEach(field => {
+              fields.forEach((field) => {
                 LuaSlugs +=
                   spacing + `      ${field} = [=[${aura[field]}]=],\n`;
               });
@@ -1649,7 +1651,7 @@ export default Vue.extend({
               }
 
               if (aura.uids && aura.ids) {
-                aura.uids.forEach(uid => {
+                aura.uids.forEach((uid) => {
                   if (uid) {
                     LuaUids +=
                       spacing +
@@ -1659,7 +1661,7 @@ export default Vue.extend({
                   }
                 });
 
-                aura.ids.forEach(id => {
+                aura.ids.forEach((id) => {
                   if (id) {
                     LuaIds +=
                       spacing +
@@ -1680,12 +1682,12 @@ export default Vue.extend({
           LuaOutput += spacing + "  stash = {\n";
 
           this.stash
-            .filter(aura => aura.auraType === config.addonName)
-            .forEach(aura => {
+            .filter((aura) => aura.auraType === config.addonName)
+            .forEach((aura) => {
               LuaOutput +=
                 spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
-              fields.forEach(field => {
+              fields.forEach((field) => {
                 LuaOutput +=
                   spacing + `      ${field} = [=[${aura[field]}]=],\n`;
               });
