@@ -65,7 +65,7 @@
           v-if="
             configStep === 0 &&
             addonsWithUpdates.length > 0 &&
-            addonsInstalled.length > 1
+            allAddonConfigs.length > 1
           "
           id="addonbttns"
         >
@@ -83,7 +83,7 @@
           </label>
           <br />
           <Button
-            v-for="(addon, index) in addonsInstalled"
+            v-for="(addon, index) in allAddonConfigs"
             :key="index"
             type="addon"
             :class="{ active: addonSelected === addon.addonName }"
