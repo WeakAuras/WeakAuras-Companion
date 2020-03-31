@@ -1014,9 +1014,11 @@ export default Vue.extend({
       }
 
       // Set all auras topLevel = null to avoid bugs after user move his auras
-      //this.auras.forEach((aura, index) => {
-      //  this.auras[index].topLevel = null;
-      //});
+      this.auras
+        .filter((aura) => aura.auraType === config.addonName)
+        .forEach((aura, index) => {
+          this.auras[index].topLevel = null;
+        });
 
       const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
