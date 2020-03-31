@@ -62,11 +62,7 @@
           </div>
         </div>
         <div
-          v-if="
-            configStep === 0 &&
-            addonsWithUpdates.length > 0 &&
-            allAddonConfigs.length > 1
-          "
+          v-if="configStep === 0 && allAddonConfigs.length > 1"
           id="addonbttns"
         >
           <label
@@ -87,7 +83,7 @@
             :key="index"
             type="addon"
             :class="{ active: addonSelected === addon.addonName }"
-            :disabled="!addon.isInstalled || !addonHasUpdate(addon.addonName)"
+            :disabled="!addon.isInstalled"
             @click="addonSelected = addon.addonName"
           >
             {{ addon.addonName }}
@@ -349,19 +345,6 @@ export default Vue.extend({
       return this.allAddonConfigs.filter(
         (addonConfig) => addonConfig.isInstalled
       );
-    },
-    addonsWithUpdates() {
-      const addons = [];
-
-      this.addonsInstalled.forEach((addon) => {
-        for (let i = 0; i < this.aurasWithUpdate.length; i++) {
-          if (this.aurasWithUpdate[i].auraType === addon.addonName) {
-            addons.push(addon);
-            return;
-          }
-        }
-      });
-      return addons;
     },
     versionSelected() {
       return (
@@ -669,9 +652,9 @@ export default Vue.extend({
         1000 * 3600 * 2
       );
     },
-    setFirstAddonInstalledWithUpdatesSelected() {
-      for (let i = 0; i < this.addonsWithUpdates.length; i++) {
-        this.addonSelected = this.addonsWithUpdates[i].addonName;
+    setFirstAddonInstalledSelected() {
+      for (let i = 0; i < this.addonsInstalled.length; i++) {
+        this.addonSelected = this.addonsInstalled[i].addonName;
         return this.addonSelected;
       }
       return this.addonSelected;
@@ -806,16 +789,6 @@ export default Vue.extend({
           return false;
         }
       }
-      return false;
-    },
-    addonHasUpdate(addonName) {
-      for (let index = 0; index < this.addonsWithUpdates.length; index++) {
-        if (this.addonsWithUpdates[index].addonName === addonName) {
-          console.log("has update " + addonName);
-          return true;
-        }
-      }
-      console.log("has no update " + addonName);
       return false;
     },
     getAddonConfig(addonName) {
@@ -1565,7 +1538,7 @@ export default Vue.extend({
               } finally {
                 this.fetching = false;
 
-                this.setFirstAddonInstalledWithUpdatesSelected();
+                this.setFirstAddonInstalledSelected();
 
                 this.$set(this.accountSelected, "lastWagoUpdate", new Date());
 
