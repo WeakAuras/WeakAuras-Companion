@@ -100,10 +100,10 @@ export default {
 }
 .btn-addon {
   background-color: rgba(18, 18, 18, 0.95);
-  border: 1px solid #fff;
+  border: 1px solid #2c2c2c;
   height: 30px;
-  font-size: 16px;
-  color: #51ae428c;
+  font-size: 14px;
+  color: #e6e6e6;
   font-weight: 600;
   border-radius: 4px;
   vertical-align: top;
@@ -111,6 +111,7 @@ export default {
   cursor: pointer;
   text-align: center;
   margin-right: 4px;
+  padding: 0 10px;
 }
 .btn-addon:hover {
   background-color: #fff;
@@ -118,12 +119,12 @@ export default {
 }
 .btn-addon.active {
   background-color: #fff;
-  color: #51ae42;
+  color: #1a1a1a;
 }
 .btn-addon:disabled {
-  background-color: #777;
-  color: #580909;
-  border-color: #580909;
+  background-color: rgba(36, 36, 36, 0.95);
+  //color: #580909;
+  color: #6e6e6e;
   cursor: default;
 }
 .btn-menu {
