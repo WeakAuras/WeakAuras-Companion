@@ -543,16 +543,17 @@ export default Vue.extend({
     });
 
     this.$electron.ipcRenderer.on("linkHandler", (event, link) => {
-      const pattern = /(weakauras-companion:\/\/wago\/push\/)(([^/]+))/;
+      const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)\/([^/]+)/;
 
       if (link) {
         const result = link.match(pattern);
         let slug;
+        let addon;
 
-        if (result) ({ 2: slug } = result);
+        if (result) ({ 1: addon, 2: slug } = result);
 
-        if (slug) {
-          this.wagoPushHandler(slug);
+        if (slug && addon) {
+          this.wagoPushHandler(slug, addon);
         }
       }
     });
@@ -817,6 +818,17 @@ export default Vue.extend({
       console.log("has no update " + addonName);
       return false;
     },
+    getAddonConfig(addonName) {
+      for (let index = 0; index < this.allAddonConfigs.length; index++) {
+        if (
+          this.allAddonConfigs[index].addonName.toLowerCase() ===
+          addonName.toLowerCase()
+        ) {
+          return this.allAddonConfigs[index];
+        }
+      }
+      return null;
+    },
     reset() {
       store.clear();
       const { beta } = this.config;
@@ -915,9 +927,10 @@ export default Vue.extend({
       if (type === "error") return this.$toasted.error(msg, options);
       return this.$toasted.show(msg, options);
     },
-    wagoPushHandler(slug) {
-      if (this.stash.findIndex((aura) => aura.slug === slug) === -1) {
-        this.addonsInstalled.forEach((addonConf) => {
+    wagoPushHandler(slug, addon) {
+      if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
+        const addonConf = this.getAddonConfig(addon);
+        if (addonConf) {
           // Get data from Wago api
           this.$http
             .get(addonConf.wagoAPI, {
@@ -996,7 +1009,7 @@ export default Vue.extend({
               );
               console.log(JSON.stringify(error));
             });
-        });
+        }
       }
     },
     parseWeakAurasSVdata(WeakAurasSavedData, config) {
