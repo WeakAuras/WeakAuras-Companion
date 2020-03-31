@@ -39,6 +39,7 @@
     >
       {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
+    <span class="tag">{{ aura.auraType }}</span>
     <a
       v-tooltip="{
         content: wagoAuthorURL(aura.author),
@@ -211,5 +212,18 @@ export default Vue.extend({
   text-align: right;
   width: 55px;
   line-height: 32px;
+}
+.tag {
+  line-height: 17px;
+  background: transparent;
+  color: #efefef;
+  font-weight: 600;
+  padding: 0 10px;
+  border: 1px solid #4a4a4a;
+  border-radius: 10px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+  top: 6px;
 }
 </style>

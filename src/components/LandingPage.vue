@@ -65,19 +65,9 @@
           v-if="configStep === 0 && allAddonConfigs.length > 1"
           id="addonbttns"
         >
-          <label
-            :key="addonSelected"
-            style="
-              cursor: default;
-              color: #eee;
-              font-size: 15px;
-              font-family: 'Montserrat', sans-serif;
-              font-weight: 500;
-            "
-          >
+          <label :key="addonSelected" class="btn-label">
             {{ $t("app.main.addons" /* Addons */) }}
           </label>
-          <br />
           <Button
             v-for="(addon, index) in allAddonConfigs"
             :key="index"
@@ -2191,11 +2181,20 @@ end`
 /* WoW addon selection */
 #addonbttns {
   position: absolute;
-  left: 20px;
-  top: 35px;
+  left: 30px;
+  top: 30px;
   z-index: 999;
   text-align: left;
   height: 65px;
+}
+.btn-label {
+  display: block;
+  margin-bottom: 5px;
+  cursor: default;
+  color: #eee;
+  font-size: 15px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
 }
 
 /* WoW Version & Account selection */
