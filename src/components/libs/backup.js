@@ -41,14 +41,15 @@ function backupIfRequired(
   config,
   previousSize,
   accountName,
-  callback
+  callback,
+  addonName
 ) {
   if (config && config.active && filename) {
     const stats = fs.statSync(filename);
 
     if (stats.size !== previousSize) {
       const date = moment(stats.mtimeMs).format("YYYYMMDDHHmmss");
-      const zipFile = `weakauras-${accountName}-${date}.zip`;
+      const zipFile = `${addonName}-${accountName}-${date}.zip`;
       const fileContents = fs.createReadStream(filename);
       const writeStream = fs.createWriteStream(path.join(config.path, zipFile));
       const archive = archiver("zip", {

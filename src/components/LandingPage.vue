@@ -315,7 +315,7 @@ export default Vue.extend({
           wagoAPI: "https://data.wago.io/api/check/weakauras",
           dataIndex: null,
           addonDependency: "WeakAuras",
-          svPath: this.WeakAurasSaved(),
+          svPathFunction: this.WeakAurasSaved,
           isInstalled: this.IsWeakAurasInstalled(),
           parseFunction: this.parseWeakAurasSVdata,
         },
@@ -324,7 +324,7 @@ export default Vue.extend({
           wagoAPI: "https://data.wago.io/api/check/plater",
           dataIndex: "Plater",
           addonDependency: "Plater",
-          svPath: this.PlaterSaved(),
+          svPathFunction: this.PlaterSaved,
           isInstalled: this.IsPlaterInstalled(),
           parseFunction: this.parsePlaterSVdata,
         },
@@ -1192,12 +1192,12 @@ export default Vue.extend({
       for (let index = 0; index < addonConfigs.length; index++) {
         let conf = addonConfigs[index];
 
-        if (!conf.svPath) {
+        if (!conf.svPathFunction) {
           return;
         }
 
         try {
-          const data = fs.readFileSync(conf.svPath, "utf-8");
+          const data = fs.readFileSync(conf.svPathFunction(), "utf-8");
           // Parse saved data .lua
           const savedData = luaparse.parse(data);
 
@@ -1903,17 +1903,20 @@ end`
     backup() {
       this.config.wowpath.versions.forEach((version, versionindex) => {
         version.accounts.forEach((account, accountindex) => {
-          backupIfRequired(
-            this.WeakAurasSaved(version.name, account.name),
-            this.config.backup,
-            account.savedvariableSize,
-            `${version.name}#${account.name}`,
-            (fileSize) => {
-              this.config.wowpath.versions[versionindex].accounts[
-                accountindex
-              ].savedvariableSize = fileSize;
-            }
-          );
+          this.addonsInstalled.forEach((addon) => {
+            backupIfRequired(
+              addon.svPathFunction(version.name, account.name),
+              this.config.backup,
+              account.savedvariableSizeForAddon[addon.addonName],
+              `${version.name}#${account.name}`,
+              (fileSize) => {
+                this.config.wowpath.versions[versionindex].accounts[
+                  accountindex
+                ].savedvariableSizeForAddon[addon.addonName] = fileSize;
+              },
+              addon.addonName
+            );
+          });
         });
       });
     },
@@ -2089,12 +2092,12 @@ end`
                     name: accountFile,
                     lastWagoUpdate: null,
                     auras: [],
-                    savedvariableSize: null,
+                    savedvariableSizeForAddon: [],
                   });
                 } else if (
-                  typeof accountFound.savedvariableSize === "undefined"
+                  typeof accountFound.savedvariableSizeForAddon === "undefined"
                 )
-                  this.$set(accountFound, "savedvariableSize", null);
+                  this.$set(accountFound, "savedvariableSizeForAddon", []);
 
                 this.accountOptions.push({
                   value: accountFile,
