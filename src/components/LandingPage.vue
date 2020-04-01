@@ -2190,6 +2190,7 @@ end`
 .btn-label {
   display: block;
   margin-bottom: 5px;
+  margin-left: 1px;
   cursor: default;
   color: #eee;
   font-size: 15px;

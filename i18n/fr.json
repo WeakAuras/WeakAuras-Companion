@@ -67,7 +67,7 @@
   "app.help.support.title": "Support",
   "app.help.title": "Etapes de la configuration",
   "app.main.cancel": "Annuler",
-  "app.main.addons": "Addons:",
+  "app.main.addons": "Addons",
   "app.main.close": "Fermer",
   "app.main.companion": "Companion",
   "app.main.errorApiString404-1": "Problème lors de la réception des données de {aura}",
