@@ -893,6 +893,7 @@ export default Vue.extend({
     wagoPushHandler(slug, addon) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
         const addonConf = this.getAddonConfig(addon);
+
         if (addonConf) {
           // Get data from Wago api
           this.$http
