@@ -4,8 +4,8 @@ import moment from "moment";
 const archiver = require("archiver");
 const fs = require("fs");
 
-function deleteOldFiles(dirPath, accountName, maxsize) {
-  const regex = new RegExp(`^weakauras-${accountName}-[0-9.]+.zip$`);
+function deleteOldFiles(dirPath, accountName, addonName, maxsize) {
+  const regex = new RegExp(`^${addonName}-${accountName}-[0-9.]+.zip$`);
   const files = fs
     .readdirSync(dirPath)
     .filter((v) => v && v.match(regex))
@@ -63,6 +63,7 @@ function backupIfRequired(
           deleteOldFiles(
             config.path,
             accountName,
+            addonName,
             config.maxsize * 1024 * 1024
           );
           callback(stats.size);
@@ -79,7 +80,7 @@ function backupIfRequired(
           throw err;
         });
       archive.pipe(writeStream);
-      archive.append(fileContents, { name: "WeakAuras.lua" });
+      archive.append(fileContents, { name: addonName + ".lua" });
       archive.finalize();
     }
   }
