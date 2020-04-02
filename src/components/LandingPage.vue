@@ -1905,15 +1905,27 @@ end`
       this.config.wowpath.versions.forEach((version, versionindex) => {
         version.accounts.forEach((account, accountindex) => {
           this.addonsInstalled.forEach((addon) => {
+            let lastSavedFileSize = null;
+            const savedData = account.savedvariableSizeForAddon.find(
+              (savedAddon) => savedAddon.addonName === addon.addonName
+            );
+            if (savedData) {
+              lastSavedFileSize = savedData.fileSize;
+            }
             backupIfRequired(
               addon.svPathFunction(version.name, account.name),
               this.config.backup,
-              account.savedvariableSizeForAddon[addon.addonName],
+              lastSavedFileSize,
               `${version.name}#${account.name}`,
               (fileSize) => {
-                this.config.wowpath.versions[versionindex].accounts[
-                  accountindex
-                ].savedvariableSizeForAddon[addon.addonName] = fileSize;
+                if (savedData) {
+                  savedAddon.fileSize = fileSize;
+                } else {
+                  account.savedvariableSizeForAddon.push({
+                    fileSize: fileSize,
+                    addonName: addon.addonName,
+                  });
+                }
               },
               addon.addonName
             );
