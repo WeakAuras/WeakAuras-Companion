@@ -38,7 +38,7 @@
   "devDependencies": {
     "@vue/cli": "^4.2.3",
     "@vue/cli-plugin-eslint": "^4.3.0",
-    "@vue/cli-service": "~4.2.3",
+    "@vue/cli-service": "~4.3.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "devtron": "^1.4.0",
