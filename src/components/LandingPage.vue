@@ -1448,7 +1448,7 @@ export default Vue.extend({
             .all(promisesResolved)
             .then(
               this.$http.spread((...args) => {
-                args.forEach(arg => {
+                args.forEach((arg) => {
                   const { id } = arg.config.params;
 
                   if (arg.status === 200) {
@@ -1459,7 +1459,7 @@ export default Vue.extend({
                       }
                     });
                   } else {
-                    this.auras.forEach(aura => {
+                    this.auras.forEach((aura) => {
                       if (aura.wagoid === id) {
                         this.message(
                           [
@@ -1589,7 +1589,7 @@ export default Vue.extend({
           "wagoSemver",
         ];
 
-        addonConfigs.forEach(config => {
+        addonConfigs.forEach((config) => {
           addonDepts += config.addonName + ",";
 
           let spacing = "";
@@ -1757,7 +1757,7 @@ end
 
 if Plater and Plater.CheckWagoUpdates then
     Plater.CheckWagoUpdates()
-end`
+end`,
           },
           {
             name: "data.lua",
