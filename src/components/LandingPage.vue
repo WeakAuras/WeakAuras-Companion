@@ -1906,12 +1906,18 @@ end`,
         version.accounts.forEach((account, accountindex) => {
           this.addonsInstalled.forEach((addon) => {
             let lastSavedFileSize = null;
+
+            if (typeof account.savedvariableSizeForAddon === "undefined")
+              this.$set(account, "savedvariableSizeForAddon", []);
+
             const savedData = account.savedvariableSizeForAddon.find(
               (savedAddon) => savedAddon.addonName === addon.addonName
             );
+
             if (savedData) {
               lastSavedFileSize = savedData.fileSize;
             }
+
             backupIfRequired(
               addon.svPathFunction(version.name, account.name),
               this.config.backup,
@@ -1919,7 +1925,7 @@ end`,
               `${version.name}#${account.name}`,
               (fileSize) => {
                 if (savedData) {
-                  savedAddon.fileSize = fileSize;
+                  savedData.fileSize = fileSize;
                 } else {
                   account.savedvariableSizeForAddon.push({
                     fileSize: fileSize,
