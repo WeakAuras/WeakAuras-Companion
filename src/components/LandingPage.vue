@@ -1585,6 +1585,10 @@ end`,
           value: "_classic_",
           text: this.$t("app.version.classic" /* Classic */),
         },
+        {
+          value: "_beta_",
+          text: this.$t("app.version.beta" /* Beta */),
+        },
       ];
 
       if (this.config.wowpath.valided) {
