@@ -39,7 +39,7 @@
     >
       {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
-    <span class="tag">{{ aura.auraTypeDisplay }}</span>
+    <span class="tag">{{ aura.auraTypeDisplay || aura.auraType }}</span>
     <a
       v-tooltip="{
         content: wagoAuthorURL(aura.author),
