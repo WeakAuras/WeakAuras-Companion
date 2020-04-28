@@ -1070,6 +1070,7 @@ export default Vue.extend({
                 uids: uid ? [uid] : [],
                 regionType: null,
                 auraType: config.addonName,
+                auraTypeDisplay: config.addonName,
                 addonConfig: config,
               };
 
@@ -1199,6 +1200,7 @@ export default Vue.extend({
                       uids: [],
                       regionType: null,
                       auraType: config.addonName,
+                      auraTypeDisplay: config.addonName,
                       addonConfig: config,
                     };
 
@@ -1229,6 +1231,7 @@ export default Vue.extend({
                 uids: [],
                 regionType: null,
                 auraType: config.addonName,
+                auraTypeDisplay: config.addonName + "-Profile",
                 addonConfig: config,
               };
 
@@ -1331,6 +1334,7 @@ export default Vue.extend({
 
               //ensure config
               this.auras[index].auraType = foundAura.auraType;
+              this.auras[index].auraTypeDisplay = foundAura.auraTypeDisplay;
               this.auras[index].addonConfig = foundAura.addonConfig;
             }
           });
