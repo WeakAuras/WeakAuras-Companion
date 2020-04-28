@@ -1100,7 +1100,42 @@ export default Vue.extend({
       PlaterSavedData.body[0].init[0].fields.forEach((obj) => {
         if (obj.key.value === "profiles") {
           obj.value.fields.forEach((profile) => {
+            let profslug;
+            let profurl;
+            let profversion = 0;
+            let profsemver;
+            let profignoreWagoUpdate = false;
+            let profskipWagoUpdate = null;
+            let profid;
+
             profile.value.fields.forEach((profData) => {
+              if (profData.key.value === "Name") {
+                profid = profData.value.value;
+              }
+
+              if (profData.key.value === "version") {
+                profversion = Number(profData.value.value);
+              }
+
+              if (profData.key.value === "semver") {
+                profsemver = profData.value.value;
+              }
+
+              if (profData.key.value === "ignoreWagoUpdate") {
+                profignoreWagoUpdate = profData.value.value;
+              }
+
+              if (profData.key.value === "skipWagoUpdate") {
+                profskipWagoUpdate = profData.value.value;
+              }
+
+              if (profData.key.value === "url") {
+                profurl = profData.value.value;
+                const result = profurl.match(pattern);
+
+                if (result) ({ 2: profslug } = profurl.match(pattern));
+              }
+
               if (
                 profData.key.value === "script_data" ||
                 profData.key.value === "hook_data"
@@ -1172,6 +1207,33 @@ export default Vue.extend({
                 });
               }
             });
+
+            if (profslug) {
+              const foundAura = {
+                id: profid,
+                slug: profslug,
+                version: profversion,
+                semver: profsemver,
+                ignoreWagoUpdate: profignoreWagoUpdate,
+                skipWagoUpdate: profskipWagoUpdate,
+                wagoVersion: null,
+                wagoSemver: null,
+                changelog: null,
+                created: null,
+                modified: null,
+                author: null,
+                encoded: null,
+                wagoid: null,
+                ids: [profid],
+                topLevel: true,
+                uids: [],
+                regionType: null,
+                auraType: config.addonName,
+                addonConfig: config,
+              };
+
+              aurasFromFile.push(foundAura);
+            }
           });
         }
       });
