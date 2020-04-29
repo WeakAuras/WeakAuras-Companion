@@ -1141,6 +1141,10 @@ export default Vue.extend({
                 profData.key.value === "script_data" ||
                 profData.key.value === "hook_data"
               ) {
+                let typeSuffix =
+                  (profData.key.value === "hook_data" && "-Mod") ||
+                  (profData.key.value === "script_data" && "-Script") ||
+                  "";
                 profData.value.fields.forEach((obj2) => {
                   let slug;
                   let url;
@@ -1200,7 +1204,7 @@ export default Vue.extend({
                       uids: [],
                       regionType: null,
                       auraType: config.addonName,
-                      auraTypeDisplay: config.addonName,
+                      auraTypeDisplay: config.addonName + typeSuffix,
                       addonConfig: config,
                     };
 
