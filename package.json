@@ -27,7 +27,7 @@
     "electron-store": "^5.1.1",
     "electron-updater": "^4.2.5",
     "luaparse": "~0.2.1",
-    "moment": "^2.24.0",
+    "moment": "^2.25.1",
     "regedit": "^3.0.3",
     "tail": "^2.0.3",
     "v-tooltip": "^2.0.3",
