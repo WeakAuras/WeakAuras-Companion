@@ -14,7 +14,9 @@
     "electron:serve": "vue-cli-service electron:serve",
     "i18n": "yarn compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "main": "background.js",
   "dependencies": {
@@ -34,7 +36,8 @@
     "vue": "^2.6.11",
     "vue-electron": "^1.0.6",
     "vue-i18n": "^8.17.4",
-    "vue-toasted": "^1.1.28"
+    "vue-toasted": "^1.1.28",
+    "snyk": "^1.317.0"
   },
   "devDependencies": {
     "@vue/cli": "^4.3.1",
@@ -90,5 +93,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
-  }
+  },
+  "snyk": true
 }
