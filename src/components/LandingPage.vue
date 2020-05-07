@@ -2041,14 +2041,12 @@ end`,
                         "Account"
                       );
 
-                      try {
+                      if (fs.existsSync(accountFolder)) {
                         fs.accessSync(accountFolder, fs.constants.F_OK);
                         validated = true;
                         this.config.wowpath.valided = true;
                         this.buildVersionList();
                         this.buildAccountList();
-                      } catch (err3) {
-                        console.log(`Error: ${err3}`);
                       }
                     }
                   });
@@ -2113,33 +2111,29 @@ end`,
                   "Account"
                 );
 
-                fs.access(accountFolder, fs.constants.F_OK, (err2) => {
-                  if (err2) {
-                    console.log(`Error: ${err2}`);
-                  } else {
-                    const versionFound = this.config.wowpath.versions.find(
-                      (version) => version.name === versionDir
-                    );
+                if (fs.existsSync(accountFolder)) {
+                  const versionFound = this.config.wowpath.versions.find(
+                    (version) => version.name === versionDir
+                  );
 
-                    if (!versionFound) {
-                      // make version if not found in data
-                      this.config.wowpath.versions.push({
-                        name: versionDir,
-                        accounts: [],
-                        account: "",
-                      });
-                    }
-
-                    const label = versionLabels.find(
-                      (versionLabel) => versionLabel.value === versionDir
-                    );
-
-                    this.versionOptions.push({
-                      value: versionDir,
-                      text: (label && label.text) || versionDir,
+                  if (!versionFound) {
+                    // make version if not found in data
+                    this.config.wowpath.versions.push({
+                      name: versionDir,
+                      accounts: [],
+                      account: "",
                     });
                   }
-                });
+
+                  const label = versionLabels.find(
+                    (versionLabel) => versionLabel.value === versionDir
+                  );
+
+                  this.versionOptions.push({
+                    value: versionDir,
+                    text: (label && label.text) || versionDir,
+                  });
+                }
               });
           }
         });
@@ -2158,43 +2152,45 @@ end`,
           "Account"
         );
 
-        fs.readdir(accountFolder, (err, files) => {
-          if (err) {
-            console.log(`Error: ${err}`);
-          } else {
-            files
-              .filter(
-                (accountFile) =>
-                  accountFile !== "SavedVariables" &&
-                  fs
-                    .statSync(path.join(accountFolder, accountFile))
-                    .isDirectory()
-              )
-              .forEach((accountFile) => {
-                const accountFound = this.versionSelected.accounts.find(
-                  (account) => account.name === accountFile
-                );
-
-                if (!accountFound) {
-                  // make account if not found in data
-                  this.versionSelected.accounts.push({
-                    name: accountFile,
-                    lastWagoUpdate: null,
-                    auras: [],
-                    savedvariableSizeForAddon: [],
-                  });
-                } else if (
-                  typeof accountFound.savedvariableSizeForAddon === "undefined"
+        if (fs.existsSync(accountFolder)) {
+          fs.readdir(accountFolder, (err, files) => {
+            if (err) {
+              console.log(`Error: ${err}`);
+            } else {
+              files
+                .filter(
+                  (accountFile) =>
+                    accountFile !== "SavedVariables" &&
+                    fs
+                      .statSync(path.join(accountFolder, accountFile))
+                      .isDirectory()
                 )
-                  this.$set(accountFound, "savedvariableSizeForAddon", []);
+                .forEach((accountFile) => {
+                  const accountFound = this.versionSelected.accounts.find(
+                    (account) => account.name === accountFile
+                  );
 
-                this.accountOptions.push({
-                  value: accountFile,
-                  text: accountFile,
+                  if (!accountFound) {
+                    // make account if not found in data
+                    this.versionSelected.accounts.push({
+                      name: accountFile,
+                      lastWagoUpdate: null,
+                      auras: [],
+                      savedvariableSizeForAddon: [],
+                    });
+                  } else if (
+                    typeof accountFound.savedvariableSizeForAddon ===
+                    "undefined"
+                  )
+                    this.$set(accountFound, "savedvariableSizeForAddon", []);
+                  this.accountOptions.push({
+                    value: accountFile,
+                    text: accountFile,
+                  });
                 });
-              });
-          }
-        });
+            }
+          });
+        }
       }
     },
   },
