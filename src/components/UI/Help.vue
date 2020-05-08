@@ -53,7 +53,6 @@
           </li>
         </ol>
       </li>
-
       <li>
         {{
           $t(
@@ -61,7 +60,6 @@
           )
         }}
       </li>
-
       <li class="reset">
         {{
           $t(
@@ -172,33 +170,41 @@
   overflow: auto;
   font-weight: 500;
 }
+
 .updateButton {
   margin-left: 60%;
 }
+
 #help > ol {
   margin-left: 15px;
   padding-left: 0;
 }
+
 ol,
 ul {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 15px;
   margin-left: 30px;
 }
+
 .follow {
   counter-reset: item;
 }
+
 .follow > li {
   display: block;
   margin-top: 5px;
 }
+
 .follow > li:before {
   content: counters(item, ".") ". ";
   counter-increment: item;
 }
+
 li > img {
   transform: translate(0, 8px);
 }
+
 .center {
   position: relative;
   left: 50%;
@@ -206,16 +212,20 @@ li > img {
   margin: 20px 0 0;
   max-width: 100%;
 }
+
 a {
   color: rgb(255, 209, 0);
   font-weight: 700;
 }
+
 a:hover {
   color: rgb(255, 228, 106);
 }
+
 .reset {
   margin-top: 0px !important;
 }
+
 .paragraph {
   margin-left: 15px;
   font-family: "Source Sans Pro", sans-serif;

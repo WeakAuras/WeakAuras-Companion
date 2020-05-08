@@ -77,9 +77,11 @@ export default {
   outline: none;
   box-shadow: none;
 }
+
 .btn-large {
   padding: 6px 12px;
 }
+
 .btn-issue,
 .btn-refresh {
   background-color: rgba(18, 18, 18, 0.95);
@@ -94,10 +96,12 @@ export default {
   transition: all 0.1s ease-in-out;
   cursor: pointer;
 }
+
 .btn-refresh:hover {
   background-color: #fff;
   color: #2d2c2c;
 }
+
 .btn-addon {
   background-color: rgba(18, 18, 18, 0.95);
   border: 1px solid #2c2c2c;
@@ -113,20 +117,24 @@ export default {
   margin-right: 4px;
   padding: 0 10px;
 }
+
 .btn-addon:hover {
   background-color: #fff;
   color: #2d2c2c;
 }
+
 .btn-addon.active {
   background-color: #fff;
   color: #1a1a1a;
 }
+
 .btn-addon:disabled {
   background-color: rgba(36, 36, 36, 0.95);
   //color: #580909;
   color: #6e6e6e;
   cursor: default;
 }
+
 .btn-menu {
   width: 60px;
   height: auto;
@@ -137,15 +145,18 @@ export default {
   border-left-color: #c2c0c2;
   background-color: #757474;
 }
+
 .btn-menu:hover {
   background-color: #ddd;
 }
+
 .btn-mini {
   padding: 2px 6px;
   width: 18px;
   height: 18px;
   color: transparent;
 }
+
 .btn-default {
   color: #333;
   border-top-color: #c2c0c2;
@@ -154,33 +165,40 @@ export default {
   border-left-color: #c2c0c2;
   background-color: #fcfcfc;
 }
+
 .btn-default:active {
   background-color: #ddd;
   background-image: none;
 }
+
 .btn-primary {
   border-color: #388df8;
   border-bottom-color: #0866dc;
   background-color: #6eb4f7;
 }
+
 .btn-primary:active {
   background-color: #3e9bf4;
 }
+
 .btn-positive {
   border-color: #023008;
   border-radius: 2px;
   background-image: url("~@/assets/ok-icon.png");
   background-size: contain;
 }
+
 .btn-positive:active {
   background-color: #34c84a;
 }
+
 .btn-negative {
   border-color: #b61b15;
   border-bottom-color: #fb1710;
   background-image: url("~@/assets/error-icon.png");
   background-size: contain;
 }
+
 .btn-negative:active {
   background-color: #ff5b56;
 }
@@ -189,20 +207,25 @@ export default {
   color: #ff3333;
   border-color: #ff3333;
 }
+
 .btn-issue:hover {
   background-color: #ffffff;
 }
+
 .btn-reset {
   background-color: #a80000;
   color: white;
   height: 30px;
 }
+
 .btn-reset:hover {
   background-color: #f30707;
 }
+
 .btn-link {
   background: #171717;
 }
+
 .btn-link:hover {
   background: #101010;
 }

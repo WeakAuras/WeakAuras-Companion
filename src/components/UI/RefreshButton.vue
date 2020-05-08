@@ -108,15 +108,18 @@ export default {
   margin: auto;
   transition: all 0.4s ease-in-out;
 }
+
 #sync.top {
   position: relative;
   top: 10px;
 }
+
 #lastupdate {
   margin-top: 10px;
   font-size: small;
   color: #e6e6e6;
 }
+
 .btn-issue span,
 .btn-refresh span {
   position: relative;
@@ -124,16 +127,19 @@ export default {
   line-height: 50px;
   cursor: pointer;
 }
+
 .material-icons {
   font-size: 34px;
   vertical-align: top;
   cursor: pointer;
 }
+
 .btn-refresh.spin {
   background: #ababab;
   border-color: transparent;
   color: #313131;
 }
+
 /* Spin Animation */
 .spin .sync {
   animation-name: spin;
@@ -142,6 +148,7 @@ export default {
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
+
 .btn-issue,
 .btn-refresh {
   padding: 12px 15px;

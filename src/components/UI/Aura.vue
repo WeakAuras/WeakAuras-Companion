@@ -147,11 +147,13 @@ export default Vue.extend({
     background-color: #161616c9;
   }
 }
+
 .aura_name_container {
   text-align: left;
   flex: 1;
   overflow: hidden;
 }
+
 .aura_name {
   width: 95%;
   overflow: hidden;
@@ -164,15 +166,18 @@ export default Vue.extend({
   text-align: left;
   line-height: 32px;
 }
+
 .update-ready {
   float: right;
   line-height: 32px;
 }
+
 .ignored {
   float: right;
   line-height: 32px;
   color: grey;
 }
+
 .wago_icon {
   height: 90%;
   margin: auto;
@@ -182,6 +187,7 @@ export default Vue.extend({
   background: rgba(0, 0, 0, 0.3);
   content: url("~@/assets/wago_plain.png");
 }
+
 .author {
   width: 100px;
   overflow: hidden;
@@ -191,14 +197,17 @@ export default Vue.extend({
   text-align: left;
   line-height: 32px;
 }
+
 .author:before {
   content: "@";
 }
+
 .upgrade-text {
   font-weight: 600;
   text-shadow: #000000 0 1px 0;
   display: flex;
 }
+
 .current-version {
   font-size: 9px;
   color: #777;
@@ -207,12 +216,14 @@ export default Vue.extend({
   text-align: left;
   padding-top: 1px;
 }
+
 .wago-version {
   text-shadow: rgba(219, 185, 50, 0.267) 0 0 5px;
   text-align: right;
   width: 55px;
   line-height: 32px;
 }
+
 .tag {
   line-height: 17px;
   background: transparent;

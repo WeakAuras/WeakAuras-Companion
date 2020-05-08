@@ -28,14 +28,17 @@ export default {
 input[type="checkbox"] {
   display: none;
 }
+
 input[type="checkbox"]:disabled + .checkbox__box {
   background-color: #dddddd;
   box-shadow: none;
   cursor: auto;
 }
+
 input[type="checkbox"] + .checkbox__box:focus {
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 }
+
 .checkbox {
   align-items: center;
   cursor: pointer;
@@ -44,6 +47,7 @@ input[type="checkbox"] + .checkbox__box:focus {
   user-select: none;
   margin-top: 10px;
 }
+
 .checkbox__box {
   background-color: #0d0d0d;
   border: 1px solid #2c2c2c;
@@ -52,10 +56,12 @@ input[type="checkbox"] + .checkbox__box:focus {
   margin-right: 10px;
   width: 20px;
 }
+
 .checkbox__box:hover {
   background-color: #1a1a1a;
   border: 1px solid #2c2c2c;
 }
+
 .checkbox__box--checked {
   background-color: #191919;
   background-image: url("~@/assets/checkmark.png");

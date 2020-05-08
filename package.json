@@ -6,6 +6,7 @@
   "scripts": {
     "build": "vue-cli-service electron:build",
     "lint": "eslint src/. --ext .js,.vue",
+    "lint:scss": "npx stylelint \"src/**/*.vue\"",
     "compile-tools": "./node_modules/.bin/tsc -p ./tools/",
     "dev": "vue-cli-service electron:serve",
     "dist": "yarn build --publish onTagOrDraft",
@@ -29,6 +30,9 @@
     "luaparse": "~0.2.1",
     "moment": "^2.25.1",
     "regedit": "^3.0.3",
+    "stylelint": "^13.3.3",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.17.2",
     "tail": "^2.0.3",
     "v-tooltip": "^2.0.3",
     "vue": "^2.6.11",

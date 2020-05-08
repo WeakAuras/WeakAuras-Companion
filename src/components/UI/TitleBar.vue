@@ -47,12 +47,14 @@ export default {
   border-radius: 8px;
   -webkit-app-region: no-drag;
 }
+
 #ui-titletext {
   max-height: 12px;
   flex: auto;
   color: #fff;
   text-indent: 10px;
 }
+
 #ui-titlecontrols {
   max-width: 144px;
   max-height: 28px;

@@ -1145,7 +1145,7 @@ export default Vue.extend({
                   (profData.key.value === "hook_data" && "-Mod") ||
                   (profData.key.value === "script_data" && "-Script") ||
                   "";
-                  
+
                 profData.value.fields.forEach((obj2) => {
                   let slug;
                   let url;
@@ -2184,6 +2184,7 @@ end`,
                     "undefined"
                   )
                     this.$set(accountFound, "savedvariableSizeForAddon", []);
+
                   this.accountOptions.push({
                     value: accountFile,
                     text: accountFile,
@@ -2213,10 +2214,12 @@ end`,
   left: 2.35vw;
   -webkit-app-region: drag;
 }
+
 .logo-img {
   height: 50px;
   transition: all 0.2s ease-in-out;
 }
+
 .app-logo span {
   font-weight: 300;
   font-size: 22px;
@@ -2248,13 +2251,16 @@ end`,
   transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
     font-size 0.2s ease-in-out;
 }
+
 .btn.btn-menu span {
   position: relative;
   top: 3px;
 }
+
 .btn.btn-menu:hover {
   background-color: #1f1f1f;
 }
+
 .btn-menu.active {
   background-color: #171717;
   border-bottom: 3px solid #c4c4c4;
@@ -2276,6 +2282,7 @@ end`,
   text-align: left;
   height: 65px;
 }
+
 .btn-label {
   display: block;
   margin-bottom: 5px;
@@ -2304,9 +2311,11 @@ end`,
     }
   }
 }
+
 #version-selector {
   float: right;
 }
+
 #account-selector {
   float: right;
 }
@@ -2329,11 +2338,13 @@ end`,
   background: #212121;
   border-radius: 35px;
 }
+
 /* Track */
 ::-webkit-scrollbar-track {
   border: 1px solid #292828;
   border-radius: 35px;
 }
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #c4c4c4;
@@ -2341,6 +2352,7 @@ end`,
   border-radius: 5px;
   width: 8px;
 }
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
@@ -2569,6 +2581,7 @@ select {
     color: $iconDefaultColor;
   }
 }
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -2577,6 +2590,7 @@ select {
     transform: rotate(-360deg);
   }
 }
+
 @keyframes pulse {
   0% {
     text-shadow: 0 0 0 rgba(255, 255, 255, 0.4);

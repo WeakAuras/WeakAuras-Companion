@@ -101,25 +101,30 @@ export default {
   position: relative;
   font-weight: 500;
 }
+
 #links a {
   align-items: center;
   vertical-align: middle;
 }
+
 #about img {
   margin-right: 10px;
   vertical-align: middle;
   cursor: pointer;
 }
+
 #about > .valign {
   flex: 50%;
   align-items: center;
 }
+
 #main {
   font-weight: 100;
   text-align: center;
   width: 100%;
   margin: auto;
 }
+
 #links {
   display: flex;
   width: 450px;
@@ -127,15 +132,18 @@ export default {
   border-radius: 8px;
   padding-bottom: 5px;
 }
+
 .media-item {
   margin: 10px 15px;
   cursor: pointer;
 }
+
 .logo {
   opacity: 1;
   width: 25px;
   top: 0;
 }
+
 .title {
   border-left: none;
   border-bottom: 2px solid rgb(255, 209, 0);
@@ -143,14 +151,17 @@ export default {
   text-align: center;
   background-color: rgba(0, 0, 0, 0);
 }
+
 a:hover {
   color: rgb(255, 209, 0);
 }
+
 .fab {
   margin-right: 5px;
   font-size: 22px;
   color: #e6e6e6 !important;
 }
+
 .items {
   margin: 0 30px;
 }

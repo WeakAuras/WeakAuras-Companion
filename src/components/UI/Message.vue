@@ -35,6 +35,7 @@ export default {
   font-size: 11px;
   margin-top: 2px;
 }
+
 .message span {
   margin: 0 5px;
 }

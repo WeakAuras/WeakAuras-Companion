@@ -21,13 +21,16 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   text-align: center;
 }
+
 .blurred {
   filter: blur(5px);
 }
+
 .container {
   position: relative;
   top: 35%;
 }
+
 h1 {
   margin-bottom: 30px;
 }

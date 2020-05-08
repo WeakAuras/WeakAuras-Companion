@@ -39,7 +39,6 @@
               )
             }}
           </checkbox>
-
           <p class="label subtitle">
             {{ $t("app.config.startup" /* Startup */) }}
           </p>
@@ -57,7 +56,6 @@
               {{ $t("app.config.minimized" /* Start client minimized */) }}
             </checkbox>
           </div>
-
           <p class="label subtitle">
             {{ $t("app.config.autoupdater" /* Auto-Update */) }}
           </p>

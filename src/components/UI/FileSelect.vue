@@ -88,16 +88,19 @@ $border-color-separate: #0d0d0d;
   top: 5px;
   cursor: pointer;
 }
+
 .btn {
   display: inline-block;
   cursor: pointer;
 }
+
 .configlabel {
   color: #eee;
   margin-top: 5px;
   font-size: 15px;
   font-weight: 500;
 }
+
 .wow-path {
   display: table-cell;
   vertical-align: middle;

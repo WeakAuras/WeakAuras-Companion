@@ -43,13 +43,16 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   text-align: center;
 }
+
 .blurred {
   filter: blur(5px);
 }
+
 .container {
   position: relative;
   top: 35%;
 }
+
 .btn.btn-link {
   min-width: 200px;
   min-height: 40px;
@@ -58,6 +61,7 @@ export default {
   transition: background-color ease-in-out 0.2s;
   padding: 0;
 }
+
 .btn-link a {
   font-size: 16px;
   width: 100%;
@@ -68,10 +72,12 @@ export default {
   background-size: cover;
   text-shadow: 0 0 1px #000;
 }
+
 h1 {
   margin-bottom: 30px;
   color: #e6e6e6;
 }
+
 .container {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
