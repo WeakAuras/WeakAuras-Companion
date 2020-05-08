@@ -168,7 +168,7 @@ function createWindow() {
     {
       label: "Quit",
       click: () => {
-        app.isQuiting = true;
+        app.isQuitting = true;
         app.quit();
       },
     },
@@ -264,7 +264,7 @@ ipcMain.on("minimize", () => {
 });
 
 ipcMain.on("close", () => {
-  app.isQuiting = true;
+  app.isQuitting = true;
   app.quit();
 });
 
