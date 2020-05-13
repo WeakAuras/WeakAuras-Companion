@@ -13,7 +13,6 @@
         "elseif"
       ]
     }],
-    "color-hex-case": "upper",
     "color-hex-length": "long",
     "color-named": "never",
     "comment-empty-line-before": ["always", {
