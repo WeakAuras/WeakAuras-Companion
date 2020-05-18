@@ -2288,9 +2288,9 @@ end`,
   margin-bottom: 5px;
   margin-left: 1px;
   cursor: default;
-  color: #eee;
+  color: #eeeeee;
   font-size: 15px;
-  font-family: "Montserrat", sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 500;
 }
 
@@ -2355,7 +2355,7 @@ end`,
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #555555;
 }
 
 /* Toasts */
@@ -2489,7 +2489,7 @@ $iconSize: 26px;
   vertical-align: bottom;
   line-height: 25px;
   float: right;
-  text-shadow: #000 1px 0;
+  text-shadow: #000000 1px 0;
   font-weight: 600;
   opacity: 0.5;
 }
@@ -2509,7 +2509,7 @@ $iconSize: 26px;
   vertical-align: bottom;
   line-height: 25px;
   float: left;
-  text-shadow: #000 1px 0;
+  text-shadow: #000000 1px 0;
   font-weight: 600;
   opacity: 0.5;
 }
@@ -2525,7 +2525,7 @@ $iconSize: 26px;
   vertical-align: bottom;
   line-height: 25px;
   float: left;
-  text-shadow: #000 1px 0;
+  text-shadow: #000000 1px 0;
   font-weight: 600;
   opacity: 0.5;
   margin-left: 10px;

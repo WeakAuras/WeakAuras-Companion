@@ -104,7 +104,7 @@ $min-width: 140px;
   color: $text-color;
   margin: 10px 4px 10px 0;
   &__label {
-    color: #eee;
+    color: #eeeeee;
     font-size: 15px;
   }
   &__toggle {

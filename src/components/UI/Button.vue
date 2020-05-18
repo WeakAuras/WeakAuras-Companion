@@ -60,15 +60,15 @@ export default {
   cursor: pointer;
   border-radius: 4px;
   background-color: rgba(18, 18, 18, 0.95);
-  border: 1px solid #fff;
-  color: #fff;
+  border: 1px solid #ffffff;
+  color: #ffffff;
   font-weight: 600;
   vertical-align: middle;
   margin-top: -2px;
 }
 
 .btn-ok:hover {
-  background-color: #fff;
+  background-color: #ffffff;
   color: #2d2c2c;
   transition: all 0.1s ease-in-out;
 }
@@ -85,11 +85,11 @@ export default {
 .btn-issue,
 .btn-refresh {
   background-color: rgba(18, 18, 18, 0.95);
-  border: 1px solid #fff;
+  border: 1px solid #ffffff;
   padding: 15px;
   height: 60px;
   font-size: 16px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 600;
   border-radius: 4px;
   vertical-align: top;
@@ -98,7 +98,7 @@ export default {
 }
 
 .btn-refresh:hover {
-  background-color: #fff;
+  background-color: #ffffff;
   color: #2d2c2c;
 }
 
@@ -119,12 +119,12 @@ export default {
 }
 
 .btn-addon:hover {
-  background-color: #fff;
+  background-color: #ffffff;
   color: #2d2c2c;
 }
 
 .btn-addon.active {
-  background-color: #fff;
+  background-color: #ffffff;
   color: #1a1a1a;
 }
 
@@ -138,7 +138,7 @@ export default {
 .btn-menu {
   width: 60px;
   height: auto;
-  color: #333;
+  color: #333333;
   border-top-color: #c2c0c2;
   border-right-color: #c2c0c2;
   border-bottom-color: #a19fa1;
@@ -147,7 +147,7 @@ export default {
 }
 
 .btn-menu:hover {
-  background-color: #ddd;
+  background-color: #dddddd;
 }
 
 .btn-mini {
@@ -158,7 +158,7 @@ export default {
 }
 
 .btn-default {
-  color: #333;
+  color: #333333;
   border-top-color: #c2c0c2;
   border-right-color: #c2c0c2;
   border-bottom-color: #a19fa1;
@@ -167,7 +167,7 @@ export default {
 }
 
 .btn-default:active {
-  background-color: #ddd;
+  background-color: #dddddd;
   background-image: none;
 }
 
@@ -214,7 +214,7 @@ export default {
 
 .btn-reset {
   background-color: #a80000;
-  color: white;
+  color: #ffffff;
   height: 30px;
 }
 

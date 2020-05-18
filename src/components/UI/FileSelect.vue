@@ -95,7 +95,7 @@ $border-color-separate: #0d0d0d;
 }
 
 .configlabel {
-  color: #eee;
+  color: #eeeeee;
   margin-top: 5px;
   font-size: 15px;
   font-weight: 500;

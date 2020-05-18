@@ -51,6 +51,11 @@ export default {
 .container {
   position: relative;
   top: 35%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  width: 400px;
+  padding: 15px 15px 25px;
+  margin: auto;
 }
 
 .btn.btn-link {
@@ -70,19 +75,11 @@ export default {
   line-height: 34px;
   color: #e6e6e6;
   background-size: cover;
-  text-shadow: 0 0 1px #000;
+  text-shadow: 0 0 1px #000000;
 }
 
 h1 {
   margin-bottom: 30px;
   color: #e6e6e6;
-}
-
-.container {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  width: 400px;
-  padding: 15px 15px 25px;
-  margin: auto;
 }
 </style>

@@ -10,17 +10,17 @@
         content: wagoURL(aura.slug),
         html: false,
       }"
-      class="wago_icon"
+      class="wago-icon"
       target="_blank"
       :href="wagoURL(aura.slug)"
     />
-    <div class="aura_name_container">
+    <div class="aura-name-container">
       <span
         v-tooltip="{
           content: childs,
           html: false,
         }"
-        class="aura_name"
+        class="aura-name"
         >{{ aura.name }}
       </span>
     </div>
@@ -148,13 +148,13 @@ export default Vue.extend({
   }
 }
 
-.aura_name_container {
+.aura-name-container {
   text-align: left;
   flex: 1;
   overflow: hidden;
 }
 
-.aura_name {
+.aura-name {
   width: 95%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -175,10 +175,10 @@ export default Vue.extend({
 .ignored {
   float: right;
   line-height: 32px;
-  color: grey;
+  color: #808080;
 }
 
-.wago_icon {
+.wago-icon {
   height: 90%;
   margin: auto;
   vertical-align: bottom;
@@ -210,7 +210,7 @@ export default Vue.extend({
 
 .current-version {
   font-size: 9px;
-  color: #777;
+  color: #777777;
   width: 55px;
   line-height: 32px;
   text-align: left;

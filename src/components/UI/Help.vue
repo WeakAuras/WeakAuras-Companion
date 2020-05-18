@@ -171,10 +171,6 @@
   font-weight: 500;
 }
 
-.updateButton {
-  margin-left: 60%;
-}
-
 #help > ol {
   margin-left: 15px;
   padding-left: 0;

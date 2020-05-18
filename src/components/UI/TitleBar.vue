@@ -51,7 +51,7 @@ export default {
 #ui-titletext {
   max-height: 12px;
   flex: auto;
-  color: #fff;
+  color: #ffffff;
   text-indent: 10px;
 }
 
@@ -79,7 +79,7 @@ export default {
       path,
       rect,
       polygon {
-        fill: #fff;
+        fill: #ffffff;
       }
     }
     &:first-child {
