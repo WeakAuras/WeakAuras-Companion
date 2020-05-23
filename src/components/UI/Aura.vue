@@ -39,7 +39,9 @@
     >
       {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
-    <span class="tag">{{ aura.auraTypeDisplay || aura.auraType }}</span>
+    <span v-if="aura.auraType !== 'WeakAuras'" class="tag">
+      {{ aura.auraTypeDisplay || aura.auraType }}
+    </span>
     <a
       v-tooltip="{
         content: wagoAuthorURL(aura.author),
