@@ -1070,7 +1070,7 @@ export default Vue.extend({
                 uids: uid ? [uid] : [],
                 regionType: null,
                 auraType: config.addonName,
-                auraTypeDisplay: config.addonName,
+                auraTypeDisplay: null,
                 addonConfig: config,
               };
 
