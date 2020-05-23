@@ -172,12 +172,14 @@ export default Vue.extend({
 .update-ready {
   float: right;
   line-height: 32px;
+  padding-right: 5px;
 }
 
 .ignored {
   float: right;
   line-height: 32px;
   color: #808080;
+  padding-right: 5px;
 }
 
 .wago-icon {
