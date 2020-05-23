@@ -1484,7 +1484,20 @@ export default Vue.extend({
       });
 
       if (promisesWagoCallsComplete.length === 0) {
-        this.fetching = false;
+        //no data for any addon available. nothing to update.
+        try {
+          this.writeAddonData(news, fails);
+        } finally {
+          this.fetching = false;
+
+          this.setFirstAddonInstalledSelected();
+
+          this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+
+          if (this.schedule.id) clearTimeout(this.schedule.id);
+
+          this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
+        }
         return;
       }
 
