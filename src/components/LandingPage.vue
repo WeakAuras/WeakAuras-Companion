@@ -1483,6 +1483,11 @@ export default Vue.extend({
         );
       });
 
+      if (promisesWagoCallsComplete.length === 0) {
+        this.fetching = false;
+        return;
+      }
+
       Promise.all(promisesWagoCallsComplete).then(() => {
         console.log("promisesWagoCallsComplete");
 
@@ -1603,8 +1608,6 @@ export default Vue.extend({
                 this.setFirstAddonInstalledSelected();
 
                 this.$set(this.accountSelected, "lastWagoUpdate", new Date());
-
-                this.fetching = false;
 
                 if (this.schedule.id) clearTimeout(this.schedule.id);
 
