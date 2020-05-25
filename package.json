@@ -28,7 +28,7 @@
     "electron-store": "^5.1.1",
     "electron-updater": "^4.3.1",
     "luaparse": "~0.2.1",
-    "moment": "^2.25.1",
+    "moment": "^2.26.0",
     "regedit": "^3.0.3",
     "stylelint": "^13.4.0",
     "stylelint-config-standard": "^20.0.0",
