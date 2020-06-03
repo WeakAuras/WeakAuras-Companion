@@ -13,9 +13,7 @@
     "dist:pr": "yarn build --publish=never",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "i18n": "yarn compile-tools && node ./tools/scripts/extract-i18n-messages.js",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "i18n": "yarn compile-tools && node ./tools/scripts/extract-i18n-messages.js"
   },
   "main": "background.js",
   "dependencies": {
@@ -47,7 +45,7 @@
     "copy-webpack-plugin": "^6.0.1",
     "css-loader": "^3.5.3",
     "devtron": "^1.4.0",
-    "electron": "^9.0.0",
+    "electron": "^9.0.2",
     "electron-debug": "^3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
@@ -58,11 +56,11 @@
     "eslint-plugin-vue": "^6.2.2",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.3.0",
-    "node-sass": "^4.14.0",
+    "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
     "sass-loader": "^8.0.2",
     "typescript": "^3.9.3",
-    "vue-cli-plugin-electron-builder": "~1.4.6",
+    "vue-cli-plugin-electron-builder": "^2.0.0-rc.1",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^15.9.2",
     "vue-style-loader": "^4.1.2",
