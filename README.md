@@ -28,6 +28,10 @@ It enables you to fetch updates to the auras you have installed  directly from W
 
 - If you previously downloaded an aura from Wago that is not a whole  group and put it into one of your own custom groups, the Companion will  not show any updates for it.
 
+### Other Addons
+
+- We recently took a pull request that adds [Plater](https://www.curseforge.com/wow/addons/plater-nameplates) support to the Companion. Since Plater profiles and mods could already be shared on wago.io, it was the logical next step to add them to Companion.
+
 ## Contributing
 
 ### Build Setup
