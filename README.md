@@ -6,7 +6,7 @@ The WeakAuras Companion is a cross-platform (Windows/macOS/Linux) application bu
 
 It enables you to fetch updates to the auras you have installed  directly from Wago, without having to manually copy-paste import strings  all the time. It also makes sure you don't miss any updates, always  keeping you up to date with the latest versions.
 
-![preview](https://i.imgur.com/PObZNPi.png)
+![preview](https://i.imgur.com/Du23Mep.png)
 
 ## How to Use
 
@@ -23,6 +23,12 @@ It enables you to fetch updates to the auras you have installed  directly from W
 ![preview3](https://i.imgur.com/VVCWrfE.png)
 
 ![preview4](https://i.imgur.com/48uLOw8.png)
+
+### Backups
+
+The Companion is able to regularily create backups of your WeakAuras so you don't lose them in case of a crash or other accident. This option needs to be enabled manually in the options.
+
+![preview4](https://i.imgur.com/9WchRsg.png)
 
 ### Known Issues
 
