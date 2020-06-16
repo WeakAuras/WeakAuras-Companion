@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  assignees:
+  - Stanzilla
+  labels:
+  - dependencies
+  ignore:
+  - dependency-name: luaparse
+    versions:
+    - "> 0.2.1, < 1"
