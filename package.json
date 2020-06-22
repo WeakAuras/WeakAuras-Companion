@@ -33,7 +33,7 @@
     "stylelint": "^13.6.1",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-scss": "^3.18.0",
-    "tail": "^2.0.3",
+    "tail": "^2.0.4",
     "v-tooltip": "^2.0.3",
     "vue": "^2.6.11",
     "vue-electron": "^1.0.6",
