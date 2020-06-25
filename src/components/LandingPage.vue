@@ -904,8 +904,6 @@ export default Vue.extend({
               },
               headers: {
                 Identifier: this.accountHash,
-                "Content-Security-Policy":
-                  "script-src 'self' https://data.wago.io",
                 "api-key": this.config.wagoApiKey || "",
               },
               crossdomain: true,
@@ -930,8 +928,6 @@ export default Vue.extend({
                     },
                     headers: {
                       Identifier: this.accountHash,
-                      "Content-Security-Policy":
-                        "script-src 'self' https://data.wago.io",
                       "api-key": this.config.wagoApiKey || "",
                     },
                     crossdomain: true,
@@ -1396,8 +1392,6 @@ export default Vue.extend({
               },
               headers: {
                 Identifier: this.accountHash,
-                "Content-Security-Policy":
-                  "script-src 'self' https://data.wago.io",
                 "api-key": this.config.wagoApiKey || "",
               },
               crossdomain: true,
@@ -1448,8 +1442,6 @@ export default Vue.extend({
                           },
                           headers: {
                             Identifier: this.accountHash,
-                            "Content-Security-Policy":
-                              "script-src 'self' https://data.wago.io",
                             "api-key": this.config.wagoApiKey || "",
                           },
                           crossdomain: true,
