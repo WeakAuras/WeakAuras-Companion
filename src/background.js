@@ -76,6 +76,7 @@ function createWindow() {
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
       nodeIntegration: true,
+      enableRemoteModule: true,
     },
     show: false,
   });
