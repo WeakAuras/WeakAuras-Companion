@@ -48,31 +48,26 @@ const i18n = new VueI18n({
     "zh-cn": zhcn,
   },
   pluralizationRules: {
-    /**
-     * @param choice {number} a choice index given by the input to $tc: `$tc('path.to.rule', choiceIndex)`
-     * @param choicesLength {number} an overall amount of available choices
-     * @returns a final choice index to select plural word by
-     */
     ru: function (choice, choicesLength) {
-      // this === VueI18n instance, so the locale property also exists here
-
-      if (choice === 0) {
-        return 0;
+      if (choicesLength < 4) {
+        /* amount of available choices is incorrect (e.g. untranslated English phrase) */
+        return choice === 0
+          ? 0 /* none */
+          : choice !== 1
+          ? 2 /* everything else */
+          : 1; /* is 1 */
+      } else {
+        /* amount of available choices is correct */
+        return choice === 0
+          ? 0 /* none */
+          : choice % 10 === 1 && choice % 100 !== 11
+          ? 1 /* ends in 1, excluding 11 */
+          : choice % 10 >= 2 &&
+            choice % 10 <= 4 &&
+            (choice % 100 < 10 || choice % 100 >= 20)
+          ? 2 /* ends in 2-4, excluding 12-14 */
+          : 3; /* everything else */
       }
-
-      const withoutHundreds = choice % 100;
-      const teen = choice > 10 && choice < 20;
-      const endsWithOne = choice % 10 === 1;
-
-      if (!teen && endsWithOne) {
-        return 1;
-      }
-
-      if (!teen && withoutHundreds % 10 >= 2 && withoutHundreds % 10 <= 4) {
-        return 2;
-      }
-
-      return choicesLength < 4 ? 2 : 3;
     },
   },
 });
