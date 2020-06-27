@@ -45,6 +45,8 @@ module.exports = {
           category: "Utility",
         },
       },
+      nodeIntegration: true,
+      experimentalNativeDepCheck: true,
     },
   },
   productionSourceMap: false,

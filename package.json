@@ -6,7 +6,6 @@
   "scripts": {
     "build": "vue-cli-service electron:build",
     "lint": "eslint src/. --ext .js,.vue",
-    "lint:scss": "npx stylelint \"src/**/*.vue\"",
     "compile-tools": "./node_modules/.bin/tsc -p ./tools/",
     "dev": "vue-cli-service electron:serve",
     "dist": "yarn build --publish onTagOrDraft",
@@ -14,12 +13,13 @@
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "i18n": "yarn compile-tools && node ./tools/scripts/extract-i18n-messages.js",
+    "lint:scss": "npx stylelint \"src/**/*.vue\"",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
   "dependencies": {
-    "@types/jest": "^26.0.0",
+    "@types/jest": "^26.0.3",
     "archiver": "^4.0.1",
     "auto-launch": "^5.0.5",
     "axios": "^0.19.2",
@@ -41,19 +41,19 @@
     "vue-toasted": "^1.1.28"
   },
   "devDependencies": {
-    "@vue/cli": "^4.4.4",
-    "@vue/cli-plugin-eslint": "^4.4.4",
-    "@vue/cli-service": "~4.4.4",
+    "@vue/cli": "^4.4.6",
+    "@vue/cli-plugin-eslint": "~4.4.6",
+    "@vue/cli-service": "~4.4.6",
     "copy-webpack-plugin": "^6.0.2",
     "css-loader": "^3.6.0",
     "devtron": "^1.4.0",
-    "electron": "^9.0.4",
+    "electron": "^9.0.5",
     "electron-debug": "^3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-import-resolver-webpack": "^0.12.2",
     "eslint-loader": "^4.0.2",
-    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^6.2.2",
     "glob": "^7.1.6",
@@ -62,9 +62,9 @@
     "prettier": "^2.0.5",
     "sass-loader": "^8.0.2",
     "typescript": "^3.9.5",
-    "vue-cli-plugin-electron-builder": "~1.4.6",
+    "vue-cli-plugin-electron-builder": "~2.0.0-rc.3",
     "vue-html-loader": "^1.2.4",
-    "vue-loader": "^15.9.2",
+    "vue-loader": "^16.0.0-beta.4",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.43.0",
@@ -76,7 +76,7 @@
     }
   },
   "browserslist": [
-    "last 2 Chrome versions"
+    "Electron >= 8.0.0"
   ],
   "config": {
     "default-locale": "en",
