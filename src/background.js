@@ -11,6 +11,7 @@ import {
   protocol,
 } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
+import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
@@ -216,7 +217,15 @@ if (!app.requestSingleInstanceLock()) {
     }
   });
 
-  app.on("ready", () => {
+  app.on("ready", async () => {
+    if (isDevelopment && !process.env.IS_TEST) {
+      // Install Vue Devtools
+      try {
+        await installExtensions(VUEJS_DEVTOOLS);
+      } catch (e) {
+        console.error("Vue Devtools failed to install:", e.toString());
+      }
+    }
     createWindow();
 
     if (process.env.NODE_ENV === "production") {

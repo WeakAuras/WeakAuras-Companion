@@ -5482,6 +5482,15 @@ electron-debug@^3.1.0:
     electron-is-dev "^1.1.0"
     electron-localshortcut "^3.1.0"
 
+electron-devtools-installer@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/electron-devtools-installer/-/electron-devtools-installer-3.1.0.tgz#c7800d36ab8438b51d2e03345860f817ecb5797f"
+  integrity sha512-qZd1Aoya8YOK6QauNX92V5qyKGtb4lbs238bP+qtMBkXts24xJ/1PtOVBPvdg5w3Ts9L5o6I9sDErKuzHeJFDA==
+  dependencies:
+    rimraf "^3.0.2"
+    semver "^7.2.1"
+    unzip-crx "^0.2.0"
+
 electron-is-accelerator@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
