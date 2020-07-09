@@ -1784,7 +1784,7 @@ export default Vue.extend({
         const toc =
           AddonFolder.toLowerCase().search("classic") === -1
             ? "80300"
-            : "11304";
+            : "11305";
         const files = [
           {
             name: "WeakAurasCompanion.toc",
