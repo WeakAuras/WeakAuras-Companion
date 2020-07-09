@@ -1261,11 +1261,16 @@ export default Vue.extend({
         let conf = addonConfigs[index];
 
         if (!conf.svPathFunction) {
-          return;
+          continue;
+        }
+        const svPath = conf.svPathFunction();
+
+        if (typeof svPath !== "string") {
+          continue;
         }
 
         try {
-          const data = fs.readFileSync(conf.svPathFunction(), "utf-8");
+          const data = fs.readFileSync(svPath, "utf-8");
           // Parse saved data .lua
           const savedData = luaparse.parse(data);
 
