@@ -29,6 +29,9 @@ module.exports = {
         mac: {
           icon: "public/icon.icns",
           category: "Utility",
+          extendInfo: {
+            LSUIElement: 1,
+          },
         },
         win: {
           icon: "public/icon.ico",
