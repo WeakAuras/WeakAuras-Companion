@@ -256,7 +256,7 @@ export default Vue.extend({
       this.wagoUsername = null;
     },
     openBackupDir() {
-      shell.openItem(this.config.backup.path);
+      shell.openPath(this.config.backup.path);
     },
     checkApiKey() {
       return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
