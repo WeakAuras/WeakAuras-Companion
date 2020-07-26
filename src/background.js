@@ -6,7 +6,6 @@ import {
   Menu,
   shell,
   ipcMain,
-  screen,
   Notification,
   protocol,
 } from "electron";
@@ -54,7 +53,7 @@ let winURL = null;
 
 const iconpath = path.join(
   __static,
-  `icon.${process.platform === "win32" ? "ico" : "png"}`
+  `icon${process.platform === "win32" ? ".ico" : "-light.png"}`
 );
 
 function handleLinks(link) {
@@ -63,7 +62,7 @@ function handleLinks(link) {
   }
 }
 
-function createWindow() {
+async function createWindow() {
   mainWindow = new BrowserWindow({
     minHeight: 550,
     minWidth: 940,
@@ -84,13 +83,13 @@ function createWindow() {
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    await mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
 
     if (!process.env.IS_TEST) mainWindow.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
-    mainWindow.loadFile("index.html");
+    mainWindow.loadURL("app://./index.html");
   }
 
   mainWindow.on("closed", () => {
@@ -221,7 +220,7 @@ if (!app.requestSingleInstanceLock()) {
     if (isDevelopment && !process.env.IS_TEST) {
       // Install Vue Devtools
       try {
-        await installExtensions(VUEJS_DEVTOOLS);
+        await installExtension(VUEJS_DEVTOOLS);
       } catch (e) {
         console.error("Vue Devtools failed to install:", e.toString());
       }
