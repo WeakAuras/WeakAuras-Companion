@@ -5,6 +5,8 @@
     "eslint.packageManager": "yarn",
     "npm.packageManager": "yarn",
     "cSpell.words": [
+        "LSUI",
+        "VUEJS",
         "Wago",
         "icns",
         "nsis",
