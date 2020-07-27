@@ -10,13 +10,13 @@ jobs:
         node: ["13"]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         id: cache-node
         with:
           path: node_modules
@@ -44,7 +44,7 @@ jobs:
           mkdir artifact-setup
           mv dist_electron/*.exe artifact-setup/
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         name: Upload Installer
         with:
           name: WeakAuras-Companion-PR-Node${{ matrix.node }} Installer

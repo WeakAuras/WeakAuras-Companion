@@ -14,13 +14,13 @@ jobs:
         node: ["13"]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         id: cache-node
         with:
           path: node_modules
@@ -52,19 +52,19 @@ jobs:
           mkdir artifact-snap
           mv dist_electron/*.snap artifact-snap/ || true
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         name: Upload AppImage
         with:
           name: WeakAuras-Companion-CI-Node${{ matrix.node }} AppImage
           path: artifact-appimage
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         name: Upload Snap
         with:
           name: WeakAuras-Companion-CI-Node${{ matrix.node }} Snap
           path: artifact-snap
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         name: Upload Tarball
         with:
           name: WeakAuras-Companion-CI-Node${{ matrix.node }} Tarball

@@ -14,13 +14,13 @@ jobs:
         node: ["13"]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         id: cache-node
         with:
           path: node_modules
@@ -52,13 +52,13 @@ jobs:
           mkdir artifact-zip
           mv dist_electron/*.zip artifact-zip/
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         name: Upload DMG
         with:
           name: WeakAuras-Companion-CI-Node${{ matrix.node }} DMG
           path: artifact-dmg
 
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v2
         name: Upload ZIP
         with:
           name: WeakAuras-Companion-CI-Node${{ matrix.node }} ZIP
