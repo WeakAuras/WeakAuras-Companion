@@ -176,7 +176,10 @@ async function createWindow() {
       },
     },
   ]);
-  tray.setContextMenu(contextMenu);
+  tray.on("right-click", () => tray.popUpContextMenu(contextMenu));
+
+  // Ignore double click events for the tray icon
+  tray.setIgnoreDoubleClickEvents(true);
 
   tray.on("click", () => {
     if (mainWindow.isVisible()) {
