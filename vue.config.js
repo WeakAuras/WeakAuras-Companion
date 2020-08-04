@@ -44,6 +44,7 @@ module.exports = {
           deleteAppDataOnUninstall: true,
         },
         linux: {
+          target: ["AppImage", "snap", "deb", "rpm"],
           icon: "public/bigicon.png",
           category: "Utility",
         },
