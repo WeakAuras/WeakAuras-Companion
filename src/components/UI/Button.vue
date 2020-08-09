@@ -65,6 +65,7 @@ export default {
   font-weight: 600;
   vertical-align: middle;
   margin-top: -2px;
+  margin-left: 6px;
 }
 
 .btn-ok:hover {

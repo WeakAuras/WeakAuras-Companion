@@ -5,7 +5,7 @@
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}&nbsp;</span>
       </div>
-      <i class="material-icons folder">folder_open</i>
+      <i class="material-icons settings">settings</i>
     </span>
   </label>
 </template>
@@ -83,10 +83,11 @@ $border-color-separate: #0d0d0d;
   transition: all 0.1s ease-in-out;
 }
 
-.folder {
+.settings {
   position: relative;
   top: 5px;
   cursor: pointer;
+  margin-left: 4px;
 }
 
 .btn {

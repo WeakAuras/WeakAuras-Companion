@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTranslationObject = exports.sanitizeMessage = exports.getTranslationsFromString = void 0;
 exports.getTranslationsFromString = (content) => {
     return content.match(/\$tc?\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) || [];
 };

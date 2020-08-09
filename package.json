@@ -77,7 +77,7 @@
     }
   },
   "browserslist": [
-    "Electron >= 8.0.0"
+    "Electron >= 9.0.0"
   ],
   "config": {
     "default-locale": "en",

@@ -64,9 +64,9 @@ function handleLinks(link) {
 
 async function createWindow() {
   mainWindow = new BrowserWindow({
-    height: 550,
+    height: 720,
     width: 940,
-    minHeight: 550,
+    minHeight: 720,
     minWidth: 940,
     frame: false,
     transparent: true,

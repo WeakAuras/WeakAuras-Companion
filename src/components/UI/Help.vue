@@ -1,11 +1,11 @@
 <template>
   <div id="help" ref="help">
-    <div class="title">{{ $t("app.help.title" /* Setup steps */) }}</div>
+    <div class="title">{{ $t("app.help.title" /* Setup Steps */) }}</div>
     <ol class="follow">
       <li>
         {{
           $t(
-            "app.help.s1" /* Configure WeakAuras Companion, you will need to at least set your World of Warcraft Folder and Account. */
+            "app.help.s1" /* Configure WeakAuras Companion, you will need to at least set your World of Warcraft folder and account. */
           )
         }}
       </li>
@@ -19,21 +19,17 @@
           <li>
             {{
               $t(
-                "app.help.s2_1" /* Companion creates a list of your auras with a link to Wago. */
+                "app.help.s2_1" /* Companion creates a list of your auras that contain a link to Wago. */
               )
             }}
           </li>
           <li>
-            {{
-              $t(
-                "app.help.s2_2" /* Companion sends the list to the Wago API. */
-              )
-            }}
+            {{ $t("app.help.s2_2" /* Companion sends the list to Wago. */) }}
           </li>
           <li>
             {{
               $t(
-                "app.help.s2_3" /* Wago sends updated import strings and Companion compares versions. */
+                "app.help.s2_3" /* Wago sends updated import strings and Companion compares the versions. */
               )
             }}
           </li>
@@ -45,31 +41,25 @@
             }}
           </li>
           <li>
-            {{
-              $t(
-                "app.help.s2_5" /* Restart World of Warcraft or reload your UI. */
-              )
-            }}
+            {{ $t("app.help.s2_5" /* Reload your UI. */) }}
           </li>
         </ol>
       </li>
       <li>
         {{
           $t(
-            "app.help.s3" /* The first time you start WeakAuras Companion, you will have to restart the game for it to be able to load the addon. */
+            "app.help.s3" /* The first time you start WeakAuras Companion, you will have to reload your UI for it to be able to load the addon. */
           )
         }}
       </li>
       <li class="reset">
         {{
           $t(
-            "app.help.s4_1" /* Update your auras in-game by clicking the update button next to them */
+            "app.help.s4_1" /* Update your auras in-game by clicking the update button next to them in the WeakAuras options. */
           )
         }}
-        <img :src="require(`@/assets/wagoupdate_logo.png`)" />
-        {{ $t("app.help.s4_2" /* in the WeakAuras options. */) }}<br />
+        <br />
         <img :src="require(`@/assets/ingame.png`)" class="center" /><br />
-        <img :src="require(`@/assets/diagram.gif`)" class="center" />
       </li>
       <li>
         {{
@@ -95,7 +85,7 @@
         <li>
           {{
             this.$t(
-              "app.help.auraAuthorsText2" /* In the Companion App, write your Wago username into the "Wago Account" setting. */
+              "app.help.auraAuthorsText2" /* In the Companion app, add your Wago username in the "Wago Account" setting. */
             )
           }}
         </li>
@@ -131,7 +121,7 @@
         <li>
           {{
             $t(
-              "app.help.bug.s3" /* A screenshot if it helps to understand your issue. */
+              "app.help.bug.s3" /* A screenshot, if it helps to understand your issue. */
             )
           }}
         </li>
@@ -154,7 +144,9 @@
         )
       }}
       <a href="https://discord.gg/wa2" target="_blank">Discord</a>
-      {{ $t("app.help.support.text2" /* #companion-support channel. */) }}
+      {{
+        $t("app.help.support.text2" /* in the #companion-support channel. */)
+      }}
     </div>
     <br />
     <br />

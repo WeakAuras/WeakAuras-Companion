@@ -14,10 +14,13 @@
           >
             {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
           </file-select>
-          <i v-if="config.wowpath.valided" class="material-icons green folder">
+          <i
+            v-if="config.wowpath.valided"
+            class="material-icons green settings"
+          >
             check_circle_outline
           </i>
-          <i v-else class="material-icons red folder">error_outline</i>
+          <i v-else class="material-icons red settings">error_outline</i>
         </div>
         <!-- Companion Settings Section -->
         <div class="title">
@@ -57,7 +60,7 @@
             </checkbox>
           </div>
           <p class="label subtitle">
-            {{ $t("app.config.autoupdater" /* Auto-Update */) }}
+            {{ $t("app.config.autoupdater" /* Updates */) }}
           </p>
           <div class="option">
             <checkbox v-model="config.beta">
@@ -168,7 +171,7 @@
               {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
             </file-select>
             <p class="explorer" @click="openBackupDir()">
-              {{ $t("app.config.backup.openfolder" /* Open in Explorer */) }}
+              {{ $t("app.config.backup.openfolder" /* Open Folder */) }}
             </p>
             <Dropdown
               v-model="config.backup.maxsize"
@@ -302,9 +305,15 @@ label,
 .green {
   border-radius: 2px;
   vertical-align: middle;
+  margin-left: 4px;
 }
 
-.material-icons.folder {
+p.red {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.material-icons.settings {
   vertical-align: top;
   position: relative;
   top: 5px;
@@ -319,6 +328,7 @@ select,
   border: 1px solid #2c2c2c;
   background-color: #0d0d0d;
   color: #e6e6e6;
+  margin-left: 5px;
 }
 
 input:hover {
@@ -351,7 +361,8 @@ input:hover {
 
 .subtitle {
   font-size: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  margin-top: 16px;
   font-weight: 600;
   color: #ffffff;
 }
