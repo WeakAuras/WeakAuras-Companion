@@ -98,7 +98,7 @@
   "app.menu.main": "Mettre à jour",
   "app.menu.settings": "Paramètres",
   "app.refreshbutton.finishsetup": "La configuration n'est pas terminée",
-  "app.refreshbutton.incorrectsv": "Aucune donnée WeakAuras n'a été trouvé sur ce compte",
+  "app.refreshbutton.incorrectsv": "Aucune donnée AddOn n'a été trouvé sur ce compte",
   "app.refreshbutton.label": "Télécharger les mises à jour",
   "app.refreshbutton.lastupdate": "dernière mise à jour:",
   "app.refreshbutton.selectaccount": "Veuillez sélectionner votre nom de compte!",

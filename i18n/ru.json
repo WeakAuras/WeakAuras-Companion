@@ -98,7 +98,7 @@
   "app.menu.main": "Главная",
   "app.menu.settings": "Настройки",
   "app.refreshbutton.finishsetup": "Завершите настройку",
-  "app.refreshbutton.incorrectsv": "No WeakAuras data found for this account",
+  "app.refreshbutton.incorrectsv": "No AddOn data found for this account",
   "app.refreshbutton.label": "Получить обновления",
   "app.refreshbutton.lastupdate": "Последняя проверка:",
   "app.refreshbutton.selectaccount": "Please select your Account Name!",

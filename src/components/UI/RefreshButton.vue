@@ -33,7 +33,7 @@
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
-          "app.refreshbutton.incorrectsv" /* No WeakAuras data found for this account */
+          "app.refreshbutton.incorrectsv" /* No AddOn data found for this account */
         )
       }}</span>
     </Label>
