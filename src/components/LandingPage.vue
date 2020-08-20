@@ -720,65 +720,69 @@ export default Vue.extend({
       }
       return false;
     },
-    IsWeakAurasInstalled(version, account) {
+    async IsWeakAurasInstalled(version, account) {
       let AddonFolder;
 
       if (version && account) {
-        AddonFolder = path.join(
-          this.config.wowpath.value,
-          version,
-          "Interface",
-          "Addons",
-          "WeakAuras"
-        );
+        AddonFolder = path.join(this.config.wowpath.value, version);
       } else if (this.versionSelected && this.accountSelected) {
         AddonFolder = path.join(
           this.config.wowpath.value,
-          this.config.wowpath.version,
-          "Interface",
-          "Addons",
-          "WeakAuras"
+          this.config.wowpath.version
         );
       }
 
       if (AddonFolder) {
-        try {
-          fs.accessSync(AddonFolder, fs.constants.F_OK);
-          return true;
-        } catch (e) {
-          return false;
+        var AddonPath = ["Interface", "AddOns", "WeakAuras"];
+
+        while (AddonPath.length) {
+          var check = AddonPath.shift();
+          var folder = await matchFolderNameInsensitive(
+            AddonFolder,
+            check,
+            AddonPath.length === 0
+          );
+
+          if (folder) {
+            AddonFolder = path.join(AddonFolder, folder);
+          } else {
+            return false;
+          }
         }
+        return true;
       }
       return false;
     },
-    IsPlaterInstalled(version, account) {
+    async IsPlaterInstalled(version, account) {
       let AddonFolder;
 
       if (version && account) {
-        AddonFolder = path.join(
-          this.config.wowpath.value,
-          version,
-          "Interface",
-          "Addons",
-          "Plater"
-        );
+        AddonFolder = path.join(this.config.wowpath.value, version);
       } else if (this.versionSelected && this.accountSelected) {
         AddonFolder = path.join(
           this.config.wowpath.value,
-          this.config.wowpath.version,
-          "Interface",
-          "Addons",
-          "Plater"
+          this.config.wowpath.version
         );
       }
 
       if (AddonFolder) {
-        try {
-          fs.accessSync(AddonFolder, fs.constants.F_OK);
-          return true;
-        } catch (e) {
-          return false;
+        var AddonPath = ["Interface", "AddOns", "Plater"];
+
+        while (AddonPath.length) {
+          var check = AddonPath.shift();
+          var folder = await matchFolderNameInsensitive(
+            AddonFolder,
+            check,
+            AddonPath.length === 0
+          );
+
+          if (folder) {
+            AddonFolder = path.join(AddonFolder, folder);
+          } else {
+            return false;
+          }
         }
+        return true;
       }
       return false;
     },
