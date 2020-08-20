@@ -85,7 +85,7 @@
             :is-settings-ok="config.wowpath.valided"
             :is-version-selected="versionSelected"
             :is-account-selected="accountSelected"
-            :is-sv-ok="WeakAurasSaved()"
+            :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
             :fetching="fetching"
             :last-update="accountSelected && accountSelected.lastWagoUpdate"
             :auras-shown="

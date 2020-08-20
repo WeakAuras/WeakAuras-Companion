@@ -98,7 +98,7 @@
   "app.menu.main": "Start",
   "app.menu.settings": "Einstellungen",
   "app.refreshbutton.finishsetup": "Setup beenden",
-  "app.refreshbutton.incorrectsv": "Keine WeakAuras Daten gefunden",
+  "app.refreshbutton.incorrectsv": "Keine AddOn Daten gefunden",
   "app.refreshbutton.label": "Nach Updates suchen",
   "app.refreshbutton.lastupdate": "Letztes Update:",
   "app.refreshbutton.selectaccount": "Wähle deinen Accountnamen!",

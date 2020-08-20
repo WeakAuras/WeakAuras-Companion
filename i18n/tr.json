@@ -98,7 +98,7 @@
   "app.menu.main": "Anasayfa",
   "app.menu.settings": "Ayarlar",
   "app.refreshbutton.finishsetup": "Yüklemeyi Bitir",
-  "app.refreshbutton.incorrectsv": "Bu hesap için WeakAuras verisi bulunamadı",
+  "app.refreshbutton.incorrectsv": "Bu hesap için AddOn verisi bulunamadı",
   "app.refreshbutton.label": "Güncellemeleri Al",
   "app.refreshbutton.lastupdate": "son güncelleme:",
   "app.refreshbutton.selectaccount": "Lütfen hesap adınızı seçin!",
