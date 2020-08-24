@@ -22,7 +22,7 @@
     "@types/jest": "^26.0.10",
     "archiver": "^5.0.0",
     "auto-launch": "^5.0.5",
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
