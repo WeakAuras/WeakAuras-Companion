@@ -68,7 +68,7 @@
           <label :key="addonSelected" class="btn-label">
             {{ $t("app.main.addons" /* Addons */) }}
           </label>
-          <span style="margin-left: 5px;" />
+          <span style="margin-left: 5px" />
           <Button
             v-for="(addon, index) in allAddonConfigs"
             :key="index"
