@@ -162,7 +162,7 @@
               {{ $t("app.config.backup.activate" /* Activate */) }}
             </checkbox>
           </p>
-          <div v-if="config.backup.active" style="display: inline;">
+          <div v-if="config.backup.active" style="display: inline">
             <file-select
               :path.sync="config.backup.path"
               :create-directory="true"
