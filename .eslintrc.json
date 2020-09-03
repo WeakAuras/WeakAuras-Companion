@@ -13,6 +13,7 @@
         "semi": 0,
         "quotes": [1, "double", "avoid-escape"],
         "vue/require-prop-types": "off",
+        "vue/no-mutating-props": "off",
         "vue/no-v-html": "off",
         "padding-line-between-statements": [
             "warn",

@@ -19,5 +19,5 @@ yarn-error.log*
 *.sln
 *.sw?
 
-#Electron-builder output
+# Electron-builder output
 /dist_electron

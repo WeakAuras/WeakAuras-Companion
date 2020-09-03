@@ -20,24 +20,20 @@ jobs:
         id: cache-node
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
       - if: steps.cache-node.outputs.cache-hit != 'true'
-        run: yarn
-        env:
-          CI: true
+        run: npm install
 
       - name: Lint
-        run: yarn lint
+        run: npm run lint
 
       - name: Build
-        run: yarn dist:pr
-        env:
-          CI: true
+        run: npm run dist:pr
 
       - name: Package Artifacts
         run: |

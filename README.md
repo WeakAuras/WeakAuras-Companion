@@ -26,7 +26,7 @@ It enables you to fetch updates to the auras you have installed  directly from W
 
 ### Backups
 
-The Companion is able to regularily create backups of your WeakAuras so you don't lose them in case of a crash or other accident. This option needs to be enabled manually in the options.
+The Companion is able to regularly create backups of your WeakAuras so you don't lose them in case of a crash or other accident. This option needs to be enabled manually in the options.
 
 ![preview4](https://i.imgur.com/9WchRsg.png)
 
@@ -44,17 +44,17 @@ The Companion is able to regularily create backups of your WeakAuras so you don'
 
 ```bash
 # install dependencies
-yarn
+npm install
 
 # serve with hot reload at localhost:9080
-yarn dev
+npm run dev
 
 # build electron application for production
-yarn build
+npm run build
 ```
 
 ### Extract new translation strings to i18n/*.json files
 
 ```bash
-yarn i18n
+npm run i18n
 ```
