@@ -1,6 +1,6 @@
 import path from "path";
-import luxon from "luxon";
 
+var { DateTime } = require("luxon");
 const archiver = require("archiver");
 const fs = require("fs");
 
@@ -48,7 +48,9 @@ function backupIfRequired(
     const stats = fs.statSync(filename);
 
     if (stats.size !== previousSize) {
-      const date = luxon(stats.mtimeMs).format("YYYYMMDDHHmmss");
+      const date = DateTime.fromMillis(stats.mtimeMs).toFormat(
+        "yLLddHHmmss" // "YYYYMMDDHHmmss"
+      );
       const zipFile = `${addonName}-${accountName}-${date}.zip`;
       const fileContents = fs.createReadStream(filename);
       const writeStream = fs.createWriteStream(path.join(config.path, zipFile));

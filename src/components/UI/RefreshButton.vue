@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import luxon from "luxon";
+var { DateTime } = require("luxon");
 import Button from "./Button.vue";
 
 export default {
@@ -54,7 +54,7 @@ export default {
   filters: {
     fromNow: (value, locale) => {
       if (!value) return "n/a";
-      return luxon(value).locale(locale).fromNow();
+      return DateTime.fromJSDate(value).toRelative({ locale: locale });
     },
   },
   props: [
