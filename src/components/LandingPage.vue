@@ -191,7 +191,7 @@
 <script>
 import Vue from "vue";
 import path from "path";
-import moment from "moment";
+import luxon from "luxon";
 import VTooltip from "v-tooltip";
 import backupIfRequired from "./libs/backup";
 import {
@@ -357,12 +357,12 @@ export default Vue.extend({
     aurasWithUpdateSorted() {
       return this.aurasWithUpdate
         .slice(0)
-        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+        .sort((a, b) => luxon.utc(b.modified).diff(luxon.utc(a.modified)));
     },
     aurasWithUpdateSortedForView() {
       return this.aurasWithUpdateForView
         .slice(0)
-        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+        .sort((a, b) => luxon.utc(b.modified).diff(luxon.utc(a.modified)));
     },
     aurasSorted() {
       return this.auras
@@ -374,7 +374,7 @@ export default Vue.extend({
               aura.author === this.config.wagoUsername
             )
         )
-        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+        .sort((a, b) => luxon.utc(b.modified).diff(luxon.utc(a.modified)));
     },
     aurasSortedForView() {
       return this.auras
@@ -387,7 +387,7 @@ export default Vue.extend({
             ) &&
             aura.auraType === this.addonSelected
         )
-        .sort((a, b) => moment.utc(b.modified).diff(moment.utc(a.modified)));
+        .sort((a, b) => luxon.utc(b.modified).diff(luxon.utc(a.modified)));
     },
     aurasWithData() {
       return this.auras.filter(
