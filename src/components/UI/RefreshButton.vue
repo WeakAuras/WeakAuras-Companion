@@ -45,7 +45,7 @@
 </template>
 
 <script>
-var { DateTime } = require("luxon");
+const { DateTime } = require("luxon");
 import Button from "./Button.vue";
 
 export default {
