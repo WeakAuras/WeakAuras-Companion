@@ -75,10 +75,10 @@
 </template>
 
 <script>
-import luxon from "luxon";
 import Vue from "vue";
 import VTooltip from "v-tooltip";
 
+var { DateTime } = require("luxon");
 const sanitize = require("../libs/sanitize.js");
 
 Vue.use(VTooltip);
@@ -123,7 +123,7 @@ export default Vue.extend({
     },
     fromNow(value, locale) {
       if (!value) return "n/a";
-      return luxon(value).locale(locale).fromNow();
+      return DateTime.fromJSDate(value).setLocale(locale).toRelative();
     },
   },
 });
