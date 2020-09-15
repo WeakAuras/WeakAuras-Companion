@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import moment from "moment";
+import luxon from "luxon";
 import Vue from "vue";
 import VTooltip from "v-tooltip";
 
@@ -123,7 +123,7 @@ export default Vue.extend({
     },
     fromNow(value, locale) {
       if (!value) return "n/a";
-      return moment(value).locale(locale).fromNow();
+      return luxon(value).locale(locale).fromNow();
     },
   },
 });

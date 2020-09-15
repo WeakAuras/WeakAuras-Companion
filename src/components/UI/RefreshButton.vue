@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import moment from "moment";
+import luxon from "luxon";
 import Button from "./Button.vue";
 
 export default {
@@ -54,7 +54,7 @@ export default {
   filters: {
     fromNow: (value, locale) => {
       if (!value) return "n/a";
-      return moment(value).locale(locale).fromNow();
+      return luxon(value).locale(locale).fromNow();
     },
   },
   props: [
