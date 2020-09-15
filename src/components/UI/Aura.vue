@@ -78,7 +78,7 @@
 import Vue from "vue";
 import VTooltip from "v-tooltip";
 
-var { DateTime } = require("luxon");
+const { DateTime } = require("luxon");
 const sanitize = require("../libs/sanitize.js");
 
 Vue.use(VTooltip);

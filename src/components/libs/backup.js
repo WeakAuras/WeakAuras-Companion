@@ -1,6 +1,6 @@
 import path from "path";
 
-var { DateTime } = require("luxon");
+const { DateTime } = require("luxon");
 const archiver = require("archiver");
 const fs = require("fs");
 
