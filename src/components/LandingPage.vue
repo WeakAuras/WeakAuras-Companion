@@ -356,15 +356,19 @@ export default Vue.extend({
     aurasWithUpdateSorted() {
       return this.aurasWithUpdate
         .slice(0)
-        .sort(
-          (a, b) => b.modified.diff(a.modified, { zone: "utc" }).milliseconds
+        .sort((a, b) =>
+          luxon
+            .utc(b.modified)
+            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
         );
     },
     aurasWithUpdateSortedForView() {
       return this.aurasWithUpdateForView
         .slice(0)
-        .sort(
-          (a, b) => b.modified.diff(a.modified, { zone: "utc" }).milliseconds
+        .sort((a, b) =>
+          luxon
+            .utc(b.modified)
+            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
         );
     },
     aurasSorted() {
@@ -377,8 +381,10 @@ export default Vue.extend({
               aura.author === this.config.wagoUsername
             )
         )
-        .sort(
-          (a, b) => b.modified.diff(a.modified, { zone: "utc" }).milliseconds
+        .sort((a, b) =>
+          luxon
+            .utc(b.modified)
+            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
         );
     },
     aurasSortedForView() {
@@ -392,8 +398,10 @@ export default Vue.extend({
             ) &&
             aura.auraType === this.addonSelected
         )
-        .sort(
-          (a, b) => b.modified.diff(a.modified, { zone: "utc" }).milliseconds
+        .sort((a, b) =>
+          luxon
+            .utc(b.modified)
+            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
         );
     },
     aurasWithData() {
