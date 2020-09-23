@@ -17,7 +17,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - uses: actions/cache@v2
-        id: cache
+        id: npm-cache
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -25,7 +25,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm install
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

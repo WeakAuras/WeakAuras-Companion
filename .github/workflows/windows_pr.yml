@@ -17,7 +17,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Get npm cache directory
-        id: cache
+        id: npm-cache
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
       - uses: actions/cache@v2
@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: Lint
