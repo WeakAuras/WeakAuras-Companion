@@ -16,17 +16,19 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: Get npm cache directory
+        id: cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
       - uses: actions/cache@v2
-        id: cache-node
         with:
-          path: node_modules
+          path: ${{ steps.npm-cache.outputs.dir }}
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-node-
 
-      - if: steps.cache-node.outputs.cache-hit != 'true'
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: Lint
