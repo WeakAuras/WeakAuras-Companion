@@ -39,4 +39,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         name: Upload DMG
         with:
+          name: WeakAuras-Companion-PRCI-dmg
           path: dist_electron/*.dmg

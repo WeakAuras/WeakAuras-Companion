@@ -48,4 +48,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         name: Upload Installer
         with:
+          name: WeakAuras-Companion-CI-Installer
           path: dist_electron/*.exe
