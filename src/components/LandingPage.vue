@@ -191,7 +191,6 @@
 <script>
 import Vue from "vue";
 import path from "path";
-import luxon from "luxon";
 import VTooltip from "v-tooltip";
 import backupIfRequired from "./libs/backup";
 import {
@@ -211,6 +210,7 @@ import Report from "./UI/Report.vue";
 import Stash from "./UI/Stash.vue";
 import Dropdown from "./UI/Dropdown.vue";
 
+const { DateTime } = require("luxon");
 const userDataPath = require("electron").remote.app.getPath("userData");
 const fs = require("fs");
 const luaparse = require("luaparse");
@@ -358,18 +358,18 @@ export default Vue.extend({
       return this.aurasWithUpdate
         .slice(0)
         .sort((a, b) =>
-          luxon
-            .utc(b.modified)
-            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
+          DateTime.fromJSDate(b.modified)
+            .diff(DateTime.fromJSDate(a.modified))
+            .valueOf()
         );
     },
     aurasWithUpdateSortedForView() {
       return this.aurasWithUpdateForView
         .slice(0)
         .sort((a, b) =>
-          luxon
-            .utc(b.modified)
-            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
+          DateTime.fromJSDate(b.modified)
+            .diff(DateTime.fromJSDate(a.modified))
+            .valueOf()
         );
     },
     aurasSorted() {
@@ -383,9 +383,9 @@ export default Vue.extend({
             )
         )
         .sort((a, b) =>
-          luxon
-            .utc(b.modified)
-            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
+          DateTime.fromJSDate(b.modified)
+            .diff(DateTime.fromJSDate(a.modified))
+            .valueOf()
         );
     },
     aurasSortedForView() {
@@ -400,9 +400,9 @@ export default Vue.extend({
             aura.auraType === this.addonSelected
         )
         .sort((a, b) =>
-          luxon
-            .utc(b.modified)
-            .milliseconds.diff(luxon.utc(a.modified).milliseconds)
+          DateTime.fromJSDate(b.modified)
+            .diff(DateTime.fromJSDate(a.modified))
+            .valueOf()
         );
     },
     aurasWithData() {
