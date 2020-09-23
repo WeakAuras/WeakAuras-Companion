@@ -16,20 +16,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Get npm cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - name: Install
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
+      - uses: bahmutov/npm-install@v1
 
       - name: Lint
         run: npm run lint
