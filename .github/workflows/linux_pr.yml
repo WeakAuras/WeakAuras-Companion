@@ -7,7 +7,7 @@ jobs:
 
     strategy:
       matrix:
-        node: ["13"]
+        node: ["12"]
 
     steps:
       - uses: actions/checkout@v2
@@ -35,27 +35,22 @@ jobs:
       - name: Build
         run: npm run dist:pr
 
-      - name: Package Artifacts
-        run: |
-          mkdir artifact-appimage
-          mv dist_electron/*.AppImage artifact-appimage/ || true
-          mkdir artifact-snap
-          mv dist_electron/*.snap artifact-snap/ || true
-
       - uses: actions/upload-artifact@v2
         name: Upload AppImage
         with:
-          name: WeakAuras-Companion-PR-Node${{ matrix.node }} AppImage
-          path: artifact-appimage
+          path: dist_electron/*.AppImage
 
       - uses: actions/upload-artifact@v2
         name: Upload Snap
         with:
-          name: WeakAuras-Companion-PR-Node${{ matrix.node }} Snap
-          path: artifact-snap
+          path: dist_electron/*.snap
 
       - uses: actions/upload-artifact@v2
-        name: Upload Tarball
+        name: Upload deb
         with:
-          name: WeakAuras-Companion-PR-Node${{ matrix.node }} Tarball
-          path: dist_electron/linux-unpacked
+          path: dist_electron/*.deb
+
+      - uses: actions/upload-artifact@v2
+        name: Upload rpm
+        with:
+          path: dist_electron/*.rpm

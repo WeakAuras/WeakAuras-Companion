@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node: ["13"]
+        node: ["12"]
 
     steps:
       - uses: actions/checkout@v2
@@ -43,13 +43,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Package Artifacts
-        run: |
-          mkdir artifact-setup
-          mv dist_electron/*.exe artifact-setup/
-
       - uses: actions/upload-artifact@v2
         name: Upload Installer
         with:
-          name: WeakAuras-Companion-CI-Node${{ matrix.node }} Installer
-          path: artifact-setup
+          path: dist_electron/*.exe

@@ -7,7 +7,7 @@ jobs:
 
     strategy:
       matrix:
-        node: ["13"]
+        node: ["12"]
 
     steps:
       - uses: actions/checkout@v2
@@ -35,13 +35,7 @@ jobs:
       - name: Build
         run: npm run dist:pr
 
-      - name: Package Artifacts
-        run: |
-          mkdir artifact-setup
-          mv dist_electron/*.exe artifact-setup/
-
       - uses: actions/upload-artifact@v2
         name: Upload Installer
         with:
-          name: WeakAuras-Companion-PR-Node${{ matrix.node }} Installer
-          path: artifact-setup
+          path: dist_electron/*.exe

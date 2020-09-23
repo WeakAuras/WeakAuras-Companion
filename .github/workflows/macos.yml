@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node: ["13"]
+        node: ["12"]
 
     steps:
       - uses: actions/checkout@v2
@@ -43,21 +43,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Package Artifacts
-        run: |
-          mkdir artifact-dmg
-          mv dist_electron/*.dmg artifact-dmg/
-          mkdir artifact-zip
-          mv dist_electron/*.zip artifact-zip/
-
       - uses: actions/upload-artifact@v2
         name: Upload DMG
         with:
-          name: WeakAuras-Companion-CI-Node${{ matrix.node }} DMG
-          path: artifact-dmg
-
-      - uses: actions/upload-artifact@v2
-        name: Upload ZIP
-        with:
-          name: WeakAuras-Companion-CI-Node${{ matrix.node }} ZIP
-          path: artifact-zip
+          path: dist_electron/*.dmg
