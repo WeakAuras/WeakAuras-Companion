@@ -226,56 +226,58 @@ luaparse.defaultOptions.scope = true;
 
 const internalVersion = 3;
 
-const defaultValues = {
-  configStep: 0,
-  addonSelected: "WeakAuras",
-  reportIsShown: false,
-  fetching: false, // use for avoid spamming refresh button and show spinner
-  config: {
-    // everything in this object will be auto-save and restore
-    wowpath: {
-      value: "",
-      versions: [],
-      version: "",
-      valided: false,
+const defaultValues = () => {
+  return {
+    configStep: 0,
+    addonSelected: "WeakAuras",
+    reportIsShown: false,
+    fetching: false, // use for avoid spamming refresh button and show spinner
+    config: {
+      // everything in this object will be auto-save and restore
+      wowpath: {
+        value: "",
+        versions: [],
+        version: "",
+        valided: false,
+      },
+      wagoUsername: null, // ignore your own auras
+      wagoApiKey: null,
+      ignoreOwnAuras: true,
+      autostart: false,
+      startminimize: false,
+      notify: false,
+      lang: "en",
+      showAllAuras: false,
+      autoupdate: false,
+      beta: null,
+      internalVersion,
+      backup: {
+        active: true,
+        path: path.join(userDataPath, "WeakAurasData-Backup"),
+        maxsize: 100,
+        defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
+      },
     },
-    wagoUsername: null, // ignore your own auras
-    wagoApiKey: null,
-    ignoreOwnAuras: true,
-    autostart: false,
-    startminimize: false,
-    notify: false,
-    lang: "en",
-    showAllAuras: false,
-    autoupdate: false,
-    beta: null,
-    internalVersion,
-    backup: {
-      active: true,
-      path: path.join(userDataPath, "WeakAurasData-Backup"),
-      maxsize: 100,
-      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
+    schedule: {
+      id: null, // 1h setTimeout id
     },
-  },
-  schedule: {
-    id: null, // 1h setTimeout id
-  },
-  medias,
-  stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
-  reloadToast: null,
-  updateToast: null,
-  updater: {
-    status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
-    progress: null,
-    scheduleId: null, // for 2h auto-updater
-    version: null,
-    path: null,
-    releaseNotes: null,
-  },
-  isMac: process.platform === "darwin",
-  accountOptions: [],
-  versionOptions: [],
-  defaultWOWPath: "",
+    medias,
+    stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
+    reloadToast: null,
+    updateToast: null,
+    updater: {
+      status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
+      progress: null,
+      scheduleId: null, // for 2h auto-updater
+      version: null,
+      path: null,
+      releaseNotes: null,
+    },
+    isMac: process.platform === "darwin",
+    accountOptions: [],
+    versionOptions: [],
+    defaultWOWPath: "",
+  };
 };
 
 export default Vue.extend({
@@ -293,7 +295,7 @@ export default Vue.extend({
     Dropdown,
   },
   data() {
-    return JSON.parse(JSON.stringify(defaultValues));
+    return defaultValues();
   },
   computed: {
     accountHash() {
@@ -816,7 +818,8 @@ export default Vue.extend({
     reset() {
       store.clear();
       const { beta } = this.config;
-      this.config = JSON.parse(JSON.stringify(defaultValues.config));
+      const { config } = defaultValues();
+      this.config = config;
       this.config.beta = beta;
 
       wowDefaultPath().then((value) => {
@@ -845,7 +848,8 @@ export default Vue.extend({
 
         if (!this.config.backup) {
           console.log("add backup settings");
-          this.$set(this.config, "backup", defaultValues.config.backup);
+          const { config: backup } = defaultValues();
+          this.$set(this.config, "backup", backup);
         }
 
         if (!this.config.wowpath.versions) {
