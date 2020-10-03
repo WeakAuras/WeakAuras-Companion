@@ -122,7 +122,7 @@
                 </div>
                 <div
                   v-if="
-                    selectedAddonConfig && selectedAddonConfig.hasTypeColumn
+                    addonSelectedConfig && addonSelectedConfig.hasTypeColumn
                   "
                   class="aura-column aura-column-aura-type sortable"
                   :class="{
@@ -389,12 +389,12 @@ export default Vue.extend({
         (addonConfig) => addonConfig.isInstalled
       );
     },
-    selectedAddonConfig() {
-      if (!this.selectedAddon) return null;
+    addonSelectedConfig() {
+      if (!this.addonSelected) return null;
       return this.allAddonConfigs.find(
         (addonConfig) =>
           addonConfig.addonName.toLowerCase() ===
-          this.selectedAddon.toLowerCase()
+          this.addonSelected.toLowerCase()
       );
     },
     versionSelected() {
