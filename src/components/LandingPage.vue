@@ -88,25 +88,15 @@
             :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
             :fetching="fetching"
             :last-update="accountSelected && accountSelected.lastWagoUpdate"
-            :auras-shown="
-              config.showAllAuras
-                ? aurasSortedForView.length
-                : aurasWithUpdateSortedForView.length
-            "
+            :auras-shown="aurasSortedForView.length"
           ></RefreshButton>
           <br />
           <div
             id="aura-list"
-            :class="{
-              hidden: config.showAllAuras
-                ? aurasSortedForView.length <= 0
-                : aurasWithUpdateSortedForView.length <= 0,
-            }"
+            :class="{ hidden: aurasSortedForView.length <= 0 }"
           >
             <Aura
-              v-for="aura in config.showAllAuras
-                ? aurasSortedForView
-                : aurasWithUpdateSortedForView"
+              v-for="aura in aurasSortedForView"
               :key="aura.slug"
               :aura="aura"
               :show-all-auras="config.showAllAuras"
@@ -358,47 +348,6 @@ export default Vue.extend({
         )
       );
     },
-    aurasWithUpdateSorted() {
-      return this.aurasWithUpdate
-        .slice(0)
-        .sort((a, b) =>
-          DateTime.fromJSDate(b.modified)
-            .diff(DateTime.fromJSDate(a.modified))
-            .valueOf()
-        );
-    },
-    aurasWithUpdateSortedForView() {
-      return this.aurasWithUpdateForView.slice(0).sort(this.sortFunction);
-    },
-    aurasSorted() {
-      return this.auras
-        .filter(
-          (aura) =>
-            (!!aura.topLevel || aura.regionType !== "group") &&
-            !(
-              this.config.ignoreOwnAuras &&
-              aura.author === this.config.wagoUsername
-            )
-        )
-        .sort((a, b) =>
-          DateTime.fromJSDate(b.modified)
-            .diff(DateTime.fromJSDate(a.modified))
-            .valueOf()
-        );
-    },
-    aurasSortedForView() {
-      return this.auras
-        .filter(
-          (aura) =>
-            (!!aura.topLevel || aura.regionType !== "group") &&
-            !(
-              this.config.ignoreOwnAuras &&
-              aura.author === this.config.wagoUsername
-            ) &&
-            aura.auraType === this.addonSelected
-        )
-        .sort(this.sortFunction);
-    },
     aurasWithData() {
       return this.auras.filter(
         (aura) =>
@@ -411,36 +360,22 @@ export default Vue.extend({
       );
     },
     aurasWithUpdate() {
-      return this.auras.filter(
-        (aura) =>
-          !!aura.encoded &&
-          aura.wagoVersion > aura.version &&
-          !aura.ignoreWagoUpdate &&
-          (!!aura.topLevel || aura.regionType !== "group") &&
-          !(
-            this.config.ignoreOwnAuras &&
-            aura.author === this.config.wagoUsername
-          )
+      return this.aurasWithData.filter(
+        (aura) => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate
       );
     },
-    aurasWithUpdateForView() {
-      return this.auras.filter(
-        (aura) =>
-          !!aura.encoded &&
-          aura.wagoVersion > aura.version &&
-          !aura.ignoreWagoUpdate &&
-          (!!aura.topLevel || aura.regionType !== "group") &&
-          !(
-            this.config.ignoreOwnAuras &&
-            aura.author === this.config.wagoUsername
-          ) &&
-          aura.auraType === this.addonSelected
-      );
+    aurasSortedForView() {
+      const auras = this.config.showAllAuras
+        ? this.aurasWithData
+        : this.aurasWithUpdate;
+      return auras
+        .filter((aura) => aura.auraType === this.addonSelected)
+        .sort(this.sortFunction);
     },
     sortFunction() {
       const dir = this.sortDescending ? -1 : 1;
 
-      if (this.columnToSort == "modified") {
+      if (!this.columnToSort || this.columnToSort == "modified") {
         return (a, b) => {
           return (
             DateTime.fromJSDate(b.modified)
