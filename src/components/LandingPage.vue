@@ -121,7 +121,9 @@
                   </span>
                 </div>
                 <div
-                  v-if="addonSelected == 'Plater'"
+                  v-if="
+                    selectedAddonConfig && selectedAddonConfig.hasTypeColumn
+                  "
                   class="aura-column aura-column-aura-type sortable"
                   :class="{
                     sorted: columnToSort == 'auraTypeDisplay',
@@ -367,6 +369,7 @@ export default Vue.extend({
           svPathFunction: this.WeakAurasSaved,
           isInstalled: this.IsWeakAurasInstalled(),
           parseFunction: this.parseWeakAurasSVdata,
+          hasTypeColumn: false,
         },
         {
           addonName: "Plater",
@@ -376,6 +379,7 @@ export default Vue.extend({
           svPathFunction: this.PlaterSaved,
           isInstalled: this.IsPlaterInstalled(),
           parseFunction: this.parsePlaterSVdata,
+          hasTypeColumn: true,
         },
       ];
       return addonConfigs;
@@ -383,6 +387,14 @@ export default Vue.extend({
     addonsInstalled() {
       return this.allAddonConfigs.filter(
         (addonConfig) => addonConfig.isInstalled
+      );
+    },
+    selectedAddonConfig() {
+      if (!this.selectedAddon) return null;
+      return this.allAddonConfigs.find(
+        (addonConfig) =>
+          addonConfig.addonName.toLowerCase() ===
+          this.selectedAddon.toLowerCase()
       );
     },
     versionSelected() {
