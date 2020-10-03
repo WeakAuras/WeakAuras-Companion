@@ -35,122 +35,121 @@
         </div>
       </header>
       <main>
-        <div v-if="configStep === 0" id="selectors">
-          <div
-            v-if="config.wowpath.valided && config.wowpath.versions"
-            id="version-selector"
-          >
-            <Dropdown
-              v-model="config.wowpath.version"
-              :options="versionOptions"
-              :label="$t('app.wowpath.version' /* Version */)"
-              @change="compareSVwithWago()"
+        <template v-if="configStep === 0">
+          <div id="selectors">
+            <div
+              v-if="config.wowpath.valided && config.wowpath.versions"
+              id="version-selector"
             >
-            </Dropdown>
-          </div>
-          <div
-            v-if="config.wowpath.valided && versionSelected"
-            id="account-selector"
-          >
-            <Dropdown
-              v-model="versionSelected.account"
-              :options="accountOptions"
-              :label="$t('app.wowpath.account' /* Account */)"
-              @change="compareSVwithWago()"
-            >
-            </Dropdown>
-          </div>
-        </div>
-        <div
-          v-if="configStep === 0 && allAddonConfigs.length > 1"
-          id="addonbttns"
-        >
-          <label :key="addonSelected" class="btn-label">
-            {{ $t("app.main.addons" /* Addons */) }}
-          </label>
-          <span style="margin-left: 5px" />
-          <Button
-            v-for="(addon, index) in allAddonConfigs"
-            :key="index"
-            type="addon"
-            :class="{ active: addonSelected === addon.addonName }"
-            :disabled="!addon.isInstalled"
-            @click="addonSelected = addon.addonName"
-          >
-            {{ addon.addonName }}
-          </Button>
-        </div>
-        <div v-if="configStep === 0" id="dashboard">
-          <RefreshButton
-            :is-settings-ok="config.wowpath.valided"
-            :is-version-selected="versionSelected"
-            :is-account-selected="accountSelected"
-            :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
-            :fetching="fetching"
-            :last-update="accountSelected && accountSelected.lastWagoUpdate"
-            :auras-shown="aurasSortedForView.length"
-          ></RefreshButton>
-          <br />
-          <div
-            id="aura-list"
-            :class="{ hidden: aurasSortedForView.length <= 0 }"
-          >
-            <div class="aura-header">
-              <div
-                class="aura-column aura-column-name sortable"
-                :class="{
-                  sorted: columnToSort == 'name',
-                  'sort-desc': sortDescending,
-                }"
-                @click="sortBy('name')"
+              <Dropdown
+                v-model="config.wowpath.version"
+                :options="versionOptions"
+                :label="$t('app.wowpath.version' /* Version */)"
+                @change="compareSVwithWago()"
               >
-                Name
-                <span class="aura-header__sort-icon material-icons">
-                  arrow_downward
-                </span>
-              </div>
-              <div
-                class="aura-column aura-column-update sortable"
-                :class="{
-                  sorted: columnToSort == 'update',
-                  'sort-desc': sortDescending,
-                }"
-                @click="sortBy('update')"
-              >
-                Test 2
-                <span class="material-icons aura-header__sort-icon">
-                  arrow_downward
-                </span>
-              </div>
-              <div
-                class="aura-column aura-column-author sortable"
-                :class="{
-                  sorted: columnToSort == 'author',
-                  'sort-desc': sortDescending,
-                }"
-                @click="sortBy('author')"
-              >
-                Test3
-                <span class="material-icons aura-header__sort-icon">
-                  arrow_downward
-                </span>
-              </div>
+              </Dropdown>
             </div>
-            <Aura
-              v-for="aura in aurasSortedForView"
-              :key="aura.slug"
-              :aura="aura"
-              :show-all-auras="config.showAllAuras"
-            ></Aura>
+            <div
+              v-if="config.wowpath.valided && versionSelected"
+              id="account-selector"
+            >
+              <Dropdown
+                v-model="versionSelected.account"
+                :options="accountOptions"
+                :label="$t('app.wowpath.account' /* Account */)"
+                @change="compareSVwithWago()"
+              >
+              </Dropdown>
+            </div>
           </div>
-        </div>
+          <div v-if="allAddonConfigs.length > 1" id="addonbttns">
+            <label :key="addonSelected" class="btn-label">
+              {{ $t("app.main.addons" /* Addons */) }}
+            </label>
+            <span style="margin-left: 5px" />
+            <Button
+              v-for="(addon, index) in allAddonConfigs"
+              :key="index"
+              type="addon"
+              :class="{ active: addonSelected === addon.addonName }"
+              :disabled="!addon.isInstalled"
+              @click="addonSelected = addon.addonName"
+            >
+              {{ addon.addonName }}
+            </Button>
+          </div>
+          <div id="dashboard">
+            <RefreshButton
+              :is-settings-ok="config.wowpath.valided"
+              :is-version-selected="versionSelected"
+              :is-account-selected="accountSelected"
+              :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
+              :fetching="fetching"
+              :last-update="accountSelected && accountSelected.lastWagoUpdate"
+              :auras-shown="aurasSortedForView.length"
+            ></RefreshButton>
+            <br />
+            <div
+              id="aura-list"
+              :class="{ hidden: aurasSortedForView.length <= 0 }"
+            >
+              <div class="aura-header">
+                <div
+                  class="aura-column aura-column-name sortable"
+                  :class="{
+                    sorted: columnToSort == 'name',
+                    'sort-desc': sortDescending,
+                  }"
+                  @click="sortBy('name')"
+                >
+                  Name
+                  <span class="aura-header__sort-icon material-icons">
+                    arrow_downward
+                  </span>
+                </div>
+                <div
+                  class="aura-column aura-column-update sortable"
+                  :class="{
+                    sorted: columnToSort == 'update',
+                    'sort-desc': sortDescending,
+                  }"
+                  @click="sortBy('update')"
+                >
+                  Test 2
+                  <span class="material-icons aura-header__sort-icon">
+                    arrow_downward
+                  </span>
+                </div>
+                <div
+                  class="aura-column aura-column-author sortable"
+                  :class="{
+                    sorted: columnToSort == 'author',
+                    'sort-desc': sortDescending,
+                  }"
+                  @click="sortBy('author')"
+                >
+                  Test3
+                  <span class="material-icons aura-header__sort-icon">
+                    arrow_downward
+                  </span>
+                </div>
+              </div>
+              <Aura
+                v-for="aura in aurasSortedForView"
+                :key="aura.slug"
+                :aura="aura"
+                :show-all-auras="config.showAllAuras"
+              ></Aura>
+            </div>
+          </div>
+        </template>
         <Config
-          v-if="configStep === 1"
+          v-else-if="configStep === 1"
           :config="config"
           :default-w-o-w-path="defaultWOWPath"
         ></Config>
-        <Help v-if="configStep === 2"></Help>
-        <About v-if="configStep === 3"></About>
+        <Help v-else-if="configStep === 2"></Help>
+        <About v-else-if="configStep === 3"></About>
       </main>
       <footer>
         <a
