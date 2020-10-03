@@ -95,6 +95,47 @@
             id="aura-list"
             :class="{ hidden: aurasSortedForView.length <= 0 }"
           >
+            <div class="aura-header">
+              <div
+                class="aura-column aura-column-name sortable"
+                :class="{
+                  sorted: columnToSort == 'name',
+                  'sort-desc': sortDescending,
+                }"
+                @click="sortBy('name')"
+              >
+                Name
+                <span class="aura-header__sort-icon material-icons">
+                  arrow_downward
+                </span>
+              </div>
+              <div
+                class="aura-column aura-column-update sortable"
+                :class="{
+                  sorted: columnToSort == 'update',
+                  'sort-desc': sortDescending,
+                }"
+                @click="sortBy('update')"
+              >
+                Test 2
+                <span class="material-icons aura-header__sort-icon">
+                  arrow_downward
+                </span>
+              </div>
+              <div
+                class="aura-column aura-column-author sortable"
+                :class="{
+                  sorted: columnToSort == 'author',
+                  'sort-desc': sortDescending,
+                }"
+                @click="sortBy('author')"
+              >
+                Test3
+                <span class="material-icons aura-header__sort-icon">
+                  arrow_downward
+                </span>
+              </div>
+            </div>
             <Aura
               v-for="aura in aurasSortedForView"
               :key="aura.slug"
@@ -383,6 +424,20 @@ export default Vue.extend({
               .valueOf() * dir
           );
         };
+      } else if (this.columnToSort == "update") {
+        const showAllAuras = this.config.showAllAuras;
+
+        const getUpdateValue = (aura) => {
+          if (showAllAuras && aura.ignoreWagoUpdate) return 3;
+          else if (
+            aura.skipWagoUpdate &&
+            aura.skipWagoUpdate >= aura.wagoVersion
+          )
+            return 2;
+          else if (showAllAuras && aura.version < aura.wagoVersion) return 1;
+          return 0;
+        };
+        return (a, b) => (getUpdateValue(b) - getUpdateValue(a)) * dir;
       }
 
       return (a, b) => {
@@ -2204,6 +2259,19 @@ end`,
         }
       }
     },
+    sortBy(columnName) {
+      if (this.columnToSort == columnName) {
+        if (this.sortDescending) {
+          this.sortDescending = false;
+          this.columnToSort = "modified";
+        } else {
+          this.sortDescending = true;
+        }
+      } else {
+        this.sortDescending = false;
+        this.columnToSort = columnName;
+      }
+    },
   },
 });
 </script>
@@ -2338,6 +2406,47 @@ end`,
   margin: 0 2.35vw 15px;
   border-radius: 8px;
   transition: height 0.4s ease-in-out;
+}
+
+.aura-header {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  font-size: 14px;
+  .aura-column {
+    &.sortable {
+      cursor: pointer;
+      &:hover .aura-header__sort-icon {
+        opacity: 0.64;
+      }
+    }
+    &.sorted .aura-header__sort-icon {
+      opacity: 0.86 !important;
+    }
+    &.sort-desc .aura-header__sort-icon {
+      transform: rotate(180deg);
+      padding-bottom: 0px;
+      padding-top: 2px;
+    }
+    &-name {
+      flex: 1;
+      padding-left: 48px;
+    }
+    &-update {
+      padding-right: 10px;
+    }
+    &-author {
+      margin-right: 111px;
+      padding-left: 10px;
+      width: 100px;
+    }
+  }
+  &__sort-icon {
+    opacity: 0;
+    font-size: 14px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
 }
 
 /* Scrollbar */
