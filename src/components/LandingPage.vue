@@ -93,63 +93,12 @@
               id="aura-list"
               :class="{ hidden: aurasSortedForView.length <= 0 }"
             >
-              <div class="aura-header">
-                <div
-                  class="aura-column aura-column-name sortable"
-                  :class="{
-                    sorted: columnToSort == 'name',
-                    'sort-desc': sortDescending,
-                  }"
-                  @click="sortBy('name')"
-                >
-                  {{ $t("app.aura.name" /* Name */) }}
-                  <span class="aura-header__sort-icon material-icons">
-                    arrow_downward
-                  </span>
-                </div>
-                <div
-                  class="aura-column aura-column-update sortable"
-                  :class="{
-                    sorted: columnToSort == 'update',
-                    'sort-desc': sortDescending,
-                  }"
-                  @click="sortBy('update')"
-                >
-                  {{ $t("app.aura.update" /* Updates */) }}
-                  <span class="material-icons aura-header__sort-icon">
-                    arrow_downward
-                  </span>
-                </div>
-                <div
-                  v-if="
-                    addonSelectedConfig && addonSelectedConfig.hasTypeColumn
-                  "
-                  class="aura-column aura-column-aura-type sortable"
-                  :class="{
-                    sorted: columnToSort == 'auraTypeDisplay',
-                    'sort-desc': sortDescending,
-                  }"
-                  @click="sortBy('auraTypeDisplay')"
-                >
-                  {{ $t("app.aura.auraType" /* Type */) }}
-                  <span class="material-icons aura-header__sort-icon">
-                    arrow_downward
-                  </span>
-                </div>
-                <div
-                  class="aura-column aura-column-author sortable"
-                  :class="{
-                    sorted: columnToSort == 'author',
-                    'sort-desc': sortDescending,
-                  }"
-                  @click="sortBy('author')"
-                >
-                  {{ $t("app.aura.author" /* Author */) }}
-                  <span class="material-icons aura-header__sort-icon">
-                    arrow_downward
-                  </span>
-                </div>
-              </div>
+              <AuraHeaders
+                :sorted-column="sortedColumn"
+                :sort-descending="sortDescending"
+                :addon-selected-config="addonSelectedConfig"
+                @sort-by="sortBy"
+              />
               <Aura
                 v-for="aura in aurasSortedForView"
                 :key="aura.slug"
@@ -247,6 +196,7 @@ import {
 import { wowDefaultPath, matchFolderNameInsensitive } from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
+import AuraHeaders from "./UI/AuraHeaders.vue";
 import Aura from "./UI/Aura.vue";
 import Config from "./UI/Config.vue";
 import About from "./UI/About.vue";
@@ -278,7 +228,7 @@ const defaultValues = () => {
     addonSelected: "WeakAuras",
     reportIsShown: false,
     fetching: false, // use for avoid spamming refresh button and show spinner
-    columnToSort: "modified",
+    sortedColumn: "modified",
     sortDescending: false,
     config: {
       // everything in this object will be auto-save and restore
@@ -333,6 +283,7 @@ export default Vue.extend({
   components: {
     RefreshButton,
     Aura,
+    AuraHeaders,
     Config,
     About,
     Help,
@@ -441,7 +392,7 @@ export default Vue.extend({
     sortFunction() {
       const dir = this.sortDescending ? -1 : 1;
 
-      if (!this.columnToSort || this.columnToSort == "modified") {
+      if (!this.sortedColumn || this.sortedColumn == "modified") {
         return (a, b) => {
           return (
             DateTime.fromJSDate(b.modified)
@@ -449,7 +400,7 @@ export default Vue.extend({
               .valueOf() * dir
           );
         };
-      } else if (this.columnToSort == "update") {
+      } else if (this.sortedColumn == "update") {
         const showAllAuras = this.config.showAllAuras;
 
         const getUpdateValue = (aura) => {
@@ -466,8 +417,8 @@ export default Vue.extend({
       }
 
       return (a, b) => {
-        let A = a[this.columnToSort] || "",
-          B = b[this.columnToSort] || "";
+        let A = a[this.sortedColumn] || "",
+          B = b[this.sortedColumn] || "";
 
         [A, B] = [A, B].map((s) => (s + "").toLocaleString().toLowerCase());
         return A < B ? -1 * dir : A === B ? 0 : dir;
@@ -2285,16 +2236,16 @@ end`,
       }
     },
     sortBy(columnName) {
-      if (this.columnToSort == columnName) {
+      if (this.sortedColumn == columnName) {
         if (this.sortDescending) {
           this.sortDescending = false;
-          this.columnToSort = "modified";
+          this.sortedColumn = "modified";
         } else {
           this.sortDescending = true;
         }
       } else {
         this.sortDescending = false;
-        this.columnToSort = columnName;
+        this.sortedColumn = columnName;
       }
     },
   },
@@ -2431,51 +2382,6 @@ end`,
   margin: 0 2.35vw 15px;
   border-radius: 8px;
   transition: height 0.4s ease-in-out;
-}
-
-.aura-header {
-  display: flex;
-  flex-direction: row;
-  text-align: left;
-  font-size: 14px;
-  .aura-column {
-    &.sortable {
-      cursor: pointer;
-      &:hover .aura-header__sort-icon {
-        opacity: 0.64;
-      }
-    }
-    &.sorted .aura-header__sort-icon {
-      opacity: 0.86 !important;
-    }
-    &.sort-desc .aura-header__sort-icon {
-      transform: rotate(180deg);
-      padding-bottom: 0px;
-      padding-top: 2px;
-    }
-    &-name {
-      flex: 1;
-      padding-left: 48px;
-    }
-    &-update {
-      padding-right: 10px;
-    }
-    &-aura-type {
-      padding-right: 20px;
-      padding-left: 10px;
-    }
-    &-author {
-      margin-right: 111px;
-      padding-left: 10px;
-      width: 100px;
-    }
-  }
-  &__sort-icon {
-    opacity: 0;
-    font-size: 14px;
-    vertical-align: middle;
-    padding-bottom: 2px;
-  }
 }
 
 /* Scrollbar */
