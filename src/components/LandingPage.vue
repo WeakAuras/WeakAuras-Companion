@@ -102,7 +102,7 @@
                   }"
                   @click="sortBy('name')"
                 >
-                  Name
+                  {{ $t("app.aura.name" /* Name */) }}
                   <span class="aura-header__sort-icon material-icons">
                     arrow_downward
                   </span>
@@ -115,7 +115,7 @@
                   }"
                   @click="sortBy('update')"
                 >
-                  Test 2
+                  {{ $t("app.aura.update" /* Updates */) }}
                   <span class="material-icons aura-header__sort-icon">
                     arrow_downward
                   </span>
@@ -128,7 +128,7 @@
                   }"
                   @click="sortBy('author')"
                 >
-                  Test3
+                  {{ $t("app.aura.author" /* Author */) }}
                   <span class="material-icons aura-header__sort-icon">
                     arrow_downward
                   </span>
