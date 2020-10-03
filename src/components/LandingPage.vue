@@ -121,6 +121,20 @@
                   </span>
                 </div>
                 <div
+                  v-if="addonSelected == 'Plater'"
+                  class="aura-column aura-column-aura-type sortable"
+                  :class="{
+                    sorted: columnToSort == 'auraTypeDisplay',
+                    'sort-desc': sortDescending,
+                  }"
+                  @click="sortBy('auraTypeDisplay')"
+                >
+                  {{ $t("app.aura.auraType" /* Type */) }}
+                  <span class="material-icons aura-header__sort-icon">
+                    arrow_downward
+                  </span>
+                </div>
+                <div
                   class="aura-column aura-column-author sortable"
                   :class="{
                     sorted: columnToSort == 'author',
@@ -2433,6 +2447,10 @@ end`,
     }
     &-update {
       padding-right: 10px;
+    }
+    &-aura-type {
+      padding-right: 20px;
+      padding-left: 10px;
     }
     &-author {
       margin-right: 111px;

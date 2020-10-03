@@ -3,6 +3,7 @@
   "app.about.source": "Sources sur",
   "app.about.tools": "Developpé avec {tools}",
   "app.about.version": "Version: {version}",
+  "app.aura.auraType": "Type",
   "app.aura.author": "Author",
   "app.aura.name": "Name",
   "app.aura.update": "Updates",
