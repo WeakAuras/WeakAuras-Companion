@@ -69,6 +69,7 @@ export default {
   flex-direction: row;
   text-align: left;
   font-size: 14px;
+  margin: 0 calc(2.35vw + 10px) 0;
   .aura-column {
     &.sortable {
       cursor: pointer;
