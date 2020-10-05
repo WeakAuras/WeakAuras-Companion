@@ -89,16 +89,16 @@
               :auras-shown="aurasSortedForView.length"
             ></RefreshButton>
             <br />
+            <AuraHeaders
+              :sorted-column="sortedColumn"
+              :sort-descending="sortDescending"
+              :addon-selected-config="addonSelectedConfig"
+              @sort-by="sortBy"
+            />
             <div
               id="aura-list"
               :class="{ hidden: aurasSortedForView.length <= 0 }"
             >
-              <AuraHeaders
-                :sorted-column="sortedColumn"
-                :sort-descending="sortDescending"
-                :addon-selected-config="addonSelectedConfig"
-                @sort-by="sortBy"
-              />
               <Aura
                 v-for="aura in aurasSortedForView"
                 :key="aura.slug"
@@ -193,6 +193,13 @@ import {
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart,
 } from "./libs/wowstat";
+import {
+  createSortByTime,
+  createSortByString,
+  createSortByUpdate,
+  createSortByAuthor,
+  createSortByType,
+} from "./libs/sort";
 import { wowDefaultPath, matchFolderNameInsensitive } from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
@@ -206,7 +213,6 @@ import Report from "./UI/Report.vue";
 import Stash from "./UI/Stash.vue";
 import Dropdown from "./UI/Dropdown.vue";
 
-const { DateTime } = require("luxon");
 const userDataPath = require("electron").remote.app.getPath("userData");
 const fs = require("fs");
 const luaparse = require("luaparse");
@@ -391,38 +397,21 @@ export default Vue.extend({
     },
     sortFunction() {
       const dir = this.sortDescending ? -1 : 1;
+      const showAllAuras = this.config.showAllAuras;
+      const hasTypeColumn =
+        this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
 
-      if (!this.sortedColumn || this.sortedColumn == "modified") {
-        return (a, b) => {
-          return (
-            DateTime.fromJSDate(b.modified)
-              .diff(DateTime.fromJSDate(a.modified))
-              .valueOf() * dir
-          );
-        };
-      } else if (this.sortedColumn == "update") {
-        const showAllAuras = this.config.showAllAuras;
-
-        const getUpdateValue = (aura) => {
-          if (showAllAuras && aura.ignoreWagoUpdate) return 3;
-          else if (
-            aura.skipWagoUpdate &&
-            aura.skipWagoUpdate >= aura.wagoVersion
-          )
-            return 2;
-          else if (showAllAuras && aura.version < aura.wagoVersion) return 1;
-          return 0;
-        };
-        return (a, b) => (getUpdateValue(b) - getUpdateValue(a)) * dir;
+      if (!this.sortedColumn || this.sortedColumn === "modified")
+        return createSortByTime(dir);
+      else if (this.sortedColumn === "auraTypeDisplay") {
+        return createSortByType(dir);
+      } else if (this.sortedColumn === "update") {
+        return createSortByUpdate(dir, showAllAuras, hasTypeColumn);
+      } else if (this.sortedColumn === "author") {
+        return createSortByAuthor(dir, hasTypeColumn);
       }
 
-      return (a, b) => {
-        let A = a[this.sortedColumn] || "",
-          B = b[this.sortedColumn] || "";
-
-        [A, B] = [A, B].map((s) => (s + "").toLocaleString().toLowerCase());
-        return A < B ? -1 * dir : A === B ? 0 : dir;
-      };
+      return createSortByString(dir, this.sortedColumn);
     },
     auras: {
       get() {
