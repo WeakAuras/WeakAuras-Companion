@@ -1,11 +1,11 @@
 const { DateTime } = require("luxon");
 
 const getUpdateValueWithAllAuras = (aura) => {
-  if (aura.version < aura.wagoVersion) return 1;
+  if (aura.ignoreWagoUpdate) return 2;
   else if (aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion)
-    return 2;
-  else if (aura.ignoreWagoUpdate) return 3;
-  return 4;
+    return 1;
+  else if (aura.version < aura.wagoVersion) return 0;
+  return 3;
 };
 
 const getUpdateValueOnlyUpdates = (aura) => {
