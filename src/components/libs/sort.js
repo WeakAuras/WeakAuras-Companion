@@ -34,22 +34,16 @@ export const createSortByType = (dir) => {
   const sortByType = createSortByString(dir, "auraTypeDisplay");
   const sortByName = createSortByString(1, "name");
 
-  return (a, b) => {
-    const typeDiff = sortByType(a, b);
-    return typeDiff !== 0 ? typeDiff : sortByName(a, b);
-  };
+  return (a, b) => sortByType(a, b) || sortByName(a, b);
 };
 
 export const createSortByAuthor = (dir, hasTypeColumn) => {
   const sortByAuthor = createSortByString(dir, "author");
-  const secondarySearchFunction = hasTypeColumn
+  const secondarySortFunction = hasTypeColumn
     ? createSortByType(1)
     : createSortByString(1, "name");
 
-  return (a, b) => {
-    const authorDiff = sortByAuthor(a, b);
-    return authorDiff !== 0 ? authorDiff : secondarySearchFunction(a, b);
-  };
+  return (a, b) => sortByAuthor(a, b) || secondarySortFunction(a, b);
 };
 
 export const createSortByUpdate = (dir, showAllAuras, hasTypeColumn) => {
@@ -57,7 +51,7 @@ export const createSortByUpdate = (dir, showAllAuras, hasTypeColumn) => {
     ? getUpdateValueWithAllAuras
     : getUpdateValueOnlyUpdates;
 
-  const secondarySearchFunction = hasTypeColumn
+  const secondarySortFunction = hasTypeColumn
     ? createSortByType(1)
     : createSortByString(1, "name");
 
@@ -65,6 +59,6 @@ export const createSortByUpdate = (dir, showAllAuras, hasTypeColumn) => {
     const A = getUpdateValue(a),
       B = getUpdateValue(b);
 
-    return A < B ? -1 * dir : A > B ? dir : secondarySearchFunction(a, b);
+    return A < B ? -1 * dir : A > B ? dir : secondarySortFunction(a, b);
   };
 };
