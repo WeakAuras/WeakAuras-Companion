@@ -89,23 +89,22 @@
               :auras-shown="aurasSortedForView.length"
             ></RefreshButton>
             <br />
-            <AuraHeaders
-              :sorted-column="sortedColumn"
-              :sort-descending="sortDescending"
-              :addon-selected-config="addonSelectedConfig"
-              @sort-by="sortBy"
-            />
-            <div
-              id="aura-list"
-              :class="{ hidden: aurasSortedForView.length <= 0 }"
-            >
-              <Aura
-                v-for="aura in aurasSortedForView"
-                :key="aura.slug"
-                :aura="aura"
-                :show-all-auras="config.showAllAuras"
-              ></Aura>
-            </div>
+            <template v-if="aurasSortedForView.length > 0">
+              <AuraHeaders
+                :sorted-column="sortedColumn"
+                :sort-descending="sortDescending"
+                :addon-selected-config="addonSelectedConfig"
+                @sort-by="sortBy"
+              />
+              <div id="aura-list">
+                <Aura
+                  v-for="aura in aurasSortedForView"
+                  :key="aura.slug"
+                  :aura="aura"
+                  :show-all-auras="config.showAllAuras"
+                ></Aura>
+              </div>
+            </template>
           </div>
         </template>
         <Config
@@ -1461,6 +1460,7 @@ export default Vue.extend({
                 "error"
               );
               console.log(JSON.stringify(error));
+              this.fetching = false;
 
               // schedule in 30mn on error
               if (this.schedule.id) clearTimeout(this.schedule.id);
