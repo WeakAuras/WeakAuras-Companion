@@ -37,7 +37,7 @@
         )
       }}</span>
     </Label>
-    <div v-if="lastUpdate && isSvOk" id="lastupdate">
+    <div v-if="lastUpdate && isSvOk && olderThan30s()" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ lastUpdate | fromNow($i18n.locale) }}</b>
     </div>
@@ -81,6 +81,12 @@ export default {
     clearInterval(this.lastUpdateTimer);
   },
   methods: {
+    olderThan30s() {
+      return (
+        DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() >
+        30000
+      );
+    },
     refresh() {
       this.$parent.compareSVwithWago();
     },
