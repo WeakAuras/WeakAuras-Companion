@@ -725,7 +725,7 @@ export default Vue.extend({
           var folder = await matchFolderNameInsensitive(
             AddonFolder,
             check,
-            AddonPath.length === 0
+            false
           );
 
           if (folder) {
@@ -758,7 +758,7 @@ export default Vue.extend({
           var folder = await matchFolderNameInsensitive(
             AddonFolder,
             check,
-            AddonPath.length === 0
+            false
           );
 
           if (folder) {
