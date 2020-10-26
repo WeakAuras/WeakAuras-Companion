@@ -19,7 +19,7 @@
   },
   "main": "background.js",
   "dependencies": {
-    "@types/jest": "^26.0.14",
+    "@types/jest": "^26.0.15",
     "archiver": "^5.0.2",
     "auto-launch": "^5.0.5",
     "axios": "^0.20.0",
