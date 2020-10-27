@@ -143,7 +143,7 @@
           "app.help.support.text1" /* If you need more help come talk with us on WeakAuras's */
         )
       }}
-      <a href="https://discord.gg/wa2" target="_blank">Discord</a>
+      <a href="https://discord.gg/weakauras" target="_blank">Discord</a>
       {{
         $t("app.help.support.text2" /* in the #companion-support channel. */)
       }}

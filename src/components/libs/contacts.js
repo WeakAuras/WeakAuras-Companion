@@ -2,7 +2,7 @@ module.exports = {
   weakauras: [
     {
       name: "discord",
-      url: "https://discord.gg/wa2",
+      url: "https://discord.gg/weakauras",
       displayName: "Discord",
     },
     {
