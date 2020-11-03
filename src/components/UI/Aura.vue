@@ -86,7 +86,7 @@ export default Vue.extend({
   props: ["aura", "showAllAuras"],
   data() {
     return {
-      timeElapsed: null,
+      timeElapsed: "n/a",
     };
   },
   computed: {
@@ -115,9 +115,12 @@ export default Vue.extend({
         return;
       }
 
-      this.timeElapsed = DateTime.fromJSDate(this.aura.modified)
-        .setLocale(this.$i18n.locale)
-        .toRelative();
+      // sometimes this function triggers after the tooltip
+      // set n/a as default value in case DateTime return null
+      this.timeElapsed =
+        DateTime.fromJSDate(this.aura.modified)
+          .setLocale(this.$i18n.locale)
+          .toRelative() || "n/a";
     },
     wagoURL(value) {
       if (!value) return "";
