@@ -194,15 +194,12 @@
 
 <script>
 import Vue from "vue";
-import VTooltip from "v-tooltip";
 import AutoLaunch from "auto-launch";
 import { shell } from "electron";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
-
-Vue.use(VTooltip);
 
 const AutoLauncher = new AutoLaunch({
   name: "WeakAuras Companion",

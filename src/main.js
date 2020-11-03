@@ -3,6 +3,7 @@ import axios from "axios";
 import VueI18n from "vue-i18n";
 import VueElectron from "vue-electron";
 import Toasted from "vue-toasted";
+import { VTooltip } from "v-tooltip";
 import App from "./App.vue";
 
 const en = require("../i18n/en.json");
@@ -16,6 +17,7 @@ const zhcn = require("../i18n/zh-cn.json");
 Vue.use(VueElectron);
 Vue.use(Toasted);
 Vue.use(VueI18n);
+Vue.directive("tooltip", VTooltip);
 
 axios.defaults.timeout = 15000;
 
