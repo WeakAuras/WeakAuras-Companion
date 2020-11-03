@@ -185,7 +185,6 @@
 <script>
 import Vue from "vue";
 import path from "path";
-import VTooltip from "v-tooltip";
 import backupIfRequired from "./libs/backup";
 import {
   isOpen as isWOWOpen,
@@ -220,7 +219,6 @@ const hash = require("./libs/hash.js");
 const medias = require("./libs/contacts.js");
 const sanitize = require("./libs/sanitize.js");
 
-Vue.use(VTooltip);
 const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;

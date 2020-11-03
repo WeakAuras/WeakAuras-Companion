@@ -76,12 +76,10 @@
 
 <script>
 import Vue from "vue";
-import VTooltip from "v-tooltip";
 
 const { DateTime } = require("luxon");
 const sanitize = require("../libs/sanitize.js");
 
-Vue.use(VTooltip);
 export default Vue.extend({
   props: ["aura", "showAllAuras"],
   data() {
