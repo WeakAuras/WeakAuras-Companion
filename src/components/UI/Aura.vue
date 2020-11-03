@@ -61,11 +61,11 @@
       </div>
       <div
         v-tooltip="{
-          content: fromNow(currentTime, $i18n.locale),
+          content: timeElapsed,
           classes: ['small'],
         }"
         class="wago-version"
-        @mouseover="updateCurrentTime()"
+        @mouseenter="updateCurrentTime()"
       >
         v<span v-if="aura.wagoSemver">{{ aura.wagoSemver }}</span>
         <span v-else>{{ aura.wagoVersion }}</span>
@@ -86,7 +86,7 @@ export default Vue.extend({
   props: ["aura", "showAllAuras"],
   data() {
     return {
-      currentTime: null,
+      timeElapsed: null,
     };
   },
   computed: {
@@ -110,8 +110,14 @@ export default Vue.extend({
   },
   methods: {
     updateCurrentTime() {
-      this.currentTime = null;
-      this.currentTime = this.aura.modified;
+      if (!this.aura.modified) {
+        this.timeElapsed = "n/a";
+        return;
+      }
+
+      this.timeElapsed = DateTime.fromJSDate(this.aura.modified)
+        .setLocale(this.$i18n.locale)
+        .toRelative();
     },
     wagoURL(value) {
       if (!value) return "";
@@ -120,10 +126,6 @@ export default Vue.extend({
     wagoAuthorURL(author) {
       if (!author) return "";
       return `https://wago.io/p/${author}`;
-    },
-    fromNow(value, locale) {
-      if (!value) return "n/a";
-      return DateTime.fromJSDate(value).setLocale(locale).toRelative();
     },
   },
 });
