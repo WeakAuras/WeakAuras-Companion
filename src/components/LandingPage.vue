@@ -1489,158 +1489,158 @@ export default Vue.extend({
         return;
       }
 
-      Promise.all(promisesWagoCallsComplete).then(() => {
-        console.log("promisesWagoCallsComplete");
+      // those promises are already resolved in line 1395
+      // they should not throw an error except maybe for external error like timeout
+      Promise.all(promisesWagoCallsComplete)
+        .then(() => {
+          console.log("promisesWagoCallsComplete");
 
-        Promise.all(promisesWagoDataCallsComplete)
-          .then(() => {
-            console.log("promisesWagoDataCallsComplete");
-
-            // Test if list is empty
-            if (allAurasFetched.length === 0) {
-              this.message(
-                this.$t("app.main.nothingToFetch" /* No updates available */)
-              );
-
-              this.$set(this.accountSelected, "lastWagoUpdate", new Date());
-
-              if (this.schedule.id) clearTimeout(this.schedule.id);
-
-              this.schedule.id = setTimeout(
-                this.compareSVwithWago,
-                1000 * 60 * 60
-              );
-              return;
-            }
-
-            // catch response error
-            const promisesResolved = promisesWagoDataCallsComplete.map(
-              (promise) =>
-                promise.catch((err2) => ({
-                  config: { params: { id: err2.config.params.id } },
-                  status: err2.response.status,
-                }))
-            );
-
-            this.$http
-              .all(promisesResolved)
-              .then(
-                this.$http.spread((...args) => {
-                  args.forEach((arg) => {
-                    const { id } = arg.config.params;
-
-                    if (arg.status === 200) {
-                      this.auras.forEach((aura, index) => {
-                        if (aura.wagoid === id) {
-                          news.push(aura.name);
-                          this.auras[index].encoded = arg.data;
-                        }
-                      });
-                    } else {
-                      this.auras.forEach((aura) => {
-                        if (aura.wagoid === id) {
-                          this.message(
-                            [
-                              this.$t(
-                                "app.main.stringReceiveError-1",
-                                {
-                                  aura: aura.name,
-                                } /* Error receiving encoded string for {aura} */
-                              ),
-                              this.$t(
-                                "app.main.stringReceiveError-2",
-                                {
-                                  status: arg.status,
-                                } /* http code: {status} */
-                              ),
-                            ],
-                            "error"
-                          );
-                          fails.push(aura.name);
-                        }
-                      });
-                    }
-                  });
-                })
-              )
-              .catch((error) => {
-                this.message(
-                  [
-                    this.$t(
-                      "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                    ),
-                    error,
-                  ],
-                  "error"
-                );
-                console.log(JSON.stringify(error));
-
-                // schedule in 30mn on error
-                if (this.schedule.id) clearTimeout(this.schedule.id);
-
-                this.schedule.id = setTimeout(
-                  this.compareSVwithWago,
-                  1000 * 60 * 30
-                );
-              })
-              .then(() => {
-                //console.log(allAurasFetched);
-                //console.log(received);
-                // console.log(`allAurasFetched: ${JSON.stringify(allAurasFetched)}`);
-                // console.log(`received: ${JSON.stringify(received)}`);
-                allAurasFetched.forEach((toFetch) => {
-                  if (received.indexOf(toFetch) === -1) {
-                    // no data received for this aura => remove from list
-                    this.auras.forEach((aura, index) => {
-                      if (aura && aura.slug === toFetch) {
-                        console.log(`no data received for ${aura.slug}`);
-                        this.auras.splice(index, 1);
-                      }
-                    });
-                  }
-                });
-
-                // we are done with wago API, update data.lua
-
-                try {
-                  this.writeAddonData(news, fails);
-                } finally {
-                  this.fetching = false;
-
-                  this.setFirstAddonInstalledSelected();
-
-                  this.$set(this.accountSelected, "lastWagoUpdate", new Date());
-
-                  if (this.schedule.id) clearTimeout(this.schedule.id);
-
-                  this.schedule.id = setTimeout(
-                    this.compareSVwithWago,
-                    1000 * 60 * 60
-                  );
-                }
-              });
-          })
-          .catch((error) => {
+          // Test if list is empty after resolving wagoCalls
+          if (allAurasFetched.length === 0) {
             this.message(
-              [
-                this.$t(
-                  "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                ),
-                error,
-              ],
-              "error"
+              this.$t("app.main.nothingToFetch" /* No updates available */)
             );
-            console.log(JSON.stringify(error));
 
-            // schedule in 30mn on error
+            this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+
             if (this.schedule.id) clearTimeout(this.schedule.id);
 
             this.schedule.id = setTimeout(
               this.compareSVwithWago,
-              1000 * 60 * 30
+              1000 * 60 * 60
             );
-          });
-      });
+            return;
+          }
+
+          // catch response error before resolving them with Promise.all
+          // by catching them before rejection, we don't exit Promise.all
+          // with the first error
+          const promisesResolved = promisesWagoDataCallsComplete.map(
+            (promise) =>
+              promise.catch((err2) => ({
+                config: { params: { id: err2.config.params.id } },
+                status: err2.response.status,
+              }))
+          );
+
+          // resolving all wago encoded strings answers simultaneously
+          Promise.all(promisesResolved)
+            .then((wagoEncodedStrings) => {
+              console.log("promisesWagoDataCallsComplete");
+
+              wagoEncodedStrings.forEach((wagoResp) => {
+                const { id } = wagoResp.config.params;
+
+                if (wagoResp.status === 200) {
+                  this.auras.forEach((aura, index) => {
+                    if (aura.wagoid === id) {
+                      news.push(aura.name);
+                      this.auras[index].encoded = wagoResp.data;
+                    }
+                  });
+                } else {
+                  this.auras.forEach((aura, index) => {
+                    if (aura.wagoid === id) {
+                      // setting the version back to the aura version
+                      // wont show update available
+                      // todo create status update-failed?
+                      this.auras[index].wagoVersion = aura.version;
+
+                      this.message(
+                        [
+                          this.$t(
+                            "app.main.stringReceiveError-1",
+                            {
+                              aura: aura.name,
+                            } /* Error receiving encoded string for {aura} */
+                          ),
+                          this.$t(
+                            "app.main.stringReceiveError-2",
+                            {
+                              status: wagoResp.status,
+                            } /* http code: {status} */
+                          ),
+                        ],
+                        "error"
+                      );
+                      fails.push(aura.name);
+                    }
+                  });
+                }
+              });
+            })
+            .catch((error) => {
+              this.message(
+                [
+                  this.$t(
+                    "app.main.errorWagoAnswer" /* Can't read Wago answer */
+                  ),
+                  error,
+                ],
+                "error"
+              );
+              console.log(JSON.stringify(error));
+
+              // schedule in 30mn on error
+              if (this.schedule.id) clearTimeout(this.schedule.id);
+
+              this.schedule.id = setTimeout(
+                this.compareSVwithWago,
+                1000 * 60 * 30
+              );
+            })
+            .then(() => {
+              //console.log(allAurasFetched);
+              //console.log(received);
+              // console.log(`allAurasFetched: ${JSON.stringify(allAurasFetched)}`);
+              // console.log(`received: ${JSON.stringify(received)}`);
+              allAurasFetched.forEach((toFetch) => {
+                if (received.indexOf(toFetch) === -1) {
+                  // no data received for this aura => remove from list
+                  this.auras.forEach((aura, index) => {
+                    if (aura && aura.slug === toFetch) {
+                      console.log(`no data received for ${aura.slug}`);
+                      this.auras.splice(index, 1);
+                    }
+                  });
+                }
+              });
+
+              // we are done with wago API, update data.lua
+
+              try {
+                this.writeAddonData(news, fails);
+              } finally {
+                this.fetching = false;
+
+                this.setFirstAddonInstalledSelected();
+
+                this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+
+                if (this.schedule.id) clearTimeout(this.schedule.id);
+
+                this.schedule.id = setTimeout(
+                  this.compareSVwithWago,
+                  1000 * 60 * 60
+                );
+              }
+            });
+        })
+        .catch((error) => {
+          this.message(
+            [
+              this.$t("app.main.errorWagoAnswer" /* Can't read Wago answer */),
+              error,
+            ],
+            "error"
+          );
+          console.log(JSON.stringify(error));
+
+          // schedule in 30mn on error
+          if (this.schedule.id) clearTimeout(this.schedule.id);
+
+          this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 30);
+        });
     },
     toggleReport() {
       this.reportIsShown = !this.reportIsShown;
