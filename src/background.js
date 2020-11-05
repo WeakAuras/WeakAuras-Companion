@@ -14,6 +14,7 @@ import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
+import AutoLaunch from "auto-launch";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -24,6 +25,21 @@ const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const isProduction = process.env.NODE_ENV == "production";
+
+// disable outdated method for auto start
+const AutoLauncher = new AutoLaunch({
+  name: "WeakAuras Companion",
+});
+
+AutoLauncher.isEnabled().then(function (isEnabled) {
+  if (isEnabled) {
+    AutoLauncher.disable();
+
+    app.setLoginItemSettings({
+      openAtLogin: true,
+    });
+  }
+});
 
 const store = new Store();
 const config = store.get("config");
@@ -284,6 +300,12 @@ ipcMain.on("close", () => {
 
 ipcMain.on("installUpdates", () => {
   autoUpdater.quitAndInstall();
+});
+
+ipcMain.handle("autoStart", (event, enable) => {
+  app.setLoginItemSettings({
+    openAtLogin: enable,
+  });
 });
 
 ipcMain.on("checkUpdates", (event, isBeta) => {

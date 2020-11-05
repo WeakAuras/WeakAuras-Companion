@@ -194,16 +194,12 @@
 
 <script>
 import Vue from "vue";
-import AutoLaunch from "auto-launch";
-import { shell } from "electron";
+import { ipcRenderer, shell } from "electron";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
 
-const AutoLauncher = new AutoLaunch({
-  name: "WeakAuras Companion",
-});
 export default Vue.extend({
   components: {
     Checkbox,
@@ -235,11 +231,7 @@ export default Vue.extend({
   watch: {
     // eslint-disable-next-line func-names
     "config.autostart": function () {
-      if (this.config.autostart) {
-        AutoLauncher.enable();
-      } else {
-        AutoLauncher.disable();
-      }
+      ipcRenderer.invoke("autoStart", this.config.autostart === true);
     },
     // eslint-disable-next-line func-names
     "config.lang": function () {
