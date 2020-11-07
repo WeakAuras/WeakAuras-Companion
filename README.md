@@ -10,7 +10,7 @@ It enables you to fetch updates to the auras you have installed  directly from W
 
 ## How to Use
 
-- Download and install the WeakAuras Companion from [our website](https://weakauras.wtf/) or [GitHub](https://github.com/WeakAuras/WeakAuras-Companion/releases/latest).
+- Download and install the WeakAuras Companion from [our website](https://weakauras.wtf/), [GitHub](https://github.com/WeakAuras/WeakAuras-Companion/releases/latest) or [Chocolatey](https://chocolatey.org/packages/weakauras-companion).
 - Start the Companion, it will ask you to give it at least your World of Warcraft folder and account name.
 - Follow the instructions inside the app
 - Click on 'Fetch Updates', this is also done automatically once every hour.
