@@ -30,7 +30,7 @@
     "luaparse": "~0.2.1",
     "luxon": "^1.25.0",
     "regedit": "^3.0.3",
-    "stylelint": "^13.7.2",
+    "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-scss": "^3.18.0",
     "tail": "^2.0.4",
