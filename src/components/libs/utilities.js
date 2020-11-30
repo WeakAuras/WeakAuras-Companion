@@ -56,7 +56,8 @@ export function matchFolderNameInsensitive(folder, name, create) {
         });
         return name;
       }
-      err({ message: `${name} not found at ${folder}` });
+      console.log(`${name} not found at ${folder}`);
+      return done(false);
     });
   });
 }
