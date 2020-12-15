@@ -29,7 +29,7 @@
   "app.config.ignoreOwnAuras": "Auras von deinem Account ignorieren",
   "app.config.lang": "Sprache",
   "app.config.minimized": "Client minimiert starten",
-  "app.config.notification": "Benachrichtigung für neue Updates anzeigen",
+  "app.config.notification": "Benachrichtigung für neue Updates anzeigen",ninelore:master
   "app.config.ok": "OK",
   "app.config.reset": "Einstellungen und Daten zurücksetzen",
   "app.config.selectAccount": "WoW Account auswählen",
@@ -80,7 +80,7 @@
   "app.main.errorFileSave": "{file} konnte nicht gespeichert werden",
   "app.main.errorSavedvariable": "Fehler beim Lesen von WeakAuras.lua",
   "app.main.errorSavedvariablePlater": "Fehler beim Lesen von Plater.lua",
-  "app.main.errorWagoAnswer": "Kann Wago's Antwort nicht lesen",
+  "app.main.errorWagoAnswer": "Kann Wagos Antwort nicht lesen",
   "app.main.install": "Installieren",
   "app.main.installFail": "Keine Fehlgeschlagen | 1 Fehlgeschlagen | {n} Fehlgeschlagen",
   "app.main.installNew": "Keine neuen Updates | 1 neues | {n} neue",
