@@ -33,9 +33,10 @@ module.exports = {
             LSUIElement: 1,
           },
           target: {
-            target: "default",
+            target: "dmg",
             arch: ["x64", "arm64"],
           },
+          artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
         },
         win: {
           icon: "public/icon.ico",
