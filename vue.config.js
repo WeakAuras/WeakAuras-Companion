@@ -32,6 +32,10 @@ module.exports = {
           extendInfo: {
             LSUIElement: 1,
           },
+          target: {
+            target: "default",
+            arch: ["x64", "arm64"],
+          },
         },
         win: {
           icon: "public/icon.ico",

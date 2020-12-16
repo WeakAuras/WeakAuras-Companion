@@ -4,12 +4,11 @@
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
   "scripts": {
-    "build": "vue-cli-service electron:build",
+    "build": "vue-cli-service electron:build --publish never",
     "lint": "eslint src/. --ext .js,.vue",
     "compile-tools": "./node_modules/.bin/tsc -p ./tools/",
     "dev": "vue-cli-service electron:serve",
     "dist": "npm run build --publish onTagOrDraft",
-    "dist:pr": "npm run build --publish=never",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
@@ -48,7 +47,7 @@
     "css-loader": "^5.0.1",
     "devtron": "^1.4.0",
     "electron": "^11.1.0",
-    "electron-builder": "^22.9.1",
+    "electron-builder": "^22.10.3",
     "electron-debug": "^3.1.0",
     "electron-devtools-installer": "^3.1.1",
     "eslint": "^7.15.0",
@@ -77,7 +76,7 @@
     }
   },
   "browserslist": [
-    "Electron >= 9.0.0"
+    "Electron >= 11.0.0"
   ],
   "config": {
     "default-locale": "en",
