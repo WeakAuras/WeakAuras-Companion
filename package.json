@@ -19,7 +19,7 @@
   "main": "background.js",
   "dependencies": {
     "@types/jest": "^26.0.19",
-    "archiver": "^5.1.0",
+    "archiver": "^5.2.0",
     "auto-launch": "^5.0.5",
     "axios": "^0.21.1",
     "electron-localshortcut": "^3.2.1",
