@@ -40,7 +40,7 @@
     "vue-toasted": "^1.1.28"
   },
   "devDependencies": {
-    "@vue/cli": "^4.5.10",
+    "@vue/cli": "^4.5.11",
     "@vue/cli-plugin-eslint": "~4.5.7",
     "@vue/cli-service": "~4.5.10",
     "copy-webpack-plugin": "^6.4.1",
