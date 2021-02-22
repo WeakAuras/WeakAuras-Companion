@@ -2,7 +2,7 @@
     "extends": [
         "plugin:prettier/recommended",
         "plugin:vue/recommended",
-        "prettier/vue"
+        "prettier"
     ],
     "globals": {
         "__static": true
