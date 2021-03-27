@@ -15,6 +15,7 @@
         "vue/require-prop-types": "off",
         "vue/no-mutating-props": "off",
         "vue/no-v-html": "off",
+        "vue/experimental-script-setup-vars": "off",
         "padding-line-between-statements": [
             "warn",
             {
