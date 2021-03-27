@@ -1979,21 +1979,10 @@ end`,
 
       // system notification
       if (!document.hasFocus() && this.config.notify && newsCount > 0) {
-        const notification = new Notification(
-          "A new update is ready to install",
-          {
-            body: news.join("\n"),
-            icon: path.join(
-              __static,
-              process.platform === "win32" ? "bigicon.png" : "icon.png"
-            ),
-          }
+        this.$electron.ipcRenderer.send(
+          "postFetchingNewUpdateNotification",
+          news
         );
-
-        notification.onclick = () => {
-          this.$electron.ipcRenderer.send("open");
-        };
-        notification.show();
       }
     },
     installUpdates() {
