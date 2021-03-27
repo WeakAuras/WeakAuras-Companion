@@ -29,9 +29,6 @@ module.exports = {
         mac: {
           icon: "public/icon.icns",
           category: "Utility",
-          extendInfo: {
-            LSUIElement: 1,
-          },
           target: {
             target: "dmg",
             arch: ["x64", "arm64"],
