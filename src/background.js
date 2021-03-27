@@ -95,7 +95,7 @@ async function createWindow() {
       allowRunningInsecureContent: false,
       nodeIntegration: true,
       enableRemoteModule: true,
-      contextIsolation: false
+      contextIsolation: false,
     },
     show: true,
   });
