@@ -26,6 +26,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Rebuild
+        run: npm rebuild node-sass
+
       - name: Build
         run: npm run dist
         env:
