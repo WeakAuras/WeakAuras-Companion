@@ -309,10 +309,16 @@ ipcMain.handle("autoStart", (event, enable) => {
   });
 });
 
+let lastNotificationBody = "";
+
 ipcMain.on("postFetchingNewUpdateNotification", (event, news) => {
+  const text = news.join("\n");
+
+  if (text === "" || text === lastNotificationBody) return; // prevent notification spam
+
   const notification = new Notification({
     title: "New update ready to install",
-    body: news.join("\n"),
+    body: text,
     icon: path.join(
       __static,
       process.platform === "win32" ? "bigicon.png" : "icon.png"
@@ -325,6 +331,7 @@ ipcMain.on("postFetchingNewUpdateNotification", (event, news) => {
   });
 
   notification.show();
+  lastNotificationBody = text;
 });
 
 ipcMain.on("checkUpdates", (event, isBeta) => {
