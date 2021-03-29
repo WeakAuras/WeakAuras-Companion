@@ -33,31 +33,22 @@ export function wowDefaultPath() {
 }
 
 export function matchFolderNameInsensitive(folder, name, create) {
-  return new Promise((done, err) => {
-    var dir = fs.readdir(folder, (err, items) => {
-      for (let i = 0; i < items.length; i++) {
-        if (name.toLowerCase() === items[i].toLowerCase()) {
-          return done(items[i]);
-        }
-      }
+  try {
+    var items = fs.readdirSync(folder);
 
-      if (!!create) {
-        fs.mkdir(path.join(folder, name), (err) => {
-          if (err && err.code !== "EEXIST") {
-            this.message(
-              this.$t(
-                "app.main.errorCantCreateAddon" /* Can't create addon directory */
-              ),
-              "error"
-            );
-            console.log(JSON.stringify(err));
-            throw new Error("errorCantCreateAddon");
-          }
-        });
-        return name;
-      }
-      console.log(`${name} not found at ${folder}`);
-      return done(false);
-    });
-  });
+    for (var i in items) {
+      const item = items[i];
+
+      if (name.toLowerCase() === item.toLowerCase()) return item;
+    }
+
+    if (!!create) {
+      fs.mkdirSync(path.join(folder, name));
+      return name;
+    }
+    console.log(`${name} not found at ${folder}`);
+    return false;
+  } catch (err) {
+    console.log(`Error: ${err}`);
+  }
 }

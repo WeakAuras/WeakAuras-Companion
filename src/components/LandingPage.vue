@@ -592,6 +592,8 @@ export default Vue.extend({
     // load config
     this.restore();
 
+    this.validateWowpath();
+
     // set default wow path
     if (!this.config.wowpath.valided) {
       wowDefaultPath().then((value) => {
@@ -602,8 +604,6 @@ export default Vue.extend({
           this.validateWowpath();
         }
       });
-    } else {
-      this.validateWowpath();
     }
     // create default backup folder
     fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
@@ -703,7 +703,7 @@ export default Vue.extend({
       }
       return false;
     },
-    async IsWeakAurasInstalled(version, account) {
+    IsWeakAurasInstalled(version, account) {
       let AddonFolder;
 
       if (version && account) {
@@ -720,11 +720,7 @@ export default Vue.extend({
 
         while (AddonPath.length) {
           var check = AddonPath.shift();
-          var folder = await matchFolderNameInsensitive(
-            AddonFolder,
-            check,
-            false
-          );
+          var folder = matchFolderNameInsensitive(AddonFolder, check, false);
 
           if (folder) {
             AddonFolder = path.join(AddonFolder, folder);
@@ -736,7 +732,7 @@ export default Vue.extend({
       }
       return false;
     },
-    async IsPlaterInstalled(version, account) {
+    IsPlaterInstalled(version, account) {
       let AddonFolder;
 
       if (version && account) {
@@ -753,11 +749,7 @@ export default Vue.extend({
 
         while (AddonPath.length) {
           var check = AddonPath.shift();
-          var folder = await matchFolderNameInsensitive(
-            AddonFolder,
-            check,
-            false
-          );
+          var folder = matchFolderNameInsensitive(AddonFolder, check, false);
 
           if (folder) {
             AddonFolder = path.join(AddonFolder, folder);
@@ -1661,7 +1653,7 @@ export default Vue.extend({
 
         while (AddonPath.length) {
           var check = AddonPath.shift();
-          var folder = await matchFolderNameInsensitive(
+          var folder = matchFolderNameInsensitive(
             AddonFolder,
             check,
             AddonPath.length === 0
@@ -2035,44 +2027,42 @@ end`,
         const DataFolder = path.join(wowpath, "Data");
 
         // test if ${wowpath}\Data exists
-        fs.access(DataFolder, fs.constants.F_OK, (err) => {
-          if (!err) {
-            fs.readdir(wowpath, (err2, files) => {
-              if (err2) {
-                console.log(`Error: ${err2}`);
-              } else {
-                let validated = false;
+        try {
+          fs.accessSync(DataFolder, fs.constants.F_OK);
+          var files = fs.readdirSync(wowpath);
+          let validated = false;
 
-                files
-                  .filter(
-                    (versionDir) =>
-                      versionDir.match(/^_.*_$/) &&
-                      fs.statSync(path.join(wowpath, versionDir)).isDirectory()
-                  )
-                  .forEach((versionDir) => {
-                    if (!validated) {
-                      const accountFolder = path.join(
-                        wowpath,
-                        versionDir,
-                        "WTF",
-                        "Account"
-                      );
+          files
+            .filter(
+              (versionDir) =>
+                versionDir.match(/^_.*_$/) &&
+                fs.statSync(path.join(wowpath, versionDir)).isDirectory()
+            )
+            .forEach((versionDir) => {
+              if (!validated) {
+                const accountFolder = path.join(
+                  wowpath,
+                  versionDir,
+                  "WTF",
+                  "Account"
+                );
 
-                      if (fs.existsSync(accountFolder)) {
-                        fs.accessSync(accountFolder, fs.constants.F_OK);
-                        validated = true;
-                        this.config.wowpath.valided = true;
-                        this.buildVersionList();
-                        this.buildAccountList();
-                      }
-                    }
-                  });
+                if (fs.existsSync(accountFolder)) {
+                  try {
+                    fs.accessSync(accountFolder, fs.constants.F_OK);
+                    validated = true;
+                    this.config.wowpath.valided = true;
+                    this.buildVersionList();
+                    this.buildAccountList();
+                  } catch (err) {
+                    console.error("No Read access");
+                  }
+                }
               }
             });
-          } else {
-            console.log(`Error: ${err}`);
-          }
-        });
+        } catch (err) {
+          console.log(`Error: ${err}`);
+        }
       }
     },
     buildVersionList() {
@@ -2110,50 +2100,50 @@ end`,
       if (this.config.wowpath.valided) {
         const wowpath = this.config.wowpath.value;
 
-        fs.readdir(wowpath, (err, files) => {
-          if (err) {
-            console.log(`Error: ${err}`);
-          } else {
-            files
-              .filter(
-                (versionDir) =>
-                  versionDir.match(/^_.*_$/) &&
-                  fs.statSync(path.join(wowpath, versionDir)).isDirectory()
-              )
-              .forEach((versionDir) => {
-                const accountFolder = path.join(
-                  wowpath,
-                  versionDir,
-                  "WTF",
-                  "Account"
+        try {
+          const files = fs.readdirSync(wowpath);
+
+          files
+            .filter(
+              (versionDir) =>
+                versionDir.match(/^_.*_$/) &&
+                fs.statSync(path.join(wowpath, versionDir)).isDirectory()
+            )
+            .forEach((versionDir) => {
+              const accountFolder = path.join(
+                wowpath,
+                versionDir,
+                "WTF",
+                "Account"
+              );
+
+              if (fs.existsSync(accountFolder)) {
+                const versionFound = this.config.wowpath.versions.find(
+                  (version) => version.name === versionDir
                 );
 
-                if (fs.existsSync(accountFolder)) {
-                  const versionFound = this.config.wowpath.versions.find(
-                    (version) => version.name === versionDir
-                  );
-
-                  if (!versionFound) {
-                    // make version if not found in data
-                    this.config.wowpath.versions.push({
-                      name: versionDir,
-                      accounts: [],
-                      account: "",
-                    });
-                  }
-
-                  const label = versionLabels.find(
-                    (versionLabel) => versionLabel.value === versionDir
-                  );
-
-                  this.versionOptions.push({
-                    value: versionDir,
-                    text: (label && label.text) || versionDir,
+                if (!versionFound) {
+                  // make version if not found in data
+                  this.config.wowpath.versions.push({
+                    name: versionDir,
+                    accounts: [],
+                    account: "",
                   });
                 }
-              });
-          }
-        });
+
+                const label = versionLabels.find(
+                  (versionLabel) => versionLabel.value === versionDir
+                );
+
+                this.versionOptions.push({
+                  value: versionDir,
+                  text: (label && label.text) || versionDir,
+                });
+              }
+            });
+        } catch (err) {
+          console.log(`Error: ${err}`);
+        }
       }
     },
     buildAccountList() {
@@ -2170,44 +2160,43 @@ end`,
         );
 
         if (fs.existsSync(accountFolder)) {
-          fs.readdir(accountFolder, (err, files) => {
-            if (err) {
-              console.log(`Error: ${err}`);
-            } else {
-              files
-                .filter(
-                  (accountFile) =>
-                    accountFile !== "SavedVariables" &&
-                    fs
-                      .statSync(path.join(accountFolder, accountFile))
-                      .isDirectory()
-                )
-                .forEach((accountFile) => {
-                  const accountFound = this.versionSelected.accounts.find(
-                    (account) => account.name === accountFile
-                  );
+          try {
+            const files = fs.readdirSync(accountFolder);
 
-                  if (!accountFound) {
-                    // make account if not found in data
-                    this.versionSelected.accounts.push({
-                      name: accountFile,
-                      lastWagoUpdate: null,
-                      auras: [],
-                      savedvariableSizeForAddon: [],
-                    });
-                  } else if (
-                    typeof accountFound.savedvariableSizeForAddon ===
-                    "undefined"
-                  )
-                    this.$set(accountFound, "savedvariableSizeForAddon", []);
+            files
+              .filter(
+                (accountFile) =>
+                  accountFile !== "SavedVariables" &&
+                  fs
+                    .statSync(path.join(accountFolder, accountFile))
+                    .isDirectory()
+              )
+              .forEach((accountFile) => {
+                const accountFound = this.versionSelected.accounts.find(
+                  (account) => account.name === accountFile
+                );
 
-                  this.accountOptions.push({
-                    value: accountFile,
-                    text: accountFile,
+                if (!accountFound) {
+                  // make account if not found in data
+                  this.versionSelected.accounts.push({
+                    name: accountFile,
+                    lastWagoUpdate: null,
+                    auras: [],
+                    savedvariableSizeForAddon: [],
                   });
+                } else if (
+                  typeof accountFound.savedvariableSizeForAddon === "undefined"
+                )
+                  this.$set(accountFound, "savedvariableSizeForAddon", []);
+
+                this.accountOptions.push({
+                  value: accountFile,
+                  text: accountFile,
                 });
-            }
-          });
+              });
+          } catch (err) {
+            console.log(`Error: ${err}`);
+          }
         }
       }
     },
