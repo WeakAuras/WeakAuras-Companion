@@ -1787,7 +1787,9 @@ export default Vue.extend({
         const toc =
           AddonFolder.toLowerCase().search("classic") === -1
             ? "90005"
-            : "11306";
+            : AddonFolder.toLowerCase().search("beta") === -1
+            ? "11306"
+            : "20501";
         const files = [
           {
             name: "WeakAurasCompanion.toc",
@@ -2081,7 +2083,7 @@ end`,
         },
         {
           value: "_classic_beta_",
-          text: this.$t("app.version.classicbeta" /* Classic Beta */),
+          text: this.$t("app.version.classicbeta" /* TBC Beta */),
         },
         {
           value: "_classic_ptr_",
