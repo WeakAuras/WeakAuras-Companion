@@ -32,16 +32,25 @@ It enables you to fetch updates to the auras you have installed  directly from W
 - Each 'Fetch' for new updates will recognize installed Plater Profiles, Mods and Scripts. Please note, that you need to have them copied and installed from wago.io prior to being able to receive updates this way.
 - Now open the Plater options panel in-game and look for the wago icons on the Scripting, Modding or Profiles tab. Those icons indicate available updates in this category, as can be seen on (1.) on the screenshots below.
 
+#### Updating Profiles
 To update your profile, go to the Profiles tab and check the wago.io Profile Information (2.), then click on 'Update Profile' (3.) - You will be prompted to update.
+
 ![preview5](https://i.imgur.com/C9YGuES.png)
 
-The update procedure for Mods and Scripts is identical: First check for available updates indicated by the small wago icon on the respective tab (1.) then find the update indicator on the Mod/Script (2.). The tooltip will give you additional information about the update (3.).
+#### Updating Mods and Scripts
+The update procedure for Mods and Scripts is identical:
+First check for available updates indicated by the small wago icon on the respective tab (1.), then find the update indicator on the Mod/Script (2.). 
+The tooltip will give you additional information about the update (3.).
+
 ![preview6](https://i.imgur.com/42V4AH5.png)
 
 To update a Mod or Script, either click on the wago icon (2.) or use the right-click menu on the Mod or Script and select 'Update from Wago.io' (3.).
+
 ![preview7](https://i.imgur.com/6wtgxIn.png)
 
-You will be prompted to either overwrite the existing version (Yes) or to create a copy (No). Cancelling the operation is possible by closing the prompt window by clicking on the 'X' on the top right.
+You will be prompted to either overwrite the existing version (Yes) or to create a copy (No).
+Cancelling the operation is possible by closing the prompt window by clicking on the 'X' on the top right.
+
 ![preview8](https://i.imgur.com/2IDBgMw.png)
 
 ### Backups
