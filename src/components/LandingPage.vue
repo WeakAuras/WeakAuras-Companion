@@ -1808,10 +1808,7 @@ init.lua`,
           {
             name: "init.lua",
             data: `-- file generated automatically
-local buildTimeTarget = 20190123023201
-local waBuildTime = tonumber(WeakAuras and WeakAuras.buildTime or 0)
-
-if waBuildTime and waBuildTime > buildTimeTarget then
+if WeakAuras then
   local loadedFrame = CreateFrame("FRAME")
   loadedFrame:RegisterEvent("ADDON_LOADED")
   loadedFrame:SetScript("OnEvent", function(_, _, addonName)
