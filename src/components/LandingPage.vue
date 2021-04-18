@@ -500,17 +500,16 @@ export default Vue.extend({
     });
 
     this.$electron.ipcRenderer.on("linkHandler", (event, link) => {
-      const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)\/([^/]+)/;
+      const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)/;
 
       if (link) {
         const result = link.match(pattern);
         let slug;
-        let addon;
 
-        if (result) ({ 1: addon, 2: slug } = result);
+        if (result) ({ 1: slug } = result);
 
-        if (slug && addon) {
-          this.wagoPushHandler(slug, addon);
+        if (slug) {
+          this.wagoPushHandler(slug, "WeakAuras"); // make it work only for WeakAuras for now
         }
       }
     });
