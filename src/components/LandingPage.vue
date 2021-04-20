@@ -318,7 +318,6 @@ export default Vue.extend({
         {
           addonName: "WeakAuras",
           wagoAPI: "https://data.wago.io/api/check/weakauras",
-          dataIndex: null,
           addonDependency: "WeakAuras",
           svPathFunction: this.WeakAurasSaved,
           isInstalled: this.IsWeakAurasInstalled(),
@@ -328,7 +327,6 @@ export default Vue.extend({
         {
           addonName: "Plater",
           wagoAPI: "https://data.wago.io/api/check/plater",
-          dataIndex: "Plater",
           addonDependency: "Plater",
           svPathFunction: this.PlaterSaved,
           isInstalled: this.IsPlaterInstalled(),
@@ -1681,10 +1679,8 @@ export default Vue.extend({
 
           let spacing = "";
 
-          if (config.dataIndex) {
-            LuaOutput += `  ${config.dataIndex} = {\n`;
-            spacing = "  ";
-          }
+          LuaOutput += `  ${config.addonName} = {\n`;
+          spacing = "  ";
 
           let LuaSlugs = spacing + "  slugs = {\n";
           let LuaUids = spacing + "  uids = {\n";
@@ -1775,10 +1771,7 @@ export default Vue.extend({
               LuaOutput += spacing + "    },\n";
             });
           LuaOutput += spacing + "  },\n";
-
-          if (config.dataIndex) {
-            LuaOutput += "  },\n";
-          }
+          LuaOutput += "  },\n";
         });
         LuaOutput += "}";
 
@@ -1809,6 +1802,13 @@ init.lua`,
             name: "init.lua",
             data: `-- file generated automatically
 if WeakAuras then
+  local WeakAurasData = WeakAurasCompanion.WeakAuras
+  -- previous version compatibility
+  WeakAurasCompanion.slugs = WeakAurasData.slugs
+  WeakAurasCompanion.uids = WeakAurasData.uids
+  WeakAurasCompanion.ids = WeakAurasData.ids
+  WeakAurasCompanion.stash = WeakAurasData.stash
+
   local loadedFrame = CreateFrame("FRAME")
   loadedFrame:RegisterEvent("ADDON_LOADED")
   loadedFrame:SetScript("OnEvent", function(_, _, addonName)
@@ -1820,9 +1820,9 @@ if WeakAuras then
       if WeakAuras.ImportHistory then
         for id, data in pairs(WeakAurasSaved.displays) do
           if data.uid and not WeakAurasSaved.history[data.uid] then
-            local slug = WeakAurasCompanion.uids[data.uid]
+            local slug = WeakAurasData.uids[data.uid]
             if slug then
-              local wagoData = WeakAurasCompanion.slugs[slug]
+              local wagoData = WeakAurasData.slugs[slug]
               if wagoData and wagoData.encoded then
                 WeakAuras.ImportHistory(wagoData.encoded)
               end
@@ -1830,13 +1830,13 @@ if WeakAuras then
           end
         end
       end
-      if WeakAurasCompanion.stash then
+      if WeakAurasData.stash then
         local emptyStash = true
-        for _ in pairs(WeakAurasCompanion.stash) do
+        for _ in pairs(WeakAurasData.stash) do
           emptyStash = false
         end
-        if not emptyStash and WeakAuras.StashShow then
-          C_Timer.After(5, function() WeakAuras.StashShow() end)
+        if not emptyStash then
+          WeakAuras.prettyPrint(WeakAuras.L["You have new auras ready to be installed!"])
         end
       end
     end
