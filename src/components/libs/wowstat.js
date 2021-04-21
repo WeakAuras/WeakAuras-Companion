@@ -3,8 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const { Tail } = require("tail");
 
-let watching = false;
-let tail = {};
+let clientlog = {};
 
 export function isOpen(wowpath, version) {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
@@ -19,26 +18,43 @@ export function isOpen(wowpath, version) {
   return false;
 }
 
-export function afterReload(wowpath, version, callback) {
-  const logfile = path.join(wowpath, version, "Logs", "Client.log");
+export function afterReload(config, callback) {
+  const wowpath = config.value;
+  const version = config.version;
+  let account;
 
-  if (!tail[version]) {
-    tail[version] = new Tail(logfile);
-  } else {
-    tail[version].watch();
-  }
-
-  tail[version].on("line", (data) => {
-    const event = data.split(/ {2}/)[1];
-
-    if (event === "Client Destroy") {
-      tail[version].unwatch();
-      callback();
+  config.versions.forEach((version) => {
+    if (version.name === config.version) {
+      account = version.account;
     }
+  });
 
-    if (event === "Loading Screen Disable") {
-      tail[version].unwatch();
-      callback();
+  const wacompanionsvfile = path.join(
+    wowpath,
+    version,
+    "WTF",
+    "Account",
+    account,
+    "SavedVariables",
+    "WeakAurasCompanion.lua"
+  );
+
+  let { mtime } = fs.statSync(wacompanionsvfile);
+  let fsWait = false;
+
+  const watcher = fs.watch(wacompanionsvfile, (event, filename) => {
+    if (filename) {
+      if (fsWait) return;
+
+      fsWait = setTimeout(() => {
+        fsWait = false;
+      }, 100);
+      const stats = fs.statSync(wacompanionsvfile);
+
+      if (stats.mtime.valueOf() !== mtime.valueOf()) {
+        callback();
+        watcher.close();
+      }
     }
   });
 }
@@ -46,17 +62,17 @@ export function afterReload(wowpath, version, callback) {
 export function afterRestart(wowpath, version, callback) {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
 
-  if (!tail[version]) {
-    tail[version] = new Tail(logfile);
+  if (!clientlog[version]) {
+    clientlog[version] = new Tail(logfile);
   } else {
-    tail[version].watch();
+    clientlog[version].watch();
   }
 
-  tail[version].on("line", (data) => {
+  clientlog[version].on("line", (data) => {
     const event = data.split(/ {2}/)[1];
 
     if (event === "Client Destroy") {
-      tail[version].unwatch();
+      clientlog[version].unwatch();
       callback();
     }
   });

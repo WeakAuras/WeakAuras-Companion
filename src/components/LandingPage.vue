@@ -457,15 +457,11 @@ export default Vue.extend({
               }
             );
 
-            afterWOWReload(
-              this.config.wowpath.value,
-              this.config.wowpath.version,
-              () => {
-                while (this.stash.length > 0) {
-                  this.stash.pop();
-                }
+            afterWOWReload(this.config.wowpath, () => {
+              while (this.stash.length > 0) {
+                this.stash.pop();
               }
-            );
+            });
           }
         }
 
@@ -1794,6 +1790,7 @@ export default Vue.extend({
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## OptionalDeps: ${addonDepts}
+## SavedVariables: timestamp
 
 data.lua
 init.lua`,
@@ -1801,18 +1798,20 @@ init.lua`,
           {
             name: "init.lua",
             data: `-- file generated automatically
-if WeakAuras then
-  local WeakAurasData = WeakAurasCompanion.WeakAuras
-  -- previous version compatibility
-  WeakAurasCompanion.slugs = WeakAurasData.slugs
-  WeakAurasCompanion.uids = WeakAurasData.uids
-  WeakAurasCompanion.ids = WeakAurasData.ids
-  WeakAurasCompanion.stash = WeakAurasData.stash
+local loadedFrame = CreateFrame("FRAME")
+loadedFrame:RegisterEvent("ADDON_LOADED")
+loadedFrame:SetScript("OnEvent", function(_, _, addonName)
+  if addonName == "WeakAurasCompanion" then
+    timestamp = GetTime()
 
-  local loadedFrame = CreateFrame("FRAME")
-  loadedFrame:RegisterEvent("ADDON_LOADED")
-  loadedFrame:SetScript("OnEvent", function(_, _, addonName)
-    if addonName == "WeakAurasCompanion" then
+    if WeakAuras then
+      local WeakAurasData = WeakAurasCompanion.WeakAuras
+      -- previous version compatibility
+      WeakAurasCompanion.slugs = WeakAurasData.slugs
+      WeakAurasCompanion.uids = WeakAurasData.uids
+      WeakAurasCompanion.ids = WeakAurasData.ids
+      WeakAurasCompanion.stash = WeakAurasData.stash
+
       local count = WeakAuras.CountWagoUpdates()
       if count and count > 0 then
         WeakAuras.prettyPrint(WeakAuras.L["There are %i updates to your auras ready to be installed!"]:format(count))
@@ -1840,12 +1839,13 @@ if WeakAuras then
         end
       end
     end
-  end)
-end
 
-if Plater and Plater.CheckWagoUpdates then
-    Plater.CheckWagoUpdates()
-end`,
+    if Plater and Plater.CheckWagoUpdates then
+      Plater.CheckWagoUpdates()
+    end
+  end
+end)
+`,
           },
           {
             name: "data.lua",
@@ -1949,16 +1949,12 @@ end`,
               }
             );
 
-            afterWOWReload(
-              this.config.wowpath.value,
-              this.config.wowpath.version,
-              () => {
-                if (this.reloadToast) {
-                  this.reloadToast.goAway(0);
-                  this.reloadToast = null;
-                }
+            afterWOWReload(this.config.wowpath, () => {
+              if (this.reloadToast) {
+                this.reloadToast.goAway(0);
+                this.reloadToast = null;
               }
-            );
+            });
           }
         }
       } else if (failsCount > 0) {
