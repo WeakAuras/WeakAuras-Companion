@@ -1776,7 +1776,7 @@ export default Vue.extend({
           AddonFolder.toLowerCase().search("classic") === -1
             ? "90005"
             : AddonFolder.toLowerCase().search("beta") === -1
-            ? "11306"
+            ? "11307"
             : "20501";
         const files = [
           {
