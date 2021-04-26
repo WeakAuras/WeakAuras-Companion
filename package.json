@@ -30,7 +30,7 @@
     "luxon": "^1.26.0",
     "regedit": "^3.0.3",
     "stylelint": "^13.13.0",
-    "stylelint-config-standard": "^21.0.0",
+    "stylelint-config-standard": "^22.0.0",
     "stylelint-scss": "^3.19.0",
     "tail": "^2.2.2",
     "v-tooltip": "^2.1.3",
