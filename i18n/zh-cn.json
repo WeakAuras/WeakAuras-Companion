@@ -91,6 +91,7 @@
   "app.main.needreloadstash": "重载魔兽世界界面以接收推送的光环",
   "app.main.needrestart": "重启魔兽世界以在WeakAuras的选项界面中查看更新",
   "app.main.nothingToFetch": "没有可用更新",
+  "app.main.ok": "Ok",
   "app.main.settingswiped": "Companion的设置已经重置!",
   "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "接收{aura}编码字符串时出错",

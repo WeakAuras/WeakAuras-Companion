@@ -91,6 +91,7 @@
   "app.main.needreloadstash": "Lade World of Warcraft's UI neu um neue Updates zu laden",
   "app.main.needrestart": "Starte World of Warcraft's UI neu um die Updates in WeakAuras' Optionen zu sehen",
   "app.main.nothingToFetch": "Keine Updates verfügbar",
+  "app.main.ok": "Ok",
   "app.main.settingswiped": "Die Einstellungen des Companion wurden zurückgesetzt!",
   "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "Fehler beim Empfangen des Klartextes für {aura}",

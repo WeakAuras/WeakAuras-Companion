@@ -441,22 +441,13 @@ export default Vue.extend({
                 onComplete: () => {
                   this.reloadToast = null;
                 },
-                action: [
-                  {
-                    text: this.$t("app.main.cancel" /* Cancel */),
-                    onClick: () => {
-                      while (this.stash.length > 0) {
-                        this.stash.pop();
-                      }
-                    },
-                  },
-                ],
               }
             );
 
             afterWOWReload(this.config.wowpath, () => {
-              while (this.stash.length > 0) {
-                this.stash.pop();
+              if (this.reloadToast) {
+                this.reloadToast.goAway(0);
+                this.reloadToast = null;
               }
             });
           }
@@ -890,12 +881,14 @@ export default Vue.extend({
                   wagoSemver: wagoData.versionString,
                   versionNote: wagoData.changelog,
                   auraType: addonConf.addonName,
+                  wagoid: wagoData._id,
+                  addon: wagoData.addon,
                 };
 
                 this.$http
                   .get("https://data.wago.io/api/raw/encoded", {
                     params: {
-                      id: slug,
+                      id: wagoData._id,
                     },
                     headers: {
                       Identifier: this.accountHash,
@@ -919,14 +912,26 @@ export default Vue.extend({
                       {
                         className: "update",
                         duration: null,
+                        action: [
+                          {
+                            text: this.$t("app.main.ok" /* Ok */),
+                            onClick: (e, toastObject) => {
+                              console.log("on complete");
+                              this.reloadToast = null;
+                              const index = this.stash.findIndex(
+                                (o) => o.wagoid === aura.wagoid
+                              );
+                              console.log("index: " + index);
+
+                              if (index !== -1) {
+                                this.stash.splice(index, 1);
+                              }
+                              toastObject.goAway(0);
+                            },
+                          },
+                        ],
                       }
                     );
-
-                    afterWOWReload(this.config.wowpath, () => {
-                      while (this.stash.length > 0) {
-                        this.stash.pop();
-                      }
-                    });
                   })
                   .catch((err2) => {
                     this.message(

@@ -91,6 +91,7 @@
   "app.main.needreloadstash": "Reload World of Warcraft's UI to receive pushed auras",
   "app.main.needrestart": "Перезапустите World of Warcraft, чтобы обновления появились в параметрах WeakAuras",
   "app.main.nothingToFetch": "Нет доступных обновлений",
+  "app.main.ok": "Ok",
   "app.main.settingswiped": "Companion's settings have been reset!",
   "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "Ошибка при получении закодированной строки для {aura}",
