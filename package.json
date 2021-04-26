@@ -6,7 +6,7 @@
   "scripts": {
     "build": "vue-cli-service electron:build --publish never",
     "lint": "eslint src/. --ext .js,.vue",
-    "compile-tools": "./node_modules/.bin/tsc -p ./tools/",
+    "compile-tools": "cd node_modules/.bin/ && tsc -p ../../tools/",
     "dev": "vue-cli-service electron:serve",
     "dist": "vue-cli-service electron:build --publish onTagOrDraft",
     "electron:build": "vue-cli-service electron:build",
