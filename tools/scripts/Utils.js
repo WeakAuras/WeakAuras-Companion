@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTranslationObject = exports.sanitizeMessage = exports.getTranslationsFromString = void 0;
-exports.getTranslationsFromString = (content) => {
+const getTranslationsFromString = (content) => {
     return content.match(/\$tc?\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) || [];
 };
-exports.sanitizeMessage = (message) => {
+exports.getTranslationsFromString = getTranslationsFromString;
+const sanitizeMessage = (message) => {
     const replacements = [
         { from: /\s\s+/g, to: ' ' },
         { from: '/*', to: '' },
@@ -18,7 +19,8 @@ exports.sanitizeMessage = (message) => {
     });
     return message.trim();
 };
-exports.getTranslationObject = (matches) => {
+exports.sanitizeMessage = sanitizeMessage;
+const getTranslationObject = (matches) => {
     const translations = {};
     matches.forEach((translation) => {
         const id = translation.match(/["',]\S*["',]/)[0].replace(/[\\"',]/g, "");
@@ -27,3 +29,4 @@ exports.getTranslationObject = (matches) => {
     });
     return translations;
 };
+exports.getTranslationObject = getTranslationObject;

@@ -92,6 +92,7 @@
   "app.main.needrestart": "Перезапустите World of Warcraft, чтобы обновления появились в параметрах WeakAuras",
   "app.main.nothingToFetch": "Нет доступных обновлений",
   "app.main.settingswiped": "Companion's settings have been reset!",
+  "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "Ошибка при получении закодированной строки для {aura}",
   "app.main.stringReceiveError-2": "Код http: {status}",
   "app.main.updatedownload": "Обновление приложения загружено",

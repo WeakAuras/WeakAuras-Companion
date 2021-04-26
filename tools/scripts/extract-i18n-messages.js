@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const Utils_1 = require("./Utils");
 const run = () => {
+    console.info("hello");
     glob('./src/components/**/*.vue', (err, files) => {
         const basePath = path.resolve(process.cwd());
         const packageJSON = JSON.parse(fs.readFileSync(path.join(basePath, 'package.json')).toString());

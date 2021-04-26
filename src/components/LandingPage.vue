@@ -178,7 +178,6 @@
       </footer>
     </div>
     <Report v-if="reportIsShown"></Report>
-    <Stash v-if="stash.length > 0" :stash="stash"></Stash>
   </div>
 </template>
 
@@ -208,7 +207,6 @@ import About from "./UI/About.vue";
 import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
-import Stash from "./UI/Stash.vue";
 import Dropdown from "./UI/Dropdown.vue";
 
 const userDataPath = require("electron").remote.app.getPath("userData");
@@ -292,7 +290,6 @@ export default Vue.extend({
     Help,
     TitleBar,
     Report,
-    Stash,
     Button,
     Dropdown,
   },
@@ -909,6 +906,27 @@ export default Vue.extend({
                   .then((response2) => {
                     aura.encoded = response2.data;
                     this.stash.push(aura);
+
+                    this.message(
+                      this.$t(
+                        "app.main.stashadd",
+                        {
+                          addon: addon,
+                          aura: wagoData.name,
+                        } /* New {addon} ready to install: {aura} */
+                      ),
+                      null,
+                      {
+                        className: "update",
+                        duration: null,
+                      }
+                    );
+
+                    afterWOWReload(this.config.wowpath, () => {
+                      while (this.stash.length > 0) {
+                        this.stash.pop();
+                      }
+                    });
                   })
                   .catch((err2) => {
                     this.message(

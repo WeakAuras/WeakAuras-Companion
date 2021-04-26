@@ -6,6 +6,7 @@ import * as path from 'path';
 import { getTranslationObject, getTranslationsFromString } from './Utils';
 
 const run = (): void => {
+  console.info("hello");
   glob('./src/components/**/*.vue', (err: any, files: string[]) => {
     const basePath: string = path.resolve(process.cwd());
     const packageJSON: any = JSON.parse(fs.readFileSync(path.join(basePath, 'package.json')).toString());
