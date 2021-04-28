@@ -1,4 +1,5 @@
 {
+  "app.about.css": "Design by",
   "app.about.license": "Lizenz: {license}",
   "app.about.source": "Quelltext auf",
   "app.about.tools": "Entwickelt mit {tools}",

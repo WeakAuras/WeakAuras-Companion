@@ -1,4 +1,5 @@
 {
+  "app.about.css": "Design by",
   "app.about.license": "Lisans: {license}",
   "app.about.source": "Kaynak",
   "app.about.tools": "{tools} ile geliştirildi",

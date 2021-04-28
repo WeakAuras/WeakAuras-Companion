@@ -27,7 +27,10 @@
           href="https://github.com/WeakAuras/WeakAuras-Companion"
           target="_blank"
           >GitHub</a
-        >
+        ><br />
+        {{ $t("app.about.css" /* Design by */) }}
+        <a href="https://sragia.com/" target="_blank">Aigars Bedeicis</a>
+        and <a href="https://stephanosue.com/" target="_blank">Stephano Sue</a>
       </p>
       <br />
     </div>

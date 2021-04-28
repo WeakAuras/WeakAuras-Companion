@@ -1,4 +1,5 @@
 {
+  "app.about.css": "Design by",
   "app.about.license": "开源协议: {license}",
   "app.about.source": "源代码 ",
   "app.about.tools": "使用 {tools} 开发",

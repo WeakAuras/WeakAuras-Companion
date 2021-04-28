@@ -1,4 +1,5 @@
 {
+  "app.about.css": "Design by",
   "app.about.license": "Лицензия: {license}",
   "app.about.source": "Источник:",
   "app.about.tools": "Разработано с {tools}",
