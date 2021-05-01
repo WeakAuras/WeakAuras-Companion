@@ -1046,6 +1046,7 @@ export default Vue.extend({
             if (slug) {
               const foundAura = {
                 id,
+                uid,
                 slug,
                 version,
                 semver,
