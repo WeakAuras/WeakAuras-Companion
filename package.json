@@ -27,7 +27,7 @@
     "electron-store": "^8.0.0",
     "electron-updater": "^4.3.8",
     "luaparse": "~0.2.1",
-    "luxon": "^1.26.0",
+    "luxon": "^1.27.0",
     "regedit": "^3.0.3",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
