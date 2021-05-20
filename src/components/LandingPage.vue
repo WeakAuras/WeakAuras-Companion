@@ -2107,7 +2107,11 @@ end)
         },
         {
           value: "_classic_",
-          text: this.$t("app.version.classic" /* Classic */),
+          text: this.$t("app.version.bcc" /* Burning Crusade Classic */),
+        },
+        {
+          value: "_classic_era_",
+          text: this.$t("app.version.classicera" /* Classic Era */),
         },
         {
           value: "_beta_",
