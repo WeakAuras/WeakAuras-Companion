@@ -44,7 +44,7 @@
     "@vue/cli-plugin-eslint": "~4.5.13",
     "@vue/cli-service": "~4.5.13",
     "copy-webpack-plugin": "^6.4.1",
-    "css-loader": "^5.2.5",
+    "css-loader": "^5.2.6",
     "devtron": "^1.4.0",
     "electron": "^13.0.1",
     "electron-builder": "^22.11.5",
