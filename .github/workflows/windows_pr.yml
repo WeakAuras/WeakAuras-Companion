@@ -12,12 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
         with:
           node-version: ${{ matrix.node }}
-
-      - name: Install
-        uses: bahmutov/npm-install@v1
+          cache: npm
+      - run: npm install
 
       - name: Lint
         run: npm run lint
