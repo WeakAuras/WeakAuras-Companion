@@ -1,0 +1,5 @@
+mainConfig:
+  type: esbuild
+  path: esbuild.main.config.js
+  src: src/main.js
+  output: dist/main
