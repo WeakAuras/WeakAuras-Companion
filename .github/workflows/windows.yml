@@ -13,6 +13,10 @@ jobs:
       matrix:
         node: ["15"]
 
+    env:
+      ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
+      ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
+
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node

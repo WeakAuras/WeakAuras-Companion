@@ -7,11 +7,14 @@ on:
       - "*"
 jobs:
   build:
-    runs-on: macos-11.0
+    runs-on: macos-11
 
     strategy:
       matrix:
         node: ["15"]
+    env:
+      ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
+      ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
 
     steps:
       - uses: actions/checkout@v2
@@ -24,9 +27,6 @@ jobs:
 
       - name: Lint
         run: npm run lint
-
-      - name: Rebuild
-        run: npm rebuild node-sass
 
       - name: Build
         run: npm run dist

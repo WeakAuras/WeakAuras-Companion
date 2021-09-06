@@ -3,14 +3,31 @@ on: pull_request
 
 jobs:
   build:
-    runs-on: macos-11.0
+    runs-on: macos-11
 
     strategy:
       matrix:
         node: ["15"]
 
+    env:
+      ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
+      ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.cache/electron-builder
+
     steps:
       - uses: actions/checkout@v2
+
+      - name: Cache Electron & Electron Builder
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/electron
+            ~/.cache/electron-builder
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: Setup Node
         uses: actions/setup-node@v2.4.0
         with:
@@ -20,9 +37,6 @@ jobs:
 
       - name: Lint
         run: npm run lint
-
-      - name: Rebuild
-        run: npm rebuild node-sass
 
       - name: Build
         run: npm run build
