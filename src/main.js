@@ -1,9 +1,9 @@
-import Vue from "vue";
 import axios from "axios";
-import VueI18n from "vue-i18n";
-import VueElectron from "vue-electron";
-import Toasted from "vue-toasted";
 import { VTooltip } from "v-tooltip";
+import Vue from "vue";
+import VueElectron from "vue-electron";
+import VueI18n from "vue-i18n";
+import Toasted from "vue-toasted";
 import App from "./App.vue";
 
 const en = require("../i18n/en.json");
