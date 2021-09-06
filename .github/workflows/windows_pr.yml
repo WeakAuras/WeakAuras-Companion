@@ -20,8 +20,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.cache/electron
-            ~/.cache/electron-builder
+            ${{ github.workspace }}/.cache/electron
+            ${{ github.workspace }}/.cache/electron-builder
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
