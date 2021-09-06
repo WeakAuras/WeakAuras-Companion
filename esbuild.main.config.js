@@ -3,7 +3,7 @@ const vuePlugin = require("esbuild-vue");
 
 /** @var {Partial<import('esbuild').BuildOptions>} */
 export default {
-  entryPoints: ["src/main.js"],
+  entryPoints: ["src/background.js"],
   bundle: true,
   minify: true,
   platform: "node",
@@ -11,6 +11,7 @@ export default {
   loader: {
     ".png": "binary",
     ".svg": "binary",
+    ".html": "text",
   },
   target: "node14.16.0",
 };

@@ -28,22 +28,22 @@ jobs:
         name: Upload AppImage
         with:
           name: WeakAuras-Companion-PRCI-AppImage
-          path: dist_electron/*.AppImage
+          path: dist/*.AppImage
 
       - uses: actions/upload-artifact@v2
         name: Upload Snap
         with:
           name: WeakAuras-Companion-PRCI-Snap
-          path: dist_electron/*.snap
+          path: dist/*.snap
 
       - uses: actions/upload-artifact@v2
         name: Upload deb
         with:
           name: WeakAuras-Companion-PRCI-deb
-          path: dist_electron/*.deb
+          path: dist/*.deb
 
       - uses: actions/upload-artifact@v2
         name: Upload rpm
         with:
           name: WeakAuras-Companion-PRCI-rpm
-          path: dist_electron/*.rpm
+          path: dist/*.rpm

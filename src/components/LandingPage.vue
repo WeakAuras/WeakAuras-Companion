@@ -184,20 +184,23 @@
 <script>
 import Vue from "vue";
 import path from "path";
-import backupIfRequired from "./libs/backup";
+import backupIfRequired from "./libs/backup.js";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart,
-} from "./libs/wowstat";
+} from "./libs/wowstat.js";
 import {
   createSortByTime,
   createSortByString,
   createSortByUpdate,
   createSortByAuthor,
   createSortByType,
-} from "./libs/sort";
-import { wowDefaultPath, matchFolderNameInsensitive } from "./libs/utilities";
+} from "./libs/sort.js";
+import {
+  wowDefaultPath,
+  matchFolderNameInsensitive,
+} from "./libs/utilities.js";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";

@@ -37,10 +37,10 @@ jobs:
         name: Upload DMG
         with:
           name: WeakAuras-Companion-CI-dmg
-          path: dist_electron/*-mac.dmg
+          path: dist/*-mac.dmg
 
       - uses: actions/upload-artifact@v2
         name: Upload ARM DMG
         with:
           name: WeakAuras-Companion-CI-arm64-dmg
-          path: dist_electron/*-mac-arm64.dmg
+          path: dist/*-mac-arm64.dmg
