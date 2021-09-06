@@ -1,4 +1,17 @@
 module.exports = {
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.[jt]sx?$/,
+          loader: "esbuild-loader",
+          options: {
+            target: "esnext",
+          },
+        },
+      ],
+    },
+  },
   chainWebpack: (config) => {
     config.plugin("html").tap((args) => {
       args[0].filename = "index.html";

@@ -5,15 +5,16 @@
     "eslint.packageManager": "npm",
     "npm.packageManager": "npm",
     "cSpell.words": [
+        "esbuild",
         "Hmmss",
+        "icns",
         "LSUI",
+        "luxon",
+        "nsis",
         "Patreon",
         "VUEJS",
         "Wago",
         "YYYYMMDDH",
-        "icns",
-        "luxon",
-        "nsis",
         "zhcn"
     ]
 }
