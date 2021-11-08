@@ -11,11 +11,16 @@
         "linebreak-style": "off",
         "no-console": "off",
         "semi": 0,
-        "quotes": [1, "double", "avoid-escape"],
+        "quotes": [
+            1,
+            "double",
+            "avoid-escape"
+        ],
         "vue/require-prop-types": "off",
         "vue/no-mutating-props": "off",
         "vue/no-v-html": "off",
         "vue/experimental-script-setup-vars": "off",
+        "vue/multi-word-component-names": "off",
         "padding-line-between-statements": [
             "warn",
             {
@@ -34,9 +39,14 @@
     "parserOptions": {
         "ecmaVersion": 2020
     },
-    "plugins": ["prettier", "vue"],
+    "plugins": [
+        "prettier",
+        "vue"
+    ],
     "settings": {
-        "import/core-modules": ["electron"],
+        "import/core-modules": [
+            "electron"
+        ],
         "import/resolver": {
             "webpack": {
                 "config": "webpack"
