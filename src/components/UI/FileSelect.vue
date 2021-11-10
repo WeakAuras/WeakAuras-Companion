@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { remote } from "electron";
+require("@electron/remote/main");
 
 export default {
   props: ["path", "createDirectory", "defaultPath"],

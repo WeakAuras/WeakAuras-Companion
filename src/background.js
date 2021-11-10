@@ -21,6 +21,8 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
+const remoteMain = require("@electron/remote/main");
+remoteMain.initialize();
 const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -91,14 +93,16 @@ async function createWindow() {
     resizable: true,
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
+      nativeWindowOpen: true,
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false,
     },
     show: false,
   });
+
+  remoteMain.enable(mainWindow.webContents);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
