@@ -16,7 +16,7 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
-  "main": "index.js",
+  "main": "background.js",
   "dependencies": {
     "@electron/remote": "^2.0.1",
     "@types/jest": "^27.0.2",
