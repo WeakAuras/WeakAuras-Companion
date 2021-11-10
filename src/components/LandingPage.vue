@@ -211,8 +211,8 @@ import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Dropdown from "./UI/Dropdown.vue";
-
-const userDataPath = require("@electron/remote").remote.app.getPath("userData");
+const app = require("@electron/remote").app;
+const userDataPath = app.getPath("userData");
 const fs = require("fs");
 const luaparse = require("luaparse");
 const Store = require("electron-store");

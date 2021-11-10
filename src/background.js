@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import {
   app,
+  BrowserWindow,
   Tray,
   Menu,
   shell,
@@ -8,8 +9,6 @@ import {
   Notification,
   protocol,
 } from "electron";
-const { BrowserWindow } = require("@electron/remote");
-require("@electron/remote/main").initialize();
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
@@ -22,6 +21,8 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
+const remoteMain = require("@electron/remote/main");
+remoteMain.initialize();
 const electronLocalshortcut = require("electron-localshortcut");
 const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -92,6 +93,7 @@ async function createWindow() {
     resizable: true,
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
+      nativeWindowOpen: true,
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
       nodeIntegration: true,
@@ -99,6 +101,8 @@ async function createWindow() {
     },
     show: false,
   });
+
+  remoteMain.enable(mainWindow.webContents);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
