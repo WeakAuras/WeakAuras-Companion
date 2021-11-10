@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import {
   app,
-  BrowserWindow,
   Tray,
   Menu,
   shell,
@@ -9,6 +8,8 @@ import {
   Notification,
   protocol,
 } from "electron";
+const { BrowserWindow } = require("@electron/remote");
+require("@electron/remote/main").initialize();
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
@@ -94,7 +95,6 @@ async function createWindow() {
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false,
     },
     show: false,
