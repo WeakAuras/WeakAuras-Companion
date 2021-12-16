@@ -18,10 +18,12 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "Spinner",
   props: ["spin"],
-};
+});
 </script>
 
 <style scoped lang="scss">

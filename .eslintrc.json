@@ -1,46 +1,64 @@
 {
-    "extends": [
-        "plugin:prettier/recommended",
-        "plugin:vue/recommended",
-        "prettier"
+  //   "extends": ["plugin:prettier/recommended", "plugin:vue/recommended", "prettier"],
+  "extends": [
+    // Base ESLint recommended rules
+    // "eslint:recommended",
+
+    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
+    // ESLint typescript rules
+    "plugin:@typescript-eslint/recommended",
+    // consider disabling this class of rules if linting takes too long
+    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
+
+    // Uncomment any of the lines below to choose desired strictness,
+    // but leave only one uncommented!
+    // See https://eslint.vuejs.org/rules/#available-rules
+    "plugin:vue/vue3-essential", // Priority A: Essential (Error Prevention)
+    // "plugin:vue/vue3-strongly-recommended", // Priority B: Strongly Recommended (Improving Readability)
+    // "plugin:vue/vue3-recommended", // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
+
+    // https://github.com/prettier/eslint-config-prettier#installation
+    // usage with Prettier, provided by "eslint-config-prettier".
+    "prettier"
+  ],
+  "globals": {
+    "__static": true
+  },
+  "rules": {
+    "linebreak-style": "off",
+    "no-console": "off",
+    "semi": 0,
+    "quotes": [1, "double", "avoid-escape"],
+    "vue/require-prop-types": "off",
+    "vue/no-mutating-props": "off",
+    "vue/no-v-html": "off",
+    "vue/experimental-script-setup-vars": "off",
+    "padding-line-between-statements": [
+      "warn",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["block", "multiline-block-like", "if", "function", "multiline-expression"]
+      }
     ],
-    "globals": {
-        "__static": true
-    },
-    "rules": {
-        "linebreak-style": "off",
-        "no-console": "off",
-        "semi": 0,
-        "quotes": [1, "double", "avoid-escape"],
-        "vue/require-prop-types": "off",
-        "vue/no-mutating-props": "off",
-        "vue/no-v-html": "off",
-        "vue/experimental-script-setup-vars": "off",
-        "padding-line-between-statements": [
-            "warn",
-            {
-                "blankLine": "always",
-                "prev": "*",
-                "next": [
-                    "block",
-                    "multiline-block-like",
-                    "if",
-                    "function",
-                    "multiline-expression"
-                ]
-            }
-        ]
-    },
-    "parserOptions": {
-        "ecmaVersion": 2020
-    },
-    "plugins": ["prettier", "vue"],
-    "settings": {
-        "import/core-modules": ["electron"],
-        "import/resolver": {
-            "webpack": {
-                "config": "webpack"
-            }
-        }
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-implicit-any": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "vue/multi-word-component-names": "off"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "plugins": ["prettier", "vue"],
+  "settings": {
+    "import/core-modules": ["electron"],
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack"
+      }
     }
+  }
 }

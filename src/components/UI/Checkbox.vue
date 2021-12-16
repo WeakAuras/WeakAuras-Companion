@@ -8,12 +8,14 @@
       @change="$emit('input', $event.target.checked)"
     />
     <div class="checkbox__box" :class="{ 'checkbox__box--checked': value }" />
-    <label> <slot></slot> </label>
+    <label><slot></slot></label>
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   inheritAttrs: false,
   props: ["value"],
   methods: {
@@ -21,7 +23,7 @@ export default {
       this.$refs.checkbox.click();
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

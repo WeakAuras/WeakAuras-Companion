@@ -1,4 +1,4 @@
-const { DateTime } = require("luxon");
+import { DateTime } from "luxon";
 
 const getUpdateValueWithAllAuras = (aura) => {
   if (aura.ignoreWagoUpdate) return 2;

@@ -8,15 +8,15 @@ describe('Utils', () => {
     test
     test
     */`;
-        expect(Utils_1.sanitizeMessage(message)).toBe('test \\n test test test');
+        expect((0, Utils_1.sanitizeMessage)(message)).toBe('test \\n test test test');
     });
     test('should escape double quotes', () => {
         const message = `/* "foo" */`;
-        expect(Utils_1.sanitizeMessage(message)).toBe('\\"foo\\"');
+        expect((0, Utils_1.sanitizeMessage)(message)).toBe('\\"foo\\"');
     });
     test('should replace <> with []', () => {
         const message = `/* [a]test[/a] */`;
-        expect(Utils_1.sanitizeMessage(message)).toBe('<a>test</a>');
+        expect((0, Utils_1.sanitizeMessage)(message)).toBe('<a>test</a>');
     });
     test('should parse translations from a string', () => {
         const content = `<div>
@@ -34,7 +34,7 @@ $t('components.markdown' /*
 - \`github style\` markdown
 */)
     </div>`;
-        expect(Utils_1.getTranslationsFromString(content))
+        expect((0, Utils_1.getTranslationsFromString)(content))
             .toEqual([
             '$t(\'test\' /* this is a test */)',
             '$t(\'test.foo\' /* test (test) [test] test */)',
@@ -44,7 +44,7 @@ $t('components.markdown' /*
             '$t(\'components.register.submit.notification.text\', model /* We\'ve sent an email to: {email}! */)',
             '$t(\'components.markdown\' /*\n# Markdown support\\n\n- build on top of marked\\n\n- server side rendering!!!\\n\n- `github style` markdown\n*/)',
         ]);
-        expect(Utils_1.getTranslationsFromString('')).toEqual([]);
+        expect((0, Utils_1.getTranslationsFromString)('')).toEqual([]);
     });
     test('should get a translation object', () => {
         const content = `<div>
@@ -53,7 +53,7 @@ $t('components.markdown' /*
       {{ $t('test.foo' /* test (test) [test] test */) }}
       {{ $t('test.foo' /* test (test) [test] test */ ) }}
     </div>`;
-        expect(Utils_1.getTranslationObject(Utils_1.getTranslationsFromString(content)))
+        expect((0, Utils_1.getTranslationObject)((0, Utils_1.getTranslationsFromString)(content)))
             .toEqual({
             'test': 'this is a test',
             'test.foo': 'test (test) <test> test',

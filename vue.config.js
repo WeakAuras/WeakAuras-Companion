@@ -5,6 +5,25 @@ module.exports = {
       args[0].template = "./src/index.ejs";
       return args;
     });
+
+    // config.resolve.alias.set("vue", "@vue/compat");
+
+    // config.module
+    //   .rule("vue")
+    //   .use("vue-loader")
+    //   .loader("vue-loader")
+    //   .tap((options) => {
+    //     // Vue 2 > Vue 3 compatibility mode
+    //     return {
+    //       ...options,
+    //       compilerOptions: {
+    //         compatConfig: {
+    //           // default everything to Vue 2 behavior
+    //           MODE: 2,
+    //         },
+    //       },
+    //     };
+    //   });
   },
   pluginOptions: {
     electronBuilder: {

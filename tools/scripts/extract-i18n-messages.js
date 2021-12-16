@@ -18,9 +18,9 @@ const run = () => {
          */
         files.forEach((file) => {
             const content = fs.readFileSync(file).toString();
-            const matches = Utils_1.getTranslationsFromString(content);
+            const matches = (0, Utils_1.getTranslationsFromString)(content);
             if (matches) {
-                translations = Object.assign(Object.assign({}, translations), Utils_1.getTranslationObject(matches));
+                translations = Object.assign(Object.assign({}, translations), (0, Utils_1.getTranslationObject)(matches));
             }
         });
         /**

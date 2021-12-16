@@ -24,16 +24,17 @@
   </div>
 </template>
 <script>
+import { defineComponent } from "vue";
 import Button from "./Button.vue";
 
-export default {
+export default defineComponent({
   components: { Button },
   methods: {
     close() {
       this.$parent.toggleReport();
     },
   },
-};
+});
 </script>
 <style lang="scss">
 #report {

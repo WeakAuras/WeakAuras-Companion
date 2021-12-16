@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const http = require("http");
+import { createServer } from "http";
 
 let stash;
 
@@ -78,16 +78,13 @@ function LocalServerRequestHandler(req, res) {
     return res.end("{'result': 'no'}");
   }
 }
-const localServer = http.createServer(LocalServerRequestHandler);
+const localServer = createServer(LocalServerRequestHandler);
 const localServerPort = 24642;
 
-module.exports = {
-  start: (v) => {
-    stash = v;
-    localServer.listen(localServerPort, "127.0.0.1");
-  },
-
-  stop: () => {
-    localServer.close();
-  },
-};
+export function start(v) {
+  stash = v;
+  localServer.listen(localServerPort, "127.0.0.1");
+}
+export function stop() {
+  localServer.close();
+}

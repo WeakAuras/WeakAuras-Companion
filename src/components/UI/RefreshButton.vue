@@ -39,24 +39,25 @@
     </Label>
     <div v-if="lastUpdate && isSvOk && olderThan30s()" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
-      <b>{{ lastUpdate | fromNow($i18n.locale) }}</b>
+      <b>{{ fromNow(lastUpdate, $i18n.locale) }}</b>
     </div>
   </div>
 </template>
 
 <script>
-const { DateTime } = require("luxon");
+import { DateTime } from "luxon";
+import { defineComponent } from "vue";
 import Button from "./Button.vue";
 
-export default {
+function fromNow(value, locale) {
+  if (!value) return "n/a";
+  return DateTime.fromJSDate(value).toRelative({ locale: locale });
+}
+
+export default defineComponent({
   name: "RefreshButton",
   components: { Button },
-  filters: {
-    fromNow: (value, locale) => {
-      if (!value) return "n/a";
-      return DateTime.fromJSDate(value).toRelative({ locale: locale });
-    },
-  },
+  filters: {},
   props: [
     "usable",
     "fetching",
@@ -77,7 +78,7 @@ export default {
       this.scheduleTimer();
     },
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.lastUpdateTimer);
   },
   methods: {
@@ -104,7 +105,7 @@ export default {
   mount() {
     this.scheduleTimer();
   },
-};
+});
 </script>
 
 <style scoped lang="scss">
