@@ -78,10 +78,12 @@
 </template>
 
 <script>
-const medias = require("../libs/contacts.js");
-const VERSION = require("../../../package.json").version;
-// console.log(`VERSION: ${VERSION}`);
-export default {
+import { defineComponent } from "vue";
+
+import medias from "@/components/libs/contacts";
+import { version as VERSION } from "../../../package.json";
+
+export default defineComponent({
   name: "About",
   filters: {
     capitalize: (string) => string.charAt(0).toUpperCase() + string.slice(1),
@@ -93,7 +95,7 @@ export default {
       version: VERSION,
     };
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

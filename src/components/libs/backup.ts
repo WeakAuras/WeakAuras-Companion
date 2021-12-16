@@ -1,8 +1,8 @@
 import path from "path";
 
-const { DateTime } = require("luxon");
-const archiver = require("archiver");
-const fs = require("fs");
+import { DateTime } from "luxon";
+import archiver from "archiver";
+import fs from "fs";
 
 function deleteOldFiles(dirPath, accountName, addonName, maxsize) {
   const regex = new RegExp(`^${addonName}-${accountName}-[0-9.]+.zip$`);

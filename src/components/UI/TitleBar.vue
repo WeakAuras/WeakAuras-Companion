@@ -19,7 +19,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   methods: {
     minBtn() {
       this.$electron.ipcRenderer.send("minimize");
@@ -28,7 +30,7 @@ export default {
       this.$electron.ipcRenderer.send("close");
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

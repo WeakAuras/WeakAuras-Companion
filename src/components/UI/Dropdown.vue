@@ -1,15 +1,15 @@
 <template>
   <div class="dropdown">
-    <label v-if="label" class="dropdown__label"> {{ label }} </label>
+    <label v-if="label" class="dropdown__label">{{ label }}</label>
     <div
       class="dropdown__toggle"
       :class="{ 'dropdown__toggle--toggled': showMenu }"
       @click="toggleDropdown()"
     >
       <span>{{ getLabel(selected) }}</span>
-      <i :class="{ open: showMenu }" class="material-icons">
-        keyboard_arrow_down
-      </i>
+      <i :class="{ open: showMenu }" class="material-icons"
+        >keyboard_arrow_down</i
+      >
     </div>
     <div
       :style="{ height: showMenu ? height + 'px' : '0px' }"
@@ -30,7 +30,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   inheritAttrs: false,
   props: {
     value: { type: [String, Number, Object], default: "" },
@@ -43,15 +45,15 @@ export default {
     label: { type: [String, null], default: null },
     placeholder: {
       type: String,
-      default() {
-        return this.$t("app.dropdown.placeholder" /* Select... */);
-      },
     },
   },
   data() {
     return {
       selected:
-        this.value === "" ? this.placeholder : this.getLabel(this.value),
+        this.value === ""
+          ? this.placeholder ||
+            this.$t("app.dropdown.placeholder" /* Select... */)
+          : this.getLabel(this.value),
       showMenu: false,
       height: this.options.length * 30,
     };
@@ -59,7 +61,10 @@ export default {
   watch: {
     value() {
       this.selected =
-        this.value === "" ? this.placeholder : this.getLabel(this.value);
+        this.value === ""
+          ? this.placeholder ||
+            this.$t("app.dropdown.placeholder" /* Select... */)
+          : this.getLabel(this.value);
     },
     options() {
       this.height = this.options.length * 30;
@@ -82,7 +87,7 @@ export default {
       return this.options[index].text;
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

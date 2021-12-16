@@ -21,14 +21,16 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   props: ["type", "title", "size"],
   methods: {
     callback(e) {
       this.$emit("click", e);
     },
   },
-};
+});
 </script>
 
 <style lang="scss">

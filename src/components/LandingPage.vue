@@ -12,26 +12,30 @@
             type="menu"
             :class="{ active: configStep === 0 }"
             @click="configStep = 0"
-            >{{ $t("app.menu.main" /* Main */) }}</Button
           >
+            {{ $t("app.menu.main" /* Main */) }}
+          </Button>
           <Button
             type="menu"
             :class="{ active: configStep === 1 }"
             @click="configStep = 1"
-            >{{ $t("app.menu.settings" /* Settings */) }}</Button
           >
+            {{ $t("app.menu.settings" /* Settings */) }}
+          </Button>
           <Button
             type="menu"
             :class="{ active: configStep === 2 }"
             @click="configStep = 2"
-            >{{ $t("app.menu.help" /* Help */) }}</Button
           >
+            {{ $t("app.menu.help" /* Help */) }}
+          </Button>
           <Button
             type="menu"
             :class="{ active: configStep === 3 }"
             @click="configStep = 3"
-            >{{ $t("app.menu.about" /* About */) }}</Button
           >
+            {{ $t("app.menu.about" /* About */) }}
+          </Button>
         </div>
       </header>
       <main>
@@ -46,8 +50,7 @@
                 :options="versionOptions"
                 :label="$t('app.wowpath.version' /* Version */)"
                 @change="compareSVwithWago()"
-              >
-              </Dropdown>
+              ></Dropdown>
             </div>
             <div
               v-if="config.wowpath.valided && versionSelected"
@@ -58,8 +61,7 @@
                 :options="accountOptions"
                 :label="$t('app.wowpath.account' /* Account */)"
                 @change="compareSVwithWago()"
-              >
-              </Dropdown>
+              ></Dropdown>
             </div>
           </div>
           <div v-if="allAddonConfigs.length > 1" id="addonbttns">
@@ -154,7 +156,8 @@
             "
             class="material-icons update-available"
             @click="open(`${updater.path}`)"
-            >system_update_alt
+          >
+            system_update_alt
           </i>
           <i
             v-if="updater.status === 'update-downloaded'"
@@ -165,7 +168,8 @@
             "
             class="material-icons update-available"
             @click="installUpdates"
-            >system_update_alt
+          >
+            system_update_alt
           </i>
           <div v-if="updater.status === 'checking-for-update'" class="updating">
             <i class="material-icons icon">sync</i>
@@ -182,25 +186,22 @@
 </template>
 
 <script>
-import Vue from "vue";
+import { defineComponent } from "vue";
 import path from "path";
-import backupIfRequired from "./libs/backup.js";
+import backupIfRequired from "./libs/backup";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart,
-} from "./libs/wowstat.js";
+} from "./libs/wowstat";
 import {
   createSortByTime,
   createSortByString,
   createSortByUpdate,
   createSortByAuthor,
   createSortByType,
-} from "./libs/sort.js";
-import {
-  wowDefaultPath,
-  matchFolderNameInsensitive,
-} from "./libs/utilities.js";
+} from "./libs/sort";
+import { wowDefaultPath, matchFolderNameInsensitive } from "./libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";
@@ -211,14 +212,14 @@ import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Dropdown from "./UI/Dropdown.vue";
-const app = require("@electron/remote").app;
+import { app } from "@electron/remote";
 const userDataPath = app.getPath("userData");
-const fs = require("fs");
-const luaparse = require("luaparse");
-const Store = require("electron-store");
-const hash = require("./libs/hash.js");
-const medias = require("./libs/contacts.js");
-const sanitize = require("./libs/sanitize.js");
+import fs from "fs";
+import luaparse from "luaparse";
+import Store from "electron-store";
+import hash from "./libs/hash";
+import * as medias from "./libs/contacts";
+import sanitize from "./libs/sanitize";
 
 const store = new Store();
 luaparse.defaultOptions.comments = false;
@@ -282,7 +283,7 @@ const defaultValues = () => {
   };
 };
 
-export default Vue.extend({
+export default defineComponent({
   name: "LandingPage",
   components: {
     RefreshButton,
@@ -589,8 +590,11 @@ export default Vue.extend({
         }
       });
     }
+
     // create default backup folder
-    fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {});
+    fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {
+      console.log("Creating default directory");
+    });
 
     // check updates
     this.compareSVwithWago();

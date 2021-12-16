@@ -25,7 +25,7 @@ const getTranslationObject = (matches) => {
     matches.forEach((translation) => {
         const id = translation.match(/["',]\S*["',]/)[0].replace(/[\\"',]/g, "");
         const defaultMessage = translation.match(/\/\*[^/]*\*\//)[0];
-        translations[id] = exports.sanitizeMessage(defaultMessage);
+        translations[id] = (0, exports.sanitizeMessage)(defaultMessage);
     });
     return translations;
 };

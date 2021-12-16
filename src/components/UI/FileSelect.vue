@@ -11,9 +11,11 @@
 </template>
 
 <script>
+import { defineComponent } from "vue";
+
 require("@electron/remote/main");
 
-export default {
+export default defineComponent({
   props: ["path", "createDirectory", "defaultPath"],
   data() {
     return {
@@ -40,7 +42,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">

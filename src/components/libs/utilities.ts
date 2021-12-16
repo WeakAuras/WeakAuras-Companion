@@ -1,5 +1,6 @@
 import path from "path";
-const fs = require("fs");
+import fs from "fs";
+import regedit from "regedit";
 
 export function formatBytes(a, b) {
   if (a === 0) return "0 Bytes";
@@ -9,8 +10,6 @@ export function formatBytes(a, b) {
   const f = Math.floor(Math.log(a) / Math.log(c));
   return `${parseFloat((a / c ** f).toFixed(d))} ${e[f]}`;
 }
-
-const regedit = require("regedit");
 
 regedit.setExternalVBSLocation("resources/node_modules/regedit/vbs");
 
@@ -34,9 +33,9 @@ export function wowDefaultPath() {
 
 export function matchFolderNameInsensitive(folder, name, create) {
   try {
-    var items = fs.readdirSync(folder);
+    const items = fs.readdirSync(folder);
 
-    for (var i in items) {
+    for (const i in items) {
       const item = items[i];
 
       if (name.toLowerCase() === item.toLowerCase()) return item;
