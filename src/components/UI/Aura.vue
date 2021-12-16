@@ -75,12 +75,11 @@
 </template>
 
 <script>
-import Vue from "vue";
+import { DateTime } from "luxon";
+import sanitize from "@/components/libs/sanitize";
+import { defineComponent } from "vue";
 
-const { DateTime } = require("luxon");
-const sanitize = require("../libs/sanitize.js");
-
-export default Vue.extend({
+export default defineComponent({
   props: ["aura", "showAllAuras"],
   data() {
     return {

@@ -1,14 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  app,
-  BrowserWindow,
-  Tray,
-  Menu,
-  shell,
-  ipcMain,
-  Notification,
-  protocol,
-} from "electron";
+import { app, BrowserWindow, Tray, Menu, shell, ipcMain, Notification, protocol } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
@@ -17,9 +8,7 @@ import log from "electron-log";
 import AutoLaunch from "auto-launch";
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([
-  { scheme: "app", privileges: { secure: true, standard: true } },
-]);
+protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 const remoteMain = require("@electron/remote/main");
 remoteMain.initialize();
@@ -50,9 +39,9 @@ let cancellationToken;
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 
-autoUpdater.allowPrerelease =
-  autoUpdater.allowPrerelease || (config && config.beta === true);
+autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || (config && config.beta === true);
 autoUpdater.logger = log;
+//@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
 
@@ -64,19 +53,16 @@ if (isProduction) {
   global.__static = path.join(__dirname, "/public").replace(/\\/g, "\\\\");
 }
 
-let tray = null;
-let contextMenu = null;
-let mainWindow = null;
+let tray: Tray | null = null;
+let contextMenu: Menu | null = null;
+let mainWindow: BrowserWindow | null = null;
 let winURL = null;
 
-const iconpath = path.join(
-  __static,
-  `icon${process.platform === "win32" ? ".ico" : "-light.png"}`
-);
+const iconpath = path.join(__static, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
 
 function handleLinks(link) {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send("linkHandler", link);
+  if (mainWindow && mainWindow?.webContents) {
+    mainWindow?.webContents.send("linkHandler", link);
   }
 }
 
@@ -102,34 +88,34 @@ async function createWindow() {
     show: false,
   });
 
-  remoteMain.enable(mainWindow.webContents);
+  remoteMain.enable(mainWindow?.webContents);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    await mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    await mainWindow?.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
 
-    if (!process.env.IS_TEST) mainWindow.webContents.openDevTools();
+    if (!process.env.IS_TEST) mainWindow?.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
-    mainWindow.loadURL("app://./index.html");
+    mainWindow?.loadURL("app://./index.html");
   }
 
-  mainWindow.on("closed", () => {
+  mainWindow?.on("closed", () => {
     mainWindow = null;
   });
 
-  mainWindow.setMenu(null);
+  mainWindow?.setMenu(null);
 
-  mainWindow.on("minimize", (event) => {
+  mainWindow?.on("minimize", (event) => {
     event.preventDefault();
-    mainWindow.minimize();
+    mainWindow?.minimize();
   });
 
-  mainWindow.on("ready-to-show", () => {
+  mainWindow?.on("ready-to-show", () => {
     if (!store.get("config.startminimize", false)) {
-      mainWindow.show();
-      mainWindow.focus();
+      mainWindow?.show();
+      mainWindow?.focus();
     }
   });
 
@@ -138,15 +124,12 @@ async function createWindow() {
     handleLinks(process.argv.pop());
   }
 
-  mainWindow.on("closed", () => {
+  mainWindow?.on("closed", () => {
     mainWindow = null;
   });
 
-  mainWindow.webContents.once("dom-ready", () => {
-    mainWindow.webContents.send(
-      "setAllowPrerelease",
-      autoUpdater.allowPrerelease
-    );
+  mainWindow?.webContents.once("dom-ready", () => {
+    mainWindow?.webContents.send("setAllowPrerelease", autoUpdater.allowPrerelease);
   });
 
   tray = new Tray(iconpath);
@@ -155,7 +138,7 @@ async function createWindow() {
     {
       label: "Open WeakAuras Companion",
       click: () => {
-        mainWindow.show();
+        mainWindow?.show();
       },
     },
     {
@@ -166,11 +149,7 @@ async function createWindow() {
         }
 
         autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-          mainWindow.webContents.send(
-            "updaterHandler",
-            "checkForUpdates",
-            UpdateCheckResult
-          );
+          mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
           ({ cancellationToken } = UpdateCheckResult);
         });
       },
@@ -178,51 +157,53 @@ async function createWindow() {
     {
       label: "Open DevTools Console",
       click: () => {
-        mainWindow.webContents.openDevTools({ mode: "detach" });
+        mainWindow?.webContents.openDevTools({ mode: "detach" });
       },
     },
     { type: "separator" },
     {
       label: "Fetch Updates",
       click: () => {
-        mainWindow.webContents.send("refreshWago");
+        mainWindow?.webContents.send("refreshWago");
       },
     },
     { type: "separator" },
     {
       label: "Quit",
       click: () => {
+        //@ts-ignore
         app.isQuitting = true;
         app.quit();
       },
     },
   ]);
-  tray.on("right-click", () => tray.popUpContextMenu(contextMenu));
+  //@ts-ignore
+  tray?.on("right-click", () => tray?.popUpContextMenu(contextMenu));
 
   // Ignore double click events for the tray icon
-  tray.setIgnoreDoubleClickEvents(true);
+  tray?.setIgnoreDoubleClickEvents(true);
 
-  tray.on("click", () => {
-    if (mainWindow.isVisible()) {
-      mainWindow.hide();
+  tray?.on("click", () => {
+    if (mainWindow?.isVisible()) {
+      mainWindow?.hide();
     } else {
-      mainWindow.show();
+      mainWindow?.show();
     }
   });
 
-  mainWindow.webContents.on("new-window", (event, url) => {
+  mainWindow?.webContents.on("new-window", (event, url) => {
     event.preventDefault();
     shell.openExternal(url);
   });
 
-  mainWindow.webContents.on("will-navigate", (event) => {
-    if (mainWindow.webContents.getURL() !== winURL) {
+  mainWindow?.webContents.on("will-navigate", (event) => {
+    if (mainWindow?.webContents.getURL() !== winURL) {
       event.preventDefault();
     }
   });
 
   electronLocalshortcut.register(mainWindow, "Ctrl+Shift+I", () => {
-    mainWindow.webContents.openDevTools({ mode: "detach" });
+    mainWindow?.webContents.openDevTools({ mode: "detach" });
   });
 }
 
@@ -237,8 +218,8 @@ if (!app.requestSingleInstanceLock()) {
 
     // Someone tried to run a second instance, focus our window instead
     if (mainWindow) {
-      if (!mainWindow.isVisible()) mainWindow.show();
-      mainWindow.focus();
+      if (!mainWindow?.isVisible()) mainWindow?.show();
+      mainWindow?.focus();
     }
   });
 
@@ -255,11 +236,7 @@ if (!app.requestSingleInstanceLock()) {
 
     if (process.env.NODE_ENV === "production") {
       autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-        mainWindow.webContents.send(
-          "updaterHandler",
-          "checkForUpdates",
-          UpdateCheckResult
-        );
+        mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
         ({ cancellationToken } = UpdateCheckResult);
       });
     }
@@ -290,15 +267,16 @@ app.on("open-url", (event, url) => {
 
 // event used when clicking on notifications
 ipcMain.on("open", () => {
-  mainWindow.show();
-  mainWindow.focus();
+  mainWindow?.show();
+  mainWindow?.focus();
 });
 
 ipcMain.on("minimize", () => {
-  mainWindow.hide();
+  mainWindow?.hide();
 });
 
 ipcMain.on("close", () => {
+  //@ts-ignore
   app.isQuitting = true;
   app.quit();
 });
@@ -323,15 +301,12 @@ ipcMain.on("postFetchingNewUpdateNotification", (event, news) => {
   const notification = new Notification({
     title: "New update ready to install",
     body: text,
-    icon: path.join(
-      __static,
-      process.platform === "win32" ? "bigicon.png" : "icon.png"
-    ),
+    icon: path.join(__static, process.platform === "win32" ? "bigicon.png" : "icon.png"),
   });
 
   notification.on("click", () => {
-    mainWindow.show();
-    mainWindow.focus();
+    mainWindow?.show();
+    mainWindow?.focus();
   });
 
   notification.show();
@@ -345,35 +320,28 @@ ipcMain.on("checkUpdates", (event, isBeta) => {
   autoUpdater.allowPrerelease = isBeta === true;
 
   autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-    mainWindow.webContents.send(
-      "updaterHandler",
-      "checkForUpdates",
-      UpdateCheckResult
-    );
+    mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
     ({ cancellationToken } = UpdateCheckResult);
   });
 });
 
 // updater functions
 autoUpdater.on("checking-for-update", () => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send("updaterHandler", "checking-for-update");
+  if (mainWindow && mainWindow?.webContents) {
+    mainWindow?.webContents.send("updaterHandler", "checking-for-update");
   }
 });
 
 autoUpdater.on("update-available", (info) => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send("updaterHandler", "update-available", info);
+  if (mainWindow && mainWindow?.webContents) {
+    mainWindow?.webContents.send("updaterHandler", "update-available", info);
   }
 
   if (!installNagAlreadyShowed) {
     new Notification({
       title: "A new update is available",
       body: `WeakAuras Companion ${info.version} is available for download.`,
-      icon: path.join(
-        __static,
-        process.platform === "win32" ? "bigicon.png" : "icon.png"
-      ),
+      icon: path.join(__static, process.platform === "win32" ? "bigicon.png" : "icon.png"),
     }).show();
 
     // show install nag only once
@@ -382,26 +350,22 @@ autoUpdater.on("update-available", (info) => {
 });
 
 autoUpdater.on("update-not-available", () => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send("updaterHandler", "update-not-available");
+  if (mainWindow && mainWindow?.webContents) {
+    mainWindow?.webContents.send("updaterHandler", "update-not-available");
   }
 });
 
 autoUpdater.on("error", (err) => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send("updaterHandler", "error", err);
-    mainWindow.setProgressBar(-1);
+  if (mainWindow && mainWindow?.webContents) {
+    mainWindow?.webContents.send("updaterHandler", "error", err);
+    mainWindow?.setProgressBar(-1);
   }
 });
 
 autoUpdater.on("download-progress", (progressObj) => {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send(
-      "updaterHandler",
-      "download-progress",
-      progressObj
-    );
-    mainWindow.setProgressBar(progressObj.percent / 100);
+  if (mainWindow && mainWindow?.webContents) {
+    mainWindow?.webContents.send("updaterHandler", "download-progress", progressObj);
+    mainWindow?.setProgressBar(progressObj.percent / 100);
   }
 });
 
@@ -409,9 +373,9 @@ let installNagAlreadyShowed = false;
 
 autoUpdater.on("update-downloaded", (info) => {
   if (!installNagAlreadyShowed) {
-    if (mainWindow && mainWindow.webContents) {
-      mainWindow.webContents.send("updaterHandler", "update-downloaded");
-      mainWindow.setProgressBar(-1);
+    if (mainWindow && mainWindow?.webContents) {
+      mainWindow?.webContents.send("updaterHandler", "update-downloaded");
+      mainWindow?.setProgressBar(-1);
     }
 
     if (store.get("config").autoupdate === true) {
@@ -420,10 +384,7 @@ autoUpdater.on("update-downloaded", (info) => {
       new Notification({
         title: "A new update is ready to install",
         body: `WeakAuras Companion ${info.version} has been downloaded and will be automatically installed when you close the app.`,
-        icon: path.join(
-          __static,
-          process.platform === "win32" ? "bigicon.png" : "icon.png"
-        ),
+        icon: path.join(__static, process.platform === "win32" ? "bigicon.png" : "icon.png"),
       }).show();
 
       // show install nag only once

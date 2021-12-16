@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
-const path = require("path");
-const fs = require("fs");
-const { Tail } = require("tail");
+import fs from "fs";
+import path from "path";
+import Tail from "tail";
 
 let clientlog = {};
 
@@ -36,7 +35,7 @@ export function afterReload(config, callback) {
     "Account",
     account,
     "SavedVariables",
-    "WeakAurasCompanion.lua"
+    "WeakAurasCompanion.lua",
   );
 
   let { mtime } = fs.statSync(wacompanionsvfile);
@@ -46,6 +45,7 @@ export function afterReload(config, callback) {
     if (filename) {
       if (fsWait) return;
 
+      //@ts-ignore
       fsWait = setTimeout(() => {
         fsWait = false;
       }, 100);

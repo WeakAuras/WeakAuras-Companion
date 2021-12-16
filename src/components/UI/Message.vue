@@ -14,19 +14,19 @@
       :title="message.time"
       size="mini"
       v-html="message.type"
-    >
-    </Button>
+    ></Button>
   </div>
 </template>
 
 <script>
+import { defineComponent } from "vue";
 import Button from "./Button.vue";
 
-export default {
+export default defineComponent({
   name: "Message",
   components: { Button },
   props: ["message"],
-};
+});
 </script>
 
 <style lang="scss">

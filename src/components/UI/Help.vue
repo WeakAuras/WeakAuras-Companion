@@ -59,14 +59,16 @@
           )
         }}
         <br />
-        <img :src="require(`@/assets/ingame.png`)" class="center" /><br />
+        <img :src="require(`@/assets/ingame.png`)" class="center" />
+        <br />
       </li>
       <li>
         {{
           $t(
             "app.help.s5" /* You can always skip a version or just ignore updates completely. */
           )
-        }}<br />
+        }}
+        <br />
         <img :src="require(`@/assets/ingame2.png`)" class="center" />
       </li>
     </ol>
@@ -84,14 +86,14 @@
       <ul>
         <li>
           {{
-            this.$t(
+            $t(
               "app.help.auraAuthorsText2" /* In the Companion app, add your Wago username in the "Wago Account" setting. */
             )
           }}
         </li>
         <li>
           {{
-            this.$t(
+            $t(
               "app.help.auraAuthorsText3" /* In WeakAuras, select the "Ignore all Updates" option for any aura you've modified heavily. */
             )
           }}
@@ -110,9 +112,11 @@
       <a
         target="_blank"
         href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
-        >GitHub</a
       >
-      {{ $t("app.help.bugend" /* containing: */) }}<br />
+        GitHub
+      </a>
+      {{ $t("app.help.bugend" /* containing: */) }}
+      <br />
       <ul>
         <li>
           {{ $t("app.help.bug.s1" /* A description of your problem. */) }}
