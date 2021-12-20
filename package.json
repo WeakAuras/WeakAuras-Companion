@@ -20,7 +20,7 @@
   "main": "background.js",
   "dependencies": {
     "@electron/remote": "^2.0.1",
-    "@vue/compat": "^3.2.6",
+    "@vue/compat": "^3.2.26",
     "@types/jest": "^27.4.0",
     "archiver": "^5.3.0",
     "auto-launch": "^5.0.5",
@@ -52,7 +52,7 @@
     "@vue/cli-plugin-eslint": "~4.5.15",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.15",
-    "@vue/compiler-sfc": "^3.2.6",
+    "@vue/compiler-sfc": "^3.2.26",
     "@vue/eslint-config-typescript": "^9.1.0",
     "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.2.7",
