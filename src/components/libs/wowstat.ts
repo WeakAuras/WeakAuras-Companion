@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import Tail from "tail";
 
-let clientlog = {};
+const clientlog = {};
 
 export function isOpen(wowpath, version) {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
@@ -38,7 +38,7 @@ export function afterReload(config, callback) {
     "WeakAurasCompanion.lua",
   );
 
-  let { mtime } = fs.statSync(wacompanionsvfile);
+  const { mtime } = fs.statSync(wacompanionsvfile);
   let fsWait = false;
 
   const watcher = fs.watch(wacompanionsvfile, (event, filename) => {
