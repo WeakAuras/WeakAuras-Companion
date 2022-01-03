@@ -20,7 +20,7 @@ export const sanitizeMessage = (message: string): string => {
 export const getTranslationObject = (matches: string[]): any => {
   const translations: any = {};
 
-  matches.forEach((translation: string) => {
+  matches.forEach((translation: string): void => {
     const id: string = translation.match(/["',]\S*["',]/)[0].replace(/[\\"',]/g, "");
     const defaultMessage: string = translation.match(/\/\*[^/]*\*\//)[0];
     translations[id] = sanitizeMessage(defaultMessage);
