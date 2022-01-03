@@ -6,8 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const Utils_1 = require("./Utils");
 const run = () => {
-    console.info("hello");
-    glob('./src/components/**/*.vue', (err, files) => {
+    glob.glob('./src/components/**/*.vue', (err, files) => {
         const basePath = path.resolve(process.cwd());
         const packageJSON = JSON.parse(fs.readFileSync(path.join(basePath, 'package.json')).toString());
         const supportedLocales = packageJSON.config['supported-locales'];
@@ -28,7 +27,7 @@ const run = () => {
          */
         supportedLocales.forEach((locale) => {
             const i18nFilePath = path.join(basePath, 'i18n', `${locale}.json`);
-            const i18nFileContent = fs.existsSync(i18nFilePath) ? fs.readFileSync(i18nFilePath).toString() : null;
+            const i18nFileContent = fs.existsSync(i18nFilePath) ? fs.readFileSync(i18nFilePath).toString() : "";
             const i18nFileObject = i18nFileContent ? JSON.parse(i18nFileContent) : {};
             Object.keys(i18nFileObject).forEach((key) => {
                 i18nFileObject[key] = i18nFileObject[key].replace(/\n/g, '\\n').replace(/"/g, '\\"');

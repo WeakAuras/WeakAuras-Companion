@@ -6,8 +6,7 @@ import * as path from 'path';
 import { getTranslationObject, getTranslationsFromString } from './Utils';
 
 const run = (): void => {
-  console.info("hello");
-  glob('./src/components/**/*.vue', (err: any, files: string[]) => {
+  glob.glob('./src/components/**/*.vue', (err: any, files: string[]) => {
     const basePath: string = path.resolve(process.cwd());
     const packageJSON: any = JSON.parse(fs.readFileSync(path.join(basePath, 'package.json')).toString());
     const supportedLocales: string[] = packageJSON.config['supported-locales'];
@@ -32,7 +31,7 @@ const run = (): void => {
      */
     supportedLocales.forEach((locale: string) => {
       const i18nFilePath: string = path.join(basePath, 'i18n', `${locale}.json`);
-      const i18nFileContent: string = fs.existsSync(i18nFilePath) ? fs.readFileSync(i18nFilePath).toString() : null;
+      const i18nFileContent: string = fs.existsSync(i18nFilePath) ? fs.readFileSync(i18nFilePath).toString() : "";
       const i18nFileObject: any = i18nFileContent ? JSON.parse(i18nFileContent) : {};
 
       (Object as any).keys(i18nFileObject).forEach((key: string) => {

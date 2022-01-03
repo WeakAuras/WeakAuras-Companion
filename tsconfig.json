@@ -11,12 +11,18 @@
     "strict": true,
     "target": "es6",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
     "allowJs": true,
     "useUnknownInCatchVariables": false,
     "skipLibCheck": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "strictNullChecks": false,
   },
-  "exclude": ["/dist", "node_modules"]
+  "exclude": [
+    "/dist",
+    "node_modules"
+  ]
 }

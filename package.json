@@ -8,14 +8,14 @@
     "lint": "eslint src/. --ext .js,.vue",
     "compile-tools": "cd node_modules/.bin/ && tsc -p ../../tools/",
     "dev": "vue-cli-service electron:serve",
+    "dev:app": "vue-cli-service serve",
     "dist": "vue-cli-service electron:build --publish onTagOrDraft",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "lint:scss": "npx stylelint \"src/**/*.vue\"",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps",
-    "dev:app": "vue-cli-service serve"
+    "postuninstall": "electron-builder install-app-deps"
   },
   "main": "background.js",
   "dependencies": {
