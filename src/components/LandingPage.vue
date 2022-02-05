@@ -1801,10 +1801,10 @@ export default Vue.extend({
         /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
         const toc =
           AddonFolder.toLowerCase().search("classic") === -1
-            ? "90100"
+            ? "90105"
             : AddonFolder.toLowerCase().search("era") === -1
-            ? "20501"
-            : "11307";
+            ? "20503"
+            : "11401";
         const files = [
           {
             name: "WeakAurasCompanion.toc",
