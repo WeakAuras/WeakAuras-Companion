@@ -6,6 +6,7 @@ const bbcode = (str) => {
     .replace(/\[\[/g, "\\[[");
   return output;
 };
+
 const markdown = (str) => {
   // https://github.com/stiang/remove-markdown/blob/master/index.js
   let output = str || "";
