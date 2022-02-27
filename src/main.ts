@@ -19,7 +19,6 @@ const app = createApp(App);
 
 // app.use(VueElectron);
 // app.use(Toasted);
-//@ts-expect-error sssss
 app.directive("tooltip", VTooltip);
 
 axios.defaults.timeout = 15000;
