@@ -45,7 +45,7 @@
     <a
       v-tooltip="{
         content: wagoAuthorURL(aura.author),
-        classes: ['small'],
+        popperClass: ['small'],
         html: false,
       }"
       class="author"
@@ -62,7 +62,7 @@
       <div
         v-tooltip="{
           content: timeElapsed,
-          classes: ['small'],
+          popperClass: ['small'],
         }"
         class="wago-version"
         @mouseenter="updateCurrentTime()"

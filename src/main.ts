@@ -1,10 +1,8 @@
 import { createApp } from "vue";
-// import { configureCompat } from '@vue/compat';
 import axios from "axios";
 import { createI18n } from "vue-i18n";
-// import VueElectron from 'vue-electron';
-// import Toasted from 'vue-toasted';
-import { VTooltip } from "v-tooltip";
+import Toast from "vue-toastification";
+import { VTooltip, Tooltip } from "floating-vue";
 import App from "@/App.vue";
 
 import en from "../i18n/en.json";
@@ -17,23 +15,7 @@ import zhcn from "../i18n/zh-cn.json";
 
 const app = createApp(App);
 
-// app.use(VueElectron);
-// app.use(Toasted);
-app.directive("tooltip", VTooltip);
-
 axios.defaults.timeout = 15000;
-
-/* uncomment to debug api requests
-axios.interceptors.request.use(request => {
-  console.log("Starting Request", request);
-  return request;
-});
-
-axios.interceptors.response.use(response => {
-  console.log("Response:", response);
-  return response;
-});
-*/
 
 app.config.globalProperties.$http = axios;
 // Vue.http = Vue.prototype.$http;
@@ -70,23 +52,7 @@ const i18n = createI18n({
 });
 
 app.use(i18n);
-
-// Vue.config.productionTip = false;
-
-// new Vue({
-//   components: { App },
-//   render: (h) => h(App),
-//   i18n,
-//   template: '<App/>',
-// }).$mount('#app');
-
-// app.use(router);
-// app.use(store);
-// Initiate other plugins here
-
-// configureCompat({
-//   // default everything to Vue 2 behavior
-//   MODE: 2,
-// });
-
+app.use(Toast);
+app.directive("tooltip", VTooltip); // from https://floating-vue.starpad.dev/guide/installation.html#compatibility
+app.component("VTooltip", Tooltip);
 app.mount("#app");
