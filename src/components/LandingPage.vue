@@ -220,6 +220,8 @@ import Store from "electron-store";
 import hash from "./libs/hash";
 import * as medias from "./libs/contacts";
 import sanitize from "./libs/sanitize";
+import { useToast } from "vue-toastification";
+const toast = useToast()
 
 const store = new Store();
 luaparse.defaultOptions.comments = false;
@@ -855,10 +857,10 @@ export default defineComponent({
         msg = text;
       }
 
-      if (type === "info") return this.$toasted.info(msg, options);
+      if (type === "info") return this.toast.info(msg, options);
 
-      if (type === "error") return this.$toasted.error(msg, options);
-      return this.$toasted.show(msg, options);
+      if (type === "error") return this.toast.error(msg, options);
+      return toast(msg, options);
     },
     wagoPushHandler(slug, addon) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
@@ -2244,6 +2246,7 @@ end)
 
 <style lang="scss">
 @import "../assets/fonts/fonts.css";
+@import "../assets/css/tooltip.scss";
 @import "../assets/css/globals.scss";
 @import "../assets/css/common.scss";
 
