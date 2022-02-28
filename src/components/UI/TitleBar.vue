@@ -20,14 +20,15 @@
 
 <script>
 import { defineComponent } from "vue";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
   methods: {
     minBtn() {
-      this.$electron.ipcRenderer.send("minimize");
+      ipcRenderer.invoke("minimize");
     },
     closeBtn() {
-      this.$electron.ipcRenderer.send("close");
+      ipcRenderer.invoke("close");
     },
   },
 });
