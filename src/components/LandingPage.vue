@@ -213,6 +213,7 @@ import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Dropdown from "./UI/Dropdown.vue";
 import { app } from "@electron/remote";
+import { ipcRenderer } from "electron";
 const userDataPath = app.getPath("userData");
 import fs from "fs";
 import luaparse from "luaparse";
@@ -422,7 +423,7 @@ export default defineComponent({
         );
       },
       set(newValue) {
-        this.$set(this.accountSelected, "auras", newValue);
+        this.accountSelected.auras = newValue;
       },
     },
   },
@@ -475,19 +476,17 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.$electron.ipcRenderer.on(
-      "setAllowPrerelease",
-      (event, allowPrerelease) => {
-        this.$set(this.config, "beta", allowPrerelease);
+    ipcRenderer.on("setAllowPrerelease", (_event, allowPrerelease) => {
+        this.config.beta = allowPrerelease;
       }
     );
 
     // refresh on event (tray icon)
-    this.$electron.ipcRenderer.on("refreshWago", () => {
+    ipcRenderer.on("refreshWago", () => {
       this.compareSVwithWago();
     });
 
-    this.$electron.ipcRenderer.on("linkHandler", (event, link) => {
+    ipcRenderer.on("linkHandler", (_event, link) => {
       const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)/;
 
       if (link) {
@@ -502,7 +501,7 @@ export default defineComponent({
       }
     });
 
-    this.$electron.ipcRenderer.on("updaterHandler", (event, status, arg) => {
+    ipcRenderer.on("updaterHandler", (_event, status, arg) => {
       console.log(`updaterHandler: ${status}`);
 
       if (status === "checkForUpdates") {
@@ -560,7 +559,7 @@ export default defineComponent({
                 {
                   text: this.$t("app.main.install" /* Install */),
                   onClick: (e, toastObject) => {
-                    this.$electron.ipcRenderer.send("installUpdates");
+                    ipcRenderer.invoke("installUpdates");
                     toastObject.goAway(0);
                   },
                 },
@@ -606,7 +605,7 @@ export default defineComponent({
   },
   methods: {
     checkCompanionUpdates() {
-      this.$electron.ipcRenderer.send("checkUpdates", this.config.beta);
+      ipcRenderer.invoke("checkUpdates", this.config.beta);
 
       // check for app updates in 2 hours
       if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
@@ -796,11 +795,11 @@ export default defineComponent({
         if (!this.config.backup) {
           console.log("add backup settings");
           const { config: backup } = defaultValues();
-          this.$set(this.config, "backup", backup);
+          this.config.backup = backup;
         }
 
         if (!this.config.wowpath.versions) {
-          this.$set(this.config.wowpath, "versions", []);
+          this.config.wowpath.versions = [];
         }
 
         if (this.config.internalVersion < internalVersion) {
@@ -1498,7 +1497,7 @@ export default defineComponent({
 
           this.setFirstAddonInstalledSelected();
 
-          this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+          this.accountSelected.lastWagoUpdate = new Date();
 
           if (this.schedule.id) clearTimeout(this.schedule.id);
 
@@ -1519,7 +1518,7 @@ export default defineComponent({
               this.$t("app.main.nothingToFetch" /* No updates available */)
             );
 
-            this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+            this.accountSelected.lastWagoUpdate = new Date();
 
             if (this.schedule.id) clearTimeout(this.schedule.id);
 
@@ -1633,7 +1632,7 @@ export default defineComponent({
 
                 this.setFirstAddonInstalledSelected();
 
-                this.$set(this.accountSelected, "lastWagoUpdate", new Date());
+                this.accountSelected.lastWagoUpdate = new Date();
 
                 if (this.schedule.id) clearTimeout(this.schedule.id);
 
@@ -1994,14 +1993,11 @@ end)
 
       // system notification
       if (!document.hasFocus() && this.config.notify && newsCount > 0) {
-        this.$electron.ipcRenderer.send(
-          "postFetchingNewUpdateNotification",
-          news
-        );
+        ipcRenderer.invoke("postFetchingNewUpdateNotification", news);
       }
     },
     installUpdates() {
-      this.$electron.ipcRenderer.send("installUpdates");
+      ipcRenderer.invoke("installUpdates");
     },
     backup() {
       this.config.wowpath.versions.forEach((version, versionindex) => {
@@ -2010,7 +2006,7 @@ end)
             let lastSavedFileSize = null;
 
             if (typeof account.savedvariableSizeForAddon === "undefined")
-              this.$set(account, "savedvariableSizeForAddon", []);
+              this.account.savedvariableSizeForAddon = [];
 
             const savedData = account.savedvariableSizeForAddon.find(
               (savedAddon) => savedAddon.addonName === addon.addonName
@@ -2214,7 +2210,7 @@ end)
                 } else if (
                   typeof accountFound.savedvariableSizeForAddon === "undefined"
                 )
-                  this.$set(accountFound, "savedvariableSizeForAddon", []);
+                  this.accountFound.savedvariableSizeForAddon = [];
 
                 this.accountOptions.push({
                   value: accountFile,
