@@ -84,6 +84,7 @@ async function createWindow() {
       allowRunningInsecureContent: false,
       nodeIntegration: true,
       contextIsolation: false,
+      // preload: path.join(__static, 'preload.js'),
     },
     show: false,
   });
@@ -266,26 +267,26 @@ app.on("open-url", (event, url) => {
 });
 
 // event used when clicking on notifications
-ipcMain.on("open", () => {
+ipcMain.handle("open", () => {
   mainWindow?.show();
   mainWindow?.focus();
 });
 
-ipcMain.on("minimize", () => {
+ipcMain.handle("minimize", () => {
   mainWindow?.hide();
 });
 
-ipcMain.on("close", () => {
+ipcMain.handle("close", () => {
   //@ts-ignore
   app.isQuitting = true;
   app.quit();
 });
 
-ipcMain.on("installUpdates", () => {
+ipcMain.handle("installUpdates", () => {
   autoUpdater.quitAndInstall();
 });
 
-ipcMain.handle("autoStart", (event, enable) => {
+ipcMain.handle("autoStart", (_event, enable) => {
   app.setLoginItemSettings({
     openAtLogin: enable,
   });
@@ -293,7 +294,7 @@ ipcMain.handle("autoStart", (event, enable) => {
 
 let lastNotificationBody = "";
 
-ipcMain.on("postFetchingNewUpdateNotification", (event, news) => {
+ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
   const text = news.join("\n");
 
   if (text === "" || text === lastNotificationBody) return; // prevent notification spam
@@ -313,7 +314,7 @@ ipcMain.on("postFetchingNewUpdateNotification", (event, news) => {
   lastNotificationBody = text;
 });
 
-ipcMain.on("checkUpdates", (event, isBeta) => {
+ipcMain.handle("checkUpdates", (_event, isBeta) => {
   if (cancellationToken) {
     cancellationToken.cancel();
   }
