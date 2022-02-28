@@ -13,7 +13,7 @@
 <script>
 import { defineComponent } from "vue";
 
-require("@electron/remote/main");
+import { dialog, getCurrentWindow } from "@electron/remote";
 
 export default defineComponent({
   props: ["path", "createDirectory", "defaultPath"],
@@ -27,18 +27,17 @@ export default defineComponent({
       if (!this.dialogOpen) {
         this.dialogOpen = true;
 
-        const result = await remote.dialog.showOpenDialog({
-          properties: ["openDirectory"],
-          createDirectory: this.createDirectory,
+        const dialogOptions = {
+          properties: ["openDirectory", "createDirectory"],
           defaultPath: this.path || this.defaultPath,
-          openDirectory: true,
-        });
-
-        this.dialogOpen = false;
-
-        if (result.filePaths && result.filePaths.length) {
-          this.$emit("update:path", result.filePaths[0]);
         }
+
+        dialog.showOpenDialog(getCurrentWindow(), dialogOptions).then(result => {
+          if (result.filePaths && result.filePaths.length) {
+            this.$emit("update:path", result.filePaths[0]);
+          }
+          this.dialogOpen = false;
+        });
       }
     },
   },
