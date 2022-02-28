@@ -13,30 +13,30 @@
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </Button>
-    <Label v-else-if="!isVersionSelected" class="label-issue">
+    <label v-else-if="!isVersionSelected" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
           "app.refreshbutton.selectversion" /* Please select your WoW Version! */
         )
       }}</span>
-    </Label>
-    <Label v-else-if="!isAccountSelected" class="label-issue">
+    </label>
+    <label v-else-if="!isAccountSelected" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
           "app.refreshbutton.selectaccount" /* Please select your Account Name! */
         )
       }}</span>
-    </Label>
-    <Label v-else-if="!isSvOk" class="label-issue">
+    </label>
+    <label v-else-if="!isSvOk" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
           "app.refreshbutton.incorrectsv" /* No AddOn data found for this account */
         )
       }}</span>
-    </Label>
+    </label>
     <div v-if="lastUpdate && isSvOk && olderThan30s()" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ fromNow(lastUpdate, $i18n.locale) }}</b>
