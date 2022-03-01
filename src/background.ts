@@ -1,7 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { app, BrowserWindow, Tray, Menu, shell, ipcMain, Notification, protocol } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+const {
+  default: installExtension,
+  VUEJS3_DEVTOOLS
+} = require("electron-devtools-installer");
 import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
@@ -224,16 +227,20 @@ if (!app.requestSingleInstanceLock()) {
     }
   });
 
-  app.on("ready", async () => {
+  app.whenReady().then(() => {
     if (isDevelopment && !process.env.IS_TEST) {
       // Install Vue Devtools
       try {
-        await installExtension(VUEJS_DEVTOOLS);
+        //await installExtension(VUEJS3_DEVTOOLS)
+        installExtension(VUEJS3_DEVTOOLS).then(() => {
+          createWindow();
+        })
       } catch (e) {
         console.error("Vue Devtools failed to install:", e.toString());
       }
+    } else {
+      createWindow();
     }
-    createWindow();
 
     if (process.env.NODE_ENV === "production") {
       autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
