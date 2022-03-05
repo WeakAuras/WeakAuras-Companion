@@ -3,27 +3,25 @@
     <input
       ref="checkbox"
       type="checkbox"
-      v-bind="$attrs"
-      :checked="value"
-      @change="$emit('input', $event.target.checked)"
+      :checked="modelValue"
+      @input="$emit('update:modelValue', $event.target.checked)"
     />
-    <div class="checkbox__box" :class="{ 'checkbox__box--checked': value }" />
+    <div class="checkbox__box" :class="{ 'checkbox__box--checked': modelValue }" />
     <label><slot></slot></label>
   </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  inheritAttrs: false,
-  props: ["value"],
+export default {
+  name: "Checkbox",
+  props: ["modelValue"],
+  emits: ["update:modelValue"],
   methods: {
     triggerInputClick() {
       this.$refs.checkbox.click();
     },
-  },
-});
+  }
+};
 </script>
 
 <style scoped lang="scss">
