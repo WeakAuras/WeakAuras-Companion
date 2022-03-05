@@ -47,6 +47,7 @@ export default defineComponent({
       type: String,
     },
   },
+  emits: ["update:value", "change"],
   data() {
     return {
       selected:
@@ -77,7 +78,7 @@ export default defineComponent({
     selectItem(option) {
       this.showMenu = false;
       this.selected = option.text;
-      this.$emit("input", option.value);
+      this.$emit("update:value", option.value);
       this.$emit("change");
     },
     getLabel(value) {
