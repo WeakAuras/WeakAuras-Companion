@@ -22,7 +22,7 @@
           {{ $t("app.config.clientSettings" /* Companion Settings */) }}
         </div>
         <div class="block">
-          <Dropdown v-model="config.lang" :options="langs" :label="$t('app.config.lang' /* Language */)" />
+          <Dropdown v-model:value="config.lang" :options="langs" :label="$t('app.config.lang' /* Language */)" />
           <checkbox v-model="config.showAllAuras">
             {{ $t("app.config.showallauras" /* Show auras without updates */) }}
           </checkbox>
@@ -118,7 +118,7 @@
               {{ $t("app.config.backup.openfolder" /* Open Folder */) }}
             </p>
             <Dropdown
-              v-model="config.backup.maxsize"
+              v-model:value="config.backup.maxsize"
               :options="backupsize"
               :label="$t('app.config.backup.dedicatedsize' /* Dedicated size */)"
             />
