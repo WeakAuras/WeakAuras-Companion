@@ -46,7 +46,7 @@
               id="version-selector"
             >
               <Dropdown
-                v-model="config.wowpath.version"
+                v-model:value="config.wowpath.version"
                 :options="versionOptions"
                 :label="$t('app.wowpath.version' /* Version */)"
                 @change="compareSVwithWago()"
@@ -57,7 +57,7 @@
               id="account-selector"
             >
               <Dropdown
-                v-model="versionSelected.account"
+                v-model:value="versionSelected.account"
                 :options="accountOptions"
                 :label="$t('app.wowpath.account' /* Account */)"
                 @change="compareSVwithWago()"
@@ -111,7 +111,6 @@
         </template>
         <Config
           v-else-if="configStep === 1"
-          :config="config"
           :default-w-o-w-path="defaultWOWPath"
         ></Config>
         <Help v-else-if="configStep === 2"></Help>
@@ -212,79 +211,24 @@ import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Dropdown from "./UI/Dropdown.vue";
-import { app } from "@electron/remote";
+import { app } from "@electron/remote";       // =>
+const userDataPath = app.getPath("userData"); // => todo: make this global?
 import { ipcRenderer } from "electron";
-const userDataPath = app.getPath("userData");
 import fs from "fs";
 import luaparse from "luaparse";
-import Store from "electron-store";
+//import Store from "electron-store";
 import hash from "./libs/hash";
 import * as medias from "./libs/contacts";
 import sanitize from "./libs/sanitize";
 import { useToast } from "vue-toastification";
 const toast = useToast()
 
-const store = new Store();
+import { useConfigStore } from "@/components/stores/config";
+import { reactive } from "vue"
+
+//const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
-
-const internalVersion = 3;
-
-const defaultValues = () => {
-  return {
-    configStep: 0,
-    addonSelected: "WeakAuras",
-    reportIsShown: false,
-    fetching: false, // use for avoid spamming refresh button and show spinner
-    sortedColumn: "modified",
-    sortDescending: false,
-    config: {
-      // everything in this object will be auto-save and restore
-      wowpath: {
-        value: "",
-        versions: [],
-        version: "",
-        valided: false,
-      },
-      wagoUsername: null, // ignore your own auras
-      wagoApiKey: null,
-      ignoreOwnAuras: true,
-      autostart: false,
-      startminimize: false,
-      notify: false,
-      lang: "en",
-      showAllAuras: false,
-      autoupdate: false,
-      beta: null,
-      internalVersion,
-      backup: {
-        active: true,
-        path: path.join(userDataPath, "WeakAurasData-Backup"),
-        maxsize: 100,
-        defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
-      },
-    },
-    schedule: {
-      id: null, // 1h setTimeout id
-    },
-    medias,
-    stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
-    reloadToast: null,
-    updateToast: null,
-    updater: {
-      status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
-      progress: null,
-      scheduleId: null, // for 2h auto-updater
-      version: null,
-      path: null,
-      releaseNotes: null,
-    },
-    isMac: process.platform === "darwin",
-    accountOptions: [],
-    versionOptions: [],
-    defaultWOWPath: "",
-  };
-};
 
 export default defineComponent({
   name: "LandingPage",
@@ -301,7 +245,39 @@ export default defineComponent({
     Dropdown,
   },
   data() {
-    return defaultValues();
+    return {
+      configStep: 0,
+      addonSelected: "WeakAuras",
+      reportIsShown: false,
+      fetching: false, // use for avoid spamming refresh button and show spinner
+      sortedColumn: "modified",
+      sortDescending: false,
+      schedule: {
+        id: null, // 1h setTimeout id
+      },
+      medias,
+      stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
+      reloadToast: null,
+      updateToast: null,
+      updater: {
+        status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
+        progress: null,
+        scheduleId: null, // for 2h auto-updater
+        version: null,
+        path: null,
+        releaseNotes: null,
+      },
+      isMac: process.platform === "darwin",
+      accountOptions: [],
+      versionOptions: [],
+      defaultWOWPath: ""
+    }
+  },
+  setup() {
+    const config = useConfigStore();
+    return {
+      config
+    };
   },
   computed: {
     accountHash() {
@@ -428,12 +404,6 @@ export default defineComponent({
     },
   },
   watch: {
-    config: {
-      handler() {
-        store.set("config", this.config);
-      },
-      deep: true,
-    },
     stash: {
       handler() {
         if (this.stash.length === 1) {
@@ -762,16 +732,7 @@ export default defineComponent({
       return null;
     },
     reset() {
-      store.clear();
-      const { beta } = this.config;
-      const { config } = defaultValues();
-      this.config = config;
-      this.config.beta = beta;
-
-      wowDefaultPath().then((value) => {
-        this.config.wowpath.value = value;
-        this.validateWowpath();
-      });
+      this.config.$reset();
 
       this.message(
         this.$t(
@@ -784,38 +745,11 @@ export default defineComponent({
       this.$electron.shell.openExternal(link);
     },
     restore() {
-      const tmp = store.get("config");
+      if (true) return;
 
       if (tmp) {
-        this.config = tmp;
-        this.$i18n.locale = this.config.lang;
-
-        const previousVersion = store.get("config").internalVersion || 0;
-
-        if (!this.config.backup) {
-          console.log("add backup settings");
-          const { config: backup } = defaultValues();
-          this.config.backup = backup;
-        }
-
-        if (!this.config.wowpath.versions) {
-          this.config.wowpath.versions = [];
-        }
-
-        if (this.config.internalVersion < internalVersion) {
-          /* migration */
-          if (previousVersion < 3) {
-            console.log("migration < 3");
-            this.config.wowpath.value = "";
-            this.config.wowpath.valided = false;
-            this.config.account = null;
-
-            wowDefaultPath().then((value) => {
-              this.config.wowpath.value = value;
-            });
-          }
-          this.config.internalVersion = internalVersion;
-        }
+        Object.assign(config, tmp);
+        this.$i18n.locale = config.lang;
       }
     },
     message(text, type, overrideOptions = {}) {
@@ -1052,7 +986,7 @@ export default defineComponent({
             });
 
             if (slug) {
-              const foundAura = {
+              const foundAura = reactive({
                 id,
                 uid,
                 slug,
@@ -1075,7 +1009,7 @@ export default defineComponent({
                 auraType: config.addonName,
                 auraTypeDisplay: null,
                 addonConfig: config,
-              };
+              });
 
               aurasFromFile.push(foundAura);
             }
@@ -1188,7 +1122,7 @@ export default defineComponent({
                   });
 
                   if (slug) {
-                    const foundAura = {
+                    const foundAura = reactive({
                       id,
                       slug,
                       version,
@@ -1210,7 +1144,7 @@ export default defineComponent({
                       auraType: config.addonName,
                       auraTypeDisplay: config.addonName + typeSuffix,
                       addonConfig: config,
-                    };
+                    });
 
                     aurasFromFile.push(foundAura);
                   }
@@ -1219,7 +1153,7 @@ export default defineComponent({
             });
 
             if (profslug) {
-              const foundAura = {
+              const foundAura = reactive({
                 id: profid,
                 slug: profslug,
                 version: profversion,
@@ -1241,7 +1175,7 @@ export default defineComponent({
                 auraType: config.addonName,
                 auraTypeDisplay: config.addonName + "-Profile",
                 addonConfig: config,
-              };
+              });
 
               aurasFromFile.push(foundAura);
             }
@@ -1382,7 +1316,7 @@ export default defineComponent({
                 this.config.ignoreOwnAuras &&
                 !!aura.author &&
                 aura.author === this.config.wagoUsername
-              ) && aura.addonConfig === config
+              ) && aura.addonConfig.addonName === config.addonName
           )
           .map((aura) => aura.slug);
 
