@@ -136,11 +136,12 @@
 
 <script>
 import { ipcRenderer, shell } from "electron";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
+import { useConfigStore } from "@/components/stores/config";
 
 export default defineComponent({
   components: {
@@ -149,7 +150,7 @@ export default defineComponent({
     FileSelect,
     Button,
   },
-  props: ["config", "versionindex", "accountindex", "defaultWOWPath"],
+  props: ["defaultWOWPath"],
   data() {
     return {
       langs: [
@@ -166,8 +167,14 @@ export default defineComponent({
         { value: 100, text: "100mb" },
         { value: 500, text: "500mb" },
       ],
-      wagoUsername: this.config.wagoUsername,
-      wagoApiKey: this.config.wagoApiKey,
+    };
+  },
+  setup() {
+    const config = useConfigStore();
+    return {
+      config,
+      wagoUsername: ref(config.wagoUsername),
+      wagoApiKey: ref(config.wagoApiKey),
     };
   },
   watch: {
@@ -177,6 +184,7 @@ export default defineComponent({
     },
     // eslint-disable-next-line func-names
     "config.lang": function () {
+      console.log(`change locale to ${this.config.lang}`)
       this.$i18n.locale = this.config.lang;
     },
     // eslint-disable-next-line func-names

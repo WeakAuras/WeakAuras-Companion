@@ -16,7 +16,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: tru
 const remoteMain = require("@electron/remote/main");
 remoteMain.initialize();
 const electronLocalshortcut = require("electron-localshortcut");
-const Store = require("electron-store");
+//const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -35,14 +35,14 @@ AutoLauncher.isEnabled().then(function (isEnabled) {
   }
 });
 
-const store = new Store();
-const config = store.get("config");
+//const store = new Store();
+//const config = store.get("config");
 let cancellationToken;
 
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 
-autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || (config && config.beta === true);
+//autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || (config && config.beta === true);
 autoUpdater.logger = log;
 //@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
@@ -117,10 +117,12 @@ async function createWindow() {
   });
 
   mainWindow?.on("ready-to-show", () => {
+    /*
     if (!store.get("config.startminimize", false)) {
       mainWindow?.show();
       mainWindow?.focus();
     }
+    */
   });
 
   // Protocol handler for Windows
@@ -386,6 +388,7 @@ autoUpdater.on("update-downloaded", (info) => {
       mainWindow?.setProgressBar(-1);
     }
 
+    /*
     if (store.get("config").autoupdate === true) {
       autoUpdater.quitAndInstall();
     } else {
@@ -398,6 +401,7 @@ autoUpdater.on("update-downloaded", (info) => {
       // show install nag only once
       installNagAlreadyShowed = true;
     }
+    */
   }
 });
 
