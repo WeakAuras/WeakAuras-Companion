@@ -1,12 +1,14 @@
-<script lang="ts">
+<script>
+import LandingPage from "@/components/LandingPage.vue";
+
 export default {
   name: "WeakAurasCompanion",
+  components: {
+    LandingPage
+  }
 };
 </script>
 
-<script setup lang="ts">
-import LandingPage from "@/components/LandingPage.vue";
-</script>
 <template>
-  <div id="app"><landing-page></landing-page></div>
+  <div id="app"><LandingPage /></div>
 </template>
