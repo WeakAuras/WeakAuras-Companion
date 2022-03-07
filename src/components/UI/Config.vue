@@ -141,7 +141,7 @@ import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
-import { useConfigStore } from "@/components/stores/config";
+import { useConfigStore } from "@/stores/config";
 
 export default defineComponent({
   components: {

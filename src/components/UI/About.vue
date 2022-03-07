@@ -80,7 +80,7 @@
 <script>
 import { defineComponent } from "vue";
 
-import medias from "@/components/libs/contacts";
+import medias from "@/libs/contacts";
 import { version as VERSION } from "../../../package.json";
 
 export default defineComponent({

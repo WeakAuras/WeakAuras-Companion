@@ -187,20 +187,20 @@
 <script>
 import { defineComponent } from "vue";
 import path from "path";
-import backupIfRequired from "./libs/backup";
+import backupIfRequired from "@/libs/backup";
 import {
   isOpen as isWOWOpen,
   afterReload as afterWOWReload,
   afterRestart as afterWOWRestart,
-} from "./libs/wowstat";
+} from "@/libs/wowstat";
 import {
   createSortByTime,
   createSortByString,
   createSortByUpdate,
   createSortByAuthor,
   createSortByType,
-} from "./libs/sort";
-import { wowDefaultPath, matchFolderNameInsensitive } from "./libs/utilities";
+} from "@/libs/sort";
+import { wowDefaultPath, matchFolderNameInsensitive } from "@/libs/utilities";
 import Button from "./UI/Button.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";
@@ -217,13 +217,13 @@ import { ipcRenderer } from "electron";
 import fs from "fs";
 import luaparse from "luaparse";
 //import Store from "electron-store";
-import hash from "./libs/hash";
-import * as medias from "./libs/contacts";
-import sanitize from "./libs/sanitize";
+import hash from "@/libs/hash";
+import * as medias from "@/libs/contacts";
+import sanitize from "@/libs/sanitize";
 import { useToast } from "vue-toastification";
 const toast = useToast()
 
-import { useConfigStore } from "@/components/stores/config";
+import { useConfigStore } from "@/stores/config";
 import { reactive } from "vue"
 
 //const store = new Store();
