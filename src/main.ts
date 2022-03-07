@@ -6,7 +6,7 @@ import { VTooltip, Tooltip } from "floating-vue";
 import App from "@/App.vue";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import { useConfigStore } from "@/components/stores/config";
+import { useConfigStore } from "@/stores/config";
 
 import en from "../i18n/en.json";
 import es from "../i18n/es.json";

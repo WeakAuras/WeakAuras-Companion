@@ -76,7 +76,7 @@
 
 <script>
 import { DateTime } from "luxon";
-import sanitize from "@/components/libs/sanitize";
+import sanitize from "@/libs/sanitize";
 import { defineComponent } from "vue";
 
 export default defineComponent({
