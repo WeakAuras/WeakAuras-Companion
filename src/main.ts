@@ -5,8 +5,9 @@ import Toast from "vue-toastification";
 import { VTooltip, Tooltip } from "floating-vue";
 import App from "@/App.vue";
 import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
 import { useConfigStore } from "@/stores/config";
+import Store from "electron-store";
 
 import en from "../i18n/en.json";
 import es from "../i18n/es.json";
@@ -18,7 +19,23 @@ import zhcn from "../i18n/zh-cn.json";
 
 const app = createApp(App);
 const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
+const store = new Store();
+
+pinia.use(
+  createPersistedStatePlugin({
+    storage: {
+      getItem: async (key) => {
+        return store.get(key)
+      },
+      setItem: async (key, value) => {
+        return store.set(key, value)
+      },
+      removeItem: async (key) => {
+        return store.delete(key)
+      },
+    },
+  }),
+);
 
 axios.defaults.timeout = 15000;
 

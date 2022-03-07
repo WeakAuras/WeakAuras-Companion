@@ -9,6 +9,7 @@ import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import AutoLaunch from "auto-launch";
+import Store from "electron-store";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
@@ -35,14 +36,13 @@ AutoLauncher.isEnabled().then(function (isEnabled) {
   }
 });
 
-//const store = new Store();
-//const config = store.get("config");
+const store = new Store();
 let cancellationToken;
 
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
-
-//autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || (config && config.beta === true);
+//@ts-ignore
+autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || store.get("configStore.beta", false);
 autoUpdater.logger = log;
 //@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
