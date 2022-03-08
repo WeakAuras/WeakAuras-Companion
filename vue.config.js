@@ -27,6 +27,7 @@ module.exports = {
   },
   pluginOptions: {
     electronBuilder: {
+      customFileProtocol: "./",
       builderOptions: {
         productName: "WeakAuras Companion",
         appId: "wtf.weakauras.companion",

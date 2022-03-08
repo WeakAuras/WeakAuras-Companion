@@ -2,44 +2,44 @@
 
 /** Montserrat Light **/
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 300;
   font-style: normal;
-  src: url("Montserrat-Light.woff2") format("woff2");
+  src: url('@/assets/fonts/Montserrat-Light.woff2') format('woff2');
 }
 
 /** Montserrat Regular **/
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 400;
   font-style: normal;
-  src: url("Montserrat-Regular.woff2") format("woff2");
+  src: url('@/assets/fonts/Montserrat-Regular.woff2') format('woff2');
 }
 
 /** Montserrat Medium **/
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 500;
   font-style: normal;
-  src: url("Montserrat-Medium.woff2") format("woff2");
+  src: url('@/assets/fonts/Montserrat-Medium.woff2') format('woff2');
 }
 
 
 /** Montserrat SemiBold **/
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 600;
   font-style: normal;
-  src: url("Montserrat-SemiBold.woff2") format("woff2");
+  src: url('@/assets/fonts/Montserrat-SemiBold.woff2') format('woff2');
 }
 
 
 /** Montserrat Bold **/
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 700;
   font-style: normal;
-  src: url("Montserrat-Bold.woff2") format("woff2");
+  src: url('@/assets/fonts/Montserrat-Bold.woff2') format('woff2');
 }
 
 
@@ -47,12 +47,12 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(./material-icons/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: url('@/assets/fonts/MaterialIcons-Regular.eot'); /* For IE6-8 */
   src: local('Material Icons'),
        local('MaterialIcons-Regular'),
-       url(./material-icons/MaterialIcons-Regular.woff2) format('woff2'),
-       url(./material-icons/MaterialIcons-Regular.woff) format('woff'),
-       url(./material-icons/MaterialIcons-Regular.ttf) format('truetype');
+       url('@/assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
+       url('@/assets/fonts/MaterialIcons-Regular.woff') format('woff'),
+       url('@/assets/fonts/MaterialIcons-Regular.ttf') format('truetype');
 }
 
 .material-icons {
@@ -85,7 +85,7 @@
   font-weight: 200;
   font-style: normal;
   font-stretch: normal;
-  src: url('WOFF2/TTF/SourceSansPro-ExtraLight.ttf.woff2') format('woff2');
+  src: url('@/assets/fonts/SourceSansPro-ExtraLight.ttf.woff2') format('woff2');
 }
 
 @font-face{
@@ -93,7 +93,7 @@
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
-  src: url('WOFF2/TTF/SourceSansPro-Light.ttf.woff2') format('woff2');
+  src: url('@/assets/fonts/SourceSansPro-Light.ttf.woff2') format('woff2');
 }
 
 @font-face{
@@ -101,7 +101,7 @@
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
-  src: url('WOFF2/TTF/SourceSansPro-Regular.ttf.woff2') format('woff2');
+  src: url('@/assets/fonts/SourceSansPro-Regular.ttf.woff2') format('woff2');
 }
 
 @font-face{
@@ -109,7 +109,7 @@
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  src: url('WOFF2/TTF/SourceSansPro-Semibold.ttf.woff2') format('woff2');
+  src: url('@/assets/fonts/SourceSansPro-Semibold.ttf.woff2') format('woff2');
 }
 
 @font-face{
@@ -117,7 +117,7 @@
   font-weight: 700;
   font-style: normal;
   font-stretch: normal;
-  src: url('WOFF2/TTF/SourceSansPro-Bold.ttf.woff2') format('woff2');
+  src: url('@/assets/fonts/SourceSansPro-Bold.ttf.woff2') format('woff2');
 }
 
 @font-face{
@@ -125,5 +125,5 @@
   font-weight: 900;
   font-style: normal;
   font-stretch: normal;
-  src: url('WOFF2/TTF/SourceSansPro-Black.ttf.woff2') format('woff2');
+  src: url('@/assets/fonts/SourceSansPro-Black.ttf.woff2') format('woff2');
 }

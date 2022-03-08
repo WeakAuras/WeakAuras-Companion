@@ -2175,10 +2175,10 @@ end)
 </script>
 
 <style lang="scss">
-@import "../assets/fonts/fonts.css";
-@import "../assets/css/tooltip.scss";
-@import "../assets/css/globals.scss";
-@import "../assets/css/common.scss";
+@import "@/assets/fonts/fonts.scss";
+@import "@/assets/css/tooltip.scss";
+@import "@/assets/css/globals.scss";
+@import "@/assets/css/common.scss";
 
 /* Companion logo */
 .app-logo {
