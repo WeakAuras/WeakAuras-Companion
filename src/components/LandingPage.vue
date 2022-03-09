@@ -148,11 +148,13 @@
         <div class="app-update">
           <i
             v-if="updater.status === 'update-available'"
-            v-tooltip="
-              `${this.$t(
+            v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              content: `${this.$t(
                 'app.main.installUpdate' /* Install client update */
-              )}: v${updater.version} ${updater.releaseNotes}`
-            "
+              )}: v${updater.version} ${updater.releaseNotes}`,
+            }"
             class="material-icons update-available"
             @click="open(`${updater.path}`)"
           >
@@ -160,11 +162,13 @@
           </i>
           <i
             v-if="updater.status === 'update-downloaded'"
-            v-tooltip="
-              `${this.$t(
+            v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              content: `${this.$t(
                 'app.main.installUpdate' /* Install client update */
               )}: v${updater.version}`
-            "
+            }"
             class="material-icons update-available"
             @click="installUpdates"
           >

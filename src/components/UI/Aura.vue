@@ -9,6 +9,8 @@
       v-tooltip="{
         content: wagoURL(aura.slug),
         html: false,
+        strategy: 'fixed',
+        theme: 'info-tooltip'
       }"
       class="wago-icon"
       target="_blank"
@@ -19,6 +21,8 @@
         v-tooltip="{
           content: childs,
           html: false,
+          strategy: 'fixed',
+          theme: 'info-tooltip'
         }"
         class="aura-name"
         >{{ aura.name }}
@@ -47,6 +51,8 @@
         content: wagoAuthorURL(aura.author),
         popperClass: ['small'],
         html: false,
+        strategy: 'fixed',
+        theme: 'info-tooltip'
       }"
       class="author"
       target="_blank"
@@ -63,6 +69,8 @@
         v-tooltip="{
           content: timeElapsed,
           popperClass: ['small'],
+          strategy: 'fixed',
+          theme: 'info-tooltip'
         }"
         class="wago-version"
         @mouseenter="updateCurrentTime()"
