@@ -1,5 +1,7 @@
 /* General (All Pages) */
-@import "./tooltip.scss";
+//@import "@/assets/css/tooltip.scss";
+@import "floating-vue/dist/style.css";
+
 * {
   box-sizing: border-box;
   margin: 0;
