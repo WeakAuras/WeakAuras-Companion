@@ -116,13 +116,18 @@ async function createWindow() {
     mainWindow?.minimize();
   });
 
-  mainWindow?.on("ready-to-show", () => {
-    /*
-    if (!store.get("config.startminimize", false)) {
+  mainWindow?.webContents.on("did-finish-load", () => {
+    if (!store.get("configStore.startminimize", false)) {
       mainWindow?.show();
       mainWindow?.focus();
     }
-    */
+  });
+
+  mainWindow?.once("ready-to-show", () => {
+    if (!store.get("configStore.startminimize", false)) {
+      mainWindow?.show();
+      mainWindow?.focus();
+    }
   });
 
   // Protocol handler for Windows
