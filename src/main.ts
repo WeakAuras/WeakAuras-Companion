@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import axios from "axios";
 import { createI18n } from "vue-i18n";
 import Toast from "vue-toastification";
-import { VTooltip } from "floating-vue";
+import FloatingVue from "floating-vue";
 import App from "@/App.vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
@@ -80,5 +80,11 @@ const i18n = createI18n({
 app.use(Toast);
 app.use(i18n);
 
-app.directive("tooltip", VTooltip);
+app.use(FloatingVue, {
+  themes: {
+    "info-tooltip": {
+      $extend: "tooltip"
+    }
+  }
+});
 app.mount("#app");
