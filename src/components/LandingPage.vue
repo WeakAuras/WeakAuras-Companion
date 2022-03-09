@@ -225,7 +225,6 @@ import hash from "@/libs/hash";
 import * as medias from "@/libs/contacts";
 import sanitize from "@/libs/sanitize";
 import { useToast } from "vue-toastification";
-const toast = useToast()
 
 import { useConfigStore } from "@/stores/config";
 import { reactive } from "vue"
@@ -279,8 +278,10 @@ export default defineComponent({
   },
   setup() {
     const config = useConfigStore();
+    const toast = useToast();
     return {
-      config
+      config,
+      toast
     };
   },
   computed: {
@@ -797,7 +798,7 @@ export default defineComponent({
       if (type === "info") return this.toast.info(msg, options);
 
       if (type === "error") return this.toast.error(msg, options);
-      return toast(msg, options);
+      return this.toast(msg, options);
     },
     wagoPushHandler(slug, addon) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
@@ -2336,130 +2337,6 @@ end)
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555555;
-}
-
-/* Toasts */
-$toastbg: rgba(29, 29, 29, 0.97);
-$toastfont: #e6e6e6;
-$iconDefaultColor: #51ae42;
-$errorColor: #f44336;
-$infoColor: #0b96e6;
-$iconSize: 26px;
-.toasted-container.bottom-right {
-  right: 2.35vw;
-  margin-left: 2.35vw;
-  bottom: 70px;
-  .toasted-primary {
-    padding: 0;
-    font-weight: 500;
-    text-align: left;
-    justify-content: left;
-    margin-left: auto;
-    &:before {
-      margin: 0 10px 0 10px;
-      display: inline-block;
-    }
-    &.default {
-      // Default Toast
-      background-color: $toastbg;
-      color: $toastfont;
-      font-weight: 500;
-      &:before {
-        content: "";
-        width: 22px;
-        height: 22px;
-        background: url("~@/assets/wow-logo.svg");
-        background-size: contain;
-        background-repeat: no-repeat;
-      }
-    }
-    &.error {
-      // Error Toast
-      background-color: $toastbg;
-      color: $toastfont;
-      &:before {
-        content: "\e001";
-        font-family: "Material Icons";
-        font-size: $iconSize;
-        color: $errorColor;
-        margin: 0 8px;
-      }
-    }
-    &.update {
-      // Update Toast
-      background-color: $toastbg;
-      color: $toastfont;
-      &:before {
-        content: "\e8d7";
-        font-family: "Material Icons";
-        font-size: $iconSize;
-        background: none;
-        width: auto;
-        height: auto;
-        color: $iconDefaultColor;
-      }
-      &.update-error:before {
-        color: $errorColor;
-      }
-    }
-    &.multiline {
-      padding: 5px 0;
-    }
-    &.info {
-      padding: 0 0px;
-      background-color: $toastbg;
-      &:before {
-        content: "\e88f";
-        font-family: "Material Icons";
-        font-size: $iconSize;
-        background: none;
-        width: auto;
-        height: auto;
-        color: $infoColor;
-        margin: 0 8px;
-      }
-    }
-    .action {
-      color: #e6e6e6;
-      text-decoration: none;
-      padding: 0 20px;
-      line-height: 38px;
-      // border-left: 1px solid #383838;
-      border-radius: 0;
-      margin: 0;
-      margin-left: auto;
-      justify-content: right;
-      &:last-of-type:not(:only-of-type) {
-        padding-right: 20px;
-        border-left: none;
-        font-weight: 500;
-        padding-left: 0;
-        margin-left: 0;
-        &:before {
-          content: unset;
-        }
-      }
-      &:hover {
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-      }
-      &:before {
-        content: "";
-        position: relative;
-        top: 7px;
-        font-size: 31px;
-        line-height: 0;
-        width: 15px;
-        border-right: 1px solid #383838;
-        height: 30px;
-        margin-right: 20px;
-      }
-    }
-    .small-text {
-      font-size: 11px;
-      width: 100%;
-      display: block;
-    }
-  }
 }
 
 /* Report Page */
