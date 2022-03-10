@@ -225,7 +225,7 @@ import hash from "@/libs/hash";
 import * as medias from "@/libs/contacts";
 import sanitize from "@/libs/sanitize";
 import { useToast } from "vue-toastification";
-
+import { toc } from "@/libs/toc.ts";
 import { useConfigStore } from "@/stores/config";
 import { reactive } from "vue"
 
@@ -1743,16 +1743,16 @@ export default defineComponent({
         LuaOutput += "}";
 
         /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
-        const toc =
+        const tocVersion =
           AddonFolder.toLowerCase().search("classic") === -1
-            ? "90105"
+            ? toc.retail
             : AddonFolder.toLowerCase().search("era") === -1
-            ? "20503"
-            : "11401";
+            ? toc.bcc
+            : toc.som;
         const files = [
           {
             name: "WeakAurasCompanion.toc",
-            data: `## Interface: ${toc}
+            data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: 1.1.0
