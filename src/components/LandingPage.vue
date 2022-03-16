@@ -419,8 +419,8 @@ export default defineComponent({
               ),
               "info",
               {
-                duration: null,
-                onComplete: () => {
+                timeout: false,
+                onClose: () => {
                   this.reloadToast = null;
                 },
               }
@@ -428,8 +428,7 @@ export default defineComponent({
 
             afterWOWReload(this.config.wowpath, () => {
               if (this.reloadToast) {
-                this.reloadToast.goAway(0);
-                this.reloadToast = null;
+                this.toast.dismiss(this.reloadToast);
               }
             });
           }
@@ -500,8 +499,8 @@ export default defineComponent({
           null,
           {
             className: "update",
-            duration: null,
-            onComplete: () => {
+            timeout: false,
+            onClose: () => {
               this.updateToast = null;
             },
           }
@@ -514,7 +513,7 @@ export default defineComponent({
           null,
           {
             className: "update update-error",
-            duration: null,
+            timeout: false,
           }
         );
       }
@@ -526,8 +525,8 @@ export default defineComponent({
             null,
             {
               className: "update",
-              duration: null,
-              onComplete: () => {
+              timeout: false,
+              onClose: () => {
                 this.updateToast = null;
               },
               action: [
@@ -550,9 +549,6 @@ export default defineComponent({
         }
       }
     });
-    // load config
-    this.restore();
-
     this.validateWowpath();
 
     // set default wow path
@@ -749,25 +745,11 @@ export default defineComponent({
     open(link) {
       this.$electron.shell.openExternal(link);
     },
-    restore() {
-      if (true) return;
-
-      if (tmp) {
-        Object.assign(config, tmp);
-        this.$i18n.locale = config.lang;
-      }
-    },
     message(text, type, overrideOptions = {}) {
       const options = {
         theme: "toasted-primary",
         position: "bottom-right",
-        duration: 8000,
-        action: {
-          text: this.$t("app.main.close" /* Close */),
-          onClick: (e, toastObject) => {
-            toastObject.goAway(0);
-          },
-        },
+        timeout: 8000
       };
 
       Object.keys(overrideOptions).forEach((key) => {
@@ -858,25 +840,19 @@ export default defineComponent({
                       null,
                       {
                         className: "update",
-                        duration: null,
-                        action: [
-                          {
-                            text: this.$t("app.main.ok" /* Ok */),
-                            onClick: (e, toastObject) => {
-                              console.log("on complete");
-                              this.reloadToast = null;
-                              const index = this.stash.findIndex(
-                                (o) => o.wagoid === aura.wagoid
-                              );
-                              console.log("index: " + index);
+                        timeout: false,
+                        onClose: () => {
+                          console.log("on complete");
+                          this.reloadToast = null;
+                          const index = this.stash.findIndex(
+                            (o) => o.wagoid === aura.wagoid
+                          );
+                          console.log("index: " + index);
 
-                              if (index !== -1) {
-                                this.stash.splice(index, 1);
-                              }
-                              toastObject.goAway(0);
-                            },
-                          },
-                        ],
+                          if (index !== -1) {
+                            this.stash.splice(index, 1);
+                          }
+                        },
                       }
                     );
                   })
@@ -1855,8 +1831,8 @@ end)
               ),
               "info",
               {
-                duration: null,
-                onComplete: () => {
+                timeout: false,
+                onClose: () => {
                   this.reloadToast = null;
                 },
               }
@@ -1909,8 +1885,8 @@ end)
               ),
               "info",
               {
-                duration: null,
-                onComplete: () => {
+                timeout: false,
+                onClose: () => {
                   this.reloadToast = null;
                 },
               }
