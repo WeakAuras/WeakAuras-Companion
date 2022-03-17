@@ -53,6 +53,13 @@ module.exports = {
           icon: "public/bigicon.png",
           category: "Utility",
         },
+        protocols: [
+          {
+            name: "weakauras-companion",
+            role: "Viewer",
+            schemes: ["weakauras-companion"]
+          }
+        ]
       },
       nodeIntegration: true,
       experimentalNativeDepCheck: true,
