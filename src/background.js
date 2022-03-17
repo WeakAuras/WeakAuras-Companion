@@ -134,7 +134,7 @@ async function createWindow() {
   });
 
   // Protocol handler for Windows
-  if (process.platform === "win32") {
+  if (process.platform === "win32" || process.platform === "linux") {
     handleLinks(process.argv.pop());
   }
 
@@ -231,7 +231,7 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   app.on("second-instance", (event, argv) => {
     // Protocol handler for Windows
-    if (process.platform === "win32") {
+    if (process.platform === "win32" || process.platform === "linux") {
       handleLinks(argv.pop());
     }
 
