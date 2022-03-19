@@ -1318,8 +1318,6 @@ export default Vue.extend({
                 this.auras[index].regionType = null;
               }
 
-              if (foundAura.topLevel) this.auras[index].topLevel = foundAura.id;
-
               // add aura id to "ids" if necessary
               if (aura.ids.indexOf(foundAura.id) === -1) {
                 this.auras[index].ids.push(foundAura.id);
@@ -1329,21 +1327,27 @@ export default Vue.extend({
               if (foundAura.uid && aura.uids.indexOf(foundAura.uid) === -1) {
                 this.auras[index].uids.push(foundAura.uid);
               }
-              // update ignore flags
-              this.auras[index].ignoreWagoUpdate = foundAura.ignoreWagoUpdate;
-              this.auras[index].skipWagoUpdate = foundAura.skipWagoUpdate;
 
-              // update version
-              this.auras[index].version = foundAura.version;
-              this.auras[index].semver = foundAura.semver;
+              if (foundAura.topLevel) {
+                this.auras[index].topLevel = foundAura.id;
 
-              // wipe encoded if ignored (force re-fetching it on unignore)
-              if (foundAura.ignoreWagoUpdate) this.auras[index].encoded = null;
+                // update ignore flags
+                this.auras[index].ignoreWagoUpdate = foundAura.ignoreWagoUpdate;
+                this.auras[index].skipWagoUpdate = foundAura.skipWagoUpdate;
 
-              //ensure config
-              this.auras[index].auraType = foundAura.auraType;
-              this.auras[index].auraTypeDisplay = foundAura.auraTypeDisplay;
-              this.auras[index].addonConfig = foundAura.addonConfig;
+                // update version
+                this.auras[index].version = foundAura.version;
+                this.auras[index].semver = foundAura.semver;
+
+                // wipe encoded if ignored (force re-fetching it on unignore)
+                if (foundAura.ignoreWagoUpdate)
+                  this.auras[index].encoded = null;
+
+                //ensure config
+                this.auras[index].auraType = foundAura.auraType;
+                this.auras[index].auraTypeDisplay = foundAura.auraTypeDisplay;
+                this.auras[index].addonConfig = foundAura.addonConfig;
+              }
             }
           });
         }
