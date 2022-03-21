@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@vue/cli": "^5.0.3",
-    "@vue/cli-plugin-eslint": "~4.5.15",
+    "@vue/cli-plugin-eslint": "~5.0.3",
     "@vue/cli-service": "~4.5.15",
     "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.2.7",
