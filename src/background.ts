@@ -82,7 +82,6 @@ async function createWindow() {
     resizable: true,
     webPreferences: {
       disableBlinkFeatures: "Auxclick",
-      nativeWindowOpen: true,
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
       nodeIntegration: true,
