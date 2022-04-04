@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import axios from "axios";
 import { createI18n } from "vue-i18n";
-import Toast from "vue-toastification";
 import FloatingVue from "floating-vue";
 import App from "@/App.vue";
 import { createPinia } from "pinia";
@@ -76,8 +75,6 @@ const i18n = createI18n({
   },
 });
 
-
-app.use(Toast);
 app.use(i18n);
 
 app.use(FloatingVue, {

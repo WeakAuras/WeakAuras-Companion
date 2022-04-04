@@ -193,11 +193,6 @@ import { defineComponent } from "vue";
 import path from "path";
 import backupIfRequired from "@/libs/backup";
 import {
-  isOpen as isWOWOpen,
-  afterReload as afterWOWReload,
-  afterRestart as afterWOWRestart,
-} from "@/libs/wowstat";
-import {
   createSortByTime,
   createSortByString,
   createSortByUpdate,
@@ -220,16 +215,13 @@ const userDataPath = app.getPath("userData"); // => todo: make this global?
 import { ipcRenderer } from "electron";
 import fs from "fs";
 import luaparse from "luaparse";
-//import Store from "electron-store";
 import hash from "@/libs/hash";
 import * as medias from "@/libs/contacts";
 import sanitize from "@/libs/sanitize";
-import { useToast } from "vue-toastification";
 import { toc } from "@/libs/toc.ts";
 import { useConfigStore } from "@/stores/config";
 import { reactive } from "vue"
 
-//const store = new Store();
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
 
@@ -260,8 +252,6 @@ export default defineComponent({
       },
       medias,
       stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
-      reloadToast: null,
-      updateToast: null,
       updater: {
         status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
         progress: null,
@@ -278,10 +268,8 @@ export default defineComponent({
   },
   setup() {
     const config = useConfigStore();
-    const toast = useToast();
     return {
-      config,
-      toast
+      config
     };
   },
   computed: {
@@ -411,36 +399,7 @@ export default defineComponent({
   watch: {
     stash: {
       handler() {
-        if (this.stash.length === 1) {
-          if (!this.reloadToast) {
-            this.reloadToast = this.message(
-              this.$t(
-                "app.main.needreloadstash" /* Reload World of Warcraft's UI to receive pushed auras */
-              ),
-              "info",
-              {
-                timeout: false,
-                onClose: () => {
-                  this.reloadToast = null;
-                },
-              }
-            );
-
-            afterWOWReload(this.config.wowpath, () => {
-              if (this.reloadToast) {
-                this.toast.dismiss(this.reloadToast);
-              }
-            });
-          }
-        }
-
-        if (this.stash.length === 0) {
-          if (this.reloadToast) {
-            this.reloadToast.goAway(0);
-            this.reloadToast = null;
-          }
-        }
-        this.writeAddonData(null, null, true);
+        this.writeAddonData();
       },
       deep: true,
     },
@@ -488,65 +447,10 @@ export default defineComponent({
         this.updater.progress = Math.floor(arg.percent);
       }
 
-      if (status === "update-available" && !this.updateToast) {
+      if (status === "update-available") {
         this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
         this.updater.releaseNotes = arg.releaseNotes || "";
         console.log(JSON.stringify(arg));
-
-        // show download toast
-        this.updateToast = this.message(
-          this.$t("app.main.updatefound" /* Companion Update available */),
-          null,
-          {
-            className: "update",
-            timeout: false,
-            onClose: () => {
-              this.updateToast = null;
-            },
-          }
-        );
-      }
-
-      if (status === "error") {
-        this.message(
-          [this.$t("app.main.updateerror" /* Error in updater */), arg.code],
-          null,
-          {
-            className: "update update-error",
-            timeout: false,
-          }
-        );
-      }
-
-      if (status === "update-downloaded") {
-        if (!this.updateToast) {
-          this.updateToast = this.message(
-            this.$t("app.main.updatedownload" /* Client update downloaded */),
-            null,
-            {
-              className: "update",
-              timeout: false,
-              onClose: () => {
-                this.updateToast = null;
-              },
-              action: [
-                {
-                  text: this.$t("app.main.install" /* Install */),
-                  onClick: (e, toastObject) => {
-                    ipcRenderer.invoke("installUpdates");
-                    toastObject.goAway(0);
-                  },
-                },
-                {
-                  text: this.$t("app.main.later" /* Later */),
-                  onClick: (e, toastObject) => {
-                    toastObject.goAway(0);
-                  },
-                },
-              ],
-            }
-          );
-        }
       }
     });
     this.validateWowpath();
@@ -745,42 +649,8 @@ export default defineComponent({
     open(link) {
       this.$electron.shell.openExternal(link);
     },
-    message(text, type, overrideOptions = {}) {
-      const options = {
-        theme: "toasted-primary",
-        position: "bottom-right",
-        timeout: 8000
-      };
-
-      Object.keys(overrideOptions).forEach((key) => {
-        options[key] = overrideOptions[key];
-      });
-      let msg;
-
-      if (typeof text === "object") {
-        const div = document.createElement("div");
-        div.className = "msg";
-        div.innerHTML += text[0];
-
-        for (let i = 1; i < text.length; i += 1) {
-          const line = document.createElement("span");
-          line.className = "small-text";
-          line.innerHTML += text[i];
-          div.appendChild(line);
-        }
-
-        options.className = options.className
-          ? `${options.className} multiline`
-          : "multiline";
-        msg = div;
-      } else {
-        msg = text;
-      }
-
-      if (type === "info") return this.toast.info(msg, options);
-
-      if (type === "error") return this.toast.error(msg, options);
-      return this.toast(msg, options);
+    message(text, type) {
+      //return this.toast(msg, options);
     },
     wagoPushHandler(slug, addon) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
@@ -837,23 +707,6 @@ export default defineComponent({
                           aura: wagoData.name,
                         } /* New {addon} ready to install: {aura} */
                       ),
-                      null,
-                      {
-                        className: "update",
-                        timeout: false,
-                        onClose: () => {
-                          console.log("on complete");
-                          this.reloadToast = null;
-                          const index = this.stash.findIndex(
-                            (o) => o.wagoid === aura.wagoid
-                          );
-                          console.log("index: " + index);
-
-                          if (index !== -1) {
-                            this.stash.splice(index, 1);
-                          }
-                        },
-                      }
                     );
                   })
                   .catch((err2) => {
@@ -1205,7 +1058,6 @@ export default defineComponent({
             "error"
           );
           console.log(JSON.stringify(err));
-          //console.log(err.message);
           continue;
         }
       }
@@ -1280,9 +1132,6 @@ export default defineComponent({
       }
 
       // Get each encoded string
-      const news = [];
-      const fails = [];
-
       const promisesWagoCallsComplete = [];
       const promisesWagoDataCallsComplete = [];
       let allAurasFetched = [];
@@ -1406,7 +1255,7 @@ export default defineComponent({
       if (promisesWagoCallsComplete.length === 0) {
         //no data for any addon available. nothing to update.
         try {
-          this.writeAddonData(news, fails);
+          this.writeAddonData();
         } finally {
           this.fetching = false;
 
@@ -1466,7 +1315,6 @@ export default defineComponent({
                 if (wagoResp.status === 200) {
                   this.auras.forEach((aura, index) => {
                     if (aura.wagoid === id) {
-                      news.push(aura.name);
                       this.auras[index].encoded = wagoResp.data;
                     }
                   });
@@ -1495,7 +1343,6 @@ export default defineComponent({
                         ],
                         "error"
                       );
-                      fails.push(aura.name);
                     }
                   });
                 }
@@ -1541,7 +1388,7 @@ export default defineComponent({
               // we are done with wago API, update data.lua
 
               try {
-                this.writeAddonData(news, fails);
+                this.writeAddonData();
               } finally {
                 this.fetching = false;
 
@@ -1577,9 +1424,7 @@ export default defineComponent({
     toggleReport() {
       this.reportIsShown = !this.reportIsShown;
     },
-    async writeAddonData(news, fails, noNotification) {
-      let newInstall = false;
-
+    async writeAddonData() {
       console.log("writeAddonData");
 
       const addonConfigs = this.addonsInstalled;
@@ -1799,10 +1644,6 @@ end)
         files.forEach((file) => {
           let filepath = path.join(AddonFolder, file.name);
 
-          if (!fs.existsSync(filepath)) {
-            newInstall = true;
-          }
-
           fs.writeFile(filepath, file.data, (err2) => {
             if (err2) {
               this.message(
@@ -1816,100 +1657,8 @@ end)
             }
           });
         });
-
-        if (!noNotification)
-          this.afterUpdateNotification(newInstall, news, fails);
-
-        if (
-          newInstall &&
-          isWOWOpen(this.config.wowpath.value, this.config.wowpath.version)
-        ) {
-          if (!this.reloadToast) {
-            this.reloadToast = this.message(
-              this.$t(
-                "app.main.needrestart" /* Restart World of Warcraft to see new updates in WeakAuras's options */
-              ),
-              "info",
-              {
-                timeout: false,
-                onClose: () => {
-                  this.reloadToast = null;
-                },
-              }
-            );
-
-            afterWOWRestart(
-              this.config.wowpath.value,
-              this.config.wowpath.version,
-              () => {
-                if (this.reloadToast) this.reloadToast.goAway(0);
-              }
-            );
-          }
-        }
       }
       this.backup();
-    },
-    afterUpdateNotification(newInstall, news, fails) {
-      const total = this.aurasWithUpdate.length;
-      const newsCount = news.length;
-      const failsCount = fails.length;
-      const translatedTotal = this.$tc(
-        "app.main.installTotal",
-        total /* Everything is already up to date! | 1 update ready for in-game installation | {n} updates ready for in-game installation */
-      );
-      const translatedNew = this.$tc(
-        "app.main.installNew",
-        newsCount /* No new updates | 1 new | {n} new */
-      );
-      const translatedFail = this.$tc(
-        "app.main.installFail",
-        failsCount /* No fail | 1 failed | {n} failed */
-      );
-
-      if (newsCount > 0 && failsCount > 0) {
-        this.message(
-          `${translatedTotal} (${translatedNew}, ${translatedFail})`
-        );
-      } else if (newsCount > 0) {
-        this.message(`${translatedTotal} (${translatedNew})`);
-
-        if (
-          !newInstall &&
-          isWOWOpen(this.config.wowpath.value, this.config.wowpath.version)
-        ) {
-          if (!this.reloadToast) {
-            this.reloadToast = this.message(
-              this.$t(
-                "app.main.needreload" /* Reload World of Warcraft's UI to see new updates in WeakAuras's options */
-              ),
-              "info",
-              {
-                timeout: false,
-                onClose: () => {
-                  this.reloadToast = null;
-                },
-              }
-            );
-
-            afterWOWReload(this.config.wowpath, () => {
-              if (this.reloadToast) {
-                this.reloadToast.goAway(0);
-                this.reloadToast = null;
-              }
-            });
-          }
-        }
-      } else if (failsCount > 0) {
-        this.message(`${translatedTotal} (${translatedFail})`, "error");
-      } else {
-        this.message(this.$tc("app.main.installTotal", total));
-      }
-
-      // system notification
-      if (!document.hasFocus() && this.config.notify && newsCount > 0) {
-        ipcRenderer.invoke("postFetchingNewUpdateNotification", news);
-      }
     },
     installUpdates() {
       ipcRenderer.invoke("installUpdates");
@@ -2160,6 +1909,8 @@ end)
 @import "@/assets/css/tooltip.scss";
 @import "@/assets/css/globals.scss";
 @import "@/assets/css/common.scss";
+
+$iconDefaultColor: #51ae42;
 
 /* Companion logo */
 .app-logo {
