@@ -89,7 +89,7 @@ async function createWindow() {
       contextIsolation: false,
       // preload: path.join(__static, 'preload.js'),
     },
-    show: false,
+    show: true,
   });
 
   remoteMain.enable(mainWindow?.webContents);
@@ -114,20 +114,6 @@ async function createWindow() {
   mainWindow?.on("minimize", (event) => {
     event.preventDefault();
     mainWindow?.minimize();
-  });
-
-  mainWindow?.webContents.on("did-finish-load", () => {
-    if (!store.get("configStore.startminimize", false)) {
-      mainWindow?.show();
-      mainWindow?.focus();
-    }
-  });
-
-  mainWindow?.once("ready-to-show", () => {
-    if (!store.get("configStore.startminimize", false)) {
-      mainWindow?.show();
-      mainWindow?.focus();
-    }
   });
 
   // Protocol handler for Windows
