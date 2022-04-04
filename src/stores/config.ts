@@ -19,7 +19,6 @@ export const useConfigStore = defineStore(
                 wagoApiKey: null,
                 ignoreOwnAuras: true,
                 autostart: true,
-                startminimize: false,
                 notify: false,
                 lang: "en",
                 showAllAuras: false,

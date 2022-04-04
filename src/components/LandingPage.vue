@@ -146,20 +146,21 @@
           />
         </a>
         <div class="app-update">
-          <i
-            v-if="updater.status === 'update-available'"
-            v-tooltip="{
-              strategy: 'fixed',
-              theme: 'info-tooltip',
-              content: `${this.$t(
-                'app.main.installUpdate' /* Install client update */
-              )}: v${updater.version} ${updater.releaseNotes}`,
-            }"
-            class="material-icons update-available"
-            @click="open(`${updater.path}`)"
-          >
-            system_update_alt
-          </i>
+          <a :href="updater.path" target="_blank" v-if="updater.status === 'update-available'">
+            <i
+              v-if="updater.status === 'update-available'"
+              v-tooltip="{
+                strategy: 'fixed',
+                theme: 'info-tooltip',
+                content: `${this.$t(
+                  'app.main.installUpdate' /* Install client update */
+                )}: v${updater.version} ${updater.releaseNotes}`,
+              }"
+              class="material-icons update-available"
+            >
+              system_update_alt
+            </i>
+          </a>
           <i
             v-if="updater.status === 'update-downloaded'"
             v-tooltip="{
@@ -645,9 +646,6 @@ export default defineComponent({
         ),
         "info"
       );
-    },
-    open(link) {
-      this.$electron.shell.openExternal(link);
     },
     message(text, type) {
       //return this.toast(msg, options);
