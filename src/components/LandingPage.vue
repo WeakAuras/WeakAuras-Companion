@@ -405,6 +405,9 @@ export default defineComponent({
       deep: true,
     },
     // eslint-disable-next-line func-names
+    "config.wowpath.value": function() {
+      this.validateWowpath()
+    },
     "config.wowpath.version": function () {
       this.buildAccountList();
     },
@@ -454,7 +457,6 @@ export default defineComponent({
         console.log(JSON.stringify(arg));
       }
     });
-    this.validateWowpath();
 
     // set default wow path
     if (!this.config.wowpath.valided) {
