@@ -11,6 +11,8 @@
             v-model:path="config.wowpath.value"
             :default-path="defaultWOWPath"
             @update:path="$parent.validateWowpath"
+            openDirectory="true"
+            createDirectory="true"
           >
             {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
           </file-select>
@@ -104,8 +106,9 @@
           <div v-if="config.backup.active" style="display: inline">
             <file-select
               v-model:path="config.backup.path"
-              :create-directory="true"
               :default-path="config.backup.defaultBackupPath"
+              openDirectory="true"
+              createDirectory="true"
             >
               {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
             </file-select>
