@@ -115,6 +115,7 @@
         ></Config>
         <Help v-else-if="configStep === 2"></Help>
         <About v-else-if="configStep === 3"></About>
+        <StopMotionConverter v-else-if="configStep === 4"></StopMotionConverter>
       </main>
       <footer>
         <a
@@ -136,6 +137,10 @@
             title="Wago"
           />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
+        </a>
+        <a class="stopmotion" href="#" @click="configStep = 4">
+          <span class="exclamationmark">!</span>
+          {{ $t("app.footer.stopmotion" /* WeakAuras StopMotion converter */) }}
         </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
@@ -211,6 +216,7 @@ import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Dropdown from "./UI/Dropdown.vue";
+import StopMotionConverter from "./UI/StopMotionConverter.vue";
 import { app } from "@electron/remote";       // =>
 const userDataPath = app.getPath("userData"); // => todo: make this global?
 import { ipcRenderer } from "electron";
@@ -239,6 +245,7 @@ export default defineComponent({
     Report,
     Button,
     Dropdown,
+    StopMotionConverter,
   },
   data() {
     return {
@@ -2102,8 +2109,8 @@ $iconDefaultColor: #51ae42;
   opacity: 1;
 }
 
-/* Browse Wago */
-.browsewago {
+/* Browse Wago & Stopmotion */
+.browsewago, .stopmotion {
   font-size: 12px;
   color: #e6e6e6;
   vertical-align: bottom;
@@ -2115,10 +2122,13 @@ $iconDefaultColor: #51ae42;
   margin-left: 10px;
 }
 
-.browsewago:hover {
+.browsewago:hover, .stopmotion:hover {
   opacity: 1;
 }
 
+.exclamationmark {
+  color: #fcff3d;
+}
 /* WoW Version & Account selection */
 main {
   position: relative;
