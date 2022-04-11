@@ -16,7 +16,7 @@ import { defineComponent } from "vue";
 import { dialog, getCurrentWindow } from "@electron/remote";
 
 export default defineComponent({
-  props: ["path", "createDirectory", "defaultPath"],
+  props: ["path", "createDirectory", "defaultPath", "openDirectory"],
   data() {
     return {
       dialogOpen: false,
@@ -28,8 +28,16 @@ export default defineComponent({
         this.dialogOpen = true;
 
         const dialogOptions = {
-          properties: ["openDirectory", "createDirectory"],
+          properties: [],
           defaultPath: this.path || this.defaultPath,
+        }
+
+        if (this.openDirectory) {
+          dialogOptions.properties.push("openDirectory");
+        }
+
+        if (this.createDirectory) {
+          dialogOptions.properties.push("createDirectory");
         }
 
         dialog.showOpenDialog(getCurrentWindow(), dialogOptions).then(result => {
