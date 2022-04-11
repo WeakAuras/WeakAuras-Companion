@@ -14,7 +14,6 @@
       { 'btn-addon': type == 'addon' },
     ]"
     :title="title"
-    @click="callback($event)"
   >
     <slot></slot>
   </button>
@@ -25,11 +24,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: ["type", "title", "size"],
-  methods: {
-    callback(e) {
-      this.$emit("click", e);
-    },
-  },
 });
 </script>
 
