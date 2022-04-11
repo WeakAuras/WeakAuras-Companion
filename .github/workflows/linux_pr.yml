@@ -24,25 +24,25 @@ jobs:
       - name: Build
         run: npm run build
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload AppImage
         with:
           name: WeakAuras-Companion-PRCI-AppImage
           path: dist_electron/*.AppImage
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload Snap
         with:
           name: WeakAuras-Companion-PRCI-Snap
           path: dist_electron/*.snap
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload deb
         with:
           name: WeakAuras-Companion-PRCI-deb
           path: dist_electron/*.deb
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload rpm
         with:
           name: WeakAuras-Companion-PRCI-rpm
