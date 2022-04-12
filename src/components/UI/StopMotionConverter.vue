@@ -164,7 +164,7 @@ export default {
       return path.join(
         "Interface",
         "animations",
-        path.parse(this.result.destination).name
+        path.parse(this.result.destination).base
       )
     }
   },
