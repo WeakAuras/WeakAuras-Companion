@@ -49,26 +49,56 @@
               Output Size: {{ result.width }}px x {{ result.height }}px<br />
               Frames: {{ result.frames }}
             </div>
-            <div>
-              Calculated Size: 
-              <span :class="{oversize: result.size / 1024 > 16, goodsize: result.size / 1024 <= 8}">{{ result.size / 1024 }}</span> 
-              <span v:if="result.size > 0">MB</span>
-            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="title" v-if="fileSelectedPath !== ''">
-      Destination
-    </div>
-    <div class="block" v-if="fileSelectedPath !== ''">
-      <div>
-        {{ result.destination }}
+    <div class="config-row" v-if="fileSelectedPath !== ''">
+      <div class="config-row-item">
+        <div class="title">
+          Destination
+        </div>
+        <div class="block">
+          <div>
+            <Dropdown
+              v-model:value="gif.settings.wowVersion"
+              :options="wowVersions"
+              :label="$t('app.wowpath.version' /* Version */)"
+            />
+          </div>
+        </div>
       </div>
-      <br />
-      <Button class="btn-ok" @click="generate()">
-        Generate StopMotion Animation
-      </Button>
+      <div class="config-row-item">
+          <br />
+          <br />
+          <div>
+            Size: 
+            <span :class="{oversize: result.size / 1024 > 16, goodsize: result.size / 1024 <= 8}">{{ result.size / 1024 }}</span> 
+            <span v:if="result.size > 0">MB</span>
+          </div>
+          <div class="sync">
+            <Button v-if="result.size / 1024 <= 16" :class="{ spin: result.computing }" @click="generate()" type="refresh">
+              <i class="material-icons sync">sync</i>
+              <span>Generate StopMotion Animation</span>
+            </Button>
+            <Button v-if="result.size / 1024 > 16" :class="{ spin: result.computing }" @click="generate()" type="issue">
+              <i class="material-icons error" v-if="result.size / 1024 > 16">error_outline</i>
+              <span>Generate StopMotion Animation</span>
+            </Button>
+          </div>
+      </div>
+    </div>
+    <div v-if="result.fileCreated">
+      <p>
+        <span>{{ stopMotionInput }}</span> <Button @click.stop.prevent="copyStopMotionInput">Copy</Button>
+      </p>
+      <input type="hidden" id="stopMotionInput" :value="stopMotionInput">
+      <p class="explorer" @click="openDestDir()">
+        {{ $t("app.config.backup.openfolder" /* Open Folder */) }}
+      </p>
+      <p class="explorer" @click="openDestFile()">
+        {{ $t("app.config.backup.openfile" /* Open File */) }}
+      </p>
     </div>
   </div>
 </template>
@@ -79,15 +109,19 @@ import gif2tga from "@/libs/gif2tga";
 import path from "path";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
+import Dropdown from "./Dropdown.vue";
 import { useConfigStore } from "@/stores/config";
+import { shell } from "electron";
 
 export default {
   name: "StopMotionConverter",
   components: {
     FileSelect,
     Checkbox,
-    Button
+    Button,
+    Dropdown,
   },
+  props: ["wowVersions"],
   setup() {
     const config = useConfigStore();
     return {
@@ -109,6 +143,7 @@ export default {
           coalesce: true,
           skips: false,
           skips_value: 2,
+          wowVersion: this.config.wowpath.version,
         }
       },
       result: {
@@ -118,9 +153,20 @@ export default {
         height: 0,
         frames: 0,
         size: 0,
-        destination: ""
+        destination: "",
+        fileCreated: false,
+        computing: false,
       }
     };
+  },
+  computed: {
+    stopMotionInput() {
+      return path.join(
+        "Interface",
+        "animations",
+        path.parse(this.result.destination).name
+      )
+    }
   },
   watch: {
     fileSelectedPath: function() {
@@ -155,21 +201,24 @@ export default {
 
         this.result.destination = path.join(
           this.config.wowpath.value,
-          this.config.wowpath.version,
+          this.gif.settings.wowVersion,
           "Interface",
           "animations",
           filename
         )
+
+        this.result.fileCreated = false
       },
       deep: true,
     },
   },
   methods: {
-    generate() {
+    async generate() {
       if (this.result.size / 1024 > 16) {
-        alert("File will be too big with this settings, reduce scaling or skip frames");
+        alert("File will be too big with this settings, reduce scaling and/or skip frames");
       } else {
-        gif2tga.convert(
+        this.result.computing = true
+        const destFile = await gif2tga.convert(
           this.fileSelectedPath,
           this.gif.settings.scaling,
           this.gif.settings.coalesce,
@@ -177,14 +226,38 @@ export default {
           this.gif.settings.skips_value,
           path.join(
             this.config.wowpath.value,
-            this.config.wowpath.version,
+            this.gif.settings.wowVersion,
             "Interface",
             "animations"
           )
-        ).then(() => {
-          alert("file created");
-        });
+        )
+        this.result.computing = false
+        this.result.fileCreated = true;
+        this.result.destination = destFile;
       }
+    },
+    openDestDir() {
+      shell.openPath(path.parse(this.result.destination).dir);
+    },
+    openDestFile() {
+      shell.openPath(this.result.destination);
+    },
+    copyStopMotionInput() {
+      let copy = document.querySelector("#stopMotionInput")
+      copy.setAttribute("type", "text")
+      copy.select()
+
+      try {
+        var successful = document.execCommand("copy");
+        var msg = successful ? "successful" : "unsuccessful";
+        console.log("copy " + msg);
+      } catch (err) {
+        console.log("unable to copy");
+      }
+
+      /* unselect the range */
+      copy.setAttribute("type", "hidden")
+      window.getSelection().removeAllRanges()
     }
   }
 };
@@ -255,4 +328,67 @@ label,
     format("woff");
 }
 
+#sync {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  transition: all 0.4s ease-in-out;
+}
+
+#sync.top {
+  position: relative;
+  top: 10px;
+}
+
+.btn-issue span,
+.btn-refresh span {
+  position: relative;
+  bottom: 8px;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.material-icons {
+  font-size: 34px;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.btn-refresh.spin {
+  background: #ababab;
+  border-color: transparent;
+  color: #313131;
+}
+
+/* Spin Animation */
+.spin .sync {
+  animation-name: spin;
+  animation-duration: 800ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.btn-issue,
+.btn-refresh {
+  padding: 12px 15px;
+  padding-left: 13px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.explorer {
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 5px;
+  color: rgb(255, 209, 0);
+  font-weight: 500;
+}
 </style>
