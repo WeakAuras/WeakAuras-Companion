@@ -53,94 +53,89 @@ const getMetaData = async (filename) => {
 
 const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, destination) => {
     try {
-      const fileBuffer = await fs.promises.readFile(filename);
+        const fileBuffer = await fs.promises.readFile(filename);
 
-      return await sharp(fileBuffer, { animated: true })
-        .metadata()
-        .then(async (metadata) => {
-            let width = metadata.width;
-            let pageHeight = metadata.pageHeight;
-            let pages = metadata.pages;
-            width = Math.round(width * scaling);
-            let height = Math.round(pageHeight * scaling);
+        const metadata = await sharp(fileBuffer, { animated: true }).metadata()
 
-            var frames = [];
-            let prevFrameBuffer;
+        let width = metadata.width;
+        let pageHeight = metadata.pageHeight;
+        let pages = metadata.pages;
+        width = Math.round(width * scaling);
+        let height = Math.round(pageHeight * scaling);
 
-            for (var i = 0;i < pages;i++) {
-                let frame = await sharp(fileBuffer, {page: i })
-                  .resize({width, height})
-                  .toBuffer()
+        var frames = [];
+        let prevFrameBuffer;
 
-                if (coalesce == true) {
-                    if (i > 0) {
-                        let compositedBuffer = await sharp(prevFrameBuffer).composite([{
-                            input: frame,
-                            left: 0,
-                            top: 0
-                        }]).toBuffer()
-                        frames.push(compositedBuffer)
-                        prevFrameBuffer = Buffer.from(compositedBuffer)
-                    } else {
-                        frames.push(frame)
-                        prevFrameBuffer = Buffer.from(frame)
-                    }
+        for (var i = 0;i < pages;i++) {
+            let frame = await sharp(fileBuffer, {page: i })
+                .resize({width, height})
+                .toBuffer()
+
+            if (coalesce == true) {
+                if (i > 0) {
+                    let compositedBuffer = await sharp(prevFrameBuffer).composite([{
+                        input: frame,
+                        left: 0,
+                        top: 0
+                    }]).toBuffer()
+                    frames.push(compositedBuffer)
+                    prevFrameBuffer = Buffer.from(compositedBuffer)
                 } else {
                     frames.push(frame)
+                    prevFrameBuffer = Buffer.from(frame)
                 }
+            } else {
+                frames.push(frame)
             }
+        }
 
-            if (useSkipFrames == true){
-                frames = frames.filter((elem, index) => {
-                    return index % skipFrames
-                })
+        if (useSkipFrames == true){
+            frames = frames.filter((elem, index) => {
+                return index % skipFrames
+            })
+        }
+
+        const frameCount = frames.length
+        const cols = calculateBestSize(width, height, frameCount);
+        const rows = Math.ceil(frameCount / cols);
+        const fileWidth = nextPow2(width*cols);
+        const fileHeight = nextPow2(height*rows)
+
+        let results = sharp({
+            create: {
+                width: fileWidth,
+                height: fileHeight,
+                channels: 4,
+                background: { r: 0, g: 255, b: 0, alpha: 0 }
             }
+        });
 
-            const frameCount = frames.length
-            const cols = calculateBestSize(width, height, frameCount);
-            const rows = Math.ceil(frameCount / cols);
-            const fileWidth = nextPow2(width*cols);
-            const fileHeight = nextPow2(height*rows)
- 
-            let results = sharp({
-                create: {
-                    width: fileWidth,
-                    height: fileHeight,
-                    channels: 4,
-                    background: { r: 0, g: 255, b: 0, alpha: 0 }
-                }
-            });
+        const compose = []
 
-            const compose = []
+        for (var index = 0;index < frames.length;index++) {
+            compose.push({
+                input: frames[index],
+                left: (index % cols) * width,
+                top: (Math.floor(index / cols)) * height
+            })
+        }
 
-            for (var index = 0;index < frames.length;index++) {
-                compose.push({
-                    input: frames[index],
-                    left: (index % cols) * width,
-                    top: (Math.floor(index / cols)) * height
-                })
-            }
+        // results.composite(compose).toFile(`${filename.replace(/\.[^/.]+$/, "")}.png`)
 
-            // results.composite(compose).toFile(`${filename.replace(/\.[^/.]+$/, "")}.png`)
-
-            return results
-            .composite(compose)
+        const {data} = await results.composite(compose)
             .raw()
             .toBuffer({ resolveWithObject: true })
-            .then(({data, info}) => {
-                const pixelArray = new Uint8ClampedArray(data.buffer);
-                var buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray);
-                var out = path.parse(filename).name;
-                out = `${out}.x${rows}y${cols}f${frameCount}w${width}h${height}W${fileWidth}H${fileHeight}.tga`;
-                const destFile = path.join(destination, out)
+        
+        const pixelArray = new Uint8ClampedArray(data.buffer);
+        var buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray);
+        var out = path.parse(filename).name;
+        out = `${out}.x${rows}y${cols}f${frameCount}w${width}h${height}W${fileWidth}H${fileHeight}.tga`;
+        const destFile = path.join(destination, out)
 
-                fs.promises.mkdir(destination, { recursive: true }).then(() => {
-                    fs.promises.writeFile(destFile, buf).then(() => {
-                        console.log(`created file: ${destFile}`);
-                    });
-                })
-            });
-        });
+        await fs.promises.mkdir(destination, { recursive: true })
+        await fs.promises.writeFile(destFile, buf)
+        console.log(`created file: ${destFile}`);
+        return destFile
     } catch (error) {
       console.log(error);
     }

@@ -115,7 +115,7 @@
         ></Config>
         <Help v-else-if="configStep === 2"></Help>
         <About v-else-if="configStep === 3"></About>
-        <StopMotionConverter v-else-if="configStep === 4"></StopMotionConverter>
+        <StopMotionConverter v-else-if="configStep === 4" :wowVersions="versionOptions"></StopMotionConverter>
       </main>
       <footer>
         <a
