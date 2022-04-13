@@ -107,6 +107,7 @@
 import FileSelect from "./FileSelect.vue";
 import gif2tga from "@/libs/gif2tga";
 import path from "path";
+import fs from "fs";
 import Button from "./Button.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
@@ -169,45 +170,63 @@ export default {
     }
   },
   watch: {
-    fileSelectedPath: function() {
-      gif2tga.getMetaData(this.fileSelectedPath).then((metadata) => {
-        this.gif.meta.width = metadata.width;
-        this.gif.meta.height = metadata.pageHeight;
-        this.gif.meta.frames = metadata.pages;
-        this.gif.meta.name = path.basename(this.fileSelectedPath);
-      });
+    fileSelectedPath: async function() {
+      if (this.fileSelectedPath !== ""
+        && fs.existsSync(this.fileSelectedPath)
+        && path.parse(this.fileSelectedPath).ext.toLowerCase() === ".gif"
+      ) {
+        try {
+          const metadata = await gif2tga.getMetaData(this.fileSelectedPath);
+          this.gif.meta.width = metadata.width;
+          this.gif.meta.height = metadata.pageHeight;
+          this.gif.meta.frames = metadata.pages;
+          this.gif.meta.name = path.basename(this.fileSelectedPath);
+        } catch (e) {
+          console.log(JSON.stringify(e));
+          this.fileSelectedPath = "";
+          alert("error");
+        }
+      } else {
+        this.fileSelectedPath = "";
+      }
     },
     gif: {
       handler() {
-        let info = gif2tga.calculateFileSize(
-          this.gif.meta.width,
-          this.gif.meta.height,
-          this.gif.meta.frames,
-          this.gif.settings.scaling,
-          this.gif.settings.skips,
-          this.gif.settings.skips_value
-        )
-        this.result.cols = info.cols
-        this.result.rows = info.rows
-        this.result.height = info.height
-        this.result.width = info.width
-        this.result.height = info.height
-        this.result.frames = info.frames
-        this.result.size = info.size
-        let frameWidth = Math.floor(this.gif.meta.width * this.gif.settings.scaling)
-        let frameHeigth = Math.floor(this.gif.meta.height * this.gif.settings.scaling)
-        let prefix = path.parse(this.gif.meta.name).name;
-        let filename = `${prefix}.x${info.rows}y${info.cols}f${info.frames}w${frameWidth}h${frameHeigth}W${info.width}H${info.height}.tga`;
+        try {
+          let info = gif2tga.calculateFileSize(
+            this.gif.meta.width,
+            this.gif.meta.height,
+            this.gif.meta.frames,
+            this.gif.settings.scaling,
+            this.gif.settings.skips,
+            this.gif.settings.skips_value
+          )
+          this.result.cols = info.cols
+          this.result.rows = info.rows
+          this.result.height = info.height
+          this.result.width = info.width
+          this.result.height = info.height
+          this.result.frames = info.frames
+          this.result.size = info.size
+          let frameWidth = Math.floor(this.gif.meta.width * this.gif.settings.scaling)
+          let frameHeigth = Math.floor(this.gif.meta.height * this.gif.settings.scaling)
+          let prefix = path.parse(this.gif.meta.name).name;
+          let filename = `${prefix}.x${info.rows}y${info.cols}f${info.frames}w${frameWidth}h${frameHeigth}W${info.width}H${info.height}.tga`;
 
-        this.result.destination = path.join(
-          this.config.wowpath.value,
-          this.gif.settings.wowVersion,
-          "Interface",
-          "animations",
-          filename
-        )
+          this.result.destination = path.join(
+            this.config.wowpath.value,
+            this.gif.settings.wowVersion,
+            "Interface",
+            "animations",
+            filename
+          )
 
-        this.result.fileCreated = false
+          this.result.fileCreated = false
+          this.result.computing = false
+        } catch(e) {
+          console.log(JSON.stringify(e))
+          alert("error");
+        }
       },
       deep: true,
     },
@@ -218,22 +237,30 @@ export default {
         alert("File will be too big with this settings, reduce scaling and/or skip frames");
       } else {
         this.result.computing = true
-        const destFile = await gif2tga.convert(
-          this.fileSelectedPath,
-          this.gif.settings.scaling,
-          this.gif.settings.coalesce,
-          this.gif.settings.skips,
-          this.gif.settings.skips_value,
-          path.join(
-            this.config.wowpath.value,
-            this.gif.settings.wowVersion,
-            "Interface",
-            "animations"
+
+        try {
+          const destFile = await gif2tga.convert(
+            this.fileSelectedPath,
+            this.gif.settings.scaling,
+            this.gif.settings.coalesce,
+            this.gif.settings.skips,
+            this.gif.settings.skips_value,
+            path.join(
+              this.config.wowpath.value,
+              this.gif.settings.wowVersion,
+              "Interface",
+              "animations"
+            )
           )
-        )
-        this.result.computing = false
-        this.result.fileCreated = true;
-        this.result.destination = destFile;
+          this.result.computing = false;
+          this.result.fileCreated = true;
+          this.result.destination = destFile;
+        } catch (e) {
+          console.log(JSON.stringify(e))
+          this.result.computing = false;
+          this.result.fileCreated = false;
+          alert("error");
+        }
       }
     },
     openDestDir() {
