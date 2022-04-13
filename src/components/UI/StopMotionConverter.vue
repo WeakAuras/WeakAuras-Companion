@@ -9,6 +9,8 @@
           <file-select 
             v-model:path="fileSelectedPath"
             :create-directory="false"
+            :openFile="true"
+            :filters="[{ name: 'Animation', extensions: ['gif'] }]"
             class="fileinput"
           >Select Gif File</file-select>
         </div>
