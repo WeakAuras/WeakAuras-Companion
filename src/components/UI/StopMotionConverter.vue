@@ -19,10 +19,10 @@
             Output Settings
           </div>
           <div class="block">
-            <label for="scaling">Scaling</label> <input type="range" id="scaling" name="scaling" min="0.1" max="2" v-model="gif.settings.scaling" step="0.01" /> {{ gif.settings.scaling }}
+            <label for="scaling">Scaling</label> <input type="range" id="scaling" name="scaling" min="0.1" max="1" v-model="gif.settings.scaling" step="0.01" /> {{ Math.round(gif.settings.scaling * 100) }}%
             <br />
-            <checkbox v-model="gif.settings.coalesce">Coalesce</checkbox>
-            <checkbox v-model="gif.settings.skips">Skips</checkbox>
+            <checkbox v-model="gif.settings.coalesce">Coalesce (movie animation)</checkbox>
+            <checkbox v-model="gif.settings.skips">Skip Frames</checkbox>
             <span v-if="gif.settings.skips">
               <label for="skips_value">Skip every</label>
               <input type="range" id="skips_value" name="skips_value" min="2" max="10" v-model="gif.settings.skips_value" step="1" />
@@ -92,14 +92,22 @@
     </div>
     <div v-if="result.fileCreated">
       <p>
-        <span>{{ stopMotionInput }}</span> <Button @click.stop.prevent="copyStopMotionInput">Copy</Button>
+        File created: {{ stopMotionInput }}
       </p>
-      <input type="hidden" id="stopMotionInput" :value="stopMotionInput">
-      <p class="explorer" @click="openDestDir()">
-        {{ $t("app.config.backup.openfolder" /* Open Folder */) }}
+      <br />
+      <p>
+        <Button class="btn-ok" @click="copyStopMotionInput">Copy Path for StopMotion</Button>
+        <Button class="btn-ok" @click="copyExportStringInput">Export WeakAuras String</Button>
       </p>
-      <p class="explorer" @click="openDestFile()">
-        {{ $t("app.config.backup.openfile" /* Open File */) }}
+      <input type="hidden" id="copyString" />
+      <br />
+      <p>
+        <Button class="btn-ok" @click="openDestDir()">
+          {{ $t("app.config.backup.openfolder" /* Open Folder */) }}
+        </Button>
+        <Button class="btn-ok" @click="openDestFile()">
+          {{ $t("app.config.backup.openfile" /* Open File */) }}
+        </Button>
       </p>
     </div>
   </div>
@@ -115,6 +123,138 @@ import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import { useConfigStore } from "@/stores/config";
 import { shell } from "electron";
+import mdtc from "@letstimeit/mdt-compression";
+import zlib from "zlib";
+import LibDeflate from "deflate-js";
+
+const StopMotionTemplate = {
+    xOffset: 0,
+    yOffset: 0,
+    foregroundColor: [
+        1,
+        1,
+        1,
+        1,
+    ],
+    desaturateBackground: false,
+    animationType: "loop",
+    sameTexture: true,
+    startPercent: 0,
+    actions: {
+        start: {
+        },
+        init: {
+        },
+        finish: {
+        },
+    },
+    customForegroundRows: 16,
+    frameRate: 15,
+    internalVersion: 51,
+    animation: {
+        start: {
+            type: "none",
+            easeStrength: 3,
+            duration_type: "seconds",
+            easeType: "none",
+        },
+        main: {
+            type: "none",
+            easeStrength: 3,
+            duration_type: "seconds",
+            easeType: "none",
+        },
+        finish: {
+            type: "none",
+            easeStrength: 3,
+            duration_type: "seconds",
+            easeType: "none",
+        },
+    },
+    customForegroundFileHeight: 0,
+    customBackgroundRows: 16,
+    customForegroundFileWidth: 0,
+    rotation: 0,
+    subRegions: [
+        {
+            type: "subbackground",
+        },
+    ],
+    height: 128,
+    rotate: true,
+    load: {
+        size: {
+            multi: {},
+        },
+        spec: {
+            multi: {},
+        },
+        class: {
+            multi: {},
+        },
+        talent: {
+            multi: {},
+        },
+    },
+    endPercent: 1,
+    backgroundTexture: "Interface\\\\AddOns\\\\WeakAuras\\\\Media\\\\Textures\\\\stopmotion",
+    customBackgroundColumns: 16,
+    foregroundTexture: "Interface\\\\animations\\\\kekround.x5y5f21w96h96W512H512.tga",
+    backgroundPercent: 1,
+    selfPoint: "CENTER",
+    mirror: false,
+    backgroundColor: [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+    ],
+    regionType: "stopmotion",
+    discrete_rotation: 0,
+    blendMode: "BLEND",
+    anchorPoint: "CENTER",
+    anchorFrameType: "SCREEN",
+    customForegroundColumns: 16,
+    config: {
+    },
+    customForegroundFrames: 0,
+    customForegroundFrameWidth: 0,
+    hideBackground: true,
+    customBackgroundFrames: 0,
+    id: "WeakAuras Companion - Kek",
+    customForegroundFrameHeight: 0,
+    frameStrata: 1,
+    width: 128,
+    authorOptions: {
+    },
+    uid: "L2pw6WPLjxa",
+    inverse: false,
+    desaturateForeground: false,
+    conditions: {
+    },
+    information: {
+    },
+    triggers: {
+        "1": {
+            trigger: {
+                type: "unit",
+                use_absorbHealMode: true,
+                subeventSuffix: "_CAST_START",
+                use_absorbMode: true,
+                event: "Conditions",
+                subeventPrefix: "SPELL",
+                spellIds: {},
+                use_alwaystrue: true,
+                use_unit: true,
+                names: {},
+                unit: "player",
+                debuffType: "HELPFUL",
+            },
+            untrigger: {},
+        },
+        activeTriggerMode: -10,
+    },
+}
 
 export default {
   name: "StopMotionConverter",
@@ -143,7 +283,7 @@ export default {
         },
         settings: {
           scaling: 1,
-          coalesce: true,
+          coalesce: false,
           skips: false,
           skips_value: 2,
           wowVersion: this.config.wowpath.version,
@@ -159,7 +299,7 @@ export default {
         destination: "",
         fileCreated: false,
         computing: false,
-      }
+      },
     };
   },
   computed: {
@@ -272,7 +412,8 @@ export default {
       shell.openPath(this.result.destination);
     },
     copyStopMotionInput() {
-      let copy = document.querySelector("#stopMotionInput")
+      let copy = document.querySelector("#copyString")
+      copy.value = this.stopMotionInput
       copy.setAttribute("type", "text")
       copy.select()
 
@@ -285,6 +426,41 @@ export default {
       }
 
       /* unselect the range */
+      copy.setAttribute("type", "hidden")
+      window.getSelection().removeAllRanges()
+    },
+    async copyExportStringInput() {
+      // make string
+      //const serialized = mdtc.Ace.Serialize(StopMotionTemplate, true);
+      //let utf8Encode = new TextEncoder();
+      const txt = "COUCOU"
+      const arr = Array.prototype.map.call(txt, function (char) {
+        return char.charCodeAt(0);
+      });
+      const deflated = mdtc.Deflate.Deflate(arr, 9)
+      const zdeflated = zlib.deflateSync(txt)
+      const deflatejs = LibDeflate.deflate(arr, 9)
+      console.log(deflated)
+      console.log(zdeflated);
+      console.log(deflatejs);
+      console.log(mdtc.Deflate.EncodeForPrint(deflated))
+      console.log(mdtc.Deflate.EncodeForPrint(zdeflated))
+      console.log(mdtc.Deflate.EncodeForPrint(deflatejs))
+      const encoded = mdtc.Deflate.EncodeForPrint(deflated);
+      alert("work in progress");
+      // copy to clipboard
+      let copy = document.querySelector("#copyString")
+      copy.value = "!WA:2!" + encoded;
+      copy.setAttribute("type", "text")
+      copy.select()
+
+      try {
+        var successful = document.execCommand("copy");
+        var msg = successful ? "successful" : "unsuccessful";
+        console.log("copy " + msg);
+      } catch (err) {
+        console.log("unable to copy");
+      }
       copy.setAttribute("type", "hidden")
       window.getSelection().removeAllRanges()
     }
