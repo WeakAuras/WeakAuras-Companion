@@ -115,7 +115,7 @@
         ></Config>
         <Help v-else-if="configStep === 2"></Help>
         <About v-else-if="configStep === 3"></About>
-        <StopMotionConverter v-else-if="configStep === 4" :wowVersions="versionOptions"></StopMotionConverter>
+        <StopMotion v-else-if="configStep === 4" :wowVersions="versionOptions"></StopMotion>
       </main>
       <footer>
         <a
@@ -216,7 +216,7 @@ import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
 import Dropdown from "./UI/Dropdown.vue";
-import StopMotionConverter from "./UI/StopMotionConverter.vue";
+import StopMotion from "./UI/StopMotion.vue";
 import { app } from "@electron/remote";       // =>
 const userDataPath = app.getPath("userData"); // => todo: make this global?
 import { ipcRenderer } from "electron";
@@ -245,7 +245,7 @@ export default defineComponent({
     Report,
     Button,
     Dropdown,
-    StopMotionConverter,
+    StopMotion,
   },
   data() {
     return {

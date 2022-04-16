@@ -122,12 +122,10 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
 
         // results.composite(compose).toFile(`${filename.replace(/\.[^/.]+$/, "")}.png`)
 
-        const {data} = await results.composite(compose)
-            .raw()
-            .toBuffer({ resolveWithObject: true })
-        
-        const pixelArray = new Uint8ClampedArray(data.buffer);
-        var buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray);
+        const composited = results.composite(compose) // { resolveWithObject: true }
+        const rawbuffer = await composited.raw().toBuffer()
+        const pixelArray = Uint8ClampedArray.from(rawbuffer);
+        var buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray); //pixelArray);
         var out = path.parse(filename).name;
         out = `${out}.x${rows}y${cols}f${frameCount}w${width}h${height}W${fileWidth}H${fileHeight}.tga`;
         const destFile = path.join(destination, out)
@@ -135,7 +133,11 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
         await fs.promises.mkdir(destination, { recursive: true })
         await fs.promises.writeFile(destFile, buf)
         console.log(`created file: ${destFile}`);
-        return destFile
+
+        // make preview
+        const resized = await composited.png().toBuffer()
+        const preview = resized.toString("base64")
+        return { destFile, preview }
     } catch (error) {
       console.log(error);
     }
