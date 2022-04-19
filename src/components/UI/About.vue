@@ -28,8 +28,10 @@
           target="_blank"
           >GitHub</a
         ><br />
-        {{ $t("app.about.css" /* Design by */) }}
-        <a href="https://sragia.com/" target="_blank">Aigars Bedeicis</a>
+        {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka Buds<br />
+        {{ $t("app.about.platersupport" /* Plater support */) }} Cont1nuity/Ariani<br />
+        {{ $t("app.about.cssby" /* CSS by */) }}
+        <a href="https://sragia.com/" target="_blank">Aigars Bedeicis aka Exality</a>
         and <a href="https://stephanosue.com/" target="_blank">Stephano Sue</a>
       </p>
       <br />

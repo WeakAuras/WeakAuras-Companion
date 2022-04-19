@@ -140,7 +140,7 @@
         </a>
         <a class="stopmotion" href="#" @click="configStep = 4">
           <span class="exclamationmark">!</span>
-          {{ $t("app.footer.stopmotion" /* WeakAuras StopMotion converter */) }}
+          {{ $t("app.footer.stopmotion" /* WeakAuras StopMotion Converter */) }}
         </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}

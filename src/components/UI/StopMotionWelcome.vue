@@ -17,7 +17,7 @@
             </div>
         </div>
         <div id="mid">
-            <Button class="btn-ok" @click="$emit('next')">Select GIF Animation</Button>
+            <Button class="btn-ok" @click="$emit('next')">{{ $t('app.stopmotion.selectgifanimation' /* Select GIF Animation */) }}</Button>
         </div>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div id="StopMotion">
     <div>
-      <div class="title">StopMotion Gif Converter</div>
+      <div class="title">{{ $t('app.stopmotion.selectgifconverter' /* StopMotion GIF Converter */) }}</div>
       <br/>
       <div class="bts-top-right">
         <Button class="btn-ok btn-title" v-if="step == 4" @click="setStep(2)">

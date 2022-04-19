@@ -7,7 +7,7 @@
               :filters="[{ name: 'Animation', extensions: ['gif'] }]"
               class="fileinput"
               @update:path="update"
-            >Select Gif File</file-select>
+            >{{ $t('app.stopmotion.selectgiffile' /* Select GIF File */) }}</file-select>
         </div>
     </div>
 </template>

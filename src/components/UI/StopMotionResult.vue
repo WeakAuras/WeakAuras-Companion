@@ -3,16 +3,16 @@
       <img :src="preview" class="preview">
       <br />
       <p class="filename">
-        File created: "{{ stopMotionInput }}"
+        {{ $t('app.stopmotion.file.created' /* File created */) }}: "{{ stopMotionInput }}"
       </p>
       <p class="stuff">
         <Button class="btn-ok" @click="copyStopMotionInput">
           <i class="material-icons">content_copy</i>
-          <span>Copy Path for StopMotion</span>
+          <span>{{ $t('app.stopmotion.copy.path.for.stopmotion' /* Copy Path for StopMotion */) }}</span>
         </Button>
         <Button class="btn-ok" @click="copyExportStringInput">
           <i class="material-icons">content_copy</i>
-          <span>Export WeakAuras String</span>
+          <span>{{ $t('app.stopmotion.export.weakauras.string' /* Export WeakAuras String */) }}</span>
         </Button>
         <input type="hidden" id="copyString" />
         <Button class="btn-ok" @click="openDestDir()">
