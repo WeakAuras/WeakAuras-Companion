@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@electron/remote": "^2.0.8",
-    "@letstimeit/mdt-compression": "^0.2.4",
     "@types/jest": "^27.4.1",
     "@vue/compat": "^3.2.32",
     "archiver": "^5.3.1",

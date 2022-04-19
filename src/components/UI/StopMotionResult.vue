@@ -33,10 +33,8 @@ import { useStopMotionStore } from "@/stores/stopmotion";
 import Button from "./Button.vue";
 import path from "path";
 import { shell } from "electron";
-import mdtc from "@letstimeit/mdt-compression";
-//import zlib from "zlib";
-//import LibDeflate from "deflate-js";
 
+/*
 const StopMotionTemplate = {
     xOffset: 0,
     yOffset: 0,
@@ -165,6 +163,7 @@ const StopMotionTemplate = {
         activeTriggerMode: -10,
     },
 }
+*/
 
 export default defineComponent({
   name: "StopMotionResult",
@@ -216,26 +215,10 @@ export default defineComponent({
     },
     async copyExportStringInput() {
       // make string
-      //const serialized = mdtc.Ace.Serialize(StopMotionTemplate, true);
-      //let utf8Encode = new TextEncoder();
-      const txt = "COUCOU"
-      const arr = Array.prototype.map.call(txt, function (char) {
-        return char.charCodeAt(0);
-      });
-      const deflated = mdtc.Deflate.Deflate(arr, 9)
-      //const zdeflated = zlib.deflateSync(txt)
-      //const deflatejs = LibDeflate.deflate(arr, 9)
-      console.log(deflated)
-      //console.log(zdeflated);
-      //console.log(deflatejs);
-      console.log(mdtc.Deflate.EncodeForPrint(deflated))
-      //console.log(mdtc.Deflate.EncodeForPrint(zdeflated))
-      //console.log(mdtc.Deflate.EncodeForPrint(deflatejs))
-      const encoded = mdtc.Deflate.EncodeForPrint(deflated);
       alert("work in progress");
       // copy to clipboard
       let copy = document.querySelector("#copyString")
-      copy.value = "!WA:2!" + encoded;
+      copy.value = "!WA:2!"  //encoded;
       copy.setAttribute("type", "text")
       copy.select()
 
