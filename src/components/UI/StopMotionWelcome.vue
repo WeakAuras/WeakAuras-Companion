@@ -11,8 +11,8 @@
                 <!-- <label>tga</label> -->
             </div>
             <span class="material-icons">arrow_forward</span>
-            <div>
-                <img :src="require(`@/assets/kekroundig.gif`)" style="width: 140px; height: 140px" />
+            <div class="ingame">
+                <img :src="require(`@/assets/kekround.gif`)" />                
                 <!-- <label>stopmotion</label> -->
             </div>
         </div>
@@ -63,4 +63,12 @@ export default defineComponent({
     margin-bottom: 60px;
 }
 
+.ingame {
+    background-image: url(@/assets/dragonblightbg.png);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 140px;
+}
 </style>
