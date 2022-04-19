@@ -22,7 +22,7 @@ export const getTranslationObject = (matches: string[]): any => {
 
   matches.forEach((translation: string): void => {
     const id: string = translation.match(/["',]\S*["',]/)[0].replace(/[\\"',]/g, "");
-    const defaultMessage: string = translation.match(/\/\*[^/]*\*\//);
+    const defaultMessage: RegExpMatchArray = translation.match(/\/\*[^/]*\*\//);
     if (defaultMessage) {
       translations[id] = sanitizeMessage(defaultMessage)[0];
     }
