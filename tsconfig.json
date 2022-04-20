@@ -9,7 +9,8 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es6",
+    "target": "esnext",
+    "jsx": "preserve",
     "paths": {
       "@/*": [
         "./src/*"
