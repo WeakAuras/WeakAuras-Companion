@@ -100,25 +100,26 @@ $text-color: #e6e6e6;
 $border-color: #2c2c2c;
 $border-color-expand: #2c2c2c;
 
-$max-width: 200px;
+$max-width: 230px;
 $min-width: 140px;
 .dropdown {
-  position: relative;
-  z-index: 999;
   font-size: 14px;
   font-weight: 500;
   color: $text-color;
+  width: $max-width;
   margin: 10px 4px 10px 0;
   &__label {
     color: #eeeeee;
     font-size: 15px;
+    z-index: 1;
+    position: relative;
   }
   &__toggle {
+    z-index: 1;
     position: relative;
     width: 100%;
     min-width: $min-width;
     max-width: $max-width;
-
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -162,8 +163,8 @@ $min-width: 140px;
   }
   &__options {
     width: 100%;
-    cursor: pointer;
     position: absolute;
+    cursor: pointer;
     border-radius: 0 0 4px 4px;
     max-width: $max-width;
     background: $button-color-bg;
@@ -180,6 +181,8 @@ $min-width: 140px;
   }
   &__option {
     cursor: pointer;
+    z-index: 50;
+    background-color: black;
     width: 100%;
     height: 30px;
     padding: 5px 25px 5px 5px;

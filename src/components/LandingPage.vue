@@ -2036,11 +2036,15 @@ $iconDefaultColor: #51ae42;
 }
 
 #version-selector {
-  float: right;
+  position: absolute;
+  top: 0px;
+  right: 10px;
 }
 
 #account-selector {
-  float: right;
+  position: absolute;
+  top: 55px;
+  right: 10px;
 }
 
 /* Aura list */
