@@ -61,7 +61,7 @@
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
     "electron": "^18.0.4",
-    "electron-builder": "^23.0.3",
+    "electron-builder": "^23.0.6",
     "electron-debug": "^3.2.0",
     "electron-devtools-installer": "^3.2.0",
     "eslint": "^7.32.0",
@@ -106,5 +106,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
+  },
+  "overrides": {
+    "vue-cli-plugin-electron-builder": {
+      "electron-builder": "^23.0.6"
+    }
   }
 }
