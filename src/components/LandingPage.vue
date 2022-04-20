@@ -1794,6 +1794,10 @@ end)
           text: this.$t("app.version.classicera" /* Classic Era */),
         },
         {
+          value: "_classic_era_ptr_",
+          text: this.$t("app.version.classiceraptr" /* Classic Era PTR */),
+        },
+        {
           value: "_beta_",
           text: this.$t("app.version.beta" /* Beta */),
         },
