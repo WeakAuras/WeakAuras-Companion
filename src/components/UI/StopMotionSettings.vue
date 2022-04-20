@@ -47,7 +47,7 @@
         </div>
         <div class="block">
           <div>
-            {{ $t('app.stopmotion.row.columns' /* Rows / Columns */) }}: {{ result.rows }} x {{ result.cols }}<br />
+            {{ $t('app.stopmotion.row.columns' /* Rows x Columns */) }}: {{ result.rows }} x {{ result.cols }}<br />
             {{ $t('app.stopmotion.frame.size' /* Frame Size */) }}: {{Math.floor(gif.meta.width * gif.settings.scaling)}}px x {{Math.floor(gif.meta.height * gif.settings.scaling)}}px<br />
             {{ $t('app.stopmotion.output.size' /* Output Size */) }}: {{ result.width }}px x {{ result.height }}px<br />
             {{ $t('app.stopmotion.Frames' /* Frames */) }}: {{ result.frames }}<br /><br />
