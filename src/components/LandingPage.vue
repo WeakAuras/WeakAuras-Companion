@@ -664,9 +664,9 @@ export default defineComponent({
         "info"
       );
     },
-    message(text, type) {
-      //return this.toast(msg, options);
-    },
+    // message(text, type) {
+    //   //return this.toast(msg, options);
+    // },
     wagoPushHandler(slug, addon) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
         const addonConf = this.getAddonConfig(addon);
@@ -1153,7 +1153,7 @@ export default defineComponent({
       const received = [];
 
       addonConfigs.forEach((config, index) => {
-        // Make a list of uniqe auras to fetch
+        // Make a list of unique auras to fetch
         const fetchAuras = this.auras
           .filter(
             (aura) =>
