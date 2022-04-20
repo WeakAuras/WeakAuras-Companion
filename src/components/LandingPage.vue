@@ -12,29 +12,41 @@
             type="menu"
             :class="{ active: configStep === 0 }"
             @click="configStep = 0"
+            :title="$t('app.menu.main')"
           >
-            {{ $t("app.menu.main" /* Main */) }}
+            <span class="material-icons">sync</span>
+          </Button>
+          <Button
+            type="menu"
+            :class="{ active: configStep === 4 }"
+            @click="configStep = 4"
+            :title="$t('app.footer.stopmotion')"
+          >
+            <span class="material-icons">movie</span>
           </Button>
           <Button
             type="menu"
             :class="{ active: configStep === 1 }"
             @click="configStep = 1"
+            :title="$t('app.menu.settings')"
           >
-            {{ $t("app.menu.settings" /* Settings */) }}
+            <span class="material-icons">settings</span>
           </Button>
           <Button
             type="menu"
             :class="{ active: configStep === 2 }"
             @click="configStep = 2"
+            :title="$t('app.menu.help')"
           >
-            {{ $t("app.menu.help" /* Help */) }}
+            <span class="material-icons">help</span>
           </Button>
           <Button
             type="menu"
             :class="{ active: configStep === 3 }"
             @click="configStep = 3"
+            :title="$t('app.menu.about')"
           >
-            {{ $t("app.menu.about" /* About */) }}
+            <span class="material-icons">info</span>
           </Button>
         </div>
       </header>
@@ -137,10 +149,6 @@
             title="Wago"
           />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
-        </a>
-        <a class="stopmotion" href="#" @click="configStep = 4">
-          <span class="exclamationmark">!</span>
-          {{ $t("app.footer.stopmotion" /* WeakAuras StopMotion Converter */) }}
         </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
