@@ -43,10 +43,7 @@ app.config.globalProperties.$http = axios;
 app.use(pinia);
 const configStore = useConfigStore();
 
-const configStoreSerializedUnknown = store.get("configStore");
-const configStoreSerialized = typeof configStoreSerializedUnknown === 'string'
-      ? configStoreSerializedUnknown
-      : undefined
+const configStoreSerialized = store.get("configStore");
 let locale = "en"
 if (typeof configStoreSerialized === 'string') {
   locale = JSON.parse(configStoreSerialized).lang
