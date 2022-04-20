@@ -37,15 +37,23 @@ pinia.use(
 );
 
 axios.defaults.timeout = 15000;
-
 app.config.globalProperties.$http = axios;
 // Vue.http = Vue.prototype.$http;
 
 app.use(pinia);
 const configStore = useConfigStore();
 
+const configStoreSerializedUnknown = store.get("configStore");
+const configStoreSerialized = typeof configStoreSerializedUnknown === 'string'
+      ? configStoreSerializedUnknown
+      : undefined
+let locale = "en"
+if (typeof configStoreSerialized === 'string') {
+  locale = JSON.parse(configStoreSerialized).lang
+}
+
 const i18n = createI18n({
-  locale: configStore.lang,
+  locale: locale,
   fallbackLocale: "en",
   messages: {
     en,
