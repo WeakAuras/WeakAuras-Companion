@@ -665,9 +665,10 @@ export default defineComponent({
         "info"
       );
     },
-    // message(text, type) {
-    //   //return this.toast(msg, options);
-    // },
+    message(text, type) {
+      console.log(`${type}:${text}`)
+       //return this.toast(msg, options);
+    },
     wagoPushHandler(slug, addon) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
         const addonConf = this.getAddonConfig(addon);
