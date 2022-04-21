@@ -159,6 +159,25 @@
           />
         </a>
         <div class="app-update">
+          <i
+            v-if="stash.length > 0"
+            v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              html: true,
+              content: `${this.$t(
+                'app.main.readyForInstall' /* Ready for Install */
+              )}${readyForInstallTooltip}<br>${this.$t(
+                'app.main.readyForInstallWipe' /* Click to Wipe the list */
+              )}`,
+            }"
+            class="material-icons update-available"
+            @click="readyForInstallFlush()"
+          >
+            download
+          </i>
+        </div>
+        <div class="app-update">
           <a :href="updater.path" target="_blank" v-if="updater.status === 'update-available'">
             <i
               v-if="updater.status === 'update-available'"
@@ -290,6 +309,14 @@ export default defineComponent({
     };
   },
   computed: {
+    readyForInstallTooltip() {
+      let out = "";
+
+      for (let i=0;i<this.stash.length;i++){
+        out = `${out}<br>${this.stash[i].name}`
+      }
+      return out
+    },
     accountHash() {
       if (this.versionSelected) {
         const { account } = this.versionSelected;
@@ -498,6 +525,9 @@ export default defineComponent({
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
   methods: {
+    readyForInstallFlush() {
+      this.stash.splice(0)
+    },
     checkCompanionUpdates() {
       ipcRenderer.invoke("checkUpdates", this.config.beta);
 
