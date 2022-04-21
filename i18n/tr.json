@@ -98,6 +98,8 @@
   "app.main.needrestart": "WeakAuras'ın seçeneklerinde yeni güncellemeleri görmek için World of Warcraft'ı yeniden başlatın",
   "app.main.nothingToFetch": "Güncelleme yok",
   "app.main.ok": "Ok",
+  "app.main.readyForInstall": "Ready for Install",
+  "app.main.readyForInstallWipe": "Click to Wipe the list",
   "app.main.settingswiped": "Companion ayarları sıfırlandı.",
   "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "{aura} için kodlanmış dize alınırken hata oluştu.",

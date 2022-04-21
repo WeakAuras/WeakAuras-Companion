@@ -98,6 +98,8 @@
   "app.main.needrestart": "Relancez World of Warcraft pour voir les mises à jours dans les options de WeakAuras",
   "app.main.nothingToFetch": "Pas de mise à jour disponible",
   "app.main.ok": "Ok",
+  "app.main.readyForInstall": "Ready for Install",
+  "app.main.readyForInstallWipe": "Click to Wipe the list",
   "app.main.settingswiped": "Les paramètres de Companion ont été remis à zéro!",
   "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "Problème lors de la réception des données de {aura}",

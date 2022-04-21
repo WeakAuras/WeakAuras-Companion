@@ -98,6 +98,8 @@
   "app.main.needrestart": "Reinicia World of Warcraft para ver nuevas actualizaciones en las opciones de WeakAuras.",
   "app.main.nothingToFetch": "No hay actualizaciones disponibles",
   "app.main.ok": "Ok",
+  "app.main.readyForInstall": "Ready for Install",
+  "app.main.readyForInstallWipe": "Click to Wipe the list",
   "app.main.settingswiped": "La configuración de Companion se ha restablecido",
   "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "Error al recibir la cadena codificada para {aura}",

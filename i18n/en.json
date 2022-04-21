@@ -98,6 +98,8 @@
   "app.main.needrestart": "Restart World of Warcraft to see new updates in WeakAuras's options",
   "app.main.nothingToFetch": "No updates available",
   "app.main.ok": "Ok",
+  "app.main.readyForInstall": "Ready for Install",
+  "app.main.readyForInstallWipe": "Click to Wipe the list",
   "app.main.settingswiped": "Companion's settings have been reset!",
   "app.main.stashadd": "New {addon} ready to install: {aura}",
   "app.main.stringReceiveError-1": "Error receiving encoded string for {aura}",
