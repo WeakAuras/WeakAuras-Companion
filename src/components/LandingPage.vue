@@ -1153,7 +1153,7 @@ export default defineComponent({
       let allAurasFetched = [];
       const received = [];
 
-      addonConfigs.forEach((config, index) => {
+      addonConfigs.forEach((config) => {
         // Make a list of unique auras to fetch
         const fetchAuras = this.auras
           .filter(
@@ -1680,8 +1680,8 @@ end)
       ipcRenderer.invoke("installUpdates");
     },
     backup() {
-      this.config.wowpath.versions.forEach((version, versionindex) => {
-        version.accounts.forEach((account, accountindex) => {
+      this.config.wowpath.versions.forEach((version) => {
+        version.accounts.forEach((account) => {
           this.addonsInstalled.forEach((addon) => {
             let lastSavedFileSize = null;
 
