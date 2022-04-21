@@ -165,6 +165,7 @@
               v-tooltip="{
                 strategy: 'fixed',
                 theme: 'info-tooltip',
+                html: true,
                 content: `${this.$t(
                   'app.main.installUpdate' /* Install client update */
                 )}: v${updater.version} ${updater.releaseNotes}`,
