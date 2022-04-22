@@ -5,7 +5,6 @@ import FloatingVue from "floating-vue";
 import App from "@/App.vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
-import { useConfigStore } from "@/stores/config";
 import Store from "electron-store";
 
 import en from "../i18n/en.json";
@@ -41,11 +40,11 @@ app.config.globalProperties.$http = axios;
 // Vue.http = Vue.prototype.$http;
 
 app.use(pinia);
-const configStore = useConfigStore();
 
 const configStoreSerialized = store.get("configStore");
 let locale = "en"
-if (typeof configStoreSerialized === 'string') {
+
+if (typeof configStoreSerialized === "string") {
   locale = JSON.parse(configStoreSerialized).lang
 }
 

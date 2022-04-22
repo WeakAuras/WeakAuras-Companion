@@ -39,6 +39,11 @@
               {{ $t("app.config.autoStart" /* Launch client with your computer */) }}
             </checkbox>
           </div>
+          <div class="option">
+            <checkbox v-model="config.startminimize">
+              {{ $t("app.config.minimized" /* Start minimised */) }}
+            </checkbox>
+          </div>
           <p class="label subtitle">
             {{ $t("app.config.autoupdater" /* Updates */) }}
           </p>

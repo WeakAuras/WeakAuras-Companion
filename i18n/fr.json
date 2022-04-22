@@ -33,7 +33,7 @@
   "app.config.getYours": "Obtenir la votre",
   "app.config.ignoreOwnAuras": "Ignorer les auras de votre compte",
   "app.config.lang": "Langue",
-  "app.config.minimized": "Démarrer le client dans la barre des tâches",
+  "app.config.minimized": "Démarrer dans la barre des tâches",
   "app.config.notification": "Notification système quand de nouvelles mises à jours sont prêtes installé en jeux",
   "app.config.ok": "OK",
   "app.config.reset": "Effacer les paramètres et les données",

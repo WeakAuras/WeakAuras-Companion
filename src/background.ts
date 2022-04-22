@@ -37,12 +37,24 @@ AutoLauncher.isEnabled().then(function (isEnabled) {
 });
 
 const store = new Store();
+const configStoreSerialized = store.get("configStore");
+let config
+
+if (typeof configStoreSerialized === "string") {
+  config = JSON.parse(configStoreSerialized)
+} else {
+  config = {
+    beta: false,
+    minimized: false
+  }
+}
+
 let cancellationToken;
 
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 //@ts-ignore
-autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || store.get("configStore.beta", false);
+autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
 autoUpdater.logger = log;
 //@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
@@ -88,7 +100,7 @@ async function createWindow() {
       contextIsolation: false,
       // preload: path.join(__static, 'preload.js'),
     },
-    show: true,
+    show: !config.startminimize,
   });
 
   remoteMain.enable(mainWindow?.webContents);
