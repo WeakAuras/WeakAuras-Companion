@@ -687,17 +687,6 @@ export default defineComponent({
     },
     reset() {
       this.config.$reset();
-
-      this.message(
-        this.$t(
-          "app.main.settingswiped" /* Companion's settings have been reset! */
-        ),
-        "info"
-      );
-    },
-    message(text, type) {
-      console.log(`${type}:${text}`)
-       //return this.toast(msg, options);
     },
     wagoPushHandler(slug, addon) {
       if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
@@ -745,49 +734,13 @@ export default defineComponent({
                   .then((response2) => {
                     aura.encoded = response2.data;
                     this.stash.push(aura);
-
-                    this.message(
-                      this.$t(
-                        "app.main.stashadd",
-                        {
-                          addon: addon,
-                          aura: wagoData.name,
-                        } /* New {addon} ready to install: {aura} */
-                      ),
-                    );
                   })
                   .catch((err2) => {
-                    this.message(
-                      [
-                        this.$t(
-                          "app.main.stringReceiveError-1",
-                          {
-                            aura: aura.name,
-                          } /* Error receiving encoded string for {aura} */
-                        ),
-                        this.$t(
-                          "app.main.stringReceiveError-2",
-                          {
-                            status: err2.response.status,
-                          } /* http code: {status} */
-                        ),
-                      ],
-                      "error"
-                    );
                     console.log(JSON.stringify(err2));
                   });
               });
             })
             .catch((error) => {
-              this.message(
-                [
-                  this.$t(
-                    "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                  ),
-                  error,
-                ],
-                "error"
-              );
               console.log(JSON.stringify(error));
             });
         }
@@ -797,13 +750,6 @@ export default defineComponent({
       const aurasFromFile = [];
 
       if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
-        this.message(
-          this.$t(
-            "app.main.errorSavedvariable" /* Error while reading WeakAuras.lua */
-          ),
-          "error"
-        );
-        //this.fetching = false;
         return [];
       }
 
@@ -904,13 +850,6 @@ export default defineComponent({
       const aurasFromFile = [];
 
       if (PlaterSavedData.body[0].variables[0].name !== "PlaterDB") {
-        this.message(
-          this.$t(
-            "app.main.errorSavedvariablePlater" /* Error while reading Plater.lua */
-          ),
-          "error"
-        );
-        //this.fetching = false;
         return;
       }
 
@@ -1100,10 +1039,6 @@ export default defineComponent({
             ...conf.parseFunction(savedData, conf),
           ];
         } catch (err) {
-          this.message(
-            `An error ocurred reading file: ${err.message}`,
-            "error"
-          );
           console.log(JSON.stringify(err));
           continue;
         }
@@ -1276,15 +1211,6 @@ export default defineComponent({
               });
             })
             .catch((error) => {
-              this.message(
-                [
-                  this.$t(
-                    "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                  ),
-                  error,
-                ],
-                "error"
-              );
               console.log(JSON.stringify(error));
               this.fetching = false;
 
@@ -1325,10 +1251,6 @@ export default defineComponent({
 
           // Test if list is empty after resolving wagoCalls
           if (allAurasFetched.length === 0) {
-            this.message(
-              this.$t("app.main.nothingToFetch" /* No updates available */)
-            );
-
             this.accountSelected.lastWagoUpdate = new Date();
 
             if (this.schedule.id) clearTimeout(this.schedule.id);
@@ -1372,39 +1294,13 @@ export default defineComponent({
                       // wont show update available
                       // todo create status update-failed?
                       this.auras[index].wagoVersion = aura.version;
-
-                      this.message(
-                        [
-                          this.$t(
-                            "app.main.stringReceiveError-1",
-                            {
-                              aura: aura.name,
-                            } /* Error receiving encoded string for {aura} */
-                          ),
-                          this.$t(
-                            "app.main.stringReceiveError-2",
-                            {
-                              status: wagoResp.status,
-                            } /* http code: {status} */
-                          ),
-                        ],
-                        "error"
-                      );
+                      console.log(`error ${wagoResp.status}`)
                     }
                   });
                 }
               });
             })
             .catch((error) => {
-              this.message(
-                [
-                  this.$t(
-                    "app.main.errorWagoAnswer" /* Can't read Wago answer */
-                  ),
-                  error,
-                ],
-                "error"
-              );
               console.log(JSON.stringify(error));
 
               // schedule in 30mn on error
@@ -1416,10 +1312,6 @@ export default defineComponent({
               );
             })
             .then(() => {
-              //console.log(allAurasFetched);
-              //console.log(received);
-              // console.log(`allAurasFetched: ${JSON.stringify(allAurasFetched)}`);
-              // console.log(`received: ${JSON.stringify(received)}`);
               allAurasFetched.forEach((toFetch) => {
                 if (received.indexOf(toFetch) === -1) {
                   // no data received for this aura => remove from list
@@ -1453,13 +1345,6 @@ export default defineComponent({
             });
         })
         .catch((error) => {
-          this.message(
-            [
-              this.$t("app.main.errorWagoAnswer" /* Can't read Wago answer */),
-              error,
-            ],
-            "error"
-          );
           console.log(JSON.stringify(error));
 
           // schedule in 30mn on error
@@ -1693,13 +1578,6 @@ end)
 
           fs.writeFile(filepath, file.data, (err2) => {
             if (err2) {
-              this.message(
-                this.$t(
-                  "app.main.errorFileSave",
-                  { file: file.name } /* {file} could not be saved */
-                ),
-                "error"
-              );
               throw new Error("errorFileSave");
             }
           });
