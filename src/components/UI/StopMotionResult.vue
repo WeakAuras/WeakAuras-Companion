@@ -33,143 +33,14 @@ import { useStopMotionStore } from "@/stores/stopmotion";
 import Button from "./Button.vue";
 import path from "path";
 import { shell } from "electron";
-
-/*
-const StopMotionTemplate = {
-    xOffset: 0,
-    yOffset: 0,
-    foregroundColor: [
-        1,
-        1,
-        1,
-        1,
-    ],
-    desaturateBackground: false,
-    animationType: "loop",
-    sameTexture: true,
-    startPercent: 0,
-    actions: {
-        start: {
-        },
-        init: {
-        },
-        finish: {
-        },
-    },
-    customForegroundRows: 16,
-    frameRate: 15,
-    internalVersion: 51,
-    animation: {
-        start: {
-            type: "none",
-            easeStrength: 3,
-            duration_type: "seconds",
-            easeType: "none",
-        },
-        main: {
-            type: "none",
-            easeStrength: 3,
-            duration_type: "seconds",
-            easeType: "none",
-        },
-        finish: {
-            type: "none",
-            easeStrength: 3,
-            duration_type: "seconds",
-            easeType: "none",
-        },
-    },
-    customForegroundFileHeight: 0,
-    customBackgroundRows: 16,
-    customForegroundFileWidth: 0,
-    rotation: 0,
-    subRegions: [
-        {
-            type: "subbackground",
-        },
-    ],
-    height: 128,
-    rotate: true,
-    load: {
-        size: {
-            multi: {},
-        },
-        spec: {
-            multi: {},
-        },
-        class: {
-            multi: {},
-        },
-        talent: {
-            multi: {},
-        },
-    },
-    endPercent: 1,
-    backgroundTexture: "Interface\\\\AddOns\\\\WeakAuras\\\\Media\\\\Textures\\\\stopmotion",
-    customBackgroundColumns: 16,
-    foregroundTexture: "Interface\\\\animations\\\\kekround.x5y5f21w96h96W512H512.tga",
-    backgroundPercent: 1,
-    selfPoint: "CENTER",
-    mirror: false,
-    backgroundColor: [
-        0.5,
-        0.5,
-        0.5,
-        0.5,
-    ],
-    regionType: "stopmotion",
-    discrete_rotation: 0,
-    blendMode: "BLEND",
-    anchorPoint: "CENTER",
-    anchorFrameType: "SCREEN",
-    customForegroundColumns: 16,
-    config: {
-    },
-    customForegroundFrames: 0,
-    customForegroundFrameWidth: 0,
-    hideBackground: true,
-    customBackgroundFrames: 0,
-    id: "WeakAuras Companion - Kek",
-    customForegroundFrameHeight: 0,
-    frameStrata: 1,
-    width: 128,
-    authorOptions: {
-    },
-    uid: "L2pw6WPLjxa",
-    inverse: false,
-    desaturateForeground: false,
-    conditions: {
-    },
-    information: {
-    },
-    triggers: {
-        "1": {
-            trigger: {
-                type: "unit",
-                use_absorbHealMode: true,
-                subeventSuffix: "_CAST_START",
-                use_absorbMode: true,
-                event: "Conditions",
-                subeventPrefix: "SPELL",
-                spellIds: {},
-                use_alwaystrue: true,
-                use_unit: true,
-                names: {},
-                unit: "player",
-                debuffType: "HELPFUL",
-            },
-            untrigger: {},
-        },
-        activeTriggerMode: -10,
-    },
-}
-*/
+import { StopMotionTemplate, serialize, deflate, encode } from "@/libs/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
   setup() {
-    const { result } = useStopMotionStore();
+    const { result, gif } = useStopMotionStore();
     return {
+      gif,
       result
     };
   },
@@ -177,6 +48,16 @@ export default defineComponent({
     Button,
   },
   computed: {
+    weakauras_string() {
+      const SMtemplate = Object.assign({}, StopMotionTemplate);
+      SMtemplate.d.id = "StopMotion " + this.gif.meta.name
+      SMtemplate.d.foregroundTexture = this.stopMotionInput
+      SMtemplate.d.backgroundTexture = this.stopMotionInput
+      const serialized = serialize(SMtemplate)
+      const compressed = deflate(serialized)
+      const encoded = encode(compressed);
+      return "!WA:1!" + encoded;
+    },
     stopMotionInput() {
       return path.join(
         "Interface",
@@ -214,11 +95,9 @@ export default defineComponent({
       window.getSelection().removeAllRanges()
     },
     async copyExportStringInput() {
-      // make string
-      alert("work in progress");
       // copy to clipboard
       let copy = document.querySelector("#copyString")
-      copy.value = "!WA:2!"  //encoded;
+      copy.value = this.weakauras_string;
       copy.setAttribute("type", "text")
       copy.select()
 
