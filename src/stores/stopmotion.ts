@@ -30,7 +30,6 @@ export const useStopMotionStore = defineStore(
                     size: 0,
                     destination: "",
                     preview: "",
-                    fileCreated: false,
                     computing: false,
                 },
                 step: 1

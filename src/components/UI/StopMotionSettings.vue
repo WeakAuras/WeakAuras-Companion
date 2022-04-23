@@ -141,7 +141,6 @@ export default defineComponent({
           filename
         )
 
-        this.result.fileCreated = false
         this.result.computing = false
       } catch(e) {
         console.log(JSON.stringify(e))
@@ -169,7 +168,6 @@ export default defineComponent({
             )
           )
           this.result.computing = false;
-          this.result.fileCreated = true;
           this.result.destination = destFile;
           this.result.preview = preview;
           this.$emit("next")
