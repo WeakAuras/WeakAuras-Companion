@@ -30,6 +30,7 @@
 <script>
 import { defineComponent } from "vue";
 import { useStopMotionStore } from "@/stores/stopmotion";
+import { useStashStore } from "@/stores/auras";
 import Button from "./Button.vue";
 import path from "path";
 import { shell } from "electron";
@@ -39,13 +40,28 @@ export default defineComponent({
   name: "StopMotionResult",
   setup() {
     const { result, gif } = useStopMotionStore();
+    const stash = useStashStore()
     return {
       gif,
-      result
+      result,
+      stash
     };
   },
   components: {
     Button,
+  },
+  mounted() {
+    this.stash.add({
+      slug: "StopMotion " + this.gif.meta.name,
+      name: "StopMotion " + this.gif.meta.name,
+      author: "WeakAuras Companion",
+      wagoVersion: "1",
+      wagoSemver: "1.0.0",
+      auraType: "WeakAuras",
+      addon: "WeakAuras",
+      encoded: this.weakauras_string
+    })
+    console.log(`added to stash ${this.gif.meta.name}`)
   },
   computed: {
     weakauras_string() {
