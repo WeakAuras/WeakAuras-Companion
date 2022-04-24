@@ -160,7 +160,7 @@
         </a>
         <div class="app-update">
           <i
-            v-if="stash.length > 0"
+            v-if="stash.auras.length > 0"
             v-tooltip="{
               strategy: 'fixed',
               theme: 'info-tooltip',
@@ -255,6 +255,7 @@ import * as medias from "@/libs/contacts";
 import sanitize from "@/libs/sanitize";
 import { toc } from "@/libs/toc.ts";
 import { useConfigStore } from "@/stores/config";
+import { useStashStore } from "@/stores/auras";
 import { reactive } from "vue"
 
 luaparse.defaultOptions.comments = false;
@@ -287,7 +288,6 @@ export default defineComponent({
         id: null, // 1h setTimeout id
       },
       medias,
-      stash: [], // list of auras pushed from wago to wow with "SEND TO WEAKAURAS COMPANION APP" button
       updater: {
         status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
         progress: null,
@@ -304,18 +304,15 @@ export default defineComponent({
   },
   setup() {
     const config = useConfigStore();
+    const stash = useStashStore()
     return {
-      config
+      config,
+      stash
     };
   },
   computed: {
     readyForInstallTooltip() {
-      let out = "";
-
-      for (let i=0;i<this.stash.length;i++){
-        out = `${out}<br>${this.stash[i].name}`
-      }
-      return out
+      return this.stash.tohtml()
     },
     accountHash() {
       if (this.versionSelected) {
@@ -441,7 +438,7 @@ export default defineComponent({
     },
   },
   watch: {
-    stash: {
+    "stash.auras": {
       handler() {
         this.writeAddonData();
       },
@@ -526,7 +523,7 @@ export default defineComponent({
   },
   methods: {
     readyForInstallFlush() {
-      this.stash.splice(0)
+      this.stash.$reset()
     },
     checkCompanionUpdates() {
       ipcRenderer.invoke("checkUpdates", this.config.beta);
@@ -689,7 +686,7 @@ export default defineComponent({
       this.config.$reset();
     },
     wagoPushHandler(slug, addon) {
-      if (this.stash.findIndex((aura) => aura.slug === slug) === -1 && addon) {
+      if (this.stash.auras.findIndex((aura) => aura.slug === slug) === -1 && addon) {
         const addonConf = this.getAddonConfig(addon);
 
         if (addonConf) {
@@ -733,7 +730,7 @@ export default defineComponent({
                   })
                   .then((response2) => {
                     aura.encoded = response2.data;
-                    this.stash.push(aura);
+                    this.stash.add(aura);
                   })
                   .catch((err2) => {
                     console.log(JSON.stringify(err2));
@@ -1463,7 +1460,7 @@ export default defineComponent({
           LuaOutput += spacing + "  },\n";
           LuaOutput += spacing + "  stash = {\n";
 
-          this.stash
+          this.stash.auras
             .filter((aura) => aura.auraType === config.addonName)
             .forEach((aura) => {
               LuaOutput +=
