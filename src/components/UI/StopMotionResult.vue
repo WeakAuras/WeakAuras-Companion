@@ -2,27 +2,24 @@
     <div id="StopMotionResult">
       <img :src="preview" class="preview">
       <br />
+      <p class="stuff">
+        {{ $t("app.stopmotion.restartwow" /* StopMotion aura created, restart World of Warcraft */) }}
+      </p>
+      <br />
       <p class="filename">
-        {{ $t('app.stopmotion.file.created' /* File created */) }}: "{{ stopMotionInput }}"
+        <a class="explorer" @click="openDestDir()" :title="$t('app.config.backup.openfolder' /* Open Folder */)">{{ resultFolder }}</a> 
+        <a class="explorer" @click="openDestFile()" :title="$t('app.config.backup.openfile' /* Open File */)">{{ resultFile }}</a>
       </p>
       <p class="stuff">
         <Button class="btn-ok" @click="copyStopMotionInput">
           <i class="material-icons">content_copy</i>
-          <span>{{ $t('app.stopmotion.copy.path.for.stopmotion' /* Copy Path for StopMotion */) }}</span>
+          <span>{{ $t("app.stopmotion.copy.path" /* Copy Path */) }}</span>
         </Button>
         <Button class="btn-ok" @click="copyExportStringInput">
           <i class="material-icons">content_copy</i>
-          <span>{{ $t('app.stopmotion.export.weakauras.string' /* Export WeakAuras String */) }}</span>
+          <span>{{ $t('app.stopmotion.copy.weakauras.string' /* Copy WeakAuras String */) }}</span>
         </Button>
         <input type="hidden" id="copyString" />
-        <Button class="btn-ok" @click="openDestDir()">
-          <i class="material-icons">folder_open</i>
-          <span>{{ $t("app.config.backup.openfolder" /* Open Folder */) }}</span>
-        </Button>
-        <Button class="btn-ok" @click="openDestFile()">
-          <i class="material-icons">folder_open</i>
-          <span>{{ $t("app.config.backup.openfile" /* Open File */) }}</span>
-        </Button>
       </p>
     </div>
 </template>
@@ -80,6 +77,15 @@ export default defineComponent({
         "animations",
         path.parse(this.result.destination).base
       )
+    },
+    resultFolder() {
+      return path.join(
+        "Interface",
+        "animations"
+      ) + path.sep;
+    },
+    resultFile() {
+      return path.parse(this.result.destination).base
     },
     preview() {
       return "data:image/png;base64, " + this.result.preview
@@ -162,5 +168,16 @@ export default defineComponent({
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.explorer {
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 5px;
+  color: rgb(255, 209, 0);
+  font-weight: 500;
+  &:hover {
+    text-decoration-line: underline;
+  }
 }
 </style>
