@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <div class="main-container" :class="{ blurred: reportIsShown }">
+    <div class="main-container" :class="{ blurred: reportIsShown || updateAuraIsShown }">
       <TitleBar></TitleBar>
       <header>
         <div class="app-logo">
@@ -158,21 +158,21 @@
             title="Bug"
           />
         </a>
-        <div class="app-update">
+        <div class="ready-to-install" v-if="stash.auras.length > 0" @click="toggleUpdatedAuraList()" >
+          <span>
+            {{ $t("app.footer.readytoinstall" /* Ready To Install */) }}
+            ({{stash.auras.length}})
+          </span>
           <i
-            v-if="stash.auras.length > 0"
             v-tooltip="{
               strategy: 'fixed',
               theme: 'info-tooltip',
               html: true,
               content: `${this.$t(
                 'app.main.readyForInstall' /* Ready for Install */
-              )}${readyForInstallTooltip}<br>${this.$t(
-                'app.main.readyForInstallWipe' /* Click to Wipe the list */
-              )}`,
+              )}${readyForInstallTooltip}`,
             }"
-            class="material-icons update-available"
-            @click="readyForInstallFlush()"
+            class="material-icons update-available update-auras"
           >
             download
           </i>
@@ -219,6 +219,7 @@
       </footer>
     </div>
     <Report v-if="reportIsShown"></Report>
+    <UpdatedAuraList v-if="updateAuraIsShown" />
   </div>
 </template>
 
@@ -243,6 +244,7 @@ import About from "./UI/About.vue";
 import Help from "./UI/Help.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import Report from "./UI/Report.vue";
+import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
 import Dropdown from "./UI/Dropdown.vue";
 import StopMotion from "./UI/StopMotion.vue";
 import { app } from "@electron/remote";       // =>
@@ -272,6 +274,7 @@ export default defineComponent({
     Help,
     TitleBar,
     Report,
+    UpdatedAuraList,
     Button,
     Dropdown,
     StopMotion,
@@ -281,6 +284,7 @@ export default defineComponent({
       configStep: 0,
       addonSelected: "WeakAuras",
       reportIsShown: false,
+      updateAuraIsShown: false,
       fetching: false, // use for avoid spamming refresh button and show spinner
       sortedColumn: "modified",
       sortDescending: false,
@@ -1353,6 +1357,9 @@ export default defineComponent({
     toggleReport() {
       this.reportIsShown = !this.reportIsShown;
     },
+    toggleUpdatedAuraList() {
+      this.updateAuraIsShown = !this.updateAuraIsShown;
+    },
     async writeAddonData() {
       console.log("writeAddonData");
 
@@ -2012,6 +2019,29 @@ $iconDefaultColor: #51ae42;
   opacity: 1;
 }
 
+.ready-to-install {
+  font-size: 12px;
+  color: #e6e6e6;
+  vertical-align: bottom;
+  line-height: 25px;  
+  float: right;
+  text-shadow: #000000 1px 0;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  padding-right: 15px;
+
+  & span {  
+    cursor: pointer;
+    opacity: 0.8;
+    margin-right: 5px;
+  }
+}
+
+.ready-to-install:hover span {
+  opacity: 1;
+}
+
 .invert {
   filter: invert(100%);
 }
@@ -2092,10 +2122,14 @@ select {
       bottom: 7px;
     }
   }
-  .update-available {
-    animation: pulse 2s infinite;
-    cursor: pointer;
-    color: $iconDefaultColor;
+}
+
+.update-available {
+  animation: pulse 2s infinite;
+  cursor: pointer;
+  color: $iconDefaultColor;
+  &.update-auras {
+    --pulse-color: rgba(102, 255, 0, 1);
   }
 }
 
@@ -2110,13 +2144,13 @@ select {
 
 @keyframes pulse {
   0% {
-    text-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 0 var(--pulse-color, rgba(255, 255, 255, 0.4));
   }
   70% {
-    text-shadow: 0 0 40px rgba(238, 255, 4, 0);
+    text-shadow: 0 0 40px var(--pulse-color, rgba(238, 255, 4, 0));
   }
   100% {
-    text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    text-shadow: 0 0 0 var(--pulse-color, rgba(255, 255, 255, 0));
   }
 }
 </style>
