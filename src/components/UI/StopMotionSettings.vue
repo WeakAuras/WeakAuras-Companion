@@ -100,6 +100,9 @@ export default defineComponent({
     };
   },
   mounted() {
+    if (this.gif.tenor) {
+      this.gif.settings.coalesce = true
+    }
     this.calc()
   },
   watch: {
@@ -165,7 +168,8 @@ export default defineComponent({
               this.gif.settings.wowVersion,
               "Interface",
               "animations"
-            )
+            ),
+            this.gif.tenor ? this.gif.buffer : undefined
           )
           this.result.computing = false;
           this.result.destination = destFile;

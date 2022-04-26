@@ -51,9 +51,11 @@ const getMetaData = async (filename) => {
     return metadata;
 }
 
-const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, destination) => {
+const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, destination, fileBuffer) => {
     try {
-        const fileBuffer = await fs.promises.readFile(filename);
+        if (fileBuffer === undefined) {
+            fileBuffer = await fs.promises.readFile(filename);
+        }
 
         const metadata = await sharp(fileBuffer, { animated: true }).metadata()
 

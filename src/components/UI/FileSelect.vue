@@ -2,8 +2,7 @@
   <div v-if="dragndrop" @dragenter.prevent @dragover.prevent @drop="drop" class="dropzone" @click="handleInputClick">
     <label class="file-select">
       <span>
-        Drag and Drop a GIF animation<br /><br />
-        or click
+        <slot></slot>
       </span>
     </label>
   </div>
@@ -142,19 +141,5 @@ $border-color-separate: #0d0d0d;
 
 .wow-path:empty::before {
   content: "\00a0";
-}
-
-.dropzone {
-  border-color: #2c2c2c;
-  border-style: dotted;
-  border-width: 2px;
-  border-radius: 20px;
-  padding: 100px;
-  cursor: pointer;
-  text-align: center;
-}
-
-span {
-  cursor: pointer;
 }
 </style>

@@ -32,6 +32,8 @@ export const useStopMotionStore = defineStore(
                     preview: "",
                     computing: false,
                 },
+                tenor: false,
+                buffer: null,
                 step: 1
             }
         }
