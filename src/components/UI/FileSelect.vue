@@ -1,5 +1,13 @@
 <template>
-  <label class="file-select" @click="handleInputClick">
+  <div v-if="dragndrop" @dragenter.prevent @dragover.prevent @drop="drop" class="dropzone" @click="handleInputClick">
+    <label class="file-select">
+      <span>
+        Drag and Drop a GIF animation<br /><br />
+        or click
+      </span>
+    </label>
+  </div>
+  <label v-else class="file-select">
     <span class="select-button">
       <p class="configlabel"><slot></slot></p>
       <div class="fakeinput pointer">
@@ -16,7 +24,7 @@ import { defineComponent } from "vue";
 import { dialog, getCurrentWindow } from "@electron/remote";
 
 export default defineComponent({
-  props: ["path", "createDirectory", "defaultPath", "openDirectory", "openFile", "filters"],
+  props: ["path", "createDirectory", "defaultPath", "openDirectory", "openFile", "filters", "dragndrop"],
   data() {
     return {
       dialogOpen: false,
@@ -56,6 +64,12 @@ export default defineComponent({
         });
       }
     },
+    drop(event) {
+      if (this.dragndrop === true) {
+        event.preventDefault();
+        this.$emit("update:path", event.dataTransfer.files[0].path)
+      }
+    }
   },
 });
 </script>
@@ -128,5 +142,17 @@ $border-color-separate: #0d0d0d;
 
 .wow-path:empty::before {
   content: "\00a0";
+}
+
+.dropzone {
+  border-color: gray;
+  border-style: dotted;
+  padding: 100px;
+  cursor: pointer;
+  text-align: center;
+}
+
+span {
+  cursor: pointer;
 }
 </style>

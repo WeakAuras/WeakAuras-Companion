@@ -4,6 +4,7 @@
             <file-select
               :create-directory="false"
               :openFile="true"
+              :dragndrop="true"
               :filters="[{ name: 'Animation', extensions: ['gif'] }]"
               class="fileinput"
               @update:path="update"
@@ -61,7 +62,7 @@ export default defineComponent({
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 150px;
+    margin-top: 80px;
     margin-bottom: 100px;
 }
 </style>
