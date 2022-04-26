@@ -145,8 +145,10 @@ $border-color-separate: #0d0d0d;
 }
 
 .dropzone {
-  border-color: gray;
+  border-color: #2c2c2c;
   border-style: dotted;
+  border-width: 2px;
+  border-radius: 20px;
   padding: 100px;
   cursor: pointer;
   text-align: center;

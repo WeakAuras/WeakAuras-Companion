@@ -61,7 +61,7 @@
       {{ aura.author }}
     </a>
     <div class="upgrade-text">
-      <div class="current-version">
+      <div class="current-version" v-if="aura.semver">
         v<span v-if="aura.semver">{{ aura.semver }}</span>
         <span v-else>{{ aura.version }}</span>
       </div>
