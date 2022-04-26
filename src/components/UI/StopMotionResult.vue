@@ -31,7 +31,7 @@ import { useStashStore } from "@/stores/auras";
 import Button from "./Button.vue";
 import path from "path";
 import { shell } from "electron";
-import { StopMotionTemplate, serialize, deflate, encode } from "@/libs/stopmotion";
+import { StopMotionTemplate, serialize, deflate, encode, GenerateUniqueID } from "@/libs/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
@@ -56,7 +56,7 @@ export default defineComponent({
       wagoSemver: "1.0.0",
       auraType: "WeakAuras",
       addon: "WeakAuras",
-      encoded: this.weakauras_string
+      encoded: this.weakauras_string,
     })
     console.log(`added to stash ${this.gif.meta.name}`)
   },
@@ -66,6 +66,7 @@ export default defineComponent({
       SMtemplate.d.id = "StopMotion " + this.gif.meta.name
       SMtemplate.d.foregroundTexture = this.stopMotionInput
       SMtemplate.d.backgroundTexture = this.stopMotionInput
+      SMtemplate.d.uid = GenerateUniqueID()
       const serialized = serialize(SMtemplate)
       const compressed = deflate(serialized)
       const encoded = encode(compressed);

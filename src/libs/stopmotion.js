@@ -87,6 +87,7 @@ const StopMotionTemplate = {
     hideBackground: true,
     customBackgroundFrames: 0,
     id: "placeholder",
+    uid: "placeholder",
     customForegroundFrameHeight: 0,
     frameStrata: 1,
     width: 128,
@@ -337,4 +338,19 @@ const serialize = function (e) {
   return a.join("");
 };
 
-export { StopMotionTemplate, serialize, deflate, encode };
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+const GenerateUniqueID = function() {
+  let uid = []
+
+  for (let i=0;i<11;i++) {
+    uid.push(mappingTable[getRandomInt(0, 63)])
+  }
+  return uid.join("")
+}
+
+export { StopMotionTemplate, serialize, deflate, encode, GenerateUniqueID };
