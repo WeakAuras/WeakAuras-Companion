@@ -1,5 +1,5 @@
 <template>
-  <div class="discord-picker" style="max-width: max-content" v-click-outside="close">
+  <div v-click-outside="close">
     <div>
       <div
         :class="{ 'invisible': !opened }"
@@ -68,24 +68,19 @@ export default defineComponent({
 }
 
 .discord-picker {
-  div {
-    position: relative; 
-    max-width: max-content;
-    .discord-picker {
-      height: 454px;
-      width: 800px;
-      overflow: hidden; 
-      position: absolute; 
-      right: 0; 
-      top: -1rem; 
-      transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform; 
-      transition-duration: 200ms; 
-      --transform-translate-y: -100%; 
-      border-radius: 0.75rem; 
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      z-index: 1;
-    }
-  }
+
+  max-width: max-content;
+  height: 500px;
+  width: 600px;
+  overflow: hidden; 
+  position: absolute; 
+  left: -150px;
+  bottom: -150px;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform; 
+  transition-duration: 200ms; 
+  transform: translate-y(200px);
+  border-radius: 0.75rem; 
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 768px) {
