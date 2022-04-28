@@ -5,9 +5,9 @@
       notAnUpdate: showAllAuras && aura.version == aura.wagoVersion,
     }"
   >
-    <span v-if="aura.stopmotion" class="companion-icon"/>
+    <span v-if="aura.source === 'WeakAuras Companion'" class="companion-icon"/>
     <a
-      v-else
+      v-if="aura.source === 'Wago'"
       v-tooltip="{
         content: wagoURL(aura.slug),
         html: false,
@@ -50,7 +50,7 @@
       {{ aura.auraTypeDisplay }}
     </span>
     <a
-      v-if="aura.stopmotion"
+      v-if="aura.source !== 'Wago'"
       class="author"
     >
       {{ aura.author }}

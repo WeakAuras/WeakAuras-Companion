@@ -719,6 +719,7 @@ export default defineComponent({
                   auraType: addonConf.addonName,
                   wagoid: wagoData._id,
                   addon: wagoData.addon,
+                  source: "Wago"
                 };
 
                 this.$http
@@ -1176,6 +1177,7 @@ export default defineComponent({
                     this.auras[index].regionType = wagoData.regionType;
                     // eslint-disable-next-line no-underscore-dangle
                     this.auras[index].wagoid = wagoData._id;
+                    this.auras[index].source = "Wago";
 
                     //aura.encoded = null;
 
@@ -1396,6 +1398,7 @@ export default defineComponent({
           "encoded",
           "wagoVersion",
           "wagoSemver",
+          "source"
         ];
 
         addonConfigs.forEach((config) => {
@@ -1492,6 +1495,8 @@ export default defineComponent({
                     spacing + `      versionNote = [=[${sanitized}]=],\n`;
                 }
               }
+
+              LuaOutput += spacing + `      source = "${aura.source}",\n`;
               LuaOutput += spacing + "    },\n";
             });
           LuaOutput += spacing + "  },\n";
