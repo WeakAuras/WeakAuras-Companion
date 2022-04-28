@@ -2,6 +2,7 @@
   <div class="gifpicker">
     <header>
       <div>
+        <span v-if="search !== ''" class="material-icons arrow_back" @click="search=''">arrow_back</span>
         <div>
           <input v-model="search" placeholder="Search Tenor" />
           <span class="material-icons">search</span>
@@ -48,7 +49,7 @@ export default {
   },
   data () {
     return {
-      search: null,
+      search: "",
       results: [],
       tags: []
     }
@@ -90,8 +91,6 @@ $border-blue: #5865f2;
 
 .gifpicker {
   height: calc(100% - 9px);
-  position: relative;
-  z-index: 1000;
 }
 
 header {
@@ -201,5 +200,9 @@ header {
       }
     }
   }
+}
+.arrow_back {
+  //all: unset;
+  margin-right: 0.25em;
 }
 </style>
