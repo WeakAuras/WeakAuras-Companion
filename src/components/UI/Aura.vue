@@ -5,7 +5,9 @@
       notAnUpdate: showAllAuras && aura.version == aura.wagoVersion,
     }"
   >
+    <span v-if="aura.stopmotion" class="companion-icon"/>
     <a
+      v-else
       v-tooltip="{
         content: wagoURL(aura.slug),
         html: false,
@@ -16,6 +18,7 @@
       target="_blank"
       :href="wagoURL(aura.slug)"
     />
+    
     <div class="aura-name-container">
       <span
         v-tooltip="{
@@ -47,6 +50,13 @@
       {{ aura.auraTypeDisplay }}
     </span>
     <a
+      v-if="aura.stopmotion"
+      class="author"
+    >
+      {{ aura.author }}
+    </a>
+    <a
+      v-else
       v-tooltip="{
         content: wagoAuthorURL(aura.author),
         popperClass: ['small'],
@@ -200,6 +210,17 @@ export default defineComponent({
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.3);
   content: url("~@/assets/wago_plain.png");
+}
+
+.companion-icon {
+  height: 9px;
+  width: 27px;
+  margin: auto;
+  vertical-align: bottom;
+  display: inline-block;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  content: url("~@/assets/weakauras.png");
 }
 
 .author {

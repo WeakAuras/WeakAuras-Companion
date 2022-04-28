@@ -56,6 +56,7 @@ export default defineComponent({
       wagoSemver: "1.0.0",
       auraType: "WeakAuras",
       addon: "WeakAuras",
+      stopmotion: true,
       encoded: this.weakauras_string,
     })
     console.log(`added to stash ${this.gif.meta.name}`)
