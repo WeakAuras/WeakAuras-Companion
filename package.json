@@ -1,6 +1,6 @@
 {
   "name": "weakauras-companion",
-  "version": "4.0.0-beta2",
+  "version": "4.0.0-beta3",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
   "scripts": {
@@ -36,11 +36,11 @@
     "pinia-plugin-persistedstate-2": "^1.0.0",
     "regedit": "^5.0.0",
     "sharp": "^0.30.4",
-    "stylelint": "^14.7.1",
+    "stylelint": "^14.8.0",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-scss": "^4.2.0",
     "tail": "^2.2.4",
-    "tga": "^1.0.4",
+    "tga": "^1.0.5",
     "vue": "^3.2.31",
     "vue-electron": "^1.0.6",
     "vue-i18n": "^9.2.0-beta.35"
@@ -61,7 +61,7 @@
     "@vue/eslint-config-typescript": "^10.0.0",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
-    "electron": "^18.0.4",
+    "electron": "^18.1.0",
     "electron-builder": "^23.0.6",
     "electron-debug": "^3.2.0",
     "electron-devtools-installer": "^3.2.0",
