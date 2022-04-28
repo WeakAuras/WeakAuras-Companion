@@ -2,7 +2,11 @@
   <div class="gifpicker">
     <header>
       <div>
-        <span v-if="search !== ''" class="material-icons arrow_back" @click="search=''">arrow_back</span>
+        <span
+          :class="{invisible: search === ''}"
+          class="material-icons arrow_back"
+          @click="search=''"
+        >arrow_back</span>
         <div>
           <input v-model="search" placeholder="Search Tenor" />
           <span class="material-icons">search</span>
@@ -103,6 +107,7 @@ header {
   width: 100%;
   height: 60px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
+  -webkit-app-region: no-drag;
   div {
     display: flex; 
     justify-content: space-between; 
@@ -138,7 +143,12 @@ header {
     }
   }
 }
-
+span {
+  &.invisible {
+    all: unset;
+    opacity: 0;
+  }
+}
 .gifpicker_container {
   display: flex;
   height: calc(100% - 50px);
