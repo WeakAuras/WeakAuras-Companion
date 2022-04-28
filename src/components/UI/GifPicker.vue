@@ -176,10 +176,11 @@ header {
           align-items: center; 
           height: 7rem; 
           border-radius: 0.5rem; 
-          border-width: 2px; 
+          border-width: 1px; 
           border-color: transparent;
           &:hover {
-            border-color: $border-blue; // this is not working :'(
+            border-color: $border-blue;
+            border-style: solid;
           }
           cursor: pointer;
           .searchterm {
