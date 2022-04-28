@@ -90,7 +90,6 @@ export default defineComponent({
       .then(data => this[key] = data[key])
     },
     send (result) {
-      console.log(JSON.stringify(result))
       const gif = result.media[0];
       const title = result.content_description
       const id = result.id;

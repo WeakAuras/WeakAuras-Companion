@@ -46,15 +46,13 @@ export default defineComponent({
       if (this.opened) {
         this.opened = false
       }
-      console.log(`close() opened: ${this.opened}`)
     },
     send (url, title) {
-      console.log(`send() ${url}`)
+      //console.log(`send() ${url}`)
       this.$emit("gif", url, title)
     },
     open () {
       this.opened = !this.opened
-      console.log(`open() opened: ${this.opened}`)
     }
   }
 })
