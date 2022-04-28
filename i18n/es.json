@@ -158,5 +158,10 @@
   "app.wowpath.account": "Cuenta",
   "app.wowpath.version": "Versión",
   "app.wowversion.account": "Cuenta",
-  "app.wowversion.version": "Versión"
+  "app.wowversion.version": "Versión",
+  "gifpicker.searchtenor": "Search Tenor",
+  "stopmotion.select.computer": "Choose one on your Computer",
+  "stopmotion.select.dropagif": "Drop a GIF",
+  "stopmotion.select.or": "or",
+  "stopmotion.select.tenor": "Choose one from Tenor"
 }

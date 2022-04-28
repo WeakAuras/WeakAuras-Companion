@@ -158,5 +158,10 @@
   "app.wowpath.account": "账号",
   "app.wowpath.version": "版本",
   "app.wowversion.account": "账号",
-  "app.wowversion.version": "版本"
+  "app.wowversion.version": "版本",
+  "gifpicker.searchtenor": "Search Tenor",
+  "stopmotion.select.computer": "Choose one on your Computer",
+  "stopmotion.select.dropagif": "Drop a GIF",
+  "stopmotion.select.or": "or",
+  "stopmotion.select.tenor": "Choose one from Tenor"
 }

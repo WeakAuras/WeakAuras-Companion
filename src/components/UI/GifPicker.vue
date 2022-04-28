@@ -8,7 +8,7 @@
           @click="search=''"
         >arrow_back</span>
         <div>
-          <input v-model="search" placeholder="Search Tenor" />
+          <input v-model="search" :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */ )" />
           <span class="material-icons">search</span>
         </div>
       </div>
@@ -22,7 +22,7 @@
               :key="r"
               class="grid_images"
               :style="`background-image: url(${result.media[0].tinygif.url})`"
-              @click="send(result.media[0], result.content_description)"
+              @click="send(result)"
             />
           </div>
           <div v-else-if="tags && tags.length" class="grid">
@@ -44,12 +44,20 @@
 </template>
 
 <script>
-export default {
+import { useConfigStore } from "@/stores/config";
+import { defineComponent, ref } from "vue";
+export default defineComponent({
   props: {
     apiKey: {
       type: String,
       required: true
     },
+  },
+  setup() {
+    const config = useConfigStore();
+    return {
+      locale: ref(config.lang),
+    };
   },
   data () {
     return {
@@ -59,7 +67,7 @@ export default {
     }
   },
   mounted () {
-    fetch(`https://g.tenor.com/v1/categories?key=${this.apiKey}`)
+    fetch(`https://g.tenor.com/v1/categories?key=${this.apiKey}&locale=${this.locale}`)
     .then(res => res.json())
     .then(({ tags }) => this.tags = tags)
   },
@@ -81,12 +89,17 @@ export default {
       .then(res => res.json())
       .then(data => this[key] = data[key])
     },
-    send (url, title) {
-      this.$emit("send", { url: this.renderHugeGif(url), send: true, type: "gif", title: title })
+    send (result) {
+      console.log(JSON.stringify(result))
+      const gif = result.media[0];
+      const title = result.content_description
+      const id = result.id;
+      fetch(`https://g.tenor.com/v1/registershare?key=${this.apiKey}&locale=${this.locale}&id=${id}`)
+      this.$emit("send", { url: this.renderHugeGif(gif), send: true, type: "gif", title: title })
       this.search = null
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 $dark-bg: #212224;

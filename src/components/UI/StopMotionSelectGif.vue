@@ -9,17 +9,17 @@
               class="fileinput"
               @update:path="update"
             >
-              Drop a GIF<br /><br />
-              <i>or</i><br /><br />
-              <Button class="btn-ok">Choose one on your Computer</Button><br /><br />
+              {{ $t('stopmotion.select.dropagif' /* Drop a GIF */) }}<br /><br />
+              <i>{{ $t('stopmotion.select.or' /* or */) }}</i><br /><br />
+              <Button class="btn-ok">{{ $t('stopmotion.select.computer' /* Choose one on your Computer */) }}</Button><br /><br />
             </file-select><br/>
             <div class="tenorblock">
-              <i>or</i><br /><br />
+              <i>{{ $t('stopmotion.select.or' /* or */) }}</i><br /><br />
               <discord-picker
                 @gif="setTenor"
                 :apiKey="apiKey"
               >
-                <Button class="btn-ok">Choose one from Tenor</Button>
+                <Button class="btn-ok">{{ $t('stopmotion.select.tenor' /* Choose one from Tenor */) }}</Button>
               </discord-picker>
             </div>
         </div>

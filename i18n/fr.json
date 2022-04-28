@@ -106,7 +106,7 @@
   "app.main.stringReceiveError-1": "Problème lors de la réception des données de {aura}",
   "app.main.stringReceiveError-2": "http code: {status}",
   "app.main.updatedownload": "Mise à jour du Client téléchargée.",
-  "app.main.updateerror": "Error pendant la mise à jour. {arg}",
+  "app.main.updateerror": "Erreur pendant la mise à jour. {arg}",
   "app.main.updatefound": "Mise à jour de Companion disponible",
   "app.menu.about": "A propos",
   "app.menu.help": "Aide",
@@ -136,7 +136,7 @@
   "app.stopmotion.output.information": "Fichier généré",
   "app.stopmotion.output.settings": "Paramètres",
   "app.stopmotion.output.size": "Taille",
-  "app.stopmotion.restartwow": "StopMotion aura created, restart World of Warcraft",
+  "app.stopmotion.restartwow": "Aura StopMotion créée, relancez World of Warcraft",
   "app.stopmotion.row.columns": "Rangées x Colonnes",
   "app.stopmotion.scaling": "Echelle",
   "app.stopmotion.selectgifanimation": "Selectioner l'animation GIF",
@@ -158,5 +158,10 @@
   "app.wowpath.account": "Compte",
   "app.wowpath.version": "Version",
   "app.wowversion.account": "Compte",
-  "app.wowversion.version": "Version"
+  "app.wowversion.version": "Version",
+  "gifpicker.searchtenor": "Cherchez sur Tenor",
+  "stopmotion.select.computer": "Choisir sur son Ordinateur",
+  "stopmotion.select.dropagif": "Drop a GIF",
+  "stopmotion.select.or": "ou",
+  "stopmotion.select.tenor": "En choisir un sur Tenor"
 }
