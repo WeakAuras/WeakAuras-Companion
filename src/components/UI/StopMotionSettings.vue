@@ -103,6 +103,8 @@ export default defineComponent({
     if (this.gif.tenor) {
       this.gif.settings.coalesce = true
     }
+
+    this.auto_scaling()
     this.calc()
   },
   watch: {
@@ -114,6 +116,27 @@ export default defineComponent({
     },
   },
   methods: {
+    auto_scaling() {
+      try {
+        for (let scaling=1;scaling>0;scaling=scaling-0.01) {
+          const { size } = gif2tga.calculateFileSize(
+            this.gif.meta.width,
+            this.gif.meta.height,
+            this.gif.meta.frames,
+            scaling,
+            this.gif.settings.skips,
+            this.gif.settings.skips_value
+          )
+
+          if (size / 1024 <= 16) {
+            this.gif.settings.scaling = scaling
+            break;
+          }
+        }
+      } catch(e) {
+        console.log(JSON.stringify(e))
+      }
+    },
     calc() {
       try {
         let info = gif2tga.calculateFileSize(
