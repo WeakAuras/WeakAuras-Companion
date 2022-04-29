@@ -226,5 +226,6 @@ span {
 .arrow_back {
   //all: unset;
   margin-right: 0.25em;
+  cursor: pointer;
 }
 </style>
