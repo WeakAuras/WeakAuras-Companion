@@ -122,6 +122,9 @@ export default defineComponent({
       },
       deep: true,
     },
+    "gif.settings.wowVersion"() {
+      this.config.wowpath.version = this.gif.settings.wowVersion
+    }
   },
   methods: {
     auto_scaling() {
