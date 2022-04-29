@@ -23,7 +23,7 @@
     "@vue/compat": "^3.2.32",
     "archiver": "^5.3.1",
     "auto-launch": "^5.0.5",
-    "axios": "^0.26.1",
+    "axios": "^0.27.2",
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.4.6",
     "electron-store": "^8.0.1",
