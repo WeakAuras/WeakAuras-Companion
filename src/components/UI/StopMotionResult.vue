@@ -2,24 +2,24 @@
     <div id="StopMotionResult">
       <img :src="preview" class="preview">
       <br />
-      <p class="stuff">
-        {{ $t("app.stopmotion.restartwow" /* StopMotion aura created, restart World of Warcraft */) }}
+      <p class="center-text">
+        {{ $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */) }} 
+        <span
+          class="material-icons minihelp"
+          v-tooltip="{
+            content: rfiTooltip,
+            html: true,
+            strategy: 'fixed',
+            theme: 'info-tooltip'
+          }"
+        >help</span>
+        <br/><br/>
+        <span class="glow">{{ $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */) }}</span>
       </p>
       <br />
       <p class="filename">
         <a class="explorer" @click="openDestDir()" :title="$t('app.config.backup.openfolder' /* Open Folder */)">{{ resultFolder }}</a> 
         <a class="explorer" @click="openDestFile()" :title="$t('app.config.backup.openfile' /* Open File */)">{{ resultFile }}</a>
-      </p>
-      <p class="stuff">
-        <Button class="btn-ok" @click="copyStopMotionInput">
-          <i class="material-icons">content_copy</i>
-          <span>{{ $t("app.stopmotion.copy.path" /* Copy Path */) }}</span>
-        </Button>
-        <Button class="btn-ok" @click="copyExportStringInput">
-          <i class="material-icons">content_copy</i>
-          <span>{{ $t('app.stopmotion.copy.weakauras.string' /* Copy WeakAuras String */) }}</span>
-        </Button>
-        <input type="hidden" id="copyString" />
       </p>
     </div>
 </template>
@@ -28,7 +28,6 @@
 import { defineComponent } from "vue";
 import { useStopMotionStore } from "@/stores/stopmotion";
 import { useStashStore } from "@/stores/auras";
-import Button from "./Button.vue";
 import path from "path";
 import { shell } from "electron";
 import { StopMotionTemplate, serialize, deflate, encode, GenerateUniqueID } from "@/libs/stopmotion";
@@ -43,9 +42,6 @@ export default defineComponent({
       result,
       stash
     };
-  },
-  components: {
-    Button,
   },
   mounted() {
     this.stash.add({
@@ -100,40 +96,8 @@ export default defineComponent({
     openDestFile() {
       shell.openPath(this.result.destination);
     },
-    copyStopMotionInput() {
-      let copy = document.querySelector("#copyString")
-      copy.value = this.stopMotionInput
-      copy.setAttribute("type", "text")
-      copy.select()
-
-      try {
-        var successful = document.execCommand("copy");
-        var msg = successful ? "successful" : "unsuccessful";
-        console.log("copy " + msg);
-      } catch (err) {
-        console.log("unable to copy");
-      }
-
-      /* unselect the range */
-      copy.setAttribute("type", "hidden")
-      window.getSelection().removeAllRanges()
-    },
-    async copyExportStringInput() {
-      // copy to clipboard
-      let copy = document.querySelector("#copyString")
-      copy.value = this.weakauras_string;
-      copy.setAttribute("type", "text")
-      copy.select()
-
-      try {
-        var successful = document.execCommand("copy");
-        var msg = successful ? "successful" : "unsuccessful";
-        console.log("copy " + msg);
-      } catch (err) {
-        console.log("unable to copy");
-      }
-      copy.setAttribute("type", "hidden")
-      window.getSelection().removeAllRanges()
+    rfiTooltip() {
+      return `<img width="300px" src="${require("@/assets/ready-for-install-example.png")}" />`
     }
   }
 });
@@ -149,6 +113,10 @@ export default defineComponent({
   }
 }
 
+.minihelp {
+  font-size: 90%;
+}
+
 .btn-ok > * {
     cursor: pointer;
 }
@@ -159,11 +127,19 @@ export default defineComponent({
   height: 300px;
 }
 
-.stuff {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+.center-text {
+  text-align: center;
+}
+
+.glow {
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from{text-shadow:0px 0px 5px #fff,0px 0px 5px #614ad3;}
+  to{text-shadow:0px 0px 20px #fff,0px 0px 20px #614ad3;}
 }
 
 .filename {

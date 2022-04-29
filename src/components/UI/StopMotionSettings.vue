@@ -1,6 +1,6 @@
 <template>
   <div id="StopMotionSettings">
-    <div class="config-row">
+    <div v-if="!gif.tenor" class="config-row">
       <div class="config-row-item">
         <div class="title">
           {{ $t('app.stopmotion.fileinformation' /* File Information */) }}
@@ -58,6 +58,14 @@
         </div>
       </div>
     </div>
+
+      <div v-if="gif.tenor" class="setting-destination-dropdown">
+          <Dropdown
+            v-model:value="gif.settings.wowVersion"
+            :options="wowVersions"
+            :label="$t('app.wowpath.version' /* Version */)"
+          />
+      </div>
     <div id="mid">
       <Button v-if="result.size / 1024 <= 16" :class="{ spin: result.computing }" @click="generate()" type="refresh">
         <i class="material-icons sync">sync</i>
@@ -211,6 +219,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+
+.setting-destination-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+}
 
 #mid {
   text-align: center;

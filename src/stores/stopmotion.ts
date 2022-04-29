@@ -19,7 +19,9 @@ export const useStopMotionStore = defineStore(
                         skips_value: 2,
                         wowVersion: "",
                     },
-                    path: ""
+                    path: "",
+                    tenor: false,
+                    buffer: null
                 },
                 result: {
                     rows: 0,
@@ -32,8 +34,6 @@ export const useStopMotionStore = defineStore(
                     preview: "",
                     computing: false,
                 },
-                tenor: false,
-                buffer: null,
                 step: 1
             }
         }

@@ -4,23 +4,21 @@
       <div class="title">{{ $t('app.stopmotion.selectgifconverter' /* StopMotion GIF Converter */) }}</div>
       <br/>
       <div class="bts-top-right">
-        <Button class="btn-ok btn-title" v-if="step == 4" @click="setStep(2)">
+        <Button class="btn-ok btn-title" v-if="step == 3" @click="setStep(1)">
         <span class="material-icons">first_page</span>
         </Button>
-        <Button class="btn-ok btn-title" v-if="step > 2" @click="prev()">
+        <Button class="btn-ok btn-title" v-if="step > 1" @click="prev()">
         <span class="material-icons">keyboard_backspace</span>
         </Button>
       </div>
     </div>
-    <StopMotionWelcome v-if="step == 1" @next="next()"/>
-    <StopMotionSelectGif v-if="step == 2" @next="next()"/>
-    <StopMotionSettings v-if="step == 3" :wowVersions="wowVersions" @next="next()"/>
-    <StopMotionResult v-if="step == 4"/>
+    <StopMotionSelectGif v-if="step == 1" @next="next()"/>
+    <StopMotionSettings v-if="step == 2" :wowVersions="wowVersions" @next="next()"/>
+    <StopMotionResult v-if="step == 3"/>
   </div>
 </template>
 
 <script>
-import StopMotionWelcome from "./StopMotionWelcome.vue";
 import StopMotionSelectGif from "./StopMotionSelectGif.vue"
 import StopMotionSettings from "./StopMotionSettings.vue";
 import StopMotionResult from "./StopMotionResult.vue"
@@ -30,7 +28,6 @@ import Button from "./Button.vue";
 export default {
   name: "StopMotion",
   components: {
-    StopMotionWelcome,
     StopMotionSelectGif,
     StopMotionSettings,
     StopMotionResult,
