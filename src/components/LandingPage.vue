@@ -1499,6 +1499,30 @@ export default defineComponent({
               LuaOutput += spacing + `      source = "${aura.source}",\n`;
               LuaOutput += spacing + "    },\n";
             });
+
+          LuaOutput += spacing + "  },\n";
+          LuaOutput += spacing + "  stopmotionFiles = {\n";
+          const stopmotionFilesPath = path.join(
+            this.config.wowpath.value,
+            this.config.wowpath.version,
+            "Interface",
+            "animations"
+          )
+
+          if (fs.existsSync(stopmotionFilesPath)) {
+            const regex = new RegExp(/^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/);
+
+            fs.readdirSync(stopmotionFilesPath)
+            .filter((v) => v && v.match(regex))
+            .map((v) => ({
+              filename: v,
+              title: v.match(regex)[1],
+            }))
+            .forEach((file) => {
+              LuaOutput += spacing + `    [=[${file.filename}]=] = [=[${file.title}]=],\n`;
+            })
+          }
+
           LuaOutput += spacing + "  },\n";
           LuaOutput += "  },\n";
         });
