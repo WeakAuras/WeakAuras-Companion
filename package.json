@@ -36,7 +36,7 @@
     "pinia-plugin-persistedstate-2": "^1.0.0",
     "regedit": "^5.0.0",
     "sharp": "^0.30.4",
-    "stylelint": "^14.7.1",
+    "stylelint": "^14.8.1",
     "stylelint-config-standard": "^25.0.0",
     "stylelint-scss": "^4.2.0",
     "tail": "^2.2.4",
