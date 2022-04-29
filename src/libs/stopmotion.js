@@ -119,7 +119,7 @@ const StopMotionTemplate = {
   },
   m: "d",
   s: "WA-Companion",
-  v: 92000
+  v: 1421
 };
 
 
