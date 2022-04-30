@@ -1519,7 +1519,7 @@ export default defineComponent({
               title: v.match(regex)[1],
             }))
             .forEach((file) => {
-              LuaOutput += spacing + `    [=[${file.filename}]=] = [=[${file.title}]=],\n`;
+              LuaOutput += spacing + `    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
             })
           }
 
@@ -1589,6 +1589,9 @@ loadedFrame:SetScript("OnEvent", function(_, _, addonName)
           if not emptyStash then
             WeakAuras.prettyPrint(WeakAuras.L["You have new auras ready to be installed!"])
           end
+        end
+        for fileName, name in pairs(WeakAurasData.stopmotionFiles) do
+          WeakAuras.StopMotion.texture_types.Basic["Interface\\\\animations\\\\" .. fileName] = name
         end
       end
     end
