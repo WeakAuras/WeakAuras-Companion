@@ -56,6 +56,9 @@ module.exports = {
           target: ["AppImage", "snap", "deb", "rpm"],
           icon: "public/bigicon.png",
           category: "Utility",
+          asarUnpack: [
+            "**/node_modules/sharp/**"
+          ]
         },
         protocols: [
           {
