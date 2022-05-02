@@ -72,6 +72,8 @@ export default defineComponent({
     stopMotionInput() {
       return path.join(
         "Interface",
+        "AddOns",
+        "WeakAurasCompanion",
         "animations",
         path.parse(this.result.destination).base
       )
@@ -79,7 +81,9 @@ export default defineComponent({
     resultFolder() {
       return path.join(
         "Interface",
-        "animations"
+        "AddOns",
+        "WeakAurasCompanion",
+        "animations",
       ) + path.sep;
     },
     resultFile() {

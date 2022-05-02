@@ -1503,9 +1503,7 @@ export default defineComponent({
           LuaOutput += spacing + "  },\n";
           LuaOutput += spacing + "  stopmotionFiles = {\n";
           const stopmotionFilesPath = path.join(
-            this.config.wowpath.value,
-            this.config.wowpath.version,
-            "Interface",
+            AddonFolder,
             "animations"
           )
 
@@ -1593,7 +1591,7 @@ loadedFrame:SetScript("OnEvent", function(_, _, addonName)
         WeakAuras.StopMotion.texture_types["WeakAuras Companion"] = WeakAuras.StopMotion.texture_types["WeakAuras Companion"] or {}
         local CompanionTextures = WeakAuras.StopMotion.texture_types["WeakAuras Companion"]
         for fileName, name in pairs(WeakAurasData.stopmotionFiles) do
-          CompanionTextures["Interface\\\\animations\\\\" .. fileName] = name
+          CompanionTextures["Interface\\\\AddOns\\\\WeakAurasCompanion\\\\animations\\\\" .. fileName] = name
         end
       end
     end

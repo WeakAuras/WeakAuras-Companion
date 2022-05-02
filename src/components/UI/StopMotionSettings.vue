@@ -174,6 +174,8 @@ export default defineComponent({
           this.config.wowpath.value,
           this.gif.settings.wowVersion,
           "Interface",
+          "AddOns",
+          "WeakAurasCompanion",
           "animations",
           filename
         )
@@ -201,7 +203,9 @@ export default defineComponent({
               this.config.wowpath.value,
               this.gif.settings.wowVersion,
               "Interface",
-              "animations"
+              "AddOns",
+              "WeakAurasCompanion",
+              "animations",
             ),
             this.gif.tenor ? this.gif.buffer : undefined
           )
