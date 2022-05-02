@@ -64,6 +64,12 @@ export default defineComponent({
       SMtemplate.d.foregroundTexture = this.stopMotionInput
       SMtemplate.d.backgroundTexture = this.stopMotionInput
       SMtemplate.d.uid = GenerateUniqueID()
+
+      if (this.gif.tenor === true) {
+        SMtemplate.d.tenorID = this.gif.tenorID
+      } else {
+        delete SMtemplate.d.tenorID
+      }
       const serialized = serialize(SMtemplate)
       const compressed = deflate(serialized)
       const encoded = encode(compressed);

@@ -94,7 +94,7 @@ export default defineComponent({
       const title = result.content_description
       const id = result.id;
       fetch(`https://g.tenor.com/v1/registershare?key=${this.apiKey}&locale=${this.locale}&id=${id}`)
-      this.$emit("send", { url: this.renderHugeGif(gif), send: true, type: "gif", title: title })
+      this.$emit("send", { url: this.renderHugeGif(gif), send: true, type: "gif", title: title, tenorID: id })
       this.search = null
     }
   }

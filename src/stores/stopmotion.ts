@@ -21,6 +21,7 @@ export const useStopMotionStore = defineStore(
                     },
                     path: "",
                     tenor: false,
+                    tenorID: "",
                     buffer: null
                 },
                 result: {

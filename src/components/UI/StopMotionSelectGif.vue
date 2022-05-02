@@ -55,7 +55,7 @@ export default defineComponent({
     }
   },
   methods: {
-    async setTenor(url, title) {
+    async setTenor(url, title, tenorID) {
       console.log(url)
 
       try {
@@ -69,6 +69,7 @@ export default defineComponent({
         this.gif.meta.name = title;
         this.gif.path = title
         this.gif.tenor = true
+        this.gif.tenorID = tenorID
         this.gif.buffer = buffer
         console.log(`title: ${title}`)
         this.$emit("next")

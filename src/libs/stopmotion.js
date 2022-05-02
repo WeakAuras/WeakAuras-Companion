@@ -7,6 +7,7 @@ import zlib from "zlib";
 
 const StopMotionTemplate = {
   d: {
+    tenorID: undefined,
     xOffset: 0,
     yOffset: 0,
     foregroundColor: [1, 1, 1, 1],

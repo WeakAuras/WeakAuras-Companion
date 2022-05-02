@@ -5,7 +5,7 @@
         :class="{ 'invisible': !opened }"
         class="discord-picker"
       >
-        <gif-picker v-if="opened" :api-key="apiKey" @send="({ url, title }) => this.send(url, title)" />
+        <gif-picker v-if="opened" :api-key="apiKey" @send="({ url, title, tenorID }) => this.send(url, title, tenorID)" />
       </div>
       <div class="mt4">
         <div>
@@ -47,9 +47,9 @@ export default defineComponent({
         this.opened = false
       }
     },
-    send (url, title) {
+    send (url, title, tenorID) {
       //console.log(`send() ${url}`)
-      this.$emit("gif", url, title)
+      this.$emit("gif", url, title, tenorID)
     },
     open () {
       this.opened = !this.opened
