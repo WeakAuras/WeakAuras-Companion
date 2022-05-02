@@ -16,7 +16,7 @@
     <div class="gifpicker_container">
       <div>
         <div>
-          <div v-if="search !== '' && results && results.length" class="grid">
+          <div v-if="search !== '' && results && results.length" class="grid" v-scroll="loadMore">
             <div
               v-for="(result, r) in results"
               :key="r"
@@ -63,7 +63,20 @@ export default defineComponent({
     return {
       search: "",
       results: [],
-      tags: []
+      tags: [],
+      next: null
+    }
+  },
+  directives: {
+    scroll: {
+      created: (el, binding) => {
+        let f = function() {
+          if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
+            binding.value();
+          }
+        }
+        el.addEventListener("scroll", f);
+      }
     }
   },
   mounted () {
@@ -75,6 +88,10 @@ export default defineComponent({
     search: "onSearch",
   },
   methods: {
+    loadMore() {
+      const pos = this.next || 1
+      this.get(`search?q=${this.search}&limit=32&pos=${pos}`, "results", true)
+    },
     onSearch (key) {
       this.get(`search?q=${key}&limit=32`, "results")
     },
@@ -84,10 +101,19 @@ export default defineComponent({
     renderHugeGif ({ mediumgif }) {
       return mediumgif.url
     },
-    get (query, key) {
+    get (query, key, additive) {
       fetch(`https://g.tenor.com/v1/${query}&key=${this.apiKey}`)
       .then(res => res.json())
-      .then(data => this[key] = data[key])
+      .then(data => {
+        if (additive) {
+          data[key].forEach(element => {
+            this[key].push(element)
+          });
+        } else {
+          this[key] = data[key]
+        }
+        this.next = data.next
+      })
     },
     send (result) {
       const gif = result.media[0];
