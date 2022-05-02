@@ -6,7 +6,7 @@
       </span>
     </label>
   </div>
-  <label v-else class="file-select">
+  <label v-else class="file-select" @click="handleInputClick">
     <span class="select-button">
       <p class="configlabel"><slot></slot></p>
       <div class="fakeinput pointer">
