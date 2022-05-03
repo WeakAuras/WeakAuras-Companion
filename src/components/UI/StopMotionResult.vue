@@ -54,7 +54,7 @@ export default defineComponent({
       addon: "WeakAuras",
       source: "WeakAuras Companion",
       encoded: this.weakauras_string,
-      logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64.tga"
+      logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga"
     })
     console.log(`added to stash ${this.gif.meta.name}`)
   },
