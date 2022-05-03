@@ -577,7 +577,7 @@ export default defineComponent({
           fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
           return WeakAurasSavedVariable;
         } catch (e) {
-          console.log(`Error testing WeakAuras SV access with version: ${version} account: ${account}\n${JSON.stringify(e)}`)
+          console.log(`Error testing WeakAuras SV access\n${JSON.stringify(e)}`)
           return false;
         }
       }
@@ -613,7 +613,7 @@ export default defineComponent({
           fs.accessSync(PlaterSavedVariable, fs.constants.F_OK);
           return PlaterSavedVariable;
         } catch (e) {
-          console.log(`Error testing Plater SV access with version: ${version} account: ${account}\n${JSON.stringify(e)}`)
+          console.log(`Error testing Plater SV access\n${JSON.stringify(e)}`)
           return false;
         }
       }
@@ -1400,7 +1400,8 @@ export default defineComponent({
           "encoded",
           "wagoVersion",
           "wagoSemver",
-          "source"
+          "source",
+          "logo"
         ];
 
         addonConfigs.forEach((config) => {
@@ -1422,8 +1423,10 @@ export default defineComponent({
                 spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
               fields.forEach((field) => {
-                LuaSlugs +=
-                  spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+                if (aura[field]) {
+                  LuaSlugs +=
+                    spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+                }
               });
 
               if (typeof aura.changelog !== "undefined") {
@@ -1479,8 +1482,10 @@ export default defineComponent({
                 spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
               fields.forEach((field) => {
-                LuaOutput +=
-                  spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+                if (aura[field]) {
+                  LuaOutput +=
+                    spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+                }
               });
 
               if (typeof aura.changelog !== "undefined") {
