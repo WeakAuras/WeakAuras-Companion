@@ -59,6 +59,7 @@ export default defineComponent({
       console.log(url)
 
       try {
+        title = title.replace(" GIF", "");
         const res = await fetch(url);
         const imageBuffer = await res.arrayBuffer();
         const buffer = Buffer.from(imageBuffer, "base64");
