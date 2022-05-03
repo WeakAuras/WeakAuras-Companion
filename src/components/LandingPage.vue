@@ -577,6 +577,7 @@ export default defineComponent({
           fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
           return WeakAurasSavedVariable;
         } catch (e) {
+          console.log(`Error testing WeakAuras SV access with version: ${version} account: ${account}\n${JSON.stringify(e)}`)
           return false;
         }
       }
@@ -612,6 +613,7 @@ export default defineComponent({
           fs.accessSync(PlaterSavedVariable, fs.constants.F_OK);
           return PlaterSavedVariable;
         } catch (e) {
+          console.log(`Error testing Plater SV access with version: ${version} account: ${account}\n${JSON.stringify(e)}`)
           return false;
         }
       }

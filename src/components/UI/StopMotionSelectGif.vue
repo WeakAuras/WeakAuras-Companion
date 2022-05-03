@@ -71,7 +71,6 @@ export default defineComponent({
         this.gif.tenor = true
         this.gif.tenorID = tenorID
         this.gif.buffer = buffer
-        console.log(`title: ${title}`)
         this.$emit("next")
       } catch (e) {
         console.log(JSON.stringify(e));
