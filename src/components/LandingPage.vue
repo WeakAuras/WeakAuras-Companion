@@ -1401,7 +1401,7 @@ export default defineComponent({
           "wagoVersion",
           "wagoSemver",
           "source",
-          "logo"
+          // "logo" -- keep that for a future WeakAuras release
         ];
 
         addonConfigs.forEach((config) => {
