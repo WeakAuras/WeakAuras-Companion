@@ -577,7 +577,7 @@ export default defineComponent({
           fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
           return WeakAurasSavedVariable;
         } catch (e) {
-          console.log(`Error testing WeakAuras SV access\n${JSON.stringify(e)}`)
+          // console.log(`Error testing WeakAuras SV access\n${JSON.stringify(e)}`)
           return false;
         }
       }
