@@ -1392,7 +1392,7 @@ export default defineComponent({
         }
         // Make data.lua
         let LuaOutput = "-- file generated automatically\n";
-        LuaOutput += "WeakAurasCompanion = {\n";
+        LuaOutput += "WeakAurasCompanionData = {\n";
         let addonDepts = "";
         const fields = [
           "name",
@@ -1566,9 +1566,10 @@ loadedFrame:SetScript("OnEvent", function(_, _, addonName)
   if addonName == "WeakAurasCompanion" then
     timestamp = GetTime()
 
-    if WeakAuras and WeakAurasCompanion then
-      local WeakAurasData = WeakAurasCompanion.WeakAuras
+    if WeakAuras and WeakAurasCompanionData then
+      local WeakAurasData = WeakAurasCompanionData.WeakAuras
       if WeakAurasData then
+        WeakAuras.AddCompanionData(WeakAurasData)
         local count = WeakAuras.CountWagoUpdates()
         if count and count > 0 then
           WeakAuras.prettyPrint(WeakAuras.L["There are %i updates to your auras ready to be installed!"]:format(count))
