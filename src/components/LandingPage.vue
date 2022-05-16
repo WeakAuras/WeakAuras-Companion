@@ -1604,8 +1604,8 @@ loadedFrame:SetScript("OnEvent", function(_, _, addonName)
       end
     end
 
-    if Plater and Plater.CheckWagoUpdates then
-      Plater.CheckWagoUpdates()
+    if Plater and Plater.AddCompanionData and WeakAurasCompanionData and WeakAurasCompanionData.Plater then
+      Plater.AddCompanionData(WeakAurasCompanionData.Plater)
     end
   end
 end)
