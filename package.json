@@ -31,7 +31,7 @@
     "floating-vue": "^2.0.0-beta.16",
     "luaparse": "~0.2.1",
     "luxon": "^2.3.2",
-    "material-icons": "^1.10.9",
+    "material-icons": "^1.10.11",
     "pinia": "^2.0.13",
     "pinia-plugin-persistedstate-2": "^1.0.0",
     "regedit": "^5.0.0",
