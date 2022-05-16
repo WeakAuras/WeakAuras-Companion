@@ -5,15 +5,12 @@
   "author": "Buds <mrbouyou@gmail.com>",
   "scripts": {
     "build": "vue-cli-service electron:build --publish never",
-    "lint": "eslint src/. --ext .js,.vue",
     "compile-tools": "tsc -p tools",
     "dev": "vue-cli-service electron:serve",
-    "dev:app": "vue-cli-service serve",
     "dist": "vue-cli-service electron:build --publish onTagOrDraft",
-    "electron:build": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
     "i18n": "node ./tools/scripts/extract-i18n-messages.js",
-    "lint:scss": "npx stylelint \"src/**/*.vue\"",
+    "lint": "eslint src/. --ext .js,.vue && npm run lint:scss",
+    "lint:scss": "npx stylelint \"src/**/*.scss\"",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
