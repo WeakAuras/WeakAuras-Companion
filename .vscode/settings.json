@@ -12,9 +12,12 @@
         "Hmmss",
         "icns",
         "LSUI",
+        "luaparse",
         "luxon",
         "nsis",
         "Patreon",
+        "pinia",
+        "PRCI",
         "profsemver",
         "uids",
         "valided",
@@ -25,5 +28,8 @@
         "wagoid",
         "YYYYMMDDH",
         "zhcn"
+    ],
+    "cSpell.enableFiletypes": [
+        "!vue"
     ]
 }
