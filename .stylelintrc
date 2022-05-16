@@ -1,23 +1,33 @@
 {
-  "extends": "stylelint-config-recommended",
-  "plugins": ["stylelint-scss"],
+  "extends": "stylelint-config-recommended-scss",
   "rules": {
+    "alpha-value-notation": "number",
     "at-rule-empty-line-before": null,
     "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
     "at-rule-no-vendor-prefix": true,
     "block-opening-brace-space-before": null,
-    "block-closing-brace-newline-after": ["always", {
-      "ignoreAtRules": [
-        "if",
-        "else",
-        "elseif"
-      ]
-    }],
+    "block-closing-brace-newline-after": [
+      "always",
+      {
+        "ignoreAtRules": [
+          "if",
+          "else",
+          "elseif"
+        ]
+      }
+    ],
+    "color-function-notation": "legacy",
     "color-hex-length": "long",
     "color-named": "never",
-    "comment-empty-line-before": ["always", {
-      "ignore": ["stylelint-commands"]
-    }],
+    "comment-empty-line-before": [
+      "always",
+      {
+        "ignore": [
+          "stylelint-commands"
+        ]
+      }
+    ],
     "font-family-name-quotes": "always-where-recommended",
     "font-family-no-missing-generic-family-keyword": null,
     "font-weight-notation": "numeric",
@@ -28,7 +38,6 @@
     "selector-class-pattern": "^[a-z0-9]+(-[a-z0-9]+)*(__[a-z]+)?(--[a-z]+)?$",
     "selector-descendant-combinator-no-non-space": null,
     "string-quotes": "double",
-    "unit-whitelist": ["px", "em", "deg", "dppx", "ms", "s", "%", "mm", "vh", "vw"],
     "value-keyword-case": "lower",
     "value-no-vendor-prefix": true
   }

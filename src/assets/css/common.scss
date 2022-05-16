@@ -1,6 +1,6 @@
 /* General (All Pages) */
 @import "floating-vue/dist/style.css";
-@import "@/assets/css/tooltip.scss";
+@import "@/assets/css/tooltip";
 
 * {
   box-sizing: border-box;
@@ -8,23 +8,27 @@
   padding: 0;
   cursor: default;
 }
+
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: Montserrat, sans-serif;
   font-weight: 400;
-  color: white;
+  color: #ffffff;
   overflow: hidden;
   user-select: none;
 }
+
 a:not([draggable="true"]),
 img:not([draggable="true"]) {
   -webkit-user-drag: none;
 }
+
 #wrapper {
   height: 100vh;
   position: relative;
   border-radius: 8px;
   background: #131313;
 }
+
 .main-container {
   height: 100%;
   width: 100%;
@@ -48,6 +52,7 @@ header {
 
 .menu-btns {
   height: 100%;
+
   // margin-right: 85px;
 }
 
@@ -69,14 +74,14 @@ footer {
 .title {
   font-size: 25px;
   font-weight: 600;
-  padding: 4px 10px 4px;
+  padding: 4px 10px;
   margin-bottom: 10px;
   border-left: 2px solid $accent;
   background-color: rgba(0, 0, 0, 0.1);
 }
 
 a {
-  color: white;
+  color: #ffffff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -92,10 +97,11 @@ a {
 }
 
 .footer-logo {
-  color: #777;
+  color: #777777;
   font-size: 18px;
   margin-right: 8px;
   cursor: pointer;
+
   &:hover {
     color: #e6e6e6;
   }
