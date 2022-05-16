@@ -71,7 +71,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.7.1",
-    "glob": "^8.0.1",
+    "glob": "^8.0.3",
     "html-webpack-plugin": "^4.5.2",
     "prettier": "^2.6.2",
     "sass": "^1.51.0",
