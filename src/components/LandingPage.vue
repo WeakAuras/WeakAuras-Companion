@@ -335,7 +335,7 @@ export default defineComponent({
       const addonConfigs = [
         {
           addonName: "WeakAuras",
-          wagoAPI: "https://data.wago.io/api/check/weakauras",
+          wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "WeakAuras",
           svPathFunction: this.WeakAurasSaved,
           isInstalled: this.IsWeakAurasInstalled(),
@@ -344,7 +344,7 @@ export default defineComponent({
         },
         {
           addonName: "Plater",
-          wagoAPI: "https://data.wago.io/api/check/plater",
+          wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "Plater",
           svPathFunction: this.PlaterSaved,
           isInstalled: this.IsPlaterInstalled(),
@@ -477,7 +477,7 @@ export default defineComponent({
         if (result) ({ 1: slug } = result);
 
         if (slug) {
-          this.wagoPushHandler(slug, "WeakAuras"); // make it work only for WeakAuras for now
+          this.wagoPushHandler(slug);
         }
       }
     });
@@ -691,63 +691,58 @@ export default defineComponent({
     reset() {
       this.config.$reset();
     },
-    wagoPushHandler(slug, addon) {
-      if (this.stash.auras.findIndex((aura) => aura.slug === slug) === -1 && addon) {
-        const addonConf = this.getAddonConfig(addon);
+    wagoPushHandler(slug) {
+      if (this.stash.auras.findIndex((aura) => aura.slug === slug) === -1) {
+        // Get data from Wago api
+        this.$http
+          .get("https://data.wago.io/api/check/", {
+            params: {
+              ids: slug,
+            },
+            headers: {
+              Identifier: this.accountHash,
+              "api-key": this.config.wagoApiKey || "",
+            },
+            crossdomain: true,
+          })
+          .then((response) => {
+            // metadata received from Wago API
+            response.data.forEach((wagoData) => {
+              const aura = {
+                slug: wagoData.slug,
+                name: wagoData.name,
+                author: wagoData.username,
+                wagoVersion: wagoData.version,
+                wagoSemver: wagoData.versionString,
+                versionNote: wagoData.changelog,
+                auraType: wagoData.type === "WEAKAURA" ? "WeakAuras" : (wagoData.type === "PLATER" ? "Plater" : undefined),
+                wagoid: wagoData._id,
+                source: "Wago"
+              };
 
-        if (addonConf) {
-          // Get data from Wago api
-          this.$http
-            .get(addonConf.wagoAPI, {
-              params: {
-                ids: slug,
-              },
-              headers: {
-                Identifier: this.accountHash,
-                "api-key": this.config.wagoApiKey || "",
-              },
-              crossdomain: true,
-            })
-            .then((response) => {
-              // metadata received from Wago API
-              response.data.forEach((wagoData) => {
-                const aura = {
-                  slug: wagoData.slug,
-                  name: wagoData.name,
-                  author: wagoData.username,
-                  wagoVersion: wagoData.version,
-                  wagoSemver: wagoData.versionString,
-                  versionNote: wagoData.changelog,
-                  auraType: addonConf.addonName,
-                  wagoid: wagoData._id,
-                  addon: wagoData.addon,
-                  source: "Wago"
-                };
-
-                this.$http
-                  .get("https://data.wago.io/api/raw/encoded", {
-                    params: {
-                      id: wagoData._id,
-                    },
-                    headers: {
-                      Identifier: this.accountHash,
-                      "api-key": this.config.wagoApiKey || "",
-                    },
-                    crossdomain: true,
-                  })
-                  .then((response2) => {
-                    aura.encoded = response2.data;
-                    this.stash.add(aura);
-                  })
-                  .catch((err2) => {
-                    console.log(JSON.stringify(err2));
-                  });
-              });
-            })
-            .catch((error) => {
-              console.log(JSON.stringify(error));
+              this.$http
+                .get("https://data.wago.io/api/raw/encoded", {
+                  params: {
+                    id: wagoData._id,
+                  },
+                  headers: {
+                    Identifier: this.accountHash,
+                    "api-key": this.config.wagoApiKey || "",
+                  },
+                  crossdomain: true,
+                })
+                .then((response2) => {
+                  aura.encoded = response2.data;
+                  this.stash.add(aura);
+                })
+                .catch((err2) => {
+                  console.log(JSON.stringify(err2));
+                });
             });
-        }
+          })
+          .catch((error) => {
+            console.log(JSON.stringify(error));
+          });
       }
     },
     parseWeakAurasSVdata(WeakAurasSavedData, config) {
