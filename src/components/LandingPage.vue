@@ -1508,29 +1508,33 @@ export default defineComponent({
             });
 
           LuaOutput += spacing + "  },\n";
-          LuaOutput += spacing + "  stopmotionFiles = {\n";
-          const stopmotionFilesPath = path.join(
-            AddonFolder,
-            "animations"
-          )
 
-          if (fs.existsSync(stopmotionFilesPath)) {
-            const regex = new RegExp(/^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/);
+          if (config.addonName === "WeakAuras") {
+            LuaOutput += spacing + "  stopmotionFiles = {\n";
+            const stopmotionFilesPath = path.join(
+              AddonFolder,
+              "animations"
+            )
 
-            fs.readdirSync(stopmotionFilesPath)
-            .filter((v) => v && v.match(regex))
-            .map((v) => ({
-              filename: v,
-              title: v.match(regex)[1],
-            }))
-            .forEach((file) => {
-              LuaOutput += spacing + `    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
-            })
+            if (fs.existsSync(stopmotionFilesPath)) {
+              const regex = new RegExp(/^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/);
+
+              fs.readdirSync(stopmotionFilesPath)
+              .filter((v) => v && v.match(regex))
+              .map((v) => ({
+                filename: v,
+                title: v.match(regex)[1],
+              }))
+              .forEach((file) => {
+                LuaOutput += spacing + `    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
+              })
+            }
+
+            LuaOutput += spacing + "  },\n";
           }
-
-          LuaOutput += spacing + "  },\n";
           LuaOutput += "  },\n";
         });
+
         LuaOutput += "}";
 
         /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
