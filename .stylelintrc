@@ -28,7 +28,7 @@
         ]
       }
     ],
-    "font-family-name-quotes": "always-where-recommended",
+    "font-family-name-quotes": "always-unless-keyword",
     "font-family-no-missing-generic-family-keyword": null,
     "font-weight-notation": "numeric",
     "function-url-quotes": "always",
