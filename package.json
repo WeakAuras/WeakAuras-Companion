@@ -34,13 +34,9 @@
     "pinia-plugin-persistedstate-2": "^1.0.0",
     "regedit": "^5.0.0",
     "sharp": "^0.30.4",
-    "stylelint": "^14.8.3",
-    "stylelint-config-standard": "^25.0.0",
-    "stylelint-scss": "^4.2.0",
     "tail": "^2.2.4",
     "tga": "^1.0.5",
     "vue": "^3.2.36",
-    "vue-electron": "^1.0.6",
     "vue-i18n": "^9.2.0-beta.35"
   },
   "devDependencies": {
@@ -57,7 +53,6 @@
     "@vue/cli-service": "^5.0.4",
     "@vue/compiler-sfc": "^3.2.36",
     "@vue/eslint-config-typescript": "^10.0.0",
-    "copy-webpack-plugin": "^11.0.0",
     "electron": "^18.2.4",
     "electron-builder": "^23.0.9",
     "electron-devtools-installer": "^3.2.0",
@@ -69,13 +64,12 @@
     "eslint-plugin-vue": "^8.7.1",
     "glob": "^8.0.3",
     "prettier": "^2.6.2",
-    "sass": "^1.52.1",
+    "sass": "^1.52.0",
     "sass-loader": "^13.0.0",
-    "ts-loader": "^9.3.0",
+    "stylelint": "^14.8.2",
+    "stylelint-config-recommended-scss": "^6.0.0",
     "typescript": "^4.6.4",
     "vue-cli-plugin-electron-builder": "^3.0.0-alpha.4",
-    "vue-loader": "^17.0.0",
-    "vue-style-loader": "^4.1.3",
     "vue-template-compiler": "^2.6.14"
   },
   "postcss": {
