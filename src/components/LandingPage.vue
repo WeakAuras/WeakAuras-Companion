@@ -1565,7 +1565,7 @@ loadedFrame:SetScript("OnEvent", function(_, _, addonName)
   if addonName == "WeakAurasCompanion" then
     timestamp = GetTime()
 
-    if WeakAuras and WeakAurasCompanionData then
+    if WeakAuras and WeakAuras.AddCompanionData and WeakAurasCompanionData then
       local WeakAurasData = WeakAurasCompanionData.WeakAuras
       if WeakAurasData then
         WeakAuras.AddCompanionData(WeakAurasData)
