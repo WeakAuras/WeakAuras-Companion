@@ -1545,13 +1545,12 @@ export default defineComponent({
             data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 1.1.0
+## Version: 1.2.0
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## OptionalDeps: ${addonDepts}
-## SavedVariables: timestamp
 
 data.lua
 init.lua`,
@@ -1563,38 +1562,10 @@ local loadedFrame = CreateFrame("FRAME")
 loadedFrame:RegisterEvent("ADDON_LOADED")
 loadedFrame:SetScript("OnEvent", function(_, _, addonName)
   if addonName == "WeakAurasCompanion" then
-    timestamp = GetTime()
-
     if WeakAuras and WeakAuras.AddCompanionData and WeakAurasCompanionData then
       local WeakAurasData = WeakAurasCompanionData.WeakAuras
       if WeakAurasData then
         WeakAuras.AddCompanionData(WeakAurasData)
-        local count = WeakAuras.CountWagoUpdates()
-        if count and count > 0 then
-          WeakAuras.prettyPrint(WeakAuras.L["There are %i updates to your auras ready to be installed!"]:format(count))
-        end
-        if WeakAuras.ImportHistory then
-          for id, data in pairs(WeakAurasSaved.displays) do
-            if data.uid and not WeakAurasSaved.history[data.uid] then
-              local slug = WeakAurasData.uids[data.uid]
-              if slug then
-                local wagoData = WeakAurasData.slugs[slug]
-                if wagoData and wagoData.encoded then
-                  WeakAuras.ImportHistory(wagoData.encoded)
-                end
-              end
-            end
-          end
-        end
-        if WeakAurasData.stash then
-          local emptyStash = true
-          for _ in pairs(WeakAurasData.stash) do
-            emptyStash = false
-          end
-          if not emptyStash then
-            WeakAuras.prettyPrint(WeakAuras.L["You have new auras ready to be installed!"])
-          end
-        end
         WeakAuras.StopMotion.texture_types["WeakAuras Companion"] = WeakAuras.StopMotion.texture_types["WeakAuras Companion"] or {}
         local CompanionTextures = WeakAuras.StopMotion.texture_types["WeakAuras Companion"]
         for fileName, name in pairs(WeakAurasData.stopmotionFiles) do
