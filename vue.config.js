@@ -37,7 +37,7 @@ module.exports = {
             LSUIElement: 1,
           },
           target: {
-            target: "dmg",
+            target: "default",
             arch: ["x64", "arm64"],
           },
           artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
