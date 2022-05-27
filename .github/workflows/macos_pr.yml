@@ -32,22 +32,10 @@ jobs:
         name: Upload DMG
         with:
           name: WeakAuras-Companion-PRCI-dmg
-          path: dist_electron/*-mac-x64.dmg
+          path: dist_electron/*-mac-universal.dmg
 
       - uses: actions/upload-artifact@v3
         name: Upload ZIP
         with:
           name: WeakAuras-Companion-PRCI-zip
-          path: dist_electron/*-mac-x64.zip
-
-      - uses: actions/upload-artifact@v3
-        name: Upload ARM DMG
-        with:
-          name: WeakAuras-Companion-PRCI-arm64-dmg
-          path: dist_electron/*-mac-arm64.dmg
-
-      - uses: actions/upload-artifact@v3
-        name: Upload ARM ZIP
-        with:
-          name: WeakAuras-Companion-PRCI-arm64-zip
-          path: dist_electron/*-mac-arm64.zip
+          path: dist_electron/*-mac-universal.zip
