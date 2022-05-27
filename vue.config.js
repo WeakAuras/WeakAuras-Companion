@@ -38,7 +38,7 @@ module.exports = {
           },
           target: {
             target: "default",
-            arch: ["x64", "arm64"],
+            arch: "universal",
           },
           artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
         },
