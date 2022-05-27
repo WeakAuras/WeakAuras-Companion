@@ -40,6 +40,7 @@ module.exports = {
             target: "default",
             arch: "universal",
           },
+          singleArchFiles: "**/sharp-darwin-arm64v8.node",
           artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
         },
         win: {
