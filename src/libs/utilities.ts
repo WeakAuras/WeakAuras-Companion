@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
-import regedit from "regedit";
+import {promisified as regedit_promosified} from "regedit"
+import regedit from "regedit"
 
 export function formatBytes(a, b) {
   if (a === 0) return "0 Bytes";
@@ -13,22 +14,25 @@ export function formatBytes(a, b) {
 
 regedit.setExternalVBSLocation("resources/node_modules/regedit/vbs");
 
-export function wowDefaultPath() {
-  return new Promise((resolve) => {
-    if (process.platform === "win32") {
-      const key =
-        "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
+export async function wowDefaultPath() {
+  if (process.platform === "win32") {
+    const key =
+      "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
 
-      regedit.list(key, (err, result) => {
-        if (err) throw err;
-        else {
-          resolve(path.join(result[key].values.InstallPath.value, ".."));
-        }
-      });
-    } else {
-      resolve("");
+    try {
+      const results = await regedit_promosified.list([key])
+      const value = results[key].values.InstallPath.value
+      if (typeof(value) == "string") {
+        return path.join(value, "..")
+      } else {
+        return ""
+      }
+    } catch(e) {
+      console.log(JSON.stringify(e))
+      return ""
     }
-  });
+  }
+  return ""
 }
 
 export function matchFolderNameInsensitive(folder, name, create) {

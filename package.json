@@ -29,7 +29,7 @@
     "material-icons": "^1.11.0",
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate-2": "^1.0.0",
-    "regedit": "^5.0.0",
+    "regedit": "^5.1.1",
     "sharp": "^0.30.5",
     "tail": "^2.2.4",
     "tga": "^1.0.7",

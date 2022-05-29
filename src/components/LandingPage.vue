@@ -456,7 +456,7 @@ export default defineComponent({
       this.buildAccountList();
     },
   },
-  mounted() {
+  async mounted() {
     ipcRenderer.on("setAllowPrerelease", (_event, allowPrerelease) => {
         this.config.beta = allowPrerelease;
       }
@@ -504,14 +504,17 @@ export default defineComponent({
 
     // set default wow path
     if (!this.config.wowpath.valided) {
-      wowDefaultPath().then((value) => {
-        this.defaultWOWPath = value;
+      try {
+        let wowpath = await wowDefaultPath()
+        this.defaultWOWPath = wowpath;
 
         if (!this.config.wowpath.valided) {
-          this.config.wowpath.value = value;
+          this.config.wowpath.value = wowpath;
           this.validateWowpath();
         }
-      });
+      } catch(e) {
+        console.log(JSON.stringify(e))
+      }
     }
 
     // create default backup folder
