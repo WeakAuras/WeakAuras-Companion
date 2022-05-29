@@ -1,9 +1,9 @@
 import path from "path";
 import fs from "fs";
-import {promisified as regedit_promosified} from "regedit"
+import { promisified as regedit_promisified } from "regedit"
 import regedit from "regedit"
 
-export function formatBytes(a, b) {
+export function formatBytes(a: number, b: number) {
   if (a === 0) return "0 Bytes";
   const c = 1024;
   const d = b || 2;
@@ -20,14 +20,14 @@ export async function wowDefaultPath() {
       "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
 
     try {
-      const results = await regedit_promosified.list([key])
+      const results = await regedit_promisified.list([key])
       const value = results[key].values.InstallPath.value
-      if (typeof(value) == "string") {
+      if (typeof (value) == "string") {
         return path.join(value, "..")
       } else {
         return ""
       }
-    } catch(e) {
+    } catch (e) {
       console.log(JSON.stringify(e))
       return ""
     }

@@ -11,9 +11,9 @@ import Store from "electron-store";
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
-const remoteMain = require("@electron/remote/main");
+import remoteMain from "@electron/remote/main";
 remoteMain.initialize();
-const electronLocalshortcut = require("electron-localshortcut");
+import electronLocalshortcut from "electron-localshortcut";
 //const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
 const isProduction = process.env.NODE_ENV == "production";
@@ -46,7 +46,7 @@ if (typeof configStoreSerialized === "string") {
   }
 }
 
-let cancellationToken;
+let cancellationToken: { cancel: () => void; };
 
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
@@ -72,7 +72,7 @@ let winURL = null;
 
 const iconpath = path.join(__static, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
 
-function handleLinks(link) {
+function handleLinks(link: string) {
   if (mainWindow && mainWindow?.webContents) {
     mainWindow?.webContents.send("linkHandler", link);
   }

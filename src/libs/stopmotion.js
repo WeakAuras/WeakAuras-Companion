@@ -1,6 +1,6 @@
 // ace serializer function from wowhead https://wow.zamimg.com/js/WeakAuraExport.js
 
-// EncodeForPrint forked from https://github.com/LetsTimeIt/mdt-compression under GPL-3.0 licence
+// EncodeForPrint forked from https://github.com/LetsTimeIt/mdt-compression under GPL-3.0 license
 // this version was fixed by Vardex
 
 import zlib from "zlib";
@@ -196,7 +196,6 @@ const convertByteTo6bit = function (chr) {
   return mappingTable[chr].charCodeAt(0);
 };
 
-
 const EncodeForPrint = function (input) {
   const strlen = input.length;
   const lenMinus2 = strlen - 2;
@@ -345,10 +344,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const GenerateUniqueID = function() {
+const GenerateUniqueID = function () {
   let uid = []
 
-  for (let i=0;i<11;i++) {
+  for (let i = 0; i < 11; i++) {
     uid.push(mappingTable[getRandomInt(0, 63)])
   }
   return uid.join("")

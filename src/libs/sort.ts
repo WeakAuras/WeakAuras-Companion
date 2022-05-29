@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
+import { Aura } from "../models";
 
-const getUpdateValueWithAllAuras = (aura) => {
+const getUpdateValueWithAllAuras = (aura: Aura) => {
   if (aura.ignoreWagoUpdate) return 2;
   else if (aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion)
     return 1;
@@ -8,11 +9,11 @@ const getUpdateValueWithAllAuras = (aura) => {
   return 3;
 };
 
-const getUpdateValueOnlyUpdates = (aura) => {
+const getUpdateValueOnlyUpdates = (aura: Aura) => {
   return aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion ? 1 : 0;
 };
 
-export const createSortByTime = (dir) => (a, b) => {
+export const createSortByTime = (dir: number) => (a: { modified: Date; }, b: { modified: Date; }) => {
   return (
     DateTime.fromJSDate(b.modified)
       .diff(DateTime.fromJSDate(a.modified))
@@ -20,8 +21,8 @@ export const createSortByTime = (dir) => (a, b) => {
   );
 };
 
-export const createSortByString = (dir, column) => {
-  return (a, b) => {
+export const createSortByString = (dir: number, column: string) => {
+  return (a: { [x: string]: string; }, b: { [x: string]: string; }) => {
     let A = a[column] || "",
       B = b[column] || "";
 
@@ -30,23 +31,23 @@ export const createSortByString = (dir, column) => {
   };
 };
 
-export const createSortByType = (dir) => {
+export const createSortByType = (dir: number) => {
   const sortByType = createSortByString(dir, "auraTypeDisplay");
   const sortByName = createSortByString(1, "name");
 
-  return (a, b) => sortByType(a, b) || sortByName(a, b);
+  return (a: any, b: any) => sortByType(a, b) || sortByName(a, b);
 };
 
-export const createSortByAuthor = (dir, hasTypeColumn) => {
+export const createSortByAuthor = (dir: any, hasTypeColumn: any) => {
   const sortByAuthor = createSortByString(dir, "author");
   const secondarySortFunction = hasTypeColumn
     ? createSortByType(1)
     : createSortByString(1, "name");
 
-  return (a, b) => sortByAuthor(a, b) || secondarySortFunction(a, b);
+  return (a: any, b: any) => sortByAuthor(a, b) || secondarySortFunction(a, b);
 };
 
-export const createSortByUpdate = (dir, showAllAuras, hasTypeColumn) => {
+export const createSortByUpdate = (dir: number, showAllAuras: any, hasTypeColumn: any) => {
   const getUpdateValue = showAllAuras
     ? getUpdateValueWithAllAuras
     : getUpdateValueOnlyUpdates;
@@ -55,7 +56,7 @@ export const createSortByUpdate = (dir, showAllAuras, hasTypeColumn) => {
     ? createSortByType(1)
     : createSortByString(1, "name");
 
-  return (a, b) => {
+  return (a: any, b: any) => {
     const A = getUpdateValue(a),
       B = getUpdateValue(b);
 

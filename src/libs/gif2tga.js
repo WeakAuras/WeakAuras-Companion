@@ -1,10 +1,10 @@
-import sharp from "sharp"; // require("sharp"); // https://sharp.pixelplumbing.com/api-composite
 import fs from "fs"; //const fs = require("fs");
-import tga from "tga"; // https://github.com/steel1990/tga
 import path from "path";
+import sharp from "sharp"; // require("sharp"); // https://sharp.pixelplumbing.com/api-composite
+import tga from "tga"; // https://github.com/steel1990/tga
 
-function nextPow2(aSize){
-    return Math.pow(2, Math.ceil(Math.log(aSize)/Math.log(2)));
+function nextPow2(aSize) {
+    return Math.pow(2, Math.ceil(Math.log(aSize) / Math.log(2)));
 }
 
 function calculateBestSize(width, height, count) {
@@ -15,7 +15,7 @@ function calculateBestSize(width, height, count) {
     for (var cols = 1; cols <= count; cols++) {
         const w = nextPow2(cols * width);
         const h = nextPow2(Math.ceil(count / cols) * height);
-        const size = w*h;
+        const size = w * h;
         const ratio = w / h;
 
         if (size <= bestsize && Math.abs(ratio - 1) < bestratio) {
@@ -39,9 +39,9 @@ const calculateFileSize = (width, height, pages, scaling, useSkipFrames, skipFra
         cols,
         rows,
         frames: pages,
-        width: nextPow2(width*cols),
-        height: nextPow2(height*rows),
-        size: Math.round((nextPow2(width*cols) * nextPow2(height*rows) * 4) / 1024)
+        width: nextPow2(width * cols),
+        height: nextPow2(height * rows),
+        size: Math.round((nextPow2(width * cols) * nextPow2(height * rows) * 4) / 1024)
     }
 }
 
@@ -68,9 +68,9 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
         var frames = [];
         let prevFrameBuffer;
 
-        for (var i = 0;i < pages;i++) {
-            let frame = await sharp(fileBuffer, {page: i })
-                .resize({width, height})
+        for (var i = 0; i < pages; i++) {
+            let frame = await sharp(fileBuffer, { page: i })
+                .resize({ width, height })
                 .toBuffer()
 
             if (coalesce == true) {
@@ -91,7 +91,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
             }
         }
 
-        if (useSkipFrames == true){
+        if (useSkipFrames == true) {
             frames = frames.filter((elem, index) => {
                 return index % skipFrames
             })
@@ -100,8 +100,8 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
         const frameCount = frames.length
         const cols = calculateBestSize(width, height, frameCount);
         const rows = Math.ceil(frameCount / cols);
-        const fileWidth = nextPow2(width*cols);
-        const fileHeight = nextPow2(height*rows)
+        const fileWidth = nextPow2(width * cols);
+        const fileHeight = nextPow2(height * rows)
 
         let results = sharp({
             create: {
@@ -114,7 +114,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
 
         const compose = []
 
-        for (var index = 0;index < frames.length;index++) {
+        for (var index = 0; index < frames.length; index++) {
             compose.push({
                 input: frames[index],
                 left: (index % cols) * width,
@@ -141,7 +141,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
         const preview = resized.toString("base64")
         return { destFile, preview }
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
 }
 

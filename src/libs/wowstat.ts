@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
-import Tail from "tail";
+import { Tail } from "tail";
 
 const clientlog = {};
 
-export function isOpen(wowpath, version) {
+export function isOpen(wowpath: string, version: string) {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
   const renametest = path.join(wowpath, version, "Logs", "Client.log.test");
 
@@ -17,10 +17,10 @@ export function isOpen(wowpath, version) {
   return false;
 }
 
-export function afterReload(config, callback) {
+export function afterReload(config: { value: any; version: any; versions: any[]; }, callback: () => void) {
   const wowpath = config.value;
   const version = config.version;
-  let account;
+  let account: string;
 
   config.versions.forEach((version) => {
     if (version.name === config.version) {
@@ -59,7 +59,7 @@ export function afterReload(config, callback) {
   });
 }
 
-export function afterRestart(wowpath, version, callback) {
+export function afterRestart(wowpath: string, version: string, callback: () => void) {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
 
   if (!clientlog[version]) {
