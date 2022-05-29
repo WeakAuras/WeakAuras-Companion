@@ -3,7 +3,7 @@ import fs from "fs";
 import { promisified as regedit_promisified } from "regedit"
 import regedit from "regedit"
 
-export function formatBytes(a: number, b: number) {
+export function formatBytes(a, b) {
   if (a === 0) return "0 Bytes";
   const c = 1024;
   const d = b || 2;

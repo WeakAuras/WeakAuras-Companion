@@ -1,4 +1,4 @@
-const bbcode = (str: string) => {
+const bbcode = (str) => {
   let output = str || "";
 
   output = output
@@ -7,7 +7,7 @@ const bbcode = (str: string) => {
   return output;
 };
 
-const markdown = (str: string) => {
+const markdown = (str) => {
   // https://github.com/stiang/remove-markdown/blob/master/index.js
   let output = str || "";
 

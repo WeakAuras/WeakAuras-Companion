@@ -37,12 +37,12 @@ function deleteOldFiles(dirPath, accountName, addonName, maxsize) {
 }
 
 function backupIfRequired(
-  filename: fs.PathLike,
-  config: { active: any; path: string; maxsize: number; },
-  previousSize: number,
-  accountName: any,
-  callback: (arg0: number) => void,
-  addonName: string
+  filename,
+  config,
+  previousSize,
+  accountName,
+  callback,
+  addonName
 ) {
   if (config && config.active && filename) {
     const stats = fs.statSync(filename);
@@ -85,7 +85,7 @@ function backupIfRequired(
       archive.append(fileContents, { name: addonName + ".lua" });
 
       archive.append(
-        "If you want to restore this backup, close WoW first, then move the WeakAuras.lua file into your saved variable folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",
+        "If you want to restore this backup, close WOW first, then move the WeakAuras.lua file into your saved variable folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",
         { name: "README.txt" }
       );
       archive.finalize();
