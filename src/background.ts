@@ -1,10 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { app, BrowserWindow, Tray, Menu, shell, ipcMain, Notification, protocol } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-const {
-  default: installExtension,
-  VUEJS3_DEVTOOLS
-} = require("electron-devtools-installer");
+import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
@@ -38,7 +35,7 @@ AutoLauncher.isEnabled().then(function (isEnabled) {
 
 const store = new Store();
 const configStoreSerialized = store.get("configStore");
-let config
+let config: { beta: boolean; startminimize?: boolean; minimized?: boolean; }
 
 if (typeof configStoreSerialized === "string") {
   config = JSON.parse(configStoreSerialized)

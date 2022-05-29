@@ -37,8 +37,8 @@
     "vue-i18n": "^9.2.0-beta.35"
   },
   "devDependencies": {
-    "@types/electron-devtools-installer": "^2.2.2",
     "@types/jest": "^27.5.1",
+    "@types/auto-launch": "^5.0.2",
     "@types/luaparse": "^0.2.8",
     "@types/luxon": "^2.3.2",
     "@types/sharp": "^0.30.1",
