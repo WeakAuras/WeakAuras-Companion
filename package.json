@@ -1,92 +1,13 @@
 {
   "name": "weakauras-companion",
-  "version": "4.1.3",
+  "version": "5.0.0",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
+  "main": "dist/main/index.cjs",
   "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
     "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
-  },
-  "scripts": {
-    "build": "vue-cli-service electron:build --publish never",
-    "compile-tools": "tsc -p tools",
-    "dev": "vue-cli-service electron:serve",
-    "dist": "vue-cli-service electron:build --publish onTagOrDraft",
-    "i18n": "node ./tools/scripts/extract-i18n-messages.js",
-    "lint": "eslint src/. --ext .js,.vue && npm run lint:scss",
-    "lint:scss": "npx stylelint \"src/**/*.scss\"",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
-  },
-  "dependencies": {
-    "@electron/remote": "^2.0.9",
-    "archiver": "^5.3.1",
-    "auto-launch": "^5.0.5",
-    "axios": "^1.2.3",
-    "electron-localshortcut": "^3.2.1",
-    "electron-log": "^4.4.8",
-    "electron-store": "^8.1.0",
-    "electron-updater": "^5.3.0",
-    "floating-vue": "^2.0.0-beta.20",
-    "luaparse": "~0.2.1",
-    "luxon": "^3.2.1",
-    "material-icons": "^1.13.1",
-    "pinia": "^2.0.29",
-    "pinia-plugin-persistedstate-2": "^2.0.9",
-    "regedit": "^5.1.1",
-    "sharp": "^0.31.3",
-    "tail": "^2.2.6",
-    "tga": "^1.0.7",
-    "vue": "^3.2.45",
-    "vue-i18n": "^9.2.2"
-  },
-  "devDependencies": {
-    "@types/archiver": "^5.3.1",
-    "@types/auto-launch": "^5.0.2",
-    "@types/electron-localshortcut": "^3.1.0",
-    "@types/jest": "^29.2.6",
-    "@types/luaparse": "^0.2.8",
-    "@types/luxon": "^3.2.0",
-    "@types/sharp": "^0.31.1",
-    "@types/tail": "^2.2.1",
-    "@typescript-eslint/eslint-plugin": "^5.48.2",
-    "@typescript-eslint/parser": "^5.48.2",
-    "@vue/cli": "^5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-plugin-typescript": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
-    "@vue/compiler-sfc": "^3.2.45",
-    "@vue/eslint-config-typescript": "^10.0.0",
-    "electron": "^22.0.3",
-    "electron-builder": "^23.6.0",
-    "electron-devtools-installer": "^3.2.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-import-resolver-webpack": "^0.13.2",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^8.7.1",
-    "glob": "^8.1.0",
-    "prettier": "^2.8.3",
-    "sass": "^1.57.1",
-    "sass-loader": "^13.2.0",
-    "stylelint": "^14.16.1",
-    "stylelint-config-recommended-scss": "^8.0.0",
-    "typescript": "^4.9.4",
-    "vue-cli-plugin-electron-builder": "^3.0.0-alpha.4",
-    "vue-template-compiler": "^2.7.14"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "Electron >= 18.0.0"
-  ],
-  "engines": {
-    "node": ">= 16"
   },
   "config": {
     "default-locale": "en",
@@ -100,10 +21,86 @@
       "zh-cn"
     ]
   },
-  "overrides": {
-    "minimatch": "^6.0.0",
-    "vue-cli-plugin-electron-builder": {
-      "electron-builder": "^23.1.0"
-    }
-  }
+  "scripts": {
+    "compile-tools": "tsc -p tools",
+    "i18n": "node ./tools/scripts/extract-i18n-messages.js",
+    "lint": "eslint src/. --ext .js,.vue && npm run lint:scss",
+    "lint:scss": "npx stylelint \"src/**/*.scss\"",
+    "dev": "node scripts/watch.mjs",
+    "prebuild": "vue-tsc --noEmit --p packages/renderer/tsconfig.json && node scripts/build.mjs",
+    "build": "electron-builder",
+    "init": "git config core.hooksPath .git/hooks/ && rm -rf .git/hooks && npx simple-git-hooks",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headless": "npx playwright test --headed"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "@electron/remote": "^2.0.8",
+    "@playwright/test": "^1.22.2",
+    "@types/archiver": "^5.3.1",
+    "@types/auto-launch": "^5.0.2",
+    "@types/electron-localshortcut": "^3.1.0",
+    "@types/jest": "^27.5.1",
+    "@types/luaparse": "~0.2.1",
+    "@types/luxon": "^2.3.2",
+    "@types/sharp": "^0.30.1",
+    "@types/tail": "^2.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/eslint-config-typescript": "^10.0.0",
+    "archiver": "^5.3.1",
+    "auto-launch": "^5.0.5",
+    "axios": "^0.27.2",
+    "electron-builder": "^23.0.3",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-localshortcut": "^3.2.1",
+    "electron-log": "^4.4.7",
+    "electron-store": "^8.0.1",
+    "electron-updater": "^5.0.1",
+    "electron": "^19.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "eslint": "^7.32.0",
+    "floating-vue": "^2.0.0-beta.16",
+    "glob": "^8.0.3",
+    "luaparse": "~0.2.1",
+    "luxon": "^2.4.0",
+    "material-icons": "^1.11.0",
+    "nano-staged": "^0.8.0",
+    "pinia-plugin-persistedstate-2": "^1.0.0",
+    "pinia": "^2.0.14",
+    "prettier": "^2.6.2",
+    "regedit": "^5.1.1",
+    "sass": "^1.52.0",
+    "sharp": "^0.30.5",
+    "simple-git-hooks": "^2.8.0",
+    "stylelint-config-recommended-scss": "^6.0.0",
+    "stylelint": "^14.8.5",
+    "tail": "^2.2.4",
+    "tga": "^1.0.7",
+    "typescript": "^4.7.2",
+    "vite-plugin-electron": "^0.4.5",
+    "vite-plugin-resolve": "^2.1.2",
+    "vite": "^2.9.9",
+    "vue-tsc": "^0.35.0",
+    "vue": "^3.2.36"
+  },
+  "env": {
+    "VITE_DEV_SERVER_HOST": "127.0.0.1",
+    "VITE_DEV_SERVER_PORT": 3344
+  },
+  "keywords": [
+    "electron",
+    "rollup",
+    "vite",
+    "vue3",
+    "vue",
+    "WeakAuras",
+    "World of Warcraft"
+  ]
 }
