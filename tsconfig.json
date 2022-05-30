@@ -1,29 +1,20 @@
 {
   "compilerOptions": {
-    "baseUrl": ".", // `baseUrl` must be placed on the extending configuration in devland, or paths won't be recognized
+    "baseUrl": "./",
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
-    // Needed to address https://github.com/quasarframework/app-extension-typescript/issues/36
-    "noEmit": true,
+    "importHelpers": true,
+    "jsx": "preserve",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "esnext",
-    "jsx": "preserve",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
+    "target": "ESNext",
+    "paths": {},
     "allowJs": true,
-    "useUnknownInCatchVariables": false,
     "skipLibCheck": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
-  },
-  "exclude": [
-    "/dist",
-    "node_modules"
-  ]
+    "allowSyntheticDefaultImports": true
+  }
 }

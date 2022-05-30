@@ -1,9 +1,6 @@
 {
-    "vetur.format.defaultFormatter.js": "prettier-eslint",
-    "vetur.format.defaultFormatter.html": "prettier",
-    "vetur.validation.template": false,
-    "eslint.packageManager": "npm",
-    "npm.packageManager": "npm",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
     "cSpell.words": [
         "addonbttns",
         "btns",
@@ -34,9 +31,7 @@
         "Wago",
         "wagoid",
         "YYYYMMDDH",
-        "zhcn"
+        "zhcn",
+        "Vite"
     ],
-    "cSpell.enableFiletypes": [
-        "!vue"
-    ]
 }
