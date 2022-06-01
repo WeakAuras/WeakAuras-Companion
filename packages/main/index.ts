@@ -45,11 +45,10 @@ if (typeof configStoreSerialized === "string") {
   }
 }
 
-let cancellationToken;
+let cancellationToken: { cancel: () => void; };
 
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
-//@ts-ignore
 autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
 autoUpdater.logger = log;
 //@ts-ignore
@@ -71,7 +70,7 @@ let winURL = null;
 
 const iconpath = path.join(__static, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
 
-function handleLinks(link) {
+function handleLinks(link: string) {
   if (mainWindow && mainWindow?.webContents) {
     mainWindow?.webContents.send("linkHandler", link);
   }
@@ -177,13 +176,11 @@ async function createWindow() {
     {
       label: "Quit",
       click: () => {
-        //@ts-ignore
-        app.isQuitting = true;
         app.quit();
       },
     },
   ]);
-  //@ts-ignore
+
   tray?.on("right-click", () => tray?.popUpContextMenu(contextMenu));
 
   // Ignore double click events for the tray icon
@@ -235,7 +232,6 @@ if (!app.requestSingleInstanceLock()) {
     if (isDevelopment && !process.env.IS_TEST) {
       // Install Vue Devtools
       try {
-        //await installExtension(VUEJS3_DEVTOOLS)
         installExtension(VUEJS3_DEVTOOLS).then(() => {
           createWindow();
         })
@@ -292,8 +288,6 @@ ipcMain.handle("minimize", () => {
 });
 
 ipcMain.handle("close", () => {
-  //@ts-ignore
-  app.isQuitting = true;
   app.quit();
 });
 

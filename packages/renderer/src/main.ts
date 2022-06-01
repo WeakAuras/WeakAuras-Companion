@@ -1,18 +1,16 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './samples/node-api'
-
 import axios from "axios";
-import { createI18n } from "vue-i18n";
+import Store from "electron-store";
 import FloatingVue from "floating-vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
-import Store from "electron-store";
+import { createApp } from 'vue';
+import { createI18n } from "vue-i18n";
+import App from './App.vue';
 
+import de from "../../../i18n/de.json";
 import en from "../../../i18n/en.json";
 import es from "../../../i18n/es.json";
 import fr from "../../../i18n/fr.json";
-import de from "../../../i18n/de.json";
 import ru from "../../../i18n/ru.json";
 import tr from "../../../i18n/tr.json";
 import zhcn from "../../../i18n/zh-cn.json";
