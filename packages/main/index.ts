@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import AutoLaunch from "auto-launch";
 import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray } from "electron";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
@@ -8,8 +7,6 @@ import { autoUpdater } from "electron-updater";
 import path, { join } from "path";
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-
-let win: BrowserWindow | null = null
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
@@ -104,26 +101,15 @@ async function createWindow() {
 
   remoteMain.enable(mainWindow?.webContents);
 
-  if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode
-    await mainWindow?.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
-
-    if (!process.env.IS_TEST) mainWindow?.webContents.openDevTools();
-  } else {
-    // https://github.com/sinsong/electron-vite-vue-template/blob/996bea385763e8f069f4af49bdfb0352b6a0aa5f/src/main/protocols/app.js#L12
-    createProtocol("app");
-    // Load the index.html when not in development
-    mainWindow?.loadURL("app://./index.html");
-  }
-
   if (app.isPackaged) {
-    win.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   } else {
     // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
     const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
-
-    win.loadURL(url)
-    // win.webContents.openDevTools()
+    // https://github.com/sinsong/electron-vite-vue-template/blob/996bea385763e8f069f4af49bdfb0352b6a0aa5f/src/main/protocols/app.js#L12
+    // createProtocol("app");
+    mainWindow.loadURL(url)
+    mainWindow.webContents.openDevTools()
   }
 
   mainWindow?.on("closed", () => {
