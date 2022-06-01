@@ -54,10 +54,6 @@
     "import/core-modules": [
       "electron"
     ],
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack"
-      }
-    }
+    "import/resolver": "vite"
   }
 }
