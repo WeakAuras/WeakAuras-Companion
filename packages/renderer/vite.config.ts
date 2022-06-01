@@ -1,13 +1,20 @@
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import resolve, { lib2esm } from 'vite-plugin-resolve'
+import path from "path"
+import { defineConfig } from 'vite'
 import electron from 'vite-plugin-electron/renderer'
+import eslintPlugin from "vite-plugin-eslint"
+import resolve, { lib2esm } from 'vite-plugin-resolve'
 import pkg from '../../package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   mode: process.env.NODE_ENV,
   root: __dirname,
+  resolve: {
+    alias: {
+      _: path.resolve(__dirname, "src")
+    }
+  },
   plugins: [
     vue(),
     electron(),
@@ -45,6 +52,7 @@ export default defineConfig({
         ),
       }
     ),
+    eslintPlugin()
   ],
   base: './',
   build: {
