@@ -23,7 +23,7 @@
     ]
   },
   "mac": {
-    "icon": "public/icon.icns",
+    "icon": "packages/renderer/public/icon.icns",
     "category": "Utility",
     "extendInfo": {
       "LSUIElement": 1
@@ -36,7 +36,7 @@
     "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
   },
   "win": {
-    "icon": "public/icon.ico",
+    "icon": "packages/renderer/public/icon.ico",
     "publish": {
       "provider": "github"
     },
@@ -54,7 +54,7 @@
       "deb",
       "rpm"
     ],
-    "icon": "public/bigicon.png",
+    "icon": "packages/renderer/public/bigicon.png",
     "category": "Utility",
     "asarUnpack": [
       "**/node_modules/sharp/**"
