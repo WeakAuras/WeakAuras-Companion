@@ -1086,13 +1086,12 @@ export default defineComponent({
           });
         }
 
-        if (slugs.indexOf(slug) === -1) slugs.push(slug);
+        if (!slugs.includes(slug)) slugs.push(slug);
       }
 
       // remove orphans
       for (let index = this.auras.length - 1; index > -1; index -= 1) {
-        if (slugs.indexOf(this.auras[index].slug) === -1) {
-          console.log(`remove orphan ${this.auras[index].slug}`);
+        if (!slugs.includes(this.auras[index].slug)) {
           this.auras.splice(index, 1);
         }
       }
@@ -1166,10 +1165,8 @@ export default defineComponent({
                     // Check if encoded string needs to be fetched
                     if (
                       !aura.ignoreWagoUpdate &&
-                      (aura.encoded === null ||
-                        (wagoData.version > aura.version &&
-                          !!aura.wagoVersion &&
-                          wagoData.version > aura.wagoVersion)) &&
+                      (wagoData.version > aura.version) &&
+                      (aura.wagoVersion === null || wagoData.version > aura.wagoVersion) &&
                       !(
                         this.config.ignoreOwnAuras &&
                         wagoData.username === this.config.wagoUsername
