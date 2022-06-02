@@ -388,7 +388,6 @@ export default defineComponent({
       return this.auras.filter(
         (aura) =>
           !!aura.encoded &&
-          (!!aura.topLevel || aura.regionType !== "group") &&
           !(
             this.config.ignoreOwnAuras &&
             aura.author === this.config.wagoUsername
@@ -755,13 +754,6 @@ export default defineComponent({
         return [];
       }
 
-      // Set all auras topLevel = null to avoid bugs after user move his auras
-      this.auras
-        .filter((aura) => aura.auraType === config.addonName)
-        .forEach((aura, index) => {
-          this.auras[index].topLevel = null;
-        });
-
       const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
       WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
@@ -775,7 +767,6 @@ export default defineComponent({
             let skipWagoUpdate = null;
             let id;
             let uid = null;
-            let topLevel = true;
 
             obj2.value.fields.forEach((obj3) => {
               if (obj3.key.value === "id") {
@@ -808,10 +799,6 @@ export default defineComponent({
 
                 if (result) ({ 2: slug } = url.match(pattern));
               }
-
-              if (obj3.key.value === "parent") {
-                topLevel = false;
-              }
             });
 
             if (slug) {
@@ -832,7 +819,6 @@ export default defineComponent({
                 encoded: null,
                 wagoid: null,
                 ids: [id],
-                topLevel: topLevel ? id : null,
                 uids: uid ? [uid] : [],
                 regionType: null,
                 auraType: config.addonName,
@@ -960,7 +946,6 @@ export default defineComponent({
                       encoded: null,
                       wagoid: null,
                       ids: [id],
-                      topLevel: true,
                       uids: [],
                       regionType: null,
                       auraType: config.addonName,
@@ -991,7 +976,6 @@ export default defineComponent({
                 encoded: null,
                 wagoid: null,
                 ids: [profid],
-                topLevel: true,
                 uids: [],
                 regionType: null,
                 auraType: config.addonName,
@@ -1073,8 +1057,6 @@ export default defineComponent({
               if (typeof aura.regionType === "undefined") {
                 this.auras[index].regionType = null;
               }
-
-              if (foundAura.topLevel) this.auras[index].topLevel = foundAura.id;
 
               // add aura id to "ids" if necessary
               if (aura.ids.indexOf(foundAura.id) === -1) {
@@ -1184,7 +1166,6 @@ export default defineComponent({
                     // Check if encoded string needs to be fetched
                     if (
                       !aura.ignoreWagoUpdate &&
-                      (aura.topLevel || aura.regionType !== "group") &&
                       (aura.encoded === null ||
                         (wagoData.version > aura.version &&
                           !!aura.wagoVersion &&
