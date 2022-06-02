@@ -1411,8 +1411,6 @@ export default defineComponent({
           spacing = "  ";
 
           let LuaSlugs = spacing + "  slugs = {\n";
-          let LuaUids = spacing + "  uids = {\n";
-          let LuaIds = spacing + "  ids = {\n";
 
           this.aurasWithData
             .filter((aura) => aura.auraType === config.addonName)
@@ -1442,34 +1440,9 @@ export default defineComponent({
                 }
               }
 
-              if (aura.uids && aura.ids) {
-                aura.uids.forEach((uid) => {
-                  if (uid) {
-                    LuaUids +=
-                      spacing +
-                      `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
-                        aura.slug
-                      }]=],\n`;
-                  }
-                });
-
-                aura.ids.forEach((id) => {
-                  if (id) {
-                    LuaIds +=
-                      spacing +
-                      `    ["${id
-                        .replace(/\\/g, "\\\\")
-                        .replace(/"/g, '\\"')}"] = [=[${aura.slug}]=],\n`;
-                  }
-                });
-              }
               LuaSlugs += spacing + "    },\n";
             });
           LuaOutput += LuaSlugs;
-          LuaOutput += spacing + "  },\n";
-          LuaOutput += LuaUids;
-          LuaOutput += spacing + "  },\n";
-          LuaOutput += LuaIds;
           LuaOutput += spacing + "  },\n";
           LuaOutput += spacing + "  stash = {\n";
 
