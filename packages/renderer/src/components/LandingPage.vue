@@ -402,7 +402,6 @@ export default defineComponent({
       return this.auras.filter(
         (aura) =>
           !!aura.encoded &&
-          (!!aura.topLevel || aura.regionType !== "group") &&
           !(
             this.config.ignoreOwnAuras &&
             aura.author === this.config.wagoUsername
@@ -773,13 +772,6 @@ export default defineComponent({
         return [];
       }
 
-      // Set all auras topLevel = null to avoid bugs after user move his auras
-      this.auras
-        .filter((aura) => aura.auraType === config.addonName)
-        .forEach((aura, index) => {
-          this.auras[index].topLevel = null;
-        });
-
       const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
       WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
@@ -793,7 +785,6 @@ export default defineComponent({
             let skipWagoUpdate = null;
             let id;
             let uid = null;
-            let topLevel = true;
 
             obj2.value.fields.forEach((obj3) => {
               if (obj3.key.value === "id") {
@@ -826,10 +817,6 @@ export default defineComponent({
 
                 if (result) ({ 2: slug } = url.match(pattern));
               }
-
-              if (obj3.key.value === "parent") {
-                topLevel = false;
-              }
             });
 
             if (slug) {
@@ -850,7 +837,6 @@ export default defineComponent({
                 encoded: null,
                 wagoid: null,
                 ids: [id],
-                topLevel: topLevel ? id : null,
                 uids: uid ? [uid] : [],
                 regionType: null,
                 auraType: config.addonName,
@@ -978,7 +964,6 @@ export default defineComponent({
                       encoded: null,
                       wagoid: null,
                       ids: [id],
-                      topLevel: true,
                       uids: [],
                       regionType: null,
                       auraType: config.addonName,
@@ -1009,7 +994,6 @@ export default defineComponent({
                 encoded: null,
                 wagoid: null,
                 ids: [profid],
-                topLevel: true,
                 uids: [],
                 regionType: null,
                 auraType: config.addonName,
@@ -1092,8 +1076,6 @@ export default defineComponent({
                 this.auras[index].regionType = null;
               }
 
-              if (foundAura.topLevel) this.auras[index].topLevel = foundAura.id;
-
               // add aura id to "ids" if necessary
               if (aura.ids.indexOf(foundAura.id) === -1) {
                 this.auras[index].ids.push(foundAura.id);
@@ -1122,13 +1104,12 @@ export default defineComponent({
           });
         }
 
-        if (slugs.indexOf(slug) === -1) slugs.push(slug);
+        if (!slugs.includes(slug)) slugs.push(slug);
       }
 
       // remove orphans
       for (let index = this.auras.length - 1; index > -1; index -= 1) {
-        if (slugs.indexOf(this.auras[index].slug) === -1) {
-          console.log(`remove orphan ${this.auras[index].slug}`);
+        if (!slugs.includes(this.auras[index].slug)) {
           this.auras.splice(index, 1);
         }
       }
@@ -1202,11 +1183,8 @@ export default defineComponent({
                     // Check if encoded string needs to be fetched
                     if (
                       !aura.ignoreWagoUpdate &&
-                      (aura.topLevel || aura.regionType !== "group") &&
-                      (aura.encoded === null ||
-                        (wagoData.version > aura.version &&
-                          !!aura.wagoVersion &&
-                          wagoData.version > aura.wagoVersion)) &&
+                      (wagoData.version > aura.version) &&
+                      (aura.wagoVersion === null || wagoData.version > aura.wagoVersion) &&
                       !(
                         this.config.ignoreOwnAuras &&
                         wagoData.username === this.config.wagoUsername
@@ -1429,8 +1407,6 @@ export default defineComponent({
           spacing = "  ";
 
           let LuaSlugs = spacing + "  slugs = {\n";
-          let LuaUids = spacing + "  uids = {\n";
-          let LuaIds = spacing + "  ids = {\n";
 
           this.aurasWithData
             .filter((aura) => aura.auraType === config.addonName)
@@ -1460,34 +1436,9 @@ export default defineComponent({
                 }
               }
 
-              if (aura.uids && aura.ids) {
-                aura.uids.forEach((uid) => {
-                  if (uid) {
-                    LuaUids +=
-                      spacing +
-                      `    ["${uid.replace(/"/g, '\\"')}"] = [=[${
-                        aura.slug
-                      }]=],\n`;
-                  }
-                });
-
-                aura.ids.forEach((id) => {
-                  if (id) {
-                    LuaIds +=
-                      spacing +
-                      `    ["${id
-                        .replace(/\\/g, "\\\\")
-                        .replace(/"/g, '\\"')}"] = [=[${aura.slug}]=],\n`;
-                  }
-                });
-              }
               LuaSlugs += spacing + "    },\n";
             });
           LuaOutput += LuaSlugs;
-          LuaOutput += spacing + "  },\n";
-          LuaOutput += LuaUids;
-          LuaOutput += spacing + "  },\n";
-          LuaOutput += LuaIds;
           LuaOutput += spacing + "  },\n";
           LuaOutput += spacing + "  stash = {\n";
 
