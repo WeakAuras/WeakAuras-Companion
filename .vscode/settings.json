@@ -8,6 +8,7 @@
         "Deps",
         "Depts",
         "devland",
+        "dragndrop",
         "HKLM",
         "Hmmss",
         "icns",
@@ -20,11 +21,13 @@
         "PRCI",
         "profsemver",
         "promisified",
+        "TDPRU",
         "uids",
         "untrigger",
         "valided",
         "Vardex",
         "Vdata",
+        "Vite",
         "VUEJS",
         "Vwith",
         "wacompanionsvfile",
@@ -32,7 +35,6 @@
         "wagoid",
         "wotlk",
         "YYYYMMDDH",
-        "zhcn",
-        "Vite"
+        "zhcn"
     ],
 }
