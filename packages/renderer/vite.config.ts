@@ -11,9 +11,17 @@ export default defineConfig({
   mode: process.env.NODE_ENV,
   root: __dirname,
   resolve: {
-    alias: {
-      _: path.resolve(__dirname, "src")
-    }
+    alias: [
+      {
+        find: /~(.+)/,
+        replacement: path.join(process.cwd(), 'node_modules/$1'),
+      },
+
+      {
+        find: /@\//,
+        replacement: path.join(process.cwd(), './packages/renderer/src') + '/',
+      },
+    ]
   },
   plugins: [
     vue(),
