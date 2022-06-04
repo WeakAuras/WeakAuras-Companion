@@ -28,10 +28,14 @@
           target="_blank"
           >GitHub</a
         ><br />
-        {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka Buds<br />
-        {{ $t("app.about.platersupport" /* Plater support */) }} Cont1nuity/Ariani<br />
+        {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka
+        Buds<br />
+        {{ $t("app.about.platersupport" /* Plater support */) }}
+        Cont1nuity/Ariani<br />
         {{ $t("app.about.cssby" /* CSS by */) }}
-        <a href="https://sragia.com/" target="_blank">Aigars Bedeicis aka Exality</a>
+        <a href="https://sragia.com/" target="_blank"
+          >Aigars Bedeicis aka Exality</a
+        >
         and <a href="https://stephanosue.com/" target="_blank">Stephano Sue</a>
       </p>
       <br />
@@ -82,8 +86,8 @@
 <script>
 import { defineComponent } from "vue";
 
-import medias from "@/libs/contacts";
-import { version as VERSION } from "../../../package.json";
+import medias from "../../libs/contacts";
+import { version as VERSION } from "../../../../../package.json";
 
 export default defineComponent({
   name: "About",

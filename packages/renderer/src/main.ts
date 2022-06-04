@@ -3,9 +3,9 @@ import Store from "electron-store";
 import FloatingVue from "floating-vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
-import { createApp } from 'vue';
+import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
-import App from './App.vue';
+import App from "./App.vue";
 
 import de from "../../../i18n/de.json";
 import en from "../../../i18n/en.json";
@@ -90,5 +90,5 @@ app.use(FloatingVue, {
 });
 
 createApp(App)
-  .mount('#app')
+  .mount("#app")
   .$nextTick(window.removeLoading)
