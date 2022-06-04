@@ -10,9 +10,7 @@
         />
       </div>
       <div class="actions">
-        <Button type="reset" @click="clearList"> 
-            Clear list
-        </Button>
+        <Button type="reset" @click="clearList"> Clear list </Button>
       </div>
     </div>
   </div>
@@ -21,7 +19,7 @@
 import { defineComponent } from "vue";
 import Button from "./Button.vue";
 import Aura from "./Aura.vue";
-import { useStashStore } from "@/stores/auras";
+import { useStashStore } from "../../stores/auras";
 
 export default defineComponent({
   components: { Button, Aura },
@@ -29,8 +27,8 @@ export default defineComponent({
     const stash = useStashStore();
 
     return {
-      stash
-    }
+      stash,
+    };
   },
   methods: {
     close() {
@@ -41,7 +39,7 @@ export default defineComponent({
       event.stopPropagation();
       this.stash.$reset();
       this.$parent.toggleUpdatedAuraList();
-    }
+    },
   },
 });
 </script>

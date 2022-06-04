@@ -236,7 +236,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
 import { defineComponent } from "vue";
 import path from "path";
 import backupIfRequired from "../libs/backup";
@@ -1187,10 +1187,9 @@ export default defineComponent({
                     // Check if encoded string needs to be fetched
                     if (
                       !aura.ignoreWagoUpdate &&
-                      ((aura.encoded === null) || (
-                        (wagoData.version > aura.version) &&
-                        (aura.wagoVersion === null || wagoData.version > aura.wagoVersion)
-                      )) &&
+                      wagoData.version > aura.version &&
+                      (aura.wagoVersion === null ||
+                        wagoData.version > aura.wagoVersion) &&
                       !(
                         this.config.ignoreOwnAuras &&
                         wagoData.username === this.config.wagoUsername
@@ -1887,10 +1886,10 @@ end)
 </script>
 
 <style lang="scss">
-@import "@/assets/fonts/fonts.scss";
-@import "@/assets/css/tooltip.scss";
-@import "@/assets/css/globals.scss";
-@import "@/assets/css/common.scss";
+@import "../assets/fonts/fonts.scss";
+@import "../assets/css/tooltip.scss";
+@import "../assets/css/globals.scss";
+@import "../assets/css/common.scss";
 
 $iconDefaultColor: #51ae42;
 
