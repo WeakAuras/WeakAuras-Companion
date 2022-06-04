@@ -27,6 +27,8 @@ jobs:
 
       - name: Build
         run: npm run build --publish=never
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - uses: actions/upload-artifact@v3
         name: Upload DMG
