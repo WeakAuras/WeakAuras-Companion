@@ -26,7 +26,7 @@ jobs:
         run: npm rebuild node-sass
 
       - name: Build
-        run: npm run build
+        run: npm run build --publish=never
 
       - uses: actions/upload-artifact@v3
         name: Upload DMG
