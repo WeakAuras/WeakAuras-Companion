@@ -22,6 +22,7 @@ export async function wowDefaultPath() {
     try {
       const results = await regedit_promisified.list([key])
       const value = results[key].values.InstallPath.value
+
       if (typeof (value) == "string") {
         return path.join(value, "..")
       } else {
