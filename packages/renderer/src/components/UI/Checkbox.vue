@@ -6,7 +6,10 @@
       :checked="modelValue"
       @input="$emit('update:modelValue', $event.target.checked)"
     />
-    <div class="checkbox__box" :class="{ 'checkbox__box--checked': modelValue }" />
+    <div
+      class="checkbox__box"
+      :class="{ 'checkbox__box--checked': modelValue }"
+    />
     <label><slot></slot></label>
   </div>
 </template>
@@ -20,7 +23,7 @@ export default {
     triggerInputClick() {
       this.$refs.checkbox.click();
     },
-  }
+  },
 };
 </script>
 
@@ -64,7 +67,7 @@ input[type="checkbox"] + .checkbox__box:focus {
 
 .checkbox__box--checked {
   background-color: #191919;
-  background-image: url("~@/assets/checkmark.png");
+  background-image: url("@/assets/checkmark.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 15px;

@@ -1,29 +1,37 @@
 <template>
   <div id="StopMotion">
     <div>
-      <div class="title">{{ $t('app.stopmotion.selectgifconverter' /* StopMotion GIF Converter */) }}</div>
-      <br/>
+      <div class="title">
+        {{
+          $t("app.stopmotion.selectgifconverter" /* StopMotion GIF Converter */)
+        }}
+      </div>
+      <br />
       <div class="bts-top-right">
         <Button class="btn-ok btn-title" v-if="step == 3" @click="setStep(1)">
-        <span class="material-icons">first_page</span>
+          <span class="material-icons">first_page</span>
         </Button>
         <Button class="btn-ok btn-title" v-if="step > 1" @click="prev()">
-        <span class="material-icons">keyboard_backspace</span>
+          <span class="material-icons">keyboard_backspace</span>
         </Button>
       </div>
     </div>
-    <StopMotionSelectGif v-if="step == 1" @next="next()"/>
-    <StopMotionSettings v-if="step == 2" :wowVersions="wowVersions" @next="next()"/>
-    <StopMotionResult v-if="step == 3"/>
+    <StopMotionSelectGif v-if="step == 1" @next="next()" />
+    <StopMotionSettings
+      v-if="step == 2"
+      :wowVersions="wowVersions"
+      @next="next()"
+    />
+    <StopMotionResult v-if="step == 3" />
   </div>
 </template>
 
 <script>
-import StopMotionSelectGif from "./StopMotionSelectGif.vue"
+import StopMotionSelectGif from "./StopMotionSelectGif.vue";
 import StopMotionSettings from "./StopMotionSettings.vue";
-import StopMotionResult from "./StopMotionResult.vue"
+import StopMotionResult from "./StopMotionResult.vue";
 import Button from "./Button.vue";
-//import { useStopMotionStore } from "@/stores/stopmotion";
+//import { useStopMotionStore } from "../../stores/stopmotion";
 
 export default {
   name: "StopMotion",
@@ -31,7 +39,7 @@ export default {
     StopMotionSelectGif,
     StopMotionSettings,
     StopMotionResult,
-    Button
+    Button,
   },
   props: ["wowVersions"],
   data() {
@@ -41,7 +49,7 @@ export default {
   },
   methods: {
     setStep(value) {
-      this.step = value
+      this.step = value;
     },
     next() {
       this.step++;
@@ -49,7 +57,7 @@ export default {
     prev() {
       this.step--;
     },
-  }
+  },
 };
 </script>
 
@@ -152,10 +160,9 @@ label,
   max-width: 100%;
 }
 
-.bts-top-right{
+.bts-top-right {
   position: absolute;
   right: 40px;
   top: 30px;
 }
-
 </style>

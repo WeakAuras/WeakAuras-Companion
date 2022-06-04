@@ -5,27 +5,27 @@
       notAnUpdate: aura.version == aura.wagoVersion,
     }"
   >
-    <span v-if="aura.source === 'WeakAuras Companion'" class="companion-icon"/>
+    <span v-if="aura.source === 'WeakAuras Companion'" class="companion-icon" />
     <a
       v-if="aura.source === 'Wago'"
       v-tooltip="{
         content: wagoURL(aura.slug),
         html: false,
         strategy: 'fixed',
-        theme: 'info-tooltip'
+        theme: 'info-tooltip',
       }"
       class="wago-icon"
       target="_blank"
       :href="wagoURL(aura.slug)"
     />
-    
+
     <div class="aura-name-container">
       <span
         v-tooltip="{
           content: childs,
           html: false,
           strategy: 'fixed',
-          theme: 'info-tooltip'
+          theme: 'info-tooltip',
         }"
         class="aura-name"
         >{{ aura.name }}
@@ -54,10 +54,7 @@
     <span v-if="aura.auraTypeDisplay" class="tag">
       {{ aura.auraTypeDisplay }}
     </span>
-    <a
-      v-if="aura.source !== 'Wago'"
-      class="author"
-    >
+    <a v-if="aura.source !== 'Wago'" class="author">
       {{ aura.author }}
     </a>
     <a
@@ -67,7 +64,7 @@
         popperClass: ['small'],
         html: false,
         strategy: 'fixed',
-        theme: 'info-tooltip'
+        theme: 'info-tooltip',
       }"
       class="author"
       target="_blank"
@@ -87,7 +84,7 @@
           content: timeElapsed,
           popperClass: ['small'],
           strategy: 'fixed',
-          theme: 'info-tooltip'
+          theme: 'info-tooltip',
         }"
         class="wago-version"
         @mouseenter="updateCurrentTime()"
@@ -101,7 +98,7 @@
 
 <script>
 import { DateTime } from "luxon";
-import sanitize from "@/libs/sanitize";
+import sanitize from "../../libs/sanitize";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -227,7 +224,7 @@ export default defineComponent({
   display: inline-block;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.3);
-  content: url("~@/assets/wago_plain.png");
+  content: url("@/assets/wago_plain.png");
 }
 
 .companion-icon {
@@ -238,7 +235,7 @@ export default defineComponent({
   display: inline-block;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.3);
-  content: url("~@/assets/weakauras.png");
+  content: url("@/assets/weakauras.png");
 }
 
 .author {

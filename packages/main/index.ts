@@ -54,13 +54,10 @@ autoUpdater.logger = log;
 //@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
+let publicdir = ""
 
-/**
- * Set `__static` path to static files in production
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
- */
 if (isProduction) {
-  global.__static = path.join(__dirname, "/public").replace(/\\/g, "\\\\");
+  publicdir = path.join(__dirname, "/public").replace(/\\/g, "\\\\");
 }
 
 let tray: Tray | null = null;
@@ -68,7 +65,7 @@ let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 let winURL = null;
 
-const iconpath = path.join(__static, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
+const iconpath = path.join(publicdir, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
 
 function handleLinks(link: string) {
   if (mainWindow && mainWindow?.webContents) {
@@ -85,7 +82,7 @@ async function createWindow() {
     frame: false,
     transparent: true,
     backgroundColor: "#00ffffff",
-    icon: path.join(__static, "icon.png"),
+    icon: path.join(publicdir, "icon.png"),
     resizable: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
@@ -311,7 +308,7 @@ ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
   const notification = new Notification({
     title: "New update ready to install",
     body: text,
-    icon: path.join(__static, process.platform === "win32" ? "bigicon.png" : "icon.png"),
+    icon: path.join(publicdir, process.platform === "win32" ? "bigicon.png" : "icon.png"),
   });
 
   notification.on("click", () => {
@@ -351,7 +348,7 @@ autoUpdater.on("update-available", (info) => {
     new Notification({
       title: "A new update is available",
       body: `WeakAuras Companion ${info.version} is available for download.`,
-      icon: path.join(__static, process.platform === "win32" ? "bigicon.png" : "icon.png"),
+      icon: path.join(publicdir, process.platform === "win32" ? "bigicon.png" : "icon.png"),
     }).show();
 
     // show install nag only once
@@ -395,7 +392,7 @@ autoUpdater.on("update-downloaded", (info) => {
       new Notification({
         title: "A new update is ready to install",
         body: `WeakAuras Companion ${info.version} has been downloaded and will be automatically installed when you close the app.`,
-        icon: path.join(__static, process.platform === "win32" ? "bigicon.png" : "icon.png"),
+        icon: path.join(publicdir, process.platform === "win32" ? "bigicon.png" : "icon.png"),
       }).show();
 
       // show install nag only once
