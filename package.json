@@ -23,7 +23,7 @@
     "electron-log": "^4.4.7",
     "electron-store": "^8.0.1",
     "electron-updater": "^5.0.1",
-    "floating-vue": "^2.0.0-beta.16",
+    "floating-vue": "^2.0.0-beta.17",
     "luaparse": "~0.2.1",
     "luxon": "^2.4.0",
     "material-icons": "^1.11.0",
