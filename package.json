@@ -1,6 +1,6 @@
 {
   "name": "weakauras-companion",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
   "scripts": {
@@ -64,7 +64,7 @@
     "eslint-plugin-vue": "^8.7.1",
     "glob": "^8.0.3",
     "prettier": "^2.6.2",
-    "sass": "^1.52.2",
+    "sass": "^1.52.3",
     "sass-loader": "^13.0.0",
     "stylelint": "^14.8.5",
     "stylelint-config-recommended-scss": "^6.0.0",
