@@ -42,6 +42,9 @@ module.exports = {
           },
           singleArchFiles: "**/sharp-darwin-arm64v8.node",
           artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
+          asarUnpack: [
+            "**/node_modules/sharp/**"
+          ]
         },
         win: {
           icon: "public/icon.ico",
