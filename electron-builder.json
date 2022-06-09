@@ -33,7 +33,10 @@
       "arch": "universal"
     },
     "singleArchFiles": "**/sharp-darwin-arm64v8.node",
-    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "asarUnpack": [
+      "**/node_modules/sharp/**"
+    ]
   },
   "win": {
     "icon": "packages/renderer/public/icon.ico",
