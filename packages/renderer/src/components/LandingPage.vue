@@ -7,7 +7,7 @@
       <TitleBar></TitleBar>
       <header>
         <div class="app-logo">
-          <img :src="require(`@/assets/weakauras.png`)" class="logo-img" />
+          <img src="../assets/weakauras.png" class="logo-img" />
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
         </div>
         <div class="menu-btns">
