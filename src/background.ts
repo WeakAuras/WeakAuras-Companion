@@ -122,7 +122,9 @@ async function createWindow() {
   mainWindow?.on("minimize", (event) => {
     event.preventDefault();
     mainWindow?.minimize();
-    app.dock.hide();
+    if (process.platform === "darwin") {
+      app.dock.hide();
+    }
   });
 
   // Protocol handler for Windows
@@ -145,7 +147,9 @@ async function createWindow() {
       label: "Open WeakAuras Companion",
       click: () => {
         mainWindow?.show();
-        app.dock.show();
+        if (process.platform === "darwin") {
+          app.dock.show();
+        }
       },
     },
     {
@@ -193,10 +197,14 @@ async function createWindow() {
   tray?.on("click", () => {
     if (mainWindow?.isVisible()) {
       mainWindow?.hide();
-      app.dock.hide();
+      if (process.platform === "darwin") {
+        app.dock.hide();
+      }
     } else {
       mainWindow?.show();
-      app.dock.show();
+      if (process.platform === "darwin") {
+        app.dock.show();
+      }
     }
   });
 
@@ -245,7 +253,9 @@ if (!app.requestSingleInstanceLock()) {
       }
     } else {
       createWindow();
-      app.dock.show();
+      if (process.platform === "darwin") {
+        app.dock.show();
+      }
     }
 
     if (process.env.NODE_ENV === "production") {
@@ -266,7 +276,9 @@ app.on("window-all-closed", () => {
 app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
-    app.dock.show();
+    if (process.platform === "darwin") {
+      app.dock.show();
+    }
   }
 });
 
@@ -284,12 +296,16 @@ app.on("open-url", (event, url) => {
 ipcMain.handle("open", () => {
   mainWindow?.show();
   mainWindow?.focus();
-  app.dock.show();
+  if (process.platform === "darwin") {
+    app.dock.show();
+  }
 });
 
 ipcMain.handle("minimize", () => {
   mainWindow?.hide();
-  app.dock.hide();
+  if (process.platform === "darwin") {
+    app.dock.hide();
+  }
 });
 
 ipcMain.handle("close", () => {
