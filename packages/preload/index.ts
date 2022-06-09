@@ -1,7 +1,13 @@
-import { domReady } from './utils'
-import { useLoading } from './loading'
+import { domReady } from "./utils";
+import { useLoading } from "./loading";
+import { default as sharpInterface } from "sharp";
 
-const { appendLoading, removeLoading } = useLoading()
-window.removeLoading = removeLoading
+export function sharp(options) {
+    // TODO
+    return sharpInterface(options);
+}
 
-domReady().then(appendLoading)
+const { appendLoading, removeLoading } = useLoading();
+window.removeLoading = removeLoading;
+
+domReady().then(appendLoading);
