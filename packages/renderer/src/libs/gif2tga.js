@@ -1,6 +1,6 @@
 import fs from "fs"; //const fs = require("fs");
 import path from "path";
-import sharp from "sharp"; // require("sharp"); // https://sharp.pixelplumbing.com/api-composite
+import sharp from "../../../preload/index"; // require("sharp"); // https://sharp.pixelplumbing.com/api-composite
 import tga from "tga"; // https://github.com/steel1990/tga
 
 function nextPow2(aSize) {

@@ -5,6 +5,7 @@ import electron from 'vite-plugin-electron/renderer'
 import eslintPlugin from "vite-plugin-eslint"
 import resolve, { lib2esm } from 'vite-plugin-resolve'
 import pkg from '../../package.json'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -60,13 +61,23 @@ export default defineConfig({
         ),
       }
     ),
-    eslintPlugin()
+    eslintPlugin(),
+    vueI18n({
+      // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
+      compositionOnly: false,
+
+      // you need to set i18n resource including paths!
+      include: path.resolve(__dirname, './src/components/**/*.vue')
+    })
   ],
   base: './',
   build: {
     outDir: '../../dist/renderer',
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: true
+  },
+  optimizeDeps: {
+    exclude: ["sharp"],
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,

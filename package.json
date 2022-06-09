@@ -38,12 +38,13 @@
   },
   "devDependencies": {
     "@electron/remote": "^2.0.8",
+    "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@playwright/test": "^1.22.2",
     "@types/archiver": "^5.3.1",
     "@types/auto-launch": "^5.0.2",
     "@types/electron-localshortcut": "^3.1.0",
-    "@types/luaparse": "~0.2.1",
     "@types/jest": "^28.1.1",
+    "@types/luaparse": "0.2.1",
     "@types/luxon": "^2.3.2",
     "@types/sharp": "^0.30.2",
     "@types/tail": "^2.2.1",
@@ -69,7 +70,7 @@
     "eslint-plugin-vue": "^8.7.1",
     "floating-vue": "^2.0.0-beta.17",
     "glob": "^8.0.3",
-    "luaparse": "~0.2.1",
+    "luaparse": "0.2.1",
     "luxon": "^2.4.0",
     "material-icons": "^1.11.1",
     "nano-staged": "^0.8.0",
@@ -93,6 +94,9 @@
     "vue-i18n": "^9.1.10",
     "vue-tsc": "^0.37.0"
   },
+  "external": [
+    "sharp"
+  ],
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
     "VITE_DEV_SERVER_PORT": 3344

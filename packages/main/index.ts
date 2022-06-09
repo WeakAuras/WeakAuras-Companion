@@ -11,9 +11,9 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
-const remoteMain = require("@electron/remote/main");
+import remoteMain from "@electron/remote/main";
 remoteMain.initialize();
-const electronLocalshortcut = require("electron-localshortcut");
+import electronLocalshortcut from "electron-localshortcut";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const isProduction = process.env.NODE_ENV == "production";
 
