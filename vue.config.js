@@ -40,9 +40,10 @@ module.exports = {
             target: "default",
             arch: "universal",
           },
+          mergeASARs: false,
           artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
           asarUnpack: [
-            "**/node_modules/sharp/**/*"
+            "**/node_modules/sharp/**"
           ]
         },
         win: {
