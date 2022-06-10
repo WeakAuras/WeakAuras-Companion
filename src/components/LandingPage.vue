@@ -1165,8 +1165,10 @@ export default defineComponent({
                     // Check if encoded string needs to be fetched
                     if (
                       !aura.ignoreWagoUpdate &&
-                      (wagoData.version > aura.version) &&
-                      (aura.wagoVersion === null || wagoData.version > aura.wagoVersion) &&
+                      ((aura.encoded === null) || (
+                        (wagoData.version > aura.version) &&
+                        (aura.wagoVersion === null || wagoData.version > aura.wagoVersion)
+                      )) &&
                       !(
                         this.config.ignoreOwnAuras &&
                         wagoData.username === this.config.wagoUsername
