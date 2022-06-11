@@ -96,7 +96,6 @@ async function createWindow() {
   });
 
   remoteMain.enable(mainWindow?.webContents);
-
   if (app.isPackaged) {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   } else {
@@ -104,10 +103,10 @@ async function createWindow() {
     const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
     // https://github.com/sinsong/electron-vite-vue-template/blob/996bea385763e8f069f4af49bdfb0352b6a0aa5f/src/main/protocols/app.js#L12
     // createProtocol("app");
+
     mainWindow.loadURL(url)
     mainWindow.webContents.openDevTools()
   }
-
   mainWindow?.on("closed", () => {
     mainWindow = null;
   });
