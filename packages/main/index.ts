@@ -237,7 +237,11 @@ if (!app.requestSingleInstanceLock()) {
     if (isDevelopment && !process.env.IS_TEST) {
       // Install Vue Devtools
       try {
-        installExtension(VUEJS3_DEVTOOLS).then(() => {
+        installExtension(VUEJS3_DEVTOOLS.id, {
+          loadExtensionOptions: {
+            allowFileAccess: true,
+          }
+        }).then(() => {
           createWindow();
         })
       } catch (e) {
