@@ -23,16 +23,16 @@ pinia.use(
   createPersistedStatePlugin({
     storage: {
       getItem: async (key) => {
-        return store.get(key)
+        return store.get(key);
       },
       setItem: async (key, value) => {
-        return store.set(key, value)
+        return store.set(key, value);
       },
       removeItem: async (key) => {
-        return store.delete(key)
+        return store.delete(key);
       },
     },
-  }),
+  })
 );
 
 axios.defaults.timeout = 15000;
@@ -42,10 +42,10 @@ app.config.globalProperties.$http = axios;
 app.use(pinia);
 
 const configStoreSerialized = store.get("configStore");
-let locale = "en"
+let locale = "en";
 
 if (typeof configStoreSerialized === "string") {
-  locale = JSON.parse(configStoreSerialized).lang
+  locale = JSON.parse(configStoreSerialized).lang;
 }
 
 const i18n = createI18n({
@@ -64,14 +64,20 @@ const i18n = createI18n({
     ru: function (choice, choicesLength) {
       if (choicesLength < 4) {
         /* amount of available choices is incorrect (e.g. untranslated English phrase) */
-        return choice === 0 ? 0 /* none */ : choice !== 1 ? 2 /* everything else */ : 1; /* is 1 */
+        return choice === 0
+          ? 0 /* none */
+          : choice !== 1
+            ? 2 /* everything else */
+            : 1; /* is 1 */
       } else {
         /* amount of available choices is correct */
         return choice === 0
           ? 0 /* none */
           : choice % 10 === 1 && choice % 100 !== 11
             ? 1 /* ends in 1, excluding 11 */
-            : choice % 10 >= 2 && choice % 10 <= 4 && (choice % 100 < 10 || choice % 100 >= 20)
+            : choice % 10 >= 2 &&
+              choice % 10 <= 4 &&
+              (choice % 100 < 10 || choice % 100 >= 20)
               ? 2 /* ends in 2-4, excluding 12-14 */
               : 3; /* everything else */
       }
@@ -84,11 +90,9 @@ app.use(i18n);
 app.use(FloatingVue, {
   themes: {
     "info-tooltip": {
-      $extend: "tooltip"
-    }
-  }
+      $extend: "tooltip",
+    },
+  },
 });
 
-createApp(App)
-  .mount("#app")
-  .$nextTick(window.removeLoading)
+app.mount("#app").$nextTick(window.removeLoading);
