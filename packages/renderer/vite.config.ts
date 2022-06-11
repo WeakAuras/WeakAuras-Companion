@@ -6,6 +6,8 @@ import eslintPlugin from "vite-plugin-eslint"
 import resolve, { lib2esm } from 'vite-plugin-resolve'
 import pkg from '../../package.json'
 import vueI18n from '@intlify/vite-plugin-vue-i18n'
+import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs';
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,6 +27,7 @@ export default defineConfig({
     ]
   },
   plugins: [
+    viteCommonjs(),
     vue(),
     electron(),
     resolve(
@@ -78,6 +81,11 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ["sharp"],
+    esbuildOptions: {
+      plugins: [
+        esbuildCommonjs(['sharp'])
+      ]
+    }
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,
