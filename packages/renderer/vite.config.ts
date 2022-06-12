@@ -6,8 +6,8 @@ import eslintPlugin from "vite-plugin-eslint"
 import resolve, { lib2esm } from 'vite-plugin-resolve'
 import pkg from '../../package.json'
 import vueI18n from '@intlify/vite-plugin-vue-i18n'
-import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs';
-
+// import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs';
+import { viteRequire } from 'vite-require'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,8 +27,11 @@ export default defineConfig({
     ]
   },
   plugins: [
-    viteCommonjs(),
+    // viteCommonjs(),
     vue(),
+    viteRequire({
+      filter: id => id.includes('.vite-plugin-electron-renderer') ? false : null,
+    }),
     electron(),
     resolve(
       /**
@@ -62,6 +65,8 @@ export default defineConfig({
           ],
           { format: 'cjs' },
         ),
+        // C/C++ Native Addons
+        sharp: lib2esm('sharp', { format: 'cjs' }),
       }
     ),
     eslintPlugin(),
@@ -83,7 +88,7 @@ export default defineConfig({
     exclude: ["sharp"],
     esbuildOptions: {
       plugins: [
-        esbuildCommonjs(['sharp'])
+        // esbuildCommonjs(['sharp'])
       ]
     }
   },
