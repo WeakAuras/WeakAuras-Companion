@@ -1,7 +1,9 @@
 import fs from "fs"; //const fs = require("fs");
 import path from "path";
-import { sharp } from "sharp"; // require("sharp"); // https://sharp.pixelplumbing.com/api-composite
+import sharp from "sharp"; // require("sharp"); // https://sharp.pixelplumbing.com/api-composite
 import tga from "tga"; // https://github.com/steel1990/tga
+
+console.log(sharp)
 
 function nextPow2(aSize) {
     return Math.pow(2, Math.ceil(Math.log(aSize) / Math.log(2)));
