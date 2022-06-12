@@ -1,21 +1,33 @@
+import remoteMain from "@electron/remote/main";
 import AutoLaunch from "auto-launch";
-import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray } from "electron";
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  Notification,
+  protocol,
+  shell,
+  Tray,
+} from "electron";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
+import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
 import path, { join } from "path";
 
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-
-// Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
-
-import remoteMain from "@electron/remote/main";
-remoteMain.initialize();
-import electronLocalshortcut from "electron-localshortcut";
 const isDevelopment = process.env.NODE_ENV !== "production";
 const isProduction = process.env.NODE_ENV == "production";
+
+process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
+
+// Scheme must be registered before the app is ready
+protocol.registerSchemesAsPrivileged([
+  { scheme: "app", privileges: { secure: true, standard: true } },
+]);
+
+remoteMain.initialize();
 
 // disable outdated method for auto start
 const AutoLauncher = new AutoLaunch({
@@ -34,18 +46,18 @@ AutoLauncher.isEnabled().then(function (isEnabled) {
 
 const store = new Store();
 const configStoreSerialized = store.get("configStore");
-let config: { beta: boolean; startminimize?: boolean; minimized?: boolean; }
+let config: { beta: boolean; startminimize?: boolean; minimized?: boolean };
 
 if (typeof configStoreSerialized === "string") {
-  config = JSON.parse(configStoreSerialized)
+  config = JSON.parse(configStoreSerialized);
 } else {
   config = {
     beta: false,
-    minimized: false
-  }
+    minimized: false,
+  };
 }
 
-let cancellationToken: { cancel: () => void; };
+let cancellationToken: { cancel: () => void };
 
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
@@ -54,7 +66,7 @@ autoUpdater.logger = log;
 //@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
-let publicdir = ""
+let publicdir = "";
 
 if (isProduction) {
   publicdir = path.join(__dirname, "/public").replace(/\\/g, "\\\\");
@@ -85,7 +97,7 @@ async function createWindow() {
     icon: path.join(publicdir, "icon.png"),
     resizable: true,
     webPreferences: {
-      preload: join(__dirname, '../preload/index.cjs'),
+      preload: join(__dirname, "../preload/index.cjs"),
       disableBlinkFeatures: "Auxclick",
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
@@ -96,17 +108,19 @@ async function createWindow() {
   });
 
   remoteMain.enable(mainWindow?.webContents);
+
   if (app.isPackaged) {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
   } else {
     // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
-    const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
+    const url = `http://${process.env["VITE_DEV_SERVER_HOST"]}:${process.env["VITE_DEV_SERVER_PORT"]}`;
     // https://github.com/sinsong/electron-vite-vue-template/blob/996bea385763e8f069f4af49bdfb0352b6a0aa5f/src/main/protocols/app.js#L12
     // createProtocol("app");
 
-    mainWindow.loadURL(url)
-    mainWindow.webContents.openDevTools()
+    mainWindow.loadURL(url);
+    mainWindow.webContents.openDevTools();
   }
+
   mainWindow?.on("closed", () => {
     mainWindow = null;
   });
@@ -129,7 +143,10 @@ async function createWindow() {
   });
 
   mainWindow?.webContents.once("dom-ready", () => {
-    mainWindow?.webContents.send("setAllowPrerelease", autoUpdater.allowPrerelease);
+    mainWindow?.webContents.send(
+      "setAllowPrerelease",
+      autoUpdater.allowPrerelease
+    );
   });
 
   tray = new Tray(iconpath);
@@ -150,20 +167,24 @@ async function createWindow() {
         }
 
         autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-          mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
+          mainWindow?.webContents.send(
+            "updaterHandler",
+            "checkForUpdates",
+            UpdateCheckResult
+          );
           ({ cancellationToken } = UpdateCheckResult);
         });
       },
     },
     {
-      label: "Open DevTools Console",
+      label: "Open Developer Tools",
       click: () => {
         mainWindow?.webContents.openDevTools({ mode: "detach" });
       },
     },
     { type: "separator" },
     {
-      label: "Fetch Updates",
+      label: "Check for Aura Updates",
       click: () => {
         mainWindow?.webContents.send("refreshWago");
       },
@@ -231,10 +252,10 @@ if (!app.requestSingleInstanceLock()) {
         installExtension(VUEJS3_DEVTOOLS.id, {
           loadExtensionOptions: {
             allowFileAccess: true,
-          }
+          },
         }).then(() => {
           createWindow();
-        })
+        });
       } catch (e) {
         console.error("Vue Devtools failed to install:", e.toString());
       }
@@ -347,7 +368,7 @@ autoUpdater.on("update-available", (info) => {
     mainWindow?.webContents.send("updaterHandler", "update-available", info);
   }
 
-  if (!installNagAlreadyShowed) {
+  if (!installNagAlreadyShown) {
     new Notification({
       title: "A new update is available",
       body: `WeakAuras Companion ${info.version} is available for download.`,
@@ -355,7 +376,7 @@ autoUpdater.on("update-available", (info) => {
     }).show();
 
     // show install nag only once
-    installNagAlreadyShowed = true;
+    installNagAlreadyShown = true;
   }
 });
 
@@ -379,10 +400,10 @@ autoUpdater.on("download-progress", (progressObj) => {
   }
 });
 
-let installNagAlreadyShowed = false;
+let installNagAlreadyShown = false;
 
 autoUpdater.on("update-downloaded", (info) => {
-  if (!installNagAlreadyShowed) {
+  if (!installNagAlreadyShown) {
     if (mainWindow && mainWindow?.webContents) {
       mainWindow?.webContents.send("updaterHandler", "update-downloaded");
       mainWindow?.setProgressBar(-1);
@@ -399,7 +420,7 @@ autoUpdater.on("update-downloaded", (info) => {
       }).show();
 
       // show install nag only once
-      installNagAlreadyShowed = true;
+      installNagAlreadyShown = true;
     }
     */
   }

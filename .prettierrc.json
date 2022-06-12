@@ -1,3 +1,4 @@
 {
-    "endOfLine": "auto"
+    "endOfLine": "auto",
+    "printWidth": 240
 }

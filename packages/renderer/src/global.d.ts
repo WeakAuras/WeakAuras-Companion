@@ -1,8 +1,7 @@
-
-export { }
+export {};
 
 declare global {
   interface Window {
-    removeLoading: () => void
+    removeLoading: () => void;
   }
 }
