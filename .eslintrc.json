@@ -4,9 +4,6 @@
     "plugin:vue/vue3-essential",
     "prettier"
   ],
-  "globals": {
-    "__static": true
-  },
   "rules": {
     "linebreak-style": "off",
     "no-console": "off",
@@ -44,7 +41,7 @@
     "vue/multi-word-component-names": "off"
   },
   "parserOptions": {
-    "ecmaVersion": 2020
+    "ecmaVersion": "latest"
   },
   "plugins": [
     "prettier",

@@ -17,14 +17,14 @@ export default defineConfig({
     alias: [
       {
         find: /~(.+)/,
-        replacement: path.join(process.cwd(), 'node_modules/$1'),
+        replacement: path.join(process.cwd(), "node_modules/$1"),
       },
 
       {
         find: /@\//,
-        replacement: path.join(process.cwd(), './packages/renderer/src') + '/',
+        replacement: path.join(process.cwd(), "./packages/renderer/src") + "/",
       },
-    ]
+    ],
   },
   plugins: [
     // viteCommonjs(),
@@ -44,7 +44,7 @@ export default defineConfig({
         // What they have in common is that they will return - ESM format code snippets
 
         // ESM format string
-        'electron-store': 'export default require("electron-store");',
+        "electron-store": 'export default require("electron-store");',
         // Use lib2esm() to easy to convert ESM
         // Equivalent to
         /**
@@ -54,16 +54,13 @@ export default defineConfig({
          * export { _D_ as default }
          * `
          */
-        sqlite3: lib2esm('sqlite3', { format: 'cjs' }),
+        sqlite3: lib2esm("sqlite3", { format: "cjs" }),
         serialport: lib2esm(
           // CJS lib name
-          'serialport',
+          "serialport",
           // export memebers
-          [
-            'SerialPort',
-            'SerialPortMock',
-          ],
-          { format: 'cjs' },
+          ["SerialPort", "SerialPortMock"],
+          { format: "cjs" }
         ),
         // C/C++ Native Addons
         sharp: lib2esm('sharp', { format: 'cjs' }),
@@ -75,17 +72,17 @@ export default defineConfig({
       compositionOnly: false,
 
       // you need to set i18n resource including paths!
-      include: path.resolve(__dirname, './src/components/**/*.vue')
-    })
+      include: path.resolve(__dirname, "./src/components/**/*.vue"),
+    }),
   ],
-  base: './',
+  base: "./",
   build: {
-    outDir: '../../dist/renderer',
+    outDir: "../../dist/renderer",
     emptyOutDir: true,
-    sourcemap: true
+    sourcemap: false,
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,
     port: pkg.env.VITE_DEV_SERVER_PORT,
   },
-})
+});
