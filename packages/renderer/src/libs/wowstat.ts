@@ -35,7 +35,7 @@ export function afterReload(config: { value: any; version: any; versions: any[];
     "Account",
     account,
     "SavedVariables",
-    "WeakAurasCompanion.lua",
+    "WeakAurasCompanion.lua"
   );
 
   const { mtime } = fs.statSync(wacompanionsvfile);
