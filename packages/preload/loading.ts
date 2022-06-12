@@ -5,7 +5,7 @@
  * https://matejkustec.github.io/SpinThatShit
  */
 export function useLoading() {
-  const className = `loaders-css__square-spin`
+  const className = `loaders-css__square-spin`;
   const styleContent = `
 @keyframes square-spin {
   25% { transform: perspective(100px) rotateX(180deg) rotateY(0); }
@@ -32,36 +32,36 @@ export function useLoading() {
   background: #282c34;
   z-index: 9;
 }
-    `
-  const oStyle = document.createElement('style')
-  const oDiv = document.createElement('div')
+    `;
+  const oStyle = document.createElement("style");
+  const oDiv = document.createElement("div");
 
-  oStyle.id = 'app-loading-style'
-  oStyle.innerHTML = styleContent
-  oDiv.className = 'app-loading-wrap'
-  oDiv.innerHTML = `<div class="${className}"><div></div></div>`
+  oStyle.id = "app-loading-style";
+  oStyle.innerHTML = styleContent;
+  oDiv.className = "app-loading-wrap";
+  oDiv.innerHTML = `<div class="${className}"><div></div></div>`;
 
   return {
     appendLoading() {
-      safe.append(document.head, oStyle)
-      safe.append(document.body, oDiv)
+      safe.append(document.head, oStyle);
+      safe.append(document.body, oDiv);
     },
     removeLoading() {
-      safe.remove(document.head, oStyle)
-      safe.remove(document.body, oDiv)
+      safe.remove(document.head, oStyle);
+      safe.remove(document.body, oDiv);
     },
-  }
+  };
 }
 
 const safe = {
   append(parent: HTMLElement, child: HTMLElement) {
-    if (!Array.from(parent.children).find(e => e === child)) {
-      return parent.appendChild(child)
+    if (!Array.from(parent.children).find((e) => e === child)) {
+      return parent.appendChild(child);
     }
   },
   remove(parent: HTMLElement, child: HTMLElement) {
-    if (Array.from(parent.children).find(e => e === child)) {
-      return parent.removeChild(child)
+    if (Array.from(parent.children).find((e) => e === child)) {
+      return parent.removeChild(child);
     }
   },
-}
+};
