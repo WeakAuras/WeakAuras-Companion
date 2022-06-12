@@ -1,4 +1,4 @@
 # Ignore built files
 dist_electron/*
-
+release/**/*
 *.ejs
