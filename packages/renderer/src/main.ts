@@ -6,6 +6,7 @@ import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 import App from "./App.vue";
+import devtools from "@vue/devtools";
 
 import de from "../../../i18n/de.json";
 import en from "../../../i18n/en.json";
@@ -90,3 +91,4 @@ app.use(FloatingVue, {
 });
 
 app.mount("#app").$nextTick(window.removeLoading);
+devtools.connect();
