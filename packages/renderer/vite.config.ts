@@ -1,13 +1,12 @@
-import vue from '@vitejs/plugin-vue'
-import path from "path"
-import { defineConfig } from 'vite'
-import electron from 'vite-plugin-electron/renderer'
-import eslintPlugin from "vite-plugin-eslint"
-import resolve, { lib2esm } from 'vite-plugin-resolve'
-import pkg from '../../package.json'
-import vueI18n from '@intlify/vite-plugin-vue-i18n'
-// import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs';
-import { viteRequire } from 'vite-require'
+import vue from "@vitejs/plugin-vue";
+import path from "path";
+import { defineConfig } from "vite";
+import electron from "vite-plugin-electron/renderer";
+import eslintPlugin from "vite-plugin-eslint";
+import resolve, { lib2esm } from "vite-plugin-resolve";
+import pkg from "../../package.json";
+import vueI18n from "@intlify/vite-plugin-vue-i18n";
+import { viteRequire } from "vite-require";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,10 +26,9 @@ export default defineConfig({
     ],
   },
   plugins: [
-    // viteCommonjs(),
     vue(),
     viteRequire({
-      filter: id => id.includes('.vite-plugin-electron-renderer') ? false : null,
+      filter: (id) => (id.includes(".vite-plugin-electron-renderer") ? false : null),
     }),
     electron(),
     resolve(
@@ -63,7 +61,7 @@ export default defineConfig({
           { format: "cjs" }
         ),
         // C/C++ Native Addons
-        sharp: lib2esm('sharp', { format: 'cjs' }),
+        sharp: lib2esm("sharp", { format: "cjs" }),
       }
     ),
     eslintPlugin(),
