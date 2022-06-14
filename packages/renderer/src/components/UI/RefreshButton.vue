@@ -1,6 +1,6 @@
 <template>
   <div id="sync" :class="{ top: aurasShown > 0 }">
-    <Button
+    <UIButton
       v-if="isSettingsOk && isSvOk"
       :class="{ spin: fetching }"
       type="refresh"
@@ -8,11 +8,11 @@
     >
       <i class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
-    </Button>
-    <Button v-else-if="!isSettingsOk" type="issue" @click="gotoconfig">
+    </UIButton>
+    <UIButton v-else-if="!isSettingsOk" type="issue" @click="gotoconfig">
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
-    </Button>
+    </UIButton>
     <label v-else-if="!isVersionSelected" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
@@ -47,11 +47,11 @@
 <script>
 import { DateTime } from "luxon";
 import { defineComponent } from "vue";
-import Button from "./Button.vue";
+import UIButton from "./UIButton.vue";
 
 export default defineComponent({
   name: "RefreshButton",
-  components: { Button },
+  components: { UIButton },
   filters: {},
   props: [
     "usable",
