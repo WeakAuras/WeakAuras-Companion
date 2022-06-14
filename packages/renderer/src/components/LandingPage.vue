@@ -1,9 +1,6 @@
 <template>
   <div id="wrapper">
-    <div
-      class="main-container"
-      :class="{ blurred: reportIsShown || updateAuraIsShown }"
-    >
+    <div class="main-container" :class="{ blurred: reportIsShown || updateAuraIsShown }">
       <TitleBar></TitleBar>
       <header>
         <div class="app-logo">
@@ -11,72 +8,31 @@
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
         </div>
         <div class="menu-btns">
-          <Button
-            type="menu"
-            :class="{ active: configStep === 0 }"
-            @click="configStep = 0"
-            :title="$t('app.menu.main')"
-          >
+          <UIButton type="menu" :class="{ active: configStep === 0 }" @click="configStep = 0" :title="$t('app.menu.main')">
             <span class="material-icons">sync</span>
-          </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 4 }"
-            @click="configStep = 4"
-            :title="$t('app.footer.stopmotion')"
-          >
+          </UIButton>
+          <UIButton type="menu" :class="{ active: configStep === 4 }" @click="configStep = 4" :title="$t('app.footer.stopmotion')">
             <span class="material-icons">movie</span>
-          </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 1 }"
-            @click="configStep = 1"
-            :title="$t('app.menu.settings')"
-          >
+          </UIButton>
+          <UIButton type="menu" :class="{ active: configStep === 1 }" @click="configStep = 1" :title="$t('app.menu.settings')">
             <span class="material-icons">settings</span>
-          </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 2 }"
-            @click="configStep = 2"
-            :title="$t('app.menu.help')"
-          >
+          </UIButton>
+          <UIButton type="menu" :class="{ active: configStep === 2 }" @click="configStep = 2" :title="$t('app.menu.help')">
             <span class="material-icons">help</span>
-          </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 3 }"
-            @click="configStep = 3"
-            :title="$t('app.menu.about')"
-          >
+          </UIButton>
+          <UIButton type="menu" :class="{ active: configStep === 3 }" @click="configStep = 3" :title="$t('app.menu.about')">
             <span class="material-icons">info</span>
-          </Button>
+          </UIButton>
         </div>
       </header>
       <main>
         <template v-if="configStep === 0">
           <div id="selectors">
-            <div
-              v-if="config.wowpath.valided && config.wowpath.versions"
-              id="version-selector"
-            >
-              <Dropdown
-                v-model:value="config.wowpath.version"
-                :options="versionOptions"
-                :label="$t('app.wowpath.version' /* Version */)"
-                @change="compareSVwithWago()"
-              ></Dropdown>
+            <div v-if="config.wowpath.valided && config.wowpath.versions" id="version-selector">
+              <Dropdown v-model:value="config.wowpath.version" :options="versionOptions" :label="$t('app.wowpath.version' /* Version */)" @change="compareSVwithWago()"></Dropdown>
             </div>
-            <div
-              v-if="config.wowpath.valided && versionSelected"
-              id="account-selector"
-            >
-              <Dropdown
-                v-model:value="versionSelected.account"
-                :options="accountOptions"
-                :label="$t('app.wowpath.account' /* Account */)"
-                @change="compareSVwithWago()"
-              ></Dropdown>
+            <div v-if="config.wowpath.valided && versionSelected" id="account-selector">
+              <Dropdown v-model:value="versionSelected.account" :options="accountOptions" :label="$t('app.wowpath.account' /* Account */)" @change="compareSVwithWago()"></Dropdown>
             </div>
           </div>
           <div v-if="allAddonConfigs.length > 1" id="addonbttns">
@@ -84,16 +40,9 @@
               {{ $t("app.main.addons" /* Addons */) }}
             </label>
             <span style="margin-left: 5px" />
-            <Button
-              v-for="(addon, index) in allAddonConfigs"
-              :key="index"
-              type="addon"
-              :class="{ active: addonSelected === addon.addonName }"
-              :disabled="!addon.isInstalled"
-              @click="addonSelected = addon.addonName"
-            >
+            <UIButton v-for="(addon, index) in allAddonConfigs" :key="index" type="addon" :class="{ active: addonSelected === addon.addonName }" :disabled="!addon.isInstalled" @click="addonSelected = addon.addonName">
               {{ addon.addonName }}
-            </Button>
+            </UIButton>
           </div>
           <div id="dashboard">
             <RefreshButton
@@ -107,12 +56,7 @@
             ></RefreshButton>
             <br />
             <template v-if="aurasSortedForView.length > 0">
-              <AuraHeaders
-                :sorted-column="sortedColumn"
-                :sort-descending="sortDescending"
-                :addon-selected-config="addonSelectedConfig"
-                @sort-by="sortBy"
-              />
+              <AuraHeaders :sorted-column="sortedColumn" :sort-descending="sortDescending" :addon-selected-config="addonSelectedConfig" @sort-by="sortBy" />
               <div id="aura-list">
                 <Aura
                   v-for="aura in aurasSortedForView"
@@ -123,51 +67,25 @@
             </template>
           </div>
         </template>
-        <Config
-          v-else-if="configStep === 1"
-          :default-w-o-w-path="defaultWOWPath"
-        ></Config>
+        <Config v-else-if="configStep === 1" :default-w-o-w-path="defaultWOWPath"></Config>
         <Help v-else-if="configStep === 2"></Help>
         <About v-else-if="configStep === 3"></About>
-        <StopMotion
-          v-else-if="configStep === 4"
-          :wowVersions="versionOptions"
-        ></StopMotion>
+        <StopMotion v-else-if="configStep === 4" :wowVersions="versionOptions"></StopMotion>
       </main>
       <footer>
-        <a
-          class="getweakauras"
-          href="https://www.curseforge.com/wow/addons/weakauras-2"
-          target="_blank"
-        >
-          <img
-            :src="require(`@/assets/social-icons/curse.svg`)"
-            class="logo"
-            title="CurseForge"
-          />
+        <a class="getweakauras" href="https://www.curseforge.com/wow/addons/weakauras-2" target="_blank">
+          <img :src="require(`@/assets/social-icons/curse.svg`)" class="logo" title="CurseForge" />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
         <a class="browsewago" href="https://wago.io/weakauras" target="_blank">
-          <img
-            :src="require(`@/assets/social-icons/wago.svg`)"
-            class="logo"
-            title="Wago"
-          />
+          <img :src="require(`@/assets/social-icons/wago.svg`)" class="logo" title="Wago" />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
         </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
-          <img
-            :src="require(`@/assets/social-icons/bug_report.svg`)"
-            class="logo invert"
-            title="Bug"
-          />
+          <img :src="require(`@/assets/social-icons/bug_report.svg`)" class="logo invert" title="Bug" />
         </a>
-        <div
-          class="ready-to-install"
-          v-if="stash.auras.length > 0"
-          @click="toggleUpdatedAuraList()"
-        >
+        <div class="ready-to-install" v-if="stash.auras.length > 0" @click="toggleUpdatedAuraList()">
           <span>
             {{ $t("app.footer.readytoinstall" /* Ready To Install */) }}
             ({{ stash.auras.length }})
@@ -177,9 +95,7 @@
               strategy: 'fixed',
               theme: 'info-tooltip',
               html: true,
-              content: `${this.$t(
-                'app.main.readyForInstall' /* Ready for Install */
-              )}${readyForInstallTooltip}`,
+              content: `${this.$t('app.main.readyForInstall' /* Ready for Install */)}${readyForInstallTooltip}`,
             }"
             class="material-icons update-available update-auras"
           >
@@ -187,20 +103,14 @@
           </i>
         </div>
         <div class="app-update">
-          <a
-            :href="updater.path"
-            target="_blank"
-            v-if="updater.status === 'update-available'"
-          >
+          <a :href="updater.path" target="_blank" v-if="updater.status === 'update-available'">
             <i
               v-if="updater.status === 'update-available'"
               v-tooltip="{
                 strategy: 'fixed',
                 theme: 'info-tooltip',
                 html: true,
-                content: `${this.$t(
-                  'app.main.installUpdate' /* Install client update */
-                )}: v${updater.version} ${updater.releaseNotes}`,
+                content: `${this.$t('app.main.installUpdate' /* Install client update */)}: v${updater.version} ${updater.releaseNotes}`,
               }"
               class="material-icons update-available"
             >
@@ -212,9 +122,7 @@
             v-tooltip="{
               strategy: 'fixed',
               theme: 'info-tooltip',
-              content: `${this.$t(
-                'app.main.installUpdate' /* Install client update */
-              )}: v${updater.version}`,
+              content: `${this.$t('app.main.installUpdate' /* Install client update */)}: v${updater.version}`,
             }"
             class="material-icons update-available"
             @click="installUpdates"
@@ -248,7 +156,7 @@ import {
   createSortByType,
 } from "../libs/sort";
 import { wowDefaultPath, matchFolderNameInsensitive } from "../libs/utilities";
-import Button from "./UI/Button.vue";
+import UIButton from "./UI/UIButton.vue";
 import RefreshButton from "./UI/RefreshButton.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";
 import Aura from "./UI/Aura.vue";
@@ -288,7 +196,7 @@ export default defineComponent({
     TitleBar,
     Report,
     UpdatedAuraList,
-    Button,
+    UIButton,
     Dropdown,
     StopMotion,
   },
@@ -298,7 +206,7 @@ export default defineComponent({
       addonSelected: "WeakAuras",
       reportIsShown: false,
       updateAuraIsShown: false,
-      fetching: false, // use for avoid spamming refresh button and show spinner
+      fetching: false, // use for avoid spamming refresh UIButton and show spinner
       sortedColumn: "modified",
       sortDescending: false,
       schedule: {
@@ -1017,7 +925,7 @@ export default defineComponent({
 
       const addonConfigs = this.addonsInstalled;
 
-      if (this.fetching) return; // prevent spamming button
+      if (this.fetching) return; // prevent spamming UIButton
       this.fetching = true; // show animation
 
       if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
@@ -1937,8 +1845,7 @@ $iconDefaultColor: #51ae42;
   font-weight: 600;
   font-size: 16px;
   border-bottom: 3px solid transparent;
-  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
-    font-size 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out, font-size 0.2s ease-in-out;
 }
 
 .btn.btn-menu span {
