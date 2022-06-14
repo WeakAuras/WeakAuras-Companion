@@ -17,7 +17,7 @@ export function isOpen(wowpath: string, version: string) {
   return false;
 }
 
-export function afterReload(config: { value: any; version: any; versions: any[]; }, callback: () => void) {
+export function afterReload(config: { value: any; version: any; versions: any[] }, callback: () => void) {
   const wowpath = config.value;
   const version = config.version;
   let account: string;
@@ -28,26 +28,17 @@ export function afterReload(config: { value: any; version: any; versions: any[];
     }
   });
 
-  const wacompanionsvfile = path.join(
-    wowpath,
-    version,
-    "WTF",
-    "Account",
-    account,
-    "SavedVariables",
-    "WeakAurasCompanion.lua"
-  );
+  const wacompanionsvfile = path.join(wowpath, version, "WTF", "Account", account, "SavedVariables", "WeakAurasCompanion.lua");
 
   const { mtime } = fs.statSync(wacompanionsvfile);
-  let fsWait = false;
+  let fsWait: NodeJS.Timeout | null = null;
 
   const watcher = fs.watch(wacompanionsvfile, (event, filename) => {
     if (filename) {
-      if (fsWait) return;
+      if (fsWait != null) return;
 
-      //@ts-ignore
       fsWait = setTimeout(() => {
-        fsWait = false;
+        fsWait = null;
       }, 100);
       const stats = fs.statSync(wacompanionsvfile);
 

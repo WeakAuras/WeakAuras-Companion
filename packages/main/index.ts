@@ -1,21 +1,12 @@
 import remoteMain from "@electron/remote/main";
 import AutoLaunch from "auto-launch";
-import {
-  app,
-  BrowserWindow,
-  ipcMain,
-  Menu,
-  Notification,
-  protocol,
-  shell,
-  Tray,
-} from "electron";
+import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray } from "electron";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
-import path, { join } from "path";
+import path, { dirname, join } from "path";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 const isProduction = process.env.NODE_ENV == "production";
@@ -23,9 +14,7 @@ const isProduction = process.env.NODE_ENV == "production";
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([
-  { scheme: "app", privileges: { secure: true, standard: true } },
-]);
+protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 remoteMain.initialize();
 
@@ -66,8 +55,8 @@ autoUpdater.logger = log;
 //@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
-let publicdir = "";
 
+let publicdir = path.join(__dirname, "..", "/renderer");
 if (isProduction) {
   publicdir = path.join(__dirname, "/public").replace(/\\/g, "\\\\");
 }
@@ -143,10 +132,7 @@ async function createWindow() {
   });
 
   mainWindow?.webContents.once("dom-ready", () => {
-    mainWindow?.webContents.send(
-      "setAllowPrerelease",
-      autoUpdater.allowPrerelease
-    );
+    mainWindow?.webContents.send("setAllowPrerelease", autoUpdater.allowPrerelease);
   });
 
   tray = new Tray(iconpath);
@@ -167,11 +153,7 @@ async function createWindow() {
         }
 
         autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-          mainWindow?.webContents.send(
-            "updaterHandler",
-            "checkForUpdates",
-            UpdateCheckResult
-          );
+          mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
           ({ cancellationToken } = UpdateCheckResult);
         });
       },
