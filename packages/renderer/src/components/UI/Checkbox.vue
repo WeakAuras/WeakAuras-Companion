@@ -67,7 +67,7 @@ input[type="checkbox"] + .checkbox__box:focus {
 
 .checkbox__box--checked {
   background-color: #191919;
-  background-image: url("@/assets/checkmark.png");
+  background-image: url("/assets/checkmark.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 15px;
