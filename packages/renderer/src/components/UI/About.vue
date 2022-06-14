@@ -51,7 +51,7 @@
           >
             <a :href="media.url" target="_blank">
               <img
-                :src="require(`@/assets/social-icons/${media.name}.svg`)"
+                :src="`../assets/social-icons/${media.name}.svg`"
                 class="logo"
                 :title="media.name"
               />
@@ -70,7 +70,7 @@
           >
             <a :href="media.url" target="_blank">
               <img
-                :src="require(`@/assets/social-icons/${media.name}.svg`)"
+                :src="`../assets/social-icons/${media.name}.svg`"
                 class="logo"
                 :title="media.name"
               />

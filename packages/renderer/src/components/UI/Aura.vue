@@ -206,7 +206,7 @@ export default defineComponent({
   display: inline-block;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.3);
-  content: url("@/assets/wago_plain.png");
+  content: url("/assets/wago_plain.png");
 }
 
 .companion-icon {
@@ -217,7 +217,7 @@ export default defineComponent({
   display: inline-block;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.3);
-  content: url("@/assets/weakauras.png");
+  content: url("/assets/weakauras.png");
 }
 
 .author {
