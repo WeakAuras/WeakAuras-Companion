@@ -1,5 +1,4 @@
 import remoteMain from "@electron/remote/main";
-import AutoLaunch from "auto-launch";
 import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray, nativeImage } from "electron";
 import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
@@ -15,21 +14,6 @@ process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
 remoteMain.initialize();
-
-// disable outdated method for auto start
-const AutoLauncher = new AutoLaunch({
-  name: "WeakAuras Companion",
-});
-
-AutoLauncher.isEnabled().then(function (isEnabled) {
-  if (isEnabled) {
-    AutoLauncher.disable();
-
-    app.setLoginItemSettings({
-      openAtLogin: true,
-    });
-  }
-});
 
 const store = new Store();
 const configStoreSerialized = store.get("configStore");
