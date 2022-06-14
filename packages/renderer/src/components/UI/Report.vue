@@ -3,32 +3,26 @@
     <div class="container">
       <h1>{{ $t("app.report.title" /* Report a bug */) }}</h1>
       <div class="links">
-        <Button type="link">
-          <a
-            href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
-            target="_blank"
-          >
+        <UIButton type="link">
+          <a href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md" target="_blank">
             {{ $t("app.report.companion" /* Companion */) }}
           </a>
-        </Button>
-        <Button type="link">
-          <a
-            href="https://github.com/WeakAuras/WeakAuras2/issues/new"
-            target="_blank"
-          >
+        </UIButton>
+        <UIButton type="link">
+          <a href="https://github.com/WeakAuras/WeakAuras2/issues/new" target="_blank">
             {{ $t("app.report.addon" /* AddOn */) }}
           </a>
-        </Button>
+        </UIButton>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { defineComponent } from "vue";
-import Button from "./Button.vue";
+import UIButton from "./UIButton.vue";
 
 export default defineComponent({
-  components: { Button },
+  components: { UIButton },
   methods: {
     close() {
       this.$parent.toggleReport();

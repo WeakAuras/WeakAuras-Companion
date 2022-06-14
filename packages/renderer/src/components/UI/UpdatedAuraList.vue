@@ -10,19 +10,19 @@
         />
       </div>
       <div class="actions">
-        <Button type="reset" @click="clearList"> Clear list </Button>
+        <UIButton type="reset" @click="clearList"> Clear list </UIButton>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { defineComponent } from "vue";
-import Button from "./Button.vue";
+import UIButton from "./UIButton.vue";
 import Aura from "./Aura.vue";
 import { useStashStore } from "../../stores/auras";
 
 export default defineComponent({
-  components: { Button, Aura },
+  components: { UIButton, Aura },
   setup() {
     const stash = useStashStore();
 
