@@ -22,7 +22,7 @@
     <div class="aura-name-container">
       <span
         v-tooltip="{
-          content: childs,
+          content: children,
           html: false,
           strategy: 'fixed',
           theme: 'info-tooltip',
@@ -109,7 +109,7 @@ export default defineComponent({
     };
   },
   computed: {
-    childs() {
+    children() {
       let output = "";
 
       if (this.aura.ids) {
