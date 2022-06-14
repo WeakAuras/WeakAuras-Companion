@@ -106,7 +106,7 @@ async function createWindow() {
     // createProtocol("app");
 
     mainWindow.loadURL(url);
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools({ mode: "detach" });
   }
 
   mainWindow?.on("closed", () => {
