@@ -1,14 +1,13 @@
 import remoteMain from "@electron/remote/main";
 import AutoLaunch from "auto-launch";
-import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray, nativeImage } from "electron";
 import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
-import path, { dirname, join } from "path";
+import { join } from "path";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
-const isProduction = process.env.NODE_ENV == "production";
 
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
@@ -55,17 +54,17 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = "info";
 log.info("App starting...");
 
-let publicdir = path.join(__dirname, "..", "/renderer");
-if (isProduction) {
-  publicdir = path.join(__dirname, "/public").replace(/\\/g, "\\\\");
-}
-
 let tray: Tray | null = null;
 let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 let winURL = null;
 
-const iconpath = path.join(publicdir, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
+import trayIconNotWindows from "../renderer/public/icon-light.png"
+import notificationIconWindows from "../renderer/public/bigicon.png"
+import notificiationIconNotWindows from "../renderer/public/icon.png"
+
+const trayIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : trayIconNotWindows)
+const notificationIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : notificiationIconNotWindows)
 
 function handleLinks(link: string) {
   if (mainWindow && mainWindow?.webContents) {
@@ -82,7 +81,7 @@ async function createWindow() {
     frame: false,
     transparent: true,
     backgroundColor: "#00ffffff",
-    icon: path.join(publicdir, "icon.png"),
+    icon: notificationIcon,
     resizable: true,
     webPreferences: {
       preload: join(__dirname, "../preload/index.cjs"),
@@ -136,7 +135,7 @@ async function createWindow() {
     mainWindow?.webContents.send("setAllowPrerelease", autoUpdater.allowPrerelease);
   });
 
-  tray = new Tray(iconpath);
+  tray = new Tray(trayIcon);
 
   contextMenu = Menu.buildFromTemplate([
     {
@@ -314,7 +313,7 @@ ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
   const notification = new Notification({
     title: "New update ready to install",
     body: text,
-    icon: path.join(publicdir, process.platform === "win32" ? "bigicon.png" : "icon.png"),
+    icon: notificationIcon,
   });
 
   notification.on("click", () => {
@@ -354,7 +353,7 @@ autoUpdater.on("update-available", (info) => {
     new Notification({
       title: "A new update is available",
       body: `WeakAuras Companion ${info.version} is available for download.`,
-      icon: path.join(publicdir, process.platform === "win32" ? "bigicon.png" : "icon.png"),
+      icon: notificationIcon,
     }).show();
 
     // show install nag only once
