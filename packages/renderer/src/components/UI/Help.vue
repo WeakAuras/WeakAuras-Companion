@@ -59,7 +59,7 @@
           )
         }}
         <br />
-        <img :src="require(`@/assets/ingame.png`)" class="center" />
+        <img src="/assets/ingame.png" class="center" />
         <br />
       </li>
       <li>
@@ -69,7 +69,7 @@
           )
         }}
         <br />
-        <img :src="require(`@/assets/ingame2.png`)" class="center" />
+        <img src="/assets/ingame2.png" class="center" />
       </li>
     </ol>
     <br />
