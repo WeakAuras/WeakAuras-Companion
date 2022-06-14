@@ -3,27 +3,22 @@
     <div class="container">
       <h1>{{ $t("app.updatedAuraList.title" /* Ready to install */) }}</h1>
       <div class="updated-auras">
-        <Aura
-          v-for="aura in stash.auras"
-          :key="aura.slug"
-          :aura="aura"
-          :show-all-auras="true"
-        />
+        <Aura v-for="aura in stash.auras" :key="aura.slug" :aura="aura" :show-all-auras="true" />
       </div>
       <div class="actions">
-        <Button type="reset" @click="clearList"> Clear list </Button>
+        <UIButton type="reset" @click="clearList"> Clear list </UIButton>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { defineComponent } from "vue";
-import Button from "./Button.vue";
+import UIButton from "./UIButton.vue";
 import Aura from "./Aura.vue";
 import { useStashStore } from "../../stores/auras";
 
 export default defineComponent({
-  components: { Button, Aura },
+  components: { UIButton, Aura },
   setup() {
     const stash = useStashStore();
 

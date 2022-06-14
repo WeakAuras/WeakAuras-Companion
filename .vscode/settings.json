@@ -12,6 +12,7 @@
         "HKLM",
         "Hmmss",
         "icns",
+        "incorrectsv",
         "LSUI",
         "luaparse",
         "luxon",
@@ -23,6 +24,7 @@
         "promisified",
         "TDPRU",
         "tohtml",
+        "Türkçe",
         "uids",
         "untrigger",
         "valided",
@@ -35,6 +37,7 @@
         "Wago",
         "wagoid",
         "YYYYMMDDH",
-        "zhcn"
+        "zhcn",
+        "Русский"
     ],
 }

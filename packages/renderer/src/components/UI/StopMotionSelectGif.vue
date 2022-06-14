@@ -1,29 +1,18 @@
 <template>
   <div id="StopMotionWelcome">
     <div class="stuff">
-      <file-select
-        :create-directory="false"
-        :openFile="true"
-        :dragndrop="true"
-        :filters="[{ name: 'Animation', extensions: ['gif'] }]"
-        class="fileinput"
-        @update:path="update"
-      >
+      <file-select :create-directory="false" :openFile="true" :dragndrop="true" :filters="[{ name: 'Animation', extensions: ['gif'] }]" class="fileinput" @update:path="update">
         {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}<br /><br />
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i
         ><br /><br />
-        <Button class="btn-ok">{{
-          $t("stopmotion.select.computer" /* Choose one on your Computer */)
-        }}</Button
+        <UIButton class="btn-ok">{{ $t("stopmotion.select.computer" /* Choose one on your Computer */) }}</UIButton
         ><br /><br /> </file-select
       ><br />
       <div class="tenorblock">
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i
         ><br /><br />
         <discord-picker @gif="setTenor" :apiKey="apiKey">
-          <Button class="btn-ok">{{
-            $t("stopmotion.select.tenor" /* Choose one from Tenor */)
-          }}</Button>
+          <UIButton class="btn-ok">{{ $t("stopmotion.select.tenor" /* Choose one from Tenor */) }}</UIButton>
         </discord-picker>
       </div>
     </div>
@@ -38,13 +27,13 @@ import gif2tga from "../../libs/gif2tga";
 import path from "path";
 import fs from "fs";
 import { useStopMotionStore } from "../../stores/stopmotion";
-import Button from "./Button.vue";
+import UIButton from "./UIButton.vue";
 
 export default defineComponent({
   name: "StopMotionWelcome",
   components: {
     FileSelect,
-    Button,
+    UIButton,
     DiscordPicker,
   },
   setup() {
@@ -82,11 +71,7 @@ export default defineComponent({
       }
     },
     async update(filepath) {
-      if (
-        filepath !== "" &&
-        fs.existsSync(filepath) &&
-        path.parse(filepath).ext.toLowerCase() === ".gif"
-      ) {
+      if (filepath !== "" && fs.existsSync(filepath) && path.parse(filepath).ext.toLowerCase() === ".gif") {
         try {
           // check for error loading metadata
           const meta = await gif2tga.getMetaData(filepath);
