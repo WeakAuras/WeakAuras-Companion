@@ -27,6 +27,7 @@
     "lint": "eslint packages/. --ext .js,.vue && npm run lint:scss",
     "lint:scss": "npx stylelint \"packages/**/*.scss\"",
     "dev": "node scripts/watch.mjs",
+    "devtools": "./node_modules/.bin/vue-devtools",
     "prebuild": "vue-tsc --noEmit --p packages/renderer/tsconfig.json && node scripts/build.mjs",
     "build": "electron-builder",
     "init": "git config core.hooksPath .git/hooks/ && rm -rf .git/hooks && npx simple-git-hooks",
