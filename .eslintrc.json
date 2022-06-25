@@ -7,7 +7,7 @@
   "rules": {
     "linebreak-style": "off",
     "no-console": "off",
-    "semi": 0,
+    "semi": 1,
     "quotes": [
       1,
       "double",
@@ -42,11 +42,13 @@
     "vue/no-v-text-v-html-on-component": "off"
   },
   "parserOptions": {
+    "parser": "@typescript-eslint/parser",
     "ecmaVersion": "latest"
   },
   "plugins": [
     "prettier",
-    "vue"
+    "vue",
+    "@typescript-eslint"
   ],
   "settings": {
     "import/core-modules": [
