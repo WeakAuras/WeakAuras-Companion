@@ -24,7 +24,7 @@
   "scripts": {
     "compile-tools": "tsc -p tools",
     "i18n": "node ./tools/scripts/extract-i18n-messages.js",
-    "lint": "eslint packages/. --ext .js,.vue && npm run lint:scss",
+    "lint": "eslint packages/. --ext .ts,.js,.vue && npm run lint:scss",
     "lint:scss": "npx stylelint \"packages/**/*.scss\"",
     "dev": "node scripts/watch.mjs",
     "devtools": "./node_modules/.bin/vue-devtools",
