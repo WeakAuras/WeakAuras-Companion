@@ -16,6 +16,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: tru
 remoteMain.initialize();
 
 const store = new Store();
+Store.initRenderer();
 const configStoreSerialized = store.get("configStore");
 let config: { beta: boolean; startminimize?: boolean; minimized?: boolean };
 
@@ -43,12 +44,12 @@ let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 let winURL = null;
 
-import trayIconNotWindows from "../renderer/public/icon-light.png"
-import notificationIconWindows from "../renderer/public/bigicon.png"
-import notificiationIconNotWindows from "../renderer/public/icon.png"
+import trayIconNotWindows from "../renderer/public/icon-light.png";
+import notificationIconWindows from "../renderer/public/bigicon.png";
+import notificiationIconNotWindows from "../renderer/public/icon.png";
 
-const trayIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : trayIconNotWindows)
-const notificationIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : notificiationIconNotWindows)
+const trayIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : trayIconNotWindows);
+const notificationIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : notificiationIconNotWindows);
 
 function handleLinks(link: string) {
   if (mainWindow && mainWindow?.webContents) {
@@ -319,6 +320,18 @@ ipcMain.handle("checkUpdates", (_event, isBeta) => {
     mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
     ({ cancellationToken } = UpdateCheckResult);
   });
+});
+
+ipcMain.handle('getStore', (event, key) => {
+  return store.get(key);
+});
+
+ipcMain.handle('setStore', (event, key, value) => {
+  return store.set(key, value);
+});
+
+ipcMain.handle('deleteStore', (event, key) => {
+  return store.delete(key);
 });
 
 // updater functions
