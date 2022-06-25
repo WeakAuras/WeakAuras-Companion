@@ -19,8 +19,10 @@
 <script>
 import { defineComponent } from "vue";
 import { ipcRenderer } from "electron";
+import UIButton from "./UIButton.vue";
 
 export default defineComponent({
+  components: { UIButton },
   methods: {
     minBtn() {
       ipcRenderer.invoke("minimize");
