@@ -23,6 +23,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  name: "UIButton",
   props: ["type", "title", "size"],
 });
 </script>
