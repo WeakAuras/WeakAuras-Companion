@@ -42,7 +42,7 @@ export default defineConfig({
         // What they have in common is that they will return - ESM format code snippets
 
         // ESM format string
-        "electron-store": 'export default require("electron-store");',
+        // "electron-store": 'export default require("electron-store");',
         // Use lib2esm() to easy to convert ESM
         // Equivalent to
         /**
@@ -77,7 +77,7 @@ export default defineConfig({
   build: {
     outDir: "../../dist/renderer",
     emptyOutDir: true,
-    sourcemap: false,
+    sourcemap: true,
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,

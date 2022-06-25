@@ -1,5 +1,4 @@
 import axios from "axios";
-import Store from "electron-store";
 import FloatingVue from "floating-vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
@@ -7,6 +6,7 @@ import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 import App from "./App.vue";
 import devtools from "@vue/devtools";
+import { ipcRenderer } from "electron";
 
 import de from "../../../i18n/de.json";
 import en from "../../../i18n/en.json";
@@ -18,19 +18,30 @@ import zhcn from "../../../i18n/zh-cn.json";
 
 const app = createApp(App);
 const pinia = createPinia();
-const store = new Store();
+
+async function getStore(key) {
+  return await ipcRenderer.invoke("getStore", key)
+}
+
+async function setStore(key, value) {
+  return await ipcRenderer.invoke("setStore", key, value)
+}
+
+async function deleteStore(key) {
+  return await ipcRenderer.invoke("deleteStore", key)
+}
 
 pinia.use(
   createPersistedStatePlugin({
     storage: {
       getItem: async (key) => {
-        return store.get(key);
+        return getStore(key);
       },
       setItem: async (key, value) => {
-        return store.set(key, value);
+        return setStore(key, value);
       },
       removeItem: async (key) => {
-        return store.delete(key);
+        return deleteStore(key);
       },
     },
   })
@@ -42,7 +53,8 @@ app.config.globalProperties.$http = axios;
 
 app.use(pinia);
 
-const configStoreSerialized = store.get("configStore");
+const configStoreSerialized = getStore("configStore")
+
 let locale = "en";
 
 if (typeof configStoreSerialized === "string") {
