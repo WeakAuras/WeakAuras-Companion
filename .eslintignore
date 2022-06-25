@@ -2,3 +2,4 @@
 dist_electron/*
 release/**/*
 *.ejs
+index.html
