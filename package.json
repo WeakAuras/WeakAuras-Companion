@@ -22,7 +22,7 @@
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.4.8",
     "electron-store": "^8.0.2",
-    "electron-updater": "^5.0.1",
+    "electron-updater": "^5.0.5",
     "floating-vue": "^2.0.0-beta.17",
     "luaparse": "~0.2.1",
     "luxon": "^2.4.0",
