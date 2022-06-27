@@ -45,7 +45,7 @@
     "@types/luxon": "^2.3.2",
     "@types/sharp": "^0.30.4",
     "@types/tail": "^2.2.1",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.28.0",
     "@vue/cli": "^5.0.6",
     "@vue/cli-plugin-eslint": "^5.0.6",
