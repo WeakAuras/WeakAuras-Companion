@@ -30,7 +30,7 @@
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate-2": "^1.0.0",
     "regedit": "^5.1.1",
-    "sharp": "^0.30.6",
+    "sharp": "^0.30.7",
     "tail": "^2.2.4",
     "tga": "^1.0.7",
     "vue": "^3.2.37",
