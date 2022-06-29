@@ -20,15 +20,15 @@ const app = createApp(App);
 const pinia = createPinia();
 
 async function getStore(key) {
-  return await ipcRenderer.invoke("getStore", key)
+  return await ipcRenderer.invoke("getStore", key);
 }
 
 async function setStore(key, value) {
-  return await ipcRenderer.invoke("setStore", key, value)
+  return await ipcRenderer.invoke("setStore", key, value);
 }
 
 async function deleteStore(key) {
-  return await ipcRenderer.invoke("deleteStore", key)
+  return await ipcRenderer.invoke("deleteStore", key);
 }
 
 pinia.use(
@@ -53,7 +53,7 @@ app.config.globalProperties.$http = axios;
 
 app.use(pinia);
 
-const configStoreSerialized = getStore("configStore")
+const configStoreSerialized = getStore("configStore");
 
 let locale = "en";
 
