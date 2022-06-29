@@ -345,12 +345,12 @@ function getRandomInt(min, max) {
 }
 
 const GenerateUniqueID = function () {
-  let uid = []
+  let uid = [];
 
   for (let i = 0; i < 11; i++) {
-    uid.push(mappingTable[getRandomInt(0, 63)])
+    uid.push(mappingTable[getRandomInt(0, 63)]);
   }
-  return uid.join("")
-}
+  return uid.join("");
+};
 
 export { StopMotionTemplate, serialize, deflate, encode, GenerateUniqueID };
