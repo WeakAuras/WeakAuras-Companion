@@ -37,7 +37,7 @@ export default defineComponent({
         const dialogOptions = {
           properties: [],
           defaultPath: this.path || this.defaultPath,
-        }
+        };
 
         if (this.openDirectory) {
           dialogOptions.properties.push("openDirectory");
@@ -66,7 +66,7 @@ export default defineComponent({
     drop(event) {
       if (this.dragndrop === true) {
         event.preventDefault();
-        this.$emit("update:path", event.dataTransfer.files[0].path)
+        this.$emit("update:path", event.dataTransfer.files[0].path);
       }
     }
   },
