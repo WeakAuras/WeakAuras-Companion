@@ -42,7 +42,7 @@
     "@types/electron-localshortcut": "^3.1.0",
     "@types/jest": "^28.1.6",
     "@types/luaparse": "^0.2.8",
-    "@types/luxon": "^2.3.2",
+    "@types/luxon": "^3.0.0",
     "@types/sharp": "^0.30.4",
     "@types/tail": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
