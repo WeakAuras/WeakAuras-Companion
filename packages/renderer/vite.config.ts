@@ -1,7 +1,7 @@
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { defineConfig } from "vite";
-import electron from "vite-plugin-electron/renderer";
+import renderer from "vite-plugin-electron-renderer";
 import eslintPlugin from "vite-plugin-eslint";
 import resolve, { lib2esm } from "vite-plugin-resolve";
 import pkg from "../../package.json";
@@ -27,10 +27,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    viteRequire({
-      filter: (id) => (id.includes(".vite-plugin-electron-renderer") ? false : null),
-    }),
-    electron(),
+    renderer(),
     resolve(
       /**
        * Here you can specify other modules

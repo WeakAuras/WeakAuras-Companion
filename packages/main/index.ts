@@ -42,7 +42,7 @@ log.info("App starting...");
 let tray: Tray | null = null;
 let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
-let winURL = null;
+const winURL = null;
 
 import trayIconNotWindows from "../renderer/public/icon-light.png";
 import notificationIconWindows from "../renderer/public/bigicon.png";
@@ -102,6 +102,7 @@ async function createWindow() {
   mainWindow?.on("minimize", (event) => {
     event.preventDefault();
     mainWindow?.minimize();
+
     if (process.platform === "darwin") {
       app.dock.hide();
     }
@@ -127,6 +128,7 @@ async function createWindow() {
       label: "Open WeakAuras Companion",
       click: () => {
         mainWindow?.show();
+
         if (process.platform === "darwin") {
           app.dock.show();
         }
@@ -175,11 +177,13 @@ async function createWindow() {
   tray?.on("click", () => {
     if (mainWindow?.isVisible()) {
       mainWindow?.hide();
+
       if (process.platform === "darwin") {
         app.dock.hide();
       }
     } else {
       mainWindow?.show();
+
       if (process.platform === "darwin") {
         app.dock.show();
       }
@@ -220,6 +224,7 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(() => {
     createWindow();
+
     if (process.platform === "darwin") {
       app.dock.show();
     }
@@ -242,6 +247,7 @@ app.on("window-all-closed", () => {
 app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
+
     if (process.platform === "darwin") {
       app.dock.show();
     }
@@ -262,6 +268,7 @@ app.on("open-url", (event, url) => {
 ipcMain.handle("open", () => {
   mainWindow?.show();
   mainWindow?.focus();
+
   if (process.platform === "darwin") {
     app.dock.show();
   }
@@ -269,6 +276,7 @@ ipcMain.handle("open", () => {
 
 ipcMain.handle("minimize", () => {
   mainWindow?.hide();
+
   if (process.platform === "darwin") {
     app.dock.hide();
   }
@@ -322,15 +330,15 @@ ipcMain.handle("checkUpdates", (_event, isBeta) => {
   });
 });
 
-ipcMain.handle('getStore', (event, key) => {
+ipcMain.handle("getStore", (event, key) => {
   return store.get(key);
 });
 
-ipcMain.handle('setStore', (event, key, value) => {
+ipcMain.handle("setStore", (event, key, value) => {
   return store.set(key, value);
 });
 
-ipcMain.handle('deleteStore', (event, key) => {
+ipcMain.handle("deleteStore", (event, key) => {
   return store.delete(key);
 });
 
