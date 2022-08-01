@@ -21,7 +21,7 @@
     "axios": "^0.27.2",
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.4.8",
-    "electron-store": "^8.0.2",
+    "electron-store": "^8.1.0",
     "electron-updater": "^5.2.1",
     "floating-vue": "^2.0.0-beta.17",
     "luaparse": "~0.2.1",
