@@ -43,7 +43,7 @@
     "@types/jest": "^28.1.6",
     "@types/luaparse": "^0.2.8",
     "@types/luxon": "^3.0.0",
-    "@types/sharp": "^0.30.4",
+    "@types/sharp": "^0.30.5",
     "@types/tail": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
