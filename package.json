@@ -30,7 +30,6 @@
     "devtools": "./node_modules/.bin/vue-devtools",
     "prebuild": "vue-tsc --noEmit --p packages/renderer/tsconfig.json && node scripts/build.mjs",
     "build": "electron-builder",
-    "init": "git config core.hooksPath .git/hooks/ && rm -rf .git/hooks && npx simple-git-hooks",
     "test:e2e": "npx playwright test",
     "test:e2e:headless": "npx playwright test --headed"
   },
@@ -79,12 +78,10 @@
     "luaparse": "0.2.1",
     "luxon": "^3.0.1",
     "material-icons": "^1.11.9",
-    "nano-staged": "^0.8.0",
     "pinia": "^2.0.18",
     "pinia-plugin-persistedstate-2": "^1.0.1",
     "prettier": "^2.7.1",
     "sass": "^1.54.4",
-    "simple-git-hooks": "^2.8.0",
     "stylelint": "^14.10.0",
     "stylelint-config-recommended-scss": "^7.0.0",
     "tail": "^2.2.4",
@@ -98,9 +95,6 @@
     "vue-i18n": "^9.2.2",
     "vue-tsc": "^0.40.1"
   },
-  "external": [
-    "sharp"
-  ],
   "env": {
     "VITE_DEV_SERVER_HOST": "127.0.0.1",
     "VITE_DEV_SERVER_PORT": 3344
