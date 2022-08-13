@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { defineConfig } from "vite";
@@ -7,7 +8,6 @@ import resolve, { lib2esm } from "vite-plugin-resolve";
 import { pinia, vue as vueExteral } from "vite-plugin-resolve/presets";
 import pkg from "../../package.json";
 import vueI18n from "@intlify/vite-plugin-vue-i18n";
-import { viteRequire } from "vite-require";
 
 // https://vitejs.dev/config/
 export default defineConfig({
