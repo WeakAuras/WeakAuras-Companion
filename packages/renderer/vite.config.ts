@@ -37,28 +37,10 @@ export default defineConfig({
       {
         // If you use the following modules, the following configuration will work
         // What they have in common is that they will return - ESM format code snippets
-
-        // ESM format string
-        // "electron-store": 'export default require("electron-store");',
-        // Use lib2esm() to easy to convert ESM
-        // Equivalent to
-        /**
-         * sqlite3: () => `
-         * const _M_ = require('sqlite3');
-         * const _D_ = _M_.default || _M_;
-         * export { _D_ as default }
-         * `
-         */
-        sqlite3: lib2esm("sqlite3", { format: "cjs" }),
-        serialport: lib2esm(
-          // CJS lib name
-          "serialport",
-          // export memebers
-          ["SerialPort", "SerialPortMock"],
-          { format: "cjs" }
-        ),
-        // C/C++ Native Addons
-        sharp: lib2esm("sharp", { format: "cjs" }),
+        sharp:    lib2esm("sharp",    Object.keys(require("sharp")),    { format: "cjs" }),
+        archiver: lib2esm("archiver", Object.keys(require("archiver")), { format: "cjs" }),
+        regedit:  lib2esm("regedit",  Object.keys(require("regedit")),  { format: "cjs" }),
+        tga:      lib2esm("tga",      Object.keys(require("tga")),      { format: "cjs" }),
       }
     ),
     eslintPlugin(),
