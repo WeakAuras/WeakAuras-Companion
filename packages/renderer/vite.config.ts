@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import renderer from "vite-plugin-electron-renderer";
 import eslintPlugin from "vite-plugin-eslint";
 import resolve, { lib2esm } from "vite-plugin-resolve";
+import { pinia, vue as vueExteral } from "vite-plugin-resolve/presets";
 import pkg from "../../package.json";
 import vueI18n from "@intlify/vite-plugin-vue-i18n";
 import { viteRequire } from "vite-require";
@@ -41,6 +42,9 @@ export default defineConfig({
         archiver: lib2esm("archiver", Object.keys(require("archiver")), { format: "cjs" }),
         regedit:  lib2esm("regedit",  Object.keys(require("regedit")),  { format: "cjs" }),
         tga:      lib2esm("tga",      Object.keys(require("tga")),      { format: "cjs" }),
+
+        pinia: pinia.v2,
+        vue: vueExteral.v3,
       }
     ),
     eslintPlugin(),
