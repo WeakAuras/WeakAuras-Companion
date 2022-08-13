@@ -388,6 +388,7 @@ autoUpdater.on("download-progress", (progressObj) => {
 
 let installNagAlreadyShown = false;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 autoUpdater.on("update-downloaded", (info) => {
   if (!installNagAlreadyShown) {
     if (mainWindow && mainWindow?.webContents) {
