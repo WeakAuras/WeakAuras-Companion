@@ -27,7 +27,7 @@
     "luaparse": "~0.2.1",
     "luxon": "^3.0.1",
     "material-icons": "^1.11.10",
-    "pinia": "^2.0.17",
+    "pinia": "^2.0.18",
     "pinia-plugin-persistedstate-2": "^1.0.1",
     "regedit": "^5.1.1",
     "sharp": "^0.30.7",
