@@ -769,6 +769,10 @@ export default defineComponent({
             let uid = null;
 
             obj2.value.fields.forEach((obj3) => {
+              if (obj3.key === undefined) {
+                return
+              }
+
               if (obj3.key.value === "id") {
                 id = obj3.value.value;
               }
@@ -855,6 +859,10 @@ export default defineComponent({
             let profid;
 
             profile.value.fields.forEach((profData) => {
+              if (profData.key === undefined) {
+                return
+              }
+
               if (profData.key.value === "Name") {
                 profid = profData.value.value;
               }
@@ -1025,6 +1033,7 @@ export default defineComponent({
             ...conf.parseFunction(savedData, conf),
           ];
         } catch (err) {
+          console.log(`Error reading file ${svPath}`)
           console.log(JSON.stringify(err));
           continue;
         }
