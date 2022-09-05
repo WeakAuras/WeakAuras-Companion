@@ -51,7 +51,7 @@
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-typescript": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
-    "@vue/compiler-sfc": "^3.2.36",
+    "@vue/compiler-sfc": "^3.2.38",
     "@vue/eslint-config-typescript": "^10.0.0",
     "electron": "^20.1.1",
     "electron-builder": "^23.3.3",
