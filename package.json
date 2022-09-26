@@ -25,7 +25,7 @@
     "electron-updater": "^5.2.1",
     "floating-vue": "^2.0.0-beta.20",
     "luaparse": "~0.2.1",
-    "luxon": "^3.0.3",
+    "luxon": "^3.0.4",
     "material-icons": "^1.11.11",
     "pinia": "^2.0.22",
     "pinia-plugin-persistedstate-2": "^2.0.1",
