@@ -1502,7 +1502,7 @@ export default defineComponent({
           AddonFolder.toLowerCase().search("classic") === -1
             ? toc.retail
             : AddonFolder.toLowerCase().search("era") === -1
-            ? toc.bcc
+            ? toc.wotlk
             : toc.som;
         const files = [
           {
@@ -1660,23 +1660,27 @@ end)
       const versionLabels = [
         {
           value: "_retail_",
-          text: this.$t("app.version.retail" /* Retail */),
+          text: this.$t("app.version.shadowlands" /* Shadowlands */),
         },
         {
           value: "_ptr_",
-          text: this.$t("app.version.ptr" /* PTR */),
+          text: this.$t("app.version.dfptr" /* Dragonflight PTR */),
         },
         {
-          value: "_classic_beta_",
-          text: this.$t("app.version.classicbeta" /* TBC Beta */),
-        },
-        {
-          value: "_classic_ptr_",
-          text: this.$t("app.version.classicptr" /* Classic PTR */),
+          value: "_beta_",
+          text: this.$t("app.version.dfbeta" /* Dragonflight Beta */),
         },
         {
           value: "_classic_",
-          text: this.$t("app.version.bcc" /* Burning Crusade Classic */),
+          text: this.$t("app.version.classicwotlk" /* WOTLK Classic */),
+        },
+        {
+          value: "_classic_ptr_",
+          text: this.$t("app.version.classicwotlkptr" /* WOTLK Classic PTR */),
+        },
+        {
+          value: "_classic_beta_",
+          text: this.$t("app.version.classicwotlkbeta" /* WOTLK Classic Beta */),
         },
         {
           value: "_classic_era_",
@@ -1685,10 +1689,6 @@ end)
         {
           value: "_classic_era_ptr_",
           text: this.$t("app.version.classiceraptr" /* Classic Era PTR */),
-        },
-        {
-          value: "_beta_",
-          text: this.$t("app.version.beta" /* Beta */),
         },
       ];
 
