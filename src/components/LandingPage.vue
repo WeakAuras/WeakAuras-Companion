@@ -1660,7 +1660,7 @@ end)
       const versionLabels = [
         {
           value: "_retail_",
-          text: this.$t("app.version.shadowlands" /* Shadowlands */),
+          text: this.$t("app.version.df" /* Dragonflight */),
         },
         {
           value: "_ptr_",
