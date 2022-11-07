@@ -64,7 +64,7 @@
     "eslint-plugin-vue": "^8.7.1",
     "glob": "^8.0.3",
     "prettier": "^2.7.1",
-    "sass": "^1.55.0",
+    "sass": "^1.56.0",
     "sass-loader": "^13.1.0",
     "stylelint": "^14.14.0",
     "stylelint-config-recommended-scss": "^8.0.0",
