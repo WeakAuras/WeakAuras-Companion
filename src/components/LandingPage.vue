@@ -1505,7 +1505,67 @@ export default defineComponent({
             data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 1.2.0
+## Version: 4.1.0
+## Notes: Keep your WeakAuras updated!
+## X-Category: Interface Enhancements
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## OptionalDeps: ${addonDepts}
+
+data.lua
+init.lua`,
+          },
+          {
+            name: "WeakAurasCompanion-BCC.toc",
+            data: `## Interface: ${tocVersion}
+## Title: WeakAuras Companion
+## Author: The WeakAuras Team
+## Version: 4.1.0
+## Notes: Keep your WeakAuras updated!
+## X-Category: Interface Enhancements
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## OptionalDeps: ${addonDepts}
+
+data.lua
+init.lua`,
+          },
+          {
+            name: "WeakAurasCompanion-Classic.toc",
+            data: `## Interface: ${tocVersion}
+## Title: WeakAuras Companion
+## Author: The WeakAuras Team
+## Version: 4.1.0
+## Notes: Keep your WeakAuras updated!
+## X-Category: Interface Enhancements
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## OptionalDeps: ${addonDepts}
+
+data.lua
+init.lua`,
+          },
+          {
+            name: "WeakAurasCompanion-Mainline.toc",
+            data: `## Interface: ${tocVersion}
+## Title: WeakAuras Companion
+## Author: The WeakAuras Team
+## Version: 4.1.0
+## Notes: Keep your WeakAuras updated!
+## X-Category: Interface Enhancements
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## OptionalDeps: ${addonDepts}
+
+data.lua
+init.lua`,
+          },
+          {
+            name: "WeakAurasCompanion-Wrath.toc",
+            data: `## Interface: ${tocVersion}
+## Title: WeakAuras Companion
+## Author: The WeakAuras Team
+## Version: 4.1.0
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled

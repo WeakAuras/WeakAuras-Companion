@@ -25,9 +25,6 @@
         </div>
         <div class="block">
           <Dropdown v-model:value="config.lang" :options="langs" :label="$t('app.config.lang' /* Language */)" />
-          <checkbox v-model="config.showAllAuras">
-            {{ $t("app.config.showallauras" /* Show auras without updates */) }}
-          </checkbox>
           <checkbox v-model="config.notify">
             {{ $t("app.config.notification" /* Show notifications for new updates */) }}
           </checkbox>
