@@ -46,10 +46,8 @@ export const createSortByAuthor = (dir, hasTypeColumn) => {
   return (a, b) => sortByAuthor(a, b) || secondarySortFunction(a, b);
 };
 
-export const createSortByUpdate = (dir, showAllAuras, hasTypeColumn) => {
-  const getUpdateValue = showAllAuras
-    ? getUpdateValueWithAllAuras
-    : getUpdateValueOnlyUpdates;
+export const createSortByUpdate = (dir, hasTypeColumn) => {
+  const getUpdateValue = getUpdateValueWithAllAuras;
 
   const secondarySortFunction = hasTypeColumn
     ? createSortByType(1)

@@ -115,7 +115,6 @@
                   v-for="aura in aurasSortedForView"
                   :key="aura.slug"
                   :aura="aura"
-                  :show-all-auras="config.showAllAuras"
                 ></Aura>
               </div>
             </template>
@@ -400,16 +399,12 @@ export default defineComponent({
       );
     },
     aurasSortedForView() {
-      const auras = this.config.showAllAuras
-        ? this.aurasWithData
-        : this.aurasWithUpdate;
-      return auras
+      return this.aurasWithData
         .filter((aura) => aura.auraType === this.addonSelected)
         .sort(this.sortFunction);
     },
     sortFunction() {
       const dir = this.sortDescending ? -1 : 1;
-      const showAllAuras = this.config.showAllAuras;
       const hasTypeColumn =
         this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
 
@@ -418,7 +413,7 @@ export default defineComponent({
       else if (this.sortedColumn === "auraTypeDisplay") {
         return createSortByType(dir);
       } else if (this.sortedColumn === "update") {
-        return createSortByUpdate(dir, showAllAuras, hasTypeColumn);
+        return createSortByUpdate(dir, hasTypeColumn);
       } else if (this.sortedColumn === "author") {
         return createSortByAuthor(dir, hasTypeColumn);
       }

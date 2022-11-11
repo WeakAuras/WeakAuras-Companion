@@ -7,7 +7,6 @@
           v-for="aura in stash.auras"
           :key="aura.slug"
           :aura="aura"
-          :show-all-auras="true"
         />
       </div>
       <div class="actions">

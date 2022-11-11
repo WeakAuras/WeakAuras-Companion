@@ -22,7 +22,6 @@ export const useConfigStore = defineStore(
                 startminimize: false,
                 notify: false,
                 lang: "en",
-                showAllAuras: false,
                 autoupdate: true,
                 beta: false,
                 backup: {

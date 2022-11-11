@@ -2,7 +2,7 @@
   <div
     class="aura"
     :class="{
-      notAnUpdate: showAllAuras && aura.version == aura.wagoVersion,
+      notAnUpdate: aura.version == aura.wagoVersion,
     }"
   >
     <span v-if="aura.source === 'WeakAuras Companion'" class="companion-icon"/>
@@ -31,7 +31,7 @@
         >{{ aura.name }}
       </span>
     </div>
-    <div v-if="showAllAuras && aura.ignoreWagoUpdate" class="ignored">
+    <div v-if="aura.ignoreWagoUpdate" class="ignored">
       {{ $t("app.aura.updatedisabled" /* updates disabled */) }}
     </div>
     <div
@@ -41,7 +41,7 @@
       {{ $t("app.aura.versionskip" /* version skipped */) }}
     </div>
     <div
-      v-else-if="showAllAuras && aura.version < aura.wagoVersion"
+      v-else-if="aura.version < aura.wagoVersion"
       class="update-ready"
     >
       {{ $t("app.aura.updateready" /* update ready */) }}
@@ -98,7 +98,7 @@ import sanitize from "@/libs/sanitize";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  props: ["aura", "showAllAuras"],
+  props: ["aura"],
   data() {
     return {
       timeElapsed: "n/a",
