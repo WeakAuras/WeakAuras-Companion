@@ -8,44 +8,24 @@
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
         </div>
         <div class="menu-btns">
-          <Button
-            type="menu"
-            :class="{ active: configStep === 0 }"
-            @click="configStep = 0"
-            :title="$t('app.menu.main')"
-          >
+          <Button type="menu" :class="{ active: configStep === 0 }" @click="configStep = 0"
+            :title="$t('app.menu.main')">
             <span class="material-icons">sync</span>
           </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 4 }"
-            @click="configStep = 4"
-            :title="$t('app.footer.stopmotion')"
-          >
+          <Button type="menu" :class="{ active: configStep === 4 }" @click="configStep = 4"
+            :title="$t('app.footer.stopmotion')">
             <span class="material-icons">movie</span>
           </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 1 }"
-            @click="configStep = 1"
-            :title="$t('app.menu.settings')"
-          >
+          <Button type="menu" :class="{ active: configStep === 1 }" @click="configStep = 1"
+            :title="$t('app.menu.settings')">
             <span class="material-icons">settings</span>
           </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 2 }"
-            @click="configStep = 2"
-            :title="$t('app.menu.help')"
-          >
+          <Button type="menu" :class="{ active: configStep === 2 }" @click="configStep = 2"
+            :title="$t('app.menu.help')">
             <span class="material-icons">help</span>
           </Button>
-          <Button
-            type="menu"
-            :class="{ active: configStep === 3 }"
-            @click="configStep = 3"
-            :title="$t('app.menu.about')"
-          >
+          <Button type="menu" :class="{ active: configStep === 3 }" @click="configStep = 3"
+            :title="$t('app.menu.about')">
             <span class="material-icons">info</span>
           </Button>
         </div>
@@ -53,27 +33,13 @@
       <main>
         <template v-if="configStep === 0">
           <div id="selectors">
-            <div
-              v-if="config.wowpath.valided && config.wowpath.versions"
-              id="version-selector"
-            >
-              <Dropdown
-                v-model:value="config.wowpath.version"
-                :options="versionOptions"
-                :label="$t('app.wowpath.version' /* Version */)"
-                @change="compareSVwithWago()"
-              ></Dropdown>
+            <div v-if="config.wowpath.valided && config.wowpath.versions" id="version-selector">
+              <Dropdown v-model:value="config.wowpath.version" :options="versionOptions"
+                :label="$t('app.wowpath.version' /* Version */)" @change="compareSVwithWago()"></Dropdown>
             </div>
-            <div
-              v-if="config.wowpath.valided && versionSelected"
-              id="account-selector"
-            >
-              <Dropdown
-                v-model:value="versionSelected.account"
-                :options="accountOptions"
-                :label="$t('app.wowpath.account' /* Account */)"
-                @change="compareSVwithWago()"
-              ></Dropdown>
+            <div v-if="config.wowpath.valided && versionSelected" id="account-selector">
+              <Dropdown v-model:value="versionSelected.account" :options="accountOptions"
+                :label="$t('app.wowpath.account' /* Account */)" @change="compareSVwithWago()"></Dropdown>
             </div>
           </div>
           <div v-if="allAddonConfigs.length > 1" id="addonbttns">
@@ -81,130 +47,81 @@
               {{ $t("app.main.addons" /* Addons */) }}
             </label>
             <span style="margin-left: 5px" />
-            <Button
-              v-for="(addon, index) in allAddonConfigs"
-              :key="index"
-              type="addon"
-              :class="{ active: addonSelected === addon.addonName }"
-              :disabled="!addon.isInstalled"
-              @click="addonSelected = addon.addonName"
-            >
+            <Button v-for="(addon, index) in allAddonConfigs" :key="index" type="addon"
+              :class="{ active: addonSelected === addon.addonName }" :disabled="!addon.isInstalled"
+              @click="addonSelected = addon.addonName">
               {{ addon.addonName }}
             </Button>
           </div>
           <div id="dashboard">
-            <RefreshButton
-              :is-settings-ok="config.wowpath.valided"
-              :is-version-selected="versionSelected"
-              :is-account-selected="accountSelected"
-              :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
-              :fetching="fetching"
-              :last-update="accountSelected && accountSelected.lastWagoUpdate"
-              :auras-shown="aurasSortedForView.length"
-            ></RefreshButton>
+            <RefreshButton :is-settings-ok="config.wowpath.valided" :is-version-selected="versionSelected"
+              :is-account-selected="accountSelected" :is-sv-ok="WeakAurasSaved() || PlaterSaved()" :fetching="fetching"
+              :last-update="accountSelected && accountSelected.lastWagoUpdate" :auras-shown="aurasSortedForView.length">
+            </RefreshButton>
             <br />
             <template v-if="aurasSortedForView.length > 0">
-              <AuraHeaders
-                :sorted-column="sortedColumn"
-                :sort-descending="sortDescending"
-                :addon-selected-config="addonSelectedConfig"
-                @sort-by="sortBy"
-              />
+              <AuraHeaders :sorted-column="sortedColumn" :sort-descending="sortDescending"
+                :addon-selected-config="addonSelectedConfig" @sort-by="sortBy" />
               <div id="aura-list">
-                <Aura
-                  v-for="aura in aurasSortedForView"
-                  :key="aura.slug"
-                  :aura="aura"
-                ></Aura>
+                <Aura v-for="aura in aurasSortedForView" :key="aura.slug" :aura="aura"></Aura>
               </div>
             </template>
           </div>
         </template>
-        <Config
-          v-else-if="configStep === 1"
-          :default-w-o-w-path="defaultWOWPath"
-        ></Config>
+        <Config v-else-if="configStep === 1" :default-w-o-w-path="defaultWOWPath"></Config>
         <Help v-else-if="configStep === 2"></Help>
         <About v-else-if="configStep === 3"></About>
         <StopMotion v-else-if="configStep === 4" :wowVersions="versionOptions"></StopMotion>
       </main>
       <footer>
-        <a
-          class="getweakauras"
-          href="https://www.curseforge.com/wow/addons/weakauras-2"
-          target="_blank"
-        >
-          <img
-            :src="require(`@/assets/social-icons/curse.svg`)"
-            class="logo"
-            title="CurseForge"
-          />
+        <a class="getweakauras" href="https://www.curseforge.com/wow/addons/weakauras-2" target="_blank">
+          <img :src="require(`@/assets/social-icons/curse.svg`)" class="logo" title="CurseForge" />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
         <a class="browsewago" href="https://wago.io/weakauras" target="_blank">
-          <img
-            :src="require(`@/assets/social-icons/wago.svg`)"
-            class="logo"
-            title="Wago"
-          />
+          <img :src="require(`@/assets/social-icons/wago.svg`)" class="logo" title="Wago" />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
         </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
-          <img
-            :src="require(`@/assets/social-icons/bug_report.svg`)"
-            class="logo invert"
-            title="Bug"
-          />
+          <img :src="require(`@/assets/social-icons/bug_report.svg`)" class="logo invert" title="Bug" />
         </a>
-        <div class="ready-to-install" v-if="stash.auras.length > 0" @click="toggleUpdatedAuraList()" >
+        <div class="ready-to-install" v-if="stash.auras.length > 0" @click="toggleUpdatedAuraList()">
           <span>
             {{ $t("app.footer.readytoinstall" /* Ready To Install */) }}
-            ({{stash.auras.length}})
+            ({{ stash.auras.length }})
           </span>
-          <i
-            v-tooltip="{
-              strategy: 'fixed',
-              theme: 'info-tooltip',
-              html: true,
-              content: `${this.$t(
-                'app.main.readyForInstall' /* Ready for Install */
-              )}${readyForInstallTooltip}`,
-            }"
-            class="material-icons update-available update-auras"
-          >
+          <i v-tooltip="{
+            strategy: 'fixed',
+            theme: 'info-tooltip',
+            html: true,
+            content: `${this.$t(
+              'app.main.readyForInstall' /* Ready for Install */
+            )}${readyForInstallTooltip}`,
+          }" class="material-icons update-available update-auras">
             download
           </i>
         </div>
         <div class="app-update">
           <a :href="updater.path" target="_blank" v-if="updater.status === 'update-available'">
-            <i
-              v-if="updater.status === 'update-available'"
-              v-tooltip="{
-                strategy: 'fixed',
-                theme: 'info-tooltip',
-                html: true,
-                content: `${this.$t(
-                  'app.main.installUpdate' /* Install client update */
-                )}: v${updater.version} ${updater.releaseNotes}`,
-              }"
-              class="material-icons update-available"
-            >
+            <i v-if="updater.status === 'update-available'" v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              html: true,
+              content: `${this.$t(
+                'app.main.installUpdate' /* Install client update */
+              )}: v${updater.version} ${updater.releaseNotes}`,
+            }" class="material-icons update-available">
               system_update_alt
             </i>
           </a>
-          <i
-            v-if="updater.status === 'update-downloaded'"
-            v-tooltip="{
-              strategy: 'fixed',
-              theme: 'info-tooltip',
-              content: `${this.$t(
-                'app.main.installUpdate' /* Install client update */
-              )}: v${updater.version}`
-            }"
-            class="material-icons update-available"
-            @click="installUpdates"
-          >
+          <i v-if="updater.status === 'update-downloaded'" v-tooltip="{
+            strategy: 'fixed',
+            theme: 'info-tooltip',
+            content: `${this.$t(
+              'app.main.installUpdate' /* Install client update */
+            )}: v${updater.version}`
+          }" class="material-icons update-available" @click="installUpdates">
             system_update_alt
           </i>
           <div v-if="updater.status === 'checking-for-update'" class="updating">
@@ -1970,6 +1887,7 @@ $iconDefaultColor: #51ae42;
   position: absolute;
   top: 20px;
   right: 20px;
+
   option,
   select {
     background: #191919;
@@ -1977,6 +1895,7 @@ $iconDefaultColor: #51ae42;
     margin: 0 5px;
     border-radius: 6px;
     width: 120px;
+
     &:focus {
       outline: none;
     }
@@ -2053,7 +1972,7 @@ $iconDefaultColor: #51ae42;
   font-size: 12px;
   color: #e6e6e6;
   vertical-align: bottom;
-  line-height: 25px;  
+  line-height: 25px;
   float: right;
   text-shadow: #000000 1px 0;
   font-weight: 600;
@@ -2061,7 +1980,7 @@ $iconDefaultColor: #51ae42;
   display: flex;
   padding-right: 15px;
 
-  & span {  
+  & span {
     cursor: pointer;
     opacity: 0.8;
     margin-right: 5px;
@@ -2093,7 +2012,8 @@ $iconDefaultColor: #51ae42;
 }
 
 /* Browse Wago & Stopmotion */
-.browsewago, .stopmotion {
+.browsewago,
+.stopmotion {
   font-size: 12px;
   color: #e6e6e6;
   vertical-align: bottom;
@@ -2105,13 +2025,15 @@ $iconDefaultColor: #51ae42;
   margin-left: 10px;
 }
 
-.browsewago:hover, .stopmotion:hover {
+.browsewago:hover,
+.stopmotion:hover {
   opacity: 1;
 }
 
 .exclamationmark {
   color: #fcff3d;
 }
+
 /* WoW Version & Account selection */
 main {
   position: relative;
@@ -2134,8 +2056,10 @@ select {
   height: 25px;
   position: relative;
   bottom: 2px;
+
   .updating {
     display: inline;
+
     .icon {
       animation: spin;
       animation-duration: 3000ms;
@@ -2143,6 +2067,7 @@ select {
       animation-timing-function: linear;
       animation-fill-mode: forwards;
     }
+
     .progress {
       font-size: 14px;
       font-weight: 500;
@@ -2158,6 +2083,7 @@ select {
   animation: pulse 2s infinite;
   cursor: pointer;
   color: $iconDefaultColor;
+
   &.update-auras {
     --pulse-color: rgba(102, 255, 0, 1);
   }
@@ -2167,6 +2093,7 @@ select {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(-360deg);
   }
@@ -2176,9 +2103,11 @@ select {
   0% {
     text-shadow: 0 0 0 var(--pulse-color, rgba(255, 255, 255, 0.4));
   }
+
   70% {
     text-shadow: 0 0 40px var(--pulse-color, rgba(238, 255, 4, 0));
   }
+
   100% {
     text-shadow: 0 0 0 var(--pulse-color, rgba(255, 255, 255, 0));
   }

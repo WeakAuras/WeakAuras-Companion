@@ -10,5 +10,7 @@ export default {
 </script>
 
 <template>
-  <div id="app"><LandingPage /></div>
+  <div id="app">
+    <LandingPage />
+  </div>
 </template>

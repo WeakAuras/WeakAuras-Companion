@@ -21,6 +21,7 @@
     "skipLibCheck": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": [
     "/dist",

@@ -5,29 +5,25 @@
       <br />
       <p>
         {{
-          $t(
-            "app.about.tools",
-            { tools: "Electron &amp; Vue" } /* Developed with {tools} */
-          )
+            $t(
+              "app.about.tools",
+              { tools: "Electron &amp; Vue" } /* Developed with {tools} */
+            )
         }}<br />
         {{
-          $t(
-            "app.about.version",
-            { version: version } /* Version: {version} */
-          )
+            $t(
+              "app.about.version",
+              { version: version } /* Version: {version} */
+            )
         }}<br />
         {{
-          $t(
-            "app.about.license",
-            { license: "GPLv2" } /* License: {license} */
-          )
+            $t(
+              "app.about.license",
+              { license: "GPLv2" } /* License: {license} */
+            )
         }}<br />
         {{ $t("app.about.source" /* Sources on */) }}
-        <a
-          href="https://github.com/WeakAuras/WeakAuras-Companion"
-          target="_blank"
-          >GitHub</a
-        ><br />
+        <a href="https://github.com/WeakAuras/WeakAuras-Companion" target="_blank">GitHub</a><br />
         {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka Buds<br />
         {{ $t("app.about.platersupport" /* Plater support */) }} Cont1nuity/Ariani<br />
         {{ $t("app.about.cssby" /* CSS by */) }}
@@ -40,17 +36,9 @@
       <div style="flex: 50%">
         <div class="title">WeakAuras</div>
         <div class="items">
-          <div
-            v-for="media in medias.weakauras"
-            :key="media.name"
-            class="media-item"
-          >
+          <div v-for="media in medias.weakauras" :key="media.name" class="media-item">
             <a :href="media.url" target="_blank">
-              <img
-                :src="require(`@/assets/social-icons/${media.name}.svg`)"
-                class="logo"
-                :title="media.name"
-              />
+              <img :src="require(`@/assets/social-icons/${media.name}.svg`)" class="logo" :title="media.name" />
               {{ media.displayName }}
             </a>
           </div>
@@ -59,17 +47,9 @@
       <div style="flex: 50%">
         <div class="title">Wago</div>
         <div class="items">
-          <div
-            v-for="media in medias.wago"
-            :key="media.name"
-            class="media-item"
-          >
+          <div v-for="media in medias.wago" :key="media.name" class="media-item">
             <a :href="media.url" target="_blank">
-              <img
-                :src="require(`@/assets/social-icons/${media.name}.svg`)"
-                class="logo"
-                :title="media.name"
-              />
+              <img :src="require(`@/assets/social-icons/${media.name}.svg`)" class="logo" :title="media.name" />
               {{ media.displayName }}
             </a>
           </div>
@@ -120,7 +100,7 @@ export default defineComponent({
   cursor: pointer;
 }
 
-#about > .valign {
+#about>.valign {
   flex: 50%;
   align-items: center;
 }

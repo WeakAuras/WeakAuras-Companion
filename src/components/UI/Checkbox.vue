@@ -1,13 +1,11 @@
 <template>
   <div class="checkbox" @click="triggerInputClick">
-    <input
-      ref="checkbox"
-      type="checkbox"
-      :checked="modelValue"
-      @input="$emit('update:modelValue', $event.target.checked)"
-    />
+    <input ref="checkbox" type="checkbox" :checked="modelValue"
+      @input="$emit('update:modelValue', $event.target.checked)" />
     <div class="checkbox__box" :class="{ 'checkbox__box--checked': modelValue }" />
-    <label><slot></slot></label>
+    <label>
+      <slot></slot>
+    </label>
   </div>
 </template>
 
@@ -29,13 +27,13 @@ input[type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"]:disabled + .checkbox__box {
+input[type="checkbox"]:disabled+.checkbox__box {
   background-color: #dddddd;
   box-shadow: none;
   cursor: auto;
 }
 
-input[type="checkbox"] + .checkbox__box:focus {
+input[type="checkbox"]+.checkbox__box:focus {
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 }
 

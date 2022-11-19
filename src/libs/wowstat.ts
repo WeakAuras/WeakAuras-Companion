@@ -17,7 +17,7 @@ export function isOpen(wowpath: string, version: string) {
   return false;
 }
 
-export function afterReload(config: { value: any; version: any; versions: any[]; }, callback: () => void) {
+export function afterReload(config: { value: any; version: any; versions: any[] }, callback: () => void) {
   const wowpath = config.value;
   const version = config.version;
   let account: string;
@@ -28,15 +28,7 @@ export function afterReload(config: { value: any; version: any; versions: any[];
     }
   });
 
-  const wacompanionsvfile = path.join(
-    wowpath,
-    version,
-    "WTF",
-    "Account",
-    account,
-    "SavedVariables",
-    "WeakAurasCompanion.lua",
-  );
+  const wacompanionsvfile = path.join(wowpath, version, "WTF", "Account", account, "SavedVariables", "WeakAurasCompanion.lua");
 
   const { mtime } = fs.statSync(wacompanionsvfile);
   let fsWait = false;

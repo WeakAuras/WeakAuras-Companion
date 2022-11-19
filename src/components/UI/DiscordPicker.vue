@@ -1,15 +1,15 @@
 <template>
   <div v-click-outside="close">
     <div>
-      <div
-        :class="{ 'invisible': !opened }"
-        class="discord-picker"
-      >
-        <gif-picker v-if="opened" :api-key="apiKey" @send="({ url, title, tenorID }) => this.send(url, title, tenorID)" />
+      <div :class="{ 'invisible': !opened }" class="discord-picker">
+        <gif-picker v-if="opened" :api-key="apiKey"
+          @send="({ url, title, tenorID }) => this.send(url, title, tenorID)" />
       </div>
       <div class="mt4">
         <div>
-          <span @click="open"><slot /></span>
+          <span @click="open">
+            <slot />
+          </span>
         </div>
       </div>
     </div>
@@ -70,14 +70,14 @@ export default defineComponent({
   max-width: max-content;
   height: 500px;
   width: 600px;
-  overflow: hidden; 
-  position: absolute; 
+  overflow: hidden;
+  position: absolute;
   left: -150px;
   bottom: -150px;
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform; 
-  transition-duration: 200ms; 
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 200ms;
   transform: translate-y(200px);
-  border-radius: 0.75rem; 
+  border-radius: 0.75rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 

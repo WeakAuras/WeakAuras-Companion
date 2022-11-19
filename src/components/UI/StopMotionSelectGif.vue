@@ -1,29 +1,21 @@
 <template>
-    <div id="StopMotionWelcome">
-        <div class="stuff">
-            <file-select
-              :create-directory="false"
-              :openFile="true"
-              :dragndrop="true"
-              :filters="[{ name: 'Animation', extensions: ['gif'] }]"
-              class="fileinput"
-              @update:path="update"
-            >
-              {{ $t('stopmotion.select.dropagif' /* Drop a GIF */) }}<br /><br />
-              <i>{{ $t('stopmotion.select.or' /* or */) }}</i><br /><br />
-              <Button class="btn-ok">{{ $t('stopmotion.select.computer' /* Choose one on your Computer */) }}</Button><br /><br />
-            </file-select><br/>
-            <div class="tenorblock">
-              <i>{{ $t('stopmotion.select.or' /* or */) }}</i><br /><br />
-              <discord-picker
-                @gif="setTenor"
-                :apiKey="apiKey"
-              >
-                <Button class="btn-ok">{{ $t('stopmotion.select.tenor' /* Choose one from Tenor */) }}</Button>
-              </discord-picker>
-            </div>
-        </div>
+  <div id="StopMotionWelcome">
+    <div class="stuff">
+      <file-select :create-directory="false" :openFile="true" :dragndrop="true"
+        :filters="[{ name: 'Animation', extensions: ['gif'] }]" class="fileinput" @update:path="update">
+        {{ $t('stopmotion.select.dropagif' /* Drop a GIF */) }}<br /><br />
+        <i>{{ $t('stopmotion.select.or' /* or */) }}</i><br /><br />
+        <Button class="btn-ok">{{ $t('stopmotion.select.computer' /* Choose one on your Computer */)
+        }}</Button><br /><br />
+      </file-select><br />
+      <div class="tenorblock">
+        <i>{{ $t('stopmotion.select.or' /* or */) }}</i><br /><br />
+        <discord-picker @gif="setTenor" :apiKey="apiKey">
+          <Button class="btn-ok">{{ $t('stopmotion.select.tenor' /* Choose one from Tenor */) }}</Button>
+        </discord-picker>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -103,11 +95,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .stuff {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
 }
 
 .dropzone {
@@ -128,7 +120,8 @@ export default defineComponent({
   //background-color: red;
   text-align: center;
 }
+
 //span {
-  //cursor: pointer;
+//cursor: pointer;
 //}
 </style>

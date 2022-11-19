@@ -2,8 +2,7 @@ import { DateTime } from "luxon";
 
 const getUpdateValueWithAllAuras = (aura) => {
   if (aura.ignoreWagoUpdate) return 2;
-  else if (aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion)
-    return 1;
+  else if (aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion) return 1;
   else if (aura.version < aura.wagoVersion) return 0;
   return 3;
 };
@@ -13,11 +12,7 @@ const getUpdateValueOnlyUpdates = (aura) => {
 };
 
 export const createSortByTime = (dir) => (a, b) => {
-  return (
-    DateTime.fromJSDate(b.modified)
-      .diff(DateTime.fromJSDate(a.modified))
-      .valueOf() * dir
-  );
+  return DateTime.fromJSDate(b.modified).diff(DateTime.fromJSDate(a.modified)).valueOf() * dir;
 };
 
 export const createSortByString = (dir, column) => {
@@ -39,9 +34,7 @@ export const createSortByType = (dir) => {
 
 export const createSortByAuthor = (dir, hasTypeColumn) => {
   const sortByAuthor = createSortByString(dir, "author");
-  const secondarySortFunction = hasTypeColumn
-    ? createSortByType(1)
-    : createSortByString(1, "name");
+  const secondarySortFunction = hasTypeColumn ? createSortByType(1) : createSortByString(1, "name");
 
   return (a, b) => sortByAuthor(a, b) || secondarySortFunction(a, b);
 };
@@ -49,9 +42,7 @@ export const createSortByAuthor = (dir, hasTypeColumn) => {
 export const createSortByUpdate = (dir, hasTypeColumn) => {
   const getUpdateValue = getUpdateValueWithAllAuras;
 
-  const secondarySortFunction = hasTypeColumn
-    ? createSortByType(1)
-    : createSortByString(1, "name");
+  const secondarySortFunction = hasTypeColumn ? createSortByType(1) : createSortByString(1, "name");
 
   return (a, b) => {
     const A = getUpdateValue(a),

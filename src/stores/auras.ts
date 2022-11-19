@@ -3,24 +3,26 @@ import { defineStore } from "pinia";
 export const useStashStore = defineStore({
   id: "stashStore",
   state: () => ({
-    auras: []
+    auras: [],
   }),
 
   actions: {
     add(aura) {
-      if (!aura) return;
+      if (!aura) {
+        return;
+      }
       this.auras.push(aura);
     },
     tohtml() {
       return this.auras
         .map((aura) => {
-          return "<br>" + aura.name;
+          return `<br>${aura.name}`;
         })
         .join("");
-    }
+    },
   },
 
   persistedState: {
-    persist: false
-  }
+    persist: false,
+  },
 });

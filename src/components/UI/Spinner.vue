@@ -144,11 +144,13 @@ export default defineComponent({
 }
 
 @keyframes sk-circleFadeDelay {
+
   0%,
   39%,
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }

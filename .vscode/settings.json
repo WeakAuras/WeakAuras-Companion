@@ -38,5 +38,6 @@
     ],
     "cSpell.enableFiletypes": [
         "!vue"
-    ]
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

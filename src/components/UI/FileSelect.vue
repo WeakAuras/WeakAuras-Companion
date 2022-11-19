@@ -8,7 +8,9 @@
   </div>
   <label v-else class="file-select" @click="handleInputClick">
     <span class="select-button">
-      <p class="configlabel"><slot></slot></p>
+      <p class="configlabel">
+        <slot></slot>
+      </p>
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}</span>
       </div>
@@ -86,7 +88,7 @@ $border-color-expand: #2c2c2c;
 $border-color-separate: #0d0d0d;
 
 /* Don't forget to hide the original file input! */
-.file-select > input[type="file"] {
+.file-select>input[type="file"] {
   display: none;
 }
 

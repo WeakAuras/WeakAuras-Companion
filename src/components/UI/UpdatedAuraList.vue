@@ -3,15 +3,11 @@
     <div class="container">
       <h1>{{ $t("app.updatedAuraList.title" /* Ready to install */) }}</h1>
       <div class="updated-auras">
-        <Aura
-          v-for="aura in stash.auras"
-          :key="aura.slug"
-          :aura="aura"
-        />
+        <Aura v-for="aura in stash.auras" :key="aura.slug" :aura="aura" />
       </div>
       <div class="actions">
-        <Button type="reset" @click="clearList"> 
-            Clear list
+        <Button type="reset" @click="clearList">
+          Clear list
         </Button>
       </div>
     </div>

@@ -1,78 +1,49 @@
 <template>
-  <div
-    class="aura"
-    :class="{
-      notAnUpdate: aura.version == aura.wagoVersion,
-    }"
-  >
-    <span v-if="aura.source === 'WeakAuras Companion'" class="companion-icon"/>
-    <a
-      v-if="aura.source === 'Wago'"
-      v-tooltip="{
-        content: wagoURL(aura.slug),
+  <div class="aura" :class="{
+    notAnUpdate: aura.version == aura.wagoVersion,
+  }">
+    <span v-if="aura.source === 'WeakAuras Companion'" class="companion-icon" />
+    <a v-if="aura.source === 'Wago'" v-tooltip="{
+      content: wagoURL(aura.slug),
+      html: false,
+      strategy: 'fixed',
+      theme: 'info-tooltip'
+    }" class="wago-icon" target="_blank" :href="wagoURL(aura.slug)" />
+
+    <div class="aura-name-container">
+      <span v-tooltip="{
+        content: childs,
         html: false,
         strategy: 'fixed',
         theme: 'info-tooltip'
-      }"
-      class="wago-icon"
-      target="_blank"
-      :href="wagoURL(aura.slug)"
-    />
-    
-    <div class="aura-name-container">
-      <span
-        v-tooltip="{
-          content: childs,
-          html: false,
-          strategy: 'fixed',
-          theme: 'info-tooltip'
-        }"
-        class="aura-name"
-        >{{ aura.name }}
+      }" class="aura-name">{{ aura.name }}
       </span>
     </div>
     <div v-if="aura.ignoreWagoUpdate" class="ignored">
       {{ $t("app.aura.updatedisabled" /* updates disabled */) }}
     </div>
-    <div
-      v-else-if="aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion"
-      class="ignored"
-    >
+    <div v-else-if="aura.skipWagoUpdate && aura.skipWagoUpdate >= aura.wagoVersion" class="ignored">
       {{ $t("app.aura.versionskip" /* version skipped */) }}
     </div>
-    <div
-      v-else-if="aura.version < aura.wagoVersion"
-      class="update-ready"
-    >
+    <div v-else-if="aura.version < aura.wagoVersion" class="update-ready">
       {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
-    <div
-      v-else class="uptodate"
-    >
+    <div v-else class="uptodate">
       {{ $t("app.aura.uptodate" /* up to date */) }}
     </div>
     <span v-if="aura.auraTypeDisplay" class="tag">
       {{ aura.auraTypeDisplay }}
     </span>
-    <a
-      v-if="aura.source !== 'Wago'"
-      class="author"
-    >
+    <a v-if="aura.source !== 'Wago'" class="author">
       {{ aura.author }}
     </a>
-    <a
-      v-else
-      v-tooltip="{
-        content: wagoAuthorURL(aura.author),
-        popperClass: ['small'],
-        html: false,
-        strategy: 'fixed',
-        theme: 'info-tooltip'
-      }"
-      class="author"
-      target="_blank"
-      :href="wagoAuthorURL(aura.author)"
-    >
+    <a v-else v-tooltip="{
+      content: wagoAuthorURL(aura.author),
+      popperClass: ['small'],
+      html: false,
+      strategy: 'fixed',
+      theme: 'info-tooltip'
+    }" class="author" target="_blank" :href="wagoAuthorURL(aura.author)">
       {{ aura.author }}
     </a>
     <div class="upgrade-text">
@@ -82,16 +53,12 @@
           <span v-else>{{ aura.version }}</span>
         </span>
       </div>
-      <div
-        v-tooltip="{
-          content: timeElapsed,
-          popperClass: ['small'],
-          strategy: 'fixed',
-          theme: 'info-tooltip'
-        }"
-        class="wago-version"
-        @mouseenter="updateCurrentTime()"
-      >
+      <div v-tooltip="{
+        content: timeElapsed,
+        popperClass: ['small'],
+        strategy: 'fixed',
+        theme: 'info-tooltip'
+      }" class="wago-version" @mouseenter="updateCurrentTime()">
         v<span v-if="aura.wagoSemver">{{ aura.wagoSemver }}</span>
         <span v-else>{{ aura.wagoVersion }}</span>
       </div>
@@ -172,6 +139,7 @@ export default defineComponent({
   flex-direction: row;
   border-radius: 4px;
   transition: background-color ease-in-out 0.2s;
+
   &:hover {
     background-color: #161616c9;
   }

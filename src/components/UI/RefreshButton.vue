@@ -1,11 +1,6 @@
 <template>
   <div id="sync" :class="{ top: aurasShown > 0 }">
-    <Button
-      v-if="isSettingsOk && isSvOk"
-      :class="{ spin: fetching }"
-      type="refresh"
-      @click="refresh"
-    >
+    <Button v-if="isSettingsOk && isSvOk" :class="{ spin: fetching }" type="refresh" @click="refresh">
       <i class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </Button>
@@ -16,25 +11,25 @@
     <label v-else-if="!isVersionSelected" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
-        $t(
-          "app.refreshbutton.selectversion" /* Please select your WoW Version! */
-        )
+          $t(
+            "app.refreshbutton.selectversion" /* Please select your WoW Version! */
+          )
       }}</span>
     </label>
     <label v-else-if="!isAccountSelected" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
-        $t(
-          "app.refreshbutton.selectaccount" /* Please select your Account Name! */
-        )
+          $t(
+            "app.refreshbutton.selectaccount" /* Please select your Account Name! */
+          )
       }}</span>
     </label>
     <label v-else-if="!isSvOk" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
-        $t(
-          "app.refreshbutton.incorrectsv" /* No AddOn data found for this account */
-        )
+          $t(
+            "app.refreshbutton.incorrectsv" /* No AddOn data found for this account */
+          )
       }}</span>
     </label>
     <div v-if="lastUpdate && isSvOk && olderThan30s()" id="lastupdate">
@@ -167,6 +162,7 @@ export default defineComponent({
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(-360deg);
   }

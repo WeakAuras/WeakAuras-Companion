@@ -1,27 +1,28 @@
 <template>
-    <div id="StopMotionResult">
-      <img :src="preview" class="preview">
-      <br />
-      <p class="center-text">
-        {{ $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */) }} 
-        <span
-          class="material-icons minihelp"
-          v-tooltip="{
-            content: rfiTooltip,
-            html: true,
-            strategy: 'fixed',
-            theme: 'info-tooltip'
-          }"
-        >help</span>
-        <br/><br/>
-        <span class="glow">{{ $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */) }}</span>
-      </p>
-      <br />
-      <p class="filename">
-        <a class="explorer" @click="openDestDir()" :title="$t('app.config.backup.openfolder' /* Open Folder */)">{{ resultFolder }}</a> 
-        <a class="explorer" @click="openDestFile()" :title="$t('app.config.backup.openfile' /* Open File */)">{{ resultFile }}</a>
-      </p>
-    </div>
+  <div id="StopMotionResult">
+    <img :src="preview" class="preview">
+    <br />
+    <p class="center-text">
+      {{ $t("app.stopmotion.auraready" /* WeakAuras is Ready For Install */) }}
+      <span class="material-icons minihelp" v-tooltip="{
+        content: rfiTooltip,
+        html: true,
+        strategy: 'fixed',
+        theme: 'info-tooltip'
+      }">help</span>
+      <br /><br />
+      <span class="glow">{{ $t("app.stopmotion.restartwow2" /* Restart World of Warcraft */) }}</span>
+    </p>
+    <br />
+    <p class="filename">
+      <a class="explorer" @click="openDestDir()" :title="$t('app.config.backup.openfolder' /* Open Folder */)">{{
+          resultFolder
+      }}</a>
+      <a class="explorer" @click="openDestFile()" :title="$t('app.config.backup.openfile' /* Open File */)">{{
+          resultFile
+      }}</a>
+    </p>
+  </div>
 </template>
 
 <script>
@@ -117,6 +118,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .btn-ok {
   height: 35px;
+
   span {
     position: relative;
     bottom: 8px;
@@ -128,8 +130,8 @@ export default defineComponent({
   font-size: 90%;
 }
 
-.btn-ok > * {
-    cursor: pointer;
+.btn-ok>* {
+  cursor: pointer;
 }
 
 .preview {
@@ -149,8 +151,13 @@ export default defineComponent({
 }
 
 @keyframes glow {
-  from{text-shadow:0px 0px 5px #fff,0px 0px 5px #614ad3;}
-  to{text-shadow:0px 0px 20px #fff,0px 0px 20px #614ad3;}
+  from {
+    text-shadow: 0px 0px 5px #fff, 0px 0px 5px #614ad3;
+  }
+
+  to {
+    text-shadow: 0px 0px 20px #fff, 0px 0px 20px #614ad3;
+  }
 }
 
 .filename {
@@ -165,6 +172,7 @@ export default defineComponent({
   margin-top: 5px;
   color: rgb(255, 209, 0);
   font-weight: 500;
+
   &:hover {
     text-decoration-line: underline;
   }

@@ -10,8 +10,7 @@
       <button class="ui-btn close" @click="closeBtn">
         <svg viewBox="0 0 10 10">
           <polygon
-            points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1"
-          />
+            points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1" />
         </svg>
       </button>
     </div>
@@ -62,6 +61,7 @@ export default defineComponent({
   max-width: 144px;
   max-height: 28px;
   text-align: right;
+
   .ui-btn {
     margin: 0;
     width: 40px;
@@ -70,21 +70,26 @@ export default defineComponent({
     border-radius: 0 8px 0 0;
     outline: 0;
     background: transparent;
+
     &:hover {
       background: rgba(255, 255, 255, 0.1);
     }
+
     &.close:hover {
       background: #e81123;
     }
+
     svg {
       width: 9px;
       height: 9px;
+
       path,
       rect,
       polygon {
         fill: #ffffff;
       }
     }
+
     &:first-child {
       border-radius: 0;
     }

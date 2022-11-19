@@ -35,15 +35,15 @@ AutoLauncher.isEnabled().then(function (isEnabled) {
 
 const store = new Store();
 const configStoreSerialized = store.get("configStore");
-let config: { beta: boolean; startminimize?: boolean; minimized?: boolean; }
+let config: { beta: boolean; startminimize?: boolean; minimized?: boolean };
 
 if (typeof configStoreSerialized === "string") {
-  config = JSON.parse(configStoreSerialized)
+  config = JSON.parse(configStoreSerialized);
 } else {
   config = {
     beta: false,
-    minimized: false
-  }
+    minimized: false,
+  };
 }
 
 let cancellationToken;
@@ -246,7 +246,7 @@ if (!app.requestSingleInstanceLock()) {
         //await installExtension(VUEJS3_DEVTOOLS)
         installExtension(VUEJS3_DEVTOOLS).then(() => {
           createWindow();
-        })
+        });
       } catch (e) {
         console.error("Vue Devtools failed to install:", e.toString());
       }

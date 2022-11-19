@@ -4,18 +4,12 @@
       <h1>{{ $t("app.report.title" /* Report a bug */) }}</h1>
       <div class="links">
         <Button type="link">
-          <a
-            href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
-            target="_blank"
-          >
+          <a href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md" target="_blank">
             {{ $t("app.report.companion" /* Companion */) }}
           </a>
         </Button>
         <Button type="link">
-          <a
-            href="https://github.com/WeakAuras/WeakAuras2/issues/new"
-            target="_blank"
-          >
+          <a href="https://github.com/WeakAuras/WeakAuras2/issues/new" target="_blank">
             {{ $t("app.report.addon" /* AddOn */) }}
           </a>
         </Button>

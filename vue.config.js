@@ -7,7 +7,7 @@ module.exports = {
     });
   },
   configureWebpack: {
-    devtool: "source-map"
+    devtool: "source-map",
   },
   pluginOptions: {
     electronBuilder: {
@@ -42,9 +42,7 @@ module.exports = {
           },
           mergeASARs: false,
           artifactName: "${productName}-${version}-${os}-${arch}.${ext}",
-          asarUnpack: [
-            "**/node_modules/sharp/**"
-          ]
+          asarUnpack: ["**/node_modules/sharp/**"],
         },
         win: {
           icon: "public/icon.ico",
@@ -60,17 +58,15 @@ module.exports = {
           target: ["AppImage", "snap", "deb", "rpm"],
           icon: "public/bigicon.png",
           category: "Utility",
-          asarUnpack: [
-            "**/node_modules/sharp/**"
-          ]
+          asarUnpack: ["**/node_modules/sharp/**"],
         },
         protocols: [
           {
             name: "weakauras-companion",
             role: "Viewer",
-            schemes: ["weakauras-companion"]
-          }
-        ]
+            schemes: ["weakauras-companion"],
+          },
+        ],
       },
       nodeIntegration: true,
       experimentalNativeDepCheck: true,
