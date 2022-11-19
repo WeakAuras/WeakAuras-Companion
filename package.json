@@ -68,10 +68,10 @@
     }
   },
   "browserslist": [
-    "Electron >= 18.0.0"
+    "Electron >= 20.0.0"
   ],
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "config": {
     "default-locale": "en",
@@ -92,7 +92,7 @@
   },
   "overrides": {
     "vue-cli-plugin-electron-builder": {
-      "electron-builder": "^23.1.0"
+      "electron-builder": "^23.6.0"
     }
   }
 }

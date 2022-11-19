@@ -24,7 +24,8 @@
     "forceConsistentCasingInFileNames": true
   },
   "exclude": [
-    "/dist",
+    "dist",
+    "dist_electron",
     "node_modules"
   ]
 }
