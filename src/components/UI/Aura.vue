@@ -46,6 +46,11 @@
     >
       {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
+    <div
+      v-else class="uptodate"
+    >
+      {{ $t("app.aura.uptodate" /* up to date */) }}
+    </div>
     <span v-if="aura.auraTypeDisplay" class="tag">
       {{ aura.auraTypeDisplay }}
     </span>
@@ -193,6 +198,16 @@ export default defineComponent({
   float: right;
   line-height: 32px;
   padding-right: 5px;
+  width: 90px;
+}
+
+.uptodate {
+  float: right;
+  line-height: 32px;
+  padding-right: 5px;
+  color: rgb(18, 173, 18);
+  text-align: center;
+  width: 90px;
 }
 
 .ignored {
@@ -200,6 +215,7 @@ export default defineComponent({
   line-height: 32px;
   color: #808080;
   padding-right: 5px;
+  width: 90px;
 }
 
 .wago-icon {

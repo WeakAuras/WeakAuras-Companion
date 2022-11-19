@@ -13,6 +13,7 @@
   "app.aura.update": "Updates",
   "app.aura.updatedisabled": "güncellemeler devredışı",
   "app.aura.updateready": "güncelleme hazır",
+  "app.aura.uptodate": "up to date",
   "app.aura.versionskip": "versiyon atlandı",
   "app.config.account.notvalidtooltip": "Bu hesapta WeakAuras'a ait herhangi bir veri bulamıyoruz. Eklenti yüklü mü?",
   "app.config.account.selectaccounttooltip": "Bir hesap seçin",
