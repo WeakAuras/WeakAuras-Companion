@@ -70,7 +70,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
     for (var i = 0; i < pages; i++) {
       let frame = await sharp(fileBuffer, { page: i }).resize({ width, height }).toBuffer();
 
-      if (coalesce == true) {
+      if (coalesce === true) {
         if (i > 0) {
           let compositedBuffer = await sharp(prevFrameBuffer)
             .composite([
@@ -92,7 +92,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
       }
     }
 
-    if (useSkipFrames == true) {
+    if (useSkipFrames === true) {
       frames = frames.filter((elem, index) => {
         return index % skipFrames;
       });

@@ -35,7 +35,9 @@ export function afterReload(config: { value: any; version: any; versions: any[] 
 
   const watcher = fs.watch(wacompanionsvfile, (event, filename) => {
     if (filename) {
-      if (fsWait) return;
+      if (fsWait) {
+        return;
+      }
 
       //@ts-ignore
       fsWait = setTimeout(() => {
@@ -54,10 +56,10 @@ export function afterReload(config: { value: any; version: any; versions: any[] 
 export function afterRestart(wowpath: string, version: string, callback: () => void) {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
 
-  if (!clientlog[version]) {
-    clientlog[version] = new Tail(logfile);
-  } else {
+  if (clientlog[version]) {
     clientlog[version].watch();
+  } else {
+    clientlog[version] = new Tail(logfile);
   }
 
   clientlog[version].on("line", (data) => {

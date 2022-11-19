@@ -15,7 +15,7 @@ describe("Utils", () => {
     expect((0, Utils_1.sanitizeMessage)(message)).toBe('\\"foo\\"');
   });
   test("should replace <> with []", () => {
-    const message = `/* [a]test[/a] */`;
+    const message = "/* [a]test[/a] */";
     expect((0, Utils_1.sanitizeMessage)(message)).toBe("<a>test</a>");
   });
   test("should parse translations from a string", () => {

@@ -3,7 +3,7 @@ export const getTranslationsFromString = (content: string): RegExpMatchArray | s
 };
 
 export const sanitizeMessage = (message: string): string => {
-  const replacements: Array<{ from: string | RegExp; to: string }> = [
+  const replacements: { from: string | RegExp; to: string }[] = [
     { from: /\s\s+/g, to: " " },
     { from: "/*", to: "" },
     { from: "*/", to: "" },

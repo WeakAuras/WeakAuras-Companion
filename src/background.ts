@@ -16,7 +16,7 @@ remoteMain.initialize();
 const electronLocalshortcut = require("electron-localshortcut");
 //const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV === "production";
 
 // disable outdated method for auto start
 const AutoLauncher = new AutoLaunch({
@@ -72,7 +72,7 @@ let winURL = null;
 const iconpath = path.join(__static, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
 
 function handleLinks(link) {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("linkHandler", link);
   }
 }
@@ -105,7 +105,9 @@ async function createWindow() {
     // Load the url of the dev server if in development mode
     await mainWindow?.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
 
-    if (!process.env.IS_TEST) mainWindow?.webContents.openDevTools();
+    if (!process.env.IS_TEST) {
+      mainWindow?.webContents.openDevTools();
+    }
   } else {
     createProtocol("app");
     // Load the index.html when not in development
@@ -223,9 +225,7 @@ async function createWindow() {
   });
 }
 
-if (!app.requestSingleInstanceLock()) {
-  app.quit();
-} else {
+if (app.requestSingleInstanceLock()) {
   app.on("second-instance", (event, argv) => {
     // Protocol handler for Windows
     if (process.platform === "win32" || process.platform === "linux") {
@@ -234,7 +234,9 @@ if (!app.requestSingleInstanceLock()) {
 
     // Someone tried to run a second instance, focus our window instead
     if (mainWindow) {
-      if (!mainWindow?.isVisible()) mainWindow?.show();
+      if (!mainWindow?.isVisible()) {
+        mainWindow?.show();
+      }
       mainWindow?.focus();
     }
   });
@@ -264,6 +266,8 @@ if (!app.requestSingleInstanceLock()) {
       });
     }
   });
+} else {
+  app.quit();
 }
 
 app.on("window-all-closed", () => {
@@ -328,7 +332,9 @@ let lastNotificationBody = "";
 ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
   const text = news.join("\n");
 
-  if (text === "" || text === lastNotificationBody) return; // prevent notification spam
+  if (text === "" || text === lastNotificationBody) {
+    return; // prevent notification spam
+  }
 
   const notification = new Notification({
     title: "New update ready to install",
@@ -359,13 +365,13 @@ ipcMain.handle("checkUpdates", (_event, isBeta) => {
 
 // updater functions
 autoUpdater.on("checking-for-update", () => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "checking-for-update");
   }
 });
 
 autoUpdater.on("update-available", (info) => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-available", info);
   }
 
@@ -382,20 +388,20 @@ autoUpdater.on("update-available", (info) => {
 });
 
 autoUpdater.on("update-not-available", () => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-not-available");
   }
 });
 
 autoUpdater.on("error", (err) => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "error", err);
     mainWindow?.setProgressBar(-1);
   }
 });
 
 autoUpdater.on("download-progress", (progressObj) => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "download-progress", progressObj);
     mainWindow?.setProgressBar(progressObj.percent / 100);
   }
@@ -405,7 +411,7 @@ let installNagAlreadyShowed = false;
 
 autoUpdater.on("update-downloaded", (info) => {
   if (!installNagAlreadyShowed) {
-    if (mainWindow && mainWindow?.webContents) {
+    if (mainWindow?.webContents) {
       mainWindow?.webContents.send("updaterHandler", "update-downloaded");
       mainWindow?.setProgressBar(-1);
     }

@@ -18,7 +18,7 @@ describe("Utils", () => {
   });
 
   test("should replace <> with []", () => {
-    const message: string = `/* [a]test[/a] */`;
+    const message: string = "/* [a]test[/a] */";
 
     expect(sanitizeMessage(message)).toBe("<a>test</a>");
   });

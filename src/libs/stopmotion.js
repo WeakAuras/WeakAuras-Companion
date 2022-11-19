@@ -268,29 +268,31 @@ function A(e) {
 function parser(e, a, r) {
   let s = typeof e;
 
-  if (s == "object" && e instanceof Array) {
+  if (s === "object" && e instanceof Array) {
     s = "array";
   }
 
   switch (s) {
-    case "string":
+    case "string": {
       a[r + 1] = "^S";
       a[r + 2] = R(A(e));
       r = r + 2;
       break;
-    case "number":
+    }
+    case "number": {
       a[r + 1] = "^N";
       a[r + 2] = e.toString();
       r = r + 2;
       break;
+    }
     case "object":
-    case "array":
+    case "array": {
       r = r + 1;
       a[r] = "^T";
       let t;
 
       for (const i in e) {
-        t = typeof i == "string" && i.match(/^[0-9]+$/) ? parser(parseInt(i), a, r) : parser(i, a, r);
+        t = typeof i === "string" && i.match(/^[0-9]+$/) ? parser(parseInt(i), a, r) : parser(i, a, r);
         a = t[0];
         r = t[1];
         t = parser(e[i], a, r);
@@ -300,7 +302,8 @@ function parser(e, a, r) {
       r = r + 1;
       a[r] = "^t";
       break;
-    case "boolean":
+    }
+    case "boolean": {
       r = r + 1;
 
       if (e) {
@@ -309,12 +312,14 @@ function parser(e, a, r) {
         a[r] = "^b";
       }
       break;
-    case "null":
+    }
+    case "null": {
       r = r + 1;
       a[r] = "^Z";
       break;
+    }
     default:
-      console.log('Cannot serialize a value of type "' + s + '"');
+      console.log(`Cannot serialize a value of type "${s}"`);
   }
   return [a, r];
 }

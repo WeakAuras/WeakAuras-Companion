@@ -9,7 +9,7 @@
     "dev": "vue-cli-service electron:serve",
     "dist": "vue-cli-service electron:build --publish onTagOrDraft",
     "i18n": "node ./tools/scripts/extract-i18n-messages.js",
-    "lint": "eslint src/. --ext .js,.vue && npm run lint:scss",
+    "lint": "npx rome check src/. && npm run lint:scss",
     "lint:scss": "npx stylelint \"src/**/*.scss\"",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"

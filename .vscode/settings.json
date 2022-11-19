@@ -13,6 +13,7 @@
         "devland",
         "HKLM",
         "Hmmss",
+        "hval",
         "icns",
         "LSUI",
         "luaparse",
@@ -23,6 +24,7 @@
         "PRCI",
         "profsemver",
         "promisified",
+        "tohtml",
         "uids",
         "untrigger",
         "valided",
@@ -33,6 +35,7 @@
         "wacompanionsvfile",
         "Wago",
         "wagoid",
+        "wotlk",
         "YYYYMMDDH",
         "zhcn"
     ],

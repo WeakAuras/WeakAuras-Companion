@@ -5,8 +5,9 @@
     "indentSize": 2,
     "lineWidth": 240,
     "ignore": [
-      "dist_electron/*",
-      "release/**/*",
+      "dist",
+      "dist_electron",
+      "release",
       "*.ejs",
       "index.html"
     ]
@@ -15,7 +16,14 @@
     "enabled": true,
     "rules": {
       "recommended": true
-    }
+    },
+    "ignore": [
+      "dist",
+      "dist_electron",
+      "release",
+      "*.ejs",
+      "index.html"
+    ]
   },
   "javascript": {
     "formatter": {
