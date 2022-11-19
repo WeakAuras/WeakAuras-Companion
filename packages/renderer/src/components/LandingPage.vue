@@ -58,11 +58,7 @@
             <template v-if="aurasSortedForView.length > 0">
               <AuraHeaders :sorted-column="sortedColumn" :sort-descending="sortDescending" :addon-selected-config="addonSelectedConfig" @sort-by="sortBy" />
               <div id="aura-list">
-                <Aura
-                  v-for="aura in aurasSortedForView"
-                  :key="aura.slug"
-                  :aura="aura"
-                ></Aura>
+                <Aura v-for="aura in aurasSortedForView" :key="aura.slug" :aura="aura"></Aura>
               </div>
             </template>
           </div>
@@ -691,7 +687,7 @@ export default defineComponent({
 
             obj2.value.fields.forEach((obj3) => {
               if (obj3.key === undefined) {
-                return
+                return;
               }
 
               if (obj3.key.value === "id") {
@@ -781,7 +777,7 @@ export default defineComponent({
 
             profile.value.fields.forEach((profData) => {
               if (profData.key === undefined) {
-                return
+                return;
               }
 
               if (profData.key.value === "Name") {
@@ -954,7 +950,7 @@ export default defineComponent({
             ...conf.parseFunction(savedData, conf),
           ];
         } catch (err) {
-          console.log(`Error reading file ${svPath}`)
+          console.log(`Error reading file ${svPath}`);
           console.log(JSON.stringify(err));
           continue;
         }
