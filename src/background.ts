@@ -50,7 +50,6 @@ let cancellationToken;
 
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
-//@ts-ignore
 autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
 autoUpdater.logger = log;
 //@ts-ignore
