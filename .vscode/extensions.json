@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "stylelint.vscode-stylelint",
+        "rome.rome",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}
