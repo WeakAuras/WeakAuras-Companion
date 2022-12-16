@@ -17,7 +17,8 @@ export function isOpen(wowpath: string, version: string) {
   return false;
 }
 
-export function afterReload(config: { value: string; version: string; versions: string[] }, callback: () => void) {
+// rome-ignore lint/suspicious/noExplicitAny: cba to fix this
+export function afterReload(config: { value: any; version: any; versions: any[] }, callback: () => void) {
   const wowpath = config.value;
   const version = config.version;
   let account: string;
