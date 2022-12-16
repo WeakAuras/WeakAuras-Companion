@@ -52,7 +52,7 @@ function LocalServerRequestHandler(req, res) {
       if (body.action === "Add-Import") {
         const { 2: slug } = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
 
-        if (stash.findIndex((aura: { url: any }) => aura.url === body.url) === -1) {
+        if (stash.findIndex((aura: { url: string }) => aura.url === body.url) === -1) {
           stash.push({
             name: body.name,
             encoded: body.import,
