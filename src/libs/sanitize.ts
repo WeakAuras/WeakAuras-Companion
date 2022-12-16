@@ -1,9 +1,7 @@
 const bbcode = (str) => {
   let output = str || "";
 
-  output = output
-    .replace(/\[([a-z]+)(?:=[\w\d.,\\/"'#,-]*)*(?: *[a-z0-9]+=.+)*\](.*?)\[\/\1\]/gi, "$2")
-    .replace(/\[\[/g, "\\[[");
+  output = output.replace(/\[(?:[\w]+)(?:=[\w\d.,\\/"'#,-]*)*(?: *[\w\d]+=.+)*\](?:.*?)\[\/\1\]|\[\[/gi, "$2").replace(/\\\[\[/g, "\\[[");
   return output;
 };
 

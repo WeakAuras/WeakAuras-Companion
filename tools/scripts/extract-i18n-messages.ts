@@ -35,7 +35,7 @@ const run = (): void => {
       const i18nFileObject: any = i18nFileContent ? JSON.parse(i18nFileContent) : {};
 
       (Object as any).keys(i18nFileObject).forEach((key: string) => {
-        i18nFileObject[key] = i18nFileObject[key].replace(/\n/g, '\\n').replace(/"/g, '\\"');
+        i18nFileObject[key] = i18nFileObject[key].replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/"/g, '\\"');
       });
 
       const newI18nObject: any = locale === defaultLocale
