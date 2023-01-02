@@ -28,7 +28,7 @@
     "luxon": "^3.2.0",
     "material-icons": "^1.13.1",
     "pinia": "^2.0.28",
-    "pinia-plugin-persistedstate-2": "^2.0.7",
+    "pinia-plugin-persistedstate-2": "^2.0.8",
     "regedit": "^5.1.1",
     "sharp": "^0.31.3",
     "tail": "^2.2.4",
