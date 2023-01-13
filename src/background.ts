@@ -207,11 +207,6 @@ async function createWindow() {
     }
   });
 
-  mainWindow?.webContents.on("new-window", (event, url) => {
-    event.preventDefault();
-    shell.openExternal(url);
-  });
-
   mainWindow?.webContents.on("will-navigate", (event) => {
     if (mainWindow?.webContents.getURL() !== winURL) {
       event.preventDefault();
