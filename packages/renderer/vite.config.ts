@@ -4,7 +4,8 @@ import path from "path";
 import { defineConfig } from "vite";
 import renderer from "vite-plugin-electron-renderer";
 import eslintPlugin from "vite-plugin-eslint";
-import resolve, { lib2esm } from "vite-plugin-resolve";
+import resolve from "vite-plugin-resolve";
+// import libEsm from 'lib-esm'
 import { pinia, vue as vueExteral } from "vite-plugin-resolve/presets";
 import pkg from "../../package.json";
 import vueI18n from "@intlify/vite-plugin-vue-i18n";
@@ -37,15 +38,15 @@ export default defineConfig({
        */
       {
         // If you use the following modules, the following configuration will work
-        // What they have in common is that they will return - ESM format code snippets
-        sharp:    lib2esm("sharp",    Object.keys(require("sharp")),    { format: "cjs" }),
-        archiver: lib2esm("archiver", Object.keys(require("archiver")), { format: "cjs" }),
-        regedit:  lib2esm("regedit",  Object.keys(require("regedit")),  { format: "cjs" }),
-        tga:      lib2esm("tga",      Object.keys(require("tga")),      { format: "cjs" }),
+        // // What they have in common is that they will return - ESM format code snippets
+        // sharp:    lib2esm("sharp",    Object.keys(require("sharp")),    { format: "cjs" }),
+        // archiver: lib2esm("archiver", Object.keys(require("archiver")), { format: "cjs" }),
+        // regedit:  lib2esm("regedit",  Object.keys(require("regedit")),  { format: "cjs" }),
+        // tga:      lib2esm("tga",      Object.keys(require("tga")),      { format: "cjs" }),
 
         pinia: pinia.v2,
         vue: vueExteral.v3,
-      }
+      },
     ),
     eslintPlugin(),
     vueI18n({
@@ -61,6 +62,22 @@ export default defineConfig({
     outDir: "../../dist/renderer",
     emptyOutDir: true,
     sourcemap: true,
+    lib: {
+      entry: 'src/main.ts',
+      name: 'FloatingVue',
+    },
+    rollupOptions: {
+      external: [
+        'vue',
+        '@floating-ui/dom',
+      ],
+      output: {
+        globals: {
+          vue: 'Vue',
+          '@floating-ui/dom': 'FloatingUIDOM',
+        },
+      },
+    },
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,
