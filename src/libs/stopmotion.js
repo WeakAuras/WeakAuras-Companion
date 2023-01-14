@@ -276,7 +276,7 @@ function A(e) {
 function parser(e, a, r) {
   let s = typeof e;
 
-  if (s == "object" && e instanceof Array) {
+  if (s === "object" && e instanceof Array) {
     s = "array";
   }
 
@@ -299,7 +299,7 @@ function parser(e, a, r) {
 
       for (const i in e) {
         t =
-          typeof i == "string" && i.match(/^[0-9]+$/)
+          typeof i === "string" && i.match(/^[0-9]+$/)
             ? parser(parseInt(i), a, r)
             : parser(i, a, r);
         a = t[0];
@@ -325,7 +325,7 @@ function parser(e, a, r) {
       a[r] = "^Z";
       break;
     default:
-      console.log('Cannot serialize a value of type "' + s + '"');
+      console.log(`Cannot serialize a value of type "${s}"`);
   }
   return [a, r];
 }

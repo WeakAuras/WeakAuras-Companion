@@ -23,7 +23,7 @@ export async function wowDefaultPath() {
       const results = await regedit_promisified.list([key])
       const value = results[key].values.InstallPath.value
 
-      if (typeof (value) == "string") {
+      if (typeof (value) === "string") {
         return path.join(value, "..")
       } else {
         return ""
@@ -46,7 +46,7 @@ export function matchFolderNameInsensitive(folder, name, create) {
       if (name.toLowerCase() === item.toLowerCase()) return item;
     }
 
-    if (!!create) {
+    if (create) {
       fs.mkdirSync(path.join(folder, name));
       return name;
     }

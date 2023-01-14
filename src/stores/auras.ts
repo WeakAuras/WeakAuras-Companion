@@ -14,7 +14,7 @@ export const useStashStore = defineStore({
     tohtml() {
       return this.auras
         .map((aura) => {
-          return "<br>" + aura.name;
+          return `<br>${aura.name}`;
         })
         .join("");
     }

@@ -8,7 +8,7 @@ function deleteOldFiles(dirPath, accountName, addonName, maxsize) {
   const regex = new RegExp(`^${addonName}-${accountName}-[0-9.]+.zip$`);
   const files = fs
     .readdirSync(dirPath)
-    .filter((v) => v && v.match(regex))
+    .filter((v) => v?.match(regex))
     .map((v) => ({
       name: v,
       stats: fs.statSync(path.join(dirPath, v)),
@@ -44,7 +44,7 @@ function backupIfRequired(
   callback,
   addonName
 ) {
-  if (config && config.active && filename) {
+  if (config?.active && filename) {
     const stats = fs.statSync(filename);
 
     if (stats.size !== previousSize) {
@@ -82,7 +82,7 @@ function backupIfRequired(
           throw err;
         });
       archive.pipe(writeStream);
-      archive.append(fileContents, { name: addonName + ".lua" });
+      archive.append(fileContents, { name: `${addonName}.lua` });
 
       archive.append(
         "If you want to restore this backup, close WOW first, then move the WeakAuras.lua file into your saved variable folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",

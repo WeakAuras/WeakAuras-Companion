@@ -16,7 +16,7 @@ remoteMain.initialize();
 const electronLocalshortcut = require("electron-localshortcut");
 //const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV === "production";
 
 // disable outdated method for auto start
 const AutoLauncher = new AutoLaunch({
@@ -72,7 +72,7 @@ let winURL = null;
 const iconpath = path.join(__static, `icon${process.platform === "win32" ? ".ico" : "-light.png"}`);
 
 function handleLinks(link) {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("linkHandler", link);
   }
 }
@@ -354,13 +354,13 @@ ipcMain.handle("checkUpdates", (_event, isBeta) => {
 
 // updater functions
 autoUpdater.on("checking-for-update", () => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "checking-for-update");
   }
 });
 
 autoUpdater.on("update-available", (info) => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-available", info);
   }
 
@@ -377,20 +377,20 @@ autoUpdater.on("update-available", (info) => {
 });
 
 autoUpdater.on("update-not-available", () => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-not-available");
   }
 });
 
 autoUpdater.on("error", (err) => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "error", err);
     mainWindow?.setProgressBar(-1);
   }
 });
 
 autoUpdater.on("download-progress", (progressObj) => {
-  if (mainWindow && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "download-progress", progressObj);
     mainWindow?.setProgressBar(progressObj.percent / 100);
   }
@@ -400,7 +400,7 @@ let installNagAlreadyShowed = false;
 
 autoUpdater.on("update-downloaded", (info) => {
   if (!installNagAlreadyShowed) {
-    if (mainWindow && mainWindow?.webContents) {
+    if (mainWindow?.webContents) {
       mainWindow?.webContents.send("updaterHandler", "update-downloaded");
       mainWindow?.setProgressBar(-1);
     }

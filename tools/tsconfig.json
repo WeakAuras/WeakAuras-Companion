@@ -9,7 +9,8 @@
       "outDir": "./",
       "rootDir": "./",
       "target": "es6",
-      "skipLibCheck": true
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true
     },
     "include": [
       "./**/*.ts"

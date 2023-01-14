@@ -22,10 +22,10 @@ export const createSortByTime = (dir) => (a, b) => {
 
 export const createSortByString = (dir, column) => {
   return (a, b) => {
-    let A = a[column] || "",
-      B = b[column] || "";
+    let A = a[column] || "";
+    let B = b[column] || "";
 
-    [A, B] = [A, B].map((s) => (s + "").toLocaleString().toLowerCase());
+    [A, B] = [A, B].map((s) => (`${s}`).toLocaleString().toLowerCase());
     return A < B ? -1 * dir : A === B ? 0 : dir;
   };
 };
@@ -54,8 +54,8 @@ export const createSortByUpdate = (dir, hasTypeColumn) => {
     : createSortByString(1, "name");
 
   return (a, b) => {
-    const A = getUpdateValue(a),
-      B = getUpdateValue(b);
+    const A = getUpdateValue(a);
+    const B = getUpdateValue(b);
 
     return A < B ? -1 * dir : A > B ? dir : secondarySortFunction(a, b);
   };

@@ -73,7 +73,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
                 .resize({ width, height })
                 .toBuffer()
 
-            if (coalesce == true) {
+            if (coalesce === true) {
                 if (i > 0) {
                     let compositedBuffer = await sharp(prevFrameBuffer).composite([{
                         input: frame,
@@ -91,7 +91,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
             }
         }
 
-        if (useSkipFrames == true) {
+        if (useSkipFrames === true) {
             frames = frames.filter((elem, index) => {
                 return index % skipFrames
             })
