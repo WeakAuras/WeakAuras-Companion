@@ -4,7 +4,6 @@
 // this version was fixed by Vardex
 
 import zlib from "zlib";
-import getRandomBytes from "crypto";
 
 const StopMotionTemplate = {
   d: {
@@ -342,15 +341,7 @@ const serialize = function (e) {
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-
-  // Generate a random 8-byte buffer
-  const buf = getRandomBytes(8);
-
-  // Convert the buffer to a signed integer
-  const int = buf.readInt32BE();
-
-  // Return a random integer within the specified range
-  return Math.floor(int / 2147483647 * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 const GenerateUniqueID = function () {
