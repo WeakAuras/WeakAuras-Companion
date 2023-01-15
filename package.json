@@ -3,6 +3,11 @@
   "version": "4.1.3",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
+  "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
+  },
   "scripts": {
     "build": "vue-cli-service electron:build --publish never",
     "compile-tools": "tsc -p tools",
@@ -94,11 +99,6 @@
       "tr",
       "zh-cn"
     ]
-  },
-  "license": "GPL-2.0-or-later",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
   },
   "overrides": {
     "minimatch": "^6.0.0",
