@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          cache: npm
+          cache: pnpm
       - run: npm install --legacy-peer-deps
       - run: npm i -D dmg-license
 
