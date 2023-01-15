@@ -62,7 +62,7 @@
     "@vue/eslint-config-typescript": "^11.0.2",
     "axios": "^1.2.2",
     "electron": "20.2.0",
-    "electron-builder": "^24.0.0-alpha.9",
+    "electron-builder": "^23.6.0",
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.4.8",
     "electron-store": "^8.1.0",
