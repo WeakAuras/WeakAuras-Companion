@@ -33,13 +33,15 @@ It enables you to fetch updates to the auras you have installed  directly from W
 - Now open the Plater options panel in-game and look for the wago icons on the Scripting, Modding or Profiles tab. Those icons indicate available updates in this category, as can be seen on (1.) on the screenshots below.
 
 #### Updating Profiles
+
 To update your profile, go to the Profiles tab and check the wago.io Profile Information (2.), then click on 'Update Profile' (3.) - You will be prompted to update.
 
 ![preview5](https://i.imgur.com/C9YGuES.png)
 
 #### Updating Mods and Scripts
+
 The update procedure for Mods and Scripts is identical:
-First check for available updates indicated by the small wago icon on the respective tab (1.), then find the update indicator on the Mod/Script (2.). 
+First check for available updates indicated by the small wago icon on the respective tab (1.), then find the update indicator on the Mod/Script (2.).
 The tooltip will give you additional information about the update (3.).
 
 ![preview6](https://i.imgur.com/42V4AH5.png)
@@ -74,17 +76,17 @@ The Companion is able to regularly create backups of your WeakAuras so you don't
 
 ```bash
 # install dependencies
-npm install
+pnpm install
 
 # serve with hot reload at localhost:9080
-npm run dev
+pnpm run dev
 
 # build electron application for production
-npm run build
+pnpm run build
 ```
 
 ### Extract new translation strings to i18n/*.json files
 
 ```bash
-npm run i18n
+pnpm run i18n
 ```

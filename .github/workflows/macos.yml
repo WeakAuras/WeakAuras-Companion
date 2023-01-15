@@ -24,16 +24,16 @@ jobs:
       - run: npm i -D dmg-license
 
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Rebuild
         run: npm rebuild node-sass
-        
+
       - name: Sharp Multiarch Rebuild
         run: npm install --platform=darwin --arch=x64 sharp && npm rebuild --platform=darwin --arch=arm64 sharp
 
       - name: Build
-        run: npm run dist
+        run: pnpm run dist
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 

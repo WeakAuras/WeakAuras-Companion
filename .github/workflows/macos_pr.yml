@@ -20,13 +20,13 @@ jobs:
       - run: npm i -D dmg-license
 
       - name: Lint
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Rebuild
         run: npm rebuild node-sass
 
       - name: Build
-        run: npm run build --publish=never
+        run: pnpm run build --publish=never
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
