@@ -8,7 +8,7 @@ import resolve from "vite-plugin-resolve";
 // import libEsm from 'lib-esm'
 import { pinia, vue as vueExteral } from "vite-plugin-resolve/presets";
 import pkg from "../../package.json";
-import vueI18n from "@intlify/vite-plugin-vue-i18n";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -49,7 +49,7 @@ export default defineConfig({
       },
     ),
     eslintPlugin(),
-    vueI18n({
+    VueI18nPlugin({
       // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
       compositionOnly: false,
 
@@ -63,18 +63,18 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     lib: {
-      entry: 'src/main.ts',
-      name: 'FloatingVue',
+      entry: "src/main.ts",
+      name: "FloatingVue",
     },
     rollupOptions: {
       external: [
-        'vue',
-        '@floating-ui/dom',
+        "vue",
+        "@floating-ui/dom",
       ],
       output: {
         globals: {
-          vue: 'Vue',
-          '@floating-ui/dom': 'FloatingUIDOM',
+          vue: "Vue",
+          "@floating-ui/dom": "FloatingUIDOM",
         },
       },
     },
