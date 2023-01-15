@@ -9,18 +9,6 @@
     "type": "git",
     "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
   },
-  "config": {
-    "default-locale": "en",
-    "supported-locales": [
-      "en",
-      "es",
-      "de",
-      "fr",
-      "ru",
-      "tr",
-      "zh-cn"
-    ]
-  },
   "scripts": {
     "compile-tools": "tsc -p tools",
     "i18n": "node ./tools/scripts/extract-i18n-messages.js",
@@ -32,6 +20,18 @@
     "build": "electron-builder",
     "test:e2e": "npx playwright test",
     "test:e2e:headless": "npx playwright test --headed"
+  },
+  "config": {
+    "default-locale": "en",
+    "supported-locales": [
+      "en",
+      "es",
+      "de",
+      "fr",
+      "ru",
+      "tr",
+      "zh-cn"
+    ]
   },
   "engines": {
     "node": ">=16"
