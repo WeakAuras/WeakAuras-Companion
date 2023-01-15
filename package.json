@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "archiver": "^5.3.1",
-    "lib-esm": "^0.3.0",
     "regedit": "^5.1.1",
     "sharp": "^0.31.3",
     "tga": "^1.0.7"
@@ -110,6 +109,6 @@
     "World of Warcraft"
   ],
   "overrides": {
-    "minimatch": "^6.0.0"
+    "minimatch": "^6.0.1"
   }
 }
