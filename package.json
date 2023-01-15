@@ -108,5 +108,8 @@
     "vue",
     "WeakAuras",
     "World of Warcraft"
-  ]
+  ],
+  "overrides": {
+    "minimatch": "^6.0.0"
+  }
 }
