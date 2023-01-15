@@ -101,6 +101,7 @@
     "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
   },
   "overrides": {
+    "minimatch": "^6.0.0",
     "vue-cli-plugin-electron-builder": {
       "electron-builder": "^23.1.0"
     }
