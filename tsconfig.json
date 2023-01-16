@@ -17,6 +17,7 @@
     "strict": true,
     "paths": {},
     "allowJs": true,
+    "isolatedModules": true,
     "skipLibCheck": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
