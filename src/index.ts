@@ -52,12 +52,10 @@ app.config.globalProperties.$http = axios;
 
 app.use(pinia);
 
-async function awaitStore() {
-  const configStoreSerialized = await getStore("configStore");
-  return configStoreSerialized;
-}
-
-const locale = JSON.parse(await awaitStore()).lang;
+let locale;
+const configStoreSerialized = getStore("configStore").then((res) => {
+  locale = JSON.parse(res).lang;
+});
 
 const i18n = createI18n({
   locale: locale,
