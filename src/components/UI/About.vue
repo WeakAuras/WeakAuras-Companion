@@ -63,9 +63,7 @@
 
 <script>
 import { defineComponent } from "vue";
-
 import medias from "../../libs/contacts";
-import { version as VERSION } from "../../../package.json";
 
 export default defineComponent({
   name: "About",
@@ -75,8 +73,7 @@ export default defineComponent({
   data() {
     return {
       medias,
-      // eslint-disable-next-line no-undef
-      version: VERSION,
+      version: __APP_VERSION__,
     };
   },
 });
