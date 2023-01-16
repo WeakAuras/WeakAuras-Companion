@@ -94,7 +94,7 @@ export default defineConfig(({ command }) => {
     ],
     build: {
       target: "esnext",
-      minify: false,
+      sourcemap,
       rollupOptions: {
         external: Object.keys(pkg.dependencies),
       },
