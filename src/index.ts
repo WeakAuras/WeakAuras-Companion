@@ -49,14 +49,11 @@ pinia.use(
 
 axios.defaults.timeout = 15000;
 app.config.globalProperties.$http = axios;
-// Vue.http = Vue.prototype.$http;
 
 app.use(pinia);
 
 const configStoreSerialized = await getStore("configStore");
-
-let locale = "en";
-locale = JSON.parse(configStoreSerialized).lang;
+const locale = JSON.parse(configStoreSerialized).lang;
 
 const i18n = createI18n({
   locale: locale,
