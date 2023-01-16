@@ -112,6 +112,12 @@ async function createWindow() {
     mainWindow?.loadURL("app://./index.html");
   }
 
+  // Make all links open with the browser, not with the application
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith("https:")) shell.openExternal(url);
+    return { action: "deny" };
+  });
+
   mainWindow?.on("closed", () => {
     mainWindow = null;
   });
