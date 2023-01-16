@@ -36,7 +36,7 @@
     "pinia-plugin-persistedstate-2": "^2.0.8",
     "regedit": "^5.1.1",
     "sharp": "^0.31.3",
-    "tail": "^2.2.5",
+    "tail": "^2.2.6",
     "tga": "^1.0.7",
     "vue": "^3.2.45",
     "vue-i18n": "^9.2.2"
