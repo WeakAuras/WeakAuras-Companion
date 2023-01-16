@@ -30,4 +30,4 @@ jobs:
         name: Upload Installer
         with:
           name: WeakAuras-Companion-PRCI-Installer
-          path: dist_electron/*.exe
+          path: release/**/*.exe
