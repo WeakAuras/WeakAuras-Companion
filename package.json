@@ -12,8 +12,8 @@
   "scripts": {
     "compile-tools": "tsc -p tools",
     "i18n": "node ./tools/scripts/extract-i18n-messages.js",
-    "lint": "eslint packages/. --ext .ts,.js,.vue && pnpm run lint:scss",
-    "lint:scss": "npx stylelint \"packages/**/*.scss\"",
+    "lint": "eslint src/. --ext .ts,.js,.vue && npm run lint:scss",
+    "lint:scss": "npx stylelint \"src/**/*.scss\"",
     "dev": "vite",
     "devtools": "./node_modules/.bin/vue-devtools",
     "build": "vue-tsc --noEmit && vite build && electron-builder"
@@ -104,14 +104,5 @@
     "vue",
     "WeakAuras",
     "World of Warcraft"
-  ],
-  "packageManager": "pnpm@7.25.0",
-  "pnpm": {
-    "overrides": {
-      "engine.io@>=4.0.0 <6.2.1": ">=6.2.1",
-      "minimatch@<3.0.5": ">=3.0.5",
-      "json5@<1.0.2": ">=1.0.2",
-      "json5@>=2.0.0 <2.2.2": ">=2.2.2"
-    }
-  }
+  ]
 }
