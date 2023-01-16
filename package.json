@@ -15,7 +15,7 @@
     "lint": "eslint . --ext .ts,.js,.vue && npm run lint:scss",
     "lint:scss": "npx stylelint \"src/**/*.scss\"",
     "dev": "vite",
-    "devtools": "./node_modules/.bin/vue-devtools",
+    "devtools": "npx vue-devtools",
     "build": "vue-tsc --noEmit && vite build && electron-builder"
   },
   "config": {
