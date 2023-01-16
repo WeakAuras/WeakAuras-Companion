@@ -93,6 +93,7 @@ export default defineConfig(({ command }) => {
       }),
     ],
     build: {
+      target: "esnext",
       minify: false,
       rollupOptions: {
         external: Object.keys(pkg.dependencies),
