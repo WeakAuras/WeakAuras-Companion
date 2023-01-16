@@ -31,6 +31,9 @@ export default defineConfig(({ command }) => {
         },
       ],
     },
+    define: {
+        "__APP_VERSION__": JSON.stringify(process.env.npm_package_version),
+    },
     plugins: [
       vue(),
       electron([
