@@ -1,5 +1,6 @@
 # Ignore built files
 dist_electron/*
+dist-electron/*
 release/**/*
 *.ejs
 index.html
