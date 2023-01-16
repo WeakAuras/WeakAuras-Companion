@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { rmSync } from "node:fs";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
@@ -32,7 +31,7 @@ export default defineConfig(({ command }) => {
       ],
     },
     define: {
-        "__APP_VERSION__": JSON.stringify(process.env.npm_package_version),
+      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
     },
     plugins: [
       vue(),
