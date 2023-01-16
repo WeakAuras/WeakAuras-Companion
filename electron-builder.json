@@ -2,7 +2,9 @@
   "directories": {
     "output": "release/${version}"
   },
+  // "asar": false,
   "files": [
+    "dist-electron",
     "dist"
   ],
   "productName": "WeakAuras Companion",
@@ -23,7 +25,7 @@
     ]
   },
   "mac": {
-    "icon": "packages/renderer/public/icon.icns",
+    "icon": "public/icon.icns",
     "category": "Utility",
     "extendInfo": {
       "LSUIElement": 1
@@ -37,7 +39,7 @@
     "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
   },
   "win": {
-    "icon": "packages/renderer/public/icon.ico",
+    "icon": "public/icon.ico",
     "publish": {
       "provider": "github"
     },
@@ -55,7 +57,7 @@
       "deb",
       "rpm"
     ],
-    "icon": "packages/renderer/public/bigicon.png",
+    "icon": "public/bigicon.png",
     "category": "Utility",
     "asarUnpack": [
       "**/node_modules/sharp/**"

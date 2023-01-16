@@ -9,7 +9,6 @@ overrides:
 specifiers:
   '@electron/remote': ^2.0.9
   '@intlify/unplugin-vue-i18n': ^0.8.1
-  '@playwright/test': ^1.29.2
   '@types/archiver': ^5.3.1
   '@types/auto-launch': ^5.0.2
   '@types/electron-localshortcut': ^3.1.0
@@ -72,7 +71,6 @@ dependencies:
 devDependencies:
   '@electron/remote': 2.0.9_electron@22.0.2
   '@intlify/unplugin-vue-i18n': 0.8.1_vue-i18n@9.2.2
-  '@playwright/test': 1.29.2
   '@types/archiver': 5.3.1
   '@types/auto-launch': 5.0.2
   '@types/electron-localshortcut': 3.1.0
@@ -660,15 +658,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
-    dev: true
-
-  /@playwright/test/1.29.2:
-    resolution: {integrity: sha512-+3/GPwOgcoF0xLz/opTnahel1/y42PdcgZ4hs+BZGIUjtmEFSXGg+nFoaH3NSmuc7a6GSFwXDJ5L7VXpqzigNg==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dependencies:
-      '@types/node': 18.7.16
-      playwright-core: 1.29.2
     dev: true
 
   /@rollup/pluginutils/4.2.1:
@@ -4645,12 +4634,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 3.0.0
-    dev: true
-
-  /playwright-core/1.29.2:
-    resolution: {integrity: sha512-94QXm4PMgFoHAhlCuoWyaBYKb92yOcGVHdQLoxQ7Wjlc7Flg4aC/jbFW7xMR52OfXMVkWicue4WXE7QEegbIRA==}
-    engines: {node: '>=14'}
-    hasBin: true
     dev: true
 
   /plist/3.0.6:
