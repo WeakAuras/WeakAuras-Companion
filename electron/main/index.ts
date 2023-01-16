@@ -1,5 +1,5 @@
 import remoteMain from "@electron/remote/main";
-import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, Tray, nativeImage } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray, nativeImage } from "electron";
 import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
@@ -96,6 +96,12 @@ async function createWindow() {
   } else {
     mainWindow.loadFile(indexHtml);
   }
+
+  // Make all links open with the browser, not with the application
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.startsWith("https:")) shell.openExternal(url);
+    return { action: "deny" };
+  });
 
   mainWindow?.on("closed", () => {
     mainWindow = null;
