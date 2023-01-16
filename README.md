@@ -76,17 +76,17 @@ The Companion is able to regularly create backups of your WeakAuras so you don't
 
 ```bash
 # install dependencies
-pnpm install
+npm install
 
 # serve with hot reload at localhost:9080
-pnpm run dev
+npm run dev
 
 # build electron application for production
-pnpm run build
+npm run build
 ```
 
 ### Extract new translation strings to i18n/*.json files
 
 ```bash
-pnpm run i18n
+npm run i18n
 ```
