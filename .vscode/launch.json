@@ -26,9 +26,6 @@
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
       "windows": {
-        "name": "Debug Main Process",
-        "type": "node",
-        "request": "launch",
         "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
       },
       "runtimeArgs": [
