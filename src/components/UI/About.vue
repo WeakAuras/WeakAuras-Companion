@@ -40,7 +40,7 @@
         <div class="items">
           <div v-for="media in medias.weakauras" :key="media.name" class="media-item">
             <a :href="media.url" target="_blank">
-              <img :src="`../../src/assets/social-icons/${media.name}.svg`" class="logo" :title="media.name" />
+              <img :src="`social-icons/${media.name}.svg`" class="logo" :title="media.name" />
               {{ media.displayName }}
             </a>
           </div>
@@ -51,7 +51,7 @@
         <div class="items">
           <div v-for="media in medias.wago" :key="media.name" class="media-item">
             <a :href="media.url" target="_blank">
-              <img :src="`../../src/assets/social-icons/${media.name}.svg`" class="logo" :title="media.name" />
+              <img :src="`social-icons/${media.name}.svg`" class="logo" :title="media.name" />
               {{ media.displayName }}
             </a>
           </div>
