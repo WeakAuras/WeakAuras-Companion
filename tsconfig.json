@@ -2,25 +2,33 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "dist",
+    "target": "ESNext",
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "ESNext",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "esnext",
     "paths": {},
     "allowJs": true,
     "skipLibCheck": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
     "allowSyntheticDefaultImports": true,
-	"forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true,
   },
-  "exclude": [
-    "/dist",
-    "node_modules"
+  "include": [
+    "src",
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }
