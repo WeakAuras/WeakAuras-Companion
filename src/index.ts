@@ -101,4 +101,7 @@ app.use(FloatingVue, {
 app.mount("#app").$nextTick(() => {
   postMessage({ payload: "removeLoading" }, "*");
 });
-devtools.connect();
+
+if (import.meta.env.MODE === "development") {
+  devtools.connect();
+}
