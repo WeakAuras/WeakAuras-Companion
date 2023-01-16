@@ -2,7 +2,6 @@
   "directories": {
     "output": "release/${version}"
   },
-  // "asar": false,
   "files": [
     "dist-electron",
     "dist"

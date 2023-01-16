@@ -4,3 +4,5 @@ dist-electron/*
 release/**/*
 *.ejs
 index.html
+tools
+dist
