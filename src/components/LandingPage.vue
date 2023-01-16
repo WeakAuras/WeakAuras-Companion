@@ -75,16 +75,16 @@
       </main>
       <footer>
         <a class="getweakauras" href="https://www.curseforge.com/wow/addons/weakauras-2" target="_blank">
-          <img src="../../src/assets/social-icons/curse.svg" class="logo" title="CurseForge" />
+          <img src="/social-icons/curse.svg" class="logo" title="CurseForge" />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
         <a class="browsewago" href="https://wago.io/weakauras" target="_blank">
-          <img src="../../src/assets/social-icons/wago.svg" class="logo" title="Wago" />
+          <img src="/social-icons/wago.svg" class="logo" title="Wago" />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
         </a>
         <a class="reportbug" @click="toggleReport">
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
-          <img src="../../src/assets/social-icons/bug_report.svg" class="logo invert" title="Bug" />
+          <img src="/social-icons/bug_report.svg" class="logo invert" title="Bug" />
         </a>
         <div class="ready-to-install" v-if="stash.auras.length > 0" @click="toggleUpdatedAuraList()">
           <span>
