@@ -5,23 +5,14 @@
       <br />
       <p>
         {{
-          $t(
-                "app.about.tools",
-            { tools: "Electron &amp; Vue" } /* Developed with {tools} */
-          )
-        }}<br />
+          $t("app.about.tools", /* Developed with */)
+        }} {{ $data.tools }}<br />
         {{
-          $t(
-                "app.about.version",
-            { version: version } /* Version: {version} */
-          )
-        }}<br />
+          $t("app.about.version", /* Version: */)
+        }} {{ $data.version }}<br />
         {{
-          $t(
-                "app.about.license",
-            { license: "GPLv2" } /* License: {license} */
-          )
-        }}<br />
+          $t("app.about.license", /* License: */)
+        }} {{ $data.license }}<br />
         {{ $t("app.about.source" /* Sources on */) }}
         <a href="https://github.com/WeakAuras/WeakAuras-Companion" target="_blank">GitHub</a><br />
         {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka
@@ -74,6 +65,8 @@ export default defineComponent({
     return {
       medias,
       version: __APP_VERSION__,
+      license: __APP_LICENSE__,
+      tools: "Electron & Vue",
     };
   },
 });

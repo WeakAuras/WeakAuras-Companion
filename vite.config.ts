@@ -31,7 +31,8 @@ export default defineConfig(({ command }) => {
       ],
     },
     define: {
-      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+      __APP_VERSION__: JSON.stringify(pkg.version),
+      __APP_LICENSE__: JSON.stringify(pkg.license),
     },
     plugins: [
       vue(),
@@ -87,8 +88,6 @@ export default defineConfig(({ command }) => {
       }),
       eslintPlugin(),
       VueI18nPlugin({
-        // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
-        compositionOnly: false,
         // you need to set i18n resource including paths!
         include: path.resolve(__dirname, "./src/components/**/*.vue"),
       }),
