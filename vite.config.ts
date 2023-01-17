@@ -97,6 +97,7 @@ export default defineConfig(({ command }) => {
       sourcemap,
       rollupOptions: {
         external: Object.keys(pkg.dependencies),
+        onwarn: (warning, warn) => (warning.code !== "EVAL" ? warn(warning) : undefined), // suppress eval warnings (@vue/devtools)
       },
     },
     server:
