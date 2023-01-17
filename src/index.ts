@@ -53,6 +53,7 @@ app.config.globalProperties.$http = axios;
 app.use(pinia);
 
 let locale;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const configStoreSerialized = getStore("configStore").then((res) => {
   locale = JSON.parse(res).lang;
 });
