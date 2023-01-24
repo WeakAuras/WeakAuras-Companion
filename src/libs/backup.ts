@@ -15,15 +15,10 @@ function deleteOldFiles(dirPath, accountName, addonName, maxsize) {
     }))
     .sort((a, b) => b.stats.mtime.getTime() - a.stats.mtime.getTime());
 
-  const totalsize = files.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.stats.size,
-    0
-  );
+  const totalsize = files.reduce((accumulator, currentValue) => accumulator + currentValue.stats.size, 0);
 
   if (totalsize > maxsize && maxsize >= 5 * 1024 * 1024) {
-    console.log(
-      `backup size exceeded for account ${accountName} ${totalsize} > ${maxsize}`
-    );
+    console.log(`backup size exceeded for account ${accountName} ${totalsize} > ${maxsize}`);
 
     // delete 2 last files
     files.slice(-2).forEach((v) => {
@@ -36,14 +31,7 @@ function deleteOldFiles(dirPath, accountName, addonName, maxsize) {
   }
 }
 
-function backupIfRequired(
-  filename,
-  config,
-  previousSize,
-  accountName,
-  callback,
-  addonName
-) {
+function backupIfRequired(filename, config, previousSize, accountName, callback, addonName) {
   if (config?.active && filename) {
     const stats = fs.statSync(filename);
 
@@ -62,12 +50,7 @@ function backupIfRequired(
         .on("close", () => {
           console.log(`Backup: ${zipFile} saved`);
 
-          deleteOldFiles(
-            config.path,
-            accountName,
-            addonName,
-            config.maxsize * 1024 * 1024
-          );
+          deleteOldFiles(config.path, accountName, addonName, config.maxsize * 1024 * 1024);
           callback(stats.size);
         })
         .on("warning", (err) => {

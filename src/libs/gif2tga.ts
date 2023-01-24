@@ -8,11 +8,11 @@ function nextPow2(aSize) {
 }
 
 function calculateBestSize(width, height, count) {
-  var bestcols = 1;
-  var bestsize = Number.MAX_VALUE;
-  var bestratio = Number.MAX_VALUE;
+  let bestcols = 1;
+  let bestsize = Number.MAX_VALUE;
+  let bestratio = Number.MAX_VALUE;
 
-  for (var cols = 1; cols <= count; cols++) {
+  for (let cols = 1; cols <= count; cols++) {
     const w = nextPow2(cols * width);
     const h = nextPow2(Math.ceil(count / cols) * height);
     const size = w * h;
@@ -59,20 +59,20 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
     const metadata = await sharp(fileBuffer, { animated: true }).metadata();
 
     let width = metadata.width;
-    let pageHeight = metadata.pageHeight;
-    let pages = metadata.pages;
+    const pageHeight = metadata.pageHeight;
+    const pages = metadata.pages;
     width = Math.round(width * scaling);
-    let height = Math.round(pageHeight * scaling);
+    const height = Math.round(pageHeight * scaling);
 
-    var frames = [];
+    let frames = [];
     let prevFrameBuffer;
 
-    for (var i = 0; i < pages; i++) {
-      let frame = await sharp(fileBuffer, { page: i }).resize({ width, height }).toBuffer();
+    for (let i = 0; i < pages; i++) {
+      const frame = await sharp(fileBuffer, { page: i }).resize({ width, height }).toBuffer();
 
-      if (coalesce == true) {
+      if (coalesce === true) {
         if (i > 0) {
-          let compositedBuffer = await sharp(prevFrameBuffer)
+          const compositedBuffer = await sharp(prevFrameBuffer)
             .composite([
               {
                 input: frame,
@@ -92,7 +92,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
       }
     }
 
-    if (useSkipFrames == true) {
+    if (useSkipFrames === true) {
       frames = frames.filter((elem, index) => {
         return index % skipFrames;
       });
@@ -104,7 +104,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
     const fileWidth = nextPow2(width * cols);
     const fileHeight = nextPow2(height * rows);
 
-    let results = sharp({
+    const results = sharp({
       create: {
         width: fileWidth,
         height: fileHeight,
@@ -115,7 +115,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
 
     const compose = [];
 
-    for (var index = 0; index < frames.length; index++) {
+    for (let index = 0; index < frames.length; index++) {
       compose.push({
         input: frames[index],
         left: (index % cols) * width,
@@ -128,8 +128,8 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
     const composited = results.composite(compose); // { resolveWithObject: true }
     const rawbuffer = await composited.raw().toBuffer();
     const pixelArray = Uint8ClampedArray.from(rawbuffer);
-    var buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray); //pixelArray);
-    var out = path.parse(filename).name;
+    const buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray); //pixelArray);
+    let out = path.parse(filename).name;
     out = `${out}.x${rows}y${cols}f${frameCount}w${width}h${height}W${fileWidth}H${fileHeight}.tga`;
     const destFile = path.join(destination, out);
 
