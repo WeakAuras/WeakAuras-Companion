@@ -18,7 +18,7 @@ const StopMotionTemplate = {
     actions: {
       start: {},
       init: {},
-      finish: {}
+      finish: {},
     },
     customForegroundRows: 16,
     frameRate: 15,
@@ -28,20 +28,20 @@ const StopMotionTemplate = {
         type: "none",
         easeStrength: 3,
         duration_type: "seconds",
-        easeType: "none"
+        easeType: "none",
       },
       main: {
         type: "none",
         easeStrength: 3,
         duration_type: "seconds",
-        easeType: "none"
+        easeType: "none",
       },
       finish: {
         type: "none",
         easeStrength: 3,
         duration_type: "seconds",
-        easeType: "none"
-      }
+        easeType: "none",
+      },
     },
     customForegroundFileHeight: 0,
     customBackgroundRows: 16,
@@ -49,24 +49,24 @@ const StopMotionTemplate = {
     rotation: 0,
     subRegions: [
       {
-        type: "subbackground"
-      }
+        type: "subbackground",
+      },
     ],
     height: 128,
     rotate: true,
     load: {
       size: {
-        multi: {}
+        multi: {},
       },
       spec: {
-        multi: {}
+        multi: {},
       },
       class: {
-        multi: {}
+        multi: {},
       },
       talent: {
-        multi: {}
-      }
+        multi: {},
+      },
     },
     endPercent: 1,
     backgroundTexture: "placeholder",
@@ -111,19 +111,17 @@ const StopMotionTemplate = {
           use_unit: true,
           names: {},
           unit: "player",
-          debuffType: "HELPFUL"
+          debuffType: "HELPFUL",
         },
-        untrigger: {}
+        untrigger: {},
       },
-      activeTriggerMode: -10
-    }
+      activeTriggerMode: -10,
+    },
   },
   m: "d",
   s: "WA-Companion",
-  v: 1421
+  v: 1421,
 };
-
-
 
 const mappingTable = [
   "a",
@@ -189,7 +187,7 @@ const mappingTable = [
   "8",
   "9",
   "(",
-  ")"
+  ")",
 ];
 
 const convertByteTo6bit = function (chr) {
@@ -215,12 +213,7 @@ const EncodeForPrint = function (input) {
     const b3 = cache % 64;
     const b4 = (cache - b3) / 64;
 
-    buffer = buffer.concat([
-      convertByteTo6bit(b1),
-      convertByteTo6bit(b2),
-      convertByteTo6bit(b3),
-      convertByteTo6bit(b4)
-    ]);
+    buffer = buffer.concat([convertByteTo6bit(b1), convertByteTo6bit(b2), convertByteTo6bit(b3), convertByteTo6bit(b4)]);
   }
   let cache = 0;
   let cache_bitlen = 0;
@@ -253,12 +246,11 @@ const encode = function (input) {
   return EncodeForPrint(Buffer.from(input));
 };
 
-
 // Serialize function
 const i = [
   [/\^/g, "}"],
   [/~/g, "~|"],
-  [/\s/g, "~`"]
+  [/\s/g, "~`"],
 ];
 
 function R(e) {
@@ -297,10 +289,7 @@ function parser(e, a, r) {
       let t;
 
       for (const i in e) {
-        t =
-          typeof i === "string" && i.match(/^[0-9]+$/)
-            ? parser(parseInt(i), a, r)
-            : parser(i, a, r);
+        t = typeof i === "string" && i.match(/^[0-9]+$/) ? parser(parseInt(i), a, r) : parser(i, a, r);
         a = t[0];
         r = t[1];
         t = parser(e[i], a, r);
@@ -345,7 +334,7 @@ function getRandomInt(min, max) {
 }
 
 const GenerateUniqueID = function () {
-  let uid = [];
+  const uid = [];
 
   for (let i = 0; i < 11; i++) {
     uid.push(mappingTable[getRandomInt(0, 63)]);

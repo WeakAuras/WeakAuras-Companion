@@ -1,7 +1,7 @@
 const hashFnv32a = (str, asString, seed) => {
   // Calculate a 32 bit FNV-1a hash
-  let i;
-  let l;
+  let i: number;
+  let l: number;
   let hval = seed === undefined ? 0x811c9dc5 : seed;
 
   for (i = 0, l = str.length; i < l; i++) {
