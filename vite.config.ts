@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => {
       alias: [
         {
           find: /~(.+)/,
-          replacement: path.join(process.cwd(), "node_modules/$1"),
+          replacement: path.join(process.cwd(), "./node_modules/$1"),
         },
         {
           find: /@\//,
@@ -53,6 +53,9 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: "dist-electron/main",
               rollupOptions: {
+                output: {
+                  format: "es",
+                },
                 external: Object.keys("dependencies" in pkg ? pkg.dependencies : {}),
               },
             },
@@ -71,6 +74,9 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: "dist-electron/preload",
               rollupOptions: {
+                output: {
+                  format: "es",
+                },
                 external: Object.keys("dependencies" in pkg ? pkg.dependencies : {}),
               },
             },
@@ -89,13 +95,16 @@ export default defineConfig(({ command }) => {
       eslintPlugin(),
       VueI18nPlugin({
         // you need to set i18n resource including paths!
-        include: path.resolve(__dirname, "./src/components/**/*.vue"),
+        include: path.resolve(__dirname, "./i18n/**"),
       }),
     ],
     build: {
-      target: "esnext",
       sourcemap,
+      target: "esnext",
       rollupOptions: {
+        output: {
+          format: "es",
+        },
         external: Object.keys(pkg.dependencies),
         onwarn: (warning, warn) => (warning.code !== "EVAL" ? warn(warning) : undefined), // suppress eval warnings (@vue/devtools)
       },
