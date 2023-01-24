@@ -2,15 +2,14 @@
   <div v-click-outside="close">
     <div>
       <div :class="{ invisible: !opened }" class="discord-picker">
-        <gif-picker
-          v-if="opened"
-          :api-key="apiKey"
-          @send="({ url, title, tenorID }) => this.send(url, title, tenorID)"
-        />
+        <gif-picker v-if="opened" :api-key="apiKey"
+          @send="({ url, title, tenorID }) => this.send(url, title, tenorID)" />
       </div>
       <div class="mt4">
         <div>
-          <span @click="open"><slot /></span>
+          <span @click="open">
+            <slot />
+          </span>
         </div>
       </div>
     </div>
@@ -19,7 +18,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import clickOutside from "../../libs/click-outside.js";
+import clickOutside from "../../libs/click-outside";
 import GifPicker from "./GifPicker.vue";
 
 export default defineComponent({
