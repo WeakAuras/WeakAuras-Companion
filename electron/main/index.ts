@@ -4,7 +4,7 @@ import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
-import { join } from "path";
+import { join } from "node:path";
 
 process.env.DIST_ELECTRON = join(__dirname, "..");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
@@ -345,6 +345,12 @@ ipcMain.handle("setStore", (event, key, value) => {
 
 ipcMain.handle("deleteStore", (event, key) => {
   return store.delete(key);
+});
+
+ipcMain.handle("getLang", () => {
+  if (typeof configStoreSerialized === "string") {
+    return JSON.parse(configStoreSerialized).lang;
+  }
 });
 
 // updater functions
