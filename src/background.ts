@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { app, BrowserWindow, Tray, Menu, shell, ipcMain, Notification, protocol } from "electron";
+import { app, dialog, BrowserWindow, Tray, Menu, shell, ipcMain, Notification, protocol } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 import path from "path";
@@ -11,8 +11,6 @@ import Store from "electron-store";
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
 
-const remoteMain = require("@electron/remote/main");
-remoteMain.initialize();
 const electronLocalshortcut = require("electron-localshortcut");
 //const Store = require("electron-store");
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -98,8 +96,6 @@ async function createWindow() {
     },
     show: !config.startminimize,
   });
-
-  remoteMain.enable(mainWindow?.webContents);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -290,6 +286,16 @@ app.setAsDefaultProtocolClient("weakauras-companion");
 app.on("open-url", (event, url) => {
   event.preventDefault();
   handleLinks(url);
+});
+
+
+ipcMain.on('get-user-data-path', (event, arg) => {
+  event.returnValue = app.getPath("userData")
+})
+
+ipcMain.handle("openDialog", (event, args) => {
+  console.log("showOpenDialog")
+  return dialog.showOpenDialog(BrowserWindow.fromWebContents(event.sender), args)
 });
 
 // event used when clicking on notifications

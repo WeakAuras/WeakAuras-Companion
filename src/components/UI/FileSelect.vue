@@ -19,8 +19,7 @@
 
 <script>
 import { defineComponent } from "vue";
-
-import { dialog, getCurrentWindow } from "@electron/remote";
+import { ipcRenderer } from "electron";
 
 export default defineComponent({
   props: ["path", "createDirectory", "defaultPath", "openDirectory", "openFile", "filters", "dragndrop"],
@@ -55,7 +54,7 @@ export default defineComponent({
           dialogOptions.filters = this.filters;
         }
 
-        dialog.showOpenDialog(getCurrentWindow(), dialogOptions).then(result => {
+        ipcRenderer.invoke("openDialog", dialogOptions).then(result => {
           if (result.filePaths && result.filePaths.length) {
             this.$emit("update:path", result.filePaths[0]);
           }
