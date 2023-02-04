@@ -246,8 +246,7 @@ import Report from "./UI/Report.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
 import Dropdown from "./UI/Dropdown.vue";
 import StopMotion from "./UI/StopMotion.vue";
-import { app } from "@electron/remote";       // =>
-const userDataPath = app.getPath("userData"); // => todo: make this global?
+import userDataPath from "@/libs/user-data-folder";
 import { ipcRenderer } from "electron";
 import fs from "fs";
 import luaparse from "luaparse";
@@ -2053,7 +2052,7 @@ $iconDefaultColor: #51ae42;
   font-size: 12px;
   color: #e6e6e6;
   vertical-align: bottom;
-  line-height: 25px;  
+  line-height: 25px;
   float: right;
   text-shadow: #000000 1px 0;
   font-weight: 600;
@@ -2061,7 +2060,7 @@ $iconDefaultColor: #51ae42;
   display: flex;
   padding-right: 15px;
 
-  & span {  
+  & span {
     cursor: pointer;
     opacity: 0.8;
     margin-right: 5px;
