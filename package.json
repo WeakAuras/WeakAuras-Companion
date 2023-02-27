@@ -31,7 +31,7 @@
     "luaparse": "~0.2.1",
     "luxon": "^3.2.1",
     "material-icons": "^1.13.1",
-    "pinia": "^2.0.31",
+    "pinia": "^2.0.32",
     "pinia-plugin-persistedstate-2": "^2.0.13",
     "regedit": "^5.1.2",
     "sharp": "^0.31.3",
