@@ -20,13 +20,13 @@
 </template>
 
 <script>
+import gif2tga from "@/libs/gif2tga";
+import fs from "fs";
+import path from "path";
 import { defineComponent } from "vue";
+import { useStopMotionStore } from "../../stores/stopmotion";
 import DiscordPicker from "./DiscordPicker.vue";
 import FileSelect from "./FileSelect.vue";
-import gif2tga from "../../libs/gif2tga";
-import path from "path";
-import fs from "fs";
-import { useStopMotionStore } from "../../stores/stopmotion";
 import UIButton from "./UIButton.vue";
 
 export default defineComponent({

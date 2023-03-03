@@ -134,40 +134,35 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from "vue";
-import path from "path";
-import backupIfRequired from "../libs/backup";
+import backupIfRequired from "@/libs/backup";
+import * as medias from "@/libs/contacts";
+import hash from "@/libs/hash";
+import sanitize from "@/libs/sanitize";
 import {
-  createSortByTime,
-  createSortByString,
-  createSortByUpdate,
-  createSortByAuthor,
-  createSortByType,
-} from "../libs/sort";
-import { wowDefaultPath, matchFolderNameInsensitive } from "../libs/utilities";
-import UIButton from "./UI/UIButton.vue";
-import RefreshButton from "./UI/RefreshButton.vue";
-import AuraHeaders from "./UI/AuraHeaders.vue";
-import Aura from "./UI/Aura.vue";
-import Config from "./UI/Config.vue";
-import About from "./UI/About.vue";
-import Help from "./UI/Help.vue";
-import TitleBar from "./UI/TitleBar.vue";
-import Report from "./UI/Report.vue";
-import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
-import Dropdown from "./UI/Dropdown.vue";
-import StopMotion from "./UI/StopMotion.vue";
+createSortByAuthor, createSortByString, createSortByTime, createSortByType, createSortByUpdate
+} from "@/libs/sort";
+import { toc } from "@/libs/toc";
 import userDataPath from "@/libs/user-data-folder";
+import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
 import { ipcRenderer } from "electron";
-import fs from "fs";
 import luaparse from "luaparse";
-import hash from "../libs/hash";
-import * as medias from "../libs/contacts";
-import sanitize from "../libs/sanitize";
-import { toc } from "../libs/toc";
-import { useConfigStore } from "../stores/config";
+import fs from "fs";
+import path from "path";
+import { defineComponent, reactive } from "vue";
 import { useStashStore } from "../stores/auras";
-import { reactive } from "vue";
+import { useConfigStore } from "../stores/config";
+import About from "./UI/About.vue";
+import Aura from "./UI/Aura.vue";
+import AuraHeaders from "./UI/AuraHeaders.vue";
+import Config from "./UI/Config.vue";
+import Dropdown from "./UI/Dropdown.vue";
+import Help from "./UI/Help.vue";
+import RefreshButton from "./UI/RefreshButton.vue";
+import Report from "./UI/Report.vue";
+import StopMotion from "./UI/StopMotion.vue";
+import TitleBar from "./UI/TitleBar.vue";
+import UIButton from "./UI/UIButton.vue";
+import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
 
 luaparse.defaultOptions.comments = false;
 luaparse.defaultOptions.scope = true;
