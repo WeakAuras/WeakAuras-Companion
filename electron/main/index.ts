@@ -1,5 +1,4 @@
-import remoteMain from "@electron/remote/main";
-import { app, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray, nativeImage } from "electron";
+import { app, dialog, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray, nativeImage } from "electron";
 import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
@@ -19,8 +18,6 @@ process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
-
-remoteMain.initialize();
 
 const store = new Store();
 Store.initRenderer();
@@ -85,8 +82,6 @@ async function createWindow() {
     },
     show: !config.startminimize,
   });
-
-  remoteMain.enable(mainWindow?.webContents);
 
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
@@ -267,6 +262,14 @@ app.setAsDefaultProtocolClient("weakauras-companion");
 app.on("open-url", (event, url) => {
   event.preventDefault();
   handleLinks(url);
+});
+
+ipcMain.on("get-user-data-path", (event, arg) => {
+  event.returnValue = app.getPath("userData");
+});
+
+ipcMain.handle("openDialog", (event, args) => {
+  return dialog.showOpenDialog(BrowserWindow.fromWebContents(event.sender), args);
 });
 
 // event used when clicking on notifications
