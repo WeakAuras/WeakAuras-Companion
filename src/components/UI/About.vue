@@ -54,7 +54,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import medias from "../../libs/contacts";
+import medias from "@/libs/contacts";
 
 export default defineComponent({
   name: "About",

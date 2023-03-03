@@ -18,7 +18,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import clickOutside from "../../libs/click-outside";
+import clickOutside from "@/libs/click-outside";
 import GifPicker from "./GifPicker.vue";
 
 export default defineComponent({

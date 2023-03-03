@@ -49,7 +49,7 @@ import {
   deflate,
   encode,
   GenerateUniqueID,
-} from "../../libs/stopmotion";
+} from "@/libs/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
