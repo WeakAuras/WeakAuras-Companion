@@ -157,8 +157,7 @@ import Report from "./UI/Report.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
 import Dropdown from "./UI/Dropdown.vue";
 import StopMotion from "./UI/StopMotion.vue";
-import { app } from "@electron/remote"; // =>
-const userDataPath = app.getPath("userData"); // => todo: make this global?
+import userDataPath from "@/libs/user-data-folder";
 import { ipcRenderer } from "electron";
 import fs from "fs";
 import luaparse from "luaparse";

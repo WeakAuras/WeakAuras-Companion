@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import userDataPath from "@/libs/user-data-folder"
+import userDataPath from "@/libs/user-data-folder";
 import path from "path";
 
 export const useConfigStore = defineStore("configStore", {
