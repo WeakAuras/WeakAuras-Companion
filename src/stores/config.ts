@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
-import { app } from "@electron/remote";
-
-const userDataPath = app.getPath("userData");
+import userDataPath from "@/libs/user-data-folder";
 import path from "path";
 
 export const useConfigStore = defineStore("configStore", {
