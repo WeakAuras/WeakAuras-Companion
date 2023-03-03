@@ -84,7 +84,7 @@ import { defineComponent } from "vue";
 import UIButton from "./UIButton.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
-import gif2tga from "../../libs/gif2tga";
+import gif2tga from "@/libs/gif2tga";
 import path from "path";
 import { useConfigStore } from "../../stores/config";
 import { useStopMotionStore } from "../../stores/stopmotion";

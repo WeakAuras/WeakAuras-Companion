@@ -1,4 +1,4 @@
-import { app, dialog, BrowserWindow, ipcMain, Menu, Notification, protocol, shell, Tray, nativeImage } from "electron";
+import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage, Notification, protocol, shell, Tray } from "electron";
 import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
@@ -48,12 +48,12 @@ let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 const winURL = null;
 
-import trayIconNotWindows from "../../public/icon-light.png";
-import notificationIconWindows from "../../public/bigicon.png";
-import notificiationIconNotWindows from "../../public/icon.png";
+const trayIconNotWindows = join(process.env.PUBLIC, "icon-light.png");
+const notificationIconWindows = join(process.env.PUBLIC, "bigicon.png");
+const notificiationIconNotWindows = join(process.env.PUBLIC, "icon.png");
 
-const trayIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : trayIconNotWindows);
-const notificationIcon = nativeImage.createFromDataURL(process.platform === "win32" ? notificationIconWindows : notificiationIconNotWindows);
+const trayIcon = nativeImage.createFromPath(process.platform === "win32" ? notificationIconWindows : trayIconNotWindows);
+const notificationIcon = nativeImage.createFromPath(process.platform === "win32" ? notificationIconWindows : notificiationIconNotWindows);
 
 function handleLinks(link: string) {
   if (mainWindow?.webContents) {
@@ -78,6 +78,7 @@ async function createWindow() {
       webSecurity: process.env.NODE_ENV !== "development",
       allowRunningInsecureContent: false,
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       contextIsolation: false,
     },
     show: !config.startminimize,
@@ -264,7 +265,7 @@ app.on("open-url", (event, url) => {
   handleLinks(url);
 });
 
-ipcMain.on("get-user-data-path", (event, arg) => {
+ipcMain.on("get-user-data-path", (event) => {
   event.returnValue = app.getPath("userData");
 });
 
