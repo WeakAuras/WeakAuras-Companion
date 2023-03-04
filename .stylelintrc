@@ -6,17 +6,6 @@
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
     "at-rule-no-vendor-prefix": true,
-    "block-opening-brace-space-before": null,
-    "block-closing-brace-newline-after": [
-      "always",
-      {
-        "ignoreAtRules": [
-          "if",
-          "else",
-          "elseif"
-        ]
-      }
-    ],
     "color-function-notation": "legacy",
     "color-hex-length": "long",
     "color-named": "never",
@@ -36,8 +25,6 @@
     "no-unknown-animations": true,
     "property-no-vendor-prefix": true,
     "selector-class-pattern": "^[a-z0-9]+(-[a-z0-9]+)*(__[a-z]+)?(--[a-z]+)?$",
-    "selector-descendant-combinator-no-non-space": null,
-    "string-quotes": "double",
     "value-keyword-case": "lower",
     "value-no-vendor-prefix": true
   }
