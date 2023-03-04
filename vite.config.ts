@@ -53,9 +53,6 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: "dist-electron/main",
               rollupOptions: {
-                output: {
-                  format: "es",
-                },
                 external: Object.keys("dependencies" in pkg ? pkg.dependencies : {}),
               },
             },
@@ -74,9 +71,6 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: "dist-electron/preload",
               rollupOptions: {
-                output: {
-                  format: "es",
-                },
                 external: Object.keys("dependencies" in pkg ? pkg.dependencies : {}),
               },
             },
@@ -102,9 +96,6 @@ export default defineConfig(({ command }) => {
       sourcemap,
       target: "esnext",
       rollupOptions: {
-        output: {
-          format: "es",
-        },
         external: Object.keys(pkg.dependencies),
         onwarn: (warning, warn) => (warning.code !== "EVAL" ? warn(warning) : undefined), // suppress eval warnings (@vue/devtools)
       },
