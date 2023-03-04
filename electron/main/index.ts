@@ -48,12 +48,11 @@ let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 const winURL = null;
 
-const trayIconNotWindows = join(process.env.PUBLIC, "icon-light.png");
-const notificationIconWindows = join(process.env.PUBLIC, "bigicon.png");
-const notificiationIconNotWindows = join(process.env.PUBLIC, "icon.png");
+const trayIconPath = join(process.env.PUBLIC, process.platform === "win32" ? "bigicon.png" : "icon-light.png");
+const notificationIconPath = join(process.env.PUBLIC, process.platform === "win32" ? "bigicon.png" : "icon.png");
 
-const trayIcon = nativeImage.createFromPath(process.platform === "win32" ? notificationIconWindows : trayIconNotWindows);
-const notificationIcon = nativeImage.createFromPath(process.platform === "win32" ? notificationIconWindows : notificiationIconNotWindows);
+const trayIcon = nativeImage.createFromPath(trayIconPath);
+const notificationIcon = nativeImage.createFromPath(notificationIconPath);
 
 function handleLinks(link: string) {
   if (mainWindow?.webContents) {
