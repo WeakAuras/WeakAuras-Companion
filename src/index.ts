@@ -32,7 +32,7 @@ function getLang() {
   return ipcRenderer.invoke("getLang");
 }
 
-;(async () => {
+(async () => {
   const app = createApp(App);
   const pinia = createPinia();
 
