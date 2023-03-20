@@ -44,7 +44,7 @@
     "@types/archiver": "^5.3.1",
     "@types/auto-launch": "^5.0.2",
     "@types/electron-localshortcut": "^3.1.0",
-    "@types/jest": "^29.4.0",
+    "@types/jest": "^29.5.0",
     "@types/luaparse": "^0.2.8",
     "@types/luxon": "^3.2.0",
     "@types/sharp": "^0.31.1",
