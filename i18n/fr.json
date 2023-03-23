@@ -60,7 +60,7 @@
   "app.help.bug.s1": "Un descriptif de votre problème.",
   "app.help.bug.s2": "Les étapes pour le reproduire.",
   "app.help.bug.s3": "Une copie d'écran si celà aide à comprendre votre problème.",
-  "app.help.bug.s4": "Journal des erreurs, tapez <Ctrl+Shift+I> pour accéder à la console et copier les éventuels erreurs",
+  "app.help.bug.s4": "Journal des erreurs, tapez Ctrl+Shift+I pour accéder à la console et copier les éventuels erreurs",
   "app.help.bugend": "avec:",
   "app.help.foundbug": "Vous avez trouvé un bug?",
   "app.help.s1": "Configurez WeakAuras Companion, vous devez au moins régler le répertoire de World Of Warcraft et votre compte.",
