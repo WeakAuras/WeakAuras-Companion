@@ -83,7 +83,7 @@
     "typescript": "^5.0.2",
     "vite": "^4.2.1",
     "vite-plugin-electron": "^0.11.1",
-    "vite-plugin-electron-renderer": "^0.13.5",
+    "vite-plugin-electron-renderer": "^0.13.13",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-resolve": "^2.3.0",
     "vue": "^3.2.47",
