@@ -77,15 +77,14 @@ export default defineConfig(({ command }) => {
           },
         },
       ]),
-      // Use Node.js API in the Renderer-process
       renderer({
-        // Enables use of Node.js API in the Renderer-process
-        nodeIntegration: true,
-        // Like Vite's pre bundling
-        optimizeDeps: {
-          include: ["sharp", "archiver", "regedit", "tga"],
-        },
-      }),
+      resolve: {
+        archiver: () => ({ platform: 'node' }),
+        regedit: () => ({ platform: 'node' }),
+        sharp: () => ({ platform: 'node' }),
+        tga: () => ({ platform: 'node' }),
+      },
+    }),
       eslintPlugin(),
       VueI18nPlugin({
         // you need to set i18n resource including paths!
