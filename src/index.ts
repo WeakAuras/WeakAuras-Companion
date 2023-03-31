@@ -102,9 +102,9 @@ function getLang() {
 
   app.mount("#app").$nextTick(() => {
     postMessage({ payload: "removeLoading" }, "*");
-  });
 
-  if (import.meta.env.MODE === "development") {
-    devtools.connect();
-  }
+    if (import.meta.env.MODE === "development") {
+      devtools.connect();
+    }
+  });
 })();
