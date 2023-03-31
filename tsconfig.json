@@ -23,11 +23,16 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
   },
   "include": [
     "src",
+  ],
+  "types": [
+    "vite/client"
   ],
   "references": [
     {
