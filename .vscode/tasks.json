@@ -35,7 +35,7 @@
       }
     },
     {
-      "label": "npm: build",
+      "label": "build",
       "type": "npm",
       "options": {
         "statusbar": {
@@ -44,7 +44,7 @@
       },
       "script": "build",
       "dependsOn": [
-        "npm: lint"
+        "lint"
       ],
       "group": {
         "kind": "build",
@@ -52,7 +52,7 @@
       }
     },
     {
-      "label": "npm: dev",
+      "label": "dev",
       "type": "npm",
       "script": "dev",
       "isBackground": true,
@@ -65,7 +65,7 @@
       }
     },
     {
-      "label": "npm: compile-tools",
+      "label": "compile-tools",
       "type": "npm",
       "options": {
         "statusbar": {
@@ -78,7 +78,7 @@
       ]
     },
     {
-      "label": "npm: lint",
+      "label": "lint",
       "type": "npm",
       "script": "lint",
       "group": "test",
@@ -87,26 +87,32 @@
       ]
     },
     {
-      "label": "npm: dist",
+      "label": "dist",
       "type": "npm",
       "script": "dist",
       "dependsOn": [
-        "npm: lint",
-        "npm: i18n",
-        "npm: dev"
+        "lint",
+        "i18n",
+        "dev"
       ],
       "problemMatcher": [
         "$eslint-stylish"
       ]
     },
     {
-      "label": "npm: i18n",
+      "label": "i18n",
       "type": "npm",
       "script": "i18n",
       "group": "build",
       "problemMatcher": [
         "$tsc"
       ]
+    },
+    {
+      "label": "vue-devtools",
+      "type": "npm",
+      "script": "devtools",
+      "group": "test",
     },
     {
       "label": "generate changelog",
