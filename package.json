@@ -12,6 +12,7 @@
   "scripts": {
     "compile-tools": "tsc -p tools",
     "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
+    "i18n-report": "npx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
     "lint": "eslint . --ext .ts,.js,.vue && npm run lint:scss",
     "lint:scss": "npx stylelint \"src/**/*.scss\"",
     "dev": "vite",
