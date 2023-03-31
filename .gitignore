@@ -26,3 +26,6 @@ yarn-error.log*
 /dist_electron
 /dist-electron
 /release
+
+# Transpiled tools
+tools/**/*.js
