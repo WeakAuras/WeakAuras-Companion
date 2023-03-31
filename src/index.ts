@@ -52,7 +52,7 @@ function getLang() {
     })
   );
 
-  axios.defaults.timeout = 15000;
+  axios.defaults.timeout = 30000;
   app.config.globalProperties.$http = axios;
 
   app.use(pinia);
