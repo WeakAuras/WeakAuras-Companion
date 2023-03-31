@@ -78,13 +78,13 @@ export default defineConfig(({ command }) => {
         },
       ]),
       renderer({
-      resolve: {
-        archiver: () => ({ platform: "node" }),
-        regedit: () => ({ platform: "node" }),
-        sharp: () => ({ platform: "node" }),
-        tga: () => ({ platform: "node" }),
-      },
-    }),
+        resolve: {
+          archiver: () => ({ platform: "node" }),
+          regedit: () => ({ platform: "node" }),
+          sharp: () => ({ platform: "node" }),
+          tga: () => ({ platform: "node" }),
+        },
+      }),
       eslintPlugin(),
       VueI18nPlugin({
         // you need to set i18n resource including paths!
@@ -95,7 +95,6 @@ export default defineConfig(({ command }) => {
       sourcemap,
       target: "esnext",
       rollupOptions: {
-        external: Object.keys(pkg.dependencies),
         onwarn: (warning, warn) => (warning.code !== "EVAL" ? warn(warning) : undefined), // suppress eval warnings (@vue/devtools)
       },
     },
