@@ -304,7 +304,10 @@ export default defineComponent({
       );
     },
     aurasSortedForView() {
-      return this.aurasWithData
+      return this.auras
+        .filter(
+          (aura) => !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername)
+        )
         .filter((aura) => aura.auraType === this.addonSelected)
         .sort(this.sortFunction);
     },
