@@ -41,7 +41,7 @@ const run = async (): Promise<void> => {
         return `"${key}": "${newI18nObject[key]}"`;
       });
 
-      fs.writeFileSync(path.join(basePath, 'i18n', `${locale}.json`), `{\n  ${sortedEntries.join(',\n  ')}\n}\n`);
+      fs.writeFileSync(path.join(basePath, 'i18n', `${locale}.json`), `{\n  ${sortedEntries.join(',\n  ')}\n}`);
 
       console.info(`wrote i18n/${locale}.json`);
     });
