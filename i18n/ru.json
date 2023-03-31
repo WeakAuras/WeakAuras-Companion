@@ -39,7 +39,6 @@
   "app.config.ok": "OK",
   "app.config.reset": "Сбросить настройки и данные",
   "app.config.selectAccount": "Выберите учетную запись",
-  "app.config.showallauras": "Показывать ауры без обновлений",
   "app.config.startup": "Запуск",
   "app.config.wagoAccount": "Учетная запись Wago (необязательно)",
   "app.config.wagoApiKey": "Установить ключ API Wago (необязательно)",

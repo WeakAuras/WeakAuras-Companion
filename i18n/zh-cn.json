@@ -39,7 +39,6 @@
   "app.config.ok": "OK",
   "app.config.reset": "重置选项和数据",
   "app.config.selectAccount": "选择WoW账号",
-  "app.config.showallauras": "显示无需更新的光环",
   "app.config.startup": "开始",
   "app.config.wagoAccount": "设置Wago账号 （可选）",
   "app.config.wagoApiKey": "设置Wago API钥匙 （可选）",

@@ -39,7 +39,6 @@
   "app.config.ok": "OK",
   "app.config.reset": "Reset Settings and Data",
   "app.config.selectAccount": "Select WoW Account",
-  "app.config.showallauras": "Show auras without updates",
   "app.config.startup": "Startup",
   "app.config.wagoAccount": "Set Wago Account (optional)",
   "app.config.wagoApiKey": "Set Wago API Key (optional)",

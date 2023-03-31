@@ -11,7 +11,7 @@
   },
   "scripts": {
     "compile-tools": "tsc -p tools",
-    "i18n": "node ./tools/scripts/extract-i18n-messages.js",
+    "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "lint": "eslint . --ext .ts,.js,.vue && npm run lint:scss",
     "lint:scss": "npx stylelint \"src/**/*.scss\"",
     "dev": "vite",

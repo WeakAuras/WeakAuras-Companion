@@ -39,7 +39,6 @@
   "app.config.ok": "TAMAM",
   "app.config.reset": "Verileri ve Ayarları sıfırla",
   "app.config.selectAccount": "WoW Hesabı Seç",
-  "app.config.showallauras": "Güncellemeleri olmayan aura'ları göster",
   "app.config.startup": "Başlangıç",
   "app.config.wagoAccount": "Wago Hesabını Gir (isteğe bağlı)",
   "app.config.wagoApiKey": "Wago API Anahtarını Gir (isteğe bağlı)",
