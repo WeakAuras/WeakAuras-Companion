@@ -1,21 +1,21 @@
 {
-    "compilerOptions": {
-      "declaration": false,
-      "emitDecoratorMetadata": false,
-      "experimentalDecorators": false,
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "noEmitOnError": true,
-      "outDir": "./",
-      "rootDir": "./",
-      "target": "es6",
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
-    },
-    "include": [
-      "./**/*.ts"
-    ],
-    "exclude": [
-      "../node_modules"
-    ]
+  "compilerOptions": {
+    "declaration": false,
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "outDir": "./",
+    "rootDir": "./",
+    "target": "es6",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": [
+    "../node_modules"
+  ]
 }

@@ -2,7 +2,6 @@
 dist_electron/*
 dist-electron/*
 release/**/*
-*.ejs
 index.html
-tools
+tools/*.js
 dist
