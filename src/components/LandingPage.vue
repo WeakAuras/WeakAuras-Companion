@@ -59,7 +59,7 @@
               :last-update="accountSelected && accountSelected.lastWagoUpdate" :auras-shown="aurasSortedForView.length">
             </RefreshButton>
             <br />
-            <template v-if="aurasSortedForView.length > 0">
+            <template v-if="aurasSortedForView.length > 0 && !fetching">
               <AuraHeaders :sorted-column="sortedColumn" :sort-descending="sortDescending"
                 :addon-selected-config="addonSelectedConfig" @sort-by="sortBy" />
               <div id="aura-list">
