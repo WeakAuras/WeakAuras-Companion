@@ -1657,7 +1657,7 @@ end)
         },
         {
           value: "_classic_era_ptr_",
-          text: this.$t("app.version.classiceraptr" /* Classic Era PTR */),
+          text: this.$t("app.version.dfptr2" /* Dragonflight PTR 2 */),
         },
       ];
 
