@@ -2,7 +2,7 @@ name: macOS Build
 on:
   push:
     branches:
-      - main
+      - "*"
     tags:
       - "*"
 jobs:
@@ -33,7 +33,14 @@ jobs:
         run: npm install --platform=darwin --arch=x64 sharp && npm rebuild --platform=darwin --arch=arm64 sharp
 
       - name: Build
+        if: github.ref == 'refs/heads/main'
         run: npm run dist
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Build
+        if: github.ref != 'refs/heads/main'
+        run: npm run build --publish=never
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 

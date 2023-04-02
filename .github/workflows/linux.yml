@@ -2,7 +2,7 @@ name: Linux Build
 on:
   push:
     branches:
-      - main
+      - "*"
     tags:
       - "*"
 jobs:
@@ -26,7 +26,14 @@ jobs:
         run: npm run lint
 
       - name: Build
+        if: github.ref == 'refs/heads/main'
         run: npm run dist
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Build
+        if: github.ref != 'refs/heads/main'
+        run: npm run build --publish=never
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
