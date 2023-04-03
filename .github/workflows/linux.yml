@@ -27,7 +27,7 @@ jobs:
 
       - name: Build
         if: github.ref == 'refs/heads/main'
-        run: npm run dist
+        run: npm run build
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
