@@ -74,6 +74,7 @@
     "luaparse": "0.2.1",
     "luxon": "^3.3.0",
     "material-icons": "^1.13.4",
+    "node-abi": "^3.35.0",
     "pinia": "^2.0.34",
     "pinia-plugin-persistedstate-2": "^2.0.14",
     "prettier": "^2.8.7",
