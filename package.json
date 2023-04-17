@@ -79,7 +79,7 @@
     "pinia-plugin-persistedstate-2": "^2.0.14",
     "prettier": "^2.8.7",
     "sass": "^1.61.0",
-    "stylelint": "^15.4.0",
+    "stylelint": "^15.5.0",
     "stylelint-config-recommended-scss": "^9.0.1",
     "tail": "^2.2.6",
     "typescript": "^5.0.4",
