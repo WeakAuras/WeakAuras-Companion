@@ -238,11 +238,11 @@ const EncodeForPrint = function (input) {
     .join("");
 };
 
-const deflate = function (input) {
+const deflate = function (input: zlib.InputType) {
   return zlib.deflateRawSync(input, { level: 9 });
 };
 
-const encode = function (input) {
+const encode = function (input: ArrayBuffer | Buffer | { valueOf(): ArrayBuffer | SharedArrayBuffer }) {
   return EncodeForPrint(Buffer.from(input));
 };
 
@@ -266,8 +266,8 @@ function A(e) {
   return result;
 }
 
-function parser(e, a, r) {
-  let s = typeof e;
+function parser(e: object | boolean | number | string, a: string[], r: number): [string[], number] {
+  let s: string | undefined = typeof e;
 
   if (s === "object" && e instanceof Array) {
     s = "array";
@@ -322,7 +322,7 @@ const serialize = function (e) {
   return `${a.join("")}^^`;
 };
 
-function getRandomInt(min, max) {
+function getRandomInt(min: number, max: number) {
   const [lower, upper] = [Math.ceil(min), Math.floor(max)];
   const range = upper - lower;
   return Math.trunc(Math.random() * range) + lower;
