@@ -220,16 +220,16 @@ const EncodeForPrint = function (input) {
 
   while (i < strlen) {
     const x = input[i];
-    cache = cache + x * 2 ** cache_bitlen;
-    cache_bitlen = cache_bitlen + 8;
-    i = i + 1;
+    cache += x * 2 ** cache_bitlen;
+    cache_bitlen += 8;
+    i += 1;
   }
 
   while (cache_bitlen > 0) {
     const bit6 = cache % 64;
     buffer = buffer.concat(convertByteTo6bit(bit6));
     cache = (cache - bit6) / 64;
-    cache_bitlen = cache_bitlen - 6;
+    cache_bitlen -= 6;
   }
   return buffer
     .map(function (e) {
@@ -258,10 +258,12 @@ function R(e) {
 }
 
 function A(e) {
-  for (let a = 0, r; (r = i[a]); a++) {
-    e = e.replace(r[0], r[1]);
+  let result = e;
+
+  for (const [search, replace] of i) {
+    result = result.replace(search, replace);
   }
-  return e;
+  return result;
 }
 
 function parser(e, a, r) {
@@ -275,32 +277,29 @@ function parser(e, a, r) {
     case "string":
       a[r + 1] = "^S";
       a[r + 2] = R(A(e));
-      r = r + 2;
+      r += 2;
       break;
     case "number":
       a[r + 1] = "^N";
       a[r + 2] = e.toString();
-      r = r + 2;
+      r += 2;
       break;
     case "object":
     case "array":
-      r = r + 1;
+      r += 1;
       a[r] = "^T";
-      let t;
 
-      for (const i in e) {
-        t = typeof i === "string" && i.match(/^[0-9]+$/) ? parser(parseInt(i), a, r) : parser(i, a, r);
-        a = t[0];
-        r = t[1];
-        t = parser(e[i], a, r);
-        a = t[0];
-        r = t[1];
+      for (const i of Object.keys(e)) {
+        const key = typeof i === "string" && i.match(/^[0-9]+$/) ? parseInt(i) : i;
+        [a, r] = parser(key, a, r);
+        [a, r] = parser(e[i], a, r);
       }
-      r = r + 1;
+
+      r += 1;
       a[r] = "^t";
       break;
     case "boolean":
-      r = r + 1;
+      r += 1;
 
       if (e) {
         a[r] = "^B";
@@ -309,7 +308,7 @@ function parser(e, a, r) {
       }
       break;
     case "null":
-      r = r + 1;
+      r += 1;
       a[r] = "^Z";
       break;
     default:
@@ -319,25 +318,22 @@ function parser(e, a, r) {
 }
 
 const serialize = function (e) {
-  let a = ["^1"];
-  const r = 1;
-  const s = parser(e, a, r);
-  a = s[0];
-  a.push(["^^"]);
-  return a.join("");
+  const [a] = parser(e, ["^1"], 1);
+  return `${a.join("")}^^`;
 };
 
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
+  const [lower, upper] = [Math.ceil(min), Math.floor(max)];
+  const range = upper - lower;
+  return Math.trunc(Math.random() * range) + lower;
 }
 
-const GenerateUniqueID = function () {
-  const uid = [];
+const GenerateUniqueID = () => {
+  const uid = new Array(11);
+  const tableLen = mappingTable.length;
 
   for (let i = 0; i < 11; i++) {
-    uid.push(mappingTable[getRandomInt(0, 63)]);
+    uid[i] = mappingTable[getRandomInt(0, tableLen - 1)];
   }
   return uid.join("");
 };
