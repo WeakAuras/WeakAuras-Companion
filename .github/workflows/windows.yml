@@ -42,4 +42,4 @@ jobs:
         name: Upload Installer
         with:
           name: WeakAuras-Companion-CI-Installer
-          path: release/*.exe
+          path: release/**/*Setup*.exe
