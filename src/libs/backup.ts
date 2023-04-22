@@ -68,7 +68,7 @@ function backupIfRequired(filename, config, previousSize, accountName, callback,
       archive.append(fileContents, { name: `${addonName}.lua` });
 
       archive.append(
-        "If you want to restore this backup, close WOW first, then move the WeakAuras.lua file into your saved variable folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",
+        "If you want to restore this backup, close WoW first, then move the WeakAuras.lua file into your saved variable folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",
         { name: "README.txt" }
       );
       archive.finalize();
