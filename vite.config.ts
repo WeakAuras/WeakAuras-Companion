@@ -79,10 +79,10 @@ export default defineConfig(({ command }) => {
       ]),
       renderer({
         resolve: {
-          archiver: () => ({ platform: "node" }),
-          regedit: () => ({ platform: "node" }),
-          sharp: () => ({ platform: "node" }),
-          tga: () => ({ platform: "node" }),
+          archiver: { type: "cjs" },
+          regedit: { type: "cjs" },
+          sharp: { type: "cjs" },
+          tga: { type: "cjs" },
         },
       }),
       eslintPlugin(),
