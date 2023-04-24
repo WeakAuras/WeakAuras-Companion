@@ -77,7 +77,7 @@
     "node-abi": "^3.40.0",
     "pinia": "^2.0.35",
     "pinia-plugin-persistedstate-2": "^2.0.14",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "sass": "^1.62.0",
     "stylelint": "^15.5.0",
     "stylelint-config-recommended-scss": "^10.0.0",
