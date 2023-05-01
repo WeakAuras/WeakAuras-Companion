@@ -62,7 +62,7 @@
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.4.8",
     "electron-store": "^8.1.0",
-    "electron-updater": "^6.0.4",
+    "electron-updater": "^6.1.0",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-vite": "^1.0.4",
