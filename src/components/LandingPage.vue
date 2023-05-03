@@ -1418,7 +1418,7 @@ export default defineComponent({
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: 4.1.0
-## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
+## IconTexture: Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
@@ -1464,7 +1464,7 @@ init.lua`,
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: 4.1.0
-## IconTexture: Interface\AddOns\WeakAuras\Media\Textures\icon.blp
+## IconTexture: Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
