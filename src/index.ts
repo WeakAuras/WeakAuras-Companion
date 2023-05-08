@@ -5,7 +5,6 @@ import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 import App from "./App.vue";
-import devtools from "@vue/devtools";
 import { ipcRenderer } from "electron";
 
 import de from "../i18n/de.json";
@@ -102,9 +101,5 @@ function getLang() {
 
   app.mount("#app").$nextTick(() => {
     postMessage({ payload: "removeLoading" }, "*");
-
-    if (import.meta.env.MODE === "development") {
-      devtools.connect();
-    }
   });
 })();

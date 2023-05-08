@@ -7,6 +7,7 @@ import renderer from "vite-plugin-electron-renderer";
 import eslintPlugin from "vite-plugin-eslint";
 import pkg from "./package.json";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
+import VueDevTools from "vite-plugin-vue-devtools";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -35,6 +36,7 @@ export default defineConfig(({ command }) => {
       __APP_LICENSE__: JSON.stringify(pkg.license),
     },
     plugins: [
+      VueDevTools(),
       vue(),
       electron([
         {
@@ -94,9 +96,6 @@ export default defineConfig(({ command }) => {
     build: {
       sourcemap,
       target: "esnext",
-      rollupOptions: {
-        onwarn: (warning, warn) => (warning.code !== "EVAL" ? warn(warning) : undefined), // suppress eval warnings (@vue/devtools)
-      },
     },
     server:
       process.env.VSCODE_DEBUG &&
