@@ -109,12 +109,6 @@
       ]
     },
     {
-      "label": "vue-devtools",
-      "type": "npm",
-      "script": "devtools",
-      "group": "test",
-    },
-    {
       "label": "generate changelog",
       "type": "shell",
       "options": {
