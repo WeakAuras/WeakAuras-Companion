@@ -145,8 +145,9 @@ import { toc } from "@/libs/toc";
 import userDataPath from "@/libs/user-data-folder";
 import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
 import { ipcRenderer } from "electron";
-import luaparse from "luaparse";
 import fs from "fs";
+import got, { Response } from "got";
+import luaparse from "luaparse";
 import path from "path";
 import { defineComponent, reactive } from "vue";
 import { useStashStore } from "../stores/auras";
@@ -174,6 +175,12 @@ interface WagoMetadata {
   name: string;
   url: string;
   displayName: string;
+}
+
+interface WagoApiResponse {
+  data: string;
+  status: number;
+  [Symbol.iterator](): Iterator<any>;
 }
 
 const weakauras: WeakAurasMetadata[] = contacts.weakauras;
@@ -374,17 +381,19 @@ export default defineComponent({
       this.compareSVwithWago();
     });
 
-    ipcRenderer.on("linkHandler", (_event, link) => {
+    ipcRenderer.on("linkHandler", async (_event, link) => {
       const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)/;
 
       if (link) {
         const result = link.match(pattern);
         let slug;
 
-        if (result) ({ 1: slug } = result);
+        if (result) {
+          ({ 1: slug } = result);
+        }
 
         if (slug) {
-          this.wagoPushHandler(slug);
+          await this.wagoPushHandler(slug);
         }
       }
     });
@@ -436,6 +445,19 @@ export default defineComponent({
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
   methods: {
+    getGotOptions() {
+      return {
+        http2: true,
+        headers: {
+          Identifier: this.accountHash,
+          "api-key": this.config.wagoApiKey || "",
+        },
+        crossdomain: true,
+        timeout: {
+          request: 30000
+        }
+      };
+    },
     readyForInstallFlush() {
       this.stash.$reset();
     },
@@ -570,64 +592,43 @@ export default defineComponent({
     reset() {
       this.config.$reset();
     },
-    wagoPushHandler(slug) {
-      if (this.stash.auras.findIndex((aura) => aura.slug === slug) === -1) {
-        // Get data from Wago api
-        this.$http
-          .get("https://data.wago.io/api/check/", {
-            params: {
-              ids: slug,
-            },
-            headers: {
-              Identifier: this.accountHash,
-              "api-key": this.config.wagoApiKey || "",
-            },
-            crossdomain: true,
-          })
-          .then((response) => {
-            // metadata received from Wago API
-            response.data.forEach((wagoData) => {
-              const aura = {
-                slug: wagoData.slug,
-                name: wagoData.name,
-                author: wagoData.username,
-                wagoVersion: wagoData.version,
-                wagoSemver: wagoData.versionString,
-                versionNote: wagoData.changelog,
-                encoded: null,
-                auraType:
-                  wagoData.type === "WEAKAURA"
-                    ? "WeakAuras"
-                    : wagoData.type === "PLATER"
-                      ? "Plater"
-                      : undefined,
-                wagoid: wagoData._id,
-                source: "Wago",
-              };
+    async wagoPushHandler(slug) {
+      const existingAuraIndex = this.stash.auras.findIndex((aura) => aura.slug === slug);
 
-              this.$http
-                .get("https://data.wago.io/api/raw/encoded", {
-                  params: {
-                    id: wagoData._id,
-                  },
-                  headers: {
-                    Identifier: this.accountHash,
-                    "api-key": this.config.wagoApiKey || "",
-                  },
-                  crossdomain: true,
-                })
-                .then((response2) => {
-                  aura.encoded = response2.data;
-                  this.stash.add(aura);
-                })
-                .catch((err2) => {
-                  console.log(JSON.stringify(err2));
-                });
+      if (existingAuraIndex === -1) {
+        try {
+          const response: Response<WagoApiResponse> = await got(`https://data.wago.io/api/check/?ids=${slug}`, {
+            ...this.getGotOptions,
+            responseType: "json",
+          }).json();
+          const data: WagoApiResponse = response.body;
+
+          for (const wagoData of data) {
+            const aura = {
+              slug: wagoData.slug,
+              name: wagoData.name,
+              author: wagoData.username,
+              wagoVersion: wagoData.version,
+              wagoSemver: wagoData.versionString,
+              versionNote: wagoData.changelog,
+              encoded: null,
+              auraType: wagoData.type === "WEAKAURA" ? "WeakAuras" : wagoData.type === "PLATER" ? "Plater" : undefined,
+              wagoid: wagoData._id,
+              source: "Wago",
+            };
+
+            const response2 = await got(`https://data.wago.io/api/raw/encoded?id=${wagoData._id}`, {
+              ...this.getGotOptions,
+              responseType: "text",
             });
-          })
-          .catch((error) => {
-            console.log(JSON.stringify(error));
-          });
+
+            const data2 = response2.body;
+            aura.encoded = data2;
+            this.stash.add(aura);
+          }
+        } catch (error) {
+          console.log(JSON.stringify(error));
+        }
       }
     },
     parseWeakAurasSVdata(WeakAurasSavedData, config) {
@@ -1010,31 +1011,20 @@ export default defineComponent({
 
         // Get data from Wago api
         promisesWagoCallsComplete.push(
-          this.$http
-            .get(config.wagoAPI, {
-              params: {
-                // !! size of request is not checked, can lead to too long urls
-                ids: fetchAuras.join(),
-              },
-              headers: {
-                Identifier: this.accountHash,
-                "api-key": this.config.wagoApiKey || "",
-              },
-              crossdomain: true,
-            })
+          got<WagoApiResponse>(`${config.wagoAPI}?ids=${fetchAuras.join()}`, {
+            ...this.getGotOptions,
+            responseType: "json",
+          })
             .then((response) => {
+              const data: WagoApiResponse = response.body;
+
               // metadata received from Wago API
-              response.data.forEach((wagoData) => {
+              Object.values(data).forEach((wagoData) => {
                 received.push(wagoData.slug);
-                // eslint-disable-next-line no-underscore-dangle
                 received.push(wagoData._id);
 
                 this.auras.forEach((aura, index) => {
-                  // eslint-disable-next-line no-underscore-dangle
-                  if (
-                    aura.slug === wagoData.slug ||
-                    aura.slug === wagoData._id
-                  ) {
+                  if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
                     this.auras[index].name = wagoData.name;
                     this.auras[index].author = wagoData.username;
                     this.auras[index].created = new Date(wagoData.created);
@@ -1042,13 +1032,9 @@ export default defineComponent({
                     this.auras[index].changelog = wagoData.changelog;
                     this.auras[index].modified = new Date(wagoData.modified);
                     this.auras[index].regionType = wagoData.regionType;
-                    // eslint-disable-next-line no-underscore-dangle
                     this.auras[index].wagoid = wagoData._id;
                     this.auras[index].source = "Wago";
 
-                    //aura.encoded = null;
-
-                    // Check if encoded string needs to be fetched
                     if (
                       !aura.ignoreWagoUpdate &&
                       wagoData.version > aura.version &&
@@ -1060,16 +1046,9 @@ export default defineComponent({
                       )
                     ) {
                       promisesWagoDataCallsComplete.push(
-                        this.$http.get("https://data.wago.io/api/raw/encoded", {
-                          params: {
-                            // eslint-disable-next-line no-underscore-dangle
-                            id: wagoData._id,
-                          },
-                          headers: {
-                            Identifier: this.accountHash,
-                            "api-key": this.config.wagoApiKey || "",
-                          },
-                          crossdomain: true,
+                        got(`https://data.wago.io/api/raw/encoded?id=${wagoData._id}`, {
+                          ...this.getGotOptions,
+                          responseType: "text",
                         })
                       );
                     }
@@ -1082,19 +1061,15 @@ export default defineComponent({
               console.log(JSON.stringify(error));
               this.fetching = false;
 
-              // schedule in 30mn on error
               if (this.schedule.id) clearTimeout(this.schedule.id);
 
-              this.schedule.id = setTimeout(
-                this.compareSVwithWago,
-                1000 * 60 * 30
-              );
+              this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 30);
             })
         );
       });
 
       if (promisesWagoCallsComplete.length === 0) {
-        //no data for any addon available. nothing to update.
+        // No data for any addon available. Nothing to update.
         try {
           this.writeAddonData();
         } finally {
@@ -1158,9 +1133,9 @@ export default defineComponent({
                 } else {
                   this.auras.forEach((aura, index) => {
                     if (aura.wagoid === id) {
-                      // setting the version back to the aura version
-                      // wont show update available
-                      // todo create status update-failed?
+                      // Setting the version back to the aura version
+                      // won't show update available
+                      // TODO: create status update-failed?
                       this.auras[index].wagoVersion = aura.version;
                       console.log(`error ${wagoResp.status}`);
                     }
@@ -1182,7 +1157,7 @@ export default defineComponent({
             .then(() => {
               allAurasFetched.forEach((toFetch) => {
                 if (received.indexOf(toFetch) === -1) {
-                  // no data received for this aura => remove from list
+                  // No data received for this aura => remove from list
                   this.auras.forEach((aura, index) => {
                     if (aura && aura.slug === toFetch) {
                       console.log(`no data received for ${aura.slug}`);
@@ -1192,7 +1167,7 @@ export default defineComponent({
                 }
               });
 
-              // we are done with wago API, update data.lua
+              // We are done with the Wago API, update data.lua
 
               try {
                 this.writeAddonData();
@@ -1215,7 +1190,7 @@ export default defineComponent({
         .catch((error) => {
           console.log(JSON.stringify(error));
 
-          // schedule in 30mn on error
+          // Schedule in 30 minutes on error
           if (this.schedule.id) clearTimeout(this.schedule.id);
 
           this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 30);

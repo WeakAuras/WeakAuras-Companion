@@ -85,6 +85,7 @@ export default defineConfig(({ command }) => {
           regedit: { type: "cjs" },
           sharp: { type: "cjs" },
           tga: { type: "cjs" },
+          got: { type: "esm" },
         },
       }),
       eslintPlugin(),
