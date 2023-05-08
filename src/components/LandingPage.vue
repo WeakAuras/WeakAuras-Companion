@@ -1009,11 +1009,7 @@ export default defineComponent({
       }
 
       // remove orphans
-      for (let index = this.auras.length - 1; index > -1; index -= 1) {
-        if (!slugs.includes(this.auras[index].slug)) {
-          this.auras.splice(index, 1);
-        }
-      }
+      this.auras = this.auras.filter((aura) => slugs.includes(aura.slug));
 
       // Get each encoded string
       const promisesWagoCallsComplete = [];
