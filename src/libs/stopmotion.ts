@@ -194,26 +194,34 @@ const convertByteTo6bit = function (chr) {
   return mappingTable[chr].charCodeAt(0);
 };
 
-const EncodeForPrint = function (input) {
+// EncodeForPrint encodes a buffer of bytes into an ASCII string that can be printed.
+// The string is encoded by converting each 6 bits into a printable ASCII character.
+const EncodeForPrint = function (input: Buffer): string {
+  if (input.length === 0) {
+    return "";
+  }
+
   const strlen = input.length;
   const lenMinus2 = strlen - 2;
   let i = 0;
-  let buffer = [];
+  let j = 0;
+  const buffer = Buffer.alloc(Math.ceil((strlen * 4) / 3));
 
   while (i < lenMinus2) {
     const x1 = input[i];
     const x2 = input[i + 1];
     const x3 = input[i + 2];
     i += 3;
-    let cache = x1 + x2 * 256 + x3 * 65536;
+    const cache = x1 + x2 * 256 + x3 * 65536;
     const b1 = cache % 64;
-    cache = (cache - b1) / 64;
-    const b2 = cache % 64;
-    cache = (cache - b2) / 64;
-    const b3 = cache % 64;
-    const b4 = (cache - b3) / 64;
+    const b2 = ((cache - b1) / 64) % 64;
+    const b3 = ((cache - b1 - b2 * 64) / (64 * 64)) % 64;
+    const b4 = ((cache - b1 - b2 * 64 - b3 * 64 * 64) / (64 * 64 * 64)) % 64;
 
-    buffer = buffer.concat([convertByteTo6bit(b1), convertByteTo6bit(b2), convertByteTo6bit(b3), convertByteTo6bit(b4)]);
+    buffer[j++] = convertByteTo6bit(b1);
+    buffer[j++] = convertByteTo6bit(b2);
+    buffer[j++] = convertByteTo6bit(b3);
+    buffer[j++] = convertByteTo6bit(b4);
   }
   let cache = 0;
   let cache_bitlen = 0;
@@ -227,15 +235,11 @@ const EncodeForPrint = function (input) {
 
   while (cache_bitlen > 0) {
     const bit6 = cache % 64;
-    buffer = buffer.concat(convertByteTo6bit(bit6));
+    buffer[j++] = convertByteTo6bit(bit6);
     cache = (cache - bit6) / 64;
     cache_bitlen -= 6;
   }
-  return buffer
-    .map(function (e) {
-      return String.fromCharCode(e);
-    })
-    .join("");
+  return buffer.toString();
 };
 
 const deflate = function (input: zlib.InputType) {
@@ -247,17 +251,13 @@ const encode = function (input: ArrayBuffer | Buffer | { valueOf(): ArrayBuffer 
 };
 
 // Serialize function
-const i = [
-  [/\^/g, "}"],
-  [/~/g, "~|"],
-  [/\s/g, "~`"],
-];
+const i = [[/\^/g, "}"] as [RegExp, string], [/~/g, "~|"] as [RegExp, string], [/\s/g, "~`"] as [RegExp, string]];
 
-function R(e) {
+function R(e: string) {
   return e.replace(/[^\x00-\x7F]/g, "?");
 }
 
-function A(e) {
+function A(e: string): string {
   let result = e;
 
   for (const [search, replace] of i) {
@@ -266,7 +266,7 @@ function A(e) {
   return result;
 }
 
-function parser(e: object | boolean | number | string, a: string[], r: number): [string[], number] {
+function parser(e, a, r: number) {
   let s: string | undefined = typeof e;
 
   if (s === "object" && e instanceof Array) {
