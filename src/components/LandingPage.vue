@@ -239,7 +239,7 @@ export default defineComponent({
           wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "WeakAuras",
           svPathFunction: this.WeakAurasSaved,
-          isInstalled: this.IsWeakAurasInstalled(),
+          isInstalled: this.IsAddonInstalled("WeakAuras"),
           parseFunction: this.parseWeakAurasSVdata,
           hasTypeColumn: false,
         },
@@ -248,7 +248,7 @@ export default defineComponent({
           wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "Plater",
           svPathFunction: this.PlaterSaved,
-          isInstalled: this.IsPlaterInstalled(),
+          isInstalled: this.IsAddonInstalled("Plater"),
           parseFunction: this.parsePlaterSVdata,
           hasTypeColumn: true,
         },
@@ -452,7 +452,7 @@ export default defineComponent({
     WeakAurasSaved(version, account) {
       let WeakAurasSavedVariable;
 
-      if (version && account) {
+      if (version !== undefined && account !== undefined) {
         WeakAurasSavedVariable = path.join(
           this.config.wowpath.value,
           version,
@@ -479,7 +479,7 @@ export default defineComponent({
           fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
           return WeakAurasSavedVariable;
         } catch (e) {
-          // console.log(`Error testing WeakAuras SV access\n${JSON.stringify(e)}`)
+          console.log(`Error testing WeakAuras SV access\n${JSON.stringify(e)}`);
           return false;
         }
       }
@@ -521,62 +521,31 @@ export default defineComponent({
       }
       return false;
     },
-    IsWeakAurasInstalled(version, account) {
-      let AddonFolder;
+    IsAddonInstalled(addon, version, account) {
+      const wowPath = this.config.wowpath.value;
+      let addonFolder = "";
 
-      if (version && account) {
-        AddonFolder = path.join(this.config.wowpath.value, version);
+      if (version !== undefined && account !== undefined) {
+        addonFolder = path.join(wowPath, version);
       } else if (this.versionSelected && this.accountSelected) {
-        AddonFolder = path.join(
-          this.config.wowpath.value,
-          this.config.wowpath.version
-        );
+        addonFolder = path.join(wowPath, this.config.wowpath.version);
       }
 
-      if (AddonFolder) {
-        var AddonPath = ["Interface", "AddOns", "WeakAuras"];
+      if (addonFolder && addon) {
+        const addonPath = ["Interface", "AddOns", addon];
 
-        while (AddonPath.length) {
-          var check = AddonPath.shift();
-          var folder = matchFolderNameInsensitive(AddonFolder, check, false);
+        for (const check of addonPath) {
+          const folder = matchFolderNameInsensitive(addonFolder, check, false);
 
           if (folder) {
-            AddonFolder = path.join(AddonFolder, folder);
+            addonFolder = path.join(addonFolder, folder);
           } else {
             return false;
           }
         }
         return true;
       }
-      return false;
-    },
-    IsPlaterInstalled(version, account) {
-      let AddonFolder;
 
-      if (version && account) {
-        AddonFolder = path.join(this.config.wowpath.value, version);
-      } else if (this.versionSelected && this.accountSelected) {
-        AddonFolder = path.join(
-          this.config.wowpath.value,
-          this.config.wowpath.version
-        );
-      }
-
-      if (AddonFolder) {
-        var AddonPath = ["Interface", "AddOns", "Plater"];
-
-        while (AddonPath.length) {
-          var check = AddonPath.shift();
-          var folder = matchFolderNameInsensitive(AddonFolder, check, false);
-
-          if (folder) {
-            AddonFolder = path.join(AddonFolder, folder);
-          } else {
-            return false;
-          }
-        }
-        return true;
-      }
       return false;
     },
     getAddonConfig(addonName) {
