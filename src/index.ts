@@ -1,4 +1,3 @@
-import axios from "axios";
 import FloatingVue from "floating-vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
@@ -50,9 +49,6 @@ function getLang() {
       },
     })
   );
-
-  axios.defaults.timeout = 30000;
-  app.config.globalProperties.$http = axios;
 
   app.use(pinia);
 
