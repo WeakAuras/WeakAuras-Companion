@@ -1,19 +1,16 @@
-const hashFnv32a = (str, asString, seed) => {
+const hashFnv32a = (str: string, asString: boolean, seed = 0x811c9dc5): string | number => {
   // Calculate a 32 bit FNV-1a hash
-  let i: number;
-  let l: number;
-  let hval = seed === undefined ? 0x811c9dc5 : seed;
+  let hval = seed;
 
-  for (i = 0, l = str.length; i < l; i++) {
+  for (let i = 0, l = str.length; i < l; i++) {
     hval ^= str.charCodeAt(i);
-
     hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) + (hval << 24);
   }
 
   if (asString) {
-    // Convert to 8 digit hex string
     return `0000000${(hval >>> 0).toString(16)}`.substr(-8);
   }
+
   return hval >>> 0;
 };
 
