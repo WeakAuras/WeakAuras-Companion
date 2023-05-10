@@ -442,10 +442,11 @@ export default defineComponent({
       );
     },
     setFirstAddonInstalledSelected() {
-      for (let i = 0; i < this.addonsInstalled.length; i++) {
-        this.addonSelected = this.addonsInstalled[i].addonName;
+      if (this.addonsInstalled.length === 0) {
         return this.addonSelected;
       }
+
+      this.addonSelected = this.addonsInstalled[0].addonName;
       return this.addonSelected;
     },
     WeakAurasSaved(version, account) {
@@ -579,12 +580,11 @@ export default defineComponent({
       return false;
     },
     getAddonConfig(addonName) {
-      for (let index = 0; index < this.allAddonConfigs.length; index++) {
-        if (
-          this.allAddonConfigs[index].addonName.toLowerCase() ===
-          addonName.toLowerCase()
-        ) {
-          return this.allAddonConfigs[index];
+      const lowerAddonName = addonName.toLowerCase();
+
+      for (const addonConfig of this.allAddonConfigs) {
+        if (addonConfig.addonName.toLowerCase() === lowerAddonName) {
+          return addonConfig;
         }
       }
       return null;
@@ -915,17 +915,11 @@ export default defineComponent({
 
       let fileAuraData = [];
 
-      for (let index = 0; index < addonConfigs.length; index++) {
-        let conf = addonConfigs[index];
-
-        if (!conf.svPathFunction) {
-          continue;
-        }
+      for (const conf of addonConfigs) {
+        if (!conf.svPathFunction) continue;
         const svPath = conf.svPathFunction();
 
-        if (typeof svPath !== "string") {
-          continue;
-        }
+        if (typeof svPath !== "string") continue;
 
         try {
           const data = fs.readFileSync(svPath, "utf-8");
@@ -950,59 +944,57 @@ export default defineComponent({
       }
 
       // clean up auras
-      const slugs = [];
+      const slugs = new Array(fileAuraData.length);
 
-      for (let index = 0; index < fileAuraData.length; index++) {
-        const foundAura = fileAuraData[index];
-        const slug = fileAuraData[index].slug;
+      for (const foundAura of fileAuraData) {
+        const slug = foundAura.slug;
 
-        const { length } = this.auras.filter((aura) => aura.slug === slug);
+        const existingAura = this.auras.find((aura) => aura.slug === slug);
 
-        if (length === 0) {
+        if (!existingAura) {
           // new "slug" found, add it to the list of auras
           this.auras.push(foundAura);
         } else {
-          // there is already an aura with same "slug"
-          this.auras.forEach((aura, index) => {
-            if (aura.slug === slug) {
-              if (typeof aura.ids === "undefined") {
-                this.auras[index].ids = [];
-              }
+          const innerIndex = this.auras.findIndex((aura) => aura.slug === slug);
 
-              if (typeof aura.uids === "undefined") {
-                this.auras[index].uids = [];
-              }
+          if (innerIndex !== -1)
+            // there is already an aura with the same "slug"
+          if (typeof existingAura.ids === "undefined") {
+            existingAura.ids = [];
+          }
 
-              if (typeof aura.regionType === "undefined") {
-                this.auras[index].regionType = null;
-              }
+          if (typeof existingAura.uids === "undefined") {
+            existingAura.uids = [];
+          }
 
-              // add aura id to "ids" if necessary
-              if (aura.ids.indexOf(foundAura.id) === -1) {
-                this.auras[index].ids.push(foundAura.id);
-              }
+          if (typeof existingAura.regionType === "undefined") {
+            existingAura.regionType = null;
+          }
 
-              // add aura uid to "uids" if necessary
-              if (foundAura.uid && aura.uids.indexOf(foundAura.uid) === -1) {
-                this.auras[index].uids.push(foundAura.uid);
-              }
-              // update ignore flags
-              this.auras[index].ignoreWagoUpdate = foundAura.ignoreWagoUpdate;
-              this.auras[index].skipWagoUpdate = foundAura.skipWagoUpdate;
+          // add aura id to "ids" if necessary
+          if (existingAura.ids.indexOf(foundAura.id) === -1) {
+            existingAura.ids.push(foundAura.id);
+          }
 
-              // update version
-              this.auras[index].version = foundAura.version;
-              this.auras[index].semver = foundAura.semver;
+          // add aura uid to "uids" if necessary
+          if (foundAura.uid && existingAura.uids.indexOf(foundAura.uid) === -1) {
+            existingAura.uids.push(foundAura.uid);
+          }
+          // update ignore flags
+          existingAura.ignoreWagoUpdate = foundAura.ignoreWagoUpdate;
+          existingAura.skipWagoUpdate = foundAura.skipWagoUpdate;
 
-              // wipe encoded if ignored (force re-fetching it on unignore)
-              if (foundAura.ignoreWagoUpdate) this.auras[index].encoded = null;
+          // update version
+          existingAura.version = foundAura.version;
+          existingAura.semver = foundAura.semver;
 
-              //ensure config
-              this.auras[index].auraType = foundAura.auraType;
-              this.auras[index].auraTypeDisplay = foundAura.auraTypeDisplay;
-              this.auras[index].addonConfig = foundAura.addonConfig;
-            }
-          });
+          // wipe encoded if ignored (force re-fetching it on unignore)
+          if (foundAura.ignoreWagoUpdate) existingAura.encoded = null;
+
+          // ensure config
+          existingAura.auraType = foundAura.auraType;
+          existingAura.auraTypeDisplay = foundAura.auraTypeDisplay;
+          existingAura.addonConfig = foundAura.addonConfig;
         }
 
         if (!slugs.includes(slug)) slugs.push(slug);
