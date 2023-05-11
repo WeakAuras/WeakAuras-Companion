@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <div class="main-container" :class="{ blurred: reportIsShown || updateAuraIsShown }">
-      <TitleBar></TitleBar>
+      <TitleBar />
       <header>
         <div class="app-logo">
           <img src="../../src/assets/weakauras.png" class="logo-img" />
@@ -35,11 +35,11 @@
           <div id="selectors">
             <div v-if="config.wowpath.valided && config.wowpath.versions" id="version-selector">
               <Dropdown v-model:value="config.wowpath.version" :options="versionOptions"
-                :label="$t('app.wowpath.version' /* Version */)" @change="compareSVwithWago()"></Dropdown>
+                :label="$t('app.wowpath.version' /* Version */)" @change="compareSVwithWago()" />
             </div>
             <div v-if="config.wowpath.valided && versionSelected" id="account-selector">
               <Dropdown v-model:value="versionSelected.account" :options="accountOptions"
-                :label="$t('app.wowpath.account' /* Account */)" @change="compareSVwithWago()"></Dropdown>
+                :label="$t('app.wowpath.account' /* Account */)" @change="compareSVwithWago()" />
             </div>
           </div>
           <div v-if="allAddonConfigs.length > 1" id="addonbttns">
@@ -63,15 +63,15 @@
               <AuraHeaders :sorted-column="sortedColumn" :sort-descending="sortDescending"
                 :addon-selected-config="addonSelectedConfig" @sort-by="sortBy" />
               <div id="aura-list">
-                <Aura v-for="aura in aurasSortedForView" :key="aura.slug" :aura="aura"></Aura>
+                <Aura v-for="aura in aurasSortedForView" :key="aura.slug" :aura="aura" />
               </div>
             </template>
           </div>
         </template>
-        <Config v-else-if="configStep === 1" :default-w-o-w-path="defaultWOWPath"></Config>
-        <Help v-else-if="configStep === 2"></Help>
-        <About v-else-if="configStep === 3"></About>
-        <StopMotion v-else-if="configStep === 4" :wowVersions="versionOptions"></StopMotion>
+        <Config v-else-if="configStep === 1" :default-w-o-w-path="defaultWOWPath" />
+        <Help v-else-if="configStep === 2" />
+        <About v-else-if="configStep === 3" />
+        <StopMotion v-else-if="configStep === 4" :wowVersions="versionOptions" />
       </main>
       <footer>
         <a class="getweakauras" href="https://www.curseforge.com/wow/addons/weakauras-2" target="_blank">
@@ -128,7 +128,7 @@
         </div>
       </footer>
     </div>
-    <Report v-if="reportIsShown"></Report>
+    <Report v-if="reportIsShown" />
     <UpdatedAuraList v-if="updateAuraIsShown" />
   </div>
 </template>
@@ -163,9 +163,6 @@ import StopMotion from "./UI/StopMotion.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
-
-luaparse.defaultOptions.comments = false;
-luaparse.defaultOptions.scope = true;
 
 export default defineComponent({
   name: "LandingPage",
@@ -933,7 +930,13 @@ export default defineComponent({
         try {
           const data = fs.readFileSync(svPath, "utf-8");
           // Parse saved data .lua
-          const savedData = luaparse.parse(data);
+          const savedData = luaparse.parse(data, {
+            comments: false,
+            scope: true,
+            locations: true,
+            luaVersion: "5.1",
+            encodingMode: "pseudo-latin1",
+          });
 
           fileAuraData = [
             ...fileAuraData,
