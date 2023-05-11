@@ -95,7 +95,7 @@
             strategy: 'fixed',
             theme: 'info-tooltip',
             html: true,
-            content: `${this.$t('app.main.readyForInstall' /* Ready for Install */)}${readyForInstallTooltip}`,
+            content: `${$t('app.main.readyForInstall' /* Ready for Install */)}${readyForInstallTooltip}`,
           }" class="material-icons update-available update-auras">
             download
           </i>
@@ -106,7 +106,7 @@
               strategy: 'fixed',
               theme: 'info-tooltip',
               html: true,
-              content: `${this.$t('app.main.installUpdate' /* Install client update */)}: v${updater.version} ${updater.releaseNotes}`,
+              content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version} ${updater.releaseNotes}`,
             }" class="material-icons update-available">
               system_update_alt
             </i>
@@ -114,7 +114,7 @@
           <i v-if="updater.status === 'update-downloaded'" v-tooltip="{
             strategy: 'fixed',
             theme: 'info-tooltip',
-            content: `${this.$t('app.main.installUpdate' /* Install client update */)}: v${updater.version}`,
+            content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version}`,
           }" class="material-icons update-available" @click="installUpdates">
             system_update_alt
           </i>
