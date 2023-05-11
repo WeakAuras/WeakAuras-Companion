@@ -133,13 +133,13 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import backupIfRequired from "@/libs/backup";
-import * as medias from "@/libs/contacts";
+import contacts from "@/libs/contacts";
 import hash from "@/libs/hash";
 import sanitize from "@/libs/sanitize";
 import {
-createSortByAuthor, createSortByString, createSortByTime, createSortByType, createSortByUpdate
+  createSortByAuthor, createSortByString, createSortByTime, createSortByType, createSortByUpdate
 } from "@/libs/sort";
 import { toc } from "@/libs/toc";
 import userDataPath from "@/libs/user-data-folder";
@@ -163,6 +163,21 @@ import StopMotion from "./UI/StopMotion.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
+
+interface WeakAurasMetadata {
+  name: string;
+  url: string;
+  displayName: string;
+}
+
+interface WagoMetadata {
+  name: string;
+  url: string;
+  displayName: string;
+}
+
+const weakauras: WeakAurasMetadata[] = contacts.weakauras;
+const wago: WagoMetadata[] = contacts.wago;
 
 export default defineComponent({
   name: "LandingPage",
@@ -192,7 +207,7 @@ export default defineComponent({
       schedule: {
         id: null, // 1h setTimeout id
       },
-      medias,
+      medias: { weakauras, wago },
       updater: {
         status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
         progress: null,
@@ -225,12 +240,6 @@ export default defineComponent({
         return hash.hashFnv32a(account, true);
       }
       return null;
-    },
-    footerMedias() {
-      if (this.medias && this.medias.weakauras) {
-        return this.medias.weakauras.filter((media) => media.footer);
-      }
-      return [];
     },
     allAddonConfigs() {
       const addonConfigs = [
@@ -449,8 +458,8 @@ export default defineComponent({
       this.addonSelected = this.addonsInstalled[0].addonName;
       return this.addonSelected;
     },
-    WeakAurasSaved(version, account) {
-      let WeakAurasSavedVariable;
+    WeakAurasSaved(version?: string, account?: string) {
+      let WeakAurasSavedVariable: fs.PathLike;
 
       if (version !== undefined && account !== undefined) {
         WeakAurasSavedVariable = path.join(
@@ -485,8 +494,8 @@ export default defineComponent({
       }
       return false;
     },
-    PlaterSaved(version, account) {
-      let PlaterSavedVariable;
+    PlaterSaved(version?: string, account?: string) {
+      let PlaterSavedVariable: fs.PathLike;
 
       if (version && account) {
         PlaterSavedVariable = path.join(
@@ -521,7 +530,7 @@ export default defineComponent({
       }
       return false;
     },
-    IsAddonInstalled(addon, version, account) {
+    IsAddonInstalled(addon: string, version?: string, account?: string) {
       const wowPath = this.config.wowpath.value;
       let addonFolder = "";
 
@@ -548,7 +557,7 @@ export default defineComponent({
 
       return false;
     },
-    getAddonConfig(addonName) {
+    getAddonConfig(addonName: string) {
       const lowerAddonName = addonName.toLowerCase();
 
       for (const addonConfig of this.allAddonConfigs) {
@@ -585,12 +594,13 @@ export default defineComponent({
                 wagoVersion: wagoData.version,
                 wagoSemver: wagoData.versionString,
                 versionNote: wagoData.changelog,
+                encoded: null,
                 auraType:
                   wagoData.type === "WEAKAURA"
                     ? "WeakAuras"
                     : wagoData.type === "PLATER"
-                    ? "Plater"
-                    : undefined,
+                      ? "Plater"
+                      : undefined,
                 wagoid: wagoData._id,
                 source: "Wago",
               };
@@ -928,9 +938,9 @@ export default defineComponent({
 
           if (innerIndex !== -1)
             // there is already an aura with the same "slug"
-          if (typeof existingAura.ids === "undefined") {
-            existingAura.ids = [];
-          }
+            if (typeof existingAura.ids === "undefined") {
+              existingAura.ids = [];
+            }
 
           if (typeof existingAura.uids === "undefined") {
             existingAura.uids = [];
@@ -1222,7 +1232,7 @@ export default defineComponent({
 
       const addonConfigs = this.addonsInstalled;
 
-      if (this.config.wowpath.valided && this.version !== "") {
+      if (this.config.wowpath.valided && this.config.wowpath.version !== "") {
         var AddonPath = ["Interface", "AddOns", "WeakAurasCompanion"];
         var AddonFolder = path.join(
           this.config.wowpath.value,
@@ -1369,8 +1379,8 @@ export default defineComponent({
           AddonFolder.toLowerCase().search("classic") === -1
             ? toc.retail
             : AddonFolder.toLowerCase().search("era") === -1
-            ? toc.wotlk
-            : toc.som;
+              ? toc.wotlk
+              : toc.som;
         const files = [
           {
             name: "WeakAurasCompanion.toc",
@@ -1503,7 +1513,7 @@ end)
             let lastSavedFileSize = null;
 
             if (typeof account.savedvariableSizeForAddon === "undefined")
-              this.account.savedvariableSizeForAddon = [];
+              account.savedvariableSizeForAddon = [];
 
             const savedData = account.savedvariableSizeForAddon.find(
               (savedAddon) => savedAddon.addonName === addon.addonName
@@ -1711,7 +1721,7 @@ end)
                 } else if (
                   typeof accountFound.savedvariableSizeForAddon === "undefined"
                 )
-                  this.accountFound.savedvariableSizeForAddon = [];
+                  accountFound.savedvariableSizeForAddon = [];
 
                 this.accountOptions.push({
                   value: accountFile,
