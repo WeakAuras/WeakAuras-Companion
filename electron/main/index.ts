@@ -1,5 +1,4 @@
 import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage, Notification, protocol, shell, Tray } from "electron";
-import electronLocalshortcut from "electron-localshortcut";
 import log from "electron-log";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
@@ -41,6 +40,7 @@ autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
 autoUpdater.logger = log;
 //@ts-ignore
 autoUpdater.logger.transports.file.level = "info";
+log.initialize({ preload: true });
 log.info("App starting...");
 
 let tray: Tray | null = null;
@@ -200,10 +200,6 @@ async function createWindow() {
       event.preventDefault();
     }
   });
-
-  electronLocalshortcut.register(mainWindow, "Ctrl+Shift+I", () => {
-    mainWindow?.webContents.openDevTools({ mode: "detach" });
-  });
 }
 
 if (!app.requestSingleInstanceLock()) {
@@ -262,6 +258,22 @@ app.setAsDefaultProtocolClient("weakauras-companion");
 app.on("open-url", (event, url) => {
   event.preventDefault();
   handleLinks(url);
+});
+
+app.on("web-contents-created", (webContentsCreatedEvent, webContents) => {
+  webContents.on("before-input-event", (beforeInputEvent, input) => {
+    const { code, alt, control, shift, meta } = input;
+
+    // Shortcut: toggle devTools
+    if (shift && control && !alt && !meta && code === "KeyI") {
+      mainWindow.webContents.openDevTools({ mode: "detach" });
+    }
+
+    // Shortcut: window reload
+    if (shift && control && !alt && !meta && code === "KeyR") {
+      mainWindow.reload();
+    }
+  });
 });
 
 ipcMain.on("get-user-data-path", (event) => {
