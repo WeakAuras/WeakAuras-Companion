@@ -1,14 +1,27 @@
 <template>
-  <div v-if="dragndrop" @dragenter.prevent @dragover.prevent @drop="drop" class="dropzone" @click="handleInputClick">
+  <div
+    v-if="dragndrop"
+    @dragenter.prevent
+    @dragover.prevent
+    @drop="drop"
+    class="dropzone"
+    @click="handleInputClick"
+  >
     <label class="file-select">
       <span>
         <slot></slot>
       </span>
     </label>
   </div>
-  <label v-else class="file-select" @click="handleInputClick">
+  <label
+    v-else
+    class="file-select"
+    @click="handleInputClick"
+  >
     <span class="select-button">
-      <p class="configlabel"><slot></slot></p>
+      <p class="configlabel">
+        <slot></slot>
+      </p>
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}</span>
       </div>
@@ -17,7 +30,7 @@
   </label>
 </template>
 
-<script>
+<script lang="js">
 import { defineComponent } from "vue";
 import { ipcRenderer } from "electron";
 

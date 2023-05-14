@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import sharp from "sharp"; // https://sharp.pixelplumbing.com/api-composite
 import tga from "tga"; // https://github.com/steel1990/tga
 

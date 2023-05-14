@@ -1,31 +1,57 @@
 <template>
   <div id="wrapper">
-    <div class="main-container" :class="{ blurred: reportIsShown || updateAuraIsShown }">
+    <div
+      class="main-container"
+      :class="{ blurred: reportIsShown || updateAuraIsShown }"
+    >
       <TitleBar />
       <header>
         <div class="app-logo">
-          <img src="../../src/assets/weakauras.png" class="logo-img" />
+          <img
+            src="../../src/assets/weakauras.png"
+            class="logo-img"
+          />
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
         </div>
         <div class="menu-btns">
-          <UIButton type="menu" :class="{ active: configStep === 0 }" @click="configStep = 0"
-            :title="$t('app.menu.main')">
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 0 }"
+            @click="configStep = 0"
+            :title="$t('app.menu.main')"
+          >
             <span class="material-icons">sync</span>
           </UIButton>
-          <UIButton type="menu" :class="{ active: configStep === 4 }" @click="configStep = 4"
-            :title="$t('app.footer.stopmotion')">
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 4 }"
+            @click="configStep = 4"
+            :title="$t('app.footer.stopmotion')"
+          >
             <span class="material-icons">movie</span>
           </UIButton>
-          <UIButton type="menu" :class="{ active: configStep === 1 }" @click="configStep = 1"
-            :title="$t('app.menu.settings')">
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 1 }"
+            @click="configStep = 1"
+            :title="$t('app.menu.settings')"
+          >
             <span class="material-icons">settings</span>
           </UIButton>
-          <UIButton type="menu" :class="{ active: configStep === 2 }" @click="configStep = 2"
-            :title="$t('app.menu.help')">
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 2 }"
+            @click="configStep = 2"
+            :title="$t('app.menu.help')"
+          >
             <span class="material-icons">help</span>
           </UIButton>
-          <UIButton type="menu" :class="{ active: configStep === 3 }" @click="configStep = 3"
-            :title="$t('app.menu.about')">
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 3 }"
+            @click="configStep = 3"
+            :title="$t('app.menu.about')"
+          >
             <span class="material-icons">info</span>
           </UIButton>
         </div>
@@ -33,95 +59,194 @@
       <main>
         <template v-if="configStep === 0">
           <div id="selectors">
-            <div v-if="config.wowpath.valided && config.wowpath.versions" id="version-selector">
-              <Dropdown v-model:value="config.wowpath.version" :options="versionOptions"
-                :label="$t('app.wowpath.version' /* Version */)" @change="compareSVwithWago()" />
+            <div
+              v-if="config.wowpath.valided && config.wowpath.versions"
+              id="version-selector"
+            >
+              <Dropdown
+                v-model:value="config.wowpath.version"
+                :options="versionOptions"
+                :label="$t('app.wowpath.version' /* Version */)"
+                @change="compareSVwithWago()"
+              />
             </div>
-            <div v-if="config.wowpath.valided && versionSelected" id="account-selector">
-              <Dropdown v-model:value="versionSelected.account" :options="accountOptions"
-                :label="$t('app.wowpath.account' /* Account */)" @change="compareSVwithWago()" />
+            <div
+              v-if="config.wowpath.valided && versionSelected"
+              id="account-selector"
+            >
+              <Dropdown
+                v-model:value="versionSelected.account"
+                :options="accountOptions"
+                :label="$t('app.wowpath.account' /* Account */)"
+                @change="compareSVwithWago()"
+              />
             </div>
           </div>
-          <div v-if="allAddonConfigs.length > 1" id="addonbttns">
-            <label :key="addonSelected" class="btn-label">
+          <div
+            v-if="allAddonConfigs.length > 1"
+            id="addonbttns"
+          >
+            <label
+              :key="addonSelected"
+              class="btn-label"
+            >
               {{ $t("app.main.addons" /* Addons */) }}
             </label>
             <span style="margin-left: 5px" />
-            <UIButton v-for="(addon, index) in allAddonConfigs" :key="index" type="addon"
-              :class="{ active: addonSelected === addon.addonName }" :disabled="!addon.isInstalled"
-              @click="addonSelected = addon.addonName">
+            <UIButton
+              v-for="(addon, index) in allAddonConfigs"
+              :key="index"
+              type="addon"
+              :class="{ active: addonSelected === addon.addonName }"
+              :disabled="!addon.isInstalled"
+              @click="addonSelected = addon.addonName"
+            >
               {{ addon.addonName }}
             </UIButton>
           </div>
           <div id="dashboard">
-            <RefreshButton @refresh="compareSVwithWago()" @gotoconfig="configStep = 1" :is-settings-ok="config.wowpath.valided" :is-version-selected="versionSelected"
-              :is-account-selected="accountSelected" :is-sv-ok="WeakAurasSaved() || PlaterSaved()" :fetching="fetching"
-              :last-update="accountSelected && accountSelected.lastWagoUpdate" :auras-shown="aurasSortedForView.length" :is-addons-ok="IsAddonInstalled('WeakAuras') || IsAddonInstalled('Plater')">
+            <RefreshButton
+              @refresh="compareSVwithWago()"
+              @gotoconfig="configStep = 1"
+              :is-settings-ok="config.wowpath.valided"
+              :is-version-selected="versionSelected"
+              :is-account-selected="accountSelected"
+              :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
+              :fetching="fetching"
+              :last-update="accountSelected && accountSelected.lastWagoUpdate"
+              :auras-shown="aurasSortedForView.length"
+              :is-addons-ok="IsAddonInstalled('WeakAuras') || IsAddonInstalled('Plater')"
+            >
             </RefreshButton>
             <br />
             <template v-if="aurasSortedForView.length > 0 && !fetching">
-              <AuraHeaders :sorted-column="sortedColumn" :sort-descending="sortDescending"
-                :addon-selected-config="addonSelectedConfig" @sort-by="sortBy" />
+              <AuraHeaders
+                :sorted-column="sortedColumn"
+                :sort-descending="sortDescending"
+                :addon-selected-config="addonSelectedConfig"
+                @sort-by="sortBy"
+              />
               <div id="aura-list">
-                <Aura v-for="aura in aurasSortedForView" :key="aura.slug" :aura="aura" />
+                <Aura
+                  v-for="aura in aurasSortedForView"
+                  :key="aura.slug"
+                  :aura="aura"
+                />
               </div>
             </template>
           </div>
         </template>
-        <Config v-else-if="configStep === 1" :default-w-o-w-path="defaultWOWPath" />
+        <Config
+          v-else-if="configStep === 1"
+          :default-w-o-w-path="defaultWOWPath"
+        />
         <Help v-else-if="configStep === 2" />
         <About v-else-if="configStep === 3" />
-        <StopMotion v-else-if="configStep === 4" :wowVersions="versionOptions" />
+        <StopMotion
+          v-else-if="configStep === 4"
+          :wowVersions="versionOptions"
+        />
       </main>
       <footer>
-        <a class="getweakauras" href="https://www.curseforge.com/wow/addons/weakauras-2" target="_blank">
-          <img src="/social-icons/curse.svg" class="logo" title="CurseForge" />
+        <a
+          class="getweakauras"
+          href="https://www.curseforge.com/wow/addons/weakauras-2"
+          target="_blank"
+        >
+          <img
+            src="/social-icons/curse.svg"
+            class="logo"
+            title="CurseForge"
+          />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
-        <a class="browsewago" href="https://wago.io/weakauras" target="_blank">
-          <img src="/social-icons/wago.svg" class="logo" title="Wago" />
+        <a
+          class="browsewago"
+          href="https://wago.io/weakauras"
+          target="_blank"
+        >
+          <img
+            src="/social-icons/wago.svg"
+            class="logo"
+            title="Wago"
+          />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
         </a>
-        <a class="reportbug" @click="toggleReport">
+        <a
+          class="reportbug"
+          @click="toggleReport"
+        >
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
-          <img src="/social-icons/bug_report.svg" class="logo invert" title="Bug" />
+          <img
+            src="/social-icons/bug_report.svg"
+            class="logo invert"
+            title="Bug"
+          />
         </a>
-        <div class="ready-to-install" v-if="stash.auras.length > 0" @click="toggleUpdatedAuraList()">
+        <div
+          class="ready-to-install"
+          v-if="stash.auras.length > 0"
+          @click="toggleUpdatedAuraList()"
+        >
           <span>
             {{ $t("app.footer.readytoinstall" /* Ready To Install */) }}
             ({{ stash.auras.length }})
           </span>
-          <i v-tooltip="{
-            strategy: 'fixed',
-            theme: 'info-tooltip',
-            html: true,
-            content: `${$t('app.main.readyForInstall' /* Ready for Install */)}${readyForInstallTooltip}`,
-          }" class="material-icons update-available update-auras">
+          <i
+            v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              html: true,
+              content: `${$t('app.main.readyForInstall' /* Ready for Install */)}${readyForInstallTooltip}`,
+            }"
+            class="material-icons update-available update-auras"
+          >
             download
           </i>
         </div>
         <div class="app-update">
-          <a :href="updater.path" target="_blank" v-if="updater.status === 'update-available'">
-            <i v-if="updater.status === 'update-available'" v-tooltip="{
-              strategy: 'fixed',
-              theme: 'info-tooltip',
-              html: true,
-              content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version} ${updater.releaseNotes}`,
-            }" class="material-icons update-available">
+          <a
+            :href="updater.path"
+            target="_blank"
+            v-if="updater.status === 'update-available'"
+          >
+            <i
+              v-if="updater.status === 'update-available'"
+              v-tooltip="{
+                strategy: 'fixed',
+                theme: 'info-tooltip',
+                html: true,
+                content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version} ${
+                  updater.releaseNotes
+                }`,
+              }"
+              class="material-icons update-available"
+            >
               system_update_alt
             </i>
           </a>
-          <i v-if="updater.status === 'update-downloaded'" v-tooltip="{
-            strategy: 'fixed',
-            theme: 'info-tooltip',
-            content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version}`,
-          }" class="material-icons update-available" @click="installUpdates">
+          <i
+            v-if="updater.status === 'update-downloaded'"
+            v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version}`,
+            }"
+            class="material-icons update-available"
+            @click="installUpdates"
+          >
             system_update_alt
           </i>
-          <div v-if="updater.status === 'checking-for-update'" class="updating">
+          <div
+            v-if="updater.status === 'checking-for-update'"
+            class="updating"
+          >
             <i class="material-icons icon">sync</i>
           </div>
-          <div v-if="updater.status === 'download-progress'" class="updating">
+          <div
+            v-if="updater.status === 'download-progress'"
+            class="updating"
+          >
             <span class="progress">{{ updater.progress }}%</span>
             <i class="material-icons icon">sync</i>
           </div>
@@ -140,7 +265,11 @@ import { grabVersionFromToc } from "@/libs/grab-wa-version";
 import hash from "@/libs/hash";
 import sanitize from "@/libs/sanitize";
 import {
-  createSortByAuthor, createSortByString, createSortByTime, createSortByType, createSortByUpdate
+  createSortByAuthor,
+  createSortByString,
+  createSortByTime,
+  createSortByType,
+  createSortByUpdate,
 } from "@/libs/sort";
 import userDataPath from "@/libs/user-data-folder";
 import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
@@ -272,65 +401,46 @@ export default defineComponent({
       return addonConfigs;
     },
     addonsInstalled() {
-      return this.allAddonConfigs.filter(
-        (addonConfig) => addonConfig.isInstalled
-      );
+      return this.allAddonConfigs.filter((addonConfig) => addonConfig.isInstalled);
     },
     addonSelectedConfig() {
       if (!this.addonSelected) return null;
       return this.allAddonConfigs.find(
-        (addonConfig) =>
-          addonConfig.addonName.toLowerCase() ===
-          this.addonSelected.toLowerCase()
+        (addonConfig) => addonConfig.addonName.toLowerCase() === this.addonSelected.toLowerCase()
       );
     },
     versionSelected() {
       return (
         this.config.wowpath.version &&
         this.config.wowpath.versions &&
-        this.config.wowpath.versions.find(
-          (version) => version.name === this.config.wowpath.version
-        )
+        this.config.wowpath.versions.find((version) => version.name === this.config.wowpath.version)
       );
     },
     accountSelected() {
       return (
         this.versionSelected &&
-        this.versionSelected.accounts.find(
-          (account) => account.name === this.versionSelected.account
-        )
+        this.versionSelected.accounts.find((account) => account.name === this.versionSelected.account)
       );
     },
     aurasWithData() {
       return this.auras.filter(
-        (aura) =>
-          !!aura.encoded &&
-          !(
-            this.config.ignoreOwnAuras &&
-            aura.author === this.config.wagoUsername
-          )
+        (aura) => !!aura.encoded && !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername)
       );
     },
     aurasWithUpdate() {
-      return this.aurasWithData.filter(
-        (aura) => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate
-      );
+      return this.aurasWithData.filter((aura) => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate);
     },
     aurasSortedForView() {
       return this.auras
-        .filter(
-          (aura) => !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername)
-        )
+        .filter((aura) => !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername))
         .filter((aura) => aura.auraType === this.addonSelected)
         .sort(this.sortFunction);
     },
     sortFunction() {
       const dir = this.sortDescending ? -1 : 1;
-      const hasTypeColumn =
-        this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
+      const hasTypeColumn = this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
 
-      if (!this.sortedColumn || this.sortedColumn === "modified")
-        return createSortByTime(dir);
+      if (!this.sortedColumn || this.sortedColumn === "modified") return createSortByTime(dir);
       else if (this.sortedColumn === "auraTypeDisplay") {
         return createSortByType(dir);
       } else if (this.sortedColumn === "update") {
@@ -453,8 +563,8 @@ export default defineComponent({
         },
         crossdomain: true,
         timeout: {
-          request: 30000
-        }
+          request: 30000,
+        },
       };
     },
     readyForInstallFlush() {
@@ -466,10 +576,7 @@ export default defineComponent({
       // check for app updates in 2 hours
       if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
 
-      this.updater.scheduleId = setTimeout(
-        this.checkCompanionUpdates,
-        1000 * 3600 * 2
-      );
+      this.updater.scheduleId = setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
     },
     setFirstAddonInstalledSelected() {
       if (this.addonsInstalled.length === 0) {
@@ -773,10 +880,7 @@ export default defineComponent({
                 if (result) ({ 2: profslug } = profurl.match(pattern));
               }
 
-              if (
-                profData.key.value === "script_data" ||
-                profData.key.value === "hook_data"
-              ) {
+              if (profData.key.value === "script_data" || profData.key.value === "hook_data") {
                 let typeSuffix =
                   (profData.key.value === "hook_data" && "-Mod") ||
                   (profData.key.value === "script_data" && "-Script") ||
@@ -884,7 +988,7 @@ export default defineComponent({
     },
     async compareSVwithWago() {
       if (!this.versionSelected || !this.accountSelected) return;
-      
+
       const addonConfigs = this.addonsInstalled;
 
       if (this.fetching) return; // prevent spamming UIButton
@@ -910,10 +1014,7 @@ export default defineComponent({
             luaVersion: "5.1",
           });
 
-          fileAuraData = [
-            ...fileAuraData,
-            ...conf.parseFunction(savedData, conf),
-          ];
+          fileAuraData = [...fileAuraData, ...conf.parseFunction(savedData, conf)];
         } catch (err) {
           console.log(`Error reading file ${svPath}`);
           console.log(err);
@@ -936,8 +1037,8 @@ export default defineComponent({
           const innerIndex = this.auras.findIndex((aura) => aura.slug === slug);
 
           if (innerIndex !== -1)
-            // there is already an aura with the same "slug"
             if (typeof existingAura.ids === "undefined") {
+              // there is already an aura with the same "slug"
               existingAura.ids = [];
             }
 
@@ -992,11 +1093,8 @@ export default defineComponent({
         const fetchAuras = this.auras
           .filter(
             (aura) =>
-              !(
-                this.config.ignoreOwnAuras &&
-                !!aura.author &&
-                aura.author === this.config.wagoUsername
-              ) && aura.addonConfig.addonName === config.addonName
+              !(this.config.ignoreOwnAuras && !!aura.author && aura.author === this.config.wagoUsername) &&
+              aura.addonConfig.addonName === config.addonName
           )
           .map((aura) => aura.slug);
 
@@ -1037,12 +1135,8 @@ export default defineComponent({
                     if (
                       !aura.ignoreWagoUpdate &&
                       wagoData.version > aura.version &&
-                      (aura.wagoVersion === null ||
-                        wagoData.version > aura.wagoVersion) &&
-                      !(
-                        this.config.ignoreOwnAuras &&
-                        wagoData.username === this.config.wagoUsername
-                      )
+                      (aura.wagoVersion === null || wagoData.version > aura.wagoVersion) &&
+                      !(this.config.ignoreOwnAuras && wagoData.username === this.config.wagoUsername)
                     ) {
                       promisesWagoDataCallsComplete.push(
                         got(`https://data.wago.io/api/raw/encoded?id=${wagoData._id}`, {
@@ -1099,22 +1193,18 @@ export default defineComponent({
 
             if (this.schedule.id) clearTimeout(this.schedule.id);
 
-            this.schedule.id = setTimeout(
-              this.compareSVwithWago,
-              1000 * 60 * 60
-            );
+            this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
             return;
           }
 
           // catch response error before resolving them with Promise.all
           // by catching them before rejection, we don't exit Promise.all
           // with the first error
-          const promisesResolved = promisesWagoDataCallsComplete.map(
-            (promise) =>
-              promise.catch((err2) => ({
-                config: { params: { id: err2.config.params.id } },
-                status: err2.response.status,
-              }))
+          const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
+            promise.catch((err2) => ({
+              config: { params: { id: err2.config.params.id } },
+              status: err2.response.status,
+            }))
           );
 
           // resolving all wago encoded strings answers simultaneously
@@ -1150,10 +1240,7 @@ export default defineComponent({
               // schedule in 30mn on error
               if (this.schedule.id) clearTimeout(this.schedule.id);
 
-              this.schedule.id = setTimeout(
-                this.compareSVwithWago,
-                1000 * 60 * 30
-              );
+              this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 30);
             })
             .then(() => {
               allAurasFetched.forEach((toFetch) => {
@@ -1181,10 +1268,7 @@ export default defineComponent({
 
                 if (this.schedule.id) clearTimeout(this.schedule.id);
 
-                this.schedule.id = setTimeout(
-                  this.compareSVwithWago,
-                  1000 * 60 * 60
-                );
+                this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
               }
             });
         })
@@ -1209,18 +1293,11 @@ export default defineComponent({
 
       if (this.config.wowpath.valided && this.config.wowpath.version !== "") {
         var AddonPath = ["Interface", "AddOns", "WeakAurasCompanion"];
-        var AddonFolder = path.join(
-          this.config.wowpath.value,
-          this.config.wowpath.version
-        );
-              
+        var AddonFolder = path.join(this.config.wowpath.value, this.config.wowpath.version);
+
         while (AddonPath.length) {
           var check = AddonPath.shift();
-          var folder = matchFolderNameInsensitive(
-            AddonFolder,
-            check,
-            AddonPath.length === 0
-          );
+          var folder = matchFolderNameInsensitive(AddonFolder, check, AddonPath.length === 0);
 
           if (folder) {
             AddonFolder = path.join(AddonFolder, folder);
@@ -1255,13 +1332,11 @@ export default defineComponent({
           this.aurasWithData
             .filter((aura) => aura.auraType === config.addonName)
             .forEach((aura) => {
-              LuaSlugs +=
-                spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+              LuaSlugs += spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
               fields.forEach((field) => {
                 if (aura[field]) {
-                  LuaSlugs +=
-                    spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+                  LuaSlugs += spacing + `      ${field} = [=[${aura[field]}]=],\n`;
                 }
               });
 
@@ -1275,8 +1350,7 @@ export default defineComponent({
                     sanitized = sanitize.markdown(aura.changelog.text);
                   }
 
-                  LuaSlugs +=
-                    spacing + `      versionNote = [=[${sanitized}]=],\n`;
+                  LuaSlugs += spacing + `      versionNote = [=[${sanitized}]=],\n`;
                 }
               }
 
@@ -1289,13 +1363,11 @@ export default defineComponent({
           this.stash.auras
             .filter((aura) => aura.auraType === config.addonName)
             .forEach((aura) => {
-              LuaOutput +=
-                spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+              LuaOutput += spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
               fields.forEach((field) => {
                 if (aura[field]) {
-                  LuaOutput +=
-                    spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+                  LuaOutput += spacing + `      ${field} = [=[${aura[field]}]=],\n`;
                 }
               });
 
@@ -1309,8 +1381,7 @@ export default defineComponent({
                     sanitized = sanitize.markdown(aura.changelog.text);
                   }
 
-                  LuaOutput +=
-                    spacing + `      versionNote = [=[${sanitized}]=],\n`;
+                  LuaOutput += spacing + `      versionNote = [=[${sanitized}]=],\n`;
                 }
               }
 
@@ -1325,9 +1396,7 @@ export default defineComponent({
             const stopmotionFilesPath = path.join(AddonFolder, "animations");
 
             if (fs.existsSync(stopmotionFilesPath)) {
-              const regex = new RegExp(
-                /^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/
-              );
+              const regex = new RegExp(/^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/);
 
               fs.readdirSync(stopmotionFilesPath)
                 .filter((v) => v && v.match(regex))
@@ -1336,9 +1405,7 @@ export default defineComponent({
                   title: v.match(regex)[1],
                 }))
                 .forEach((file) => {
-                  LuaOutput +=
-                    spacing +
-                    `    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
+                  LuaOutput += spacing + `    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
                 });
             }
 
@@ -1468,8 +1535,7 @@ end)
           this.addonsInstalled.forEach((addon) => {
             let lastSavedFileSize = null;
 
-            if (typeof account.savedvariableSizeForAddon === "undefined")
-              account.savedvariableSizeForAddon = [];
+            if (typeof account.savedvariableSizeForAddon === "undefined") account.savedvariableSizeForAddon = [];
 
             const savedData = account.savedvariableSizeForAddon.find(
               (savedAddon) => savedAddon.addonName === addon.addonName
@@ -1516,18 +1582,11 @@ end)
 
           files
             .filter(
-              (versionDir) =>
-                versionDir.match(/^_.*_$/) &&
-                fs.statSync(path.join(wowpath, versionDir)).isDirectory()
+              (versionDir) => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowpath, versionDir)).isDirectory()
             )
             .forEach((versionDir) => {
               if (!validated) {
-                const accountFolder = path.join(
-                  wowpath,
-                  versionDir,
-                  "WTF",
-                  "Account"
-                );
+                const accountFolder = path.join(wowpath, versionDir, "WTF", "Account");
 
                 if (fs.existsSync(accountFolder)) {
                   try {
@@ -1564,7 +1623,7 @@ end)
         {
           value: "_xptr_",
           text: this.$t("app.version.dfptr" /* Dragonflight PTR 2 */),
-        },        
+        },
         {
           value: "_beta_",
           text: this.$t("app.version.dfbeta" /* Dragonflight Beta */),
@@ -1599,22 +1658,13 @@ end)
 
           files
             .filter(
-              (versionDir) =>
-                versionDir.match(/^_.*_$/) &&
-                fs.statSync(path.join(wowpath, versionDir)).isDirectory()
+              (versionDir) => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowpath, versionDir)).isDirectory()
             )
             .forEach((versionDir) => {
-              const accountFolder = path.join(
-                wowpath,
-                versionDir,
-                "WTF",
-                "Account"
-              );
+              const accountFolder = path.join(wowpath, versionDir, "WTF", "Account");
 
               if (fs.existsSync(accountFolder)) {
-                const versionFound = this.config.wowpath.versions.find(
-                  (version) => version.name === versionDir
-                );
+                const versionFound = this.config.wowpath.versions.find((version) => version.name === versionDir);
 
                 if (!versionFound) {
                   // make version if not found in data
@@ -1625,9 +1675,7 @@ end)
                   });
                 }
 
-                const label = versionLabels.find(
-                  (versionLabel) => versionLabel.value === versionDir
-                );
+                const label = versionLabels.find((versionLabel) => versionLabel.value === versionDir);
 
                 this.versionOptions.push({
                   value: versionDir,
@@ -1646,12 +1694,7 @@ end)
 
       if (this.config.wowpath.valided && this.versionSelected) {
         const versionName = this.versionSelected.name;
-        const accountFolder = path.join(
-          this.config.wowpath.value,
-          versionName,
-          "WTF",
-          "Account"
-        );
+        const accountFolder = path.join(this.config.wowpath.value, versionName, "WTF", "Account");
 
         if (fs.existsSync(accountFolder)) {
           try {
@@ -1660,15 +1703,10 @@ end)
             files
               .filter(
                 (accountFile) =>
-                  accountFile !== "SavedVariables" &&
-                  fs
-                    .statSync(path.join(accountFolder, accountFile))
-                    .isDirectory()
+                  accountFile !== "SavedVariables" && fs.statSync(path.join(accountFolder, accountFile)).isDirectory()
               )
               .forEach((accountFile) => {
-                const accountFound = this.versionSelected.accounts.find(
-                  (account) => account.name === accountFile
-                );
+                const accountFound = this.versionSelected.accounts.find((account) => account.name === accountFile);
 
                 if (!accountFound) {
                   // make account if not found in data
@@ -1679,11 +1717,9 @@ end)
                     numAuras: this.auras.length,
                     savedvariableSizeForAddon: [],
                   });
-                } else if (
-                  typeof accountFound.savedvariableSizeForAddon === "undefined"
-                )
+                } else if (typeof accountFound.savedvariableSizeForAddon === "undefined")
                   accountFound.savedvariableSizeForAddon = [];
-                  accountFound.numAuras = this.auras.length;
+                accountFound.numAuras = this.auras.length;
 
                 this.accountOptions.push({
                   value: accountFile,

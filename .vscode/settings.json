@@ -1,6 +1,20 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsc.autoDetect": "off",
+  "editor.formatOnSave": true,
+  "prettier.useEditorConfig": true,
+  "prettier.requireConfig": true,
+  "eslint.packageManager": "npm",
+  "eslint.codeActionsOnSave.mode": "all",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#2c2c2c",
     "activityBar.background": "#101010",

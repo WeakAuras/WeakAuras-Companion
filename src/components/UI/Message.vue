@@ -1,12 +1,27 @@
 <template>
   <div class="message">
-    <a v-if="message.url" :href="message.url" :title="message.url" target="_blank" class="url" v-html="message.text"></a>
-    <span v-else v-html="message.text"></span>
-    <UIButton :type="message.type" :title="message.time" size="mini" v-html="message.type"></UIButton>
+    <a
+      v-if="message.url"
+      :href="message.url"
+      :title="message.url"
+      target="_blank"
+      class="url"
+      v-html="message.text"
+    ></a>
+    <span
+      v-else
+      v-html="message.text"
+    ></span>
+    <UIButton
+      :type="message.type"
+      :title="message.time"
+      size="mini"
+      v-html="message.type"
+    ></UIButton>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import UIButton from "./UIButton.vue";
 

@@ -1,4 +1,7 @@
 {
-    "endOfLine": "auto",
-    "printWidth": 180
+  "endOfLine": "auto",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "singleAttributePerLine": true,
+  "bracketSameLine": false
 }

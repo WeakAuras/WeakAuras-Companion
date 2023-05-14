@@ -33,7 +33,10 @@
               @click="send(result)"
             />
           </div>
-          <div v-else-if="tags && tags.length" class="grid">
+          <div
+            v-else-if="tags && tags.length"
+            class="grid"
+          >
             <div
               v-for="(tag, t) in tags"
               :key="t"
@@ -88,9 +91,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    fetch(
-      `https://g.tenor.com/v1/categories?key=${this.apiKey}&locale=${this.locale}`
-    )
+    fetch(`https://g.tenor.com/v1/categories?key=${this.apiKey}&locale=${this.locale}`)
       .then((res) => res.json())
       .then(({ tags }) => (this.tags = tags));
   },
@@ -130,9 +131,7 @@ export default defineComponent({
       const title = result.content_description;
       const id = result.id;
 
-      fetch(
-        `https://g.tenor.com/v1/registershare?key=${this.apiKey}&locale=${this.locale}&id=${id}`
-      );
+      fetch(`https://g.tenor.com/v1/registershare?key=${this.apiKey}&locale=${this.locale}&id=${id}`);
 
       this.$emit("send", {
         url: this.renderHugeGif(gif),
@@ -164,8 +163,7 @@ header {
   background-color: $light-bg;
   width: 100%;
   height: 60px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   -webkit-app-region: no-drag;
   div {
     display: flex;
@@ -236,8 +234,7 @@ span {
           overflow: hidden;
           position: relative;
           background-size: cover;
-          transition-property: background-color, border-color, color, fill,
-            stroke, opacity, box-shadow, transform;
+          transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
           transition-duration: 300ms;
           color: white;
           font-weight: 600;
@@ -258,8 +255,7 @@ span {
             top: 0;
             left: 0;
             background-color: black;
-            transition-property: background-color, border-color, color, fill,
-              stroke, opacity, box-shadow, transform;
+            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
             transition-duration: 300ms;
             width: 100%;
             height: 100%;

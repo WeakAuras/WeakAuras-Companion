@@ -1,14 +1,10 @@
-/* eslint-disable no-console */
 import { createServer } from "http";
 
 let stash;
 
 // is app is in development mode or if origin is wago then allow the request
 function allowRequest(req) {
-  if (
-    process.env.NODE_ENV === "development" ||
-    req.headers.origin === "https://wago.io"
-  ) {
+  if (process.env.NODE_ENV === "development" || req.headers.origin === "https://wago.io") {
     return true;
   }
   return false;

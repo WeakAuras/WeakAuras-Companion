@@ -1,5 +1,9 @@
 <template>
-  <div id="updatedAuraList" ref="updatedAuraList" @click="close">
+  <div
+    id="updatedAuraList"
+    ref="updatedAuraList"
+    @click="close"
+  >
     <div class="container">
       <h1>{{ $t("app.updatedAuraList.title" /* Ready to install */) }}</h1>
       <div class="updated-auras">
@@ -10,12 +14,18 @@
         />
       </div>
       <div class="actions">
-        <UIButton type="reset" @click="clearList"> Clear list </UIButton>
+        <UIButton
+          type="reset"
+          @click="clearList"
+        >
+          Clear list
+        </UIButton>
       </div>
     </div>
   </div>
 </template>
-<script>
+
+<script lang="js">
 import { defineComponent } from "vue";
 import UIButton from "./UIButton.vue";
 import Aura from "./Aura.vue";
@@ -43,6 +53,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style lang="scss" scoped>
 #updatedAuraList {
   width: 100%;

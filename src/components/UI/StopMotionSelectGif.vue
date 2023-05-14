@@ -1,7 +1,14 @@
 <template>
   <div id="StopMotionWelcome">
     <div class="stuff">
-      <file-select :create-directory="false" :openFile="true" :dragndrop="true" :filters="[{ name: 'Animation', extensions: ['gif'] }]" class="fileinput" @update:path="update">
+      <file-select
+        :create-directory="false"
+        :openFile="true"
+        :dragndrop="true"
+        :filters="[{ name: 'Animation', extensions: ['gif'] }]"
+        class="fileinput"
+        @update:path="update"
+      >
         {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}<br /><br />
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i
         ><br /><br />
@@ -11,7 +18,10 @@
       <div class="tenorblock">
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i
         ><br /><br />
-        <discord-picker @gif="setTenor" :apiKey="apiKey">
+        <discord-picker
+          @gif="setTenor"
+          :apiKey="apiKey"
+        >
           <UIButton class="btn-ok">{{ $t("stopmotion.select.tenor" /* Choose one from Tenor */) }}</UIButton>
         </discord-picker>
       </div>

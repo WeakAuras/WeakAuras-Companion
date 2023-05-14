@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import fs from "fs";
 import { promisified as regedit_promisified } from "regedit";
 import regedit from "regedit";
@@ -16,14 +16,13 @@ regedit.setExternalVBSLocation("resources/node_modules/regedit/vbs");
 
 export async function wowDefaultPath() {
   if (process.platform === "win32") {
-    const key =
-      "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
+    const key = "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
 
     try {
       const results = await regedit_promisified.list([key]);
       const value = results[key].values.InstallPath.value;
 
-      if (typeof (value) === "string") {
+      if (typeof value === "string") {
         return path.join(value, "..");
       } else {
         return "";

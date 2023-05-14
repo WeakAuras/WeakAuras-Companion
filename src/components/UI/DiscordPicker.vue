@@ -1,9 +1,15 @@
 <template>
   <div v-click-outside="close">
     <div>
-      <div :class="{ invisible: !opened }" class="discord-picker">
-        <gif-picker v-if="opened" :api-key="apiKey"
-          @send="({ url, title, tenorID }) => this.send(url, title, tenorID)" />
+      <div
+        :class="{ invisible: !opened }"
+        class="discord-picker"
+      >
+        <gif-picker
+          v-if="opened"
+          :api-key="apiKey"
+          @send="({ url, title, tenorID }) => this.send(url, title, tenorID)"
+        />
       </div>
       <div class="mt4">
         <div>
@@ -16,7 +22,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import { defineComponent } from "vue";
 import clickOutside from "@/libs/click-outside";
 import GifPicker from "./GifPicker.vue";
@@ -72,13 +78,11 @@ export default defineComponent({
   position: absolute;
   left: -150px;
   bottom: -150px;
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, transform;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-duration: 200ms;
   transform: translate-y(200px);
   border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 768px) {

@@ -1,5 +1,8 @@
 <template>
-  <div class="checkbox" @click="triggerInputClick">
+  <div
+    class="checkbox"
+    @click="triggerInputClick"
+  >
     <input
       ref="checkbox"
       type="checkbox"
@@ -10,7 +13,9 @@
       class="checkbox__box"
       :class="{ 'checkbox__box--checked': modelValue }"
     />
-    <label><slot></slot></label>
+    <label>
+      <slot></slot>
+    </label>
   </div>
 </template>
 

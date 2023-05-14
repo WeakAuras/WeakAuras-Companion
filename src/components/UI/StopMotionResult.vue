@@ -1,6 +1,9 @@
 <template>
   <div id="StopMotionResult">
-    <img :src="preview" class="preview" />
+    <img
+      :src="preview"
+      class="preview"
+    />
     <br />
     <p class="center-text">
       {{ $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */) }}
@@ -15,9 +18,7 @@
         >help</span
       >
       <br /><br />
-      <span class="glow">{{
-        $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */)
-      }}</span>
+      <span class="glow">{{ $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */) }}</span>
     </p>
     <br />
     <p class="filename">
@@ -43,13 +44,7 @@ import { useStopMotionStore } from "../../stores/stopmotion";
 import { useStashStore } from "../../stores/auras";
 import path from "path";
 import { shell } from "electron";
-import {
-  StopMotionTemplate,
-  serialize,
-  deflate,
-  encode,
-  GenerateUniqueID,
-} from "@/libs/stopmotion";
+import { StopMotionTemplate, serialize, deflate, encode, GenerateUniqueID } from "@/libs/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
@@ -105,10 +100,7 @@ export default defineComponent({
       );
     },
     resultFolder() {
-      return (
-        path.join("Interface", "AddOns", "WeakAurasCompanion", "animations") +
-        path.sep
-      );
+      return path.join("Interface", "AddOns", "WeakAurasCompanion", "animations") + path.sep;
     },
     resultFile() {
       return path.parse(this.result.destination).base;
