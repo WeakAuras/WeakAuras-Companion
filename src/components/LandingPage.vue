@@ -136,12 +136,12 @@
 <script lang="ts">
 import backupIfRequired from "@/libs/backup";
 import contacts from "@/libs/contacts";
+import { grabVersionFromToc } from "@/libs/grab-wa-version";
 import hash from "@/libs/hash";
 import sanitize from "@/libs/sanitize";
 import {
   createSortByAuthor, createSortByString, createSortByTime, createSortByType, createSortByUpdate
 } from "@/libs/sort";
-import { toc } from "@/libs/toc";
 import userDataPath from "@/libs/user-data-folder";
 import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
 import { ipcRenderer } from "electron";
@@ -1203,7 +1203,6 @@ export default defineComponent({
     },
     async writeAddonData() {
       console.log("writeAddonData");
-
       const addonConfigs = this.addonsInstalled;
 
       if (this.config.wowpath.valided && this.config.wowpath.version !== "") {
@@ -1212,7 +1211,7 @@ export default defineComponent({
           this.config.wowpath.value,
           this.config.wowpath.version
         );
-
+              
         while (AddonPath.length) {
           var check = AddonPath.shift();
           var folder = matchFolderNameInsensitive(
@@ -1349,12 +1348,8 @@ export default defineComponent({
         LuaOutput += "}";
 
         /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
-        const tocVersion =
-          AddonFolder.toLowerCase().search("classic") === -1
-            ? toc.retail
-            : AddonFolder.toLowerCase().search("era") === -1
-              ? toc.wotlk
-              : toc.som;
+        const tocVersion = this.grabWATocVersion(this.config.wowpath.value, this.config.wowpath.version);
+        console.log("WeakAuras.toc has version:", tocVersion);
         const files = [
           {
             name: "WeakAurasCompanion.toc",
@@ -1363,21 +1358,6 @@ export default defineComponent({
 ## Author: The WeakAuras Team
 ## Version: ${__APP_VERSION__}
 ## IconTexture: Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp
-## Notes: Keep your WeakAuras updated!
-## X-Category: Interface Enhancements
-## DefaultState: Enabled
-## LoadOnDemand: 0
-## OptionalDeps: ${addonDepts}
-
-data.lua
-init.lua`,
-          },
-          {
-            name: "WeakAurasCompanion-BCC.toc",
-            data: `## Interface: ${tocVersion}
-## Title: WeakAuras Companion
-## Author: The WeakAuras Team
-## Version: ${__APP_VERSION__}
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
@@ -1720,6 +1700,10 @@ end)
         this.sortDescending = false;
         this.sortedColumn = columnName;
       }
+    },
+    grabWATocVersion(path, version) {
+      const waTocVersion = grabVersionFromToc(path, version);
+      return waTocVersion;
     },
   },
 });
