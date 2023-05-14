@@ -26,10 +26,10 @@
       "@/*": [
         "src/*"
       ]
-    },
+    }
   },
   "include": [
-    "src",
+    "src"
   ],
   "types": [
     "node",

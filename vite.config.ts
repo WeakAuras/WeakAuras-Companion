@@ -69,7 +69,7 @@ export default defineConfig(({ command }) => {
           },
           vite: {
             build: {
-              sourcemap,
+              sourcemap: sourcemap ? "inline" : undefined,
               minify: isBuild,
               outDir: "dist-electron/preload",
               rollupOptions: {
@@ -107,5 +107,6 @@ export default defineConfig(({ command }) => {
           port: +url.port,
         };
       })(),
+    clearScreen: false,
   };
 });

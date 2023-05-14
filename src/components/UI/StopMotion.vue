@@ -6,21 +6,36 @@
       </div>
       <br />
       <div class="bts-top-right">
-        <UIButton class="btn-ok btn-title" v-if="step == 3" @click="setStep(1)">
+        <UIButton
+          class="btn-ok btn-title"
+          v-if="step == 3"
+          @click="setStep(1)"
+        >
           <span class="material-icons">first_page</span>
         </UIButton>
-        <UIButton class="btn-ok btn-title" v-if="step > 1" @click="prev()">
+        <UIButton
+          class="btn-ok btn-title"
+          v-if="step > 1"
+          @click="prev()"
+        >
           <span class="material-icons">keyboard_backspace</span>
         </UIButton>
       </div>
     </div>
-    <StopMotionSelectGif v-if="step == 1" @next="next()" />
-    <StopMotionSettings v-if="step == 2" :wowVersions="wowVersions" @next="next()" />
+    <StopMotionSelectGif
+      v-if="step == 1"
+      @next="next()"
+    />
+    <StopMotionSettings
+      v-if="step == 2"
+      :wowVersions="wowVersions"
+      @next="next()"
+    />
     <StopMotionResult v-if="step == 3" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import StopMotionSelectGif from "./StopMotionSelectGif.vue";
 import StopMotionSettings from "./StopMotionSettings.vue";
 import StopMotionResult from "./StopMotionResult.vue";
@@ -120,6 +135,7 @@ label,
 .btn-title {
   height: 40px;
 }
+
 .material-icons {
   font-size: 34px;
   vertical-align: top;

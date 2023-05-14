@@ -4,7 +4,12 @@ declare module "*.vue" {
   import type { DefineComponent } from "vue";
   import type { ComponentOptions } from "vue";
 
-  const component: DefineComponent<Record<string, never>, Record<string, never>, Record<string, never>, ComponentOptions>;
+  const component: DefineComponent<
+    Record<string, never>,
+    Record<string, never>,
+    Record<string, never>,
+    ComponentOptions
+  >;
   export default component;
 }
 

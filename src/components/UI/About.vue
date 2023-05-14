@@ -4,24 +4,30 @@
       <h2>WeakAuras Companion</h2>
       <br />
       <p>
-        {{
-          $t("app.about.tools", /* Developed with */)
-        }} {{ $data.tools }}<br />
-        {{
-          $t("app.about.version", /* Version: */)
-        }} {{ $data.version }}<br />
-        {{
-          $t("app.about.license", /* License: */)
-        }} {{ $data.license }}<br />
+        {{ $t("app.about.tools" /* Developed with */) }} {{ $data.tools }}<br />
+        {{ $t("app.about.version" /* Version: */) }} {{ $data.version }}<br />
+        {{ $t("app.about.license" /* License: */) }} {{ $data.license }}<br />
         {{ $t("app.about.source" /* Sources on */) }}
-        <a href="https://github.com/WeakAuras/WeakAuras-Companion" target="_blank">GitHub</a><br />
-        {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka
-        Buds<br />
+        <a
+          href="https://github.com/WeakAuras/WeakAuras-Companion"
+          target="_blank"
+          >GitHub</a
+        ><br />
+        {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka Buds<br />
         {{ $t("app.about.platersupport" /* Plater support */) }}
         Cont1nuity/Ariani<br />
         {{ $t("app.about.cssby" /* CSS by */) }}
-        <a href="https://sragia.com/" target="_blank">Aigars Bedeicis aka Exality</a>
-        and <a href="https://stephanosue.com/" target="_blank">Stephano Sue</a>
+        <a
+          href="https://sragia.com/"
+          target="_blank"
+          >Aigars Bedeicis aka Exality</a
+        >
+        and
+        <a
+          href="https://stephanosue.com/"
+          target="_blank"
+          >Stephano Sue</a
+        >
       </p>
       <br />
     </div>
@@ -29,9 +35,20 @@
       <div style="flex: 50%">
         <div class="title">WeakAuras</div>
         <div class="items">
-          <div v-for="media in medias.weakauras" :key="media.name" class="media-item">
-            <a :href="media.url" target="_blank">
-              <img :src="`social-icons/${media.name}.svg`" class="logo" :title="media.name" />
+          <div
+            v-for="media in medias.weakauras"
+            :key="media.name"
+            class="media-item"
+          >
+            <a
+              :href="media.url"
+              target="_blank"
+            >
+              <img
+                :src="`social-icons/${media.name}.svg`"
+                class="logo"
+                :title="media.name"
+              />
               {{ media.displayName }}
             </a>
           </div>
@@ -40,9 +57,20 @@
       <div style="flex: 50%">
         <div class="title">Wago</div>
         <div class="items">
-          <div v-for="media in medias.wago" :key="media.name" class="media-item">
-            <a :href="media.url" target="_blank">
-              <img :src="`social-icons/${media.name}.svg`" class="logo" :title="media.name" />
+          <div
+            v-for="media in medias.wago"
+            :key="media.name"
+            class="media-item"
+          >
+            <a
+              :href="media.url"
+              target="_blank"
+            >
+              <img
+                :src="`social-icons/${media.name}.svg`"
+                class="logo"
+                :title="media.name"
+              />
               {{ media.displayName }}
             </a>
           </div>
@@ -52,7 +80,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import { defineComponent } from "vue";
 import medias from "@/libs/contacts";
 
@@ -92,7 +120,7 @@ export default defineComponent({
   cursor: pointer;
 }
 
-#about>.valign {
+#about > .valign {
   flex: 50%;
   align-items: center;
 }

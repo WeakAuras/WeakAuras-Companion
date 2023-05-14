@@ -11,10 +11,13 @@
   },
   "scripts": {
     "compile-tools": "tsc -p tools",
+    "format:prettier": "prettier --write \"src/**/*.?(js|ts|vue|json)\"",
     "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "i18n-report": "npx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
     "lint": "eslint . --ext .ts,.js,.vue && npm run lint:scss",
-    "lint:scss": "npx stylelint \"src/**/*.scss\"",
+    "lint:check-eslint": "eslint-config-prettier .eslintrc.json",
+    "lint:prettier": "prettier --list-different \"src/**/*.?(js|ts|vue|json)\"",
+    "lint:scss": "npx stylelint --color \"src/**/*.scss\"",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder"
   },
@@ -52,6 +55,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@volar-plugins/prettier": "^2.0.0",
     "@vue/eslint-config-standard": "^8.0.1",
     "@vue/eslint-config-typescript": "^11.0.3",
     "electron": "24.3.1",

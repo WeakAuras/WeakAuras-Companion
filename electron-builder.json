@@ -2,10 +2,7 @@
   "directories": {
     "output": "release/${version}"
   },
-  "files": [
-    "dist-electron",
-    "dist"
-  ],
+  "files": ["dist-electron", "dist"],
   "productName": "WeakAuras Companion",
   "appId": "wtf.weakauras.companion",
   "dmg": {
@@ -42,33 +39,22 @@
     "publish": {
       "provider": "github"
     },
-    "extraResources": [
-      "node_modules/regedit/vbs/*"
-    ]
+    "extraResources": ["node_modules/regedit/vbs/*"]
   },
   "nsis": {
     "deleteAppDataOnUninstall": true
   },
   "linux": {
-    "target": [
-      "AppImage",
-      "snap",
-      "deb",
-      "rpm"
-    ],
+    "target": ["AppImage", "snap", "deb", "rpm"],
     "icon": "public/bigicon.png",
     "category": "Utility",
-    "asarUnpack": [
-      "**/node_modules/sharp/**"
-    ]
+    "asarUnpack": ["**/node_modules/sharp/**"]
   },
   "protocols": [
     {
       "name": "weakauras-companion",
       "role": "Viewer",
-      "schemes": [
-        "weakauras-companion"
-      ]
+      "schemes": ["weakauras-companion"]
     }
   ]
 }

@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -149,6 +149,7 @@ export default defineComponent({
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }

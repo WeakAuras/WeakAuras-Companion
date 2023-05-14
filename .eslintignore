@@ -1,7 +1,0 @@
-# Ignore built files
-dist_electron/*
-dist-electron/*
-release/**/*
-index.html
-tools/*.js
-dist

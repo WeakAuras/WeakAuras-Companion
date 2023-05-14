@@ -1,17 +1,24 @@
 {
-  "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:vue/vue3-essential",
-    "prettier"
+  "extends": ["plugin:@typescript-eslint/recommended", "plugin:vue/vue3-essential", "prettier"],
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "dist_electron",
+    "dist-electron",
+    "release",
+    "index.html",
+    "tools/**/*.js"
   ],
   "rules": {
     "linebreak-style": "off",
     "no-console": "off",
-    "semi": 1,
     "quotes": [
-      1,
+      "error",
       "double",
-      "avoid-escape"
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": false
+      }
     ],
     "vue/require-prop-types": "off",
     "vue/no-mutating-props": "off",
@@ -22,13 +29,7 @@
       {
         "blankLine": "always",
         "prev": "*",
-        "next": [
-          "block",
-          "multiline-block-like",
-          "if",
-          "function",
-          "multiline-expression"
-        ]
+        "next": ["block", "multiline-block-like", "if", "function", "multiline-expression"]
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -45,15 +46,9 @@
     "parser": "@typescript-eslint/parser",
     "ecmaVersion": "latest"
   },
-  "plugins": [
-    "prettier",
-    "vue",
-    "@typescript-eslint"
-  ],
+  "plugins": ["prettier", "vue", "@typescript-eslint"],
   "settings": {
-    "import/core-modules": [
-      "electron"
-    ],
+    "import/core-modules": ["electron"],
     "import/resolver": "vite"
   }
 }

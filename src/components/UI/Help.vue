@@ -1,5 +1,8 @@
 <template>
-  <div id="help" ref="help">
+  <div
+    id="help"
+    ref="help"
+  >
     <div class="title">{{ $t("app.help.title" /* Setup Steps */) }}</div>
     <ol class="follow">
       <li>
@@ -10,28 +13,16 @@
         }}
       </li>
       <li>
-        {{
-          $t(
-            "app.help.s2" /* Click on 'Fetch Updates', this is also done automatically once every hour. */
-          )
-        }}
+        {{ $t("app.help.s2" /* Click on 'Fetch Updates', this is also done automatically once every hour. */) }}
         <ol class="follow">
           <li>
-            {{
-              $t(
-                "app.help.s2_1" /* Companion creates a list of your auras that contain a link to Wago. */
-              )
-            }}
+            {{ $t("app.help.s2_1" /* Companion creates a list of your auras that contain a link to Wago. */) }}
           </li>
           <li>
             {{ $t("app.help.s2_2" /* Companion sends the list to Wago. */) }}
           </li>
           <li>
-            {{
-              $t(
-                "app.help.s2_3" /* Wago sends updated import strings and Companion compares the versions. */
-              )
-            }}
+            {{ $t("app.help.s2_3" /* Wago sends updated import strings and Companion compares the versions. */) }}
           </li>
           <li>
             {{
@@ -59,17 +50,19 @@
           )
         }}
         <br />
-        <img src="../../assets/ingame.png" class="center" />
+        <img
+          src="../../assets/ingame.png"
+          class="center"
+        />
         <br />
       </li>
       <li>
-        {{
-          $t(
-            "app.help.s5" /* You can always skip a version or just ignore updates completely. */
-          )
-        }}
+        {{ $t("app.help.s5" /* You can always skip a version or just ignore updates completely. */) }}
         <br />
-        <img src="../../assets/ingame2.png" class="center" />
+        <img
+          src="../../assets/ingame2.png"
+          class="center"
+        />
       </li>
     </ol>
     <br />
@@ -78,11 +71,7 @@
       {{ $t("app.help.auraAuthorsTitle" /* Tips for Authors */) }}
     </div>
     <div class="paragraph">
-      {{
-        $t(
-          "app.help.auraAuthorsText1" /* If you publish auras on Wago, we recommend these settings: */
-        )
-      }}
+      {{ $t("app.help.auraAuthorsText1" /* If you publish auras on Wago, we recommend these settings: */) }}
       <ul>
         <li>
           {{
@@ -104,11 +93,7 @@
     </div>
     <div class="title">{{ $t("app.help.foundbug" /* Found a bug? */) }}</div>
     <div class="paragraph">
-      {{
-        $t(
-          "app.help.bug" /* If you encounter a bug, please create a ticket on */
-        )
-      }}
+      {{ $t("app.help.bug" /* If you encounter a bug, please create a ticket on */) }}
       <a
         target="_blank"
         href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
@@ -123,11 +108,7 @@
         </li>
         <li>{{ $t("app.help.bug.s2" /* The steps to reproduce it. */) }}</li>
         <li>
-          {{
-            $t(
-              "app.help.bug.s3" /* A screenshot, if it helps to understand your issue. */
-            )
-          }}
+          {{ $t("app.help.bug.s3" /* A screenshot, if it helps to understand your issue. */) }}
         </li>
         <li>
           {{
@@ -142,15 +123,13 @@
     <br />
     <div class="title">{{ $t("app.help.support.title" /* Support */) }}</div>
     <div class="paragraph">
-      {{
-        $t(
-          "app.help.support.text1" /* If you need more help come talk with us on WeakAuras's */
-        )
-      }}
-      <a href="https://discord.gg/weakauras" target="_blank">Discord</a>
-      {{
-        $t("app.help.support.text2" /* in the #companion-support channel. */)
-      }}
+      {{ $t("app.help.support.text1" /* If you need more help come talk with us on WeakAuras's */) }}
+      <a
+        href="https://discord.gg/weakauras"
+        target="_blank"
+        >Discord</a
+      >
+      {{ $t("app.help.support.text2" /* in the #companion-support channel. */) }}
     </div>
     <br />
     <br />

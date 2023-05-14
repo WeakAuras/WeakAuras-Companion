@@ -1,13 +1,19 @@
 <template>
   <div class="dropdown">
-    <label v-if="label" class="dropdown__label">{{ label }}</label>
+    <label
+      v-if="label"
+      class="dropdown__label"
+      >{{ label }}</label
+    >
     <div
       class="dropdown__toggle"
       :class="{ 'dropdown__toggle--toggled': showMenu }"
       @click="toggleDropdown()"
     >
       <span>{{ getLabel(selected) }}</span>
-      <i :class="{ open: showMenu }" class="material-icons"
+      <i
+        :class="{ open: showMenu }"
+        class="material-icons"
         >keyboard_arrow_down</i
       >
     </div>
@@ -29,7 +35,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -52,8 +58,7 @@ export default defineComponent({
     return {
       selected:
         this.value === ""
-          ? this.placeholder ||
-            this.$t("app.dropdown.placeholder" /* Select... */)
+          ? this.placeholder || this.$t("app.dropdown.placeholder" /* Select... */)
           : this.getLabel(this.value),
       showMenu: false,
       height: this.options.length * 30,
@@ -63,8 +68,7 @@ export default defineComponent({
     value() {
       this.selected =
         this.value === ""
-          ? this.placeholder ||
-            this.$t("app.dropdown.placeholder" /* Select... */)
+          ? this.placeholder || this.$t("app.dropdown.placeholder" /* Select... */)
           : this.getLabel(this.value);
     },
     options() {
@@ -102,18 +106,21 @@ $border-color-expand: #2c2c2c;
 
 $max-width: 230px;
 $min-width: 140px;
+
 .dropdown {
   font-size: 14px;
   font-weight: 500;
   color: $text-color;
   width: $max-width;
   margin: 10px 4px 10px 0;
+
   &__label {
     color: #eeeeee;
     font-size: 15px;
     z-index: 1;
     position: relative;
   }
+
   &__toggle {
     z-index: 1;
     position: relative;
@@ -132,8 +139,7 @@ $min-width: 140px;
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid $border-color;
-    transition: border-color 0.3s ease-in-out,
-      border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
+    transition: border-color 0.3s ease-in-out, border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
 
     &--toggled {
       border-radius: 4px 4px 0 0;
@@ -141,10 +147,12 @@ $min-width: 140px;
       border-bottom-color: transparent;
       transition: border-radius 0.3s cubic-bezier(0, 1.95, 0, 1.93);
     }
+
     &:hover {
       background: $highlight-color;
       color: $highlight-color-text;
     }
+
     i {
       position: absolute;
       top: 3px;
@@ -157,10 +165,12 @@ $min-width: 140px;
         transform: rotate(180deg);
       }
     }
+
     span {
       cursor: pointer;
     }
   }
+
   &__options {
     width: 100%;
     position: absolute;
@@ -173,12 +183,14 @@ $min-width: 140px;
     border: 1px solid transparent;
     margin-left: 5px;
     opacity: 0;
+
     &--toggled {
       opacity: 1;
       border-color: $border-color-expand;
       border-top-color: $border-color-separate;
     }
   }
+
   &__option {
     cursor: pointer;
     z-index: 50;
@@ -193,7 +205,9 @@ $min-width: 140px;
     &:last-child {
       border-radius: 0 0 4px 4px;
     }
+
     position: relative;
+
     &:hover {
       background: $highlight-color;
     }

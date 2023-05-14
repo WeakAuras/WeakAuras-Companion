@@ -28,7 +28,15 @@ export function afterReload(config: { value: any; version: any; versions: any[] 
     }
   });
 
-  const wacompanionsvfile = path.join(wowpath, version, "WTF", "Account", account, "SavedVariables", "WeakAurasCompanion.lua");
+  const wacompanionsvfile = path.join(
+    wowpath,
+    version,
+    "WTF",
+    "Account",
+    account,
+    "SavedVariables",
+    "WeakAurasCompanion.lua"
+  );
 
   const { mtime } = fs.statSync(wacompanionsvfile);
   let fsWait: NodeJS.Timeout | null = null;

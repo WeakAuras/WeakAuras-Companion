@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -64,38 +64,47 @@ export default defineComponent({
   text-align: left;
   font-size: 14px;
   margin: 0 calc(2.35vw + 10px) 0;
+
   .aura-column {
     &.sortable {
       cursor: pointer;
+
       &:hover .aura-header__sort-icon {
         opacity: 0.64;
       }
     }
+
     &.sorted .aura-header__sort-icon {
       opacity: 0.86 !important;
     }
+
     &.sort-desc .aura-header__sort-icon {
       transform: rotate(180deg);
       padding-bottom: 0px;
       padding-top: 2px;
     }
+
     &-name {
       flex: 1;
       padding-left: 48px;
     }
+
     &-update {
       padding-right: 10px;
     }
+
     &-aura-type {
       padding-right: 20px;
       padding-left: 10px;
     }
+
     &-author {
       margin-right: 111px;
       padding-left: 10px;
       width: 100px;
     }
   }
+
   &__sort-icon {
     opacity: 0;
     font-size: 14px;

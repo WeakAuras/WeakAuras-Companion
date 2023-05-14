@@ -5,7 +5,10 @@
       notAnUpdate: aura.version == aura.wagoVersion,
     }"
   >
-    <span v-if="aura.source === 'WeakAuras Companion'" class="companion-icon" />
+    <span
+      v-if="aura.source === 'WeakAuras Companion'"
+      class="companion-icon"
+    />
     <a
       v-if="aura.source === 'Wago'"
       v-tooltip="{
@@ -31,7 +34,10 @@
         >{{ aura.name }}
       </span>
     </div>
-    <div v-if="aura.ignoreWagoUpdate" class="ignored">
+    <div
+      v-if="aura.ignoreWagoUpdate"
+      class="ignored"
+    >
       {{ $t("app.aura.updatedisabled" /* updates disabled */) }}
     </div>
     <div
@@ -47,14 +53,21 @@
       {{ $t("app.aura.updateready" /* update ready */) }}
     </div>
     <div
-      v-else class="uptodate"
+      v-else
+      class="uptodate"
     >
       {{ $t("app.aura.uptodate" /* up to date */) }}
     </div>
-    <span v-if="aura.auraTypeDisplay" class="tag">
+    <span
+      v-if="aura.auraTypeDisplay"
+      class="tag"
+    >
       {{ aura.auraTypeDisplay }}
     </span>
-    <a v-if="aura.source !== 'Wago'" class="author">
+    <a
+      v-if="aura.source !== 'Wago'"
+      class="author"
+    >
       {{ aura.author }}
     </a>
     <a
@@ -96,7 +109,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { DateTime } from "luxon";
 import sanitize from "@/libs/sanitize";
 import { defineComponent } from "vue";
@@ -136,10 +149,7 @@ export default defineComponent({
 
       // sometimes this function triggers after the tooltip
       // set n/a as default value in case DateTime return null
-      this.timeElapsed =
-        DateTime.fromJSDate(this.aura.modified)
-          .setLocale(this.$i18n.locale)
-          .toRelative() || "n/a";
+      this.timeElapsed = DateTime.fromJSDate(this.aura.modified).setLocale(this.$i18n.locale).toRelative() || "n/a";
     },
     wagoURL(value) {
       if (!value) return "";
@@ -169,6 +179,7 @@ export default defineComponent({
   flex-direction: row;
   border-radius: 4px;
   transition: background-color ease-in-out 0.2s;
+
   &:hover {
     background-color: #161616c9;
   }
