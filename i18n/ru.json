@@ -112,6 +112,7 @@
   "app.menu.help": "Справка",
   "app.menu.main": "Главная",
   "app.menu.settings": "Настройки",
+  "app.refreshbutton.addonNotFound": "No supported AddOn installed",
   "app.refreshbutton.finishsetup": "Завершите настройку",
   "app.refreshbutton.incorrectsv": "Данные дополнений для этой учетной записи не найдены",
   "app.refreshbutton.label": "Получить обновления",

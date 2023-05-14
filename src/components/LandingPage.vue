@@ -56,7 +56,7 @@
           <div id="dashboard">
             <RefreshButton :is-settings-ok="config.wowpath.valided" :is-version-selected="versionSelected"
               :is-account-selected="accountSelected" :is-sv-ok="WeakAurasSaved() || PlaterSaved()" :fetching="fetching"
-              :last-update="accountSelected && accountSelected.lastWagoUpdate" :auras-shown="aurasSortedForView.length">
+              :last-update="accountSelected && accountSelected.lastWagoUpdate" :auras-shown="aurasSortedForView.length" :is-addons-ok="IsAddonInstalled('WeakAuras') || IsAddonInstalled('Plater')">
             </RefreshButton>
             <br />
             <template v-if="aurasSortedForView.length > 0 && !fetching">
@@ -884,7 +884,7 @@ export default defineComponent({
     },
     async compareSVwithWago() {
       if (!this.versionSelected || !this.accountSelected) return;
-
+      
       const addonConfigs = this.addonsInstalled;
 
       if (this.fetching) return; // prevent spamming UIButton
@@ -1070,7 +1070,9 @@ export default defineComponent({
       if (promisesWagoCallsComplete.length === 0) {
         // No data for any addon available. Nothing to update.
         try {
-          this.writeAddonData();
+          if (this.IsAddonInstalled("WeakAuras") || this.IsAddonInstalled("Plater")) {
+            this.writeAddonData();
+          }
         } finally {
           this.fetching = false;
 
