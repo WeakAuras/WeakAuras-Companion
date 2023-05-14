@@ -22,7 +22,6 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
       - run: npm install
-      - run: npm i -D dmg-license
 
       - name: Lint
         run: npm run lint
