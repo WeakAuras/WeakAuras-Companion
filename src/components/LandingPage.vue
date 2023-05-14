@@ -363,7 +363,6 @@ export default defineComponent({
       },
       deep: true,
     },
-    // eslint-disable-next-line func-names
     "config.wowpath.value": function () {
       this.validateWowpath();
     },
@@ -1362,7 +1361,7 @@ export default defineComponent({
             data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 4.1.0
+## Version: ${__APP_VERSION__}
 ## IconTexture: Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
@@ -1378,7 +1377,7 @@ init.lua`,
             data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 4.1.0
+## Version: ${__APP_VERSION__}
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
@@ -1393,7 +1392,7 @@ init.lua`,
             data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 4.1.0
+## Version: ${__APP_VERSION__}
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
@@ -1408,7 +1407,7 @@ init.lua`,
             data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 4.1.0
+## Version: ${__APP_VERSION__}
 ## IconTexture: Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
@@ -1424,7 +1423,7 @@ init.lua`,
             data: `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
-## Version: 4.1.0
+## Version: ${__APP_VERSION__}
 ## Notes: Keep your WeakAuras updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
