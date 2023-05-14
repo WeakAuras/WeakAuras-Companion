@@ -112,6 +112,7 @@
   "app.menu.help": "Hilfe",
   "app.menu.main": "Start",
   "app.menu.settings": "Einstellungen",
+  "app.refreshbutton.addonNotFound": "No supported AddOn installed",
   "app.refreshbutton.finishsetup": "Setup beenden",
   "app.refreshbutton.incorrectsv": "Keine AddOn Daten gefunden",
   "app.refreshbutton.label": "Nach Updates suchen",

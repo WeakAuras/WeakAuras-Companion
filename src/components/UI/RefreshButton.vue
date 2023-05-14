@@ -1,7 +1,7 @@
 <template>
   <div id="sync" :class="{ top: aurasShown > 0 }">
     <UIButton
-      v-if="isSettingsOk && isSvOk"
+      v-if="isSettingsOk && isSvOk && isAddonsOk"
       :class="{ spin: fetching }"
       type="refresh"
       @click="refresh"
@@ -37,7 +37,23 @@
         )
       }}</span>
     </label>
-    <div v-if="lastUpdate && isSvOk && olderThan30s()" id="lastupdate">
+    <label v-if="!isAddonsOk" class="label-issue">
+      <i class="material-icons error">error_outline</i>
+      <span>{{
+        $t(
+          "app.refreshbutton.addonNotFound" /* No supported AddOn installed */
+        )
+      }}</span>
+    </label>
+    <label v-if="!isAddonsOk" class="label-issue">
+      <span>
+        <a class="download" href="https://www.curseforge.com/wow/addons/weakauras-2" target="_blank">
+          <img src="/social-icons/curse.svg" class="logo" title="CurseForge" />
+          {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
+        </a>
+      </span>
+    </label>
+    <div v-if="lastUpdate && isAddonsOk && isSvOk && olderThan30s()" id="lastupdate">
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
       <b>{{ fromNow }}</b>
     </div>
@@ -62,6 +78,7 @@ export default defineComponent({
     "isVersionSelected",
     "isAccountSelected",
     "isSvOk",
+    "isAddonsOk"
   ],
   data() {
     return {
@@ -136,6 +153,12 @@ export default defineComponent({
   cursor: pointer;
 }
 
+.download {
+  clear: both;
+  display: block;
+  margin-top: 10px;
+}
+
 .material-icons {
   font-size: 34px;
   vertical-align: top;
@@ -167,6 +190,7 @@ export default defineComponent({
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(-360deg);
   }

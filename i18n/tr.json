@@ -112,6 +112,7 @@
   "app.menu.help": "Yardım",
   "app.menu.main": "Anasayfa",
   "app.menu.settings": "Ayarlar",
+  "app.refreshbutton.addonNotFound": "No supported AddOn installed",
   "app.refreshbutton.finishsetup": "Yüklemeyi Bitir",
   "app.refreshbutton.incorrectsv": "Bu hesap için AddOn verisi bulunamadı",
   "app.refreshbutton.label": "Güncellemeleri Al",
