@@ -1,7 +1,7 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.tsc.autoDetect": "off",
-  "eslint.packageManager": "npm",
+  "eslint.packageManager": "pnpm",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

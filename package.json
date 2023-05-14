@@ -12,14 +12,15 @@
   "scripts": {
     "compile-tools": "tsc -p tools",
     "format:prettier": "prettier --write \"src/**/*.?(js|ts|vue|json)\"",
-    "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
-    "i18n-report": "npx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
-    "lint": "eslint . --ext .ts,.js,.vue && npm run lint:scss && npm run lint:prettier",
-    "lint:fix": "eslint . --ext .ts,.js,.vue --fix && npm run format:prettier",
+    "i18n": "pnpm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
+    "i18n-report": "pnpm dlx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
+    "lint": "eslint . --ext .ts,.js,.vue && pnpm run lint:scss && pnpm run lint:prettier",
+    "lint:fix": "eslint . --ext .ts,.js,.vue --fix && pnpm run format:prettier",
     "lint:prettier": "prettier --check \"src/**/*.?(js|ts|vue|json)\"",
     "lint:scss": "stylelint --color \"src/**/*.scss\"",
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build && electron-builder"
+    "build": "vue-tsc --noEmit && vite build && electron-builder",
+    "preinstall": "npx only-allow pnpm"
   },
   "config": {
     "default-locale": "en",
@@ -36,6 +37,7 @@
   "engines": {
     "node": ">=18"
   },
+  "packageManager": "pnpm@8.6.2",
   "dependencies": {
     "archiver": "^5.3.1",
     "got": "^12.6.0",
