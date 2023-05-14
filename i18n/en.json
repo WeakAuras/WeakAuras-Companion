@@ -112,6 +112,7 @@
   "app.menu.help": "Help",
   "app.menu.main": "Main",
   "app.menu.settings": "Settings",
+  "app.refreshbutton.addonNotFound": "No supported AddOn installed",
   "app.refreshbutton.finishsetup": "Finish Setup",
   "app.refreshbutton.incorrectsv": "No AddOn data found for this account",
   "app.refreshbutton.label": "Fetch Updates",

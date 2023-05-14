@@ -112,6 +112,7 @@
   "app.menu.help": "Aide",
   "app.menu.main": "Mettre à jour",
   "app.menu.settings": "Paramètres",
+  "app.refreshbutton.addonNotFound": "No supported AddOn installed",
   "app.refreshbutton.finishsetup": "La configuration n'est pas terminée",
   "app.refreshbutton.incorrectsv": "Aucune donnée AddOn n'a été trouvé sur ce compte",
   "app.refreshbutton.label": "Télécharger les mises à jour",

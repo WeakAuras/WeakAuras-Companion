@@ -112,6 +112,7 @@
   "app.menu.help": "帮助",
   "app.menu.main": "主页",
   "app.menu.settings": "选项",
+  "app.refreshbutton.addonNotFound": "No supported AddOn installed",
   "app.refreshbutton.finishsetup": "结束安装",
   "app.refreshbutton.incorrectsv": "该账号下没有找到插件数据",
   "app.refreshbutton.label": "获取更新",
