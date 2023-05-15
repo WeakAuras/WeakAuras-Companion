@@ -85,7 +85,7 @@
     "vite-plugin-vue-devtools": "^0.0.15",
     "vue": "^3.2.47",
     "vue-i18n": "^9.2.2",
-    "vue-tsc": "^1.6.4"
+    "vue-tsc": "^1.6.5"
   },
   "debug": {
     "env": {
