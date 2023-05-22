@@ -117,7 +117,7 @@
   "app.refreshbutton.incorrectsv": "该账号下没有找到插件数据",
   "app.refreshbutton.label": "获取更新",
   "app.refreshbutton.lastupdate": "上次更新:",
-  "app.refreshbutton.noAurasInstalled": "No updateable auras installed on this account",
+  "app.refreshbutton.noAurasInstalled": "No updateable auras installed on this account.",
   "app.refreshbutton.selectaccount": "选择你的账号名称!",
   "app.refreshbutton.selectversion": "选择你的魔兽世界版本!",
   "app.report.addon": "插件",
