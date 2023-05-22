@@ -33,7 +33,7 @@
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
-          "app.refreshbutton.incorrectsv" /* No AddOn data found for this account */
+          "app.refreshbutton.incorrectsv" /* No AddOn data found for this account. */
         )
       }}</span>
     </label>
@@ -41,7 +41,7 @@
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
-          "app.refreshbutton.noAurasInstalled" /* No updateable auras installed on this account */
+          "app.refreshbutton.noAurasInstalled" /* No updateable auras installed on this account. */
         )
       }}</span>
     </label>
@@ -49,7 +49,7 @@
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
-          "app.refreshbutton.addonNotFound" /* No supported AddOn installed */
+          "app.refreshbutton.addonNotFound" /* No supported AddOn installed. */
         )
       }}</span>
     </label>
