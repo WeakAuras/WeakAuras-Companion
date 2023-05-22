@@ -117,7 +117,7 @@
   "app.refreshbutton.incorrectsv": "Данные дополнений для этой учетной записи не найдены",
   "app.refreshbutton.label": "Получить обновления",
   "app.refreshbutton.lastupdate": "Последняя проверка:",
-  "app.refreshbutton.noAurasInstalled": "Обновляемые ауры для этой учетной записи не установлены",
+  "app.refreshbutton.noAurasInstalled": "Обновляемые ауры для этой учетной записи не установлены.",
   "app.refreshbutton.selectaccount": "Пожалуйста, выберите имя Вашей учетной записи!",
   "app.refreshbutton.selectversion": "Пожалуйста, выберите версию WoW!",
   "app.report.addon": "Аддон",
