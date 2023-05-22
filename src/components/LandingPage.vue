@@ -1562,28 +1562,32 @@ end)
           text: this.$t("app.version.dfptr" /* Dragonflight PTR */),
         },
         {
+          value: "_xptr_",
+          text: this.$t("app.version.dfptr" /* Dragonflight PTR 2 */),
+        },        
+        {
           value: "_beta_",
           text: this.$t("app.version.dfbeta" /* Dragonflight Beta */),
         },
         {
           value: "_classic_",
-          text: this.$t("app.version.classicwotlk" /* WOTLK Classic */),
+          text: this.$t("app.version.classicwotlk" /* WoTLK Classic */),
         },
         {
           value: "_classic_ptr_",
-          text: this.$t("app.version.classicwotlkptr" /* WOTLK Classic PTR */),
+          text: this.$t("app.version.classicwotlkptr" /* WoTLK Classic PTR */),
         },
         {
           value: "_classic_beta_",
-          text: this.$t("app.version.classicwotlkbeta" /* WOTLK Classic Beta */),
+          text: this.$t("app.version.classicwotlkbeta" /* WoTLK Classic Beta */),
         },
         {
           value: "_classic_era_",
           text: this.$t("app.version.classicera" /* Classic Era */),
         },
         {
-          value: "_classic_era_ptr_",
-          text: this.$t("app.version.dfptr2" /* Dragonflight PTR 2 */),
+          value: "_ptr2_",
+          text: this.$t("app.version.classiceraptr" /* Classic Era PTR */),
         },
       ];
 

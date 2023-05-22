@@ -117,7 +117,7 @@
   "app.refreshbutton.incorrectsv": "Keine AddOn Daten gefunden",
   "app.refreshbutton.label": "Nach Updates suchen",
   "app.refreshbutton.lastupdate": "Letztes Update:",
-  "app.refreshbutton.noAurasInstalled": "No updateable auras installed on this account",
+  "app.refreshbutton.noAurasInstalled": "No updateable auras installed on this account.",
   "app.refreshbutton.selectaccount": "Wähle deinen Accountnamen!",
   "app.refreshbutton.selectversion": "Wähle deine WoW Version!",
   "app.report.addon": "AddOn",
