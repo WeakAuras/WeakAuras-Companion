@@ -916,8 +916,8 @@ export default defineComponent({
           ];
         } catch (err) {
           console.log(`Error reading file ${svPath}`);
-          console.log(JSON.stringify(err));
-          continue;
+          console.log(err);
+          // TODO: UI needs to display something if this fails
         }
       }
 
@@ -1002,6 +1002,7 @@ export default defineComponent({
 
         // Test if list is empty
         if (fetchAuras.length === 0) {
+          console.log("No auras to fetch");
           return;
         }
 
@@ -1671,12 +1672,14 @@ end)
                     name: accountFile,
                     lastWagoUpdate: null,
                     auras: [],
+                    numAuras: this.auras.length,
                     savedvariableSizeForAddon: [],
                   });
                 } else if (
                   typeof accountFound.savedvariableSizeForAddon === "undefined"
                 )
                   accountFound.savedvariableSizeForAddon = [];
+                  accountFound.numAuras = this.auras.length;
 
                 this.accountOptions.push({
                   value: accountFile,
