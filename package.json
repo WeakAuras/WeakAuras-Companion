@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "archiver": "^5.3.1",
+    "got": "^12.6.0",
     "regedit": "^5.1.2",
     "sharp": "^0.32.1",
     "tga": "^1.0.7"
@@ -65,7 +66,6 @@
     "eslint-plugin-vue": "^9.13.0",
     "floating-vue": "^2.0.0-beta.20",
     "glob": "^10.2.6",
-    "got": "^12.6.0",
     "luaparse": "^0.3.1",
     "luxon": "^3.3.0",
     "material-icons": "^1.13.6",
