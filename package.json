@@ -64,7 +64,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.13.0",
     "floating-vue": "^2.0.0-beta.20",
-    "glob": "^10.2.4",
+    "glob": "^10.2.6",
     "got": "^12.6.0",
     "luaparse": "^0.3.1",
     "luxon": "^3.3.0",
