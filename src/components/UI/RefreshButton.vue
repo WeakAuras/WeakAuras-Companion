@@ -1,15 +1,15 @@
 <template>
   <div id="sync" :class="{ top: aurasShown > 0 }">
     <UIButton
-      v-if="isSettingsOk && isSvOk && isAddonsOk && this.aurasShown > 0"
+      v-if="isSettingsOk && isSvOk && isAddonsOk && aurasShown > 0"
       :class="{ spin: fetching }"
       type="refresh"
-      @click="refresh"
+      @click="$emit('refresh')"
     >
       <i class="material-icons sync">sync</i>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </UIButton>
-    <UIButton v-else-if="!isSettingsOk" type="issue" @click="gotoconfig">
+    <UIButton v-else-if="!isSettingsOk" type="issue" @click="$emit('gotoconfig')">
       <i class="material-icons error">error_outline</i>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </UIButton>
@@ -37,7 +37,7 @@
         )
       }}</span>
     </label>
-    <label v-if="isSettingsOk && isSvOk && isAddonsOk && isVersionSelected && isAccountSelected && this.aurasShown === 0" class="label-issue">
+    <label v-if="isSettingsOk && isSvOk && isAddonsOk && isVersionSelected && isAccountSelected && aurasShown === 0" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
@@ -68,7 +68,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { DateTime } from "luxon";
 import { defineComponent } from "vue";
 import UIButton from "./UIButton.vue";
@@ -88,6 +88,20 @@ export default defineComponent({
     "isSvOk",
     "isAddonsOk"
   ],
+  emits: ["gotoconfig", "refresh"],
+  setup(props, { emit }) {    
+    const gotoconfig = () => {
+      emit("gotoconfig");
+    };
+
+    const refresh = () => {
+      emit("refresh");
+    };
+    return {
+      gotoconfig,
+      refresh,
+    };
+  },
   data() {
     return {
       lastUpdateTimer: null,
@@ -107,12 +121,6 @@ export default defineComponent({
         DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() >
         30000
       );
-    },
-    refresh() {
-      this.$parent.compareSVwithWago();
-    },
-    gotoconfig() {
-      this.$parent.configStep = 1;
     },
     scheduleTimer() {
       if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
