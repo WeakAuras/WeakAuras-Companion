@@ -9,6 +9,10 @@ updates:
   - Stanzilla
   labels:
   - dependencies
+  ignore:
+  - dependency-name: luaparse
+    versions:
+    - "> 0.2.1, < 1"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
