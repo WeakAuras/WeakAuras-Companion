@@ -908,7 +908,6 @@ export default defineComponent({
             scope: true,
             locations: true,
             luaVersion: "5.1",
-            encodingMode: "pseudo-latin1",
           });
 
           fileAuraData = [
