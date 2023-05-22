@@ -37,7 +37,7 @@
         )
       }}</span>
     </label>
-    <label v-if="isSettingsOk && sSvOk && isAddonsOk && isVersionSelected && isAccountSelected && this.aurasShown === 0" class="label-issue">
+    <label v-if="isSettingsOk && isSvOk && isAddonsOk && isVersionSelected && isAccountSelected && this.aurasShown === 0" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
