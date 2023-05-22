@@ -117,6 +117,7 @@
   "app.refreshbutton.incorrectsv": "Bu hesap için AddOn verisi bulunamadı",
   "app.refreshbutton.label": "Güncellemeleri Al",
   "app.refreshbutton.lastupdate": "son güncelleme:",
+  "app.refreshbutton.noAurasInstalled": "No updateable auras installed on this account",
   "app.refreshbutton.selectaccount": "Lütfen hesap adınızı seçin!",
   "app.refreshbutton.selectversion": "Lütfen WoW versiyonunu seçin!",
   "app.report.addon": "Eklenti",

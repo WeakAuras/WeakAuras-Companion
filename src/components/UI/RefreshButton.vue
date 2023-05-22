@@ -1,7 +1,7 @@
 <template>
   <div id="sync" :class="{ top: aurasShown > 0 }">
     <UIButton
-      v-if="isSettingsOk && isSvOk && isAddonsOk"
+      v-if="isSettingsOk && isSvOk && isAddonsOk && this.aurasShown > 0"
       :class="{ spin: fetching }"
       type="refresh"
       @click="refresh"
@@ -37,7 +37,15 @@
         )
       }}</span>
     </label>
-    <label v-if="!isAddonsOk" class="label-issue">
+    <label v-if="isSettingsOk && isAddonsOk && isVersionSelected && isAccountSelected && this.aurasShown === 0" class="label-issue">
+      <i class="material-icons error">error_outline</i>
+      <span>{{
+        $t(
+          "app.refreshbutton.noAurasInstalled" /* No updateable auras installed on this account */
+        )
+      }}</span>
+    </label>
+    <label v-if="isSettingsOk && !isAddonsOk && isVersionSelected && isAccountSelected" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
