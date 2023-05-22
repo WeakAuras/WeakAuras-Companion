@@ -54,7 +54,7 @@
             </UIButton>
           </div>
           <div id="dashboard">
-            <RefreshButton :is-settings-ok="config.wowpath.valided" :is-version-selected="versionSelected"
+            <RefreshButton @refresh="compareSVwithWago()" @gotoconfig="configStep = 1" :is-settings-ok="config.wowpath.valided" :is-version-selected="versionSelected"
               :is-account-selected="accountSelected" :is-sv-ok="WeakAurasSaved() || PlaterSaved()" :fetching="fetching"
               :last-update="accountSelected && accountSelected.lastWagoUpdate" :auras-shown="aurasSortedForView.length" :is-addons-ok="IsAddonInstalled('WeakAuras') || IsAddonInstalled('Plater')">
             </RefreshButton>
