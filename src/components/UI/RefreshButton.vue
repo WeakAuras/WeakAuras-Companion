@@ -37,7 +37,7 @@
         )
       }}</span>
     </label>
-    <label v-if="isSettingsOk && isAddonsOk && isVersionSelected && isAccountSelected && this.aurasShown === 0" class="label-issue">
+    <label v-if="isSettingsOk && sSvOk && isAddonsOk && isVersionSelected && isAccountSelected && this.aurasShown === 0" class="label-issue">
       <i class="material-icons error">error_outline</i>
       <span>{{
         $t(
@@ -53,7 +53,7 @@
         )
       }}</span>
     </label>
-    <label v-if="!isAddonsOk" class="label-issue">
+    <label v-if="!isAddonsOk && isAccountSelected" class="label-issue">
       <span>
         <a class="download" href="https://www.curseforge.com/wow/addons/weakauras-2" target="_blank">
           <img src="/social-icons/curse.svg" class="logo" title="CurseForge" />
