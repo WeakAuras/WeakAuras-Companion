@@ -14,9 +14,9 @@
     "format:prettier": "prettier --write \"src/**/*.?(js|ts|vue|json)\"",
     "i18n": "npm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "i18n-report": "npx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
-    "lint": "eslint . --ext .ts,.js,.vue && npm run lint:scss",
+    "lint": "eslint . --ext .ts,.js,.vue && npm run lint:scss && npm run lint:prettier",
     "lint:check-eslint": "eslint-config-prettier .eslintrc.json",
-    "lint:prettier": "prettier --list-different \"src/**/*.?(js|ts|vue|json)\"",
+    "lint:prettier": "prettier --check \"src/**/*.?(js|ts|vue|json)\"",
     "lint:scss": "npx stylelint --color \"src/**/*.scss\"",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder"
