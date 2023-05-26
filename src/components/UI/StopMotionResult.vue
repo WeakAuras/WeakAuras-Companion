@@ -44,7 +44,7 @@ import { useStopMotionStore } from "../../stores/stopmotion";
 import { useStashStore } from "../../stores/auras";
 import path from "path";
 import { shell } from "electron";
-import { StopMotionTemplate, serialize, deflate, encode, GenerateUniqueID } from "@/libs/stopmotion";
+import { StopMotionTemplate, serialize, deflate, encode, generateUniqueID } from "@/libs/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
@@ -78,7 +78,7 @@ export default defineComponent({
       SMtemplate.d.id = "StopMotion " + this.gif.meta.name;
       SMtemplate.d.foregroundTexture = this.stopMotionInput;
       SMtemplate.d.backgroundTexture = this.stopMotionInput;
-      SMtemplate.d.uid = GenerateUniqueID();
+      SMtemplate.d.uid = generateUniqueID();
 
       if (this.gif.tenor === true) {
         SMtemplate.d.tenorID = this.gif.tenorID;
