@@ -250,92 +250,74 @@ const encode = function (input: ArrayBuffer | Buffer | { valueOf(): ArrayBuffer 
   return EncodeForPrint(Buffer.from(input));
 };
 
-// Serialize function
-const i = [[/\^/g, "}"] as [RegExp, string], [/~/g, "~|"] as [RegExp, string], [/\s/g, "~`"] as [RegExp, string]];
+// Serialization mapping
+type SerializationMapping = [RegExp, string][];
 
-function R(e: string) {
-  return e.replace(/[^\x00-\x7F]/g, "?");
-}
+const serializationMapping: SerializationMapping = [
+  [/\^/g, "}"],
+  [/~/g, "~|"],
+  [/\s/g, "~`"],
+];
 
-function A(e: string): string {
-  let result = e;
-
-  for (const [search, replace] of i) {
-    result = result.replace(search, replace);
-  }
-  return result;
-}
-
-function parser(e, a, r: number) {
-  let s: string | undefined = typeof e;
-
-  if (s === "object" && e instanceof Array) {
-    s = "array";
-  }
-
-  switch (s) {
-    case "string":
-      a[r + 1] = "^S";
-      a[r + 2] = R(A(e));
-      r += 2;
-      break;
-    case "number":
-      a[r + 1] = "^N";
-      a[r + 2] = e.toString();
-      r += 2;
-      break;
-    case "object":
-    case "array":
-      r += 1;
-      a[r] = "^T";
-
-      for (const i of Object.keys(e)) {
-        const key = typeof i === "string" && i.match(/^[0-9]+$/) ? parseInt(i) : i;
-        [a, r] = parser(key, a, r);
-        [a, r] = parser(e[i], a, r);
-      }
-
-      r += 1;
-      a[r] = "^t";
-      break;
-    case "boolean":
-      r += 1;
-
-      if (e) {
-        a[r] = "^B";
-      } else {
-        a[r] = "^b";
-      }
-      break;
-    case "null":
-      r += 1;
-      a[r] = "^Z";
-      break;
-    default:
-      console.log(`Cannot serialize a value of type "${s}"`);
-  }
-  return [a, r];
-}
-
-const serialize = function (e) {
-  const [a] = parser(e, ["^1"], 1);
-  return `${a.join("")}^^`;
+const replaceNonASCIICharacters = (inputString: string): string => {
+  return inputString.replace(/[^\x00-\x7F]/g, "?");
 };
 
-function getRandomInt(min: number, max: number) {
-  const [lower, upper] = [Math.ceil(min), Math.floor(max)];
-  const range = upper - lower;
-  return Math.trunc(Math.random() * range) + lower;
-}
+const applySerializationMapping = (inputString: string): string => {
+  let result = inputString;
 
-const GenerateUniqueID = () => {
-  const uid = new Array(11);
+  for (const [search, replace] of serializationMapping) {
+    result = result.replace(search, replace);
+  }
+
+  return result;
+};
+
+const serializeValue = (value: any, serializedArray: string[]): void => {
+  const valueType = typeof value;
+
+  if (valueType === "string") {
+    const processedValue = applySerializationMapping(replaceNonASCIICharacters(value));
+    serializedArray.push("^S", processedValue);
+  } else if (valueType === "number") {
+    serializedArray.push(`^N${value}`);
+  } else if (valueType === "boolean") {
+    serializedArray.push(value ? "^B" : "^b");
+  } else if (valueType === "object" || Array.isArray(value)) {
+    serializedArray.push("^T");
+
+    for (const key of Object.keys(value)) {
+      const parsedKey = /^\d+$/.test(key) ? parseInt(key) : key;
+      serializeValue(parsedKey, serializedArray);
+      serializeValue(value[key], serializedArray);
+    }
+
+    serializedArray.push("^t");
+  } else {
+    console.log(`Cannot serialize a value of type "${valueType}"`);
+  }
+};
+
+const serialize = (input: any): string => {
+  const serializedArray: string[] = ["^1"];
+  serializeValue(input, serializedArray);
+  return serializedArray.join("") + "^^";
+};
+
+const getRandomInt = (min: number, max: number): number => {
+  const range = max - min + 1;
+  return Math.floor(Math.random() * range) + min;
+};
+
+const generateUniqueID = (): string => {
+  const uid: string[] = new Array(11);
   const tableLen = mappingTable.length;
 
   for (let i = 0; i < 11; i++) {
     uid[i] = mappingTable[getRandomInt(0, tableLen - 1)];
   }
+
   return uid.join("");
 };
 
-export { StopMotionTemplate, serialize, deflate, encode, GenerateUniqueID };
+export { StopMotionTemplate, serialize, deflate, encode, generateUniqueID };
