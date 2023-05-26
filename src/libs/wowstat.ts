@@ -43,7 +43,9 @@ export function afterReload(config: { value: any; version: any; versions: any[] 
 
   const watcher = fs.watch(wacompanionsvfile, (event, filename) => {
     if (filename) {
-      if (fsWait != null) return;
+      if (fsWait != null) {
+        return;
+      }
 
       fsWait = setTimeout(() => {
         fsWait = null;

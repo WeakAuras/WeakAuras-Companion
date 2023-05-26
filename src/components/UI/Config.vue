@@ -17,7 +17,7 @@
             {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
           </file-select>
           <i
-            v-if="config.wowpath.valided"
+            v-if="config.wowpath.validated"
             class="material-icons green settings"
             >check_circle_outline</i
           >
@@ -191,7 +191,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import { ipcRenderer, shell } from "electron";
 import { defineComponent, ref } from "vue";
 import UIButton from "./UIButton.vue";

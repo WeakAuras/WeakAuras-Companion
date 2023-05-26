@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { useConfigStore } from "../../stores/config";
 import { defineComponent, ref } from "vue";
 export default defineComponent({
@@ -112,7 +112,7 @@ export default defineComponent({
     renderHugeGif({ mediumgif }) {
       return mediumgif.url;
     },
-    get(query, key, additive) {
+    get(query, key, additive?) {
       fetch(`https://g.tenor.com/v1/${query}&key=${this.apiKey}`)
         .then((res) => res.json())
         .then((data) => {

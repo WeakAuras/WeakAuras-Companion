@@ -60,7 +60,7 @@
         <template v-if="configStep === 0">
           <div id="selectors">
             <div
-              v-if="config.wowpath.valided && config.wowpath.versions"
+              v-if="config.wowpath.validated && config.wowpath.versions"
               id="version-selector"
             >
               <Dropdown
@@ -71,7 +71,7 @@
               />
             </div>
             <div
-              v-if="config.wowpath.valided && versionSelected"
+              v-if="config.wowpath.validated && versionSelected"
               id="account-selector"
             >
               <Dropdown
@@ -108,7 +108,7 @@
             <RefreshButton
               @refresh="compareSVwithWago()"
               @gotoconfig="configStep = 1"
-              :is-settings-ok="config.wowpath.valided"
+              :is-settings-ok="config.wowpath.validated"
               :is-version-selected="versionSelected"
               :is-account-selected="accountSelected"
               :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
@@ -454,7 +454,7 @@ export default defineComponent({
     auras: {
       get() {
         return (
-          (this.config.wowpath.valided &&
+          (this.config.wowpath.validated &&
             this.config.wowpath.version &&
             this.accountSelected &&
             this.accountSelected.auras) ||
@@ -528,12 +528,12 @@ export default defineComponent({
     });
 
     // set default wow path
-    if (!this.config.wowpath.valided) {
+    if (!this.config.wowpath.validated) {
       try {
         let wowpath = await wowDefaultPath();
         this.defaultWOWPath = wowpath;
 
-        if (!this.config.wowpath.valided) {
+        if (!this.config.wowpath.validated) {
           this.config.wowpath.value = wowpath;
           this.validateWowpath();
         }
@@ -1291,7 +1291,7 @@ export default defineComponent({
       console.log("writeAddonData");
       const addonConfigs = this.addonsInstalled;
 
-      if (this.config.wowpath.valided && this.config.wowpath.version !== "") {
+      if (this.config.wowpath.validated && this.config.wowpath.version !== "") {
         var AddonPath = ["Interface", "AddOns", "WeakAurasCompanion"];
         var AddonFolder = path.join(this.config.wowpath.value, this.config.wowpath.version);
 
@@ -1568,7 +1568,7 @@ end)
     },
     validateWowpath() {
       console.log("validateWowpath");
-      this.config.wowpath.valided = false;
+      this.config.wowpath.validated = false;
 
       if (this.config.wowpath.value) {
         const wowpath = this.config.wowpath.value;
@@ -1592,7 +1592,7 @@ end)
                   try {
                     fs.accessSync(accountFolder, fs.constants.F_OK);
                     validated = true;
-                    this.config.wowpath.valided = true;
+                    this.config.wowpath.validated = true;
                     this.buildVersionList();
                     this.buildAccountList();
                   } catch (err) {
@@ -1650,7 +1650,7 @@ end)
         },
       ];
 
-      if (this.config.wowpath.valided) {
+      if (this.config.wowpath.validated) {
         const wowpath = this.config.wowpath.value;
 
         try {
@@ -1692,7 +1692,7 @@ end)
       console.log("buildAccountList");
       this.accountOptions.splice(0, this.accountOptions.length);
 
-      if (this.config.wowpath.valided && this.versionSelected) {
+      if (this.config.wowpath.validated && this.versionSelected) {
         const versionName = this.versionSelected.name;
         const accountFolder = path.join(this.config.wowpath.value, versionName, "WTF", "Account");
 

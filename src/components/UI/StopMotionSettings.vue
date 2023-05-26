@@ -129,7 +129,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import { defineComponent } from "vue";
 import UIButton from "./UIButton.vue";
 import Checkbox from "./Checkbox.vue";
