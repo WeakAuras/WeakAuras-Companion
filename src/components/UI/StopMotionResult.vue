@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { useStopMotionStore } from "../../stores/stopmotion";
 import { useStashStore } from "../../stores/auras";

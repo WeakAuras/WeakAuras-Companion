@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import gif2tga from "@/libs/gif2tga";
 import fs from "fs";
 import path from "path";

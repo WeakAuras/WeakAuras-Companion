@@ -9,7 +9,7 @@ export const useConfigStore = defineStore("configStore", {
         value: "",
         versions: [],
         version: "",
-        valided: false,
+        validated: false,
       },
       wagoUsername: null,
       wagoApiKey: null,

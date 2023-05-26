@@ -46,8 +46,7 @@ const calculateFileSize = (width, height, pages, scaling, useSkipFrames, skipFra
 };
 
 const getMetaData = async (filename) => {
-  const metadata = await sharp(filename, { animated: true }).metadata();
-  return metadata;
+  return await sharp(filename, { animated: true }).metadata();
 };
 
 const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, destination, fileBuffer) => {
@@ -58,9 +57,8 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
 
     const metadata = await sharp(fileBuffer, { animated: true }).metadata();
 
-    let width = metadata.width;
-    const pageHeight = metadata.pageHeight;
-    const pages = metadata.pages;
+    let { width } = metadata;
+    const { pageHeight, pages } = metadata;
     width = Math.round(width * scaling);
     const height = Math.round(pageHeight * scaling);
 
