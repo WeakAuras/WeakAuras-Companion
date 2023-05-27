@@ -754,7 +754,6 @@ export default defineComponent({
             let version = 0;
             let semver;
             let ignoreWagoUpdate = false;
-            let skipWagoUpdate = null;
             let id;
             let uid = null;
 
@@ -783,10 +782,6 @@ export default defineComponent({
                 ignoreWagoUpdate = obj3.value.value;
               }
 
-              if (obj3.key.value === "skipWagoUpdate") {
-                skipWagoUpdate = obj3.value.value;
-              }
-
               if (obj3.key.value === "url") {
                 url = obj3.value.value;
                 const result = url.match(pattern);
@@ -803,7 +798,6 @@ export default defineComponent({
                 version,
                 semver,
                 ignoreWagoUpdate,
-                skipWagoUpdate,
                 wagoVersion: null,
                 wagoSemver: null,
                 changelog: null,
@@ -845,7 +839,6 @@ export default defineComponent({
             let profversion = 0;
             let profsemver;
             let profignoreWagoUpdate = false;
-            let profskipWagoUpdate = null;
             let profid;
 
             profile.value.fields.forEach((profData) => {
@@ -869,10 +862,6 @@ export default defineComponent({
                 profignoreWagoUpdate = profData.value.value;
               }
 
-              if (profData.key.value === "skipWagoUpdate") {
-                profskipWagoUpdate = profData.value.value;
-              }
-
               if (profData.key.value === "url") {
                 profurl = profData.value.value;
                 const result = profurl.match(pattern);
@@ -892,7 +881,6 @@ export default defineComponent({
                   let version = 0;
                   let semver;
                   let ignoreWagoUpdate = false;
-                  let skipWagoUpdate = null;
                   let id;
 
                   obj2.value.fields.forEach((obj3) => {
@@ -912,10 +900,6 @@ export default defineComponent({
                       ignoreWagoUpdate = obj3.value.value;
                     }
 
-                    if (obj3.key.value === "skipWagoUpdate") {
-                      skipWagoUpdate = obj3.value.value;
-                    }
-
                     if (obj3.key.value === "url") {
                       url = obj3.value.value;
                       const result = url.match(pattern);
@@ -931,7 +915,6 @@ export default defineComponent({
                       version,
                       semver,
                       ignoreWagoUpdate,
-                      skipWagoUpdate,
                       wagoVersion: null,
                       wagoSemver: null,
                       changelog: null,
@@ -961,7 +944,6 @@ export default defineComponent({
                 version: profversion,
                 semver: profsemver,
                 ignoreWagoUpdate: profignoreWagoUpdate,
-                skipWagoUpdate: profskipWagoUpdate,
                 wagoVersion: null,
                 wagoSemver: null,
                 changelog: null,
@@ -1059,9 +1041,9 @@ export default defineComponent({
           if (foundAura.uid && existingAura.uids.indexOf(foundAura.uid) === -1) {
             existingAura.uids.push(foundAura.uid);
           }
+
           // update ignore flags
           existingAura.ignoreWagoUpdate = foundAura.ignoreWagoUpdate;
-          existingAura.skipWagoUpdate = foundAura.skipWagoUpdate;
 
           // update version
           existingAura.version = foundAura.version;
