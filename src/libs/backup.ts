@@ -3,6 +3,44 @@ import path from "node:path";
 import { DateTime } from "luxon";
 import archiver from "archiver";
 
+export function backup(config, addonsInstalled) {
+  config.wowpath.versions.forEach((version) => {
+    version.accounts.forEach((account) => {
+      addonsInstalled.forEach((addon) => {
+        let lastSavedFileSize = null;
+
+        if (typeof account.savedvariableSizeForAddon === "undefined") account.savedvariableSizeForAddon = [];
+
+        const savedData = account.savedvariableSizeForAddon.find(
+          (savedAddon) => savedAddon.addonName === addon.addonName
+        );
+
+        if (savedData) {
+          lastSavedFileSize = savedData.fileSize;
+        }
+
+        backupIfRequired(
+          addon.svPathFunction(version.name, account.name),
+          config.backup,
+          lastSavedFileSize,
+          `${version.name}#${account.name}`,
+          (fileSize) => {
+            if (savedData) {
+              savedData.fileSize = fileSize;
+            } else {
+              account.savedvariableSizeForAddon.push({
+                fileSize: fileSize,
+                addonName: addon.addonName,
+              });
+            }
+          },
+          addon.addonName
+        );
+      });
+    });
+  });
+}
+
 function deleteOldFiles(dirPath: string, accountName: string, addonName: string, maxSize: number) {
   const regex = new RegExp(`^${addonName}-${accountName}-[0-9.]+.zip$`);
   const files = fs
@@ -74,5 +112,3 @@ function backupIfRequired(fileName, config, previousSize, accountName, callback,
     }
   }
 }
-
-export default backupIfRequired;
