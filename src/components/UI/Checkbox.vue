@@ -7,7 +7,7 @@
       ref="checkbox"
       type="checkbox"
       :checked="modelValue"
-      @input="$emit('update:modelValue', $event.target.checked)"
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
     />
     <div
       class="checkbox__box"
@@ -19,14 +19,14 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
 export default {
   name: "Checkbox",
   props: ["modelValue"],
   emits: ["update:modelValue"],
   methods: {
     triggerInputClick() {
-      this.$refs.checkbox.click();
+      (this.$refs.checkbox as HTMLInputElement).click();
     },
   },
 };
