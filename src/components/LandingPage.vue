@@ -111,7 +111,7 @@
               :is-settings-ok="config.wowpath.validated"
               :is-version-selected="versionSelected"
               :is-account-selected="accountSelected"
-              :is-sv-ok="WeakAurasSaved() || PlaterSaved()"
+              :is-sv-ok="getWeakAurasSaved() || getPlaterSaved()"
               :fetching="fetching"
               :last-update="accountSelected && accountSelected.lastWagoUpdate"
               :auras-shown="aurasSortedForView.length"
@@ -259,6 +259,13 @@
 </template>
 
 <script lang="ts">
+import fs from "fs";
+import got, { Response } from "got";
+import luaparse from "luaparse";
+import path from "path";
+import { defineComponent, reactive } from "vue";
+import { ipcRenderer } from "electron";
+
 import contacts from "@/libs/contacts";
 import { grabVersionFromToc } from "@/libs/grab-wa-version";
 import hash from "@/libs/hash";
@@ -272,14 +279,11 @@ import {
 } from "@/libs/sort";
 import userDataPath from "@/libs/user-data-folder";
 import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
-import { ipcRenderer } from "electron";
-import fs from "fs";
-import got, { Response } from "got";
-import luaparse from "luaparse";
-import path from "path";
-import { defineComponent, reactive } from "vue";
+import { WeakAurasSaved, PlaterSaved } from "@/libs/grab-sv-files";
+
 import { useStashStore } from "../stores/auras";
 import { useConfigStore } from "../stores/config";
+
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";
@@ -382,7 +386,7 @@ export default defineComponent({
           addonName: "WeakAuras",
           wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "WeakAuras",
-          svPathFunction: this.WeakAurasSaved,
+          svPathFunction: WeakAurasSaved,
           isInstalled: this.IsAddonInstalled("WeakAuras"),
           parseFunction: this.parseWeakAurasSVdata,
           hasTypeColumn: false,
@@ -391,7 +395,7 @@ export default defineComponent({
           addonName: "Plater",
           wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "Plater",
-          svPathFunction: this.PlaterSaved,
+          svPathFunction: PlaterSaved,
           isInstalled: this.IsAddonInstalled("Plater"),
           parseFunction: this.parsePlaterSVdata,
           hasTypeColumn: true,
@@ -585,77 +589,11 @@ export default defineComponent({
       this.addonSelected = this.addonsInstalled[0].addonName;
       return this.addonSelected;
     },
-    WeakAurasSaved(version?: string, account?: string) {
-      let WeakAurasSavedVariable: fs.PathLike;
-
-      if (version !== undefined && account !== undefined) {
-        WeakAurasSavedVariable = path.join(
-          this.config.wowpath.value,
-          version,
-          "WTF",
-          "Account",
-          account,
-          "SavedVariables",
-          "WeakAuras.lua"
-        );
-      } else if (this.versionSelected && this.accountSelected) {
-        WeakAurasSavedVariable = path.join(
-          this.config.wowpath.value,
-          this.config.wowpath.version,
-          "WTF",
-          "Account",
-          this.versionSelected.account,
-          "SavedVariables",
-          "WeakAuras.lua"
-        );
-      }
-
-      if (WeakAurasSavedVariable) {
-        try {
-          fs.accessSync(WeakAurasSavedVariable, fs.constants.F_OK);
-          return WeakAurasSavedVariable;
-        } catch (e) {
-          console.log(`Error testing WeakAuras SV access\n${JSON.stringify(e)}`);
-          return false;
-        }
-      }
-      return false;
+    getWeakAurasSaved() {
+      return WeakAurasSaved(this.config, this.versionSelected, this.accountSelected);
     },
-    PlaterSaved(version?: string, account?: string) {
-      let PlaterSavedVariable: fs.PathLike;
-
-      if (version && account) {
-        PlaterSavedVariable = path.join(
-          this.config.wowpath.value,
-          version,
-          "WTF",
-          "Account",
-          account,
-          "SavedVariables",
-          "Plater.lua"
-        );
-      } else if (this.versionSelected && this.accountSelected) {
-        PlaterSavedVariable = path.join(
-          this.config.wowpath.value,
-          this.config.wowpath.version,
-          "WTF",
-          "Account",
-          this.versionSelected.account,
-          "SavedVariables",
-          "Plater.lua"
-        );
-      }
-
-      if (PlaterSavedVariable) {
-        try {
-          fs.accessSync(PlaterSavedVariable, fs.constants.F_OK);
-          return PlaterSavedVariable;
-        } catch (e) {
-          console.log(`Error testing Plater SV access\n${JSON.stringify(e)}`);
-          return false;
-        }
-      }
-      return false;
+    getPlaterSaved() {
+      return PlaterSaved(this.config, this.versionSelected, this.accountSelected);
     },
     IsAddonInstalled(addon: string, version?: string, account?: string) {
       const wowPath = this.config.wowpath.value;
@@ -981,7 +919,7 @@ export default defineComponent({
 
       for (const conf of addonConfigs) {
         if (!conf.svPathFunction) continue;
-        const svPath = conf.svPathFunction();
+        const svPath = conf.svPathFunction(this.config, this.versionSelected, this.accountSelected);
 
         if (typeof svPath !== "string") continue;
 
