@@ -116,26 +116,27 @@ export default defineComponent({
     };
   },
   computed: {
-    children() {
+    children(): string {
       let output = "";
 
       if (this.aura.ids) {
-        if (this.aura.changelog && this.aura.changelog.text) {
-          if (this.aura.changelog.format === "bbcode") {
-            output += sanitize.bbcode(this.aura.changelog.text);
-          } else if (this.aura.changelog.format === "markdown") {
-            output += sanitize.markdown(this.aura.changelog.text);
+        const { changelog, ids } = this.aura;
+
+        if (changelog?.text) {
+          if (changelog.format === "bbcode") {
+            output += sanitize.bbcode(changelog.text);
+          } else if (changelog.format === "markdown") {
+            output += sanitize.markdown(changelog.text);
           }
           output += "\n\n";
         }
-        const { ids } = this.aura;
         output += ids.sort().join("\n");
       }
       return output;
     },
   },
   methods: {
-    updateCurrentTime() {
+    updateCurrentTime(): void {
       if (!this.aura.modified) {
         this.timeElapsed = "n/a";
         return;
@@ -145,11 +146,11 @@ export default defineComponent({
       // set n/a as default value in case DateTime return null
       this.timeElapsed = DateTime.fromJSDate(this.aura.modified).setLocale(this.$i18n.locale).toRelative() || "n/a";
     },
-    wagoURL(value) {
+    wagoURL(value: string | undefined): string {
       if (!value) return "";
       return `https://wago.io/${value}`;
     },
-    wagoAuthorURL(author) {
+    wagoAuthorURL(author: string | undefined): string {
       if (!author) return "";
       return `https://wago.io/p/${author}`;
     },
