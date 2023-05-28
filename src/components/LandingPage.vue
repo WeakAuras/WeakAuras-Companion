@@ -283,7 +283,7 @@ import { WeakAurasSaved, PlaterSaved } from "@/libs/grab-sv-files";
 import { parseWeakAurasSVdata, parsePlaterSVdata } from "@/libs/parse-sv-data";
 
 import { useStashStore } from "../stores/auras";
-import { useConfigStore } from "../stores/config";
+import { Account, Version, useConfigStore } from "../stores/config";
 
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
@@ -413,18 +413,24 @@ export default defineComponent({
         (addonConfig) => addonConfig.addonName.toLowerCase() === this.addonSelected.toLowerCase()
       );
     },
-    versionSelected() {
-      return (
-        this.config.wowpath.version &&
-        this.config.wowpath.versions &&
-        this.config.wowpath.versions.find((version) => version.name === this.config.wowpath.version)
+    versionSelected(): Version | undefined {
+      if (!this.config.wowpath.version || !this.config.wowpath.versions) {
+        return undefined;
+      }
+
+      const selectedVersion = this.config.wowpath.versions.find(
+        (version) => version.name === this.config.wowpath.version
       );
+
+      return selectedVersion || undefined;
     },
-    accountSelected() {
-      return (
-        this.versionSelected &&
-        this.versionSelected.accounts.find((account) => account.name === this.versionSelected.account)
-      );
+    accountSelected(): Account {
+      const versionSelected = this.versionSelected;
+
+      if (typeof versionSelected === "object") {
+        return versionSelected.accounts.find((account) => account.name === versionSelected.account);
+      }
+      return null;
     },
     aurasWithData() {
       return this.auras.filter(
@@ -558,6 +564,14 @@ export default defineComponent({
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
   methods: {
+    addAccount(versionDir: string) {
+      const newAccount = {
+        name: versionDir,
+        accounts: [],
+        account: "",
+      };
+      this.config.wowpath.versions.push(newAccount.name);
+    },
     getGotOptions() {
       return {
         http2: true,
@@ -924,7 +938,7 @@ export default defineComponent({
               });
             })
             .catch((error) => {
-              console.log(JSON.stringify(error));
+              console.log(error);
 
               // schedule in 30mn on error
               if (this.schedule.id) clearTimeout(this.schedule.id);
@@ -1081,11 +1095,7 @@ export default defineComponent({
 
                 if (!versionFound) {
                   // make version if not found in data
-                  this.config.wowpath.versions.push({
-                    name: versionDir,
-                    accounts: [],
-                    account: "",
-                  });
+                  this.addAccount(versionDir);
                 }
 
                 const label = versionLabels.find((versionLabel) => versionLabel.value === versionDir);

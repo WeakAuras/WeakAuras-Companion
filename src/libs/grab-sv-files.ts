@@ -1,18 +1,19 @@
 import fs from "fs";
 import path from "path";
+import { ConfigState } from "@/stores/config";
 
-export function WeakAurasSaved(config?, version?, account?) {
+export function WeakAurasSaved(config?: ConfigState, version?, account?) {
   let WeakAurasSavedVariable: fs.PathLike;
 
-  if (config && config.wowpath && config.wowpath.version && config.wowpath.account) {
-    const { version, account } = config.wowpath;
+  if (config && config.wowpath && config.wowpath.version) {
+    const { version } = config.wowpath;
 
     WeakAurasSavedVariable = path.join(
       config.wowpath.value,
       version,
       "WTF",
       "Account",
-      account,
+      account.name,
       "SavedVariables",
       "WeakAuras.lua"
     );
@@ -42,18 +43,18 @@ export function WeakAurasSaved(config?, version?, account?) {
   return false;
 }
 
-export function PlaterSaved(config?, version?, account?) {
+export function PlaterSaved(config?: ConfigState, version?, account?) {
   let PlaterSavedVariable: fs.PathLike;
 
-  if (config && config.wowpath && config.wowpath.version && config.wowpath.account) {
-    const { version, account } = config.wowpath;
+  if (config && config.wowpath && config.wowpath.version) {
+    const { version } = config.wowpath;
 
     PlaterSavedVariable = path.join(
       config.wowpath.value,
       version,
       "WTF",
       "Account",
-      account,
+      account.name,
       "SavedVariables",
       "Plater.lua"
     );
