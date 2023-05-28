@@ -2,8 +2,94 @@ import { defineStore } from "pinia";
 import userDataPath from "@/libs/user-data-folder";
 import path from "path";
 
+export interface WowPath {
+  validated: boolean;
+  value: string;
+  version: string;
+  versions: string[];
+}
+
+export interface Account {
+  auras: Aura[];
+  lastWagoUpdate: Date | null;
+  name: string;
+  numAuras: number;
+  savedvariableSizeForAddon: string[];
+}
+
+export interface Aura {
+  addonConfig: {
+    addonDependency: string;
+    addonName: string;
+    hasTypeColumn: boolean;
+    isInstalled: boolean;
+    wagoAPI: string;
+  };
+  auraType: string | undefined;
+  auraTypeDisplay: string | undefined; // deadge?
+  auraTypeDisplayName: string | undefined;
+  author: string;
+  changelog: {
+    format: string;
+    text: string;
+  };
+  code: string;
+  created: Date | null;
+  description: string;
+  encoded: boolean;
+  id: string;
+  ids: string[];
+  ignoreWagoUpdate: boolean;
+  modified: Date | null;
+  name: string;
+  regionType: string | undefined; // deadge?
+  semver: string;
+  slug: string;
+  source: string;
+  uid: string;
+  uids: string[];
+  version: number;
+  versionNote: string;
+  wagoid: string;
+  wagoSemver: string;
+  wagoVersion: number;
+}
+
+export interface Version {
+  account?: string;
+  accounts?: Account[];
+  name?: string;
+}
+
+export interface Versions {
+  account: string;
+  accounts: Account[];
+  name: string;
+}
+
+export interface Backup {
+  active: boolean;
+  defaultBackupPath: string;
+  maxsize: number;
+  path: string;
+}
+
+export interface ConfigState {
+  autostart: boolean;
+  autoupdate: boolean;
+  backup: Backup;
+  beta: boolean;
+  ignoreOwnAuras: boolean;
+  lang: string;
+  notify: boolean;
+  startminimize: boolean;
+  wagoApiKey: string | null;
+  wagoUsername: string | null;
+  wowpath: WowPath;
+}
+
 export const useConfigStore = defineStore("configStore", {
-  state: () => {
+  state: (): ConfigState => {
     return {
       wowpath: {
         value: "",
