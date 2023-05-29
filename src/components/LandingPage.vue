@@ -281,6 +281,8 @@ import userDataPath from "@/libs/user-data-folder";
 import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
 import { WeakAurasSaved, PlaterSaved } from "@/libs/grab-sv-files";
 import { parseWeakAurasSVdata, parsePlaterSVdata } from "@/libs/parse-sv-data";
+import { buildAccountList } from "@/libs/build-account-list";
+import { buildVersionList } from "@/libs/build-version-list";
 
 import { useStashStore } from "../stores/auras";
 import { Account, Version, useConfigStore } from "../stores/config";
@@ -487,7 +489,7 @@ export default defineComponent({
       this.validateWowpath();
     },
     "config.wowpath.version": function () {
-      this.buildAccountList();
+      buildAccountList(this.config, this.accountOptions, this.versionSelected, this.auras);
     },
   },
   async mounted() {
@@ -1030,8 +1032,8 @@ export default defineComponent({
                     fs.accessSync(accountFolder, fs.constants.F_OK);
                     validated = true;
                     this.config.wowpath.validated = true;
-                    this.buildVersionList();
-                    this.buildAccountList();
+                    buildVersionList(this.config, this.versionOptions, this.accountOptions);
+                    buildAccountList(this.config, this.accountOptions, this.versionSelected, this.auras);
                   } catch (err) {
                     console.error("No Read access");
                   }
@@ -1040,124 +1042,6 @@ export default defineComponent({
             });
         } catch (err) {
           console.log(`Error: ${err}`);
-        }
-      }
-    },
-    buildVersionList() {
-      console.log("buildVersionList");
-      // reset version & account lists
-      this.versionOptions.splice(0, this.versionOptions.length);
-      this.accountOptions.splice(0, this.accountOptions.length);
-      const versionLabels = [
-        {
-          value: "_retail_",
-          text: this.$t("app.version.df" /* Dragonflight */),
-        },
-        {
-          value: "_ptr_",
-          text: this.$t("app.version.dfptr" /* Dragonflight PTR */),
-        },
-        {
-          value: "_xptr_",
-          text: this.$t("app.version.dfptr" /* Dragonflight PTR 2 */),
-        },
-        {
-          value: "_beta_",
-          text: this.$t("app.version.dfbeta" /* Dragonflight Beta */),
-        },
-        {
-          value: "_classic_",
-          text: this.$t("app.version.classicwotlk" /* WoTLK Classic */),
-        },
-        {
-          value: "_classic_ptr_",
-          text: this.$t("app.version.classicwotlkptr" /* WoTLK Classic PTR */),
-        },
-        {
-          value: "_classic_beta_",
-          text: this.$t("app.version.classicwotlkbeta" /* WoTLK Classic Beta */),
-        },
-        {
-          value: "_classic_era_",
-          text: this.$t("app.version.classicera" /* Classic Era */),
-        },
-        {
-          value: "_ptr2_",
-          text: this.$t("app.version.classiceraptr" /* Classic Era PTR */),
-        },
-      ];
-
-      if (this.config.wowpath.validated) {
-        const wowpath = this.config.wowpath.value;
-
-        try {
-          const files = fs.readdirSync(wowpath);
-
-          files
-            .filter(
-              (versionDir) => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowpath, versionDir)).isDirectory()
-            )
-            .forEach((versionDir) => {
-              const accountFolder = path.join(wowpath, versionDir, "WTF", "Account");
-
-              if (fs.existsSync(accountFolder)) {
-                const versionFound = this.config.wowpath.versions.find(
-                  (version: Version) => version.name === versionDir
-                );
-
-                if (!versionFound) {
-                  // make version if not found in data
-                  this.addVersion(versionDir);
-                }
-
-                const label = versionLabels.find((versionLabel) => versionLabel.value === versionDir);
-
-                this.versionOptions.push({
-                  value: versionDir,
-                  text: (label && label.text) || versionDir,
-                });
-              }
-            });
-        } catch (err) {
-          console.log(`Error: ${err}`);
-        }
-      }
-    },
-    buildAccountList() {
-      console.log("buildAccountList");
-      this.accountOptions.splice(0, this.accountOptions.length);
-
-      if (this.config.wowpath.validated && this.versionSelected) {
-        const versionName = this.versionSelected.name;
-        const accountFolder = path.join(this.config.wowpath.value, versionName, "WTF", "Account");
-
-        if (fs.existsSync(accountFolder)) {
-          try {
-            const files = fs.readdirSync(accountFolder);
-
-            files
-              .filter(
-                (accountFile) =>
-                  accountFile !== "SavedVariables" && fs.statSync(path.join(accountFolder, accountFile)).isDirectory()
-              )
-              .forEach((accountFile) => {
-                const accountFound = this.versionSelected.accounts.find((account) => account.name === accountFile);
-
-                if (!accountFound) {
-                  // make account if not found in data
-                  this.addAccount(accountFile);
-                } else if (typeof accountFound.savedvariableSizeForAddon === "undefined")
-                  accountFound.savedvariableSizeForAddon = [];
-                accountFound.numAuras = this.auras.length;
-
-                this.accountOptions.push({
-                  value: accountFile,
-                  text: accountFile,
-                });
-              });
-          } catch (err) {
-            console.log(`Error: ${err}`);
-          }
         }
       }
     },
