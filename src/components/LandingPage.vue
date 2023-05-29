@@ -564,13 +564,23 @@ export default defineComponent({
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
   methods: {
-    addAccount(versionDir: string) {
-      const newAccount = {
+    addVersion(versionDir: string) {
+      const newVersion = {
         name: versionDir,
         accounts: [],
         account: "",
       };
-      this.config.wowpath.versions.push(newAccount.name);
+      this.config.wowpath.versions.push(newVersion);
+    },
+    addAccount(accountFile: string) {
+      const newAccount = {
+        name: accountFile,
+        lastWagoUpdate: null,
+        auras: [],
+        numAuras: this.auras.length,
+        savedvariableSizeForAddon: [],
+      };
+      this.versionSelected.accounts.push(newAccount);
     },
     getGotOptions() {
       return {
@@ -1091,11 +1101,13 @@ export default defineComponent({
               const accountFolder = path.join(wowpath, versionDir, "WTF", "Account");
 
               if (fs.existsSync(accountFolder)) {
-                const versionFound = this.config.wowpath.versions.find((version) => version.name === versionDir);
+                const versionFound = this.config.wowpath.versions.find(
+                  (version: Version) => version.name === versionDir
+                );
 
                 if (!versionFound) {
                   // make version if not found in data
-                  this.addAccount(versionDir);
+                  this.addVersion(versionDir);
                 }
 
                 const label = versionLabels.find((versionLabel) => versionLabel.value === versionDir);
@@ -1133,13 +1145,7 @@ export default defineComponent({
 
                 if (!accountFound) {
                   // make account if not found in data
-                  this.versionSelected.accounts.push({
-                    name: accountFile,
-                    lastWagoUpdate: null,
-                    auras: [],
-                    numAuras: this.auras.length,
-                    savedvariableSizeForAddon: [],
-                  });
+                  this.addAccount(accountFile);
                 } else if (typeof accountFound.savedvariableSizeForAddon === "undefined")
                   accountFound.savedvariableSizeForAddon = [];
                 accountFound.numAuras = this.auras.length;
