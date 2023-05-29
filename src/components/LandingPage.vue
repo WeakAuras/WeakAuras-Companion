@@ -267,7 +267,6 @@ import { defineComponent } from "vue";
 import { ipcRenderer } from "electron";
 
 import contacts from "@/libs/contacts";
-import { grabVersionFromToc } from "@/libs/grab-wa-version";
 import hash from "@/libs/hash";
 import { writeAddonData } from "@/libs/write-addon-data";
 import {
@@ -278,7 +277,7 @@ import {
   createSortByUpdate,
 } from "@/libs/sort";
 import userDataPath from "@/libs/user-data-folder";
-import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
+import { wowDefaultPath } from "@/libs/utilities";
 import { WeakAurasSaved, PlaterSaved } from "@/libs/grab-sv-files";
 import { parseWeakAurasSVdata, parsePlaterSVdata } from "@/libs/parse-sv-data";
 import { buildAccountList } from "@/libs/build-account-list";
@@ -567,24 +566,6 @@ export default defineComponent({
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
   },
   methods: {
-    addVersion(versionDir: string) {
-      const newVersion = {
-        name: versionDir,
-        accounts: [],
-        account: "",
-      };
-      this.config.wowpath.versions.push(newVersion);
-    },
-    addAccount(accountFile: string) {
-      const newAccount = {
-        name: accountFile,
-        lastWagoUpdate: null,
-        auras: [],
-        numAuras: this.auras.length,
-        savedvariableSizeForAddon: [],
-      };
-      this.versionSelected.accounts.push(newAccount);
-    },
     getGotOptions() {
       return {
         http2: true,
@@ -994,10 +975,6 @@ export default defineComponent({
         this.sortDescending = false;
         this.sortedColumn = columnName;
       }
-    },
-    grabWATocVersion(path, version) {
-      const waTocVersion = grabVersionFromToc(path, version);
-      return waTocVersion;
     },
   },
 });
