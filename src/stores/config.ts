@@ -1,6 +1,8 @@
-import { defineStore } from "pinia";
-import userDataPath from "@/libs/user-data-folder";
 import path from "path";
+
+import { defineStore } from "pinia";
+
+import userDataPath from "@/libs/user-data-folder";
 
 export interface WowPath {
   validated: boolean;
@@ -10,14 +12,14 @@ export interface WowPath {
 }
 
 export interface Account {
-  auras: Aura[];
+  auras: AuraType[];
   lastWagoUpdate: Date | null;
   name: string;
   numAuras: number;
   savedvariableSizeForAddon: string[];
 }
 
-export interface Aura {
+export interface AuraType {
   addonConfig: {
     addonDependency: string;
     addonName: string;
