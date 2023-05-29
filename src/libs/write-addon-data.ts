@@ -5,8 +5,9 @@ import { backup } from "@/libs/backup";
 import { grabVersionFromToc } from "@/libs/grab-wa-version";
 import sanitize from "@/libs/sanitize";
 import { matchFolderNameInsensitive } from "@/libs/utilities";
+import { ConfigState } from "@/stores/config";
 
-export async function writeAddonData(config, addonsInstalled, aurasWithData, stash) {
+export async function writeAddonData(config: ConfigState, addonsInstalled, aurasWithData, stash) {
   console.log("writeAddonData");
   const addonConfigs = addonsInstalled;
 
@@ -38,8 +39,12 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
       // "logo" -- keep that for a future WeakAuras release
     ];
 
-    addonConfigs.forEach((config) => {
-      addonDepts += config.addonName + ",";
+    addonConfigs.forEach((config: { addonName: string }, index: number) => {
+      addonDepts += `${config.addonName}`;
+
+      if (index < addonConfigs.length - 1) {
+        addonDepts += ", ";
+      }
 
       let spacing = "";
 
@@ -51,11 +56,11 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
       aurasWithData
         .filter((aura) => aura.auraType === config.addonName)
         .forEach((aura) => {
-          LuaSlugs += spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+          LuaSlugs += `${spacing}    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
           fields.forEach((field) => {
             if (aura[field]) {
-              LuaSlugs += spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+              LuaSlugs += `${spacing}      ${field} = [=[${aura[field]}]=],\n`;
             }
           });
 
@@ -68,7 +73,7 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
               sanitized = sanitize.markdown(aura.changelog.text);
             }
 
-            LuaSlugs += spacing + `      versionNote = [=[${sanitized}]=],\n`;
+            LuaSlugs += `${spacing}      versionNote = [=[${sanitized}]=],\n`;
           }
 
           LuaSlugs += spacing + "    },\n";
@@ -80,11 +85,11 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
       stash.auras
         .filter((aura) => aura.auraType === config.addonName)
         .forEach((aura) => {
-          LuaOutput += spacing + `    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+          LuaOutput += `${spacing}    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
           fields.forEach((field) => {
             if (aura[field]) {
-              LuaOutput += spacing + `      ${field} = [=[${aura[field]}]=],\n`;
+              LuaOutput += `${spacing}      ${field} = [=[${aura[field]}]=],\n`;
             }
           });
 
@@ -97,10 +102,10 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
               sanitized = sanitize.markdown(aura.changelog.text);
             }
 
-            LuaOutput += spacing + `      versionNote = [=[${sanitized}]=],\n`;
+            LuaOutput += `${spacing}      versionNote = [=[${sanitized}]=],\n`;
           }
 
-          LuaOutput += spacing + `      source = "${aura.source}",\n`;
+          LuaOutput += `${spacing}      source = "${aura.source}",\n`;
           LuaOutput += spacing + "    },\n";
         });
 
@@ -114,13 +119,13 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
           const regex = new RegExp(/^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/);
 
           fs.readdirSync(stopmotionFilesPath)
-            .filter((v) => v && v.match(regex))
+            .filter((v) => v?.match(regex))
             .map((v) => ({
               filename: v,
               title: v.match(regex)[1],
             }))
             .forEach((file) => {
-              LuaOutput += spacing + `    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
+              LuaOutput += `${spacing}    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
             });
         }
 
@@ -134,10 +139,7 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
     /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
     const tocVersion = grabVersionFromToc(config.wowpath.value, config.wowpath.version);
     console.log("WeakAuras.toc has version:", tocVersion);
-    const files = [
-      {
-        name: "WeakAurasCompanion.toc",
-        data: `## Interface: ${tocVersion}
+    const templateData = `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: ${__APP_VERSION__}
@@ -149,91 +151,23 @@ export async function writeAddonData(config, addonsInstalled, aurasWithData, sta
 ## OptionalDeps: ${addonDepts}
 
 data.lua
-init.lua`,
-      },
-      {
-        name: "WeakAurasCompanion-Classic.toc",
-        data: `## Interface: ${tocVersion}
-## Title: WeakAuras Companion
-## Author: The WeakAuras Team
-## Version: ${__APP_VERSION__}
-## Notes: Keep your WeakAuras updated!
-## X-Category: Interface Enhancements
-## DefaultState: Enabled
-## LoadOnDemand: 0
-## OptionalDeps: ${addonDepts}
+init.lua`;
 
-data.lua
-init.lua`,
-      },
-      {
-        name: "WeakAurasCompanion-Mainline.toc",
-        data: `## Interface: ${tocVersion}
-## Title: WeakAuras Companion
-## Author: The WeakAuras Team
-## Version: ${__APP_VERSION__}
-## IconTexture: Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp
-## Notes: Keep your WeakAuras updated!
-## X-Category: Interface Enhancements
-## DefaultState: Enabled
-## LoadOnDemand: 0
-## OptionalDeps: ${addonDepts}
-
-data.lua
-init.lua`,
-      },
-      {
-        name: "WeakAurasCompanion-Wrath.toc",
-        data: `## Interface: ${tocVersion}
-## Title: WeakAuras Companion
-## Author: The WeakAuras Team
-## Version: ${__APP_VERSION__}
-## Notes: Keep your WeakAuras updated!
-## X-Category: Interface Enhancements
-## DefaultState: Enabled
-## LoadOnDemand: 0
-## OptionalDeps: ${addonDepts}
-
-data.lua
-init.lua`,
-      },
-      {
-        name: "init.lua",
-        data: `-- file generated automatically
-local loadedFrame = CreateFrame("FRAME")
-loadedFrame:RegisterEvent("ADDON_LOADED")
-loadedFrame:SetScript("OnEvent", function(_, _, addonName)
-  if addonName == "WeakAurasCompanion" then
-    if WeakAuras and WeakAuras.AddCompanionData and WeakAurasCompanionData then
-      local WeakAurasData = WeakAurasCompanionData.WeakAuras
-      if WeakAurasData then
-        WeakAuras.AddCompanionData(WeakAurasData)
-        WeakAuras.StopMotion.texture_types["WeakAuras Companion"] = WeakAuras.StopMotion.texture_types["WeakAuras Companion"] or {}
-        local CompanionTextures = WeakAuras.StopMotion.texture_types["WeakAuras Companion"]
-        for fileName, name in pairs(WeakAurasData.stopmotionFiles) do
-          CompanionTextures["Interface\\\\AddOns\\\\WeakAurasCompanion\\\\animations\\\\" .. fileName] = name
-        end
-      end
-    end
-
-    if Plater and Plater.AddCompanionData and WeakAurasCompanionData and WeakAurasCompanionData.Plater then
-      Plater.AddCompanionData(WeakAurasCompanionData.Plater)
-    end
-  end
-end)
-`,
-      },
-      {
-        name: "data.lua",
-        data: LuaOutput,
-      },
+    const fileNames = [
+      "WeakAurasCompanion.toc",
+      "WeakAurasCompanion-Classic.toc",
+      "WeakAurasCompanion-Mainline.toc",
+      "WeakAurasCompanion-Wrath.toc",
+      "init.lua",
+      "data.lua",
     ];
 
-    files.forEach((file) => {
-      const filePath = path.join(addonFolder, file.name);
+    fileNames.forEach((fileName) => {
+      const fileData = fileName === "data.lua" ? LuaOutput : templateData;
+      const filePath = path.join(addonFolder, fileName);
 
-      fs.writeFile(filePath, file.data, (err2) => {
-        if (err2) {
+      fs.writeFile(filePath, fileData, (err) => {
+        if (err) {
           throw new Error("errorFileSave");
         }
       });
