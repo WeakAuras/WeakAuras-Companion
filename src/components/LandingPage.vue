@@ -282,7 +282,7 @@ import { matchFolderNameInsensitive, wowDefaultPath } from "@/libs/utilities";
 import { WeakAurasSaved, PlaterSaved } from "@/libs/grab-sv-files";
 import { parseWeakAurasSVdata, parsePlaterSVdata } from "@/libs/parse-sv-data";
 import { buildAccountList } from "@/libs/build-account-list";
-import { buildVersionList } from "@/libs/build-version-list";
+import { validateWowPath } from "@/libs/validate-wow-path";
 
 import { useStashStore } from "../stores/auras";
 import { Account, Version, useConfigStore } from "../stores/config";
@@ -486,7 +486,7 @@ export default defineComponent({
       deep: true,
     },
     "config.wowpath.value": function () {
-      this.validateWowpath();
+      validateWowPath(this.config, this.versionOptions, this.accountOptions, this.versionSelected, this.auras);
     },
     "config.wowpath.version": function () {
       buildAccountList(this.config, this.accountOptions, this.versionSelected, this.auras);
@@ -547,7 +547,7 @@ export default defineComponent({
 
         if (!this.config.wowpath.validated) {
           this.config.wowpath.value = wowpath;
-          this.validateWowpath();
+          validateWowPath(this.config, this.versionOptions, this.accountOptions, this.versionSelected, this.auras);
         }
       } catch (e) {
         console.log(JSON.stringify(e));
@@ -1004,46 +1004,6 @@ export default defineComponent({
     },
     installUpdates() {
       ipcRenderer.invoke("installUpdates");
-    },
-    validateWowpath() {
-      console.log("validateWowpath");
-      this.config.wowpath.validated = false;
-
-      if (this.config.wowpath.value) {
-        const wowpath = this.config.wowpath.value;
-        const DataFolder = path.join(wowpath, "Data");
-
-        // test if ${wowpath}\Data exists
-        try {
-          fs.accessSync(DataFolder, fs.constants.F_OK);
-          var files = fs.readdirSync(wowpath);
-          let validated = false;
-
-          files
-            .filter(
-              (versionDir) => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowpath, versionDir)).isDirectory()
-            )
-            .forEach((versionDir) => {
-              if (!validated) {
-                const accountFolder = path.join(wowpath, versionDir, "WTF", "Account");
-
-                if (fs.existsSync(accountFolder)) {
-                  try {
-                    fs.accessSync(accountFolder, fs.constants.F_OK);
-                    validated = true;
-                    this.config.wowpath.validated = true;
-                    buildVersionList(this.config, this.versionOptions, this.accountOptions);
-                    buildAccountList(this.config, this.accountOptions, this.versionSelected, this.auras);
-                  } catch (err) {
-                    console.error("No Read access");
-                  }
-                }
-              }
-            });
-        } catch (err) {
-          console.log(`Error: ${err}`);
-        }
-      }
     },
     sortBy(columnName) {
       if (this.sortedColumn == columnName) {
