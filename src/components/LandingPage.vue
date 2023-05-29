@@ -115,7 +115,7 @@
               :fetching="fetching"
               :last-update="accountSelected && accountSelected.lastWagoUpdate"
               :auras-shown="aurasSortedForView.length"
-              :is-addons-ok="IsAddonInstalled('WeakAuras') || IsAddonInstalled('Plater')"
+              :is-addons-ok="getIsAddonInstalled('WeakAuras') || getIsAddonInstalled('Plater')"
             >
             </RefreshButton>
             <br />
@@ -283,6 +283,7 @@ import { WeakAurasSaved, PlaterSaved } from "@/libs/grab-sv-files";
 import { parseWeakAurasSVdata, parsePlaterSVdata } from "@/libs/parse-sv-data";
 import { buildAccountList } from "@/libs/build-account-list";
 import { validateWowPath } from "@/libs/validate-wow-path";
+import { isAddonInstalled } from "@/libs/is-addon-installed";
 
 import { useStashStore } from "../stores/auras";
 import { Account, Version, useConfigStore } from "../stores/config";
@@ -390,7 +391,7 @@ export default defineComponent({
           wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "WeakAuras",
           svPathFunction: WeakAurasSaved,
-          isInstalled: this.IsAddonInstalled("WeakAuras"),
+          isInstalled: this.getIsAddonInstalled("WeakAuras"),
           parseFunction: parseWeakAurasSVdata,
           hasTypeColumn: false,
         },
@@ -399,7 +400,7 @@ export default defineComponent({
           wagoAPI: "https://data.wago.io/api/check/",
           addonDependency: "Plater",
           svPathFunction: PlaterSaved,
-          isInstalled: this.IsAddonInstalled("Plater"),
+          isInstalled: this.getIsAddonInstalled("Plater"),
           parseFunction: parsePlaterSVdata,
           hasTypeColumn: true,
         },
@@ -622,32 +623,8 @@ export default defineComponent({
     getPlaterSaved() {
       return PlaterSaved(this.config, this.versionSelected, this.accountSelected);
     },
-    IsAddonInstalled(addon: string, version?: string, account?: string) {
-      const wowPath = this.config.wowpath.value;
-      let addonFolder = "";
-
-      if (version !== undefined && account !== undefined) {
-        addonFolder = path.join(wowPath, version);
-      } else if (this.versionSelected && this.accountSelected) {
-        addonFolder = path.join(wowPath, this.config.wowpath.version);
-      }
-
-      if (addonFolder && addon) {
-        const addonPath = ["Interface", "AddOns", addon];
-
-        for (const check of addonPath) {
-          const folder = matchFolderNameInsensitive(addonFolder, check, false);
-
-          if (folder) {
-            addonFolder = path.join(addonFolder, folder);
-          } else {
-            return false;
-          }
-        }
-        return true;
-      }
-
-      return false;
+    getIsAddonInstalled(addon: string) {
+      return isAddonInstalled(this.config, addon, this.versionSelected, this.accountSelected);
     },
     getAddonConfig(addonName: string) {
       const lowerAddonName = addonName.toLowerCase();
@@ -879,7 +856,7 @@ export default defineComponent({
       if (promisesWagoCallsComplete.length === 0) {
         // No data for any addon available. Nothing to update.
         try {
-          if (this.IsAddonInstalled("WeakAuras") || this.IsAddonInstalled("Plater")) {
+          if (this.getIsAddonInstalled("WeakAuras") || this.getIsAddonInstalled("Plater")) {
             writeAddonData(this.config, this.addonsInstalled, this.aurasWithData, this.stash);
           }
         } finally {
