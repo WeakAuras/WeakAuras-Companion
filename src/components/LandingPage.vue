@@ -286,7 +286,7 @@ import { validateWowPath } from "@/libs/validate-wow-path";
 import { isAddonInstalled } from "@/libs/is-addon-installed";
 
 import { useStashStore } from "../stores/auras";
-import { Account, Version, useConfigStore } from "../stores/config";
+import { Account, AuraType, Version, useConfigStore } from "../stores/config";
 
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
@@ -465,7 +465,7 @@ export default defineComponent({
       return createSortByString(dir, this.sortedColumn);
     },
     auras: {
-      get() {
+      get(): AuraType[] {
         return (
           (this.config.wowpath.validated &&
             this.config.wowpath.version &&
