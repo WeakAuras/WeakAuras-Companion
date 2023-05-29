@@ -6,7 +6,7 @@ export interface WowPath {
   validated: boolean;
   value: string;
   version: string;
-  versions: string[];
+  versions: Version[];
 }
 
 export interface Account {

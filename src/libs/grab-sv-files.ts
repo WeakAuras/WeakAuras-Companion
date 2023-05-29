@@ -5,7 +5,7 @@ import { ConfigState } from "@/stores/config";
 export function WeakAurasSaved(config?: ConfigState, version?, account?) {
   let WeakAurasSavedVariable: fs.PathLike;
 
-  if (config && config.wowpath && config.wowpath.version) {
+  if (config?.wowpath?.version) {
     const { version } = config.wowpath;
 
     WeakAurasSavedVariable = path.join(
@@ -46,7 +46,7 @@ export function WeakAurasSaved(config?: ConfigState, version?, account?) {
 export function PlaterSaved(config?: ConfigState, version?, account?) {
   let PlaterSavedVariable: fs.PathLike;
 
-  if (config && config.wowpath && config.wowpath.version) {
+  if (config?.wowpath?.version) {
     const { version } = config.wowpath;
 
     PlaterSavedVariable = path.join(
