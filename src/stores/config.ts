@@ -20,7 +20,7 @@ export interface Account {
 }
 
 export interface AuraType {
-  addonConfig: {
+  addonConfig?: {
     addonDependency: string;
     addonName: string;
     hasTypeColumn: boolean;
@@ -28,31 +28,32 @@ export interface AuraType {
     wagoAPI: string;
   };
   auraType: string | undefined;
-  auraTypeDisplay: string | undefined; // deadge?
-  auraTypeDisplayName: string | undefined;
+  auraTypeDisplay?: string | undefined; // deadge?
+  auraTypeDisplayName?: string | undefined;
   author: string;
-  changelog: {
+  changelog?: {
     format: string;
     text: string;
   };
-  code: string;
-  created: Date | null;
-  description: string;
-  encoded: boolean;
-  id: string;
-  ids: string[];
-  ignoreWagoUpdate: boolean;
-  modified: Date | null;
+  code?: string;
+  created?: Date | null;
+  description?: string;
+  encoded: string;
+  id?: string;
+  ids?: string[];
+  ignoreWagoUpdate?: boolean;
+  logo?: string;
+  modified?: Date | null;
   name: string;
-  regionType: string | undefined; // deadge?
-  semver: string;
+  regionType?: string | undefined; // deadge?
+  semver?: string;
   slug: string;
   source: string;
-  uid: string;
-  uids: string[];
-  version: number;
-  versionNote: string;
-  wagoid: string;
+  uid?: string;
+  uids?: string[];
+  version?: number;
+  versionNote?: string;
+  wagoid?: string;
   wagoSemver: string;
   wagoVersion: number;
 }
