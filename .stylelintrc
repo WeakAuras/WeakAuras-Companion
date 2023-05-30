@@ -12,7 +12,9 @@
     "comment-empty-line-before": [
       "always",
       {
-        "ignore": ["stylelint-commands"]
+        "ignore": [
+          "stylelint-commands"
+        ]
       }
     ],
     "font-family-name-quotes": "always-unless-keyword",

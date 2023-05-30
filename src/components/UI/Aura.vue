@@ -2,7 +2,7 @@
   <div
     class="aura"
     :class="{
-      notAnUpdate: aura.version == aura.wagoVersion,
+      notAnUpdate: aura.version === aura.wagoVersion,
     }"
   >
     <span
@@ -31,7 +31,7 @@
           theme: 'info-tooltip',
         }"
         class="aura-name"
-        >{{ aura.name }}
+      >{{ aura.name }}
       </span>
     </div>
     <div
@@ -105,8 +105,8 @@
 
 <script lang="ts">
 import { DateTime } from "luxon";
-import sanitize from "@/libs/sanitize";
 import { defineComponent } from "vue";
+import sanitize from "@/libs/sanitize";
 
 export default defineComponent({
   props: ["aura"],
@@ -147,11 +147,13 @@ export default defineComponent({
       this.timeElapsed = DateTime.fromJSDate(this.aura.modified).setLocale(this.$i18n.locale).toRelative() || "n/a";
     },
     wagoURL(value: string | undefined): string {
-      if (!value) return "";
+      if (!value)
+        return "";
       return `https://wago.io/${value}`;
     },
     wagoAuthorURL(author: string | undefined): string {
-      if (!author) return "";
+      if (!author)
+        return "";
       return `https://wago.io/p/${author}`;
     },
   },

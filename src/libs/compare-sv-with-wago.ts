@@ -1,11 +1,13 @@
-import fs from "fs";
-import got, { Response } from "got";
+import fs from "node:fs";
+import type { Response } from "got";
+import got from "got";
 import luaparse from "luaparse";
 
-import { Account, AuraType, ConfigState, Version } from "@/stores/config";
 import hash from "./hash";
 import { isAddonInstalled } from "./is-addon-installed";
 import { writeAddonData } from "./write-addon-data";
+import type { Account, AuraType, ConfigState, Version } from "@/stores/config";
+import type { StashState } from "@/stores/auras";
 
 interface WagoApiResponse {
   data: string;
@@ -19,10 +21,10 @@ export async function compareSVwithWago(
   accountSelected: Account,
   fetchingState: boolean,
   addonsInstalled,
-  addonSelected,
+  addonSelected: string,
   aurasToCompare: AuraType[],
-  aurasWithData,
-  stash
+  aurasWithData: AuraType[],
+  stash: StashState,
 ) {
   const schedule = {
     id: null,
@@ -111,13 +113,13 @@ export async function compareSVwithWago(
   for (const foundAura of fileAuraData) {
     const { slug } = foundAura;
 
-    const existingAura = auras.find((aura) => aura.slug === slug);
+    const existingAura = auras.find(aura => aura.slug === slug);
 
     if (!existingAura) {
       // new "slug" found, add it to the list of auras
       auras.push(foundAura);
     } else {
-      const innerIndex = auras.findIndex((aura) => aura.slug === slug);
+      const innerIndex = auras.findIndex(aura => aura.slug === slug);
 
       if (innerIndex !== -1 && typeof existingAura.ids === "undefined") {
         existingAura.ids = [];
@@ -132,12 +134,12 @@ export async function compareSVwithWago(
       }
 
       // add aura id to "ids" if necessary
-      if (existingAura.ids.indexOf(foundAura.id) === -1) {
+      if (!existingAura.ids.includes(foundAura.id)) {
         existingAura.ids.push(foundAura.id);
       }
 
       // add aura uid to "uids" if necessary
-      if (foundAura.uid && existingAura.uids.indexOf(foundAura.uid) === -1) {
+      if (foundAura.uid && !existingAura.uids.includes(foundAura.uid)) {
         existingAura.uids.push(foundAura.uid);
       }
 
@@ -165,7 +167,7 @@ export async function compareSVwithWago(
   }
 
   // remove orphans
-  auras = auras.filter((aura) => slugs.includes(aura.slug));
+  auras = auras.filter(aura => slugs.includes(aura.slug));
 
   // Get each encoded string
   const promisesWagoCallsComplete = [];
@@ -177,11 +179,11 @@ export async function compareSVwithWago(
     // Make a list of unique auras to fetch
     const fetchAuras = auras
       .filter(
-        (aura) =>
-          !(config.ignoreOwnAuras && !!aura.author && aura.author === config.wagoUsername) &&
-          aura.addonConfig.addonName === config.addonName
+        aura =>
+          !(config.ignoreOwnAuras && !!aura.author && aura.author === config.wagoUsername)
+          && aura.addonConfig.addonName === config.addonName,
       )
-      .map((aura) => aura.slug);
+      .map(aura => aura.slug);
 
     // Test if list is empty
     if (fetchAuras.length === 0) {
@@ -218,16 +220,16 @@ export async function compareSVwithWago(
                 auras[index].source = "Wago";
 
                 if (
-                  !aura.ignoreWagoUpdate &&
-                  wagoData.version > aura.version &&
-                  (aura.wagoVersion === null || wagoData.version > aura.wagoVersion) &&
-                  !(config.ignoreOwnAuras && wagoData.username === config.wagoUsername)
+                  !aura.ignoreWagoUpdate
+                  && wagoData.version > aura.version
+                  && (aura.wagoVersion === null || wagoData.version > aura.wagoVersion)
+                  && !(config.ignoreOwnAuras && wagoData.username === config.wagoUsername)
                 ) {
                   promisesWagoDataCallsComplete.push(
                     got(`https://data.wago.io/api/raw/encoded?id=${wagoData._id}`, {
                       ...getGotOptions,
                       responseType: "text",
-                    })
+                    }),
                   );
                 }
                 auras[index].wagoVersion = wagoData.version;
@@ -244,7 +246,7 @@ export async function compareSVwithWago(
           }
 
           schedule.id = setTimeout(compareSVwithWago, 1000 * 60 * 30);
-        })
+        }),
     );
   });
 
@@ -291,11 +293,11 @@ export async function compareSVwithWago(
       // catch response error before resolving them with Promise.all
       // by catching them before rejection, we don't exit Promise.all
       // with the first error
-      const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
-        promise.catch((err2) => ({
+      const promisesResolved = promisesWagoDataCallsComplete.map(promise =>
+        promise.catch(err2 => ({
           config: { params: { id: err2.config.params.id } },
           status: err2.response.status,
-        }))
+        })),
       );
 
       // resolving all wago encoded strings answers simultaneously
@@ -337,7 +339,7 @@ export async function compareSVwithWago(
         })
         .then(() => {
           allAurasFetched.forEach((toFetch) => {
-            if (received.indexOf(toFetch) === -1) {
+            if (!received.includes(toFetch)) {
               // No data received for this aura => remove from list
               auras.forEach((aura, index) => {
                 if (aura && aura.slug === toFetch) {

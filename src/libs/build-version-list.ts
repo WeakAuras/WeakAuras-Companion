@@ -1,7 +1,7 @@
-import { ConfigState, Version } from "@/stores/config";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import { i18n } from "./i18n";
+import type { ConfigState, Version } from "@/stores/config";
 
 export function buildVersionList(config: ConfigState, versionOptions, accountOptions) {
   const addVersion = function (versionDir: string) {
@@ -62,7 +62,7 @@ export function buildVersionList(config: ConfigState, versionOptions, accountOpt
       const files = fs.readdirSync(wowpath);
 
       files
-        .filter((versionDir) => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowpath, versionDir)).isDirectory())
+        .filter(versionDir => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowpath, versionDir)).isDirectory())
         .forEach((versionDir) => {
           const accountFolder = path.join(wowpath, versionDir, "WTF", "Account");
 
@@ -74,7 +74,7 @@ export function buildVersionList(config: ConfigState, versionOptions, accountOpt
               addVersion(versionDir);
             }
 
-            const label = versionLabels.find((versionLabel) => versionLabel.value === versionDir);
+            const label = versionLabels.find(versionLabel => versionLabel.value === versionDir);
 
             versionOptions.push({
               value: versionDir,

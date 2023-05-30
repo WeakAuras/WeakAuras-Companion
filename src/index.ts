@@ -1,9 +1,9 @@
+import { ipcRenderer } from "electron";
 import FloatingVue from "floating-vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
 import { createApp } from "vue";
 import App from "./App.vue";
-import { ipcRenderer } from "electron";
 import { i18n } from "./libs/i18n";
 
 async function getStore(key) {
@@ -35,7 +35,7 @@ async function deleteStore(key) {
           return deleteStore(key);
         },
       },
-    })
+    }),
   );
 
   app.use(pinia);

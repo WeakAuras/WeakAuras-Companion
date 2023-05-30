@@ -1,17 +1,16 @@
 <template>
   <div id="StopMotionSettings">
-    <div
-      v-if="!gif.tenor"
-      class="config-row"
-    >
+    <div v-if="!gif.tenor" class="config-row">
       <div class="config-row-item">
         <div class="title">
           {{ $t("app.stopmotion.fileinformation" /* File Information */) }}
         </div>
         <div class="block">
-          {{ $t("app.stopmotion.name" /* Name */) }}: {{ gif.meta.name }}<br />
-          {{ $t("app.stopmotion.size" /* Size */) }}: {{ gif.meta.width }}px x {{ gif.meta.height }}px<br />
-          {{ $t("app.stopmotion.frames" /* Frames */) }}: {{ gif.meta.frames }}<br />
+          {{ $t("app.stopmotion.name" /* Name */) }}: {{ gif.meta.name }}<br>
+          {{ $t("app.stopmotion.size" /* Size */) }}: {{ gif.meta.width }}px x
+          {{ gif.meta.height }}px<br>
+          {{ $t("app.stopmotion.frames" /* Frames */) }}: {{ gif.meta.frames
+          }}<br>
         </div>
       </div>
       <div class="config-row-item">
@@ -33,36 +32,41 @@
           {{ $t("app.stopmotion.output.settings" /* Output Settings */) }}
         </div>
         <div class="block">
-          <label for="scaling">{{ $t("app.stopmotion.scaling" /* Scaling */) }}</label>
+          <label for="scaling">{{
+            $t("app.stopmotion.scaling" /* Scaling */)
+          }}</label>
           <input
-            type="range"
             id="scaling"
+            v-model="gif.settings.scaling"
+            type="range"
             name="scaling"
             min="0.1"
             max="1"
-            v-model="gif.settings.scaling"
             step="0.01"
-          />
+          >
           {{ Math.round(gif.settings.scaling * 100) }}%
-          <br />
-          <checkbox v-model="gif.settings.coalesce">{{
-            $t("app.stopmotion.coalesce" /* Coalesce (movie animation) */)
-          }}</checkbox>
-          <checkbox v-model="gif.settings.skips">{{ $t("app.stopmotion.skipframes" /* Skip Frames */) }}</checkbox>
+          <br>
+          <Checkbox v-model="gif.settings.coalesce">
+            {{ $t("app.stopmotion.coalesce" /* Coalesce (movie animation) */) }}
+          </Checkbox>
+          <Checkbox v-model="gif.settings.skips">
+            {{ $t("app.stopmotion.skipframes" /* Skip Frames */) }}
+          </Checkbox>
           <span v-if="gif.settings.skips">
-            <label for="skips_value">{{ $t("app.stopmotion.skipevery" /* Skip every */) }}</label>
+            <label for="skips_value">{{
+              $t("app.stopmotion.skipevery" /* Skip every */)
+            }}</label>
             <input
-              type="range"
               id="skips_value"
+              v-model="gif.settings.skips_value"
+              type="range"
               name="skips_value"
               min="2"
               max="10"
-              v-model="gif.settings.skips_value"
               step="1"
-            />
-            <label for="skips_value"
-              >{{ gif.settings.skips_value }} {{ $t("app.stopmotion.frames" /* frames */) }}</label
             >
+            <label for="skips_value">{{ gif.settings.skips_value }}
+              {{ $t("app.stopmotion.frames" /* frames */) }}</label>
           </span>
         </div>
       </div>
@@ -72,30 +76,29 @@
         </div>
         <div class="block">
           <div>
-            {{ $t("app.stopmotion.row.columns" /* Rows x Columns */) }}: {{ result.rows }} x {{ result.cols }}<br />
+            {{ $t("app.stopmotion.row.columns" /* Rows x Columns */) }}:
+            {{ result.rows }} x {{ result.cols }}<br>
             {{ $t("app.stopmotion.frame.size" /* Frame Size */) }}:
             {{ Math.floor(gif.meta.width * gif.settings.scaling) }}px x
-            {{ Math.floor(gif.meta.height * gif.settings.scaling) }}px<br />
-            {{ $t("app.stopmotion.output.size" /* Output Size */) }}: {{ result.width }}px x {{ result.height }}px<br />
-            {{ $t("app.stopmotion.Frames" /* Frames */) }}: {{ result.frames }}<br /><br />
+            {{ Math.floor(gif.meta.height * gif.settings.scaling) }}px<br>
+            {{ $t("app.stopmotion.output.size" /* Output Size */) }}:
+            {{ result.width }}px x {{ result.height }}px<br>
+            {{ $t("app.stopmotion.Frames" /* Frames */) }}: {{ result.frames
+            }}<br><br>
             {{ $t("app.stopmotion.size" /* Size */) }}:
             <span
               :class="{
                 oversize: result.size / 1024 > 16,
                 goodsize: result.size / 1024 <= 8,
               }"
-              >{{ result.size / 1024 }}</span
-            >
+            >{{ result.size / 1024 }}</span>
             <span v:if="result.size > 0">MB</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      v-if="gif.tenor"
-      class="setting-destination-dropdown"
-    >
+    <div v-if="gif.tenor" class="setting-destination-dropdown">
       <Dropdown
         v-model:value="gif.settings.wowVersion"
         :options="wowVersions"
@@ -106,47 +109,52 @@
       <UIButton
         v-if="result.size / 1024 <= 16"
         :class="{ spin: result.computing }"
-        @click="generate()"
         type="refresh"
+        @click="generate()"
       >
         <i class="material-icons sync">sync</i>
-        <span>{{ $t("app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */) }}</span>
+        <span>{{
+          $t(
+            "app.stopmotion.generatestopMotionanimation", /* Generate StopMotion Animation */
+          )
+        }}</span>
       </UIButton>
       <UIButton
         v-if="result.size / 1024 > 16"
         :class="{ spin: result.computing }"
-        @click="generate()"
         type="issue"
+        @click="generate()"
       >
-        <i
-          class="material-icons error"
-          v-if="result.size / 1024 > 16"
-          >error_outline</i
-        >
-        <span>{{ $t("app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */) }}</span>
+        <i v-if="result.size / 1024 > 16" class="material-icons error">error_outline</i>
+        <span>{{
+          $t(
+            "app.stopmotion.generatestopMotionanimation", /* Generate StopMotion Animation */
+          )
+        }}</span>
       </UIButton>
     </div>
   </div>
 </template>
 
 <script>
+import path from "node:path";
 import { defineComponent } from "vue";
+import { useConfigStore } from "../../stores/config";
+import { useStopMotionStore } from "../../stores/stopmotion";
 import UIButton from "./UIButton.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import gif2tga from "@/libs/gif2tga";
-import path from "path";
-import { useConfigStore } from "../../stores/config";
-import { useStopMotionStore } from "../../stores/stopmotion";
 
 export default defineComponent({
   name: "StopMotionSettings",
-  props: ["wowVersions"],
   components: {
     UIButton,
     Checkbox,
     Dropdown,
   },
+  props: ["wowVersions"],
+  emits: ["next"],
   setup() {
     const config = useConfigStore();
     const { gif, result } = useStopMotionStore();
@@ -157,14 +165,6 @@ export default defineComponent({
       result,
     };
   },
-  mounted() {
-    if (this.gif.tenor) {
-      this.gif.settings.coalesce = true;
-    }
-
-    this.auto_scaling();
-    this.calc();
-  },
   watch: {
     gif: {
       handler() {
@@ -172,9 +172,17 @@ export default defineComponent({
       },
       deep: true,
     },
-    "gif.settings.wowVersion"() {
+    "gif.settings.wowVersion": function () {
       this.config.wowpath.version = this.gif.settings.wowVersion;
     },
+  },
+  mounted() {
+    if (this.gif.tenor) {
+      this.gif.settings.coalesce = true;
+    }
+
+    this.auto_scaling();
+    this.calc();
   },
   methods: {
     auto_scaling() {
@@ -200,7 +208,7 @@ export default defineComponent({
     },
     calc() {
       try {
-        let info = gif2tga.calculateFileSize(
+        const info = gif2tga.calculateFileSize(
           this.gif.meta.width,
           this.gif.meta.height,
           this.gif.meta.frames,
@@ -215,10 +223,14 @@ export default defineComponent({
         this.result.height = info.height;
         this.result.frames = info.frames;
         this.result.size = info.size;
-        let frameWidth = Math.floor(this.gif.meta.width * this.gif.settings.scaling);
-        let frameHeight = Math.floor(this.gif.meta.height * this.gif.settings.scaling);
-        let prefix = path.parse(this.gif.meta.name).name;
-        let filename = `${prefix}.x${info.rows}y${info.cols}f${info.frames}w${frameWidth}h${frameHeight}W${info.width}H${info.height}.tga`;
+        const frameWidth = Math.floor(
+          this.gif.meta.width * this.gif.settings.scaling
+        );
+        const frameHeight = Math.floor(
+          this.gif.meta.height * this.gif.settings.scaling
+        );
+        const prefix = path.parse(this.gif.meta.name).name;
+        const filename = `${prefix}.x${info.rows}y${info.cols}f${info.frames}w${frameWidth}h${frameHeight}W${info.width}H${info.height}.tga`;
 
         this.result.destination = path.join(
           this.config.wowpath.value,
@@ -233,12 +245,13 @@ export default defineComponent({
         this.result.computing = false;
       } catch (e) {
         console.log(JSON.stringify(e));
-        alert("error");
       }
     },
     async generate() {
       if (this.result.size / 1024 > 16) {
-        alert("File will be too big with this settings, reduce scaling and/or skip frames");
+        console.error(
+          "File will be too big with this settings, reduce scaling and/or skip frames"
+        );
       } else {
         this.result.computing = true;
 
@@ -267,7 +280,7 @@ export default defineComponent({
           console.log(JSON.stringify(e));
           this.result.computing = false;
           this.result.fileCreated = false;
-          alert("error");
+          console.error("error");
         }
       }
     },

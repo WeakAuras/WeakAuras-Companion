@@ -1,43 +1,44 @@
 <template>
   <div id="StopMotionWelcome">
     <div class="stuff">
-      <file-select
+      <FileSelect
         :create-directory="false"
-        :openFile="true"
+        :open-file="true"
         :dragndrop="true"
         :filters="[{ name: 'Animation', extensions: ['gif'] }]"
         class="fileinput"
         @update:path="update"
       >
-        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}<br /><br />
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i
-        ><br /><br />
-        <UIButton class="btn-ok">{{ $t("stopmotion.select.computer" /* Choose one on your Computer */) }}</UIButton
-        ><br /><br /> </file-select
-      ><br />
+        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}<br><br>
+        <i>{{ $t("stopmotion.select.or" /* or */) }}</i><br><br>
+        <UIButton class="btn-ok">
+          {{ $t("stopmotion.select.computer" /* Choose one on your Computer */) }}
+        </UIButton><br><br>
+      </FileSelect><br>
       <div class="tenorblock">
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i
-        ><br /><br />
-        <discord-picker
+        <i>{{ $t("stopmotion.select.or" /* or */) }}</i><br><br>
+        <DiscordPicker
+          :api-key="apiKey"
           @gif="setTenor"
-          :apiKey="apiKey"
         >
-          <UIButton class="btn-ok">{{ $t("stopmotion.select.tenor" /* Choose one from Tenor */) }}</UIButton>
-        </discord-picker>
+          <UIButton class="btn-ok">
+            {{ $t("stopmotion.select.tenor" /* Choose one from Tenor */) }}
+          </UIButton>
+        </DiscordPicker>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="js">
-import gif2tga from "@/libs/gif2tga";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import { defineComponent } from "vue";
 import { useStopMotionStore } from "../../stores/stopmotion";
 import DiscordPicker from "./DiscordPicker.vue";
 import FileSelect from "./FileSelect.vue";
 import UIButton from "./UIButton.vue";
+import gif2tga from "@/libs/gif2tga";
 
 export default defineComponent({
   name: "StopMotionWelcome",
@@ -46,6 +47,7 @@ export default defineComponent({
     UIButton,
     DiscordPicker,
   },
+  emits: ["next"],
   setup() {
     const { gif } = useStopMotionStore();
     return {

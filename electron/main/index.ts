@@ -1,8 +1,8 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage, Notification, protocol, shell, Tray } from "electron";
+import { BrowserWindow, Menu, Notification, Tray, app, dialog, ipcMain, nativeImage, protocol, shell } from "electron";
+import { join } from "node:path";
 import log from "electron-log";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
-import { join } from "node:path";
 
 process.env.DIST_ELECTRON = join(__dirname, "..");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
@@ -13,7 +13,7 @@ const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
 
-process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
@@ -38,7 +38,7 @@ autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
 autoUpdater.logger = log;
-//@ts-ignore
+// @ts-expect-error Weird stuff here
 autoUpdater.logger.transports.file.level = "info";
 log.initialize({ preload: true });
 log.info("App starting...");
@@ -385,6 +385,7 @@ autoUpdater.on("update-available", (info) => {
   if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-available", info);
   }
+  let installNagAlreadyShown;
 
   if (!installNagAlreadyShown) {
     new Notification({
@@ -418,30 +419,12 @@ autoUpdater.on("download-progress", (progressObj) => {
   }
 });
 
-let installNagAlreadyShown = false;
+const installNagAlreadyShown = false;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-autoUpdater.on("update-downloaded", (info) => {
-  if (!installNagAlreadyShown) {
-    if (mainWindow?.webContents) {
-      mainWindow?.webContents.send("updaterHandler", "update-downloaded");
-      mainWindow?.setProgressBar(-1);
-    }
-
-    /*
-    if (store.get("config").autoupdate === true) {
-      autoUpdater.quitAndInstall();
-    } else {
-      new Notification({
-        title: "A new update is ready to install",
-        body: `WeakAuras Companion ${info.version} has been downloaded and will be automatically installed when you close the app.`,
-        icon: path.join(publicdir, process.platform === "win32" ? "bigicon.png" : "icon.png"),
-      }).show();
-
-      // show install nag only once
-      installNagAlreadyShown = true;
-    }
-    */
+autoUpdater.on("update-downloaded", () => {
+  if (!installNagAlreadyShown && mainWindow?.webContents) {
+    mainWindow?.webContents.send("updaterHandler", "update-downloaded");
+    mainWindow?.setProgressBar(-1);
   }
 });
 

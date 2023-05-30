@@ -69,7 +69,7 @@
             src="/social-icons/curse.svg"
             class="logo"
             title="CurseForge"
-          />
+          >
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
       </span>
@@ -123,6 +123,13 @@ export default defineComponent({
       lastUpdateTimer: null,
     };
   },
+  computed: {
+    fromNow() {
+      if (!this.lastUpdate)
+        return "n/a";
+      return DateTime.fromJSDate(this.lastUpdate).toRelative({ locale: this.$i18n.locale });
+    },
+  },
   watch: {
     fetching() {
       this.scheduleTimer();
@@ -136,17 +143,12 @@ export default defineComponent({
       return DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() > 30000;
     },
     scheduleTimer() {
-      if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
+      if (this.lastUpdateTimer)
+        clearInterval(this.lastUpdateTimer);
 
       this.lastUpdateTimer = setInterval(() => {
         this.$forceUpdate();
       }, 1000 * 60);
-    },
-  },
-  computed: {
-    fromNow() {
-      if (!this.lastUpdate) return "n/a";
-      return DateTime.fromJSDate(this.lastUpdate).toRelative({ locale: this.$i18n.locale });
     },
   },
   mount() {

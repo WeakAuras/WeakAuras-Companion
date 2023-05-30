@@ -1,5 +1,9 @@
 {
-  "extends": ["plugin:@typescript-eslint/recommended", "plugin:vue/vue3-essential", "prettier"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/vue3-essential",
+    "@antfu"
+  ],
   "ignorePatterns": [
     "dist",
     "node_modules",
@@ -10,9 +14,39 @@
     "tools/**/*.js"
   ],
   "rules": {
-    "linebreak-style": "off",
+    "curly": "off",
     "no-console": "off",
-    "quotes": [
+    "no-mixed-operators": "off",
+    "quote-props": "off",
+    "padding-line-between-statements": [
+      "warn",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": [
+          "block",
+          "multiline-block-like",
+          "if",
+          "function",
+          "multiline-expression"
+        ]
+      }
+    ],
+    "n/prefer-global/buffer": "off",
+    "@typescript-eslint/brace-style": "off",
+    "@typescript-eslint/comma-dangle": [
+      "error",
+      "only-multiline",
+      {
+        "functions": "never"
+      }
+    ],
+    "@typescript-eslint/delimiter-style": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-implicit-any": "off",
+    "@typescript-eslint/quotes": [
       "error",
       "double",
       {
@@ -20,35 +54,31 @@
         "allowTemplateLiterals": false
       }
     ],
-    "vue/require-prop-types": "off",
-    "vue/no-mutating-props": "off",
-    "vue/no-v-html": "off",
-    "vue/experimental-script-setup-vars": "off",
-    "padding-line-between-statements": [
-      "warn",
-      {
-        "blankLine": "always",
-        "prev": "*",
-        "next": ["block", "multiline-block-like", "if", "function", "multiline-expression"]
-      }
+    "@typescript-eslint/semi": [
+      "error",
+      "always"
     ],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-implicit-any": "off",
-    "@typescript-eslint/no-floating-promises": "off",
-    "@typescript-eslint/no-unsafe-assignment": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "vue/multi-word-component-names": "off",
-    "vue/no-v-text-v-html-on-component": "off"
+    "vue/comma-dangle": "off",
+    "vue/component-tags-order": "off",
+    "vue/experimental-script-setup-vars": "off",
+    "vue/multi-word-component-names": "off"
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "ecmaVersion": "latest"
   },
-  "plugins": ["prettier", "vue", "@typescript-eslint"],
+  "plugins": [
+    "vue",
+    "@typescript-eslint"
+  ],
   "settings": {
-    "import/core-modules": ["electron"],
-    "import/resolver": "vite"
+    "import/core-modules": [
+      "electron"
+    ],
+    "import/resolver": {
+      "vite": {
+        "configPath": "./vite.config.ts"
+      }
+    }
   }
 }

@@ -1,7 +1,8 @@
-import { StashStore } from "@/stores/auras";
-import { ConfigState, Version } from "@/stores/config";
-import got, { Response } from "got";
+import type { Response } from "got";
+import got from "got";
 import hash from "./hash";
+import type { StashStore } from "@/stores/auras";
+import type { ConfigState, Version } from "@/stores/config";
 
 interface WagoApiResponse {
   data: string;
@@ -11,7 +12,7 @@ interface WagoApiResponse {
 }
 
 export async function wagoPushHandler(config: ConfigState, slug, stash: StashStore, versionSelected: Version) {
-  const existingAuraIndex = stash.auras.findIndex((aura) => aura.slug === slug);
+  const existingAuraIndex = stash.auras.findIndex(aura => aura.slug === slug);
 
   const getAccountHash = function () {
     if (versionSelected) {

@@ -3,48 +3,45 @@
     <img
       :src="preview"
       class="preview"
-    />
-    <br />
+    >
+    <br>
     <p class="center-text">
       {{ $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */) }}
       <span
-        class="material-icons minihelp"
         v-tooltip="{
           content: rfiTooltip,
           html: true,
           strategy: 'fixed',
           theme: 'info-tooltip',
         }"
-        >help</span
-      >
-      <br /><br />
+        class="material-icons minihelp"
+      >help</span>
+      <br><br>
       <span class="glow">{{ $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */) }}</span>
     </p>
-    <br />
+    <br>
     <p class="filename">
       <a
         class="explorer"
-        @click="openDestDir()"
         :title="$t('app.config.backup.openfolder' /* Open Folder */)"
-        >{{ resultFolder }}</a
-      >
+        @click="openDestDir()"
+      >{{ resultFolder }}</a>
       <a
         class="explorer"
-        @click="openDestFile()"
         :title="$t('app.config.backup.openfile' /* Open File */)"
-        >{{ resultFile }}</a
-      >
+        @click="openDestFile()"
+      >{{ resultFile }}</a>
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { StopMotionTemplate, deflate, encode, generateUniqueID, serialize } from "@/libs/stopmotion";
 import { shell } from "electron";
-import path from "path";
+import path from "node:path";
 import { defineComponent } from "vue";
 import { useStashStore } from "../../stores/auras";
 import { useStopMotionStore } from "../../stores/stopmotion";
+import { StopMotionTemplate, deflate, encode, generateUniqueID, serialize } from "@/libs/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
@@ -57,24 +54,10 @@ export default defineComponent({
       stash,
     };
   },
-  mounted() {
-    this.stash.add({
-      slug: "StopMotion " + this.gif.meta.name,
-      name: "StopMotion " + this.gif.meta.name,
-      author: "WeakAuras Companion",
-      wagoVersion: 1,
-      wagoSemver: "1.0.0",
-      auraType: "WeakAuras",
-      source: "WeakAuras Companion",
-      encoded: this.weakauras_string,
-      logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
-    });
-    console.log(`added to stash ${this.gif.meta.name}`);
-  },
   computed: {
     weakauras_string() {
       const SMtemplate = Object.assign({}, StopMotionTemplate);
-      SMtemplate.d.id = "StopMotion " + this.gif.meta.name;
+      SMtemplate.d.id = `StopMotion ${this.gif.meta.name}`;
       SMtemplate.d.foregroundTexture = this.stopMotionInput;
       SMtemplate.d.backgroundTexture = this.stopMotionInput;
       SMtemplate.d.uid = generateUniqueID();
@@ -87,7 +70,7 @@ export default defineComponent({
       const serialized = serialize(SMtemplate);
       const compressed = deflate(serialized);
       const encoded = encode(compressed);
-      return "!WA:1!" + encoded;
+      return `!WA:1!${encoded}`;
     },
     stopMotionInput() {
       return path.join(
@@ -95,7 +78,7 @@ export default defineComponent({
         "AddOns",
         "WeakAurasCompanion",
         "animations",
-        path.parse(this.result.destination).base
+        path.parse(this.result.destination).base,
       );
     },
     resultFolder() {
@@ -105,8 +88,22 @@ export default defineComponent({
       return path.parse(this.result.destination).base;
     },
     preview() {
-      return "data:image/png;base64, " + this.result.preview;
+      return `data:image/png;base64, ${this.result.preview}`;
     },
+  },
+  mounted() {
+    this.stash.add({
+      slug: `StopMotion ${this.gif.meta.name}`,
+      name: `StopMotion ${this.gif.meta.name}`,
+      author: "WeakAuras Companion",
+      wagoVersion: 1,
+      wagoSemver: "1.0.0",
+      auraType: "WeakAuras",
+      source: "WeakAuras Companion",
+      encoded: this.weakauras_string,
+      logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
+    });
+    console.log(`added to stash ${this.gif.meta.name}`);
   },
   methods: {
     openDestDir() {

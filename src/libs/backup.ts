@@ -9,10 +9,11 @@ export function backup(config, addonsInstalled) {
       addonsInstalled.forEach((addon) => {
         let lastSavedFileSize = null;
 
-        if (typeof account.savedvariableSizeForAddon === "undefined") account.savedvariableSizeForAddon = [];
+        if (typeof account.savedvariableSizeForAddon === "undefined")
+          account.savedvariableSizeForAddon = [];
 
         const savedData = account.savedvariableSizeForAddon.find(
-          (savedAddon) => savedAddon.addonName === addon.addonName
+          savedAddon => savedAddon.addonName === addon.addonName,
         );
 
         if (savedData) {
@@ -29,12 +30,12 @@ export function backup(config, addonsInstalled) {
               savedData.fileSize = fileSize;
             } else {
               account.savedvariableSizeForAddon.push({
-                fileSize: fileSize,
+                fileSize,
                 addonName: addon.addonName,
               });
             }
           },
-          addon.addonName
+          addon.addonName,
         );
       });
     });
@@ -45,8 +46,8 @@ function deleteOldFiles(dirPath: string, accountName: string, addonName: string,
   const regex = new RegExp(`^${addonName}-${accountName}-[0-9.]+.zip$`);
   const files = fs
     .readdirSync(dirPath)
-    .filter((v) => v?.match(regex))
-    .map((v) => ({
+    .filter(v => v?.match(regex))
+    .map(v => ({
       name: v,
       stats: fs.statSync(path.join(dirPath, v)),
     }))
@@ -62,7 +63,8 @@ function deleteOldFiles(dirPath: string, accountName: string, addonName: string,
       console.log(`Deleted backup files ${path.join(dirPath, v.name)}`);
 
       fs.unlink(path.join(dirPath, v.name), (err) => {
-        if (err) throw err;
+        if (err)
+          throw err;
       });
     });
   }
@@ -74,7 +76,7 @@ function backupIfRequired(fileName, config, previousSize, accountName, callback,
 
     if (stats.size !== previousSize) {
       const date = DateTime.fromMillis(stats.mtimeMs).toFormat(
-        "yLLddHHmmss" // "YYYYMMDDHHmmss"
+        "yLLddHHmmss", // "YYYYMMDDHHmmss"
       );
       const zipFile = `${addonName}-${accountName}-${date}.zip`;
       const fileContents = fs.createReadStream(fileName);
@@ -106,7 +108,7 @@ function backupIfRequired(fileName, config, previousSize, accountName, callback,
 
       archive.append(
         "If you want to restore this backup, close WoW first, then move the WeakAuras.lua file into your saved variables folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",
-        { name: "README.txt" }
+        { name: "README.txt" },
       );
       archive.finalize();
     }

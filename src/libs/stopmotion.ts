@@ -3,7 +3,8 @@
 // EncodeForPrint forked from https://github.com/LetsTimeIt/mdt-compression under GPL-3.0 license
 // this version was fixed by Vardex
 
-import zlib from "zlib";
+import zlib from "node:zlib";
+import { Buffer } from "node:buffer";
 
 const StopMotionTemplate = {
   d: {
@@ -246,7 +247,9 @@ const deflate = function (input: zlib.InputType) {
   return zlib.deflateRawSync(input, { level: 9 });
 };
 
-const encode = function (input: ArrayBuffer | Buffer | { valueOf(): ArrayBuffer | SharedArrayBuffer }) {
+const encode = function (
+  input: ArrayBuffer | Buffer | { valueOf(): ArrayBuffer | SharedArrayBuffer },
+) {
   return EncodeForPrint(Buffer.from(input));
 };
 
@@ -259,11 +262,12 @@ const serializationMapping: SerializationMapping = [
   [/\s/g, "~`"],
 ];
 
-const replaceNonASCIICharacters = (inputString: string): string => {
+function replaceNonASCIICharacters(inputString: string): string {
+  // eslint-disable-next-line no-control-regex
   return inputString.replace(/[^\x00-\x7F]/g, "?");
-};
+}
 
-const applySerializationMapping = (inputString: string): string => {
+function applySerializationMapping(inputString: string): string {
   let result = inputString;
 
   for (const [search, replace] of serializationMapping) {
@@ -271,13 +275,15 @@ const applySerializationMapping = (inputString: string): string => {
   }
 
   return result;
-};
+}
 
-const serializeValue = (value: any, serializedArray: string[]): void => {
+function serializeValue(value: any, serializedArray: string[]): void {
   const valueType = typeof value;
 
   if (valueType === "string") {
-    const processedValue = applySerializationMapping(replaceNonASCIICharacters(value));
+    const processedValue = applySerializationMapping(
+      replaceNonASCIICharacters(value),
+    );
     serializedArray.push("^S", processedValue);
   } else if (valueType === "number") {
     serializedArray.push(`^N${value}`);
@@ -296,20 +302,20 @@ const serializeValue = (value: any, serializedArray: string[]): void => {
   } else {
     console.log(`Cannot serialize a value of type "${valueType}"`);
   }
-};
+}
 
-const serialize = (input: any): string => {
+function serialize(input: any): string {
   const serializedArray: string[] = ["^1"];
   serializeValue(input, serializedArray);
-  return serializedArray.join("") + "^^";
-};
+  return `${serializedArray.join("")}^^`;
+}
 
-const getRandomInt = (min: number, max: number): number => {
+function getRandomInt(min: number, max: number): number {
   const range = max - min + 1;
   return Math.floor(Math.random() * range) + min;
-};
+}
 
-const generateUniqueID = (): string => {
+function generateUniqueID(): string {
   const uid: string[] = new Array(11);
   const tableLen = mappingTable.length;
 
@@ -318,6 +324,6 @@ const generateUniqueID = (): string => {
   }
 
   return uid.join("");
-};
+}
 
 export { StopMotionTemplate, serialize, deflate, encode, generateUniqueID };

@@ -1,11 +1,11 @@
-const bbcode = (str) => {
+function bbcode(str) {
   let output = str || "";
 
   output = output.replace(/\[(?:[\w]+)(?:=[\w\d.,\\/"'#,-]*)*?(?: *[\w\d]+=.+)*?\](?:.*?)\[\/\1\]|\[\[/gi, "$2");
   return output;
-};
+}
 
-const markdown = (str) => {
+function markdown(str) {
   // https://github.com/stiang/remove-markdown/blob/master/index.js
   let output = str || "";
 
@@ -38,6 +38,6 @@ const markdown = (str) => {
     .replace(/\n{2,}/g, "\n\n")
     .replace(/\[\[/g, "\\[[");
   return output;
-};
+}
 
 export default { bbcode, markdown };

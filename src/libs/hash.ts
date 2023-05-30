@@ -1,4 +1,4 @@
-const hashFnv32a = (str: string, asString: boolean, seed = 0x811c9dc5): string | number => {
+function hashFnv32a(str: string, asString: boolean, seed = 0x811C9DC5): string | number {
   // Calculate a 32 bit FNV-1a hash
   let hval = seed;
 
@@ -8,10 +8,10 @@ const hashFnv32a = (str: string, asString: boolean, seed = 0x811c9dc5): string |
   }
 
   if (asString) {
-    return `0000000${(hval >>> 0).toString(16)}`.substr(-8);
+    return `0000000${(hval >>> 0).toString(16)}`.substring(-8);
   }
 
   return hval >>> 0;
-};
+}
 
 export default { hashFnv32a };

@@ -5,10 +5,10 @@
         :class="{ invisible: !opened }"
         class="discord-picker"
       >
-        <gif-picker
+        <GifPicker
           v-if="opened"
           :api-key="apiKey"
-          @send="({ url, title, tenorID }) => this.send(url, title, tenorID)"
+          @send="({ url, title, tenorID }) => send(url, title, tenorID)"
         />
       </div>
       <div class="mt4">
@@ -24,15 +24,14 @@
 
 <script lang="js">
 import { defineComponent } from "vue";
-import clickOutside from "@/libs/click-outside";
 import GifPicker from "./GifPicker.vue";
+import clickOutside from "@/libs/click-outside";
 
 export default defineComponent({
   components: { GifPicker },
   directives: {
     clickOutside,
   },
-  emits: ["gif"],
   props: {
     value: {
       type: [String, Number],
@@ -42,6 +41,7 @@ export default defineComponent({
       type: String,
     },
   },
+  emits: ["gif"],
   data() {
     return {
       opened: false,
@@ -54,7 +54,7 @@ export default defineComponent({
       }
     },
     send(url, title, tenorID) {
-      //console.log(`send() ${url}`)
+      // console.log(`send() ${url}`)
       this.$emit("gif", url, title, tenorID);
     },
     open() {

@@ -1,8 +1,8 @@
-export const getTranslationsFromString = (content: string): RegExpMatchArray | string[] => {
+export function getTranslationsFromString(content: string): RegExpMatchArray | string[] {
   return content.match(/\$tc?\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) || [];
-};
+}
 
-export const sanitizeMessage = (message: string): string => {
+export function sanitizeMessage(message: string): string {
   const replacements: Array<{ from: string | RegExp; to: string }> = [
     { from: /\s\s+/g, to: " " },
     { from: "/*", to: "" },
@@ -17,9 +17,9 @@ export const sanitizeMessage = (message: string): string => {
   });
 
   return message.trim();
-};
+}
 
-export const getTranslationObject = (matches: string[]): any => {
+export function getTranslationObject(matches: string[]): any {
   const translations: any = {};
 
   matches.forEach((translation: string): void => {
@@ -33,4 +33,4 @@ export const getTranslationObject = (matches: string[]): any => {
   });
 
   return translations;
-};
+}

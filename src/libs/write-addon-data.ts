@@ -1,11 +1,11 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 import { backup } from "@/libs/backup";
 import { grabVersionFromToc } from "@/libs/grab-wa-version";
 import sanitize from "@/libs/sanitize";
 import { matchFolderNameInsensitive } from "@/libs/utilities";
-import { ConfigState } from "@/stores/config";
+import type { ConfigState } from "@/stores/config";
 
 export async function writeAddonData(config: ConfigState, addonsInstalled, aurasWithData, stash) {
   console.log("writeAddonData");
@@ -51,10 +51,10 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
       LuaOutput += `  ${config.addonName} = {\n`;
       spacing = "  ";
 
-      let LuaSlugs = spacing + "  slugs = {\n";
+      let LuaSlugs = `${spacing}  slugs = {\n`;
 
       aurasWithData
-        .filter((aura) => aura.auraType === config.addonName)
+        .filter(aura => aura.auraType === config.addonName)
         .forEach((aura) => {
           LuaSlugs += `${spacing}    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
@@ -76,14 +76,14 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
             LuaSlugs += `${spacing}      versionNote = [=[${sanitized}]=],\n`;
           }
 
-          LuaSlugs += spacing + "    },\n";
+          LuaSlugs += `${spacing}    },\n`;
         });
       LuaOutput += LuaSlugs;
-      LuaOutput += spacing + "  },\n";
-      LuaOutput += spacing + "  stash = {\n";
+      LuaOutput += `${spacing}  },\n`;
+      LuaOutput += `${spacing}  stash = {\n`;
 
       stash.auras
-        .filter((aura) => aura.auraType === config.addonName)
+        .filter(aura => aura.auraType === config.addonName)
         .forEach((aura) => {
           LuaOutput += `${spacing}    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
 
@@ -106,21 +106,21 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
           }
 
           LuaOutput += `${spacing}      source = "${aura.source}",\n`;
-          LuaOutput += spacing + "    },\n";
+          LuaOutput += `${spacing}    },\n`;
         });
 
-      LuaOutput += spacing + "  },\n";
+      LuaOutput += `${spacing}  },\n`;
 
       if (config.addonName === "WeakAuras") {
-        LuaOutput += spacing + "  stopmotionFiles = {\n";
+        LuaOutput += `${spacing}  stopmotionFiles = {\n`;
         const stopmotionFilesPath = path.join(addonFolder, "animations");
 
         if (fs.existsSync(stopmotionFilesPath)) {
-          const regex = new RegExp(/^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/);
+          const regex = /^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/;
 
           fs.readdirSync(stopmotionFilesPath)
-            .filter((v) => v?.match(regex))
-            .map((v) => ({
+            .filter(v => v?.match(regex))
+            .map(v => ({
               filename: v,
               title: v.match(regex)[1],
             }))
@@ -129,7 +129,7 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
             });
         }
 
-        LuaOutput += spacing + "  },\n";
+        LuaOutput += `${spacing}  },\n`;
       }
       LuaOutput += "  },\n";
     });

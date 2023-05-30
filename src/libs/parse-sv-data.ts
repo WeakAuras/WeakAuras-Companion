@@ -21,12 +21,12 @@ export function parseWeakAurasSVdata(WeakAurasSavedData, config) {
   WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
     if (obj.key.value === "displays") {
       obj.value.fields.forEach((obj2) => {
-        let slug;
-        let url;
+        let slug: string;
+        let url: URL;
         let version = 0;
-        let semver;
+        let semver: string;
         let ignoreWagoUpdate = false;
-        let id;
+        let id: number;
         let uid = null;
 
         obj2.value.fields.forEach((obj3) => {
@@ -108,12 +108,12 @@ export function parsePlaterSVdata(PlaterSavedData, config) {
   PlaterSavedData.body[0].init[0].fields.forEach((obj) => {
     if (obj.key.value === "profiles") {
       obj.value.fields.forEach((profile) => {
-        let profslug;
-        let profurl;
+        let profslug: string;
+        let profurl: URL;
         let profversion = 0;
-        let profsemver;
+        let profsemver: string;
         let profignoreWagoUpdate = false;
-        let profid;
+        let profid: number;
 
         profile.value.fields.forEach((profData) => {
           if (!profData.key) {
@@ -148,12 +148,12 @@ export function parsePlaterSVdata(PlaterSavedData, config) {
             const typeSuffix = (keyVal === "hook_data" && "-Mod") || (keyVal === "script_data" && "-Script") || "";
 
             value.fields.forEach((obj2) => {
-              let slug;
-              let url;
+              let slug: string;
+              let url: URL;
               let version = 0;
-              let semver;
+              let semver: string;
               let ignoreWagoUpdate = false;
-              let id;
+              let id: number;
 
               obj2.value.fields.forEach((obj3) => {
                 if (!obj3.key) {

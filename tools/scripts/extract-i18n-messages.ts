@@ -1,9 +1,9 @@
-import * as fs from "fs";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { glob } from "glob";
-import * as path from "path";
 import { getTranslationObject, getTranslationsFromString } from "./Utils";
 
-const run = async (): Promise<void> => {
+async function run(): Promise<void> {
   const files = await glob("./src/components/**/*.vue");
   const basePath: string = path.resolve(process.cwd());
   const packageJSON: any = JSON.parse(fs.readFileSync(path.join(basePath, "package.json")).toString());
@@ -45,6 +45,6 @@ const run = async (): Promise<void> => {
   });
 
   console.info("i18n extraction finished");
-};
+}
 
 run();

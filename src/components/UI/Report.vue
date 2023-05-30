@@ -1,7 +1,6 @@
 <template>
   <div
     id="report"
-    ref="report"
     @click="close"
   >
     <div class="container">
@@ -27,6 +26,7 @@
     </div>
   </div>
 </template>
+
 <script lang="js">
 import { defineComponent } from "vue";
 import UIButton from "./UIButton.vue";
@@ -40,6 +40,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style lang="scss">
 #report {
   width: 100%;
