@@ -67,7 +67,7 @@
                 v-model:value="config.wowpath.version"
                 :options="versionOptions"
                 :label="$t('app.wowpath.version' /* Version */)"
-                @change="compareSVwithWago()"
+                @change="doCompareSVwithWago()"
               />
             </div>
             <div
@@ -78,7 +78,7 @@
                 v-model:value="versionSelected.account"
                 :options="accountOptions"
                 :label="$t('app.wowpath.account' /* Account */)"
-                @change="compareSVwithWago()"
+                @change="doCompareSVwithWago()"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@
           </div>
           <div id="dashboard">
             <RefreshButton
-              @refresh="compareSVwithWago()"
+              @refresh="doCompareSVwithWago()"
               @gotoconfig="configStep = 1"
               :is-settings-ok="config.wowpath.validated"
               :is-version-selected="versionSelected"
@@ -259,16 +259,18 @@
 </template>
 
 <script lang="ts">
+import { ipcRenderer } from "electron";
 import fs from "fs";
-import got, { Response } from "got";
-import luaparse from "luaparse";
 import path from "path";
 import { defineComponent } from "vue";
-import { ipcRenderer } from "electron";
 
+import { buildAccountList } from "@/libs/build-account-list";
+import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
 import contacts from "@/libs/contacts";
+import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
 import hash from "@/libs/hash";
-import { writeAddonData } from "@/libs/write-addon-data";
+import { isAddonInstalled } from "@/libs/is-addon-installed";
+import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
 import {
   createSortByAuthor,
   createSortByString,
@@ -278,15 +280,13 @@ import {
 } from "@/libs/sort";
 import userDataPath from "@/libs/user-data-folder";
 import { wowDefaultPath } from "@/libs/utilities";
-import { WeakAurasSaved, PlaterSaved } from "@/libs/grab-sv-files";
-import { parseWeakAurasSVdata, parsePlaterSVdata } from "@/libs/parse-sv-data";
-import { buildAccountList } from "@/libs/build-account-list";
 import { validateWowPath } from "@/libs/validate-wow-path";
-import { isAddonInstalled } from "@/libs/is-addon-installed";
+import { writeAddonData } from "@/libs/write-addon-data";
 
 import { useStashStore } from "../stores/auras";
 import { Account, AuraType, Version, useConfigStore } from "../stores/config";
 
+import { wagoPushHandler } from "@/libs/wago-push-handler";
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";
@@ -310,12 +310,6 @@ interface WagoMetadata {
   name: string;
   url: string;
   displayName: string;
-}
-
-interface WagoApiResponse {
-  data: string;
-  status: number;
-  [Symbol.iterator](): Iterator<any>;
 }
 
 const weakauras: WeakAurasMetadata[] = contacts.weakauras;
@@ -499,7 +493,7 @@ export default defineComponent({
 
     // refresh on event (tray icon)
     ipcRenderer.on("refreshWago", () => {
-      this.compareSVwithWago();
+      this.doCompareSVwithWago();
     });
 
     ipcRenderer.on("linkHandler", async (_event, link) => {
@@ -514,7 +508,7 @@ export default defineComponent({
         }
 
         if (slug) {
-          await this.wagoPushHandler(slug);
+          await wagoPushHandler(this.config, slug, this.stash, this.versionSelected);
         }
       }
     });
@@ -560,7 +554,7 @@ export default defineComponent({
     });
 
     // check updates
-    setTimeout(this.compareSVwithWago, 3);
+    setTimeout(compareSVwithWago, 3);
 
     // check for app updates in 2 hours
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
@@ -590,14 +584,6 @@ export default defineComponent({
 
       this.updater.scheduleId = setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
     },
-    setFirstAddonInstalledSelected() {
-      if (this.addonsInstalled.length === 0) {
-        return this.addonSelected;
-      }
-
-      this.addonSelected = this.addonsInstalled[0].addonName;
-      return this.addonSelected;
-    },
     getWeakAurasSaved() {
       return WeakAurasSaved(this.config, this.versionSelected, this.accountSelected);
     },
@@ -620,339 +606,18 @@ export default defineComponent({
     reset() {
       this.config.$reset();
     },
-    async wagoPushHandler(slug) {
-      const existingAuraIndex = this.stash.auras.findIndex((aura) => aura.slug === slug);
-
-      if (existingAuraIndex === -1) {
-        try {
-          const response: Response<WagoApiResponse> = await got(`https://data.wago.io/api/check/?ids=${slug}`, {
-            ...this.getGotOptions,
-            responseType: "json",
-          }).json();
-          const data: WagoApiResponse = response.body;
-
-          for (const wagoData of data) {
-            const aura = {
-              slug: wagoData.slug,
-              name: wagoData.name,
-              author: wagoData.username,
-              wagoVersion: wagoData.version,
-              wagoSemver: wagoData.versionString,
-              versionNote: wagoData.changelog,
-              encoded: null,
-              auraType: wagoData.type === "WEAKAURA" ? "WeakAuras" : wagoData.type === "PLATER" ? "Plater" : undefined,
-              wagoid: wagoData._id,
-              source: "Wago",
-            };
-
-            const response2 = await got(`https://data.wago.io/api/raw/encoded?id=${wagoData._id}`, {
-              ...this.getGotOptions,
-              responseType: "text",
-            });
-
-            const data2 = response2.body;
-            aura.encoded = data2;
-            this.stash.add(aura);
-          }
-        } catch (error) {
-          console.log(JSON.stringify(error));
-        }
-      }
-    },
-    async compareSVwithWago() {
-      if (!this.versionSelected || !this.accountSelected) return;
-
-      const addonConfigs = this.addonsInstalled;
-
-      if (this.fetching) return; // prevent spamming UIButton
-      this.fetching = true; // show animation
-
-      if (this.schedule.id) clearTimeout(this.schedule.id); // cancel next 1h schedule
-
-      let fileAuraData = [];
-
-      for (const conf of addonConfigs) {
-        if (!conf.svPathFunction) continue;
-        const svPath = conf.svPathFunction(this.config, this.versionSelected, this.accountSelected);
-
-        if (typeof svPath !== "string") continue;
-
-        try {
-          const data = fs.readFileSync(svPath, "utf-8");
-          // Parse saved data .lua
-          const savedData = luaparse.parse(data, {
-            comments: false,
-            scope: true,
-            locations: true,
-            luaVersion: "5.1",
-          });
-
-          fileAuraData = [...fileAuraData, ...conf.parseFunction(savedData, conf)];
-        } catch (err) {
-          console.log(`Error reading file ${svPath}`);
-          console.log(err);
-          // TODO: UI needs to display something if this fails
-        }
-      }
-
-      // clean up auras
-      const slugs = new Array(fileAuraData.length);
-
-      for (const foundAura of fileAuraData) {
-        const slug = foundAura.slug;
-
-        const existingAura = this.auras.find((aura) => aura.slug === slug);
-
-        if (!existingAura) {
-          // new "slug" found, add it to the list of auras
-          this.auras.push(foundAura);
-        } else {
-          const innerIndex = this.auras.findIndex((aura) => aura.slug === slug);
-
-          if (innerIndex !== -1)
-            if (typeof existingAura.ids === "undefined") {
-              // there is already an aura with the same "slug"
-              existingAura.ids = [];
-            }
-
-          if (typeof existingAura.uids === "undefined") {
-            existingAura.uids = [];
-          }
-
-          if (typeof existingAura.regionType === "undefined") {
-            existingAura.regionType = null;
-          }
-
-          // add aura id to "ids" if necessary
-          if (existingAura.ids.indexOf(foundAura.id) === -1) {
-            existingAura.ids.push(foundAura.id);
-          }
-
-          // add aura uid to "uids" if necessary
-          if (foundAura.uid && existingAura.uids.indexOf(foundAura.uid) === -1) {
-            existingAura.uids.push(foundAura.uid);
-          }
-
-          // update ignore flags
-          existingAura.ignoreWagoUpdate = foundAura.ignoreWagoUpdate;
-
-          // update version
-          existingAura.version = foundAura.version;
-          existingAura.semver = foundAura.semver;
-
-          // wipe encoded if ignored (force re-fetching it on unignore)
-          if (foundAura.ignoreWagoUpdate) existingAura.encoded = null;
-
-          // ensure config
-          existingAura.auraType = foundAura.auraType;
-          existingAura.auraTypeDisplay = foundAura.auraTypeDisplay;
-          existingAura.addonConfig = foundAura.addonConfig;
-        }
-
-        if (!slugs.includes(slug)) slugs.push(slug);
-      }
-
-      // remove orphans
-      this.auras = this.auras.filter((aura) => slugs.includes(aura.slug));
-
-      // Get each encoded string
-      const promisesWagoCallsComplete = [];
-      const promisesWagoDataCallsComplete = [];
-      let allAurasFetched = [];
-      const received = [];
-
-      addonConfigs.forEach((config) => {
-        // Make a list of unique auras to fetch
-        const fetchAuras = this.auras
-          .filter(
-            (aura) =>
-              !(this.config.ignoreOwnAuras && !!aura.author && aura.author === this.config.wagoUsername) &&
-              aura.addonConfig.addonName === config.addonName
-          )
-          .map((aura) => aura.slug);
-
-        // Test if list is empty
-        if (fetchAuras.length === 0) {
-          console.log("No auras to fetch");
-          return;
-        }
-
-        allAurasFetched = [...allAurasFetched, ...fetchAuras];
-
-        // Get data from Wago api
-        promisesWagoCallsComplete.push(
-          got<WagoApiResponse>(`${config.wagoAPI}?ids=${fetchAuras.join()}`, {
-            ...this.getGotOptions,
-            responseType: "json",
-          })
-            .then((response) => {
-              const data: WagoApiResponse = response.body;
-
-              // metadata received from Wago API
-              Object.values(data).forEach((wagoData) => {
-                received.push(wagoData.slug);
-                received.push(wagoData._id);
-
-                this.auras.forEach((aura, index) => {
-                  if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
-                    this.auras[index].name = wagoData.name;
-                    this.auras[index].author = wagoData.username;
-                    this.auras[index].created = new Date(wagoData.created);
-                    this.auras[index].wagoSemver = wagoData.versionString;
-                    this.auras[index].changelog = wagoData.changelog;
-                    this.auras[index].modified = new Date(wagoData.modified);
-                    this.auras[index].regionType = wagoData.regionType;
-                    this.auras[index].wagoid = wagoData._id;
-                    this.auras[index].source = "Wago";
-
-                    if (
-                      !aura.ignoreWagoUpdate &&
-                      wagoData.version > aura.version &&
-                      (aura.wagoVersion === null || wagoData.version > aura.wagoVersion) &&
-                      !(this.config.ignoreOwnAuras && wagoData.username === this.config.wagoUsername)
-                    ) {
-                      promisesWagoDataCallsComplete.push(
-                        got(`https://data.wago.io/api/raw/encoded?id=${wagoData._id}`, {
-                          ...this.getGotOptions,
-                          responseType: "text",
-                        })
-                      );
-                    }
-                    this.auras[index].wagoVersion = wagoData.version;
-                  }
-                });
-              });
-            })
-            .catch((error) => {
-              console.log(JSON.stringify(error));
-              this.fetching = false;
-
-              if (this.schedule.id) clearTimeout(this.schedule.id);
-
-              this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 30);
-            })
-        );
-      });
-
-      if (promisesWagoCallsComplete.length === 0) {
-        // No data for any addon available. Nothing to update.
-        try {
-          if (this.getIsAddonInstalled("WeakAuras") || this.getIsAddonInstalled("Plater")) {
-            writeAddonData(this.config, this.addonsInstalled, this.aurasWithData, this.stash);
-          }
-        } finally {
-          this.fetching = false;
-
-          this.setFirstAddonInstalledSelected();
-
-          this.accountSelected.lastWagoUpdate = new Date();
-
-          if (this.schedule.id) clearTimeout(this.schedule.id);
-
-          this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
-        }
-        return;
-      }
-
-      // those promises are already resolved in line 1395
-      // they should not throw an error except maybe for external error like timeout
-      Promise.all(promisesWagoCallsComplete)
-        .then(() => {
-          console.log("promisesWagoCallsComplete");
-
-          // Test if list is empty after resolving wagoCalls
-          if (allAurasFetched.length === 0) {
-            this.accountSelected.lastWagoUpdate = new Date();
-
-            if (this.schedule.id) clearTimeout(this.schedule.id);
-
-            this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
-            return;
-          }
-
-          // catch response error before resolving them with Promise.all
-          // by catching them before rejection, we don't exit Promise.all
-          // with the first error
-          const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
-            promise.catch((err2) => ({
-              config: { params: { id: err2.config.params.id } },
-              status: err2.response.status,
-            }))
-          );
-
-          // resolving all wago encoded strings answers simultaneously
-          Promise.all(promisesResolved)
-            .then((wagoEncodedStrings) => {
-              console.log("promisesWagoDataCallsComplete");
-
-              wagoEncodedStrings.forEach((wagoResp) => {
-                const { id } = wagoResp.config.params;
-
-                if (wagoResp.status === 200) {
-                  this.auras.forEach((aura, index) => {
-                    if (aura.wagoid === id) {
-                      this.auras[index].encoded = wagoResp.data;
-                    }
-                  });
-                } else {
-                  this.auras.forEach((aura, index) => {
-                    if (aura.wagoid === id) {
-                      // Setting the version back to the aura version
-                      // won't show update available
-                      // TODO: create status update-failed?
-                      this.auras[index].wagoVersion = aura.version;
-                      console.log(`error ${wagoResp.status}`);
-                    }
-                  });
-                }
-              });
-            })
-            .catch((error) => {
-              console.log(error);
-
-              // schedule in 30mn on error
-              if (this.schedule.id) clearTimeout(this.schedule.id);
-
-              this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 30);
-            })
-            .then(() => {
-              allAurasFetched.forEach((toFetch) => {
-                if (received.indexOf(toFetch) === -1) {
-                  // No data received for this aura => remove from list
-                  this.auras.forEach((aura, index) => {
-                    if (aura && aura.slug === toFetch) {
-                      console.log(`no data received for ${aura.slug}`);
-                      this.auras.splice(index, 1);
-                    }
-                  });
-                }
-              });
-
-              // We are done with the Wago API, update data.lua
-
-              try {
-                writeAddonData(this.config, this.addonsInstalled, this.aurasWithData, this.stash);
-              } finally {
-                this.fetching = false;
-
-                this.setFirstAddonInstalledSelected();
-
-                this.accountSelected.lastWagoUpdate = new Date();
-
-                if (this.schedule.id) clearTimeout(this.schedule.id);
-
-                this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 60);
-              }
-            });
-        })
-        .catch((error) => {
-          console.log(JSON.stringify(error));
-
-          // Schedule in 30 minutes on error
-          if (this.schedule.id) clearTimeout(this.schedule.id);
-
-          this.schedule.id = setTimeout(this.compareSVwithWago, 1000 * 60 * 30);
-        });
+    async doCompareSVwithWago() {
+      return compareSVwithWago(
+        this.config,
+        this.versionSelected,
+        this.accountSelected,
+        this.fetching,
+        this.addonsInstalled,
+        this.addonSelected,
+        this.auras,
+        this.aurasWithData,
+        this.stash
+      );
     },
     toggleReport() {
       this.reportIsShown = !this.reportIsShown;

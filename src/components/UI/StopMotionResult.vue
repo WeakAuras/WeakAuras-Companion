@@ -39,12 +39,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useStopMotionStore } from "../../stores/stopmotion";
-import { useStashStore } from "../../stores/auras";
-import path from "path";
+import { StopMotionTemplate, deflate, encode, generateUniqueID, serialize } from "@/libs/stopmotion";
 import { shell } from "electron";
-import { StopMotionTemplate, serialize, deflate, encode, generateUniqueID } from "@/libs/stopmotion";
+import path from "path";
+import { defineComponent } from "vue";
+import { useStashStore } from "../../stores/auras";
+import { useStopMotionStore } from "../../stores/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
@@ -62,10 +62,9 @@ export default defineComponent({
       slug: "StopMotion " + this.gif.meta.name,
       name: "StopMotion " + this.gif.meta.name,
       author: "WeakAuras Companion",
-      wagoVersion: "1",
+      wagoVersion: 1,
       wagoSemver: "1.0.0",
       auraType: "WeakAuras",
-      addon: "WeakAuras",
       source: "WeakAuras Companion",
       encoded: this.weakauras_string,
       logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
