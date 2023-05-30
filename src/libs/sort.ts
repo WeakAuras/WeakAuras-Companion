@@ -1,8 +1,11 @@
 import { DateTime } from "luxon";
 
 const getUpdateValueWithAllAuras = (aura) => {
-  if (aura.ignoreWagoUpdate) return 2;
-  else if (aura.version < aura.wagoVersion) return 0;
+  if (aura.ignoreWagoUpdate) {
+    return 2;
+  } else if (aura.version < aura.wagoVersion) {
+    return 0;
+  }
   return 3;
 };
 

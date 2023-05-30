@@ -116,8 +116,7 @@ export default defineComponent({
       shell.openPath(this.result.destination);
     },
     rfiTooltip() {
-      // eslint-disable-next-line quotes
-      return `<img width="300px" src="../../assets/ready-for-install-example.png" />`;
+      return "<img width='300px' src='../../assets/ready-for-install-example.png' />"; // TODO: This image does not show up
     },
   },
 });
