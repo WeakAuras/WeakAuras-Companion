@@ -1,5 +1,14 @@
 import { reactive } from "vue";
 
+function findSlugAndMatchURL(url, pattern) {
+  const result = url.match(pattern);
+
+  if (result) {
+    return result[2];
+  }
+  return null;
+}
+
 export function parseWeakAurasSVdata(WeakAurasSavedData, config) {
   const aurasFromFile = [];
 
@@ -21,37 +30,36 @@ export function parseWeakAurasSVdata(WeakAurasSavedData, config) {
         let uid = null;
 
         obj2.value.fields.forEach((obj3) => {
-          if (obj3.key === undefined) {
+          if (!obj3.key) {
             return;
           }
 
-          if (obj3.key.value === "id") {
-            id = obj3.value.value;
+          const { key, value } = obj3;
+          const keyVal = key.value;
+
+          if (keyVal === "id") {
+            id = value.value;
           }
 
-          if (obj3.key.value === "uid") {
-            uid = obj3.value.value;
+          if (keyVal === "uid") {
+            uid = value.value;
           }
 
-          if (obj3.key.value === "version") {
-            version = Number(obj3.value.value);
+          if (keyVal === "version") {
+            version = Number(value.value);
           }
 
-          if (obj3.key.value === "semver") {
-            semver = obj3.value.value;
+          if (keyVal === "semver") {
+            semver = value.value;
           }
 
-          if (obj3.key.value === "ignoreWagoUpdate") {
-            ignoreWagoUpdate = obj3.value.value;
+          if (keyVal === "ignoreWagoUpdate") {
+            ignoreWagoUpdate = value.value;
           }
 
-          if (obj3.key.value === "url") {
-            url = obj3.value.value;
-            const result = url.match(pattern);
-
-            if (result) {
-              ({ 2: slug } = url.match(pattern));
-            }
+          if (keyVal === "url") {
+            url = value.value;
+            slug = findSlugAndMatchURL(url, pattern);
           }
         });
 
@@ -108,42 +116,38 @@ export function parsePlaterSVdata(PlaterSavedData, config) {
         let profid;
 
         profile.value.fields.forEach((profData) => {
-          if (profData.key === undefined) {
+          if (!profData.key) {
             return;
           }
 
-          if (profData.key.value === "Name") {
-            profid = profData.value.value;
+          const { key, value } = profData;
+          const keyVal = key.value;
+
+          if (keyVal === "Name") {
+            profid = value.value;
           }
 
-          if (profData.key.value === "version") {
-            profversion = Number(profData.value.value);
+          if (keyVal === "version") {
+            profversion = Number(value.value);
           }
 
-          if (profData.key.value === "semver") {
-            profsemver = profData.value.value;
+          if (keyVal === "semver") {
+            profsemver = value.value;
           }
 
-          if (profData.key.value === "ignoreWagoUpdate") {
-            profignoreWagoUpdate = profData.value.value;
+          if (keyVal === "ignoreWagoUpdate") {
+            profignoreWagoUpdate = value.value;
           }
 
-          if (profData.key.value === "url") {
-            profurl = profData.value.value;
-            const result = profurl.match(pattern);
-
-            if (result) {
-              ({ 2: profslug } = profurl.match(pattern));
-            }
+          if (keyVal === "url") {
+            profurl = value.value;
+            profslug = findSlugAndMatchURL(profurl, pattern);
           }
 
-          if (profData.key.value === "script_data" || profData.key.value === "hook_data") {
-            const typeSuffix =
-              (profData.key.value === "hook_data" && "-Mod") ||
-              (profData.key.value === "script_data" && "-Script") ||
-              "";
+          if (keyVal === "script_data" || keyVal === "hook_data") {
+            const typeSuffix = (keyVal === "hook_data" && "-Mod") || (keyVal === "script_data" && "-Script") || "";
 
-            profData.value.fields.forEach((obj2) => {
+            value.fields.forEach((obj2) => {
               let slug;
               let url;
               let version = 0;
@@ -152,29 +156,32 @@ export function parsePlaterSVdata(PlaterSavedData, config) {
               let id;
 
               obj2.value.fields.forEach((obj3) => {
-                if (obj3.key.value === "Name") {
-                  id = obj3.value.value;
+                if (!obj3.key) {
+                  return;
                 }
 
-                if (obj3.key.value === "version") {
-                  version = Number(obj3.value.value);
+                const { key, value } = obj3;
+                const keyVal = key.value;
+
+                if (keyVal === "Name") {
+                  id = value.value;
                 }
 
-                if (obj3.key.value === "semver") {
-                  semver = obj3.value.value;
+                if (keyVal === "version") {
+                  version = Number(value.value);
                 }
 
-                if (obj3.key.value === "ignoreWagoUpdate") {
-                  ignoreWagoUpdate = obj3.value.value;
+                if (keyVal === "semver") {
+                  semver = value.value;
                 }
 
-                if (obj3.key.value === "url") {
-                  url = obj3.value.value;
-                  const result = url.match(pattern);
+                if (keyVal === "ignoreWagoUpdate") {
+                  ignoreWagoUpdate = value.value;
+                }
 
-                  if (result) {
-                    ({ 2: slug } = url.match(pattern));
-                  }
+                if (keyVal === "url") {
+                  url = value.value;
+                  slug = findSlugAndMatchURL(url, pattern);
                 }
               });
 
@@ -226,7 +233,7 @@ export function parsePlaterSVdata(PlaterSavedData, config) {
             uids: [],
             regionType: null,
             auraType: config.addonName,
-            auraTypeDisplay: config.addonName + "-Profile",
+            auraTypeDisplay: `${config.addonName}-Profile`,
             addonConfig: config,
           });
 
