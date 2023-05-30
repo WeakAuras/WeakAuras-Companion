@@ -1,7 +1,7 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
-import { Account, ConfigState, Version } from "@/stores/config";
+import type { Account, ConfigState, Version } from "@/stores/config";
 
 function getSavedVariable(config: ConfigState, version: string, accountName: string, addonName: string) {
   const savedVariable = path.join(
@@ -11,7 +11,7 @@ function getSavedVariable(config: ConfigState, version: string, accountName: str
     "Account",
     accountName,
     "SavedVariables",
-    `${addonName}.lua`
+    `${addonName}.lua`,
   );
 
   try {

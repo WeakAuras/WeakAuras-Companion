@@ -10,47 +10,47 @@
           <img
             src="../../src/assets/weakauras.png"
             class="logo-img"
-          />
+          >
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
         </div>
         <div class="menu-btns">
           <UIButton
             type="menu"
             :class="{ active: configStep === 0 }"
-            @click="configStep = 0"
             :title="$t('app.menu.main')"
+            @click="configStep = 0"
           >
             <span class="material-icons">sync</span>
           </UIButton>
           <UIButton
             type="menu"
             :class="{ active: configStep === 4 }"
-            @click="configStep = 4"
             :title="$t('app.footer.stopmotion')"
+            @click="configStep = 4"
           >
             <span class="material-icons">movie</span>
           </UIButton>
           <UIButton
             type="menu"
             :class="{ active: configStep === 1 }"
-            @click="configStep = 1"
             :title="$t('app.menu.settings')"
+            @click="configStep = 1"
           >
             <span class="material-icons">settings</span>
           </UIButton>
           <UIButton
             type="menu"
             :class="{ active: configStep === 2 }"
-            @click="configStep = 2"
             :title="$t('app.menu.help')"
+            @click="configStep = 2"
           >
             <span class="material-icons">help</span>
           </UIButton>
           <UIButton
             type="menu"
             :class="{ active: configStep === 3 }"
-            @click="configStep = 3"
             :title="$t('app.menu.about')"
+            @click="configStep = 3"
           >
             <span class="material-icons">info</span>
           </UIButton>
@@ -106,8 +106,6 @@
           </div>
           <div id="dashboard">
             <RefreshButton
-              @refresh="doCompareSVwithWago()"
-              @gotoconfig="configStep = 1"
               :is-settings-ok="config.wowpath.validated"
               :is-version-selected="versionSelected"
               :is-account-selected="accountSelected"
@@ -116,9 +114,10 @@
               :last-update="accountSelected && accountSelected.lastWagoUpdate"
               :auras-shown="aurasSortedForView.length"
               :is-addons-ok="getIsAddonInstalled('WeakAuras') || getIsAddonInstalled('Plater')"
-            >
-            </RefreshButton>
-            <br />
+              @refresh="doCompareSVwithWago()"
+              @gotoconfig="configStep = 1"
+            />
+            <br>
             <template v-if="aurasSortedForView.length > 0 && !fetching">
               <AuraHeaders
                 :sorted-column="sortedColumn"
@@ -144,7 +143,7 @@
         <About v-else-if="configStep === 3" />
         <StopMotion
           v-else-if="configStep === 4"
-          :wowVersions="versionOptions"
+          :wow-versions="versionOptions"
         />
       </main>
       <footer>
@@ -157,7 +156,7 @@
             src="/social-icons/curse.svg"
             class="logo"
             title="CurseForge"
-          />
+          >
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
         <a
@@ -169,7 +168,7 @@
             src="/social-icons/wago.svg"
             class="logo"
             title="Wago"
-          />
+          >
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
         </a>
         <a
@@ -181,11 +180,11 @@
             src="/social-icons/bug_report.svg"
             class="logo invert"
             title="Bug"
-          />
+          >
         </a>
         <div
-          class="ready-to-install"
           v-if="stash.auras.length > 0"
+          class="ready-to-install"
           @click="toggleUpdatedAuraList()"
         >
           <span>
@@ -206,9 +205,9 @@
         </div>
         <div class="app-update">
           <a
+            v-if="updater.status === 'update-available'"
             :href="updater.path"
             target="_blank"
-            v-if="updater.status === 'update-available'"
           >
             <i
               v-if="updater.status === 'update-available'"
@@ -260,33 +259,14 @@
 
 <script lang="ts">
 import { ipcRenderer } from "electron";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import { defineComponent } from "vue";
 
-import { buildAccountList } from "@/libs/build-account-list";
-import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
-import contacts from "@/libs/contacts";
-import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
-import hash from "@/libs/hash";
-import { isAddonInstalled } from "@/libs/is-addon-installed";
-import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
-import {
-  createSortByAuthor,
-  createSortByString,
-  createSortByTime,
-  createSortByType,
-  createSortByUpdate,
-} from "@/libs/sort";
-import userDataPath from "@/libs/user-data-folder";
-import { wowDefaultPath } from "@/libs/utilities";
-import { validateWowPath } from "@/libs/validate-wow-path";
-import { writeAddonData } from "@/libs/write-addon-data";
-
 import { useStashStore } from "../stores/auras";
-import { Account, AuraType, Version, useConfigStore } from "../stores/config";
+import type { Account, AuraType, Version } from "../stores/config";
+import { useConfigStore } from "../stores/config";
 
-import { wagoPushHandler } from "@/libs/wago-push-handler";
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";
@@ -299,6 +279,25 @@ import StopMotion from "./UI/StopMotion.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
+import { wagoPushHandler } from "@/libs/wago-push-handler";
+import { writeAddonData } from "@/libs/write-addon-data";
+import { validateWowPath } from "@/libs/validate-wow-path";
+import { wowDefaultPath } from "@/libs/utilities";
+import userDataPath from "@/libs/user-data-folder";
+import {
+  createSortByAuthor,
+  createSortByString,
+  createSortByTime,
+  createSortByType,
+  createSortByUpdate,
+} from "@/libs/sort";
+import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
+import { isAddonInstalled } from "@/libs/is-addon-installed";
+import hash from "@/libs/hash";
+import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
+import contacts from "@/libs/contacts";
+import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
+import { buildAccountList } from "@/libs/build-account-list";
 
 interface WeakAurasMetadata {
   name: string;
@@ -331,6 +330,14 @@ export default defineComponent({
     Dropdown,
     StopMotion,
   },
+  setup() {
+    const config = useConfigStore();
+    const stash = useStashStore();
+    return {
+      config,
+      stash,
+    };
+  },
   data() {
     return {
       configStep: 0,
@@ -356,14 +363,6 @@ export default defineComponent({
       accountOptions: [],
       versionOptions: [],
       defaultWOWPath: "",
-    };
-  },
-  setup() {
-    const config = useConfigStore();
-    const stash = useStashStore();
-    return {
-      config,
-      stash,
     };
   },
   computed: {
@@ -401,12 +400,13 @@ export default defineComponent({
       return addonConfigs;
     },
     addonsInstalled() {
-      return this.allAddonConfigs.filter((addonConfig) => addonConfig.isInstalled);
+      return this.allAddonConfigs.filter(addonConfig => addonConfig.isInstalled);
     },
     addonSelectedConfig() {
-      if (!this.addonSelected) return null;
+      if (!this.addonSelected)
+        return null;
       return this.allAddonConfigs.find(
-        (addonConfig) => addonConfig.addonName.toLowerCase() === this.addonSelected.toLowerCase()
+        addonConfig => addonConfig.addonName.toLowerCase() === this.addonSelected.toLowerCase(),
       );
     },
     versionSelected(): Version | undefined {
@@ -415,7 +415,7 @@ export default defineComponent({
       }
 
       const selectedVersion = this.config.wowpath.versions.find(
-        (version) => version.name === this.config.wowpath.version
+        version => version.name === this.config.wowpath.version,
       );
 
       return selectedVersion || undefined;
@@ -424,29 +424,30 @@ export default defineComponent({
       const versionSelected = this.versionSelected;
 
       if (typeof versionSelected === "object") {
-        return versionSelected.accounts.find((account) => account.name === versionSelected.account);
+        return versionSelected.accounts.find(account => account.name === versionSelected.account);
       }
       return null;
     },
     aurasWithData() {
       return this.auras.filter(
-        (aura) => !!aura.encoded && !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername)
+        aura => !!aura.encoded && !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername),
       );
     },
     aurasWithUpdate() {
-      return this.aurasWithData.filter((aura) => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate);
+      return this.aurasWithData.filter(aura => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate);
     },
     aurasSortedForView() {
       return this.auras
-        .filter((aura) => !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername))
-        .filter((aura) => aura.auraType === this.addonSelected)
+        .filter(aura => !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername))
+        .filter(aura => aura.auraType === this.addonSelected)
         .sort(this.sortFunction);
     },
     sortFunction() {
       const dir = this.sortDescending ? -1 : 1;
       const hasTypeColumn = this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
 
-      if (!this.sortedColumn || this.sortedColumn === "modified") return createSortByTime(dir);
+      if (!this.sortedColumn || this.sortedColumn === "modified")
+        return createSortByTime(dir);
       else if (this.sortedColumn === "auraTypeDisplay") {
         return createSortByType(dir);
       } else if (this.sortedColumn === "update") {
@@ -460,11 +461,11 @@ export default defineComponent({
     auras: {
       get(): AuraType[] {
         return (
-          (this.config.wowpath.validated &&
-            this.config.wowpath.version &&
-            this.accountSelected &&
-            this.accountSelected.auras) ||
-          []
+          (this.config.wowpath.validated
+            && this.config.wowpath.version
+            && this.accountSelected
+            && this.accountSelected.auras)
+          || []
         );
       },
       set(newValue) {
@@ -536,7 +537,7 @@ export default defineComponent({
     // set default wow path
     if (!this.config.wowpath.validated) {
       try {
-        let wowpath = await wowDefaultPath();
+        const wowpath = await wowDefaultPath();
         this.defaultWOWPath = wowpath;
 
         if (!this.config.wowpath.validated) {
@@ -580,7 +581,8 @@ export default defineComponent({
       ipcRenderer.invoke("checkUpdates", this.config.beta);
 
       // check for app updates in 2 hours
-      if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
+      if (this.updater.scheduleId)
+        clearTimeout(this.updater.scheduleId);
 
       this.updater.scheduleId = setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
     },
@@ -616,7 +618,7 @@ export default defineComponent({
         this.addonSelected,
         this.auras,
         this.aurasWithData,
-        this.stash
+        this.stash,
       );
     },
     toggleReport() {
@@ -629,7 +631,7 @@ export default defineComponent({
       ipcRenderer.invoke("installUpdates");
     },
     sortBy(columnName) {
-      if (this.sortedColumn == columnName) {
+      if (this.sortedColumn === columnName) {
         if (this.sortDescending) {
           this.sortDescending = false;
           this.sortedColumn = "modified";

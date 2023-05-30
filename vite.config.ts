@@ -1,13 +1,15 @@
 import { rmSync } from "node:fs";
-import vue from "@vitejs/plugin-vue";
 import path from "node:path";
+import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
+
+// eslint-disable-next-line import/default
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
 import eslintPlugin from "vite-plugin-eslint";
-import pkg from "./package.json";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
+import pkg from "./package.json";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -99,8 +101,8 @@ export default defineConfig(({ command }) => {
       target: "esnext",
     },
     server:
-      process.env.VSCODE_DEBUG &&
-      (() => {
+      process.env.VSCODE_DEBUG
+      && (() => {
         const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
         return {
           host: url.hostname,

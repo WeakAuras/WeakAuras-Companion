@@ -1,9 +1,10 @@
 <template>
   <div
     id="help"
-    ref="help"
   >
-    <div class="title">{{ $t("app.help.title" /* Setup Steps */) }}</div>
+    <div class="title">
+      {{ $t("app.help.title" /* Setup Steps */) }}
+    </div>
     <ol class="follow">
       <li>
         {{
@@ -46,27 +47,27 @@
       <li class="reset">
         {{
           $t(
-            "app.help.s4_1" /* Update your auras in-game by clicking the update button next to them in the WeakAuras options. */
+            "app.help.s4_1", /* Update your auras in-game by clicking the update button next to them in the WeakAuras options. */
           )
         }}
-        <br />
+        <br>
         <img
           src="../../assets/ingame.png"
           class="center"
-        />
-        <br />
+        >
+        <br>
       </li>
       <li>
         {{ $t("app.help.s5" /* You can always skip a version or just ignore updates completely. */) }}
-        <br />
+        <br>
         <img
           src="../../assets/ingame2.png"
           class="center"
-        />
+        >
       </li>
     </ol>
-    <br />
-    <br />
+    <br>
+    <br>
     <div class="title">
       {{ $t("app.help.auraAuthorsTitle" /* Tips for Authors */) }}
     </div>
@@ -88,10 +89,12 @@
           }}
         </li>
       </ul>
-      <br />
-      <br />
+      <br>
+      <br>
     </div>
-    <div class="title">{{ $t("app.help.foundbug" /* Found a bug? */) }}</div>
+    <div class="title">
+      {{ $t("app.help.foundbug" /* Found a bug? */) }}
+    </div>
     <div class="paragraph">
       {{ $t("app.help.bug" /* If you encounter a bug, please create a ticket on */) }}
       <a
@@ -101,7 +104,7 @@
         GitHub
       </a>
       {{ $t("app.help.bugend" /* containing: */) }}
-      <br />
+      <br>
       <ul>
         <li>
           {{ $t("app.help.bug.s1" /* A description of your problem. */) }}
@@ -119,20 +122,21 @@
         </li>
       </ul>
     </div>
-    <br />
-    <br />
-    <div class="title">{{ $t("app.help.support.title" /* Support */) }}</div>
+    <br>
+    <br>
+    <div class="title">
+      {{ $t("app.help.support.title" /* Support */) }}
+    </div>
     <div class="paragraph">
       {{ $t("app.help.support.text1" /* If you need more help come talk with us on WeakAuras's */) }}
       <a
         href="https://discord.gg/weakauras"
         target="_blank"
-        >Discord</a
-      >
+      >Discord</a>
       {{ $t("app.help.support.text2" /* in the #companion-support channel. */) }}
     </div>
-    <br />
-    <br />
+    <br>
+    <br>
   </div>
 </template>
 

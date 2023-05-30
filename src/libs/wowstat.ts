@@ -1,5 +1,6 @@
-import fs, { Stats } from "fs";
-import path from "path";
+import type { Stats } from "node:fs";
+import fs from "node:fs";
+import path from "node:path";
 import { Tail } from "tail";
 
 interface VersionConfig {
@@ -32,7 +33,7 @@ export async function isOpen(wowpath: string, version: string): Promise<boolean>
 
 export async function afterReload(config: AfterReloadConfig, callback: AfterReloadCallback) {
   const { value: wowpath, version, versions } = config;
-  const versionConfig = versions.find((v) => v.name === version);
+  const versionConfig = versions.find(v => v.name === version);
 
   if (!versionConfig) {
     throw new Error(`Version configuration not found for version: ${version}`);
@@ -46,7 +47,7 @@ export async function afterReload(config: AfterReloadConfig, callback: AfterRelo
     "Account",
     account,
     "SavedVariables",
-    "WeakAurasCompanion.lua"
+    "WeakAurasCompanion.lua",
   );
 
   let mtime: number;

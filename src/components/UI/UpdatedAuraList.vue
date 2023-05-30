@@ -1,7 +1,6 @@
 <template>
   <div
     id="updatedAuraList"
-    ref="updatedAuraList"
     @click="close"
   >
     <div class="container">
@@ -27,9 +26,9 @@
 
 <script lang="js">
 import { defineComponent } from "vue";
+import { useStashStore } from "../../stores/auras";
 import UIButton from "./UIButton.vue";
 import Aura from "./Aura.vue";
-import { useStashStore } from "../../stores/auras";
 
 export default defineComponent({
   components: { UIButton, Aura },

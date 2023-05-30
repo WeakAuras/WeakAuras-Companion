@@ -1,10 +1,10 @@
 import path from "node:path";
-import fs from "fs";
-import { promisified as regedit_promisified } from "regedit";
-import regedit from "regedit";
+import fs from "node:fs";
+import regedit, { promisified as regedit_promisified } from "regedit";
 
 export function formatBytes(a, b) {
-  if (a === 0) return "0 Bytes";
+  if (a === 0)
+    return "0 Bytes";
   const c = 1024;
   const d = b || 2;
   const e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
@@ -42,7 +42,8 @@ export function matchFolderNameInsensitive(folder, name, create) {
     for (const i in items) {
       const item = items[i];
 
-      if (name.toLowerCase() === item.toLowerCase()) return item;
+      if (name.toLowerCase() === item.toLowerCase())
+        return item;
     }
 
     if (create) {

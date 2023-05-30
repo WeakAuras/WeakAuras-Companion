@@ -1,10 +1,10 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 import { buildAccountList } from "./build-account-list";
 import { buildVersionList } from "./build-version-list";
 
-import { ConfigState } from "@/stores/config";
+import type { ConfigState } from "@/stores/config";
 
 export function validateWowPath(config: ConfigState, versionOptions, accountOptions, versionSelected, auras) {
   console.log("validateWowPath");
@@ -21,7 +21,7 @@ export function validateWowPath(config: ConfigState, versionOptions, accountOpti
       let validated = false;
 
       files
-        .filter((versionDir) => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowPath, versionDir)).isDirectory())
+        .filter(versionDir => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowPath, versionDir)).isDirectory())
         .forEach((versionDir) => {
           if (!validated) {
             const accountFolder = path.join(wowPath, versionDir, "WTF", "Account");

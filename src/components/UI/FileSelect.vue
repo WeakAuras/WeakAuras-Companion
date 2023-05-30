@@ -1,15 +1,15 @@
 <template>
   <div
     v-if="dragndrop"
+    class="dropzone"
     @dragenter.prevent
     @dragover.prevent
     @drop="drop"
-    class="dropzone"
     @click="handleInputClick"
   >
     <label class="file-select">
       <span>
-        <slot></slot>
+        <slot />
       </span>
     </label>
   </div>
@@ -20,7 +20,7 @@
   >
     <span class="select-button">
       <p class="configlabel">
-        <slot></slot>
+        <slot />
       </p>
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}</span>
@@ -31,11 +31,12 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from "vue";
 import { ipcRenderer } from "electron";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: ["path", "createDirectory", "defaultPath", "openDirectory", "openFile", "filters", "dragndrop"],
+  emits: ["update:path"],
   data() {
     return {
       dialogOpen: false,
@@ -67,7 +68,7 @@ export default defineComponent({
           dialogOptions.filters = this.filters;
         }
 
-        ipcRenderer.invoke("openDialog", dialogOptions).then(result => {
+        ipcRenderer.invoke("openDialog", dialogOptions).then((result) => {
           if (result.filePaths && result.filePaths.length) {
             this.$emit("update:path", result.filePaths[0]);
           }
@@ -80,7 +81,7 @@ export default defineComponent({
         event.preventDefault();
         this.$emit("update:path", event.dataTransfer.files[0].path);
       }
-    }
+    },
   },
 });
 </script>

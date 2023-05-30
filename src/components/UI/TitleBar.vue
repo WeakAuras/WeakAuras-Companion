@@ -1,6 +1,6 @@
 <template>
   <div id="ui-titlebar">
-    <div id="ui-titletext"></div>
+    <div id="ui-titletext" />
     <div id="ui-titlecontrols">
       <UIButton
         class="ui-btn minimize"
@@ -34,8 +34,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
 import { ipcRenderer } from "electron";
+import { defineComponent } from "vue";
 import UIButton from "./UIButton.vue";
 
 export default defineComponent({

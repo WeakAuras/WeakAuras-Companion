@@ -2,38 +2,37 @@
   <div id="about">
     <div id="main">
       <h2>WeakAuras Companion</h2>
-      <br />
+      <br>
       <p>
-        {{ $t("app.about.tools" /* Developed with */) }} {{ $data.tools }}<br />
-        {{ $t("app.about.version" /* Version: */) }} {{ $data.version }}<br />
-        {{ $t("app.about.license" /* License: */) }} {{ $data.license }}<br />
+        {{ $t("app.about.tools" /* Developed with */) }} {{ $data.tools }}<br>
+        {{ $t("app.about.version" /* Version: */) }} {{ $data.version }}<br>
+        {{ $t("app.about.license" /* License: */) }} {{ $data.license }}<br>
         {{ $t("app.about.source" /* Sources on */) }}
         <a
           href="https://github.com/WeakAuras/WeakAuras-Companion"
           target="_blank"
-          >GitHub</a
-        ><br />
-        {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka Buds<br />
+        >GitHub</a><br>
+        {{ $t("app.about.author" /* Author */) }} Matthieu Saint Aubin aka Buds<br>
         {{ $t("app.about.platersupport" /* Plater support */) }}
-        Cont1nuity/Ariani<br />
+        Cont1nuity/Ariani<br>
         {{ $t("app.about.cssby" /* CSS by */) }}
         <a
           href="https://sragia.com/"
           target="_blank"
-          >Aigars Bedeicis aka Exality</a
-        >
+        >Aigars Bedeicis aka Exality</a>
         and
         <a
           href="https://stephanosue.com/"
           target="_blank"
-          >Stephano Sue</a
-        >
+        >Stephano Sue</a>
       </p>
-      <br />
+      <br>
     </div>
     <div id="links">
       <div style="flex: 50%">
-        <div class="title">WeakAuras</div>
+        <div class="title">
+          WeakAuras
+        </div>
         <div class="items">
           <div
             v-for="media in medias.weakauras"
@@ -48,14 +47,16 @@
                 :src="`social-icons/${media.name}.svg`"
                 class="logo"
                 :title="media.name"
-              />
+              >
               {{ media.displayName }}
             </a>
           </div>
         </div>
       </div>
       <div style="flex: 50%">
-        <div class="title">Wago</div>
+        <div class="title">
+          Wago
+        </div>
         <div class="items">
           <div
             v-for="media in medias.wago"
@@ -70,7 +71,7 @@
                 :src="`social-icons/${media.name}.svg`"
                 class="logo"
                 :title="media.name"
-              />
+              >
               {{ media.displayName }}
             </a>
           </div>
@@ -87,7 +88,7 @@ import medias from "@/libs/contacts";
 export default defineComponent({
   name: "About",
   filters: {
-    capitalize: (string) => string.charAt(0).toUpperCase() + string.slice(1),
+    capitalize: string => string.charAt(0).toUpperCase() + string.slice(1),
   },
   data() {
     return {

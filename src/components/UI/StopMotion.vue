@@ -2,36 +2,27 @@
   <div id="StopMotion">
     <div>
       <div class="title">
-        {{ $t("app.stopmotion.selectgifconverter" /* StopMotion GIF Converter */) }}
+        {{
+          $t("app.stopmotion.selectgifconverter" /* StopMotion GIF Converter */)
+        }}
       </div>
-      <br />
+      <br>
       <div class="bts-top-right">
-        <UIButton
-          class="btn-ok btn-title"
-          v-if="step == 3"
-          @click="setStep(1)"
-        >
+        <UIButton v-if="step === 3" class="btn-ok btn-title" @click="setStep(1)">
           <span class="material-icons">first_page</span>
         </UIButton>
-        <UIButton
-          class="btn-ok btn-title"
-          v-if="step > 1"
-          @click="prev()"
-        >
+        <UIButton v-if="step > 1" class="btn-ok btn-title" @click="prev()">
           <span class="material-icons">keyboard_backspace</span>
         </UIButton>
       </div>
     </div>
-    <StopMotionSelectGif
-      v-if="step == 1"
-      @next="next()"
-    />
+    <StopMotionSelectGif v-if="step === 1" @next="next()" />
     <StopMotionSettings
-      v-if="step == 2"
-      :wowVersions="wowVersions"
+      v-if="step === 2"
+      :wow-versions="wowVersions"
       @next="next()"
     />
-    <StopMotionResult v-if="step == 3" />
+    <StopMotionResult v-if="step === 3" />
   </div>
 </template>
 
@@ -40,7 +31,8 @@ import StopMotionSelectGif from "./StopMotionSelectGif.vue";
 import StopMotionSettings from "./StopMotionSettings.vue";
 import StopMotionResult from "./StopMotionResult.vue";
 import UIButton from "./UIButton.vue";
-//import { useStopMotionStore } from "../../stores/stopmotion";
+
+// import { useStopMotionStore } from "../../stores/stopmotion";
 
 export default {
   name: "StopMotion",

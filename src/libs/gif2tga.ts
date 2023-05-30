@@ -1,10 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
-import sharp from "sharp"; // https://sharp.pixelplumbing.com/api-composite
-import tga from "tga"; // https://github.com/steel1990/tga
+
+// https://sharp.pixelplumbing.com/api-composite
+import sharp from "sharp";
+
+// https://github.com/steel1990/tga
+import tga from "tga";
 
 function nextPow2(aSize) {
-  return Math.pow(2, Math.ceil(Math.log(aSize) / Math.log(2)));
+  return 2 ** Math.ceil(Math.log(aSize) / Math.log(2));
 }
 
 function calculateBestSize(width, height, count) {
@@ -27,7 +31,7 @@ function calculateBestSize(width, height, count) {
   return bestcols;
 }
 
-const calculateFileSize = (width, height, pages, scaling, useSkipFrames, skipFrames) => {
+function calculateFileSize(width, height, pages, scaling, useSkipFrames, skipFrames) {
   if (useSkipFrames) {
     pages = Math.floor(pages * (1 - 1 / skipFrames));
   }
@@ -43,13 +47,13 @@ const calculateFileSize = (width, height, pages, scaling, useSkipFrames, skipFra
     height: nextPow2(height * rows),
     size: Math.round((nextPow2(width * cols) * nextPow2(height * rows) * 4) / 1024),
   };
-};
+}
 
-const getMetaData = async (filename) => {
+async function getMetaData(filename) {
   return await sharp(filename, { animated: true }).metadata();
-};
+}
 
-const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, destination, fileBuffer) => {
+async function convert(filename, scaling, coalesce, useSkipFrames, skipFrames, destination, fileBuffer) {
   try {
     if (fileBuffer === undefined) {
       fileBuffer = await fs.promises.readFile(filename);
@@ -126,7 +130,7 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
     const composited = results.composite(compose); // { resolveWithObject: true }
     const rawbuffer = await composited.raw().toBuffer();
     const pixelArray = Uint8ClampedArray.from(rawbuffer);
-    const buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray); //pixelArray);
+    const buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray); // pixelArray);
     let out = path.parse(filename).name;
     out = `${out}.x${rows}y${cols}f${frameCount}w${width}h${height}W${fileWidth}H${fileHeight}.tga`;
     const destFile = path.join(destination, out);
@@ -142,6 +146,6 @@ const convert = async (filename, scaling, coalesce, useSkipFrames, skipFrames, d
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 export default { calculateFileSize, getMetaData, convert };

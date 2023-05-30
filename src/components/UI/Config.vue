@@ -7,25 +7,23 @@
           {{ $t("app.config.gameSettings" /* Game Settings */) }}
         </div>
         <div class="block">
-          <file-select
+          <FileSelect
             v-model:path="config.wowpath.value"
             :default-path="defaultWOWPath"
+            open-directory="true"
+            create-directory="true"
             @update:path="$parent.validateWowpath"
-            openDirectory="true"
-            createDirectory="true"
           >
             {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
-          </file-select>
+          </FileSelect>
           <i
             v-if="config.wowpath.validated"
             class="material-icons green settings"
-            >check_circle_outline</i
-          >
+          >check_circle_outline</i>
           <i
             v-else
             class="material-icons red settings"
-            >error_outline</i
-          >
+          >error_outline</i>
         </div>
         <!-- Companion Settings Section -->
         <div class="title">
@@ -37,29 +35,29 @@
             :options="langs"
             :label="$t('app.config.lang' /* Language */)"
           />
-          <checkbox v-model="config.notify">
+          <Checkbox v-model="config.notify">
             {{ $t("app.config.notification" /* Show notifications for new updates */) }}
-          </checkbox>
+          </Checkbox>
           <p class="label subtitle">
             {{ $t("app.config.startup" /* Startup */) }}
           </p>
           <div class="option">
-            <checkbox v-model="config.autostart">
+            <Checkbox v-model="config.autostart">
               {{ $t("app.config.autoStart" /* Launch client with your computer */) }}
-            </checkbox>
+            </Checkbox>
           </div>
           <div class="option">
-            <checkbox v-model="config.startminimize">
+            <Checkbox v-model="config.startminimize">
               {{ $t("app.config.minimized" /* Start minimised */) }}
-            </checkbox>
+            </Checkbox>
           </div>
           <p class="label subtitle">
             {{ $t("app.config.autoupdater" /* Updates */) }}
           </p>
           <div class="option">
-            <checkbox v-model="config.beta">
+            <Checkbox v-model="config.beta">
               {{ $t("app.config.autoupdater.beta" /* Use Companion Beta channel */) }}
-            </checkbox>
+            </Checkbox>
           </div>
           <!--
           <div class="option">
@@ -88,7 +86,7 @@
             type="text"
             size="11"
             @keyup.enter="config.wagoUsername = wagoUsername"
-          />
+          >
           <UIButton
             class="btn-ok"
             @click="config.wagoUsername = wagoUsername"
@@ -98,8 +96,7 @@
           <i
             v-if="config.wagoUsername"
             class="material-icons green"
-            >check_circle_outline</i
-          >
+          >check_circle_outline</i>
           <p class="label">
             {{ $t("app.config.wagoApiKey" /* Set Wago API Key (optional) */) }}
           </p>
@@ -108,22 +105,21 @@
             type="password"
             size="11"
             @keyup.enter="config.wagoApiKey = wagoApiKey"
-          />
+          >
           <UIButton
             class="btn-ok"
             @click="config.wagoApiKey = wagoApiKey"
-            >{{ $t("app.config.ok" /* OK */) }}</UIButton
           >
+            {{ $t("app.config.ok" /* OK */) }}
+          </UIButton>
           <i
             v-if="config.wagoApiKey && checkApiKey()"
             class="material-icons green"
-            >check_circle_outline</i
-          >
+          >check_circle_outline</i>
           <i
             v-else-if="config.wagoApiKey && !checkApiKey()"
             class="material-icons red"
-            >error_outline</i
-          >
+          >error_outline</i>
           <p
             v-if="config.wagoApiKey && !checkApiKey()"
             class="red"
@@ -139,9 +135,9 @@
               {{ $t("app.config.getYours" /* Get yours */) }}
             </a>
           </p>
-          <checkbox v-model="config.ignoreOwnAuras">
+          <Checkbox v-model="config.ignoreOwnAuras">
             {{ $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */) }}
-          </checkbox>
+          </Checkbox>
         </div>
         <!-- WeakAuras Backup Section -->
         <div class="title">
@@ -149,22 +145,22 @@
         </div>
         <div class="block">
           <p class="label">
-            <checkbox v-model="config.backup.active">
+            <Checkbox v-model="config.backup.active">
               {{ $t("app.config.backup.activate" /* Activate */) }}
-            </checkbox>
+            </Checkbox>
           </p>
           <div
             v-if="config.backup.active"
             style="display: inline"
           >
-            <file-select
+            <FileSelect
               v-model:path="config.backup.path"
               :default-path="config.backup.defaultBackupPath"
-              openDirectory="true"
-              createDirectory="true"
+              open-directory="true"
+              create-directory="true"
             >
               {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
-            </file-select>
+            </FileSelect>
             <p
               class="explorer"
               @click="openBackupDir()"
@@ -194,11 +190,11 @@
 <script lang="js">
 import { ipcRenderer, shell } from "electron";
 import { defineComponent, ref } from "vue";
+import { useConfigStore } from "../../stores/config";
 import UIButton from "./UIButton.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
-import { useConfigStore } from "../../stores/config";
 
 export default defineComponent({
   components: {
@@ -208,6 +204,14 @@ export default defineComponent({
     UIButton,
   },
   props: ["defaultWOWPath"],
+  setup() {
+    const config = useConfigStore();
+    return {
+      config,
+      wagoUsername: ref(config.wagoUsername),
+      wagoApiKey: ref(config.wagoApiKey),
+    };
+  },
   data() {
     return {
       langs: [
@@ -226,25 +230,17 @@ export default defineComponent({
       ],
     };
   },
-  setup() {
-    const config = useConfigStore();
-    return {
-      config,
-      wagoUsername: ref(config.wagoUsername),
-      wagoApiKey: ref(config.wagoApiKey),
-    };
-  },
   watch: {
-    // eslint-disable-next-line func-names
+
     "config.autostart": function () {
       ipcRenderer.invoke("autoStart", this.config.autostart === true);
     },
-    // eslint-disable-next-line func-names
+
     "config.lang": function () {
       console.log(`change locale to ${this.config.lang}`);
       this.$i18n.locale = this.config.lang;
     },
-    // eslint-disable-next-line func-names
+
     "config.beta": function () {
       this.$parent.checkCompanionUpdates();
     },

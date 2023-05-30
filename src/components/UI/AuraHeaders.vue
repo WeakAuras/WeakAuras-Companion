@@ -3,10 +3,10 @@
     <div
       class="aura-column aura-column-name sortable"
       :class="{
-        sorted: sortedColumn == 'name',
+        'sorted': sortedColumn === 'name',
         'sort-desc': sortDescending,
       }"
-      @click="() => $emit('sort-by', 'name')"
+      @click="() => $emit('sortBy', 'name')"
     >
       {{ $t("app.aura.name" /* Name */) }}
       <span class="aura-header__sort-icon material-icons">arrow_downward</span>
@@ -14,10 +14,10 @@
     <div
       class="aura-column aura-column-update sortable"
       :class="{
-        sorted: sortedColumn == 'update',
+        'sorted': sortedColumn === 'update',
         'sort-desc': sortDescending,
       }"
-      @click="() => $emit('sort-by', 'update')"
+      @click="() => $emit('sortBy', 'update')"
     >
       {{ $t("app.aura.update" /* Updates */) }}
       <span class="material-icons aura-header__sort-icon">arrow_downward</span>
@@ -26,10 +26,10 @@
       v-if="addonSelectedConfig && addonSelectedConfig.hasTypeColumn"
       class="aura-column aura-column-aura-type sortable"
       :class="{
-        sorted: sortedColumn == 'auraTypeDisplay',
+        'sorted': sortedColumn === 'auraTypeDisplay',
         'sort-desc': sortDescending,
       }"
-      @click="() => $emit('sort-by', 'auraTypeDisplay')"
+      @click="() => $emit('sortBy', 'auraTypeDisplay')"
     >
       {{ $t("app.aura.auraType" /* Type */) }}
       <span class="material-icons aura-header__sort-icon">arrow_downward</span>
@@ -37,10 +37,10 @@
     <div
       class="aura-column aura-column-author sortable"
       :class="{
-        sorted: sortedColumn == 'author',
+        'sorted': sortedColumn === 'author',
         'sort-desc': sortDescending,
       }"
-      @click="() => $emit('sort-by', 'author')"
+      @click="() => $emit('sortBy', 'author')"
     >
       {{ $t("app.aura.author" /* Author */) }}
       <span class="material-icons aura-header__sort-icon">arrow_downward</span>
@@ -54,6 +54,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "AuraHeaders",
   props: ["sortedColumn", "sortDescending", "addonSelectedConfig"],
+  emits: ["sortBy"],
 });
 </script>
 

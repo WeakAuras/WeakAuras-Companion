@@ -8,13 +8,13 @@
       type="checkbox"
       :checked="modelValue"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
-    />
+    >
     <div
       class="checkbox__box"
       :class="{ 'checkbox__box--checked': modelValue }"
     />
     <label>
-      <slot></slot>
+      <slot />
     </label>
   </div>
 </template>

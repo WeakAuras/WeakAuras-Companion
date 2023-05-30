@@ -6,13 +6,12 @@
           :class="{ invisible: search === '' }"
           class="material-icons arrow_back"
           @click="search = ''"
-          >arrow_back</span
-        >
+        >arrow_back</span>
         <div>
           <input
             v-model="search"
             :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */)"
-          />
+          >
           <span class="material-icons">search</span>
         </div>
       </div>
@@ -22,8 +21,8 @@
         <div>
           <div
             v-if="search !== '' && results && results.length"
-            class="grid"
             v-scroll="loadMore"
+            class="grid"
           >
             <div
               v-for="(result, r) in results"
@@ -44,7 +43,7 @@
               :style="`background-image: url(${tag.image})`"
               @click="search = tag.searchterm"
             >
-              <div class="searchterm"></div>
+              <div class="searchterm" />
               {{ tag.searchterm }}
             </div>
           </div>
@@ -55,15 +54,29 @@
 </template>
 
 <script lang="ts">
-import { useConfigStore } from "../../stores/config";
 import { defineComponent, ref } from "vue";
+import { useConfigStore } from "../../stores/config";
+
 export default defineComponent({
+  directives: {
+    scroll: {
+      created: (el, binding) => {
+        const f = function () {
+          if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
+            binding.value();
+          }
+        };
+        el.addEventListener("scroll", f);
+      },
+    },
+  },
   props: {
     apiKey: {
       type: String,
       required: true,
     },
   },
+  emits: ["send"],
   setup() {
     const config = useConfigStore();
     return {
@@ -78,25 +91,13 @@ export default defineComponent({
       next: null,
     };
   },
-  directives: {
-    scroll: {
-      created: (el, binding) => {
-        let f = function () {
-          if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
-            binding.value();
-          }
-        };
-        el.addEventListener("scroll", f);
-      },
-    },
+  watch: {
+    search: "onSearch",
   },
   mounted() {
     fetch(`https://g.tenor.com/v1/categories?key=${this.apiKey}&locale=${this.locale}`)
-      .then((res) => res.json())
+      .then(res => res.json())
       .then(({ tags }) => (this.tags = tags));
-  },
-  watch: {
-    search: "onSearch",
   },
   methods: {
     loadMore() {
@@ -114,7 +115,7 @@ export default defineComponent({
     },
     get(query, key, additive?) {
       fetch(`https://g.tenor.com/v1/${query}&key=${this.apiKey}`)
-        .then((res) => res.json())
+        .then(res => res.json())
         .then((data) => {
           if (additive) {
             data[key].forEach((element) => {
@@ -137,7 +138,7 @@ export default defineComponent({
         url: this.renderHugeGif(gif),
         send: true,
         type: "gif",
-        title: title,
+        title,
         tenorID: id,
       });
       this.search = null;
@@ -145,6 +146,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style scoped lang="scss">
 $dark-bg: #212224;
 $light-bg: #2f3136;

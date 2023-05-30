@@ -3,8 +3,7 @@
     <label
       v-if="label"
       class="dropdown__label"
-      >{{ label }}</label
-    >
+    >{{ label }}</label>
     <div
       class="dropdown__toggle"
       :class="{ 'dropdown__toggle--toggled': showMenu }"
@@ -14,11 +13,10 @@
       <i
         :class="{ open: showMenu }"
         class="material-icons"
-        >keyboard_arrow_down</i
-      >
+      >keyboard_arrow_down</i>
     </div>
     <div
-      :style="{ height: showMenu ? height + 'px' : '0px' }"
+      :style="{ height: showMenu ? `${height}px` : '0px' }"
       :class="{ 'dropdown__options--toggled': showMenu }"
       class="dropdown__options"
     >
@@ -66,8 +64,8 @@ export default defineComponent({
   },
   watch: {
     value() {
-      this.selected =
-        this.value === ""
+      this.selected
+        = this.value === ""
           ? this.placeholder || this.$t("app.dropdown.placeholder" /* Select... */)
           : this.getLabel(this.value);
     },
@@ -86,9 +84,10 @@ export default defineComponent({
       this.$emit("change");
     },
     getLabel(value) {
-      const index = this.options.findIndex((option) => option.value === value);
+      const index = this.options.findIndex(option => option.value === value);
 
-      if (index === -1) return value;
+      if (index === -1)
+        return value;
       return this.options[index].text;
     },
   },
