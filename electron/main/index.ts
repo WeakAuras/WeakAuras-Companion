@@ -94,7 +94,9 @@ async function createWindow() {
 
   // Make all links open with the browser, not with the application
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith("https:")) shell.openExternal(url);
+    if (url.startsWith("https:")) {
+      shell.openExternal(url);
+    }
     return { action: "deny" };
   });
 
@@ -213,7 +215,9 @@ if (!app.requestSingleInstanceLock()) {
 
     // Someone tried to run a second instance, focus our window instead
     if (mainWindow) {
-      if (!mainWindow?.isVisible()) mainWindow?.show();
+      if (!mainWindow?.isVisible()) {
+        mainWindow?.show();
+      }
       mainWindow?.focus();
     }
   });
@@ -321,7 +325,9 @@ let lastNotificationBody = "";
 ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
   const text = news.join("\n");
 
-  if (text === "" || text === lastNotificationBody) return; // prevent notification spam
+  if (text === "" || text === lastNotificationBody) {
+    return;
+  } // prevent notification spam
 
   const notification = new Notification({
     title: "New update ready to install",
