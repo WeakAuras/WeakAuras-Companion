@@ -9,7 +9,7 @@ export function formatBytes(a, b) {
   const d = b || 2;
   const e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   const f = Math.floor(Math.log(a) / Math.log(c));
-  return `${parseFloat((a / c ** f).toFixed(d))} ${e[f]}`;
+  return `${Number.parseFloat((a / c ** f).toFixed(d))} ${e[f]}`;
 }
 
 regedit.setExternalVBSLocation("resources/node_modules/regedit/vbs");
