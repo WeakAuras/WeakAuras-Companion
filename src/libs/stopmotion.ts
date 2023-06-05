@@ -293,7 +293,7 @@ function serializeValue(value: any, serializedArray: string[]): void {
     serializedArray.push("^T");
 
     for (const key of Object.keys(value)) {
-      const parsedKey = /^\d+$/.test(key) ? parseInt(key) : key;
+      const parsedKey = /^\d+$/.test(key) ? Number.parseInt(key) : key;
       serializeValue(parsedKey, serializedArray);
       serializeValue(value[key], serializedArray);
     }
