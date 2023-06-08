@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import fs from "node:fs";
 import path from "node:path";
 import { defineComponent } from "vue";
@@ -67,7 +67,7 @@ export default defineComponent({
         title = title.replace(" GIF", "");
         const res = await fetch(url);
         const imageBuffer = await res.arrayBuffer();
-        const buffer = Buffer.from(imageBuffer, "base64");
+        const buffer = Buffer.from(String(imageBuffer), "base64");
         const meta = await gif2tga.getMetaData(buffer);
         this.gif.meta.width = meta.width;
         this.gif.meta.height = meta.pageHeight;
@@ -127,10 +127,6 @@ export default defineComponent({
 .tenorblock {
   display: inline-block;
   position: relative;
-  //background-color: red;
   text-align: center;
 }
-//span {
-//cursor: pointer;
-//}
 </style>

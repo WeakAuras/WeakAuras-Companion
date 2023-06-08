@@ -299,6 +299,15 @@ import contacts from "@/libs/contacts";
 import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
 import { buildAccountList } from "@/libs/build-account-list";
 
+interface Updater {
+  status: string | null;
+  progress: number | null;
+  scheduleId: NodeJS.Timeout | null;
+  version: string | null;
+  path: string | null;
+  releaseNotes: string | null;
+}
+
 interface WeakAurasMetadata {
   name: string;
   url: string;
@@ -358,7 +367,7 @@ export default defineComponent({
         version: null,
         path: null,
         releaseNotes: null,
-      },
+      } as Updater,
       isMac: process.platform === "darwin",
       accountOptions: [],
       versionOptions: [],
@@ -631,18 +640,9 @@ export default defineComponent({
     installUpdates() {
       ipcRenderer.invoke("installUpdates");
     },
-    sortBy(columnName) {
-      if (this.sortedColumn === columnName) {
-        if (this.sortDescending) {
-          this.sortDescending = false;
-          this.sortedColumn = "modified";
-        } else {
-          this.sortDescending = true;
-        }
-      } else {
-        this.sortDescending = false;
-        this.sortedColumn = columnName;
-      }
+    sortBy(columnName: string): void {
+      this.sortedColumn = this.sortedColumn === columnName ? "modified" : columnName;
+      this.sortDescending = this.sortedColumn === columnName ? !this.sortDescending : false;
     },
     updateFetchingState(fetching) {
       this.fetching = fetching;

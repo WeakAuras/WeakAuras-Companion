@@ -81,7 +81,7 @@
   </div>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import { defineComponent } from "vue";
 import medias from "@/libs/contacts";
 

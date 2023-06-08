@@ -30,11 +30,12 @@
   </label>
 </template>
 
-<script lang="js">
+<script lang="ts">
 import { ipcRenderer } from "electron";
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  name: "FileSelect",
   props: ["path", "createDirectory", "defaultPath", "openDirectory", "openFile", "filters", "dragndrop"],
   emits: ["update:path"],
   data() {
@@ -50,6 +51,7 @@ export default defineComponent({
         const dialogOptions = {
           properties: [],
           defaultPath: this.path || this.defaultPath,
+          filters: [],
         };
 
         if (this.openDirectory) {
