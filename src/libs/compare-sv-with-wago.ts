@@ -70,11 +70,11 @@ export async function compareSVwithWago(
   const addonConfigs = addonsInstalled;
 
   if (fetching) {
-    callback(fetching)
+    callback(fetching);
     return;
   } // prevent spamming UIButton
   fetching = true; // show animation
-  callback(fetching)
+  callback(fetching);
 
   if (schedule.id) {
     clearTimeout(schedule.id);
@@ -243,7 +243,7 @@ export async function compareSVwithWago(
         .catch((error) => {
           console.log(JSON.stringify(error));
           fetching = false;
-          callback(fetching)
+          callback(fetching);
 
           if (schedule.id) {
             clearTimeout(schedule.id);
@@ -262,7 +262,7 @@ export async function compareSVwithWago(
       }
     } finally {
       fetching = false;
-      callback(fetching)
+      callback(fetching);
 
       setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
 
@@ -361,7 +361,7 @@ export async function compareSVwithWago(
             writeAddonData(config, addonsInstalled, aurasWithData, stash);
           } finally {
             fetching = false;
-            callback(fetching)
+            callback(fetching);
 
             setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
 
