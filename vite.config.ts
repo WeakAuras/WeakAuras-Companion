@@ -6,7 +6,6 @@ import { defineConfig } from "vite";
 // eslint-disable-next-line import/default
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
-// import eslintPlugin from "vite-plugin-eslint";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
 import pkg from "./package.json";

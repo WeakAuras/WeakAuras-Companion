@@ -619,6 +619,7 @@ export default defineComponent({
         this.auras,
         this.aurasWithData,
         this.stash,
+        this.updateFetchingState
       );
     },
     toggleReport() {
@@ -642,6 +643,9 @@ export default defineComponent({
         this.sortDescending = false;
         this.sortedColumn = columnName;
       }
+    },
+    updateFetchingState(fetching) {
+      this.fetching = fetching;
     },
   },
 });
