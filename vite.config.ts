@@ -90,7 +90,7 @@ export default defineConfig(({ command }) => {
           got: { type: "esm" },
         },
       }),
-      eslintPlugin(),
+      // eslintPlugin(),
       VueI18nPlugin({
         // you need to set i18n resource including paths!
         include: path.resolve(__dirname, "./i18n/**"),
