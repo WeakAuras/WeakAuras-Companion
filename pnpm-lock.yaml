@@ -134,8 +134,8 @@ devDependencies:
     specifier: ^4.3.9
     version: 4.3.9(@types/node@20.3.1)(sass@1.63.3)
   vite-plugin-electron:
-    specifier: ^0.11.2
-    version: 0.11.2
+    specifier: ^0.12.0
+    version: 0.12.0
   vite-plugin-electron-renderer:
     specifier: ^0.14.5
     version: 0.14.5
@@ -6620,8 +6620,8 @@ packages:
     resolution: {integrity: sha512-EQ7ORuPp8vFPCqfuGnVo7d36fXS0IFH4/RUlKb1drseix3TQEPcgwEuFADdXBxRgqMp70njz/1m0kdf5lEsm8w==}
     dev: true
 
-  /vite-plugin-electron@0.11.2:
-    resolution: {integrity: sha512-umQRmSuA80JVxKB3PfO55o8mFTrW+sEtu7kZ5TYKAnkuYpKw7qgxl4f/65gp8x5BGHJjYh/iIRIE26x3Xqc4mQ==}
+  /vite-plugin-electron@0.12.0:
+    resolution: {integrity: sha512-MVvi7XZdrPKBkCMMK/Kiwdl4Epg3GSPPyk3wOAMhWEGKmCemrXkD/xUU8rF7jF0pthR6ZPjd2gmeNxSLWMQfZw==}
     dev: true
 
   /vite-plugin-eslint@1.8.1(eslint@8.42.0)(vite@4.3.9):
