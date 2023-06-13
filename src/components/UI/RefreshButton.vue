@@ -25,35 +25,64 @@
       class="label-issue"
     >
       <i class="material-icons error">error_outline</i>
-      <span>{{ $t("app.refreshbutton.selectversion" /* Please select your WoW Version! */) }}</span>
+      <span>{{
+        $t(
+          "app.refreshbutton.selectversion" /* Please select your WoW Version! */,
+        )
+      }}</span>
     </label>
     <label
       v-else-if="!isAccountSelected"
       class="label-issue"
     >
       <i class="material-icons error">error_outline</i>
-      <span>{{ $t("app.refreshbutton.selectaccount" /* Please select your Account Name! */) }}</span>
+      <span>{{
+        $t(
+          "app.refreshbutton.selectaccount" /* Please select your Account Name! */,
+        )
+      }}</span>
     </label>
     <label
       v-else-if="!isSvOk"
       class="label-issue"
     >
       <i class="material-icons error">error_outline</i>
-      <span>{{ $t("app.refreshbutton.incorrectsv" /* No AddOn data found for this account. */) }}</span>
+      <span>{{
+        $t(
+          "app.refreshbutton.incorrectsv" /* No AddOn data found for this account. */,
+        )
+      }}</span>
     </label>
     <label
-      v-if="isSettingsOk && isSvOk && isAddonsOk && isVersionSelected && isAccountSelected && aurasShown === 0"
+      v-if="
+        isSettingsOk &&
+        isSvOk &&
+        isAddonsOk &&
+        isVersionSelected &&
+        isAccountSelected &&
+        aurasShown === 0
+      "
       class="label-issue"
     >
       <i class="material-icons error">error_outline</i>
-      <span>{{ $t("app.refreshbutton.noAurasInstalled" /* No updateable auras installed on this account. */) }}</span>
+      <span>{{
+        $t(
+          "app.refreshbutton.noAurasInstalled" /* No updateable auras installed on this account. */,
+        )
+      }}</span>
     </label>
     <label
-      v-if="isSettingsOk && !isAddonsOk && isVersionSelected && isAccountSelected"
+      v-if="
+        isSettingsOk && !isAddonsOk && isVersionSelected && isAccountSelected
+      "
       class="label-issue"
     >
       <i class="material-icons error">error_outline</i>
-      <span>{{ $t("app.refreshbutton.addonNotFound" /* No supported AddOn installed. */) }}</span>
+      <span>{{
+        $t(
+          "app.refreshbutton.addonNotFound" /* No supported AddOn installed. */,
+        )
+      }}</span>
     </label>
     <label
       v-if="!isAddonsOk && isAccountSelected"
@@ -69,7 +98,7 @@
             src="/social-icons/curse.svg"
             class="logo"
             title="CurseForge"
-          >
+          />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
       </span>
@@ -125,9 +154,10 @@ export default defineComponent({
   },
   computed: {
     fromNow() {
-      if (!this.lastUpdate)
-        return "n/a";
-      return DateTime.fromJSDate(this.lastUpdate).toRelative({ locale: this.$i18n.locale });
+      if (!this.lastUpdate) return "n/a";
+      return DateTime.fromJSDate(this.lastUpdate).toRelative({
+        locale: this.$i18n.locale,
+      });
     },
   },
   watch: {
@@ -140,11 +170,13 @@ export default defineComponent({
   },
   methods: {
     olderThan30s() {
-      return DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() > 30000;
+      return (
+        DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() >
+        30000
+      );
     },
     scheduleTimer() {
-      if (this.lastUpdateTimer)
-        clearInterval(this.lastUpdateTimer);
+      if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
 
       this.lastUpdateTimer = setInterval(() => {
         this.$forceUpdate();

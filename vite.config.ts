@@ -3,9 +3,9 @@ import path from "node:path";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
 
-// eslint-disable-next-line import/default
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
+import eslintPlugin from "vite-plugin-eslint";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
 import pkg from "./package.json";
@@ -45,7 +45,9 @@ export default defineConfig(({ command }) => {
           entry: "electron/main/index.ts",
           onstart(options) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */ "[startup] Electron App");
+              console.log(
+                /* For `.vscode/.debug.script.mjs` */ "[startup] Electron App",
+              );
             } else {
               options.startup();
             }
@@ -56,7 +58,9 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: "dist-electron/main",
               rollupOptions: {
-                external: Object.keys("dependencies" in pkg ? pkg.dependencies : {}),
+                external: Object.keys(
+                  "dependencies" in pkg ? pkg.dependencies : {},
+                ),
               },
             },
           },
@@ -74,7 +78,9 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: "dist-electron/preload",
               rollupOptions: {
-                external: Object.keys("dependencies" in pkg ? pkg.dependencies : {}),
+                external: Object.keys(
+                  "dependencies" in pkg ? pkg.dependencies : {},
+                ),
               },
             },
           },
@@ -89,7 +95,7 @@ export default defineConfig(({ command }) => {
           got: { type: "esm" },
         },
       }),
-      // eslintPlugin(),
+      eslintPlugin(),
       VueI18nPlugin({
         // you need to set i18n resource including paths!
         include: path.resolve(__dirname, "./i18n/**"),
@@ -100,8 +106,8 @@ export default defineConfig(({ command }) => {
       target: "esnext",
     },
     server:
-      process.env.VSCODE_DEBUG
-      && (() => {
+      process.env.VSCODE_DEBUG &&
+      (() => {
         const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
         return {
           host: url.hostname,

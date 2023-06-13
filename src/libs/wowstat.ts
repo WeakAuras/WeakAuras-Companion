@@ -18,7 +18,10 @@ type AfterReloadCallback = () => void;
 
 const clientlog: { [key: string]: Tail } = {};
 
-export async function isOpen(wowpath: string, version: string): Promise<boolean> {
+export async function isOpen(
+  wowpath: string,
+  version: string,
+): Promise<boolean> {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
   const renametest = path.join(wowpath, version, "Logs", "Client.log.test");
 
@@ -31,9 +34,12 @@ export async function isOpen(wowpath: string, version: string): Promise<boolean>
   }
 }
 
-export async function afterReload(config: AfterReloadConfig, callback: AfterReloadCallback) {
+export async function afterReload(
+  config: AfterReloadConfig,
+  callback: AfterReloadCallback,
+) {
   const { value: wowpath, version, versions } = config;
-  const versionConfig = versions.find(v => v.name === version);
+  const versionConfig = versions.find((v) => v.name === version);
 
   if (!versionConfig) {
     throw new Error(`Version configuration not found for version: ${version}`);
@@ -59,21 +65,29 @@ export async function afterReload(config: AfterReloadConfig, callback: AfterRelo
     throw new Error(`Failed to get file stats for: ${wacompanionsvfile}`);
   }
 
-  const watcher = fs.watch(wacompanionsvfile, { persistent: false }, async (event, filename) => {
-    if (!filename) {
-      return;
-    }
+  const watcher = fs.watch(
+    wacompanionsvfile,
+    { persistent: false },
+    async (event, filename) => {
+      if (!filename) {
+        return;
+      }
 
-    const stats: Stats = await fs.promises.stat(wacompanionsvfile);
+      const stats: Stats = await fs.promises.stat(wacompanionsvfile);
 
-    if (stats.mtimeMs !== mtime) {
-      watcher.close();
-      callback();
-    }
-  });
+      if (stats.mtimeMs !== mtime) {
+        watcher.close();
+        callback();
+      }
+    },
+  );
 }
 
-export function afterRestart(wowpath: string, version: string, callback: () => void) {
+export function afterRestart(
+  wowpath: string,
+  version: string,
+  callback: () => void,
+) {
   const logfile = path.join(wowpath, version, "Logs", "Client.log");
 
   if (!clientlog[version]) {

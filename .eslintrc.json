@@ -2,7 +2,7 @@
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:vue/vue3-essential",
-    "@antfu"
+    "prettier"
   ],
   "ignorePatterns": [
     "dist",
@@ -14,6 +14,7 @@
     "tools/**/*.js"
   ],
   "rules": {
+    "arrow-parens": "off",
     "curly": "off",
     "no-console": "off",
     "no-mixed-operators": "off",
@@ -32,8 +33,6 @@
         ]
       }
     ],
-    "n/prefer-global/buffer": "off",
-    "@typescript-eslint/brace-style": "off",
     "@typescript-eslint/comma-dangle": [
       "error",
       "only-multiline",
@@ -41,9 +40,6 @@
         "functions": "never"
       }
     ],
-    "@typescript-eslint/delimiter-style": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-implicit-any": "off",
     "@typescript-eslint/quotes": [
@@ -54,27 +50,16 @@
         "allowTemplateLiterals": false
       }
     ],
-    "@typescript-eslint/semi": [
-      "error",
-      "always"
-    ],
-    "vue/comma-dangle": "off",
-    "vue/component-tags-order": "off",
-    "vue/experimental-script-setup-vars": "off",
+    "@typescript-eslint/semi": ["error", "always"],
     "vue/multi-word-component-names": "off"
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
     "ecmaVersion": "latest"
   },
-  "plugins": [
-    "vue",
-    "@typescript-eslint"
-  ],
+  "plugins": ["vue", "@typescript-eslint"],
   "settings": {
-    "import/core-modules": [
-      "electron"
-    ],
+    "import/core-modules": ["electron"],
     "import/resolver": {
       "vite": {
         "configPath": "./vite.config.ts"

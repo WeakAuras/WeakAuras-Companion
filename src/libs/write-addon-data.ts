@@ -7,7 +7,12 @@ import sanitize from "@/libs/sanitize";
 import { matchFolderNameInsensitive } from "@/libs/utilities";
 import type { ConfigState } from "@/stores/config";
 
-export async function writeAddonData(config: ConfigState, addonsInstalled, aurasWithData, stash) {
+export async function writeAddonData(
+  config: ConfigState,
+  addonsInstalled,
+  aurasWithData,
+  stash,
+) {
   console.log("writeAddonData");
   const addonConfigs = addonsInstalled;
 
@@ -17,7 +22,11 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
 
     while (addonPath.length) {
       const check = addonPath.shift();
-      const folder = matchFolderNameInsensitive(addonFolder, check, addonPath.length === 0);
+      const folder = matchFolderNameInsensitive(
+        addonFolder,
+        check,
+        addonPath.length === 0,
+      );
 
       if (folder) {
         addonFolder = path.join(addonFolder, folder);
@@ -54,9 +63,12 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
       let LuaSlugs = `${spacing}  slugs = {\n`;
 
       aurasWithData
-        .filter(aura => aura.auraType === config.addonName)
+        .filter((aura) => aura.auraType === config.addonName)
         .forEach((aura) => {
-          LuaSlugs += `${spacing}    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+          LuaSlugs += `${spacing}    ["${aura.slug.replace(
+            /"/g,
+            '\\"',
+          )}"] = {\n`;
 
           fields.forEach((field) => {
             if (aura[field]) {
@@ -64,7 +76,10 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
             }
           });
 
-          if (typeof aura.changelog !== "undefined" && typeof aura.changelog.text !== "undefined") {
+          if (
+            typeof aura.changelog !== "undefined" &&
+            typeof aura.changelog.text !== "undefined"
+          ) {
             let sanitized;
 
             if (aura.changelog.format === "bbcode") {
@@ -83,9 +98,12 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
       LuaOutput += `${spacing}  stash = {\n`;
 
       stash.auras
-        .filter(aura => aura.auraType === config.addonName)
+        .filter((aura) => aura.auraType === config.addonName)
         .forEach((aura) => {
-          LuaOutput += `${spacing}    ["${aura.slug.replace(/"/g, '\\"')}"] = {\n`;
+          LuaOutput += `${spacing}    ["${aura.slug.replace(
+            /"/g,
+            '\\"',
+          )}"] = {\n`;
 
           fields.forEach((field) => {
             if (aura[field]) {
@@ -93,7 +111,10 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
             }
           });
 
-          if (typeof aura.changelog !== "undefined" && typeof aura.changelog.text !== "undefined") {
+          if (
+            typeof aura.changelog !== "undefined" &&
+            typeof aura.changelog.text !== "undefined"
+          ) {
             let sanitized;
 
             if (aura.changelog.format === "bbcode") {
@@ -119,8 +140,8 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
           const regex = /^(.*?)(?: GIF)?\.x\d+y\d+f\d+w\d+h\d+W\d+H\d+\.tga$/;
 
           fs.readdirSync(stopmotionFilesPath)
-            .filter(v => v?.match(regex))
-            .map(v => ({
+            .filter((v) => v?.match(regex))
+            .map((v) => ({
               filename: v,
               title: v.match(regex)[1],
             }))
@@ -137,7 +158,10 @@ export async function writeAddonData(config: ConfigState, addonsInstalled, auras
     LuaOutput += "}";
 
     /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
-    const tocVersion = grabVersionFromToc(config.wowpath.value, config.wowpath.version);
+    const tocVersion = grabVersionFromToc(
+      config.wowpath.value,
+      config.wowpath.version,
+    );
     console.log("WeakAuras.toc has version:", tocVersion);
     const templateData = `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion

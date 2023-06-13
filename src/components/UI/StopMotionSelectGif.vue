@@ -9,14 +9,18 @@
         class="fileinput"
         @update:path="update"
       >
-        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}<br><br>
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i><br><br>
+        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}<br /><br />
+        <i>{{ $t("stopmotion.select.or" /* or */) }}</i
+        ><br /><br />
         <UIButton class="btn-ok">
-          {{ $t("stopmotion.select.computer" /* Choose one on your Computer */) }}
-        </UIButton><br><br>
-      </FileSelect><br>
+          {{
+            $t("stopmotion.select.computer" /* Choose one on your Computer */)
+          }} </UIButton
+        ><br /><br /> </FileSelect
+      ><br />
       <div class="tenorblock">
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i><br><br>
+        <i>{{ $t("stopmotion.select.or" /* or */) }}</i
+        ><br /><br />
         <DiscordPicker
           :api-key="apiKey"
           @gif="setTenor"
@@ -83,7 +87,11 @@ export default defineComponent({
       }
     },
     async update(filepath) {
-      if (filepath !== "" && fs.existsSync(filepath) && path.parse(filepath).ext.toLowerCase() === ".gif") {
+      if (
+        filepath !== "" &&
+        fs.existsSync(filepath) &&
+        path.parse(filepath).ext.toLowerCase() === ".gif"
+      ) {
         try {
           // check for error loading metadata
           const meta = await gif2tga.getMetaData(filepath);

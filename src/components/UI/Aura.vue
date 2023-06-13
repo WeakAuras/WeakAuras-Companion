@@ -31,7 +31,7 @@
           theme: 'info-tooltip',
         }"
         class="aura-name"
-      >{{ aura.name }}
+        >{{ aura.name }}
       </span>
     </div>
     <div
@@ -144,16 +144,17 @@ export default defineComponent({
 
       // sometimes this function triggers after the tooltip
       // set n/a as default value in case DateTime return null
-      this.timeElapsed = DateTime.fromJSDate(this.aura.modified).setLocale(this.$i18n.locale).toRelative() || "n/a";
+      this.timeElapsed =
+        DateTime.fromJSDate(this.aura.modified)
+          .setLocale(this.$i18n.locale)
+          .toRelative() || "n/a";
     },
     wagoURL(value: string | undefined): string {
-      if (!value)
-        return "";
+      if (!value) return "";
       return `https://wago.io/${value}`;
     },
     wagoAuthorURL(author: string | undefined): string {
-      if (!author)
-        return "";
+      if (!author) return "";
       return `https://wago.io/p/${author}`;
     },
   },

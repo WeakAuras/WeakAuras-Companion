@@ -10,7 +10,7 @@
           <img
             src="../../src/assets/weakauras.png"
             class="logo-img"
-          >
+          />
           <span>{{ $t("app.main.companion" /* Companion */) }}</span>
         </div>
         <div class="menu-btns">
@@ -113,11 +113,14 @@
               :fetching="fetching"
               :last-update="accountSelected && accountSelected.lastWagoUpdate"
               :auras-shown="aurasSortedForView.length"
-              :is-addons-ok="getIsAddonInstalled('WeakAuras') || getIsAddonInstalled('Plater')"
+              :is-addons-ok="
+                getIsAddonInstalled('WeakAuras') ||
+                getIsAddonInstalled('Plater')
+              "
               @refresh="doCompareSVwithWago()"
               @gotoconfig="configStep = 1"
             />
-            <br>
+            <br />
             <template v-if="aurasSortedForView.length > 0 && !fetching">
               <AuraHeaders
                 :sorted-column="sortedColumn"
@@ -156,7 +159,7 @@
             src="/social-icons/curse.svg"
             class="logo"
             title="CurseForge"
-          >
+          />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
         </a>
         <a
@@ -168,7 +171,7 @@
             src="/social-icons/wago.svg"
             class="logo"
             title="Wago"
-          >
+          />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
         </a>
         <a
@@ -180,7 +183,7 @@
             src="/social-icons/bug_report.svg"
             class="logo invert"
             title="Bug"
-          >
+          />
         </a>
         <div
           v-if="stash.auras.length > 0"
@@ -196,7 +199,9 @@
               strategy: 'fixed',
               theme: 'info-tooltip',
               html: true,
-              content: `${$t('app.main.readyForInstall' /* Ready for Install */)}${readyForInstallTooltip}`,
+              content: `${$t(
+                'app.main.readyForInstall' /* Ready for Install */,
+              )}${readyForInstallTooltip}`,
             }"
             class="material-icons update-available update-auras"
           >
@@ -215,9 +220,9 @@
                 strategy: 'fixed',
                 theme: 'info-tooltip',
                 html: true,
-                content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version} ${
-                  updater.releaseNotes
-                }`,
+                content: `${$t(
+                  'app.main.installUpdate' /* Install client update */,
+                )}: v${updater.version} ${updater.releaseNotes}`,
               }"
               class="material-icons update-available"
             >
@@ -229,7 +234,9 @@
             v-tooltip="{
               strategy: 'fixed',
               theme: 'info-tooltip',
-              content: `${$t('app.main.installUpdate' /* Install client update */)}: v${updater.version}`,
+              content: `${$t(
+                'app.main.installUpdate' /* Install client update */,
+              )}: v${updater.version}`,
             }"
             class="material-icons update-available"
             @click="installUpdates"
@@ -409,13 +416,16 @@ export default defineComponent({
       return addonConfigs;
     },
     addonsInstalled() {
-      return this.allAddonConfigs.filter(addonConfig => addonConfig.isInstalled);
+      return this.allAddonConfigs.filter(
+        (addonConfig) => addonConfig.isInstalled,
+      );
     },
     addonSelectedConfig() {
-      if (!this.addonSelected)
-        return null;
+      if (!this.addonSelected) return null;
       return this.allAddonConfigs.find(
-        addonConfig => addonConfig.addonName.toLowerCase() === this.addonSelected.toLowerCase(),
+        (addonConfig) =>
+          addonConfig.addonName.toLowerCase() ===
+          this.addonSelected.toLowerCase(),
       );
     },
     versionSelected(): Version | undefined {
@@ -424,7 +434,7 @@ export default defineComponent({
       }
 
       const selectedVersion = this.config.wowpath.versions.find(
-        version => version.name === this.config.wowpath.version,
+        (version) => version.name === this.config.wowpath.version,
       );
 
       return selectedVersion || undefined;
@@ -433,27 +443,43 @@ export default defineComponent({
       const versionSelected = this.versionSelected;
 
       if (typeof versionSelected === "object") {
-        return versionSelected.accounts.find(account => account.name === versionSelected.account);
+        return versionSelected.accounts.find(
+          (account) => account.name === versionSelected.account,
+        );
       }
       return null;
     },
     aurasWithData() {
       return this.auras.filter(
-        aura => !!aura.encoded && !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername),
+        (aura) =>
+          !!aura.encoded &&
+          !(
+            this.config.ignoreOwnAuras &&
+            aura.author === this.config.wagoUsername
+          ),
       );
     },
     aurasWithUpdate() {
-      return this.aurasWithData.filter(aura => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate);
+      return this.aurasWithData.filter(
+        (aura) => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate,
+      );
     },
     aurasSortedForView() {
       return this.auras
-        .filter(aura => !(this.config.ignoreOwnAuras && aura.author === this.config.wagoUsername))
-        .filter(aura => aura.auraType === this.addonSelected)
+        .filter(
+          (aura) =>
+            !(
+              this.config.ignoreOwnAuras &&
+              aura.author === this.config.wagoUsername
+            ),
+        )
+        .filter((aura) => aura.auraType === this.addonSelected)
         .sort(this.sortFunction);
     },
     sortFunction() {
       const dir = this.sortDescending ? -1 : 1;
-      const hasTypeColumn = this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
+      const hasTypeColumn =
+        this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
 
       if (!this.sortedColumn || this.sortedColumn === "modified")
         return createSortByTime(dir);
@@ -470,11 +496,11 @@ export default defineComponent({
     auras: {
       get(): AuraType[] {
         return (
-          (this.config.wowpath.validated
-            && this.config.wowpath.version
-            && this.accountSelected
-            && this.accountSelected.auras)
-          || []
+          (this.config.wowpath.validated &&
+            this.config.wowpath.version &&
+            this.accountSelected &&
+            this.accountSelected.auras) ||
+          []
         );
       },
       set(newValue) {
@@ -485,15 +511,31 @@ export default defineComponent({
   watch: {
     "stash.auras": {
       handler() {
-        writeAddonData(this.config, this.addonsInstalled, this.aurasWithData, this.stash);
+        writeAddonData(
+          this.config,
+          this.addonsInstalled,
+          this.aurasWithData,
+          this.stash,
+        );
       },
       deep: true,
     },
     "config.wowpath.value": function () {
-      validateWowPath(this.config, this.versionOptions, this.accountOptions, this.versionSelected, this.auras);
+      validateWowPath(
+        this.config,
+        this.versionOptions,
+        this.accountOptions,
+        this.versionSelected,
+        this.auras,
+      );
     },
     "config.wowpath.version": function () {
-      buildAccountList(this.config, this.accountOptions, this.versionSelected, this.auras);
+      buildAccountList(
+        this.config,
+        this.accountOptions,
+        this.versionSelected,
+        this.auras,
+      );
     },
   },
   async mounted() {
@@ -518,7 +560,12 @@ export default defineComponent({
         }
 
         if (slug) {
-          await wagoPushHandler(this.config, slug, this.stash, this.versionSelected);
+          await wagoPushHandler(
+            this.config,
+            slug,
+            this.stash,
+            this.versionSelected,
+          );
         }
       }
     });
@@ -551,7 +598,14 @@ export default defineComponent({
 
         if (!this.config.wowpath.validated) {
           this.config.wowpath.value = wowpath;
-          validateWowPath(this.config, this.versionOptions, this.accountOptions, this.versionSelected, this.auras);
+
+          validateWowPath(
+            this.config,
+            this.versionOptions,
+            this.accountOptions,
+            this.versionSelected,
+            this.auras,
+          );
         }
       } catch (e) {
         console.log(JSON.stringify(e));
@@ -574,7 +628,7 @@ export default defineComponent({
       return {
         http2: true,
         headers: {
-          Identifier: this.accountHash,
+          "Identifier": this.accountHash,
           "api-key": this.config.wagoApiKey || "",
         },
         crossdomain: true,
@@ -590,19 +644,34 @@ export default defineComponent({
       ipcRenderer.invoke("checkUpdates", this.config.beta);
 
       // check for app updates in 2 hours
-      if (this.updater.scheduleId)
-        clearTimeout(this.updater.scheduleId);
+      if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
 
-      this.updater.scheduleId = setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
+      this.updater.scheduleId = setTimeout(
+        this.checkCompanionUpdates,
+        1000 * 3600 * 2,
+      );
     },
     getWeakAurasSaved() {
-      return WeakAurasSaved(this.config, this.versionSelected, this.accountSelected);
+      return WeakAurasSaved(
+        this.config,
+        this.versionSelected,
+        this.accountSelected,
+      );
     },
     getPlaterSaved() {
-      return PlaterSaved(this.config, this.versionSelected, this.accountSelected);
+      return PlaterSaved(
+        this.config,
+        this.versionSelected,
+        this.accountSelected,
+      );
     },
     getIsAddonInstalled(addon: string) {
-      return isAddonInstalled(this.config, addon, this.versionSelected, this.accountSelected);
+      return isAddonInstalled(
+        this.config,
+        addon,
+        this.versionSelected,
+        this.accountSelected,
+      );
     },
     getAddonConfig(addonName: string) {
       const lowerAddonName = addonName.toLowerCase();
@@ -628,7 +697,7 @@ export default defineComponent({
         this.auras,
         this.aurasWithData,
         this.stash,
-        this.updateFetchingState
+        this.updateFetchingState,
       );
     },
     toggleReport() {
@@ -641,8 +710,11 @@ export default defineComponent({
       ipcRenderer.invoke("installUpdates");
     },
     sortBy(columnName: string): void {
-      this.sortedColumn = this.sortedColumn === columnName ? "modified" : columnName;
-      this.sortDescending = this.sortedColumn === columnName ? !this.sortDescending : false;
+      this.sortedColumn =
+        this.sortedColumn === columnName ? "modified" : columnName;
+
+      this.sortDescending =
+        this.sortedColumn === columnName ? !this.sortDescending : false;
     },
     updateFetchingState(fetching) {
       this.fetching = fetching;
@@ -703,7 +775,8 @@ $iconDefaultColor: #51ae42;
   font-weight: 600;
   font-size: 16px;
   border-bottom: 3px solid transparent;
-  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out, font-size 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
+    font-size 0.2s ease-in-out;
 }
 
 .btn.btn-menu span {

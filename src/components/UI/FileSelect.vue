@@ -36,7 +36,15 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "FileSelect",
-  props: ["path", "createDirectory", "defaultPath", "openDirectory", "openFile", "filters", "dragndrop"],
+  props: [
+    "path",
+    "createDirectory",
+    "defaultPath",
+    "openDirectory",
+    "openFile",
+    "filters",
+    "dragndrop",
+  ],
   emits: ["update:path"],
   data() {
     return {

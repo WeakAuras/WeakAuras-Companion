@@ -6,12 +6,13 @@
           :class="{ invisible: search === '' }"
           class="material-icons arrow_back"
           @click="search = ''"
-        >arrow_back</span>
+          >arrow_back</span
+        >
         <div>
           <input
             v-model="search"
             :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */)"
-          >
+          />
           <span class="material-icons">search</span>
         </div>
       </div>
@@ -95,8 +96,10 @@ export default defineComponent({
     search: "onSearch",
   },
   mounted() {
-    fetch(`https://g.tenor.com/v1/categories?key=${this.apiKey}&locale=${this.locale}`)
-      .then(res => res.json())
+    fetch(
+      `https://g.tenor.com/v1/categories?key=${this.apiKey}&locale=${this.locale}`,
+    )
+      .then((res) => res.json())
       .then(({ tags }) => (this.tags = tags));
   },
   methods: {
@@ -115,7 +118,7 @@ export default defineComponent({
     },
     get(query, key, additive?) {
       fetch(`https://g.tenor.com/v1/${query}&key=${this.apiKey}`)
-        .then(res => res.json())
+        .then((res) => res.json())
         .then((data) => {
           if (additive) {
             data[key].forEach((element) => {
@@ -132,7 +135,9 @@ export default defineComponent({
       const title = result.content_description;
       const id = result.id;
 
-      fetch(`https://g.tenor.com/v1/registershare?key=${this.apiKey}&locale=${this.locale}&id=${id}`);
+      fetch(
+        `https://g.tenor.com/v1/registershare?key=${this.apiKey}&locale=${this.locale}&id=${id}`,
+      );
 
       this.$emit("send", {
         url: this.renderHugeGif(gif),
@@ -165,7 +170,8 @@ header {
   background-color: $light-bg;
   width: 100%;
   height: 60px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   -webkit-app-region: no-drag;
   div {
     display: flex;
@@ -236,7 +242,8 @@ span {
           overflow: hidden;
           position: relative;
           background-size: cover;
-          transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+          transition-property: background-color, border-color, color, fill,
+            stroke, opacity, box-shadow, transform;
           transition-duration: 300ms;
           color: white;
           font-weight: 600;
@@ -257,7 +264,8 @@ span {
             top: 0;
             left: 0;
             background-color: black;
-            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+            transition-property: background-color, border-color, color, fill,
+              stroke, opacity, box-shadow, transform;
             transition-duration: 300ms;
             width: 100%;
             height: 100%;

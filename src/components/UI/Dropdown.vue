@@ -3,7 +3,8 @@
     <label
       v-if="label"
       class="dropdown__label"
-    >{{ label }}</label>
+      >{{ label }}</label
+    >
     <div
       class="dropdown__toggle"
       :class="{ 'dropdown__toggle--toggled': showMenu }"
@@ -13,7 +14,8 @@
       <i
         :class="{ open: showMenu }"
         class="material-icons"
-      >keyboard_arrow_down</i>
+        >keyboard_arrow_down</i
+      >
     </div>
     <div
       :style="{ height: showMenu ? `${height}px` : '0px' }"
@@ -56,7 +58,8 @@ export default defineComponent({
     return {
       selected:
         this.value === ""
-          ? this.placeholder || this.$t("app.dropdown.placeholder" /* Select... */)
+          ? this.placeholder ||
+            this.$t("app.dropdown.placeholder" /* Select... */)
           : this.getLabel(this.value),
       showMenu: false,
       height: this.options.length * 30,
@@ -64,9 +67,10 @@ export default defineComponent({
   },
   watch: {
     value() {
-      this.selected
-        = this.value === ""
-          ? this.placeholder || this.$t("app.dropdown.placeholder" /* Select... */)
+      this.selected =
+        this.value === ""
+          ? this.placeholder ||
+            this.$t("app.dropdown.placeholder" /* Select... */)
           : this.getLabel(this.value);
     },
     options() {
@@ -84,10 +88,9 @@ export default defineComponent({
       this.$emit("change");
     },
     getLabel(value) {
-      const index = this.options.findIndex(option => option.value === value);
+      const index = this.options.findIndex((option) => option.value === value);
 
-      if (index === -1)
-        return value;
+      if (index === -1) return value;
       return this.options[index].text;
     },
   },
@@ -138,7 +141,8 @@ $min-width: 140px;
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid $border-color;
-    transition: border-color 0.3s ease-in-out, border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
+    transition: border-color 0.3s ease-in-out,
+      border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
 
     &--toggled {
       border-radius: 4px 4px 0 0;

@@ -10,7 +10,7 @@ export default {
         "vue3-discord-emojipicker__input",
       ];
 
-      if (classes.find(classe => event.target.classList.contains(classe))) {
+      if (classes.find((classe) => event.target.classList.contains(classe))) {
         return;
       }
 

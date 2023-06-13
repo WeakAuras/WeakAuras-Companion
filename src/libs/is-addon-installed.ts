@@ -3,7 +3,12 @@ import path from "node:path";
 import { matchFolderNameInsensitive } from "./utilities";
 import type { Account, ConfigState, Version } from "@/stores/config";
 
-export function isAddonInstalled(config: ConfigState, addon: string, version?: Version, account?: Account) {
+export function isAddonInstalled(
+  config: ConfigState,
+  addon: string,
+  version?: Version,
+  account?: Account,
+) {
   const wowPath = config.wowpath.value;
 
   if (version && account) {

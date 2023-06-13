@@ -4,6 +4,7 @@
     "Vue.vscode-typescript-vue-plugin",
     "stylelint.vscode-stylelint",
     "streetsidesoftware.code-spell-checker",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
   ]
 }

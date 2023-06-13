@@ -3,8 +3,8 @@
     <img
       :src="preview"
       class="preview"
-    >
-    <br>
+    />
+    <br />
     <p class="center-text">
       {{ $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */) }}
       <span
@@ -15,22 +15,27 @@
           theme: 'info-tooltip',
         }"
         class="material-icons minihelp"
-      >help</span>
-      <br><br>
-      <span class="glow">{{ $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */) }}</span>
+        >help</span
+      >
+      <br /><br />
+      <span class="glow">{{
+        $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */)
+      }}</span>
     </p>
-    <br>
+    <br />
     <p class="filename">
       <a
         class="explorer"
         :title="$t('app.config.backup.openfolder' /* Open Folder */)"
         @click="openDestDir()"
-      >{{ resultFolder }}</a>
+        >{{ resultFolder }}</a
+      >
       <a
         class="explorer"
         :title="$t('app.config.backup.openfile' /* Open File */)"
         @click="openDestFile()"
-      >{{ resultFile }}</a>
+        >{{ resultFile }}</a
+      >
     </p>
   </div>
 </template>
@@ -41,7 +46,13 @@ import path from "node:path";
 import { defineComponent } from "vue";
 import { useStashStore } from "../../stores/auras";
 import { useStopMotionStore } from "../../stores/stopmotion";
-import { StopMotionTemplate, deflate, encode, generateUniqueID, serialize } from "@/libs/stopmotion";
+import {
+  StopMotionTemplate,
+  deflate,
+  encode,
+  generateUniqueID,
+  serialize,
+} from "@/libs/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",
@@ -82,7 +93,10 @@ export default defineComponent({
       );
     },
     resultFolder() {
-      return path.join("Interface", "AddOns", "WeakAurasCompanion", "animations") + path.sep;
+      return (
+        path.join("Interface", "AddOns", "WeakAurasCompanion", "animations") +
+        path.sep
+      );
     },
     resultFile() {
       return path.parse(this.result.destination).base;

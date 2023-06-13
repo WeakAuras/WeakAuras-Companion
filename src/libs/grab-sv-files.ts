@@ -3,7 +3,12 @@ import path from "node:path";
 
 import type { Account, ConfigState, Version } from "@/stores/config";
 
-function getSavedVariable(config: ConfigState, version: string, accountName: string, addonName: string) {
+function getSavedVariable(
+  config: ConfigState,
+  version: string,
+  accountName: string,
+  addonName: string,
+) {
   const savedVariable = path.join(
     config.wowpath.value,
     version,
@@ -23,9 +28,18 @@ function getSavedVariable(config: ConfigState, version: string, accountName: str
   }
 }
 
-export function WeakAurasSaved(config?: ConfigState, version?: Version, account?: Account) {
+export function WeakAurasSaved(
+  config?: ConfigState,
+  version?: Version,
+  account?: Account,
+) {
   if (config?.wowpath?.version) {
-    return getSavedVariable(config, config.wowpath.version, account?.name, "WeakAuras");
+    return getSavedVariable(
+      config,
+      config.wowpath.version,
+      account?.name,
+      "WeakAuras",
+    );
   } else if (config && version && account) {
     return getSavedVariable(config, version.name, account.name, "WeakAuras");
   }
@@ -33,9 +47,18 @@ export function WeakAurasSaved(config?: ConfigState, version?: Version, account?
   return false;
 }
 
-export function PlaterSaved(config?: ConfigState, version?: Version, account?: Account) {
+export function PlaterSaved(
+  config?: ConfigState,
+  version?: Version,
+  account?: Account,
+) {
   if (config?.wowpath?.version) {
-    return getSavedVariable(config, config.wowpath.version, account?.name, "Plater");
+    return getSavedVariable(
+      config,
+      config.wowpath.version,
+      account?.name,
+      "Plater",
+    );
   } else if (config && version && account) {
     return getSavedVariable(config, version.name, account.name, "Plater");
   }

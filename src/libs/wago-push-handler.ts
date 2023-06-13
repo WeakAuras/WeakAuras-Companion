@@ -11,8 +11,13 @@ interface WagoApiResponse {
   [Symbol.iterator](): Iterator<any>;
 }
 
-export async function wagoPushHandler(config: ConfigState, slug, stash: StashStore, versionSelected: Version) {
-  const existingAuraIndex = stash.auras.findIndex(aura => aura.slug === slug);
+export async function wagoPushHandler(
+  config: ConfigState,
+  slug,
+  stash: StashStore,
+  versionSelected: Version,
+) {
+  const existingAuraIndex = stash.auras.findIndex((aura) => aura.slug === slug);
 
   const getAccountHash = function () {
     if (versionSelected) {
@@ -26,7 +31,7 @@ export async function wagoPushHandler(config: ConfigState, slug, stash: StashSto
     return {
       http2: true,
       headers: {
-        Identifier: getAccountHash(),
+        "Identifier": getAccountHash(),
         "api-key": config.wagoApiKey || "",
       },
       crossdomain: true,
@@ -38,10 +43,13 @@ export async function wagoPushHandler(config: ConfigState, slug, stash: StashSto
 
   if (existingAuraIndex === -1) {
     try {
-      const response: Response<WagoApiResponse> = await got(`https://data.wago.io/api/check/?ids=${slug}`, {
-        ...getGotOptions,
-        responseType: "json",
-      }).json();
+      const response: Response<WagoApiResponse> = await got(
+        `https://data.wago.io/api/check/?ids=${slug}`,
+        {
+          ...getGotOptions,
+          responseType: "json",
+        },
+      ).json();
       const data: WagoApiResponse = response.body;
 
       for (const wagoData of data) {
@@ -53,15 +61,23 @@ export async function wagoPushHandler(config: ConfigState, slug, stash: StashSto
           wagoSemver: wagoData.versionString,
           versionNote: wagoData.changelog,
           encoded: null,
-          auraType: wagoData.type === "WEAKAURA" ? "WeakAuras" : wagoData.type === "PLATER" ? "Plater" : undefined,
+          auraType:
+            wagoData.type === "WEAKAURA"
+              ? "WeakAuras"
+              : wagoData.type === "PLATER"
+              ? "Plater"
+              : undefined,
           wagoid: wagoData._id,
           source: "Wago",
         };
 
-        const response2 = await got(`https://data.wago.io/api/raw/encoded?id=${wagoData._id}`, {
-          ...getGotOptions,
-          responseType: "text",
-        });
+        const response2 = await got(
+          `https://data.wago.io/api/raw/encoded?id=${wagoData._id}`,
+          {
+            ...getGotOptions,
+            responseType: "text",
+          },
+        );
 
         const data2 = response2.body;
         aura.encoded = data2;

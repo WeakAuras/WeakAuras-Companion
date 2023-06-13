@@ -3,8 +3,7 @@ import fs from "node:fs";
 import regedit, { promisified as regedit_promisified } from "regedit";
 
 export function formatBytes(a, b) {
-  if (a === 0)
-    return "0 Bytes";
+  if (a === 0) return "0 Bytes";
   const c = 1024;
   const d = b || 2;
   const e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
@@ -16,7 +15,8 @@ regedit.setExternalVBSLocation("resources/node_modules/regedit/vbs");
 
 export async function wowDefaultPath() {
   if (process.platform === "win32") {
-    const key = "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
+    const key =
+      "HKLM\\SOFTWARE\\WOW6432Node\\Blizzard Entertainment\\World of Warcraft";
 
     try {
       const results = await regedit_promisified.list([key]);
@@ -42,8 +42,7 @@ export function matchFolderNameInsensitive(folder, name, create) {
     for (const i in items) {
       const item = items[i];
 
-      if (name.toLowerCase() === item.toLowerCase())
-        return item;
+      if (name.toLowerCase() === item.toLowerCase()) return item;
     }
 
     if (create) {

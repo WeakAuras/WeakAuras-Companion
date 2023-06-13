@@ -3,7 +3,11 @@ import path from "node:path";
 import { i18n } from "./i18n";
 import type { ConfigState, Version } from "@/stores/config";
 
-export function buildVersionList(config: ConfigState, versionOptions, accountOptions) {
+export function buildVersionList(
+  config: ConfigState,
+  versionOptions,
+  accountOptions,
+) {
   const addVersion = function (versionDir: string) {
     const newVersion = {
       name: versionDir,
@@ -39,11 +43,15 @@ export function buildVersionList(config: ConfigState, versionOptions, accountOpt
     },
     {
       value: "_classic_ptr_",
-      text: i18n.global.t("app.version.classicwotlkptr" /* WoTLK Classic PTR */),
+      text: i18n.global.t(
+        "app.version.classicwotlkptr" /* WoTLK Classic PTR */,
+      ),
     },
     {
       value: "_classic_beta_",
-      text: i18n.global.t("app.version.classicwotlkbeta" /* WoTLK Classic Beta */),
+      text: i18n.global.t(
+        "app.version.classicwotlkbeta" /* WoTLK Classic Beta */,
+      ),
     },
     {
       value: "_classic_era_",
@@ -62,19 +70,32 @@ export function buildVersionList(config: ConfigState, versionOptions, accountOpt
       const files = fs.readdirSync(wowpath);
 
       files
-        .filter(versionDir => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowpath, versionDir)).isDirectory())
+        .filter(
+          (versionDir) =>
+            versionDir.match(/^_.*_$/) &&
+            fs.statSync(path.join(wowpath, versionDir)).isDirectory(),
+        )
         .forEach((versionDir) => {
-          const accountFolder = path.join(wowpath, versionDir, "WTF", "Account");
+          const accountFolder = path.join(
+            wowpath,
+            versionDir,
+            "WTF",
+            "Account",
+          );
 
           if (fs.existsSync(accountFolder)) {
-            const versionFound = config.wowpath.versions.find((version: Version) => version.name === versionDir);
+            const versionFound = config.wowpath.versions.find(
+              (version: Version) => version.name === versionDir,
+            );
 
             if (!versionFound) {
               // make version if not found in data
               addVersion(versionDir);
             }
 
-            const label = versionLabels.find(versionLabel => versionLabel.value === versionDir);
+            const label = versionLabels.find(
+              (versionLabel) => versionLabel.value === versionDir,
+            );
 
             versionOptions.push({
               value: versionDir,

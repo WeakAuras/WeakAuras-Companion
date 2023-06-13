@@ -19,11 +19,13 @@
           <i
             v-if="config.wowpath.validated"
             class="material-icons green settings"
-          >check_circle_outline</i>
+            >check_circle_outline</i
+          >
           <i
             v-else
             class="material-icons red settings"
-          >error_outline</i>
+            >error_outline</i
+          >
         </div>
         <!-- Companion Settings Section -->
         <div class="title">
@@ -36,14 +38,22 @@
             :label="$t('app.config.lang' /* Language */)"
           />
           <Checkbox v-model="config.notify">
-            {{ $t("app.config.notification" /* Show notifications for new updates */) }}
+            {{
+              $t(
+                "app.config.notification" /* Show notifications for new updates */,
+              )
+            }}
           </Checkbox>
           <p class="label subtitle">
             {{ $t("app.config.startup" /* Startup */) }}
           </p>
           <div class="option">
             <Checkbox v-model="config.autostart">
-              {{ $t("app.config.autoStart" /* Launch client with your computer */) }}
+              {{
+                $t(
+                  "app.config.autoStart" /* Launch client with your computer */,
+                )
+              }}
             </Checkbox>
           </div>
           <div class="option">
@@ -56,7 +66,11 @@
           </p>
           <div class="option">
             <Checkbox v-model="config.beta">
-              {{ $t("app.config.autoupdater.beta" /* Use Companion Beta channel */) }}
+              {{
+                $t(
+                  "app.config.autoupdater.beta" /* Use Companion Beta channel */,
+                )
+              }}
             </Checkbox>
           </div>
           <!--
@@ -86,7 +100,7 @@
             type="text"
             size="11"
             @keyup.enter="config.wagoUsername = wagoUsername"
-          >
+          />
           <UIButton
             class="btn-ok"
             @click="config.wagoUsername = wagoUsername"
@@ -96,7 +110,8 @@
           <i
             v-if="config.wagoUsername"
             class="material-icons green"
-          >check_circle_outline</i>
+            >check_circle_outline</i
+          >
           <p class="label">
             {{ $t("app.config.wagoApiKey" /* Set Wago API Key (optional) */) }}
           </p>
@@ -105,7 +120,7 @@
             type="password"
             size="11"
             @keyup.enter="config.wagoApiKey = wagoApiKey"
-          >
+          />
           <UIButton
             class="btn-ok"
             @click="config.wagoApiKey = wagoApiKey"
@@ -115,16 +130,22 @@
           <i
             v-if="config.wagoApiKey && checkApiKey()"
             class="material-icons green"
-          >check_circle_outline</i>
+            >check_circle_outline</i
+          >
           <i
             v-else-if="config.wagoApiKey && !checkApiKey()"
             class="material-icons red"
-          >error_outline</i>
+            >error_outline</i
+          >
           <p
             v-if="config.wagoApiKey && !checkApiKey()"
             class="red"
           >
-            {{ $t("app.config.badapikey" /* Wago API Key should be 64 characters */) }}
+            {{
+              $t(
+                "app.config.badapikey" /* Wago API Key should be 64 characters */,
+              )
+            }}
           </p>
           <p>
             <a
@@ -136,7 +157,11 @@
             </a>
           </p>
           <Checkbox v-model="config.ignoreOwnAuras">
-            {{ $t("app.config.ignoreOwnAuras" /* Ignore auras from your account */) }}
+            {{
+              $t(
+                "app.config.ignoreOwnAuras" /* Ignore auras from your account */,
+              )
+            }}
           </Checkbox>
         </div>
         <!-- WeakAuras Backup Section -->
@@ -170,7 +195,9 @@
             <Dropdown
               v-model:value="config.backup.maxsize"
               :options="backupsize"
-              :label="$t('app.config.backup.dedicatedsize' /* Dedicated size */)"
+              :label="
+                $t('app.config.backup.dedicatedsize' /* Dedicated size */)
+              "
             />
           </div>
         </div>

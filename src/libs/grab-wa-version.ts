@@ -1,13 +1,22 @@
 import fs from "node:fs";
 import path from "node:path";
 
-export function grabVersionFromToc(wowPath: string, version: string): string | number {
-  const waFolderPath = path.join(wowPath, version, "Interface", "AddOns", "WeakAuras");
+export function grabVersionFromToc(
+  wowPath: string,
+  version: string,
+): string | number {
+  const waFolderPath = path.join(
+    wowPath,
+    version,
+    "Interface",
+    "AddOns",
+    "WeakAuras",
+  );
   const waTocFile = version.includes("classic")
     ? path.join(waFolderPath, "WeakAuras_Wrath.toc")
     : version.includes("era")
-      ? path.join(waFolderPath, "WeakAuras_Vanilla.toc")
-      : path.join(waFolderPath, "WeakAuras.toc");
+    ? path.join(waFolderPath, "WeakAuras_Vanilla.toc")
+    : path.join(waFolderPath, "WeakAuras.toc");
 
   const isSymlink = (filePath: string): boolean => {
     try {
@@ -28,7 +37,10 @@ export function grabVersionFromToc(wowPath: string, version: string): string | n
   };
 
   const resolvedFolderPath = getRealPath(waFolderPath);
-  const resolvedTocFile = path.join(resolvedFolderPath, path.basename(waTocFile));
+  const resolvedTocFile = path.join(
+    resolvedFolderPath,
+    path.basename(waTocFile),
+  );
 
   let tocContent: string;
 

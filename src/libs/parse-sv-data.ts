@@ -145,7 +145,10 @@ export function parsePlaterSVdata(PlaterSavedData, config) {
           }
 
           if (keyVal === "script_data" || keyVal === "hook_data") {
-            const typeSuffix = (keyVal === "hook_data" && "-Mod") || (keyVal === "script_data" && "-Script") || "";
+            const typeSuffix =
+              (keyVal === "hook_data" && "-Mod") ||
+              (keyVal === "script_data" && "-Script") ||
+              "";
 
             value.fields.forEach((obj2) => {
               let slug: string;

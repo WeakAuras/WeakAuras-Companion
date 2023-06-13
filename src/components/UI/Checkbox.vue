@@ -7,8 +7,10 @@
       ref="checkbox"
       type="checkbox"
       :checked="modelValue"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
-    >
+      @input="
+        $emit('update:modelValue', ($event.target as HTMLInputElement).checked)
+      "
+    />
     <div
       class="checkbox__box"
       :class="{ 'checkbox__box--checked': modelValue }"

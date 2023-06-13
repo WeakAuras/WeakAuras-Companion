@@ -4,7 +4,10 @@ let stash;
 
 // is app is in development mode or if origin is wago then allow the request
 function allowRequest(req) {
-  if (process.env.NODE_ENV === "development" || req.headers.origin === "https://wago.io") {
+  if (
+    process.env.NODE_ENV === "development" ||
+    req.headers.origin === "https://wago.io"
+  ) {
     return true;
   }
   return false;
@@ -51,7 +54,7 @@ function LocalServerRequestHandler(req, res) {
       if (body.action === "Add-Import") {
         const { 2: slug } = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
 
-        if (stash.findIndex(aura => aura.url === body.url) === -1)
+        if (stash.findIndex((aura) => aura.url === body.url) === -1)
           stash.push({
             name: body.name,
             encoded: body.import,

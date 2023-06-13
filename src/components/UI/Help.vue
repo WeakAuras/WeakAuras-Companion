@@ -1,7 +1,5 @@
 <template>
-  <div
-    id="help"
-  >
+  <div id="help">
     <div class="title">
       {{ $t("app.help.title" /* Setup Steps */) }}
     </div>
@@ -9,26 +7,38 @@
       <li>
         {{
           $t(
-            "app.help.s1" /* Configure WeakAuras Companion, you will need to at least set your World of Warcraft folder and account. */
+            "app.help.s1" /* Configure WeakAuras Companion, you will need to at least set your World of Warcraft folder and account. */,
           )
         }}
       </li>
       <li>
-        {{ $t("app.help.s2" /* Click on 'Fetch Updates', this is also done automatically once every hour. */) }}
+        {{
+          $t(
+            "app.help.s2" /* Click on 'Fetch Updates', this is also done automatically once every hour. */,
+          )
+        }}
         <ol class="follow">
           <li>
-            {{ $t("app.help.s2_1" /* Companion creates a list of your auras that contain a link to Wago. */) }}
+            {{
+              $t(
+                "app.help.s2_1" /* Companion creates a list of your auras that contain a link to Wago. */,
+              )
+            }}
           </li>
           <li>
             {{ $t("app.help.s2_2" /* Companion sends the list to Wago. */) }}
           </li>
           <li>
-            {{ $t("app.help.s2_3" /* Wago sends updated import strings and Companion compares the versions. */) }}
+            {{
+              $t(
+                "app.help.s2_3" /* Wago sends updated import strings and Companion compares the versions. */,
+              )
+            }}
           </li>
           <li>
             {{
               $t(
-                "app.help.s2_4" /* Companion creates a new "WeakAurasCompanion" addon automatically, this is where new import strings are saved. */
+                "app.help.s2_4" /* Companion creates a new "WeakAurasCompanion" addon automatically, this is where new import strings are saved. */,
               )
             }}
           </li>
@@ -40,63 +50,75 @@
       <li>
         {{
           $t(
-            "app.help.s3" /* The first time you start WeakAuras Companion, you will have to reload your UI for it to be able to load the addon. */
+            "app.help.s3" /* The first time you start WeakAuras Companion, you will have to reload your UI for it to be able to load the addon. */,
           )
         }}
       </li>
       <li class="reset">
         {{
           $t(
-            "app.help.s4_1", /* Update your auras in-game by clicking the update button next to them in the WeakAuras options. */
+            "app.help.s4_1" /* Update your auras in-game by clicking the update button next to them in the WeakAuras options. */,
           )
         }}
-        <br>
+        <br />
         <img
           src="../../assets/ingame.png"
           class="center"
-        >
-        <br>
+        />
+        <br />
       </li>
       <li>
-        {{ $t("app.help.s5" /* You can always skip a version or just ignore updates completely. */) }}
-        <br>
+        {{
+          $t(
+            "app.help.s5" /* You can always skip a version or just ignore updates completely. */,
+          )
+        }}
+        <br />
         <img
           src="../../assets/ingame2.png"
           class="center"
-        >
+        />
       </li>
     </ol>
-    <br>
-    <br>
+    <br />
+    <br />
     <div class="title">
       {{ $t("app.help.auraAuthorsTitle" /* Tips for Authors */) }}
     </div>
     <div class="paragraph">
-      {{ $t("app.help.auraAuthorsText1" /* If you publish auras on Wago, we recommend these settings: */) }}
+      {{
+        $t(
+          "app.help.auraAuthorsText1" /* If you publish auras on Wago, we recommend these settings: */,
+        )
+      }}
       <ul>
         <li>
           {{
             $t(
-              "app.help.auraAuthorsText2" /* In the Companion app, add your Wago username in the "Wago Account" setting. */
+              "app.help.auraAuthorsText2" /* In the Companion app, add your Wago username in the "Wago Account" setting. */,
             )
           }}
         </li>
         <li>
           {{
             $t(
-              "app.help.auraAuthorsText3" /* In WeakAuras, select the "Ignore all Updates" option for any aura you've modified heavily. */
+              "app.help.auraAuthorsText3" /* In WeakAuras, select the "Ignore all Updates" option for any aura you've modified heavily. */,
             )
           }}
         </li>
       </ul>
-      <br>
-      <br>
+      <br />
+      <br />
     </div>
     <div class="title">
       {{ $t("app.help.foundbug" /* Found a bug? */) }}
     </div>
     <div class="paragraph">
-      {{ $t("app.help.bug" /* If you encounter a bug, please create a ticket on */) }}
+      {{
+        $t(
+          "app.help.bug" /* If you encounter a bug, please create a ticket on */,
+        )
+      }}
       <a
         target="_blank"
         href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
@@ -104,39 +126,50 @@
         GitHub
       </a>
       {{ $t("app.help.bugend" /* containing: */) }}
-      <br>
+      <br />
       <ul>
         <li>
           {{ $t("app.help.bug.s1" /* A description of your problem. */) }}
         </li>
         <li>{{ $t("app.help.bug.s2" /* The steps to reproduce it. */) }}</li>
         <li>
-          {{ $t("app.help.bug.s3" /* A screenshot, if it helps to understand your issue. */) }}
+          {{
+            $t(
+              "app.help.bug.s3" /* A screenshot, if it helps to understand your issue. */,
+            )
+          }}
         </li>
         <li>
           {{
             $t(
-              "app.help.bug.s4" /* Error logs, type Ctrl+Shift+I to access the console and copy any error that might show up. */
+              "app.help.bug.s4" /* Error logs, type Ctrl+Shift+I to access the console and copy any error that might show up. */,
             )
           }}
         </li>
       </ul>
     </div>
-    <br>
-    <br>
+    <br />
+    <br />
     <div class="title">
       {{ $t("app.help.support.title" /* Support */) }}
     </div>
     <div class="paragraph">
-      {{ $t("app.help.support.text1" /* If you need more help come talk with us on WeakAuras's */) }}
+      {{
+        $t(
+          "app.help.support.text1" /* If you need more help come talk with us on WeakAuras's */,
+        )
+      }}
       <a
         href="https://discord.gg/weakauras"
         target="_blank"
-      >Discord</a>
-      {{ $t("app.help.support.text2" /* in the #companion-support channel. */) }}
+        >Discord</a
+      >
+      {{
+        $t("app.help.support.text2" /* in the #companion-support channel. */)
+      }}
     </div>
-    <br>
-    <br>
+    <br />
+    <br />
   </div>
 </template>
 

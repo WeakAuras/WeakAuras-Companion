@@ -2,7 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import type { ConfigState } from "@/stores/config";
 
-export function buildAccountList(config: ConfigState, accountOptions, versionSelected, auras) {
+export function buildAccountList(
+  config: ConfigState,
+  accountOptions,
+  versionSelected,
+  auras,
+) {
   const addAccount = function (accountFile: string) {
     const newAccount = {
       name: accountFile,
@@ -19,7 +24,12 @@ export function buildAccountList(config: ConfigState, accountOptions, versionSel
 
   if (config.wowpath.validated && versionSelected) {
     const versionName = versionSelected.name;
-    const accountFolder = path.join(config.wowpath.value, versionName, "WTF", "Account");
+    const accountFolder = path.join(
+      config.wowpath.value,
+      versionName,
+      "WTF",
+      "Account",
+    );
 
     if (fs.existsSync(accountFolder)) {
       try {
@@ -27,16 +37,21 @@ export function buildAccountList(config: ConfigState, accountOptions, versionSel
 
         files
           .filter(
-            accountFile =>
-              accountFile !== "SavedVariables" && fs.statSync(path.join(accountFolder, accountFile)).isDirectory(),
+            (accountFile) =>
+              accountFile !== "SavedVariables" &&
+              fs.statSync(path.join(accountFolder, accountFile)).isDirectory(),
           )
           .forEach((accountFile) => {
-            const accountFound = versionSelected.accounts.find(account => account.name === accountFile);
+            const accountFound = versionSelected.accounts.find(
+              (account) => account.name === accountFile,
+            );
 
             if (!accountFound) {
               // make account if not found in data
               addAccount(accountFile);
-            } else if (typeof accountFound.savedvariableSizeForAddon === "undefined") {
+            } else if (
+              typeof accountFound.savedvariableSizeForAddon === "undefined"
+            ) {
               accountFound.savedvariableSizeForAddon = [];
             }
             accountFound.numAuras = auras.length;

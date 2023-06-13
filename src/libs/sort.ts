@@ -11,7 +11,11 @@ function getUpdateValueWithAllAuras(aura) {
 
 export function createSortByTime(dir) {
   return (a, b) => {
-    return DateTime.fromJSDate(b.modified).diff(DateTime.fromJSDate(a.modified)).valueOf() * dir;
+    return (
+      DateTime.fromJSDate(b.modified)
+        .diff(DateTime.fromJSDate(a.modified))
+        .valueOf() * dir
+    );
   };
 }
 
@@ -20,7 +24,7 @@ export function createSortByString(dir, column) {
     let A = a[column] || "";
     let B = b[column] || "";
 
-    [A, B] = [A, B].map(s => `${s}`.toLocaleString().toLowerCase());
+    [A, B] = [A, B].map((s) => `${s}`.toLocaleString().toLowerCase());
     return A < B ? -1 * dir : A === B ? 0 : dir;
   };
 }
@@ -34,14 +38,18 @@ export function createSortByType(dir) {
 
 export function createSortByAuthor(dir, hasTypeColumn) {
   const sortByAuthor = createSortByString(dir, "author");
-  const secondarySortFunction = hasTypeColumn ? createSortByType(1) : createSortByString(1, "name");
+  const secondarySortFunction = hasTypeColumn
+    ? createSortByType(1)
+    : createSortByString(1, "name");
 
   return (a, b) => sortByAuthor(a, b) || secondarySortFunction(a, b);
 }
 
 export function createSortByUpdate(dir, hasTypeColumn) {
   const getUpdateValue = getUpdateValueWithAllAuras;
-  const secondarySortFunction = hasTypeColumn ? createSortByType(1) : createSortByString(1, "name");
+  const secondarySortFunction = hasTypeColumn
+    ? createSortByType(1)
+    : createSortByString(1, "name");
 
   return (a, b) => {
     const A = getUpdateValue(a);

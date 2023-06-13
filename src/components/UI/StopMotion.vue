@@ -6,17 +6,28 @@
           $t("app.stopmotion.selectgifconverter" /* StopMotion GIF Converter */)
         }}
       </div>
-      <br>
+      <br />
       <div class="bts-top-right">
-        <UIButton v-if="step === 3" class="btn-ok btn-title" @click="setStep(1)">
+        <UIButton
+          v-if="step === 3"
+          class="btn-ok btn-title"
+          @click="setStep(1)"
+        >
           <span class="material-icons">first_page</span>
         </UIButton>
-        <UIButton v-if="step > 1" class="btn-ok btn-title" @click="prev()">
+        <UIButton
+          v-if="step > 1"
+          class="btn-ok btn-title"
+          @click="prev()"
+        >
           <span class="material-icons">keyboard_backspace</span>
         </UIButton>
       </div>
     </div>
-    <StopMotionSelectGif v-if="step === 1" @next="next()" />
+    <StopMotionSelectGif
+      v-if="step === 1"
+      @next="next()"
+    />
     <StopMotionSettings
       v-if="step === 2"
       :wow-versions="wowVersions"

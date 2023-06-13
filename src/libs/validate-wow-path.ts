@@ -6,7 +6,13 @@ import { buildVersionList } from "./build-version-list";
 
 import type { ConfigState } from "@/stores/config";
 
-export function validateWowPath(config: ConfigState, versionOptions, accountOptions, versionSelected, auras) {
+export function validateWowPath(
+  config: ConfigState,
+  versionOptions,
+  accountOptions,
+  versionSelected,
+  auras,
+) {
   console.log("validateWowPath");
   config.wowpath.validated = false;
 
@@ -21,10 +27,19 @@ export function validateWowPath(config: ConfigState, versionOptions, accountOpti
       let validated = false;
 
       files
-        .filter(versionDir => versionDir.match(/^_.*_$/) && fs.statSync(path.join(wowPath, versionDir)).isDirectory())
+        .filter(
+          (versionDir) =>
+            versionDir.match(/^_.*_$/) &&
+            fs.statSync(path.join(wowPath, versionDir)).isDirectory(),
+        )
         .forEach((versionDir) => {
           if (!validated) {
-            const accountFolder = path.join(wowPath, versionDir, "WTF", "Account");
+            const accountFolder = path.join(
+              wowPath,
+              versionDir,
+              "WTF",
+              "Account",
+            );
 
             if (fs.existsSync(accountFolder)) {
               try {
@@ -32,7 +47,13 @@ export function validateWowPath(config: ConfigState, versionOptions, accountOpti
                 validated = true;
                 config.wowpath.validated = true;
                 buildVersionList(config, versionOptions, accountOptions);
-                buildAccountList(config, accountOptions, versionSelected, auras);
+
+                buildAccountList(
+                  config,
+                  accountOptions,
+                  versionSelected,
+                  auras,
+                );
               } catch (err) {
                 console.error("No Read access");
               }

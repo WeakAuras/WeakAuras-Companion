@@ -1,0 +1,9 @@
+{
+  "endOfLine": "auto",
+  "tabWidth": 2,
+  "arrowParens": "always",
+  "singleAttributePerLine": true,
+  "bracketSameLine": false,
+  "trailingComma": "all",
+  "quoteProps": "consistent"
+}

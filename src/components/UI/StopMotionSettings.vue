@@ -1,16 +1,19 @@
 <template>
   <div id="StopMotionSettings">
-    <div v-if="!gif.tenor" class="config-row">
+    <div
+      v-if="!gif.tenor"
+      class="config-row"
+    >
       <div class="config-row-item">
         <div class="title">
           {{ $t("app.stopmotion.fileinformation" /* File Information */) }}
         </div>
         <div class="block">
-          {{ $t("app.stopmotion.name" /* Name */) }}: {{ gif.meta.name }}<br>
+          {{ $t("app.stopmotion.name" /* Name */) }}: {{ gif.meta.name }}<br />
           {{ $t("app.stopmotion.size" /* Size */) }}: {{ gif.meta.width }}px x
-          {{ gif.meta.height }}px<br>
+          {{ gif.meta.height }}px<br />
           {{ $t("app.stopmotion.frames" /* Frames */) }}: {{ gif.meta.frames
-          }}<br>
+          }}<br />
         </div>
       </div>
       <div class="config-row-item">
@@ -43,9 +46,9 @@
             min="0.1"
             max="1"
             step="0.01"
-          >
+          />
           {{ Math.round(gif.settings.scaling * 100) }}%
-          <br>
+          <br />
           <Checkbox v-model="gif.settings.coalesce">
             {{ $t("app.stopmotion.coalesce" /* Coalesce (movie animation) */) }}
           </Checkbox>
@@ -64,9 +67,11 @@
               min="2"
               max="10"
               step="1"
+            />
+            <label for="skips_value"
+              >{{ gif.settings.skips_value }}
+              {{ $t("app.stopmotion.frames" /* frames */) }}</label
             >
-            <label for="skips_value">{{ gif.settings.skips_value }}
-              {{ $t("app.stopmotion.frames" /* frames */) }}</label>
           </span>
         </div>
       </div>
@@ -77,28 +82,32 @@
         <div class="block">
           <div>
             {{ $t("app.stopmotion.row.columns" /* Rows x Columns */) }}:
-            {{ result.rows }} x {{ result.cols }}<br>
+            {{ result.rows }} x {{ result.cols }}<br />
             {{ $t("app.stopmotion.frame.size" /* Frame Size */) }}:
             {{ Math.floor(gif.meta.width * gif.settings.scaling) }}px x
-            {{ Math.floor(gif.meta.height * gif.settings.scaling) }}px<br>
+            {{ Math.floor(gif.meta.height * gif.settings.scaling) }}px<br />
             {{ $t("app.stopmotion.output.size" /* Output Size */) }}:
-            {{ result.width }}px x {{ result.height }}px<br>
+            {{ result.width }}px x {{ result.height }}px<br />
             {{ $t("app.stopmotion.Frames" /* Frames */) }}: {{ result.frames
-            }}<br><br>
+            }}<br /><br />
             {{ $t("app.stopmotion.size" /* Size */) }}:
             <span
               :class="{
                 oversize: result.size / 1024 > 16,
                 goodsize: result.size / 1024 <= 8,
               }"
-            >{{ result.size / 1024 }}</span>
+              >{{ result.size / 1024 }}</span
+            >
             <span v:if="result.size > 0">MB</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="gif.tenor" class="setting-destination-dropdown">
+    <div
+      v-if="gif.tenor"
+      class="setting-destination-dropdown"
+    >
       <Dropdown
         v-model:value="gif.settings.wowVersion"
         :options="wowVersions"
@@ -115,7 +124,7 @@
         <i class="material-icons sync">sync</i>
         <span>{{
           $t(
-            "app.stopmotion.generatestopMotionanimation", /* Generate StopMotion Animation */
+            "app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */,
           )
         }}</span>
       </UIButton>
@@ -125,10 +134,14 @@
         type="issue"
         @click="generate()"
       >
-        <i v-if="result.size / 1024 > 16" class="material-icons error">error_outline</i>
+        <i
+          v-if="result.size / 1024 > 16"
+          class="material-icons error"
+          >error_outline</i
+        >
         <span>{{
           $t(
-            "app.stopmotion.generatestopMotionanimation", /* Generate StopMotion Animation */
+            "app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */,
           )
         }}</span>
       </UIButton>
@@ -166,7 +179,7 @@ export default defineComponent({
     };
   },
   watch: {
-    gif: {
+    "gif": {
       handler() {
         this.calc();
       },
@@ -194,7 +207,7 @@ export default defineComponent({
             this.gif.meta.frames,
             scaling,
             this.gif.settings.skips,
-            this.gif.settings.skips_value
+            this.gif.settings.skips_value,
           );
 
           if (size / 1024 <= 16) {
@@ -214,7 +227,7 @@ export default defineComponent({
           this.gif.meta.frames,
           this.gif.settings.scaling,
           this.gif.settings.skips,
-          this.gif.settings.skips_value
+          this.gif.settings.skips_value,
         );
         this.result.cols = info.cols;
         this.result.rows = info.rows;
@@ -224,10 +237,10 @@ export default defineComponent({
         this.result.frames = info.frames;
         this.result.size = info.size;
         const frameWidth = Math.floor(
-          this.gif.meta.width * this.gif.settings.scaling
+          this.gif.meta.width * this.gif.settings.scaling,
         );
         const frameHeight = Math.floor(
-          this.gif.meta.height * this.gif.settings.scaling
+          this.gif.meta.height * this.gif.settings.scaling,
         );
         const prefix = path.parse(this.gif.meta.name).name;
         const filename = `${prefix}.x${info.rows}y${info.cols}f${info.frames}w${frameWidth}h${frameHeight}W${info.width}H${info.height}.tga`;
@@ -239,7 +252,7 @@ export default defineComponent({
           "AddOns",
           "WeakAurasCompanion",
           "animations",
-          filename
+          filename,
         );
 
         this.result.computing = false;
@@ -250,7 +263,7 @@ export default defineComponent({
     async generate() {
       if (this.result.size / 1024 > 16) {
         console.error(
-          "File will be too big with this settings, reduce scaling and/or skip frames"
+          "File will be too big with this settings, reduce scaling and/or skip frames",
         );
       } else {
         this.result.computing = true;
@@ -268,9 +281,9 @@ export default defineComponent({
               "Interface",
               "AddOns",
               "WeakAurasCompanion",
-              "animations"
+              "animations",
             ),
-            this.gif.tenor ? this.gif.buffer : undefined
+            this.gif.tenor ? this.gif.buffer : undefined,
           );
           this.result.computing = false;
           this.result.destination = destFile;
