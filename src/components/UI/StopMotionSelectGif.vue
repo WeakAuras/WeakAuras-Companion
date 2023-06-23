@@ -71,7 +71,7 @@ export default defineComponent({
         title = title.replace(" GIF", "");
         const res = await fetch(url);
         const imageBuffer = await res.arrayBuffer();
-        const buffer = Buffer.from(String(imageBuffer), "base64");
+        const buffer = Buffer.from(imageBuffer);
         const meta = await gif2tga.getMetaData(buffer);
         this.gif.meta.width = meta.width;
         this.gif.meta.height = meta.pageHeight;
