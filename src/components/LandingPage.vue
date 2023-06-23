@@ -709,12 +709,18 @@ export default defineComponent({
     installUpdates() {
       ipcRenderer.invoke("installUpdates");
     },
-    sortBy(columnName: string): void {
-      this.sortedColumn =
-        this.sortedColumn === columnName ? "modified" : columnName;
-
-      this.sortDescending =
-        this.sortedColumn === columnName ? !this.sortDescending : false;
+    sortBy(columnName) {
+      if (this.sortedColumn === columnName) {
+        if (this.sortDescending) {
+          this.sortDescending = false;
+          this.sortedColumn = "modified";
+        } else {
+          this.sortDescending = true;
+        }
+      } else {
+        this.sortDescending = false;
+        this.sortedColumn = columnName;
+      }
     },
     updateFetchingState(fetching) {
       this.fetching = fetching;
