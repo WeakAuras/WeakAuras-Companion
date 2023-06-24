@@ -53,8 +53,8 @@ export function buildAccountList(
               typeof accountFound.savedvariableSizeForAddon === "undefined"
             ) {
               accountFound.savedvariableSizeForAddon = [];
+              accountFound.numAuras = auras.length;
             }
-            accountFound.numAuras = auras.length;
 
             accountOptions.push({
               value: accountFile,
