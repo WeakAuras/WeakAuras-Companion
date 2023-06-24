@@ -329,26 +329,27 @@ export async function compareSVwithWago(
       Promise.all(promisesResolved)
         .then((wagoEncodedStrings) => {
           console.log("promisesWagoDataCallsComplete");
-
           wagoEncodedStrings.forEach((wagoResp) => {
-            const { id } = wagoResp.config.params;
+            if (wagoResp) {
+              const { id } = wagoResp.config.params;
 
-            if (wagoResp.status === 200) {
-              auras.forEach((aura, index) => {
-                if (aura.wagoid === id) {
-                  auras[index].encoded = wagoResp.data;
-                }
-              });
-            } else {
-              auras.forEach((aura, index) => {
-                if (aura.wagoid === id) {
-                  // Setting the version back to the aura version
-                  // won't show update available
-                  // TODO: create status update-failed?
-                  auras[index].wagoVersion = aura.version;
-                  console.log(`error ${wagoResp.status}`);
-                }
-              });
+              if (wagoResp.status === 200) {
+                auras.forEach((aura, index) => {
+                  if (aura.wagoid === id) {
+                    auras[index].encoded = wagoResp.data;
+                  }
+                });
+              } else {
+                auras.forEach((aura, index) => {
+                  if (aura.wagoid === id) {
+                    // Setting the version back to the aura version
+                    // won't show update available
+                    // TODO: create status update-failed?
+                    auras[index].wagoVersion = aura.version;
+                    console.log(`error ${wagoResp.status}`);
+                  }
+                });
+              }
             }
           });
         })
