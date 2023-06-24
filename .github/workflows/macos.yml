@@ -34,7 +34,7 @@ jobs:
         run: pnpm rebuild node-sass
 
       - name: Sharp Multiarch Rebuild
-        run: brew install glib vips && pnpm install --config.platform=darwin --config.arch=x64 sharp && pnpm --config.platform=darwin --config.arch=arm64 rebuild sharp
+        run: pnpm install --config.platform=darwin --config.arch=x64 sharp && pnpm --config.platform=darwin --config.arch=arm64 rebuild sharp
 
       - name: Build
         if: github.ref == 'refs/heads/main'
