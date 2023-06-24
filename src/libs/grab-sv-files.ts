@@ -33,7 +33,7 @@ export function WeakAurasSaved(
   version?: Version,
   account?: Account,
 ) {
-  if (config?.wowpath?.version) {
+  if (config?.wowpath?.version && account) {
     return getSavedVariable(
       config,
       config.wowpath.version,
@@ -52,7 +52,7 @@ export function PlaterSaved(
   version?: Version,
   account?: Account,
 ) {
-  if (config?.wowpath?.version) {
+  if (config?.wowpath?.version && account) {
     return getSavedVariable(
       config,
       config.wowpath.version,
