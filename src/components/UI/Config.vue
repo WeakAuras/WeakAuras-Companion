@@ -12,7 +12,7 @@
             :default-path="defaultWOWPath"
             open-directory="true"
             create-directory="true"
-            @update:path="$parent.validateWowpath"
+            @update:path="$parent.validateWowPath"
           >
             {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
           </FileSelect>
