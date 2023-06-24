@@ -329,8 +329,9 @@ export async function compareSVwithWago(
       Promise.all(promisesResolved)
         .then((wagoEncodedStrings) => {
           console.log("promisesWagoDataCallsComplete");
+
           wagoEncodedStrings.forEach((wagoResp) => {
-            if (wagoResp) {
+            if (wagoResp?.config?.params) {
               const { id } = wagoResp.config.params;
 
               if (wagoResp.status === 200) {
