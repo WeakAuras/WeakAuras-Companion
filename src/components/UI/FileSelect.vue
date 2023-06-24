@@ -78,12 +78,17 @@ export default defineComponent({
           dialogOptions.filters = this.filters;
         }
 
-        ipcRenderer.invoke("openDialog", dialogOptions).then((result) => {
-          if (result.filePaths && result.filePaths.length) {
-            this.$emit("update:path", result.filePaths[0]);
-          }
-          this.dialogOpen = false;
-        });
+        ipcRenderer
+          .invoke("openDialog", dialogOptions)
+          .then((result) => {
+            if (result.filePaths && result.filePaths.length) {
+              this.$emit("update:path", result.filePaths[0]);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        this.dialogOpen = false;
       }
     },
     drop(event) {
