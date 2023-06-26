@@ -83,8 +83,8 @@ devDependencies:
     specifier: ^8.8.0
     version: 8.8.0(eslint@8.43.0)
   eslint-import-resolver-vite:
-    specifier: ^1.0.4
-    version: 1.0.4(eslint-plugin-import@2.27.5)
+    specifier: ^1.1.0
+    version: 1.1.0(eslint-plugin-import@2.27.5)
   eslint-plugin-import:
     specifier: ^2.27.5
     version: 2.27.5(@typescript-eslint/parser@5.59.11)(eslint@8.43.0)
@@ -3311,8 +3311,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-import-resolver-vite@1.0.4(eslint-plugin-import@2.27.5):
-    resolution: {integrity: sha512-0cd02wg5/5sF56fGPJTbaqcI/D2vbTjStEFg6KaMcQy7lagcjczgjXxnPnF3XThmdaIn7n8Lm21un8dMgmIcyg==}
+  /eslint-import-resolver-vite@1.1.0(eslint-plugin-import@2.27.5):
+    resolution: {integrity: sha512-MX+6+3coIftAUY1ol7OtrWbPCsbn7RGLXIeidWWTI9EyIp1Z30hi8fZim1Zuw9DzWVRqhlEjlDFDC2GjGfTAHw==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       eslint-plugin-import: ^2
