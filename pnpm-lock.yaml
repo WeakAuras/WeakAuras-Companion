@@ -146,8 +146,8 @@ devDependencies:
     specifier: ^2.3.0
     version: 2.3.0
   vite-plugin-vue-devtools:
-    specifier: ^0.2.1
-    version: 0.2.1(@types/node@20.3.1)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4)
+    specifier: ^0.3.0
+    version: 0.3.0(@types/node@20.3.1)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4)
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -1826,12 +1826,86 @@ packages:
       - vue
     dev: true
 
+  /@vueuse/core@10.2.0(vue@3.3.4):
+    resolution: {integrity: sha512-aHBnoCteIS3hFu7ZZkVB93SanVDY6t4TIb7XDLxJT/HQdAZz+2RdIEJ8rj5LUoEJr7Damb5+sJmtpCwGez5ozQ==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.17
+      '@vueuse/metadata': 10.2.0
+      '@vueuse/shared': 10.2.0(vue@3.3.4)
+      vue-demi: 0.14.5(vue@3.3.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
+  /@vueuse/integrations@10.2.0(vue@3.3.4):
+    resolution: {integrity: sha512-e+MIRMi2Zo8DZKXszut8iVoZGlf07XXoaDt27W0DRJVYPdods50MV8Bnla5Tnuil0gHY/W5mMcqiQre9Xb246Q==}
+    peerDependencies:
+      async-validator: '*'
+      axios: '*'
+      change-case: '*'
+      drauu: '*'
+      focus-trap: '*'
+      fuse.js: '*'
+      idb-keyval: '*'
+      jwt-decode: '*'
+      nprogress: '*'
+      qrcode: '*'
+      sortablejs: '*'
+      universal-cookie: '*'
+    peerDependenciesMeta:
+      async-validator:
+        optional: true
+      axios:
+        optional: true
+      change-case:
+        optional: true
+      drauu:
+        optional: true
+      focus-trap:
+        optional: true
+      fuse.js:
+        optional: true
+      idb-keyval:
+        optional: true
+      jwt-decode:
+        optional: true
+      nprogress:
+        optional: true
+      qrcode:
+        optional: true
+      sortablejs:
+        optional: true
+      universal-cookie:
+        optional: true
+    dependencies:
+      '@vueuse/core': 10.2.0(vue@3.3.4)
+      '@vueuse/shared': 10.2.0(vue@3.3.4)
+      vue-demi: 0.14.5(vue@3.3.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
   /@vueuse/metadata@10.1.2:
     resolution: {integrity: sha512-3mc5BqN9aU2SqBeBuWE7ne4OtXHoHKggNgxZR2K+zIW4YLsy6xoZ4/9vErQs6tvoKDX6QAqm3lvsrv0mczAwIQ==}
     dev: true
 
+  /@vueuse/metadata@10.2.0:
+    resolution: {integrity: sha512-IR7Mkq6QSgZ38q/2ZzOt+Zz1OpcEsnwE64WBumDQ+RGKrosFCtUA2zgRrOqDEzPBXrVB+4HhFkwDjQMu0fDBKw==}
+    dev: true
+
   /@vueuse/shared@10.1.2(vue@3.3.4):
     resolution: {integrity: sha512-1uoUTPBlgyscK9v6ScGeVYDDzlPSFXBlxuK7SfrDGyUTBiznb3mNceqhwvZHjtDRELZEN79V5uWPTF1VDV8svA==}
+    dependencies:
+      vue-demi: 0.14.5(vue@3.3.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: true
+
+  /@vueuse/shared@10.2.0(vue@3.3.4):
+    resolution: {integrity: sha512-dIeA8+g9Av3H5iF4NXR/sft4V6vys76CpZ6hxwj8eMXybXk2WRl3scSsOVi+kQ9SX38COR7AH7WwY83UcuxbSg==}
     dependencies:
       vue-demi: 0.14.5(vue@3.3.4)
     transitivePeerDependencies:
@@ -7089,13 +7163,14 @@ packages:
       lib-esm: 0.3.0
     dev: true
 
-  /vite-plugin-vue-devtools@0.2.1(@types/node@20.3.1)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4):
-    resolution: {integrity: sha512-fq+sjypgXMg/5Ghsth0TllLdjzqnYijc8vyA/7/c13P+gnfijkNG10YXkMzCqI7Mn9DNaDlJkE729x3BggRN9A==}
+  /vite-plugin-vue-devtools@0.3.0(@types/node@20.3.1)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4):
+    resolution: {integrity: sha512-BbngVhlwdKMMcArVE2qjDeZ/dL3kj9QtaKsn2Hpkho17dDPkiETXjwiuHAW8VBYJwpK6nGSTOYrznf1tDChXsQ==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0
     dependencies:
       '@vueuse/core': 10.1.2(vue@3.3.4)
+      '@vueuse/integrations': 10.2.0(vue@3.3.4)
       '@webfansplz/vuedoc-parser': 0.0.3(@types/node@20.3.1)(pug@3.0.2)
       algoliasearch: 4.17.2
       birpc: 0.2.12
@@ -7115,9 +7190,21 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - '@vue/composition-api'
+      - async-validator
+      - axios
+      - change-case
+      - drauu
+      - focus-trap
+      - fuse.js
+      - idb-keyval
+      - jwt-decode
+      - nprogress
       - pug
+      - qrcode
       - rollup
+      - sortablejs
       - supports-color
+      - universal-cookie
       - vue
     dev: true
 
