@@ -13,6 +13,10 @@ updates:
   - dependency-name: luaparse
     versions:
     - "> 0.2.1, < 1"
+  groups:
+    typescript-eslint:
+      patterns:
+        - "@typescript-eslint/*"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
