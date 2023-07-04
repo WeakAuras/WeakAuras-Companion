@@ -37,7 +37,7 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@8.6.2",
+  "packageManager": "pnpm@8.6.6",
   "dependencies": {
     "archiver": "^5.3.1",
     "got": "^12.6.0",
