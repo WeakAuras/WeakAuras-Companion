@@ -67,7 +67,7 @@
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-vite": "^1.1.0",
-    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-import": "npm:eslint-plugin-i@2.27.5-3",
     "eslint-plugin-vue": "^9.15.1",
     "floating-vue": "^2.0.0-beta.24",
     "glob": "^10.3.1",
