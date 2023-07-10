@@ -146,8 +146,8 @@ devDependencies:
     specifier: ^2.3.0
     version: 2.3.0
   vite-plugin-vue-devtools:
-    specifier: ^0.4.10
-    version: 0.4.10(@types/node@20.3.3)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4)
+    specifier: ^0.4.14
+    version: 0.4.14(@types/node@20.3.3)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4)
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -169,94 +169,94 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /@algolia/cache-browser-local-storage@4.17.2:
-    resolution: {integrity: sha512-ZkVN7K/JE+qMQbpR6h3gQOGR6yCJpmucSBCmH5YDxnrYbp2CbrVCu0Nr+FGVoWzMJNznj1waShkfQ9awERulLw==}
+  /@algolia/cache-browser-local-storage@4.18.0:
+    resolution: {integrity: sha512-rUAs49NLlO8LVLgGzM4cLkw8NJLKguQLgvFmBEe3DyzlinoqxzQMHfKZs6TSq4LZfw/z8qHvRo8NcTAAUJQLcw==}
     dependencies:
-      '@algolia/cache-common': 4.17.2
+      '@algolia/cache-common': 4.18.0
     dev: true
 
-  /@algolia/cache-common@4.17.2:
-    resolution: {integrity: sha512-fojbhYIS8ovfYs6hwZpy1O4mBfVRxNgAaZRqsdVQd54hU4MxYDYFCxagYX28lOBz7btcDHld6BMoWXvjzkx6iQ==}
+  /@algolia/cache-common@4.18.0:
+    resolution: {integrity: sha512-BmxsicMR4doGbeEXQu8yqiGmiyvpNvejYJtQ7rvzttEAMxOPoWEHrWyzBQw4x7LrBY9pMrgv4ZlUaF8PGzewHg==}
     dev: true
 
-  /@algolia/cache-in-memory@4.17.2:
-    resolution: {integrity: sha512-UYQcMzPurNi+cPYkuPemTZkjKAjdgAS1hagC5irujKbrYnN4yscK4TkOI5tX+O8/KegtJt3kOK07OIrJ2QDAAw==}
+  /@algolia/cache-in-memory@4.18.0:
+    resolution: {integrity: sha512-evD4dA1nd5HbFdufBxLqlJoob7E2ozlqJZuV3YlirNx5Na4q1LckIuzjNYZs2ddLzuTc/Xd5O3Ibf7OwPskHxw==}
     dependencies:
-      '@algolia/cache-common': 4.17.2
+      '@algolia/cache-common': 4.18.0
     dev: true
 
-  /@algolia/client-account@4.17.2:
-    resolution: {integrity: sha512-doSk89pBPDpDyKJSHFADIGa2XSGrBCj3QwPvqtRJXDADpN+OjW+eTR8r4hEs/7X4GGfjfAOAES8JgDx+fZntYw==}
+  /@algolia/client-account@4.18.0:
+    resolution: {integrity: sha512-XsDnlROr3+Z1yjxBJjUMfMazi1V155kVdte6496atvBgOEtwCzTs3A+qdhfsAnGUvaYfBrBkL0ThnhMIBCGcew==}
     dependencies:
-      '@algolia/client-common': 4.17.2
-      '@algolia/client-search': 4.17.2
-      '@algolia/transporter': 4.17.2
+      '@algolia/client-common': 4.18.0
+      '@algolia/client-search': 4.18.0
+      '@algolia/transporter': 4.18.0
     dev: true
 
-  /@algolia/client-analytics@4.17.2:
-    resolution: {integrity: sha512-V+DcXbOtD/hKwAR3qGQrtlrJ3q2f9OKfx843q744o4m3xHv5ueCAvGXB1znPsdaUrVDNAImcgEgqwI9x7EJbDw==}
+  /@algolia/client-analytics@4.18.0:
+    resolution: {integrity: sha512-chEUSN4ReqU7uRQ1C8kDm0EiPE+eJeAXiWcBwLhEynfNuTfawN9P93rSZktj7gmExz0C8XmkbBU19IQ05wCNrQ==}
     dependencies:
-      '@algolia/client-common': 4.17.2
-      '@algolia/client-search': 4.17.2
-      '@algolia/requester-common': 4.17.2
-      '@algolia/transporter': 4.17.2
+      '@algolia/client-common': 4.18.0
+      '@algolia/client-search': 4.18.0
+      '@algolia/requester-common': 4.18.0
+      '@algolia/transporter': 4.18.0
     dev: true
 
-  /@algolia/client-common@4.17.2:
-    resolution: {integrity: sha512-gKBUnjxi0ukJYIJxVREYGt1Dmj1B3RBYbfGWi0dIPp1BC1VvQm+BOuNwsIwmq/x3MPO+sGuK978eKiP3tZDvag==}
+  /@algolia/client-common@4.18.0:
+    resolution: {integrity: sha512-7N+soJFP4wn8tjTr3MSUT/U+4xVXbz4jmeRfWfVAzdAbxLAQbHa0o/POSdTvQ8/02DjCLelloZ1bb4ZFVKg7Wg==}
     dependencies:
-      '@algolia/requester-common': 4.17.2
-      '@algolia/transporter': 4.17.2
+      '@algolia/requester-common': 4.18.0
+      '@algolia/transporter': 4.18.0
     dev: true
 
-  /@algolia/client-personalization@4.17.2:
-    resolution: {integrity: sha512-wc4UgOWxSYWz5wpuelNmlt895jA9twjZWM2ms17Ws8qCvBHF7OVGdMGgbysPB8790YnfvvDnSsWOv3CEj26Eow==}
+  /@algolia/client-personalization@4.18.0:
+    resolution: {integrity: sha512-+PeCjODbxtamHcPl+couXMeHEefpUpr7IHftj4Y4Nia1hj8gGq4VlIcqhToAw8YjLeCTfOR7r7xtj3pJcYdP8A==}
     dependencies:
-      '@algolia/client-common': 4.17.2
-      '@algolia/requester-common': 4.17.2
-      '@algolia/transporter': 4.17.2
+      '@algolia/client-common': 4.18.0
+      '@algolia/requester-common': 4.18.0
+      '@algolia/transporter': 4.18.0
     dev: true
 
-  /@algolia/client-search@4.17.2:
-    resolution: {integrity: sha512-FUjIs+gRe0upJC++uVs4sdxMw15JxfkT86Gr/kqVwi9kcqaZhXntSbW/Fw959bIYXczjmeVQsilYvBWW4YvSZA==}
+  /@algolia/client-search@4.18.0:
+    resolution: {integrity: sha512-F9xzQXTjm6UuZtnsLIew6KSraXQ0AzS/Ee+OD+mQbtcA/K1sg89tqb8TkwjtiYZ0oij13u3EapB3gPZwm+1Y6g==}
     dependencies:
-      '@algolia/client-common': 4.17.2
-      '@algolia/requester-common': 4.17.2
-      '@algolia/transporter': 4.17.2
+      '@algolia/client-common': 4.18.0
+      '@algolia/requester-common': 4.18.0
+      '@algolia/transporter': 4.18.0
     dev: true
 
-  /@algolia/logger-common@4.17.2:
-    resolution: {integrity: sha512-EfXuweUE+1HiSMsQidaDWA5Lv4NnStYIlh7PO5pLkI+sdhbMX0e5AO5nUAMIFM1VkEANes70RA8fzhP6OqCqQQ==}
+  /@algolia/logger-common@4.18.0:
+    resolution: {integrity: sha512-46etYgSlkoKepkMSyaoriSn2JDgcrpc/nkOgou/lm0y17GuMl9oYZxwKKTSviLKI5Irk9nSKGwnBTQYwXOYdRg==}
     dev: true
 
-  /@algolia/logger-console@4.17.2:
-    resolution: {integrity: sha512-JuG8HGVlJ+l/UEDK4h2Y8q/IEmRjQz1J0aS9tf6GPNbGYiSvMr1DDdZ+hqV3bb1XE6wU8Ypex56HisWMSpnG0A==}
+  /@algolia/logger-console@4.18.0:
+    resolution: {integrity: sha512-3P3VUYMl9CyJbi/UU1uUNlf6Z8N2ltW3Oqhq/nR7vH0CjWv32YROq3iGWGxB2xt3aXobdUPXs6P0tHSKRmNA6g==}
     dependencies:
-      '@algolia/logger-common': 4.17.2
+      '@algolia/logger-common': 4.18.0
     dev: true
 
-  /@algolia/requester-browser-xhr@4.17.2:
-    resolution: {integrity: sha512-FKI2lYWwksALfRt2OETFmGb5+P7WVc4py2Ai3H7k8FSfTLwVvs9WVVmtlx6oANQ8RFEK4B85h8DQJTJ29TDfmA==}
+  /@algolia/requester-browser-xhr@4.18.0:
+    resolution: {integrity: sha512-/AcWHOBub2U4TE/bPi4Gz1XfuLK6/7dj4HJG+Z2SfQoS1RjNLshZclU3OoKIkFp8D2NC7+BNsPvr9cPLyW8nyQ==}
     dependencies:
-      '@algolia/requester-common': 4.17.2
+      '@algolia/requester-common': 4.18.0
     dev: true
 
-  /@algolia/requester-common@4.17.2:
-    resolution: {integrity: sha512-Rfim23ztAhYpE9qm+KCfCRo+YLJCjiiTG+IpDdzUjMpYPhUtirQT0A35YEd/gKn86YNyydxS9w8iRSjwKh+L0A==}
+  /@algolia/requester-common@4.18.0:
+    resolution: {integrity: sha512-xlT8R1qYNRBCi1IYLsx7uhftzdfsLPDGudeQs+xvYB4sQ3ya7+ppolB/8m/a4F2gCkEO6oxpp5AGemM7kD27jA==}
     dev: true
 
-  /@algolia/requester-node-http@4.17.2:
-    resolution: {integrity: sha512-E0b0kyCDMvUIhQmDNd/mH4fsKJdEEX6PkMKrYJjzm6moo+rP22tqpq4Rfe7DZD8OB6/LsDD3zs3Kvd+L+M5wwQ==}
+  /@algolia/requester-node-http@4.18.0:
+    resolution: {integrity: sha512-TGfwj9aeTVgOUhn5XrqBhwUhUUDnGIKlI0kCBMdR58XfXcfdwomka+CPIgThRbfYw04oQr31A6/95ZH2QVJ9UQ==}
     dependencies:
-      '@algolia/requester-common': 4.17.2
+      '@algolia/requester-common': 4.18.0
     dev: true
 
-  /@algolia/transporter@4.17.2:
-    resolution: {integrity: sha512-m8pXlz5OnNzjD1rcw+duCN4jG4yEzkJBsvKYMoN22Oq6rQwy1AY5muZ+IQUs4dL+A364CYkRMLRWhvXpCZ1x+g==}
+  /@algolia/transporter@4.18.0:
+    resolution: {integrity: sha512-xbw3YRUGtXQNG1geYFEDDuFLZt4Z8YNKbamHPkzr3rWc6qp4/BqEeXcI2u/P/oMq2yxtXgMxrCxOPA8lyIe5jw==}
     dependencies:
-      '@algolia/cache-common': 4.17.2
-      '@algolia/logger-common': 4.17.2
-      '@algolia/requester-common': 4.17.2
+      '@algolia/cache-common': 4.18.0
+      '@algolia/logger-common': 4.18.0
+      '@algolia/requester-common': 4.18.0
     dev: true
 
   /@ampproject/remapping@2.2.1:
@@ -267,8 +267,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.18
     dev: true
 
-  /@antfu/utils@0.7.2:
-    resolution: {integrity: sha512-vy9fM3pIxZmX07dL+VX1aZe7ynZ+YyB0jY+jE6r3hOK6GNY2t6W8rzpFC4tgpbXUYABkFQwgJq2XYXlxbXAI0g==}
+  /@antfu/utils@0.7.5:
+    resolution: {integrity: sha512-dlR6LdS+0SzOAPx/TPRhnoi7hE251OVeT2Snw0RguNbBSbjUHdWr0l3vcUUDg26rEysT89kCbtw1lVorBXLLCg==}
     dev: true
 
   /@babel/code-frame@7.21.4:
@@ -722,7 +722,7 @@ packages:
     resolution: {integrity: sha512-BDXFbYOJzT/NBEtp71cvsrGPwGAMGRB/349rwKuoxNSiKjPraNNnlK6MIIabViCjqZugu6j+xeMDlEkWdHHJSg==}
     dependencies:
       '@esbuild-kit/core-utils': 3.1.0
-      get-tsconfig: 4.5.0
+      get-tsconfig: 4.6.2
     dev: true
 
   /@esbuild-kit/core-utils@3.1.0:
@@ -736,7 +736,7 @@ packages:
     resolution: {integrity: sha512-Qwfvj/qoPbClxCRNuac1Du01r9gvNOT+pMYtJDapfB1eoGN1YlJ1BixLyL9WVENRx5RXgNLdfYdx/CuswlGhMw==}
     dependencies:
       '@esbuild-kit/core-utils': 3.1.0
-      get-tsconfig: 4.5.0
+      get-tsconfig: 4.6.2
     dev: true
 
   /@esbuild/android-arm64@0.17.19:
@@ -1831,20 +1831,20 @@ packages:
       - typescript
     dev: true
 
-  /@vueuse/core@10.2.0(vue@3.3.4):
-    resolution: {integrity: sha512-aHBnoCteIS3hFu7ZZkVB93SanVDY6t4TIb7XDLxJT/HQdAZz+2RdIEJ8rj5LUoEJr7Damb5+sJmtpCwGez5ozQ==}
+  /@vueuse/core@10.2.1(vue@3.3.4):
+    resolution: {integrity: sha512-c441bfMbkAwTNwVRHQ0zdYZNETK//P84rC01aP2Uy/aRFCiie9NE/k9KdIXbno0eDYP5NPUuWv0aA/I4Unr/7w==}
     dependencies:
       '@types/web-bluetooth': 0.0.17
-      '@vueuse/metadata': 10.2.0
-      '@vueuse/shared': 10.2.0(vue@3.3.4)
+      '@vueuse/metadata': 10.2.1
+      '@vueuse/shared': 10.2.1(vue@3.3.4)
       vue-demi: 0.14.5(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
     dev: true
 
-  /@vueuse/integrations@10.2.0(vue@3.3.4):
-    resolution: {integrity: sha512-e+MIRMi2Zo8DZKXszut8iVoZGlf07XXoaDt27W0DRJVYPdods50MV8Bnla5Tnuil0gHY/W5mMcqiQre9Xb246Q==}
+  /@vueuse/integrations@10.2.1(vue@3.3.4):
+    resolution: {integrity: sha512-FDP5lni+z9FjHE9H3xuvwSjoRV9U8jmDvJpmHPCBjUgPGYRynwb60eHWXCFJXLUtb4gSIHy0e+iaEbrKdalCkQ==}
     peerDependencies:
       async-validator: '*'
       axios: '*'
@@ -1884,20 +1884,20 @@ packages:
       universal-cookie:
         optional: true
     dependencies:
-      '@vueuse/core': 10.2.0(vue@3.3.4)
-      '@vueuse/shared': 10.2.0(vue@3.3.4)
+      '@vueuse/core': 10.2.1(vue@3.3.4)
+      '@vueuse/shared': 10.2.1(vue@3.3.4)
       vue-demi: 0.14.5(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
     dev: true
 
-  /@vueuse/metadata@10.2.0:
-    resolution: {integrity: sha512-IR7Mkq6QSgZ38q/2ZzOt+Zz1OpcEsnwE64WBumDQ+RGKrosFCtUA2zgRrOqDEzPBXrVB+4HhFkwDjQMu0fDBKw==}
+  /@vueuse/metadata@10.2.1:
+    resolution: {integrity: sha512-3Gt68mY/i6bQvFqx7cuGBzrCCQu17OBaGWS5JdwISpMsHnMKKjC2FeB5OAfMcCQ0oINfADP3i9A4PPRo0peHdQ==}
     dev: true
 
-  /@vueuse/shared@10.2.0(vue@3.3.4):
-    resolution: {integrity: sha512-dIeA8+g9Av3H5iF4NXR/sft4V6vys76CpZ6hxwj8eMXybXk2WRl3scSsOVi+kQ9SX38COR7AH7WwY83UcuxbSg==}
+  /@vueuse/shared@10.2.1(vue@3.3.4):
+    resolution: {integrity: sha512-QWHq2bSuGptkcxx4f4M/fBYC3Y8d3M2UYyLsyzoPgEoVzJURQ0oJeWXu79OiLlBb8gTKkqe4mO85T/sf39mmiw==}
     dependencies:
       vue-demi: 0.14.5(vue@3.3.4)
     transitivePeerDependencies:
@@ -2025,23 +2025,23 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /algoliasearch@4.17.2:
-    resolution: {integrity: sha512-VFu43JJNYIW74awp7oeQcQsPcxOhd8psqBDTfyNO2Zt6L1NqnNMTVnaIdQ+8dtKqUDBqQZp0szPxECvX8CK2Fg==}
+  /algoliasearch@4.18.0:
+    resolution: {integrity: sha512-pCuVxC1SVcpc08ENH32T4sLKSyzoU7TkRIDBMwSLfIiW+fq4znOmWDkAygHZ6pRcO9I1UJdqlfgnV7TRj+MXrA==}
     dependencies:
-      '@algolia/cache-browser-local-storage': 4.17.2
-      '@algolia/cache-common': 4.17.2
-      '@algolia/cache-in-memory': 4.17.2
-      '@algolia/client-account': 4.17.2
-      '@algolia/client-analytics': 4.17.2
-      '@algolia/client-common': 4.17.2
-      '@algolia/client-personalization': 4.17.2
-      '@algolia/client-search': 4.17.2
-      '@algolia/logger-common': 4.17.2
-      '@algolia/logger-console': 4.17.2
-      '@algolia/requester-browser-xhr': 4.17.2
-      '@algolia/requester-common': 4.17.2
-      '@algolia/requester-node-http': 4.17.2
-      '@algolia/transporter': 4.17.2
+      '@algolia/cache-browser-local-storage': 4.18.0
+      '@algolia/cache-common': 4.18.0
+      '@algolia/cache-in-memory': 4.18.0
+      '@algolia/client-account': 4.18.0
+      '@algolia/client-analytics': 4.18.0
+      '@algolia/client-common': 4.18.0
+      '@algolia/client-personalization': 4.18.0
+      '@algolia/client-search': 4.18.0
+      '@algolia/logger-common': 4.18.0
+      '@algolia/logger-console': 4.18.0
+      '@algolia/requester-browser-xhr': 4.18.0
+      '@algolia/requester-common': 4.18.0
+      '@algolia/requester-node-http': 4.18.0
+      '@algolia/transporter': 4.18.0
     dev: true
 
   /ansi-regex@5.0.1:
@@ -3377,7 +3377,7 @@ packages:
     resolution: {integrity: sha512-gozW2blMLJCeFpBwugLTGyvVjNoeo1knonXAcatC6bjPBZitotxdWf7Gimr25N4c0AAOo4eOUfaG82IJPDpqCA==}
     dependencies:
       debug: 3.2.7
-      is-core-module: 2.12.0
+      is-core-module: 2.12.1
       resolve: 1.22.2
     transitivePeerDependencies:
       - supports-color
@@ -3481,7 +3481,7 @@ packages:
       eslint-import-resolver-node: 0.3.7
       eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.60.1)(eslint-import-resolver-node@0.3.7)(eslint@8.44.0)
       has: 1.0.3
-      is-core-module: 2.12.0
+      is-core-module: 2.12.1
       is-glob: 4.0.3
       minimatch: 3.1.2
       object.values: 1.1.6
@@ -3505,7 +3505,7 @@ packages:
       eslint-plugin-es: 4.1.0(eslint@8.44.0)
       eslint-utils: 3.0.0(eslint@8.44.0)
       ignore: 5.2.4
-      is-core-module: 2.12.0
+      is-core-module: 2.12.1
       minimatch: 3.1.2
       resolve: 1.22.2
       semver: 7.5.3
@@ -4041,10 +4041,6 @@ packages:
       get-intrinsic: 1.2.0
     dev: true
 
-  /get-tsconfig@4.5.0:
-    resolution: {integrity: sha512-MjhiaIWCJ1sAU4pIQ5i5OfOuHHxVo1oYeNsWTON7jxYkod8pHocXeh+SSbmu5OZZZK73B6cbJ2XADzXehLyovQ==}
-    dev: true
-
   /get-tsconfig@4.6.2:
     resolution: {integrity: sha512-E5XrT4CbbXcXWy+1jChlZmrmCwd5KGx502kDCXJJ7y898TtWW9FwoG5HfOLVRKmlmDGkWN2HM9Ho+/Y8F0sJDg==}
     dependencies:
@@ -4491,12 +4487,6 @@ packages:
       ci-info: 3.8.0
     dev: true
 
-  /is-core-module@2.12.0:
-    resolution: {integrity: sha512-RECHCBCd/viahWmwj6enj19sKbHfJrddi/6cBDsNTKbNq0f7VeaUkBo60BqzvPqo/W54ChS62Z5qyun7cfOMqQ==}
-    dependencies:
-      has: 1.0.3
-    dev: true
-
   /is-core-module@2.12.1:
     resolution: {integrity: sha512-Q4ZuBAe2FUsKtyQJoQHlvP8OvBERxO3jEmy1I7hcRXcJBGGHFh/aJBswbXuS9sgrDH2QUO8ilkwNPHvHMd8clg==}
     dependencies:
@@ -4789,7 +4779,7 @@ packages:
   /json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
-  /json-editor-vue@0.10.6(vanilla-jsoneditor@0.17.6)(vue@3.3.4):
+  /json-editor-vue@0.10.6(vanilla-jsoneditor@0.17.8)(vue@3.3.4):
     resolution: {integrity: sha512-jtKEmiCTLuri5uBkyb4qUrR6QwJgBJvBrYlFeY0L3NBE4RWDUlKy/swCcX1p32KmXKLjezzMSOvEEeAmQ6hjTw==}
     peerDependencies:
       '@vue/composition-api': '>=1'
@@ -4800,7 +4790,7 @@ packages:
         optional: true
     dependencies:
       lodash-es: 4.17.21
-      vanilla-jsoneditor: 0.17.6
+      vanilla-jsoneditor: 0.17.8
       vue: 3.3.4
       vue-demi: 0.14.5(vue@3.3.4)
       vue-global-config: 0.4.0(vue@3.3.4)
@@ -5222,6 +5212,13 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
+  /minimatch@9.0.3:
+    resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
+
   /minimist-options@4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==}
     engines: {node: '>= 6'}
@@ -5436,7 +5433,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       hosted-git-info: 4.1.0
-      is-core-module: 2.12.0
+      is-core-module: 2.12.1
       semver: 7.5.3
       validate-npm-package-license: 3.0.4
     dev: true
@@ -6187,7 +6184,7 @@ packages:
     resolution: {integrity: sha512-Sb+mjNHOULsBv818T40qSPeRiuWLyaGMa5ewydRLFimneixmVy2zdivRl+AF6jaYPC8ERxGDmFSiqui6SfPd+g==}
     hasBin: true
     dependencies:
-      is-core-module: 2.12.0
+      is-core-module: 2.12.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
@@ -7172,8 +7169,8 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vanilla-jsoneditor@0.17.6:
-    resolution: {integrity: sha512-tETNuvJROnzaX0Rp/ugxmZP5nZRmUg9FChPuffjO/d8Kmim7/IvHN+33GxPWkd7R/qOjg/H+WpiXIQhzHU1gHg==}
+  /vanilla-jsoneditor@0.17.8:
+    resolution: {integrity: sha512-DP9GP/IBQjYOnC820CYoFuXs3vgrL+zdGGp1X83qFirSkRWPeP+6zB/14a0LYhvomQNNezes5Gwel89MKc4Qbg==}
     dev: true
 
   /verror@1.10.1:
@@ -7216,13 +7213,13 @@ packages:
       vite: 4.3.9(@types/node@20.3.3)(sass@1.63.6)
     dev: true
 
-  /vite-plugin-inspect@0.7.28(vite@4.3.9):
-    resolution: {integrity: sha512-XRdQGdf+PU6eT0EoL8beUyFQfcCrHr06OyRM71IT8t7rEC9JywdsscehGHEAyFZryfaVBWAI280N63BI2N+1BA==}
+  /vite-plugin-inspect@0.7.32(vite@4.3.9):
+    resolution: {integrity: sha512-TqRLHwOM3FTJPOGCCHJmub4SVVogSjZ9LSDo1Q6WeN2Zvc7HB7tr7cqYlAyStXCI90KvVnb1BRwI22+HXlghXQ==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0
     dependencies:
-      '@antfu/utils': 0.7.2
+      '@antfu/utils': 0.7.5
       '@rollup/pluginutils': 5.0.2
       debug: 4.3.4
       fs-extra: 11.1.1
@@ -7241,26 +7238,27 @@ packages:
       lib-esm: 0.3.0
     dev: true
 
-  /vite-plugin-vue-devtools@0.4.10(@types/node@20.3.3)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4):
-    resolution: {integrity: sha512-IKwHfvRf3JAcxvpeVzf8KEiZvTaSnCTS2V/aZltIpRRh/6h3v0Q9BmIWB36Wolri/+j/ZQorXjyi3mSlyF4lxQ==}
+  /vite-plugin-vue-devtools@0.4.14(@types/node@20.3.3)(pug@3.0.2)(vite@4.3.9)(vue@3.3.4):
+    resolution: {integrity: sha512-24eYisyYHuJzbIbNnRId+sEttyMJvgfGVqeuC+QHjBl8v7+WjRNvg3aznTUz4N76wX2b4q+AZwS4ZmZEn+Pw6w==}
     engines: {node: '>=14'}
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0
     dependencies:
-      '@vueuse/core': 10.2.0(vue@3.3.4)
-      '@vueuse/integrations': 10.2.0(vue@3.3.4)
+      '@vueuse/core': 10.2.1(vue@3.3.4)
+      '@vueuse/integrations': 10.2.1(vue@3.3.4)
       '@webfansplz/vuedoc-parser': 0.0.3(@types/node@20.3.3)(pug@3.0.2)
-      algoliasearch: 4.17.2
+      algoliasearch: 4.18.0
       birpc: 0.2.12
       execa: 7.1.1
-      json-editor-vue: 0.10.6(vanilla-jsoneditor@0.17.6)(vue@3.3.4)
+      json-editor-vue: 0.10.6(vanilla-jsoneditor@0.17.8)(vue@3.3.4)
+      minimatch: 9.0.3
       nanoid: 4.0.2
       sirv: 2.0.3
       splitpanes: 3.1.5
-      vanilla-jsoneditor: 0.17.6
+      vanilla-jsoneditor: 0.17.8
       vite: 4.3.9(@types/node@20.3.3)(sass@1.63.6)
       vite-hot-client: 0.2.1(vite@4.3.9)
-      vite-plugin-inspect: 0.7.28(vite@4.3.9)
+      vite-plugin-inspect: 0.7.32(vite@4.3.9)
       vite-plugin-vue-inspector: 3.4.2(vite@4.3.9)
       vue-router: 4.2.2(vue@3.3.4)
       vuedraggable: 4.1.0(vue@3.3.4)
