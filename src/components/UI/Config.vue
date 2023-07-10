@@ -258,7 +258,6 @@ export default defineComponent({
     };
   },
   watch: {
-
     "config.autostart": function () {
       ipcRenderer.invoke("autoStart", this.config.autostart === true);
     },

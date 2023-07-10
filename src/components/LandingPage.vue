@@ -781,7 +781,9 @@ $iconDefaultColor: #51ae42;
   font-weight: 600;
   font-size: 16px;
   border-bottom: 3px solid transparent;
-  transition: background-color 0.2s ease-in-out, border-bottom 0.2s ease-in-out,
+  transition:
+    background-color 0.2s ease-in-out,
+    border-bottom 0.2s ease-in-out,
     font-size 0.2s ease-in-out;
 }
 
