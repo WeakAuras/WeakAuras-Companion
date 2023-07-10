@@ -141,7 +141,8 @@ $min-width: 140px;
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid $border-color;
-    transition: border-color 0.3s ease-in-out,
+    transition:
+      border-color 0.3s ease-in-out,
       border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
 
     &--toggled {
@@ -181,7 +182,9 @@ $min-width: 140px;
     border-radius: 0 0 4px 4px;
     max-width: $max-width;
     background: $button-color-bg;
-    transition: height 0.3s ease-in-out, border-color 0.2s ease-in-out;
+    transition:
+      height 0.3s ease-in-out,
+      border-color 0.2s ease-in-out;
     overflow: hidden;
     border: 1px solid transparent;
     margin-left: 5px;

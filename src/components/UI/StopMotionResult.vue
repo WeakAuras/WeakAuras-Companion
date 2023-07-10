@@ -169,10 +169,14 @@ export default defineComponent({
 
 @keyframes glow {
   from {
-    text-shadow: 0px 0px 5px #fff, 0px 0px 5px #614ad3;
+    text-shadow:
+      0px 0px 5px #fff,
+      0px 0px 5px #614ad3;
   }
   to {
-    text-shadow: 0px 0px 20px #fff, 0px 0px 20px #614ad3;
+    text-shadow:
+      0px 0px 20px #fff,
+      0px 0px 20px #614ad3;
   }
 }
 
