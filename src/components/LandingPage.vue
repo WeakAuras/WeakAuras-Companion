@@ -619,7 +619,7 @@ export default defineComponent({
     });
 
     // check updates
-    setTimeout(compareSVwithWago, 3);
+    setTimeout(this.doCompareSVwithWago, 3);
 
     // check for app updates in 2 hours
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
