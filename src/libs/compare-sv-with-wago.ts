@@ -236,7 +236,7 @@ export async function compareSVwithWago(
                   !aura.ignoreWagoUpdate &&
                   wagoData.version > aura.version &&
                   (aura.wagoVersion === null ||
-                    wagoData.version > aura.wagoVersion) &&
+                    wagoData.version > aura.wagoVersion || aura.encoded === null) &&
                   !(
                     config.ignoreOwnAuras &&
                     wagoData.username === config.wagoUsername
