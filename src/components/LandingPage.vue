@@ -623,6 +623,10 @@ export default defineComponent({
 
     // check for app updates in 2 hours
     setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
+
+    // default sorting
+    this.sortDescending = false;
+    this.sortedColumn = "update";
   },
   methods: {
     getGotOptions() {
