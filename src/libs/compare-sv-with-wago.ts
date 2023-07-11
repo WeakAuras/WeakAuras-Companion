@@ -220,17 +220,17 @@ export async function compareSVwithWago(
             received.push(wagoData.slug);
             received.push(wagoData._id);
 
-            auras.forEach((aura, index) => {
+            auras.forEach((aura) => {
               if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
-                auras[index].name = wagoData.name;
-                auras[index].author = wagoData.username;
-                auras[index].created = new Date(wagoData.created);
-                auras[index].wagoSemver = wagoData.versionString;
-                auras[index].changelog = wagoData.changelog;
-                auras[index].modified = new Date(wagoData.modified);
-                auras[index].regionType = wagoData.regionType;
-                auras[index].wagoid = wagoData._id;
-                auras[index].source = "Wago";
+                aura.name = wagoData.name;
+                aura.author = wagoData.username;
+                aura.created = new Date(wagoData.created);
+                aura.wagoSemver = wagoData.versionString;
+                aura.changelog = wagoData.changelog;
+                aura.modified = new Date(wagoData.modified);
+                aura.regionType = wagoData.regionType;
+                aura.wagoid = wagoData._id;
+                aura.source = "Wago";
 
                 if (
                   !aura.ignoreWagoUpdate &&
@@ -252,7 +252,7 @@ export async function compareSVwithWago(
                     ),
                   );
                 }
-                auras[index].wagoVersion = wagoData.version;
+                aura.wagoVersion = wagoData.version;
               }
             });
           });
@@ -335,18 +335,19 @@ export async function compareSVwithWago(
 
             if (id) {
               if (wagoResp.statusCode === 200) {
-                auras.forEach((aura, index) => {
+                auras.forEach((aura) => {
                   if (aura.wagoid === id) {
-                    auras[index].encoded = wagoResp.body;
+                    // auras[index].encoded = wagoResp.body;
+                    aura.encoded = wagoResp.body;
                   }
                 });
               } else {
-                auras.forEach((aura, index) => {
+                auras.forEach((aura) => {
                   if (aura.wagoid === id) {
                     // Setting the version back to the aura version
                     // won't show update available
                     // TODO: create status update-failed?
-                    auras[index].wagoVersion = aura.version;
+                    aura.wagoVersion = aura.version;
                     console.log(`error ${wagoResp.statusMessage}`);
                   }
                 });
