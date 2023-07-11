@@ -473,6 +473,7 @@ export default defineComponent({
               aura.author === this.config.wagoUsername
             ),
         )
+        .filter((aura) => aura.author !== null)
         .filter((aura) => aura.auraType === this.addonSelected)
         .sort(this.sortFunction);
     },
