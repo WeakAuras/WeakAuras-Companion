@@ -691,6 +691,14 @@ export default defineComponent({
     reset() {
       this.config.$reset();
     },
+    async doWriteAddonData() {
+      return writeAddonData(
+          this.config,
+          this.addonsInstalled,
+          this.aurasWithData,
+          this.stash,
+        );
+    },
     async doCompareSVwithWago() {
       return compareSVwithWago(
         this.config,
@@ -700,9 +708,8 @@ export default defineComponent({
         this.addonsInstalled,
         this.addonSelected,
         this.auras,
-        this.aurasWithData,
-        this.stash,
         this.updateFetchingState,
+        this.doWriteAddonData
       );
     },
     toggleReport() {

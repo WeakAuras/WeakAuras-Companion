@@ -5,7 +5,6 @@ import luaparse from "luaparse";
 
 import hash from "./hash";
 import { isAddonInstalled } from "./is-addon-installed";
-import { writeAddonData } from "./write-addon-data";
 import type { Account, AuraType, ConfigState, Version } from "@/stores/config";
 import type { StashState } from "@/stores/auras";
 
@@ -23,9 +22,9 @@ export async function compareSVwithWago(
   addonsInstalled,
   addonSelected: string,
   aurasToCompare: AuraType[],
-  aurasWithData: AuraType[],
-  stash: StashState,
-  callback,
+
+  fetchingUpdateCallback,
+  writeAddonDataCallback
 ) {
   const schedule = {
     id: null,
@@ -73,11 +72,11 @@ export async function compareSVwithWago(
   const addonConfigs = addonsInstalled;
 
   if (fetching) {
-    callback(fetching);
+    fetchingUpdateCallback(fetching);
     return;
   } // prevent spamming UIButton
   fetching = true; // show animation
-  callback(fetching);
+  fetchingUpdateCallback(fetching);
 
   if (schedule.id) {
     clearTimeout(schedule.id);
@@ -260,7 +259,7 @@ export async function compareSVwithWago(
         .catch((error) => {
           console.log(JSON.stringify(error));
           fetching = false;
-          callback(fetching);
+          fetchingUpdateCallback(fetching);
 
           if (schedule.id) {
             clearTimeout(schedule.id);
@@ -278,11 +277,11 @@ export async function compareSVwithWago(
         isAddonInstalled(config, "WeakAuras") ||
         isAddonInstalled(config, "Plater")
       ) {
-        writeAddonData(config, addonsInstalled, aurasWithData, stash);
+        writeAddonDataCallback();
       }
     } finally {
       fetching = false;
-      callback(fetching);
+      fetchingUpdateCallback(fetching);
 
       setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
 
@@ -381,10 +380,10 @@ export async function compareSVwithWago(
           // We are done with the Wago API, update data.lua
 
           try {
-            writeAddonData(config, addonsInstalled, aurasWithData, stash);
+            writeAddonDataCallback();
           } finally {
             fetching = false;
-            callback(fetching);
+            fetchingUpdateCallback(fetching);
 
             setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
 
