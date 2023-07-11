@@ -331,13 +331,13 @@ export async function compareSVwithWago(
           console.log("promisesWagoDataCallsComplete");
 
           wagoEncodedStrings.forEach((wagoResp) => {
-            if (wagoResp?.config?.params) {
-              const { id } = wagoResp.config.params;
+            const id  = wagoResp?.requestUrl?.searchParams.get("id");
 
-              if (wagoResp.status === 200) {
+            if (id) {
+              if (wagoResp.statusCode === 200) {
                 auras.forEach((aura, index) => {
                   if (aura.wagoid === id) {
-                    auras[index].encoded = wagoResp.data;
+                    auras[index].encoded = wagoResp.body;
                   }
                 });
               } else {
@@ -347,7 +347,7 @@ export async function compareSVwithWago(
                     // won't show update available
                     // TODO: create status update-failed?
                     auras[index].wagoVersion = aura.version;
-                    console.log(`error ${wagoResp.status}`);
+                    console.log(`error ${wagoResp.statusMessage}`);
                   }
                 });
               }
