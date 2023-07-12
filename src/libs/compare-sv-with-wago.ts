@@ -6,7 +6,6 @@ import luaparse from "luaparse";
 import hash from "./hash";
 import { isAddonInstalled } from "./is-addon-installed";
 import type { Account, AuraType, ConfigState, Version } from "@/stores/config";
-import type { StashState } from "@/stores/auras";
 
 interface WagoApiResponse {
   data: string;
