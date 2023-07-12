@@ -21,9 +21,8 @@ export async function compareSVwithWago(
   addonsInstalled,
   addonSelected: string,
   aurasToCompare: AuraType[],
-
   fetchingUpdateCallback,
-  writeAddonDataCallback
+  writeAddonDataCallback,
 ) {
   const schedule = {
     id: null,
@@ -234,7 +233,8 @@ export async function compareSVwithWago(
                   !aura.ignoreWagoUpdate &&
                   wagoData.version > aura.version &&
                   (aura.wagoVersion === null ||
-                    wagoData.version > aura.wagoVersion || aura.encoded === null) &&
+                    wagoData.version > aura.wagoVersion ||
+                    aura.encoded === null) &&
                   !(
                     config.ignoreOwnAuras &&
                     wagoData.username === config.wagoUsername
@@ -329,7 +329,7 @@ export async function compareSVwithWago(
           console.log("promisesWagoDataCallsComplete");
 
           wagoEncodedStrings.forEach((wagoResp) => {
-            const id  = wagoResp?.requestUrl?.searchParams.get("id");
+            const id = wagoResp?.requestUrl?.searchParams.get("id");
 
             if (id) {
               if (wagoResp.statusCode === 200) {

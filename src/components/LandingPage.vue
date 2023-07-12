@@ -693,11 +693,11 @@ export default defineComponent({
     },
     async doWriteAddonData() {
       return writeAddonData(
-          this.config,
-          this.addonsInstalled,
-          this.aurasWithData,
-          this.stash,
-        );
+        this.config,
+        this.addonsInstalled,
+        this.aurasWithData,
+        this.stash,
+      );
     },
     async doCompareSVwithWago() {
       return compareSVwithWago(
@@ -709,7 +709,7 @@ export default defineComponent({
         this.addonSelected,
         this.auras,
         this.updateFetchingState,
-        this.doWriteAddonData
+        this.doWriteAddonData,
       );
     },
     toggleReport() {
