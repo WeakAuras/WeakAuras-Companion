@@ -64,7 +64,7 @@
     "electron-log": "^5.0.0-beta.24",
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.1",
-    "eslint": "^8.44.0",
+    "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-vite": "^1.2.1",
     "eslint-plugin-import": "npm:eslint-plugin-i@2.27.5-3",
