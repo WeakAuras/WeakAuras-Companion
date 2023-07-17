@@ -146,8 +146,8 @@ devDependencies:
     specifier: ^2.3.0
     version: 2.3.0
   vite-plugin-vue-devtools:
-    specifier: ^0.5.0
-    version: 0.5.0(@types/node@20.4.2)(pug@3.0.2)(vite@4.4.2)(vue@3.3.4)
+    specifier: ^0.5.1
+    version: 0.5.1(@types/node@20.4.2)(pug@3.0.2)(vite@4.4.2)(vue@3.3.4)
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -7488,8 +7488,8 @@ packages:
       lib-esm: 0.3.0
     dev: true
 
-  /vite-plugin-vue-devtools@0.5.0(@types/node@20.4.2)(pug@3.0.2)(vite@4.4.2)(vue@3.3.4):
-    resolution: {integrity: sha512-LClwcrlbGyTHmq9aVbjatvH+PENQJkdyX/qbZP7kF8xgFb3LPntEHCKphDW+oXS3e7ExKEOZXIgtrjE3Quop+A==}
+  /vite-plugin-vue-devtools@0.5.1(@types/node@20.4.2)(pug@3.0.2)(vite@4.4.2)(vue@3.3.4):
+    resolution: {integrity: sha512-z6wzaRxvmQVF1A8iNPIrCrpgJWbFC8bQpCG18yTSHFzRYTkFrqTZ37JjrKysPP0EvLitI1PYru0Odqt2ICfCbQ==}
     engines: {node: '>=v14'}
     peerDependencies:
       vite: ^3.1.0 || ^4.0.0-0
