@@ -33,13 +33,7 @@
         ]
       }
     ],
-    "@typescript-eslint/comma-dangle": [
-      "error",
-      "only-multiline",
-      {
-        "functions": "never"
-      }
-    ],
+    "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-implicit-any": "off",
     "@typescript-eslint/quotes": [
