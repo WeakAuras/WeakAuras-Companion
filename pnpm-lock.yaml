@@ -104,8 +104,8 @@ devDependencies:
     specifier: ^3.3.0
     version: 3.3.0
   material-icons:
-    specifier: ^1.13.8
-    version: 1.13.8
+    specifier: ^1.13.9
+    version: 1.13.9
   pinia:
     specifier: ^2.1.4
     version: 2.1.4(typescript@5.1.6)(vue@3.3.4)
@@ -5311,8 +5311,8 @@ packages:
     dev: true
     optional: true
 
-  /material-icons@1.13.8:
-    resolution: {integrity: sha512-vnLGXKa/AwFUxUgkiX39EpYVFttPhDQcKdVylIqmUUqz+Eo/O9A3BkdPCU3/G5cJOTezHi5B/b8sEpKYgUNAwQ==}
+  /material-icons@1.13.9:
+    resolution: {integrity: sha512-dwuf2C8LR07FcrjRDx0vWnDEcHiDuamXOmtAck8bdONUv5Fi6wR/ubQwPfG1NbcqgPg+y0fHN8Unj5DO+5fV4w==}
     dev: true
 
   /mathml-tag-names@2.1.3:
