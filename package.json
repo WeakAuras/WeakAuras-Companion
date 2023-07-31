@@ -61,7 +61,7 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "electron": "25.3.1",
     "electron-builder": "^24.4.0",
-    "electron-log": "^5.0.0-beta.24",
+    "electron-log": "^5.0.0-beta.25",
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.1",
     "eslint": "^8.45.0",
