@@ -62,8 +62,8 @@ devDependencies:
     specifier: ^11.0.3
     version: 11.0.3(eslint-plugin-vue@9.16.1)(eslint@8.46.0)(typescript@5.1.6)
   electron:
-    specifier: 25.3.2
-    version: 25.3.2
+    specifier: 25.4.0
+    version: 25.4.0
   electron-builder:
     specifier: ^24.6.3
     version: 24.6.3
@@ -3350,8 +3350,8 @@ packages:
       - supports-color
     dev: true
 
-  /electron@25.3.2:
-    resolution: {integrity: sha512-xiktJvXraaE/ARf2OVHFyTze1TksSbsbJgOaBtdIiBvUduez6ipATEPIec8Msz1n6eQ+xqYb6YF8tDuIZtJSPw==}
+  /electron@25.4.0:
+    resolution: {integrity: sha512-VLTRxDhL4UvQbqM7pTNENnJo62cdAPZT92N+B7BZQ5Xfok1wuVPEewIjBot4K7U3EpLUuHn1veeLzho3ihiP+Q==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
     requiresBuild: true
