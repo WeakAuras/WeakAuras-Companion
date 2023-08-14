@@ -116,8 +116,8 @@ devDependencies:
     specifier: ^3.0.1
     version: 3.0.1
   sass:
-    specifier: ^1.64.2
-    version: 1.64.2
+    specifier: ^1.65.1
+    version: 1.65.1
   stylelint:
     specifier: ^15.10.2
     version: 15.10.2
@@ -132,7 +132,7 @@ devDependencies:
     version: 5.1.6
   vite:
     specifier: ^4.4.9
-    version: 4.4.9(@types/node@20.5.0)(sass@1.64.2)
+    version: 4.4.9(@types/node@20.5.0)(sass@1.65.1)
   vite-plugin-electron:
     specifier: ^0.12.0
     version: 0.12.0
@@ -1915,7 +1915,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.9(@types/node@20.5.0)(sass@1.64.2)
+      vite: 4.4.9(@types/node@20.5.0)(sass@1.65.1)
       vue: 3.3.4
     dev: true
 
@@ -6305,8 +6305,8 @@ packages:
       truncate-utf8-bytes: 1.0.2
     dev: true
 
-  /sass@1.64.2:
-    resolution: {integrity: sha512-TnDlfc+CRnUAgLO9D8cQLFu/GIjJIzJCGkE7o4ekIGQOH7T3GetiRR/PsTWJUHhkzcSPrARkPI+gNWn5alCzDg==}
+  /sass@1.65.1:
+    resolution: {integrity: sha512-9DINwtHmA41SEd36eVPQ9BJKpn7eKDQmUHmpI0y5Zv2Rcorrh0zS+cFrt050hdNbmmCNKTW3hV5mWfuegNRsEA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -7185,7 +7185,7 @@ packages:
     peerDependencies:
       vite: ^2.6.0 || ^3.0.0 || ^4.0.0
     dependencies:
-      vite: 4.4.9(@types/node@20.5.0)(sass@1.64.2)
+      vite: 4.4.9(@types/node@20.5.0)(sass@1.65.1)
     dev: true
 
   /vite-plugin-electron-renderer@0.14.5:
@@ -7206,7 +7206,7 @@ packages:
       '@types/eslint': 8.37.0
       eslint: 8.47.0
       rollup: 2.79.1
-      vite: 4.4.9(@types/node@20.5.0)(sass@1.64.2)
+      vite: 4.4.9(@types/node@20.5.0)(sass@1.65.1)
     dev: true
 
   /vite-plugin-inspect@0.7.32(vite@4.4.9):
@@ -7222,7 +7222,7 @@ packages:
       open: 9.1.0
       picocolors: 1.0.0
       sirv: 2.0.3
-      vite: 4.4.9(@types/node@20.5.0)(sass@1.64.2)
+      vite: 4.4.9(@types/node@20.5.0)(sass@1.65.1)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -7252,7 +7252,7 @@ packages:
       sirv: 2.0.3
       splitpanes: 3.1.5
       vanilla-jsoneditor: 0.17.8
-      vite: 4.4.9(@types/node@20.5.0)(sass@1.64.2)
+      vite: 4.4.9(@types/node@20.5.0)(sass@1.65.1)
       vite-hot-client: 0.2.1(vite@4.4.9)
       vite-plugin-inspect: 0.7.32(vite@4.4.9)
       vite-plugin-vue-inspector: 3.4.2(vite@4.4.9)
@@ -7295,12 +7295,12 @@ packages:
       kolorist: 1.8.0
       magic-string: 0.30.0
       shell-quote: 1.8.1
-      vite: 4.4.9(@types/node@20.5.0)(sass@1.64.2)
+      vite: 4.4.9(@types/node@20.5.0)(sass@1.65.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite@4.4.9(@types/node@20.5.0)(sass@1.64.2):
+  /vite@4.4.9(@types/node@20.5.0)(sass@1.65.1):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -7332,7 +7332,7 @@ packages:
       esbuild: 0.18.11
       postcss: 8.4.27
       rollup: 3.28.0
-      sass: 1.64.2
+      sass: 1.65.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
