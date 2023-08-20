@@ -21,7 +21,7 @@ export function backup(config, addonsInstalled) {
         }
 
         backupIfRequired(
-          addon.svPathFunction(version.name, account.name),
+          addon.svPathFunction(config, version, account),
           config.backup,
           lastSavedFileSize,
           `${version.name}#${account.name}`,
