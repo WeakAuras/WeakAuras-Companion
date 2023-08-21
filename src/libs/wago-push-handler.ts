@@ -7,13 +7,12 @@ import type { ConfigState, Version } from "@/stores/config";
 interface WagoApiResponse {
   data: string;
   status: number;
-  // rome-ignore lint/suspicious/noExplicitAny: <explanation>
   [Symbol.iterator](): Iterator<any>;
 }
 
 export async function wagoPushHandler(
   config: ConfigState,
-  slug,
+  slug: string,
   stash: StashStore,
   versionSelected: Version,
 ) {
@@ -49,7 +48,7 @@ export async function wagoPushHandler(
           ...getGotOptions,
           responseType: "json",
         },
-      ).json();
+      );
       const data: WagoApiResponse = response.body;
 
       for (const wagoData of data) {
@@ -84,7 +83,7 @@ export async function wagoPushHandler(
         stash.add(aura);
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.log(error);
     }
   }
 }
