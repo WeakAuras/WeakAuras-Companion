@@ -39,7 +39,7 @@
   },
   "packageManager": "pnpm@8.6.6",
   "dependencies": {
-    "archiver": "^6.0.0",
+    "archiver": "^6.0.1",
     "got": "^12.6.0",
     "regedit": "^5.1.2",
     "sharp": "^0.32.5",
