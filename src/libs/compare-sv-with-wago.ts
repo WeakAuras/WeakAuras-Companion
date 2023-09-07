@@ -205,10 +205,14 @@ export async function compareSVwithWago(
 
     // Get data from Wago api
     promisesWagoCallsComplete.push(
-      got<WagoApiResponse>(`${config.wagoAPI}?ids=${fetchAuras.join()}`, {
-        ...getGotOptions,
-        responseType: "json",
-      })
+      got
+        .post<WagoApiResponse>(config.wagoAPI, {
+          ...getGotOptions,
+          responseType: "json",
+          json: {
+            ids: fetchAuras,
+          },
+        })
         .then((response: Response<WagoApiResponse>) => {
           const data: WagoApiResponse = response.body;
 
