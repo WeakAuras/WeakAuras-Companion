@@ -101,8 +101,8 @@ devDependencies:
     specifier: ^0.2.1
     version: 0.2.1
   luxon:
-    specifier: ^3.4.2
-    version: 3.4.2
+    specifier: ^3.4.3
+    version: 3.4.3
   material-icons:
     specifier: ^1.13.11
     version: 1.13.11
@@ -5154,8 +5154,8 @@ packages:
     hasBin: true
     dev: true
 
-  /luxon@3.4.2:
-    resolution: {integrity: sha512-uBoAVCVcajsrqy3pv7eo5jEUz1oeLmCcnMv8n4AJpT5hbpN9lUssAXibNElpbLce3Mhm9dyBzwYLs9zctM/0tA==}
+  /luxon@3.4.3:
+    resolution: {integrity: sha512-tFWBiv3h7z+T/tDaoxA8rqTxy1CHV6gHS//QdaH4pulbq/JuBSGgQspQQqcgnwdAx6pNI7cmvz5Sv/addzHmUg==}
     engines: {node: '>=12'}
     dev: true
 
