@@ -6,5 +6,6 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "antfu.unocss"
+    "biomejs.biome"
   ]
 }

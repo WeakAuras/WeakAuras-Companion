@@ -69,5 +69,11 @@
         "configPath": "./vite.config.ts"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.js", "*.vue"],
+      "extends": ["biome"]
+    }
+  ]
 }
