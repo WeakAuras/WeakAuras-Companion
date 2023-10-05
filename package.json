@@ -70,7 +70,7 @@
     "eslint-plugin-import": "npm:eslint-plugin-i@2.27.5-3",
     "eslint-plugin-vue": "^9.17.0",
     "floating-vue": "^2.0.0-beta.24",
-    "glob": "^10.3.7",
+    "glob": "^10.3.10",
     "luaparse": "^0.2.1",
     "luxon": "^3.4.3",
     "material-icons": "^1.13.12",
