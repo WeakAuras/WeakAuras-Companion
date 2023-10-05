@@ -73,7 +73,7 @@
     "glob": "^10.3.7",
     "luaparse": "^0.2.1",
     "luxon": "^3.4.3",
-    "material-icons": "^1.13.11",
+    "material-icons": "^1.13.12",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate-2": "^2.0.14",
     "prettier": "^3.0.3",
