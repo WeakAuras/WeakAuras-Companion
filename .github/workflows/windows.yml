@@ -5,14 +5,14 @@ on:
       - "*"
     tags:
       - "*"
-  pull_request: 
+  pull_request:
 jobs:
   build:
     runs-on: windows-latest
 
     strategy:
       matrix:
-        node: ["18"]
+        node: ["20"]
 
     steps:
       - uses: actions/checkout@v4
