@@ -143,8 +143,8 @@ devDependencies:
     specifier: ^1.8.1
     version: 1.8.1(eslint@8.51.0)(vite@4.4.11)
   vite-plugin-resolve:
-    specifier: ^2.4.1
-    version: 2.4.1(vite@4.4.11)
+    specifier: ^2.5.1
+    version: 2.5.1
   vite-plugin-vue-devtools:
     specifier: ^0.5.1
     version: 0.5.1(@types/node@20.8.6)(pug@3.0.2)(vite@4.4.11)(vue@3.3.4)
@@ -4855,8 +4855,8 @@ packages:
       type-check: 0.4.0
     dev: true
 
-  /lib-esm@0.3.0:
-    resolution: {integrity: sha512-P7YcG7OnoaGL2h4j46g/m0P2xHMXlYf+0iCDvVrEfzUVxLe+abytgd2VjUhj9puqEgqRGEDbT504YWj75jHacA==}
+  /lib-esm@0.4.1:
+    resolution: {integrity: sha512-tdSqfyryhnl5k09357x2iWmw3WeU84SaoP/vMGw/nw8z8RPTrfu9sxwRApn6p6GyStuBNyASgwXIV8ctZWlG1A==}
     dev: true
 
   /lines-and-columns@1.2.4:
@@ -6908,13 +6908,10 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-resolve@2.4.1(vite@4.4.11):
-    resolution: {integrity: sha512-Fr3cN2z1DI4OlfYX0cyXSmwEajb94G8H0gEj/Pz5Dj5khbMr1HlCgKkAA/0BibJFav+LEXmx64JFeyglJAPV2A==}
-    peerDependencies:
-      vite: ^2.0.0 || ^3.0.0 || ^4.0.0
+  /vite-plugin-resolve@2.5.1:
+    resolution: {integrity: sha512-9dD0Yq5JT1RxHQGZOyhC7e/JlhyhMCftCpQ8TPzQa7KEB/3ERnoCPinH3VJk/0C8qHsA+l41bIcHh5BcHBTmAw==}
     dependencies:
-      lib-esm: 0.3.0
-      vite: 4.4.11(@types/node@20.8.6)(sass@1.69.3)
+      lib-esm: 0.4.1
     dev: true
 
   /vite-plugin-vue-devtools@0.5.1(@types/node@20.8.6)(pug@3.0.2)(vite@4.4.11)(vue@3.3.4):
