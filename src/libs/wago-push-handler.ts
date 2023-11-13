@@ -64,8 +64,8 @@ export async function wagoPushHandler(
             wagoData.type === "WEAKAURA"
               ? "WeakAuras"
               : wagoData.type === "PLATER"
-              ? "Plater"
-              : undefined,
+                ? "Plater"
+                : undefined,
           wagoid: wagoData._id,
           source: "Wago",
         };

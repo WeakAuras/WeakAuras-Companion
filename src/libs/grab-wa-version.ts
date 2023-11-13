@@ -15,8 +15,8 @@ export function grabVersionFromToc(
   const waTocFile = version.includes("classic")
     ? path.join(waFolderPath, "WeakAuras_Wrath.toc")
     : version.includes("era")
-    ? path.join(waFolderPath, "WeakAuras_Vanilla.toc")
-    : path.join(waFolderPath, "WeakAuras.toc");
+      ? path.join(waFolderPath, "WeakAuras_Vanilla.toc")
+      : path.join(waFolderPath, "WeakAuras.toc");
 
   const isSymlink = (filePath: string): boolean => {
     try {
