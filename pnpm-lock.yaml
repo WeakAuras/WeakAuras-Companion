@@ -44,8 +44,8 @@ devDependencies:
     specifier: ^20.8.10
     version: 20.8.10
   '@types/tail':
-    specifier: ^2.2.2
-    version: 2.2.2
+    specifier: ^2.2.3
+    version: 2.2.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.9.1
     version: 6.9.1(@typescript-eslint/parser@6.9.1)(eslint@8.53.0)(typescript@5.2.2)
@@ -1627,8 +1627,8 @@ packages:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
     dev: true
 
-  /@types/tail@2.2.2:
-    resolution: {integrity: sha512-+CjjgMFjIVgTYsJXWNpAKVRerFWc9c+GTMzY/336fSW6BhY5TJwo2CNYJiNq7mO9rBHmtmpceKf2DnkrnaR3Vg==}
+  /@types/tail@2.2.3:
+    resolution: {integrity: sha512-Hnf352egOlDR4nVTaGX0t/kmTNXHMdovF2C7PVDFtHTHJPFmIspOI1b86vEOxU7SfCq/dADS7ptbqgG/WGGxnA==}
     dev: true
 
   /@types/verror@1.10.8:
