@@ -29,8 +29,8 @@ devDependencies:
     specifier: ^6.0.0
     version: 6.0.0
   '@types/auto-launch':
-    specifier: ^5.0.4
-    version: 5.0.4
+    specifier: ^5.0.5
+    version: 5.0.5
   '@types/jest':
     specifier: ^29.5.7
     version: 29.5.7
@@ -1488,8 +1488,8 @@ packages:
       '@types/readdir-glob': 1.1.1
     dev: true
 
-  /@types/auto-launch@5.0.4:
-    resolution: {integrity: sha512-Dd0qIR5L8VWjFUoE+9KEFQYn0oDCwU9BbfqUEkwHQTJcth59MuilN6doycT/pdpJXjohBc4CaEmPjYy8M8w57w==}
+  /@types/auto-launch@5.0.5:
+    resolution: {integrity: sha512-/nGvQZSzM/pvCMCh4Gt2kIeiUmOP/cKGJbjlInI+A+5MoV/7XmT56DJ6EU8bqc3+ItxEe4UC2GVspmPzcCc8cg==}
     dev: true
 
   /@types/cacheable-request@6.0.3:
