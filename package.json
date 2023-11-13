@@ -83,7 +83,7 @@
     "tail": "^2.2.6",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
-    "vite-plugin-electron": "^0.14.1",
+    "vite-plugin-electron": "^0.15.4",
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-resolve": "^2.5.1",
