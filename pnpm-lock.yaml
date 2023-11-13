@@ -38,8 +38,8 @@ devDependencies:
     specifier: 0.2.1
     version: 0.2.1
   '@types/luxon':
-    specifier: ^3.3.3
-    version: 3.3.3
+    specifier: ^3.3.4
+    version: 3.3.4
   '@types/node':
     specifier: ^20.8.10
     version: 20.8.10
@@ -101,8 +101,8 @@ devDependencies:
     specifier: ^0.2.1
     version: 0.2.1
   luxon:
-    specifier: ^3.4.3
-    version: 3.4.3
+    specifier: ^3.4.4
+    version: 3.4.4
   material-icons:
     specifier: ^1.13.12
     version: 1.13.12
@@ -1572,8 +1572,8 @@ packages:
     resolution: {integrity: sha512-lNbAhI9UojO1e82FdB4Sdd18YhDdfwdL1MTY0JNOh2EvfafezVBBgM892AQ2jOx+bJcJWwn2hvCeye3yWgi1wA==}
     dev: true
 
-  /@types/luxon@3.3.3:
-    resolution: {integrity: sha512-/BJF3NT0pRMuxrenr42emRUF67sXwcZCd+S1ksG/Fcf9O7C3kKCY4uJSbKBE4KDUIYr3WMsvfmWD8hRjXExBJQ==}
+  /@types/luxon@3.3.4:
+    resolution: {integrity: sha512-H9OXxv4EzJwE75aTPKpiGXJq+y4LFxjpsdgKwSmr503P5DkWc3AG7VAFYrFNVvqemT5DfgZJV9itYhqBHSGujA==}
     dev: true
 
   /@types/minimist@1.2.2:
@@ -5028,8 +5028,8 @@ packages:
     hasBin: true
     dev: true
 
-  /luxon@3.4.3:
-    resolution: {integrity: sha512-tFWBiv3h7z+T/tDaoxA8rqTxy1CHV6gHS//QdaH4pulbq/JuBSGgQspQQqcgnwdAx6pNI7cmvz5Sv/addzHmUg==}
+  /luxon@3.4.4:
+    resolution: {integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==}
     engines: {node: '>=12'}
     dev: true
 
