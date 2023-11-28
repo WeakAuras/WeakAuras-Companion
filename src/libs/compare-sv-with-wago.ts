@@ -28,7 +28,7 @@ export async function compareSVwithWago(
     id: null,
   };
   let fetching = fetchingState;
-  let auras = aurasToCompare;
+  const auras = aurasToCompare;
 
   const getAccountHash = function () {
     if (versionSelected) {
@@ -174,7 +174,11 @@ export async function compareSVwithWago(
   }
 
   // remove orphans
-  auras = auras.filter((aura) => slugs.includes(aura.slug));
+  for (let index = auras.length - 1; index > -1; index -= 1) {
+    if (!slugs.includes(auras[index].slug)) {
+      auras.splice(index, 1);
+    }
+  }
 
   // Get each encoded string
   const promisesWagoCallsComplete = [];
