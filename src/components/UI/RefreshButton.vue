@@ -108,7 +108,7 @@
       id="lastupdate"
     >
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
-      <b>{{ fromNow }}</b>
+      <b>{{ fromNow(lastUpdate, $i18n.locale) }}</b>
     </div>
   </div>
 </template>
@@ -152,14 +152,6 @@ export default defineComponent({
       lastUpdateTimer: null,
     };
   },
-  computed: {
-    fromNow() {
-      if (!this.lastUpdate) return "n/a";
-      return DateTime.fromJSDate(this.lastUpdate).toRelative({
-        locale: this.$i18n.locale,
-      });
-    },
-  },
   watch: {
     fetching() {
       this.scheduleTimer();
@@ -169,6 +161,12 @@ export default defineComponent({
     clearInterval(this.lastUpdateTimer);
   },
   methods: {
+    fromNow(value, locale) {
+      if (!value) return "n/a";
+      return DateTime.fromJSDate(value).toRelative({
+        locale: locale,
+      });
+    },
     olderThan30s() {
       return (
         DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() >
