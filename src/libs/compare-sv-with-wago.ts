@@ -2,10 +2,15 @@ import fs from "node:fs";
 import type { Response } from "got";
 import got from "got";
 import luaparse from "luaparse";
+import { ipcRenderer } from "electron";
 
 import hash from "./hash";
 import { isAddonInstalled } from "./is-addon-installed";
 import type { Account, AuraType, ConfigState, Version } from "@/stores/config";
+
+function refreshWago() {
+  ipcRenderer.invoke("refreshWago");
+}
 
 interface WagoApiResponse {
   data: string;
@@ -272,7 +277,7 @@ export async function compareSVwithWago(
             clearTimeout(schedule.id);
           }
 
-          schedule.id = setTimeout(compareSVwithWago, 1000 * 60 * 30);
+          schedule.id = setTimeout(refreshWago, 1000 * 60 * 30);
         }),
     );
   });
@@ -298,7 +303,7 @@ export async function compareSVwithWago(
         clearTimeout(schedule.id);
       }
 
-      schedule.id = setTimeout(compareSVwithWago, 1000 * 60 * 60);
+      schedule.id = setTimeout(refreshWago, 1000 * 60 * 60);
     }
     return;
   }
@@ -317,7 +322,7 @@ export async function compareSVwithWago(
           clearTimeout(schedule.id);
         }
 
-        schedule.id = setTimeout(compareSVwithWago, 1000 * 60 * 60);
+        schedule.id = setTimeout(refreshWago, 1000 * 60 * 60);
         return;
       }
 
@@ -369,7 +374,7 @@ export async function compareSVwithWago(
             clearTimeout(schedule.id);
           }
 
-          schedule.id = setTimeout(compareSVwithWago, 1000 * 60 * 30);
+          schedule.id = setTimeout(refreshWago, 1000 * 60 * 30);
         })
         .then(() => {
           allAurasFetched.forEach((toFetch) => {
@@ -400,7 +405,7 @@ export async function compareSVwithWago(
               clearTimeout(schedule.id);
             }
 
-            schedule.id = setTimeout(compareSVwithWago, 1000 * 60 * 60);
+            schedule.id = setTimeout(refreshWago, 1000 * 60 * 60);
           }
         });
     })
@@ -412,6 +417,6 @@ export async function compareSVwithWago(
         clearTimeout(schedule.id);
       }
 
-      schedule.id = setTimeout(compareSVwithWago, 1000 * 60 * 30);
+      schedule.id = setTimeout(refreshWago, 1000 * 60 * 30);
     });
 }

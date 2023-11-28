@@ -356,6 +356,10 @@ ipcMain.handle("checkUpdates", (_event, isBeta) => {
   });
 });
 
+ipcMain.handle("refreshWago", () => {
+  mainWindow?.webContents.send("refreshWago");
+});
+
 ipcMain.handle("getStore", (event, key) => {
   return store.get(key);
 });
