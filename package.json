@@ -16,7 +16,7 @@
     "i18n-report": "pnpm dlx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
     "lint": "eslint . --ext .ts,.js,.vue && pnpm run lint:scss && pnpm run lint:prettier",
     "lint:fix": "eslint . --ext .ts,.js,.vue --fix && pnpm run format:prettier",
-    "lint:prettier": "prettier --check \"src/**/*.?(js|ts|vue|json)\"",
+    "lint:prettier": "prettier --check src",
     "lint:scss": "stylelint --color \"src/**/*.scss\"",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder",
