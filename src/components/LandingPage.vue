@@ -20,7 +20,7 @@
             :title="$t('app.menu.main')"
             @click="configStep = 0"
           >
-            <span class="material-icons">sync</span>
+            <span class="i-mdi-sync color-white text-2xl"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -28,7 +28,7 @@
             :title="$t('app.footer.stopmotion')"
             @click="configStep = 4"
           >
-            <span class="material-icons">movie</span>
+            <span class="i-mdi-movie color-white text-2xl"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -36,7 +36,7 @@
             :title="$t('app.menu.settings')"
             @click="configStep = 1"
           >
-            <span class="material-icons">settings</span>
+            <span class="i-mdi-settings color-white text-2xl"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -44,7 +44,7 @@
             :title="$t('app.menu.help')"
             @click="configStep = 2"
           >
-            <span class="material-icons">help</span>
+            <span class="i-mdi-help-circle color-white text-2xl"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -52,7 +52,7 @@
             :title="$t('app.menu.about')"
             @click="configStep = 3"
           >
-            <span class="material-icons">info</span>
+            <span class="i-mdi-info-circle color-white text-2xl"></span>
           </UIButton>
         </div>
       </header>
@@ -155,9 +155,8 @@
           href="https://www.curseforge.com/wow/addons/weakauras-2"
           target="_blank"
         >
-          <img
-            src="/social-icons/curse.svg"
-            class="logo"
+          <i
+            class="i-social-curse text-xl align-middle -mt-[2px]"
             title="CurseForge"
           />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
@@ -167,9 +166,8 @@
           href="https://wago.io/weakauras"
           target="_blank"
         >
-          <img
-            src="/social-icons/wago.svg"
-            class="logo"
+          <i
+            class="i-social-wago text-xl align-middle -mt-[2px]"
             title="Wago"
           />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
@@ -179,9 +177,8 @@
           @click="toggleReport"
         >
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
-          <img
-            src="/social-icons/bug_report.svg"
-            class="logo invert"
+          <i
+            class="i-mdi-bug text-xl align-middle -mt-[2px]"
             title="Bug"
           />
         </a>
@@ -203,7 +200,7 @@
                 'app.main.readyForInstall' /* Ready for Install */,
               )}${readyForInstallTooltip}`,
             }"
-            class="material-icons update-available update-auras"
+            class="i-mdi-download text-2xl align-middle update-available update-auras"
           >
             download
           </i>
@@ -224,7 +221,7 @@
                   'app.main.installUpdate' /* Install client update */,
                 )}: v${updater.version} ${updater.releaseNotes}`,
               }"
-              class="material-icons update-available"
+              class="i-mdi-system_update_alt text-2xl align-middle update-available"
             >
               system_update_alt
             </i>
@@ -238,7 +235,7 @@
                 'app.main.installUpdate' /* Install client update */,
               )}: v${updater.version}`,
             }"
-            class="material-icons update-available"
+            class="i-mdi-system_update_alt text-2xl align-middle update-available"
             @click="installUpdates"
           >
             system_update_alt
@@ -247,14 +244,14 @@
             v-if="updater.status === 'checking-for-update'"
             class="updating"
           >
-            <i class="material-icons icon">sync</i>
+            <span class="i-mdi-sync text-2xl"></span>
           </div>
           <div
             v-if="updater.status === 'download-progress'"
             class="updating"
           >
             <span class="progress">{{ updater.progress }}%</span>
-            <i class="material-icons icon">sync</i>
+            <i class="i-mdi-sync icon text-2xl align-middle">sync</i>
           </div>
         </div>
       </footer>

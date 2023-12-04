@@ -15,9 +15,9 @@ const weakauras = [
     displayName: "Patreon",
   },
   {
-    name: "twitter",
-    url: "https://twitter.com/WeakAuras",
-    displayName: "Twitter",
+    name: "x-twitter",
+    url: "https://x.com/WeakAuras",
+    displayName: "X",
   },
   {
     name: "youtube",
@@ -43,9 +43,9 @@ const wago = [
     displayName: "Patreon",
   },
   {
-    name: "twitter",
-    url: "https://twitter.com/wago_io",
-    displayName: "Twitter",
+    name: "x-twitter",
+    url: "https://x.com/wago_io",
+    displayName: "X",
   },
 ];
 

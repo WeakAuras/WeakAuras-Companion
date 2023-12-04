@@ -4,7 +4,7 @@
       <div>
         <span
           :class="{ invisible: search === '' }"
-          class="material-icons arrow_back"
+          class="i-mdi-arrow-back arrow_back"
           @click="search = ''"
           >arrow_back</span
         >
@@ -13,7 +13,7 @@
             v-model="search"
             :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */)"
           />
-          <span class="material-icons">search</span>
+          <span class="i-mdi-search">search</span>
         </div>
       </div>
     </header>

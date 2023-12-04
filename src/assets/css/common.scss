@@ -1,6 +1,5 @@
 /* General (All Pages) */
 @import "~/floating-vue/dist/style.css";
-@import "material-icons/iconfont/material-icons.css";
 @import "tooltip";
 
 * {
@@ -58,7 +57,7 @@ header {
 
 main {
   flex: 1;
-  overflow-y: hidden;
+  overflow: hidden;
   -webkit-app-region: no-drag;
   background-color: #131313;
 }

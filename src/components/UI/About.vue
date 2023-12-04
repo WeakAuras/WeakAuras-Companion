@@ -45,9 +45,8 @@
               :href="media.url"
               target="_blank"
             >
-              <img
-                :src="`social-icons/${media.name}.svg`"
-                class="logo"
+              <i
+                :class="`text-xl align-middle i-fa6-brands-${media.name} i-social-${media.name}`"
                 :title="media.name"
               />
               {{ media.displayName }}
@@ -67,9 +66,8 @@
               :href="media.url"
               target="_blank"
             >
-              <img
-                :src="`social-icons/${media.name}.svg`"
-                class="logo"
+              <i
+                :class="`text-xl align-middle i-fa6-brands-${media.name} i-social-${media.name}`"
                 :title="media.name"
               />
               {{ media.displayName }}

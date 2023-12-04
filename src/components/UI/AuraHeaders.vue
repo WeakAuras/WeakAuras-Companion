@@ -9,7 +9,9 @@
       @click="() => $emit('sortBy', 'name')"
     >
       {{ $t("app.aura.name" /* Name */) }}
-      <span class="aura-header__sort-icon material-icons">arrow_downward</span>
+      <span class="aura-header__sort-icon text-xl i-mdi-arrow-down"
+        >arrow_downward</span
+      >
     </div>
     <div
       class="aura-column aura-column-update sortable"
@@ -20,7 +22,9 @@
       @click="() => $emit('sortBy', 'update')"
     >
       {{ $t("app.aura.update" /* Updates */) }}
-      <span class="material-icons aura-header__sort-icon">arrow_downward</span>
+      <span class="text-xl i-mdi-arrow-down aura-header__sort-icon"
+        >arrow_downward</span
+      >
     </div>
     <div
       v-if="addonSelectedConfig && addonSelectedConfig.hasTypeColumn"
@@ -32,7 +36,9 @@
       @click="() => $emit('sortBy', 'auraTypeDisplay')"
     >
       {{ $t("app.aura.auraType" /* Type */) }}
-      <span class="material-icons aura-header__sort-icon">arrow_downward</span>
+      <span class="text-xl i-mdi-arrow-down aura-header__sort-icon"
+        >arrow_downward</span
+      >
     </div>
     <div
       class="aura-column aura-column-author sortable"
@@ -43,7 +49,9 @@
       @click="() => $emit('sortBy', 'author')"
     >
       {{ $t("app.aura.author" /* Author */) }}
-      <span class="material-icons aura-header__sort-icon">arrow_downward</span>
+      <span class="text-xl i-mdi-arrow-down aura-header__sort-icon"
+        >arrow_downward</span
+      >
     </div>
   </div>
 </template>
