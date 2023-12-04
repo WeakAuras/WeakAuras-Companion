@@ -113,8 +113,8 @@ devDependencies:
     specifier: ^2.0.14
     version: 2.0.14(pinia@2.1.7)
   prettier:
-    specifier: 4.0.0-alpha.2
-    version: 4.0.0-alpha.2
+    specifier: 4.0.0-alpha.3
+    version: 4.0.0-alpha.3
   sass:
     specifier: ^1.69.5
     version: 1.69.5
@@ -1454,22 +1454,24 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@prettier/cli@0.1.3(prettier@4.0.0-alpha.2):
-    resolution: {integrity: sha512-5Tv5rUeS5Jh4dh+xn6ZY/Coe7HSE3rNalyW3X42qQncvbXZzPc8QgOSZ7w1fbvT5qZQXxcFAlWsPD4J4vpFcPA==}
+  /@prettier/cli@0.1.5(prettier@4.0.0-alpha.3):
+    resolution: {integrity: sha512-oROlnMsTedet/cIsmRNrMHsGFcIAr4Frt0N+/bqRAfuRcUpHDN+G/qxqbtbCpOb6TzhG9n3yAa+jt7L51nQuNw==}
     hasBin: true
     peerDependencies:
       prettier: ^3.1.0 || ^4.0.0
     dependencies:
       atomically: 2.0.2
       ignore: 5.3.0
+      is-binary-path: 2.1.0
       js-yaml: 4.1.0
       json-sorted-stringify: 1.0.0
       pioppo: 1.1.0
-      prettier: 4.0.0-alpha.2
+      prettier: 4.0.0-alpha.3
       specialist: 1.3.0
       tiny-editorconfig: 1.0.0
       tiny-jsonc: 1.0.1
       tiny-readdir-glob: 1.1.0
+      tiny-spinner: 2.0.3
       worktank: 2.5.2
       zeptomatch: 1.2.2
     dev: true
@@ -2426,6 +2428,10 @@ packages:
   /ansi-styles@6.2.1:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
+    dev: true
+
+  /ansi-truncate@1.0.1:
+    resolution: {integrity: sha512-azOe4swp0S5fXHD+6AJt6NpjNcGpVZJV21K0zXdOoM4bG3xDmptn3pWXCvHMLP7ARAi5dvY5ltAIFVqUvADlXQ==}
     dev: true
 
   /anymatch@3.1.3:
@@ -5961,12 +5967,12 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier@4.0.0-alpha.2:
-    resolution: {integrity: sha512-envRvHaoIs76XVS1cw93vpPFuqCrwMm7PA/TtGc5MJTtqK1KMC3K/50d1auYxTbm2OprzVVNk+rJTIM44AEuAw==}
+  /prettier@4.0.0-alpha.3:
+    resolution: {integrity: sha512-RsN0kg8rG+NJYl9NHZrWfQS6zmShwOLHqu3O5FDDZzaihAcYq0uRHI7QqX+EBWNBpGvmwQCs1rpNwWFXurvQHQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
-      '@prettier/cli': 0.1.3(prettier@4.0.0-alpha.2)
+      '@prettier/cli': 0.1.5(prettier@4.0.0-alpha.3)
     dev: true
 
   /pretty-format@29.5.0:
@@ -6653,6 +6659,10 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
+  /stdin-blocker@2.0.0:
+    resolution: {integrity: sha512-fZ3txWyDSxOll6+ajX9akA5YzchyoEpVNsH8eWNY/ZnzlRoM0eW/zF8bm852KVpYutjNFQFvEF/RdZtlqxIZkQ==}
+    dev: true
+
   /stream-slicer@0.0.6:
     resolution: {integrity: sha512-QsY0LbweYE5L+e+iBQgtkM5WUIf7+kCMA/m2VULv8rEEDDnlDPsPvOHH4nli6uaZOKQEt64u65h0l/eeZo7lCw==}
     dev: false
@@ -7011,6 +7021,12 @@ packages:
     resolution: {integrity: sha512-6peGRBtkYBJpVrQUWOPKrC0ECo6WotUlXxirVTKvihjdgxQETpKtLdCKIb68IHjJYH1AOE7GM7RnxFvkGHsqOg==}
     dev: true
 
+  /tiny-cursor@2.0.0:
+    resolution: {integrity: sha512-6RKgFWBt6I1oYpaNZJvvp5x/jvzYDp+rjAVDam+7cmE0mrtlu8Lmpv81hQuvFuPa8Fuc/sd2shRWbdWTZqSNLg==}
+    dependencies:
+      when-exit: 2.1.1
+    dev: true
+
   /tiny-editorconfig@1.0.0:
     resolution: {integrity: sha512-rxpWaSurnvPUkL2/qydRH10llK7MD1XfE38zoWTsp/ZWWYnnwPBzGUePBOcXFaNA3cJQm8ItqrofGeRJ6AVaew==}
     dependencies:
@@ -7041,6 +7057,21 @@ packages:
     resolution: {integrity: sha512-MEp9nzly4ps44xibXacCQ76pgx2DjSLNUbJGJRT6ERkBZCuOVF4TMRGwexkNA0nO6LcCI9j2XQOsDOLZHhA7wQ==}
     dependencies:
       promise-make-naked: 2.1.1
+    dev: true
+
+  /tiny-spinner@2.0.3:
+    resolution: {integrity: sha512-zuhtClm08obM7aCzgRAbAmOpYm0ekAh/OTLZEJ/8SuVD+cxUdlqGGN5PRnc2Ate8xmbG3+ldPBnlwmHgJrftpg==}
+    dependencies:
+      stdin-blocker: 2.0.0
+      tiny-colors: 2.1.2
+      tiny-cursor: 2.0.0
+      tiny-truncate: 1.0.2
+    dev: true
+
+  /tiny-truncate@1.0.2:
+    resolution: {integrity: sha512-XR2fjChcOjuz8Eu56zGwacYTKUHlhuzQ3VpD79yUwvWlLY3gCWorzRfBNXkmbwFjxzfmYZrC00cA4s/ET6mogw==}
+    dependencies:
+      ansi-truncate: 1.0.1
     dev: true
 
   /tiny-typed-emitter@2.1.0:

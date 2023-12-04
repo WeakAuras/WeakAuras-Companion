@@ -76,7 +76,7 @@
     "material-icons": "^1.13.12",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate-2": "^2.0.14",
-    "prettier": "4.0.0-alpha.2",
+    "prettier": "4.0.0-alpha.3",
     "sass": "^1.69.5",
     "stylelint": "^15.11.0",
     "stylelint-config-recommended-scss": "^13.1.0",
