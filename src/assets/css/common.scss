@@ -1,5 +1,6 @@
 /* General (All Pages) */
 @import "~/floating-vue/dist/style.css";
+@import "material-icons/iconfont/material-icons.css";
 @import "tooltip";
 
 * {
@@ -10,7 +11,6 @@
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   color: #ffffff;
   overflow: hidden;
@@ -76,7 +76,7 @@ footer {
   font-weight: 600;
   padding: 4px 10px;
   margin-bottom: 10px;
-  border-left: 2px solid $accent;
+  border-left: 2px solid rgb(255, 209, 0);
   background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -127,5 +127,5 @@ button,
 select,
 input,
 .fakeinput {
-  @extend %fontdefault;
+  font-weight: 500;
 }

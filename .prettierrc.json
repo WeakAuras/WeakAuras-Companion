@@ -1,5 +1,6 @@
 {
   "endOfLine": "auto",
+  "$schema": "http://json.schemastore.org/prettierrc",
   "tabWidth": 2,
   "arrowParens": "always",
   "singleAttributePerLine": true,

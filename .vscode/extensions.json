@@ -5,6 +5,7 @@
     "stylelint.vscode-stylelint",
     "streetsidesoftware.code-spell-checker",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "antfu.unocss"
   ]
 }
