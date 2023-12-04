@@ -190,7 +190,6 @@
 
 ol,
 ul {
-  font-family: "Source Sans Pro", sans-serif;
   font-size: 15px;
   margin-left: 30px;
 }
@@ -236,6 +235,5 @@ a:hover {
 
 .paragraph {
   margin-left: 15px;
-  font-family: "Source Sans Pro", sans-serif;
 }
 </style>

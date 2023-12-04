@@ -9,6 +9,7 @@ import eslintPlugin from "vite-plugin-eslint";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
 import pkg from "./package.json";
+import UnoCSS from "unocss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -37,6 +38,7 @@ export default defineConfig(({ command }) => {
       __APP_LICENSE__: JSON.stringify(pkg.license),
     },
     plugins: [
+      UnoCSS(),
       VueDevTools(),
       vue(),
       electron([

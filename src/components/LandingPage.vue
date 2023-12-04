@@ -742,9 +742,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "../assets/fonts/fonts.scss";
 @import "../assets/css/tooltip.scss";
-@import "../assets/css/globals.scss";
 @import "../assets/css/common.scss";
 
 $iconDefaultColor: #51ae42;
@@ -837,7 +835,6 @@ $iconDefaultColor: #51ae42;
   cursor: default;
   color: #eeeeee;
   font-size: 15px;
-  font-family: Montserrat, sans-serif;
   font-weight: 500;
 }
 
