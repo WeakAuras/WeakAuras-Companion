@@ -51,7 +51,7 @@
     "@types/auto-launch": "^5.0.5",
     "@types/jest": "^29.5.10",
     "@types/luaparse": "0.2.1",
-    "@types/luxon": "^3.3.5",
+    "@types/luxon": "^3.3.6",
     "@types/node": "^20.10.3",
     "@types/tail": "^2.2.3",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
