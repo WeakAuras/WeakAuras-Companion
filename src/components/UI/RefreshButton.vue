@@ -9,7 +9,7 @@
       type="refresh"
       @click="$emit('refresh')"
     >
-      <i class="material-icons sync">sync</i>
+      <span class="i-mdi-sync sync align-middle text-4xl"></span>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </UIButton>
     <UIButton
@@ -17,14 +17,18 @@
       type="issue"
       @click="$emit('gotoconfig')"
     >
-      <i class="material-icons error">error_outline</i>
+      <span
+        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-4xl"
+      ></span>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </UIButton>
     <label
       v-else-if="!isVersionSelected"
       class="label-issue"
     >
-      <i class="material-icons error">error_outline</i>
+      <span
+        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+      ></span>
       <span>{{
         $t(
           "app.refreshbutton.selectversion" /* Please select your WoW Version! */,
@@ -35,7 +39,9 @@
       v-else-if="!isAccountSelected"
       class="label-issue"
     >
-      <i class="material-icons error">error_outline</i>
+      <span
+        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+      ></span>
       <span>{{
         $t(
           "app.refreshbutton.selectaccount" /* Please select your Account Name! */,
@@ -46,7 +52,9 @@
       v-else-if="!isSvOk"
       class="label-issue"
     >
-      <i class="material-icons error">error_outline</i>
+      <span
+        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+      ></span>
       <span>{{
         $t(
           "app.refreshbutton.incorrectsv" /* No AddOn data found for this account. */,
@@ -64,7 +72,9 @@
       "
       class="label-issue"
     >
-      <i class="material-icons error">error_outline</i>
+      <span
+        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+      ></span>
       <span>{{
         $t(
           "app.refreshbutton.noAurasInstalled" /* No updateable auras installed on this account. */,
@@ -77,7 +87,9 @@
       "
       class="label-issue"
     >
-      <i class="material-icons error">error_outline</i>
+      <span
+        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+      ></span>
       <span>{{
         $t(
           "app.refreshbutton.addonNotFound" /* No supported AddOn installed. */,
@@ -94,9 +106,8 @@
           href="https://www.curseforge.com/wow/addons/weakauras-2"
           target="_blank"
         >
-          <img
-            src="/social-icons/curse.svg"
-            class="logo"
+          <i
+            class="i-social-curse text-xl align-middle -mt-[2px]"
             title="CurseForge"
           />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
@@ -218,12 +229,6 @@ export default defineComponent({
   clear: both;
   display: block;
   margin-top: 10px;
-}
-
-.material-icons {
-  font-size: 34px;
-  vertical-align: top;
-  cursor: pointer;
 }
 
 .btn-refresh.spin {

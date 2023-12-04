@@ -121,7 +121,7 @@
         type="refresh"
         @click="generate()"
       >
-        <i class="material-icons sync">sync</i>
+        <i class="i-mdi-sync text-3xl align-top sync">sync</i>
         <span>{{
           $t(
             "app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */,
@@ -136,7 +136,7 @@
       >
         <i
           v-if="result.size / 1024 > 16"
-          class="material-icons error"
+          class="i-mdi-error-outline text-3xl align-top error"
           >error_outline</i
         >
         <span>{{
@@ -317,7 +317,7 @@ export default defineComponent({
   transition: all 0.4s ease-in-out;
   span {
     position: relative;
-    bottom: 8px;
+    bottom: 11px;
     line-height: 50px;
     cursor: pointer;
   }

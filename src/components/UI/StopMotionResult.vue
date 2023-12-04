@@ -14,7 +14,7 @@
           strategy: 'fixed',
           theme: 'info-tooltip',
         }"
-        class="material-icons minihelp"
+        class="i-mdi-help minihelp"
         >help</span
       >
       <br /><br />

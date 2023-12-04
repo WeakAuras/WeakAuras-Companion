@@ -25,7 +25,7 @@
       <div class="fakeinput pointer">
         <span class="wow-path">{{ path }}</span>
       </div>
-      <i class="material-icons settings">settings</i>
+      <i class="text-2xl cursor-pointer i-mdi-settings mt-0.5 ml-1">settings</i>
     </span>
   </label>
 </template>
@@ -139,13 +139,6 @@ $border-color-separate: #0d0d0d;
   border-color: $border-color-expand;
   color: $highlight-color-text;
   transition: all 0.1s ease-in-out;
-}
-
-.settings {
-  position: relative;
-  top: 5px;
-  cursor: pointer;
-  margin-left: 4px;
 }
 
 .btn {
