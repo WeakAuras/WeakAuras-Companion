@@ -87,7 +87,7 @@
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-resolve": "^2.5.1",
-    "vite-plugin-vue-devtools": "^0.5.1",
+    "vite-plugin-vue-devtools": "^1.0.0-rc.7",
     "vue": "^3.3.9",
     "vue-i18n": "^9.8.0",
     "vue-tsc": "^1.8.24"
