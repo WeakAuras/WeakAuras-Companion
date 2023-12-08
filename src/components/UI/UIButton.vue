@@ -182,7 +182,6 @@ export default defineComponent({
 .btn-positive {
   border-color: #023008;
   border-radius: 2px;
-  background-image: url("../../assets/ok-icon.png");
   background-size: contain;
 }
 
@@ -193,7 +192,6 @@ export default defineComponent({
 .btn-negative {
   border-color: #b61b15;
   border-bottom-color: #fb1710;
-  background-image: url("../../assets/error-icon.png");
   background-size: contain;
 }
 
