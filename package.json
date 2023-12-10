@@ -80,7 +80,7 @@
     "luxon": "^3.4.4",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate-2": "^2.0.14",
-    "prettier": "4.0.0-alpha.3",
+    "prettier": "4.0.0-alpha.4",
     "sass": "^1.69.5",
     "stylelint": "^15.11.0",
     "stylelint-config-recommended-scss": "^13.1.0",
