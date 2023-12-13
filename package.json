@@ -88,7 +88,7 @@
     "typescript": "^5.3.3",
     "unocss": "^0.58.0",
     "vite": "^5.0.7",
-    "vite-plugin-electron": "^0.15.4",
+    "vite-plugin-electron": "^0.15.5",
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-resolve": "^2.5.1",
