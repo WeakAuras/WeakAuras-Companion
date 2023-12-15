@@ -739,9 +739,8 @@ export default defineComponent({
 </script>
 
 <style lang="css">
-@import "../assets/css/tooltip.scss";
-@import "../assets/css/common.scss";
-<style lang="css">
+@import "../assets/css/tooltip.css";
+@import "../assets/css/common.css";
 
 ::root {
   --pulse-color: rgba(102, 255, 0, 1);

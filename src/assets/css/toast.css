@@ -1,0 +1,144 @@
+:root {
+  --vt-toast-background: rgba(29, 29, 29, 0.97);
+  --vt-color-default: rgba(29, 29, 29, 0.97);
+  --vt-text-color-default: #e6e6e6;
+  --vt-icon-default-color: #51ae42;
+  --vt-color-error: #f44336;
+  --vt-color-info: #0b96e6;
+  --vt-icon-size: 26px;
+}
+
+.toasted-container.bottom-right {
+  right: 2.35vw;
+  margin-left: 2.35vw;
+  bottom: 70px;
+}
+
+.toasted-container.bottom-right .toasted-primary {
+  padding: 0;
+  font-weight: 500;
+  text-align: left;
+  justify-content: left;
+  margin-left: auto;
+}
+
+.toasted-container.bottom-right .toasted-primary::before {
+  margin: 0 10px;
+  display: inline-block;
+}
+
+.toasted-container.bottom-right .toasted-primary.default {
+  background-color: var(--vt-toast-background);
+  color: var(--vt-text-color-default);
+  font-weight: 500;
+}
+
+.toasted-container.bottom-right .toasted-primary.default::before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: url("/assets/wow-logo.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.toasted-container.bottom-right .toasted-primary.error {
+  background-color: var(--vt-toast-background);
+  color: var(--vt-text-color-default);
+}
+
+.toasted-container.bottom-right .toasted-primary.error::before {
+  content: "\e001";
+  font-family: "Material Icons";
+  font-size: var(--vt-icon-size);
+  color: var(--vt-color-error);
+  margin: 0 8px;
+}
+
+.toasted-container.bottom-right .toasted-primary.update {
+  background-color: var(--vt-toast-background);
+  color: var(--vt-text-color-default);
+}
+
+.toasted-container.bottom-right .toasted-primary.update::before {
+  content: "\e8d7";
+  font-family: "Material Icons";
+  font-size: var(--vt-icon-size);
+  background: none;
+  width: auto;
+  height: auto;
+  color: var(--vt-icon-default-color);
+}
+
+.toasted-container.bottom-right .toasted-primary.update.update-error::before {
+  color: var(--vt-color-error);
+}
+
+.toasted-container.bottom-right .toasted-primary.multiline {
+  padding: 5px 0;
+}
+
+.toasted-container.bottom-right .toasted-primary.info {
+  padding: 0;
+  background-color: var(--vt-toast-background);
+}
+
+.toasted-container.bottom-right .toasted-primary.info::before {
+  content: "\e88f";
+  font-family: "Material Icons";
+  font-size: var(--vt-icon-size);
+  background: none;
+  width: auto;
+  height: auto;
+  color: var(--vt-color-info);
+  margin: 0 8px;
+}
+
+.toasted-container.bottom-right .toasted-primary .action {
+  color: #e6e6e6;
+  text-decoration: none;
+  padding: 0 20px;
+  line-height: 38px;
+  border-radius: 0;
+  margin: 0;
+  margin-left: auto;
+  justify-content: right;
+}
+
+.toasted-container.bottom-right
+  .toasted-primary
+  .action:last-of-type:not(:only-of-type) {
+  padding-right: 20px;
+  border-left: none;
+  font-weight: 500;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.toasted-container.bottom-right
+  .toasted-primary
+  .action:last-of-type:not(:only-of-type)::before {
+  content: unset;
+}
+
+.toasted-container.bottom-right .toasted-primary .action:hover {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+}
+
+.toasted-container.bottom-right .toasted-primary .action::before {
+  content: "";
+  position: relative;
+  top: 7px;
+  font-size: 31px;
+  line-height: 0;
+  width: 15px;
+  border-right: 1px solid #383838;
+  height: 30px;
+  margin-right: 20px;
+}
+
+.toasted-container.bottom-right .toasted-primary .small-text {
+  font-size: 11px;
+  width: 100%;
+  display: block;
+}
