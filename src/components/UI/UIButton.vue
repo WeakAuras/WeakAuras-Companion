@@ -28,7 +28,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="css">
 .btn {
   font-family: inherit;
   display: inline-block;
@@ -128,7 +128,6 @@ export default defineComponent({
 
 .btn-addon:disabled {
   background-color: rgba(36, 36, 36, 0.95);
-  //color: #580909;
   color: #6e6e6e;
   cursor: default;
 }

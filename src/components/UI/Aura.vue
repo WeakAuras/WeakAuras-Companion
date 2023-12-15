@@ -161,7 +161,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .aura {
   background-color: #101010c9;
   border: 1px solid #101010;

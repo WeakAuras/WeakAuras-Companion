@@ -738,11 +738,14 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="css">
 @import "../assets/css/tooltip.scss";
 @import "../assets/css/common.scss";
+<style lang="css">
 
-$iconDefaultColor: #51ae42;
+::root {
+  --pulse-color: rgba(102, 255, 0, 1);
+}
 
 /* Companion logo */
 .app-logo {
@@ -840,25 +843,27 @@ $iconDefaultColor: #51ae42;
   position: absolute;
   top: 20px;
   right: 20px;
+}
 
-  option,
-  select {
-    background: #191919;
-    color: #e6e6e6;
-    margin: 0 5px;
-    border-radius: 6px;
-    width: 120px;
+#selectors option,
+#selectors select {
+  background: #191919;
+  color: #e6e6e6;
+  margin: 0 5px;
+  border-radius: 6px;
+  width: 120px;
+}
 
-    &:focus {
-      outline: none;
-    }
-  }
+#selectors option:focus,
+#selectors select:focus {
+  outline: none;
 }
 
 #version-selector {
   position: absolute;
   top: 0px;
   right: 10px;
+  z-index: 5;
 }
 
 #account-selector {
@@ -932,12 +937,12 @@ $iconDefaultColor: #51ae42;
   cursor: pointer;
   display: flex;
   padding-right: 15px;
+}
 
-  & span {
-    cursor: pointer;
-    opacity: 0.8;
-    margin-right: 5px;
-  }
+.ready-to-install span {
+  cursor: pointer;
+  opacity: 0.8;
+  margin-right: 5px;
 }
 
 .ready-to-install:hover span {
@@ -1001,45 +1006,39 @@ select {
   color: #010101;
 }
 
-// Update Icon
 .app-update {
-  // color: #777;
   float: right;
   margin-right: 15px;
   height: 25px;
   position: relative;
   bottom: 2px;
+}
 
-  .updating {
-    display: inline;
+.app-update .updating {
+  display: inline;
+}
 
-    .icon {
-      animation: spin;
-      animation-duration: 3000ms;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
+.updating .icon {
+  animation: spin;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
 
-    .progress {
-      font-size: 14px;
-      font-weight: 500;
-      margin: auto;
-      vertical-align: middle;
-      position: relative;
-      bottom: 7px;
-    }
-  }
+.updating .progress {
+  font-size: 14px;
+  font-weight: 500;
+  margin: auto;
+  vertical-align: middle;
+  position: relative;
+  bottom: 7px;
 }
 
 .update-available {
   animation: pulse 2s infinite;
   cursor: pointer;
-  color: $iconDefaultColor;
-
-  &.update-auras {
-    --pulse-color: rgba(102, 255, 0, 1);
-  }
+  color: #51ae42;
 }
 
 @keyframes spin {
@@ -1054,15 +1053,21 @@ select {
 
 @keyframes pulse {
   0% {
-    text-shadow: 0 0 0 var(--pulse-color, rgba(255, 255, 255, 0.4));
+    text-shadow:
+      0 0 0 var(--pulse-color),
+      0 0 0 rgba(255, 255, 255, 0.4);
   }
 
   70% {
-    text-shadow: 0 0 40px var(--pulse-color, rgba(238, 255, 4, 0));
+    text-shadow:
+      0 0 40px var(--pulse-color),
+      0 0 40px rgba(238, 255, 4, 0);
   }
 
   100% {
-    text-shadow: 0 0 0 var(--pulse-color, rgba(255, 255, 255, 0));
+    text-shadow:
+      0 0 0 var(--pulse-color),
+      0 0 0 rgba(255, 255, 255, 0);
   }
 }
 </style>

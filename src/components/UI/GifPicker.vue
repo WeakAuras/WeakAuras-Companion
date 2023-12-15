@@ -152,10 +152,12 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-$dark-bg: #212224;
-$light-bg: #2f3136;
-$border-blue: #5865f2;
+<style scoped lang="css">
+:root {
+  --dark-bg: #212224;
+  --light-bg: #2f3136;
+  --border-blue: #5865f2;
+}
 
 .gifpicker {
   height: calc(100% - 9px);
@@ -167,122 +169,128 @@ header {
   padding-right: 1.25rem;
   padding-top: 0.5rem;
   padding-bottom: 1.25rem;
-  background-color: $light-bg;
+  background-color: var(--light-bg);
   width: 100%;
   height: 60px;
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   -webkit-app-region: no-drag;
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    div {
-      display: flex;
-      overflow: hidden;
-      padding-right: 0.5rem;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      border-radius: 0.375rem;
-      background-color: $dark-bg;
-      input {
-        // ugly border bottom & right, and can't select it
-        all: unset;
-        text-align: left;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-        color: white;
-        background-color: $dark-bg;
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-        width: 100%;
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-        user-select: all;
+}
 
-        pointer-events: all;
-      }
-    }
-  }
+header div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
-span {
-  &.invisible {
-    all: unset;
-    opacity: 0;
-  }
+
+header div div {
+  display: flex;
+  overflow: hidden;
+  padding-right: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 0.375rem;
+  background-color: var(--dark-bg);
 }
+
+header div div input {
+  all: unset;
+  text-align: left;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  color: white;
+  background-color: var(--dark-bg);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  user-select: all;
+  pointer-events: all;
+}
+
+span.invisible {
+  all: unset;
+  opacity: 0;
+}
+
 .gifpicker_container {
   display: flex;
   height: calc(100% - 50px);
-  div {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background-color: $dark-bg;
-    div {
-      overflow: auto;
-      position: relative;
-      padding: 1rem;
-      width: 100%;
-      height: 100%;
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1rem;
-        grid-auto-flow: row;
-        grid-auto-rows: auto;
-        .grid_images {
-          width: 200px;
-          display: flex;
-          overflow: hidden;
-          position: relative;
-          background-size: cover;
-          transition-property: background-color, border-color, color, fill,
-            stroke, opacity, box-shadow, transform;
-          transition-duration: 300ms;
-          color: white;
-          font-weight: 600;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 7rem;
-          border-radius: 0.5rem;
-          border-width: 1px;
-          border-color: transparent;
-          &:hover {
-            border-color: $border-blue;
-            border-style: solid;
-          }
-          cursor: pointer;
-          .searchterm {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: black;
-            transition-property: background-color, border-color, color, fill,
-              stroke, opacity, box-shadow, transform;
-            transition-duration: 300ms;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            &:hover {
-              // group-hover
-              opacity: 70%;
-            }
-          }
-        }
-      }
-    }
-  }
 }
+
+.gifpicker_container div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark-bg);
+}
+
+.gifpicker_container div div {
+  overflow: auto;
+  position: relative;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.gifpicker_container div div .grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  grid-auto-flow: row;
+  grid-auto-rows: auto;
+}
+
+.gifpicker_container div div .grid .grid_images {
+  width: 200px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  transition-property: background-color, border-color, color, fill, stroke,
+    opacity, box-shadow, transform;
+  transition-duration: 300ms;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7rem;
+  border-radius: 0.5rem;
+  border-width: 1px;
+  border-color: transparent;
+}
+
+.gifpicker_container div div .grid .grid_images:hover {
+  border-color: var(--border-blue);
+  border-style: solid;
+}
+
+.gifpicker_container div div .grid .grid_images .searchterm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+  transition-property: background-color, border-color, color, fill, stroke,
+    opacity, box-shadow, transform;
+  transition-duration: 300ms;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.gifpicker_container div div .grid .grid_images .searchterm:hover {
+  opacity: 70%;
+}
+
 .arrow_back {
-  //all: unset;
   margin-right: 0.25em;
   cursor: pointer;
 }

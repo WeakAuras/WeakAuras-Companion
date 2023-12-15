@@ -301,7 +301,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .setting-destination-dropdown {
   display: flex;
   flex-direction: column;
@@ -332,6 +332,7 @@ export default defineComponent({
   flex: 50%;
   margin-bottom: 30px;
 }
+
 /* Spin Animation */
 .spin .sync {
   animation-name: spin;

@@ -33,7 +33,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="css">
 .message {
   text-align: center;
   font-size: 11px;

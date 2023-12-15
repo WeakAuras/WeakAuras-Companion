@@ -99,7 +99,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 #about {
   padding: 10px 2.35vw;
   text-align: left;
@@ -156,6 +156,10 @@ export default defineComponent({
   border-radius: 8px 8px 0 0;
   text-align: center;
   background-color: rgba(0, 0, 0, 0);
+}
+
+a {
+  color: #e6e6e6;
 }
 
 a:hover {
