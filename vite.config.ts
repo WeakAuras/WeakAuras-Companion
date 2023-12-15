@@ -10,6 +10,8 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
 import pkg from "./package.json";
 import UnoCSS from "unocss/vite";
+// import { browserslistToTargets } from "lightningcss";
+// import browserslist from "browserslist";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -103,9 +105,16 @@ export default defineConfig(({ command }) => {
         include: path.resolve(__dirname, "./i18n/**"),
       }),
     ],
+    // css: {
+    //   transformer: "lightningcss",
+    //   lightningcss: {
+    //     targets: browserslistToTargets(browserslist(">= 0.25%")),
+    //   },
+    // },
     build: {
       sourcemap,
       target: "esnext",
+      cssMinify: "lightningcss",
     },
     server:
       process.env.VSCODE_DEBUG &&

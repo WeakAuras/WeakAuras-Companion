@@ -173,7 +173,7 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 #help {
   padding: 10px 2.35vw;
   text-align: left;
@@ -220,12 +220,12 @@ li > img {
   max-width: 100%;
 }
 
-a {
+#help a {
   color: rgb(255, 209, 0);
   font-weight: 700;
 }
 
-a:hover {
+#help a:hover {
   color: rgb(255, 228, 106);
 }
 

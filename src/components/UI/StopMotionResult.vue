@@ -133,14 +133,15 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .btn-ok {
   height: 35px;
-  span {
-    position: relative;
-    bottom: 8px;
-    line-height: 50px;
-  }
+}
+
+.btn-ok span {
+  position: relative;
+  bottom: 8px;
+  line-height: 50px;
 }
 
 .minihelp {
@@ -162,8 +163,6 @@ export default defineComponent({
 }
 
 .glow {
-  -webkit-animation: glow 1s ease-in-out infinite alternate;
-  -moz-animation: glow 1s ease-in-out infinite alternate;
   animation: glow 1s ease-in-out infinite alternate;
 }
 
@@ -192,8 +191,9 @@ export default defineComponent({
   margin-top: 5px;
   color: rgb(255, 209, 0);
   font-weight: 500;
-  &:hover {
-    text-decoration-line: underline;
-  }
+}
+
+.explorer:hover {
+  text-decoration-line: underline;
 }
 </style>

@@ -51,7 +51,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 #ui-titlebar {
   display: flex;
   position: fixed;
@@ -79,38 +79,38 @@ export default defineComponent({
   max-width: 144px;
   max-height: 28px;
   text-align: right;
+}
 
-  .ui-btn {
-    margin: 0;
-    width: 40px;
-    height: 100%;
-    border: 0;
-    border-radius: 0 8px 0 0;
-    outline: 0;
-    background: transparent;
+#ui-titlecontrols .ui-btn {
+  margin: 0;
+  width: 40px;
+  height: 100%;
+  border: 0;
+  border-radius: 0 8px 0 0;
+  outline: 0;
+  background: transparent;
+}
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
+#ui-titlecontrols .ui-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
 
-    &.close:hover {
-      background: #e81123;
-    }
+#ui-titlecontrols .ui-btn.close:hover {
+  background: #e81123;
+}
 
-    svg {
-      width: 9px;
-      height: 9px;
+#ui-titlecontrols .ui-btn svg {
+  width: 9px;
+  height: 9px;
+}
 
-      path,
-      rect,
-      polygon {
-        fill: #ffffff;
-      }
-    }
+#ui-titlecontrols .ui-btn svg path,
+#ui-titlecontrols .ui-btn svg rect,
+#ui-titlecontrols .ui-btn svg polygon {
+  fill: #ffffff;
+}
 
-    &:first-child {
-      border-radius: 0;
-    }
-  }
+#ui-titlecontrols .ui-btn:first-child {
+  border-radius: 0;
 }
 </style>

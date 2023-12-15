@@ -41,7 +41,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="css">
 #report {
   width: 100%;
   height: 100%;

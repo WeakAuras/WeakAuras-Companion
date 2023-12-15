@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 #StopMotion {
   padding: 5px 0 5px 2.35vw;
   text-align: left;

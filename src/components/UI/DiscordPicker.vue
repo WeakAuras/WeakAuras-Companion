@@ -64,10 +64,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .invisible {
   opacity: 0;
-  //pointer-events: none;
 }
 
 .discord-picker {

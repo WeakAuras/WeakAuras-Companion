@@ -53,7 +53,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="css">
 #updatedAuraList {
   width: 100%;
   height: 100%;

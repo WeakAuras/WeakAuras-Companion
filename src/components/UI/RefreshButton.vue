@@ -198,7 +198,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 #sync {
   text-align: center;
   width: 100%;

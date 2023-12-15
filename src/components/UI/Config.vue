@@ -286,7 +286,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 #config {
   padding: 5px 0 5px 2.35vw;
   text-align: left;

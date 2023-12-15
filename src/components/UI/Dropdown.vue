@@ -97,131 +97,130 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-$button-color-bg: #101010;
-$border-color-separate: #0d0d0d;
-$highlight-color: #1a1a1a;
-$highlight-color-text: #ffffff;
-$text-color: #e6e6e6;
-$border-color: #2c2c2c;
-$border-color-expand: #2c2c2c;
-
-$max-width: 230px;
-$min-width: 140px;
+<style lang="css">
+:root {
+  --button-color-bg: #101010;
+  --border-color-separate: #0d0d0d;
+  --highlight-color: #1a1a1a;
+  --highlight-color-text: #ffffff;
+  --text-color: #e6e6e6;
+  --border-color: #2c2c2c;
+  --border-color-expand: #2c2c2c;
+  --max-width: 230px;
+  --min-width: 140px;
+}
 
 .dropdown {
   font-size: 14px;
   font-weight: 500;
-  color: $text-color;
-  width: $max-width;
+  color: var(--text-color);
+  width: var(--max-width);
   margin: 10px 4px 10px 0;
+}
 
-  &__label {
-    color: #eeeeee;
-    font-size: 15px;
-    z-index: 1;
-    position: relative;
-  }
+.dropdown__label {
+  color: #eeeeee;
+  font-size: 15px;
+  z-index: 1;
+  position: relative;
+}
 
-  &__toggle {
-    z-index: 1;
-    position: relative;
-    width: 100%;
-    min-width: $min-width;
-    max-width: $max-width;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    height: 30px;
-    background: $button-color-bg;
-    padding: 5px 30px 5px 10px;
-    margin-top: 5px;
-    margin-left: 5px;
-    text-align: left;
-    border-radius: 4px;
-    cursor: pointer;
-    border: 1px solid $border-color;
-    transition:
-      border-color 0.3s ease-in-out,
-      border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
+.dropdown__toggle {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  min-width: var(--min-width);
+  max-width: var(--max-width);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 30px;
+  background: var(--button-color-bg);
+  padding: 5px 30px 5px 10px;
+  margin-top: 5px;
+  margin-left: 5px;
+  text-align: left;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition:
+    border-color 0.3s ease-in-out,
+    border-radius 0.3s cubic-bezier(1, -0.21, 1, -1.65);
+}
 
-    &--toggled {
-      border-radius: 4px 4px 0 0;
-      border-color: $border-color-expand;
-      border-bottom-color: transparent;
-      transition: border-radius 0.3s cubic-bezier(0, 1.95, 0, 1.93);
-    }
+.dropdown__toggle--toggled {
+  border-radius: 4px 4px 0 0;
+  border-color: var(--border-color-expand);
+  border-bottom-color: transparent;
+  transition: border-radius 0.3s cubic-bezier(0, 1.95, 0, 1.93);
+}
 
-    &:hover {
-      background: $highlight-color;
-      color: $highlight-color-text;
-    }
+.dropdown__toggle:hover {
+  background: var(--highlight-color);
+  color: var(--highlight-color-text);
+}
 
-    i {
-      position: absolute;
-      top: 3px;
-      right: 4px;
-      display: inline-block;
-      transition: transform 0.3s ease-in-out;
-      cursor: pointer;
+.dropdown__toggle i {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
 
-      &.open {
-        transform: rotate(180deg);
-      }
-    }
+.dropdown__toggle i.open {
+  transform: rotate(180deg);
+}
 
-    span {
-      cursor: pointer;
-    }
-  }
+.dropdown__toggle span {
+  cursor: pointer;
+}
 
-  &__options {
-    width: 100%;
-    position: absolute;
-    cursor: pointer;
-    border-radius: 0 0 4px 4px;
-    max-width: $max-width;
-    background: $button-color-bg;
-    transition:
-      height 0.3s ease-in-out,
-      border-color 0.2s ease-in-out;
-    overflow: hidden;
-    border: 1px solid transparent;
-    margin-left: 5px;
-    opacity: 0;
+.dropdown__options {
+  width: 100%;
+  position: absolute;
+  cursor: pointer;
+  border-radius: 0 0 4px 4px;
+  max-width: var(--max-width);
+  background: var(--button-color-bg);
+  transition:
+    height 0.3s ease-in-out,
+    border-color 0.2s ease-in-out;
+  overflow: hidden;
+  border: 1px solid transparent;
+  margin-left: 5px;
+  opacity: 0;
+}
 
-    &--toggled {
-      opacity: 1;
-      border-color: $border-color-expand;
-      border-top-color: $border-color-separate;
-    }
-  }
+.dropdown__options--toggled {
+  opacity: 1;
+  border-color: var(--border-color-expand);
+  border-top-color: var(--border-color-separate);
+}
 
-  &__option {
-    cursor: pointer;
-    z-index: 50;
-    background-color: black;
-    width: 100%;
-    height: 30px;
-    padding: 5px 25px 5px 5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.dropdown__option {
+  cursor: pointer;
+  z-index: 50;
+  background-color: black;
+  width: 100%;
+  height: 30px;
+  padding: 5px 25px 5px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-    &:last-child {
-      border-radius: 0 0 4px 4px;
-    }
+.dropdown__option:last-child {
+  border-radius: 0 0 4px 4px;
+}
 
-    position: relative;
+.dropdown__option:hover {
+  background: var(--highlight-color);
+}
 
-    &:hover {
-      background: $highlight-color;
-    }
-
-    span {
-      cursor: pointer;
-      padding: 0 5px;
-    }
-  }
+.dropdown__option span {
+  cursor: pointer;
+  padding: 0 5px;
 }
 </style>

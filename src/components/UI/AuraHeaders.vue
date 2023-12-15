@@ -66,59 +66,57 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .aura-header {
   display: flex;
   flex-direction: row;
   text-align: left;
   font-size: 14px;
   margin: 0 calc(2.35vw + 10px) 0;
+}
 
-  .aura-column {
-    &.sortable {
-      cursor: pointer;
+.aura-header .aura-column.sortable {
+  cursor: pointer;
+}
 
-      &:hover .aura-header__sort-icon {
-        opacity: 0.64;
-      }
-    }
+.aura-header .aura-column.sortable:hover .aura-header__sort-icon {
+  opacity: 0.64;
+}
 
-    &.sorted .aura-header__sort-icon {
-      opacity: 0.86 !important;
-    }
+.aura-header .aura-column.sorted .aura-header__sort-icon {
+  opacity: 0.86 !important;
+}
 
-    &.sort-desc .aura-header__sort-icon {
-      transform: rotate(180deg);
-      padding-bottom: 0px;
-      padding-top: 2px;
-    }
+.aura-header .aura-column.sort-desc .aura-header__sort-icon {
+  transform: rotate(180deg);
+  padding-bottom: 0px;
+  padding-top: 2px;
+}
 
-    &-name {
-      flex: 1;
-      padding-left: 48px;
-    }
+.aura-header .aura-column-name {
+  flex: 1;
+  padding-left: 48px;
+}
 
-    &-update {
-      padding-right: 10px;
-    }
+.aura-header .aura-column-update {
+  padding-right: 10px;
+}
 
-    &-aura-type {
-      padding-right: 20px;
-      padding-left: 10px;
-    }
+.aura-header .aura-column-aura-type {
+  padding-right: 20px;
+  padding-left: 10px;
+}
 
-    &-author {
-      margin-right: 111px;
-      padding-left: 10px;
-      width: 100px;
-    }
-  }
+.aura-header .aura-column-author {
+  margin-right: 111px;
+  padding-left: 10px;
+  width: 100px;
+}
 
-  &__sort-icon {
-    opacity: 0;
-    font-size: 14px;
-    vertical-align: middle;
-    padding-bottom: 2px;
-  }
+.aura-header__sort-icon {
+  opacity: 0;
+  font-size: 14px;
+  vertical-align: middle;
+  padding-bottom: 2px;
 }
 </style>
