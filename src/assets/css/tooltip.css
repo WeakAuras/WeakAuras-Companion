@@ -1,0 +1,18 @@
+/* stylelint-disable selector-class-pattern */
+.v-popper--theme-info-tooltip {
+  display: block !important;
+  z-index: 10000;
+  font-weight: 500;
+  font-size: 12px;
+  color: #e6e6e6;
+  white-space: pre;
+  pointer-events: none;
+}
+
+.v-popper--theme-info-tooltip .v-popper__inner {
+  background: #030303dc;
+  border-radius: 4px;
+  padding: 10px 15px 9px;
+  max-height: 450px;
+  overflow: hidden;
+}
