@@ -136,6 +136,9 @@ devDependencies:
   tail:
     specifier: ^2.2.6
     version: 2.2.6
+  tree-kill:
+    specifier: ^1.2.2
+    version: 1.2.2
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
@@ -147,7 +150,7 @@ devDependencies:
     version: 5.0.8(@types/node@20.10.4)(lightningcss@1.22.1)
   vite-plugin-electron:
     specifier: ^0.15.5
-    version: 0.15.5(vite-plugin-electron-renderer@0.14.5)
+    version: 0.15.5(tree-kill@1.2.2)(vite-plugin-electron-renderer@0.14.5)
   vite-plugin-electron-renderer:
     specifier: ^0.14.5
     version: 0.14.5
@@ -6816,6 +6819,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /tree-kill@1.2.2:
+    resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
+    hasBin: true
+    dev: true
+
   /truncate-utf8-bytes@1.0.2:
     resolution: {integrity: sha512-95Pu1QXQvruGEhv62XCMO3Mm90GscOCClvrIUwCM0PYOXK3kaF3l3sIHxx71ThJfcbM2O5Au6SO3AWCSEfW4mQ==}
     dependencies:
@@ -7067,7 +7075,7 @@ packages:
     resolution: {integrity: sha512-EQ7ORuPp8vFPCqfuGnVo7d36fXS0IFH4/RUlKb1drseix3TQEPcgwEuFADdXBxRgqMp70njz/1m0kdf5lEsm8w==}
     dev: true
 
-  /vite-plugin-electron@0.15.5(vite-plugin-electron-renderer@0.14.5):
+  /vite-plugin-electron@0.15.5(tree-kill@1.2.2)(vite-plugin-electron-renderer@0.14.5):
     resolution: {integrity: sha512-GD2JkJJSsP3kyJlyCH4ep3spelkyzOVSWHswv5nwYhS8GfsojPxUjhs9U4tuDb5mZ2XDYyTN+nBSB/abRnTmYQ==}
     peerDependencies:
       tree-kill: '*'
@@ -7078,6 +7086,7 @@ packages:
       vite-plugin-electron-renderer:
         optional: true
     dependencies:
+      tree-kill: 1.2.2
       vite-plugin-electron-renderer: 0.14.5
     dev: true
 
