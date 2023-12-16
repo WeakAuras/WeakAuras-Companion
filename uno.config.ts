@@ -53,6 +53,11 @@ export function createConfig({ dev = true } = {}) {
       colors: {
         brand: {
           primary: "#131313",
+          green: "rgb(18, 173, 18)",
+          greyDark: "#2c2c2c",
+          greyDarker: "#1a1a1a",
+          greyDarkest: "#0d0d0d",
+          greyLightest: "#eeeeee",
           accent: "rgb(255, 209, 0)",
         },
         status: {

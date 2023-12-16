@@ -48,7 +48,7 @@
     </div>
     <div
       v-else
-      class="uptodate"
+      class="uptodate text-brand-green"
     >
       {{ $t("app.aura.uptodate" /* up to date */) }}
     </div>
@@ -213,7 +213,6 @@ export default defineComponent({
   float: right;
   line-height: 32px;
   padding-right: 5px;
-  color: rgb(18, 173, 18);
   text-align: center;
   width: 90px;
 }

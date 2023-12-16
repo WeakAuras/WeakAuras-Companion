@@ -2,11 +2,11 @@
   <div class="dropdown">
     <label
       v-if="label"
-      class="dropdown__label"
+      class="dropdown__label text-brand-grey-lightest"
       >{{ label }}</label
     >
     <div
-      class="dropdown__toggle"
+      class="dropdown__toggle hover:bg-brand-grey-darkest"
       :class="{ 'dropdown__toggle--toggled': showMenu }"
       @click="toggleDropdown()"
     >
@@ -25,7 +25,7 @@
       <div
         v-for="option in options"
         :key="option.value"
-        class="dropdown__option"
+        class="dropdown__option hover:bg-brand-grey-darkest"
         :title="option.text"
         @click="selectItem(option)"
       >
@@ -101,7 +101,6 @@ export default defineComponent({
 :root {
   --button-color-bg: #101010;
   --border-color-separate: #0d0d0d;
-  --highlight-color: #1a1a1a;
   --highlight-color-text: #ffffff;
   --text-color: #e6e6e6;
   --border-color: #2c2c2c;
@@ -119,7 +118,6 @@ export default defineComponent({
 }
 
 .dropdown__label {
-  color: #eeeeee;
   font-size: 15px;
   z-index: 1;
   position: relative;
@@ -156,7 +154,6 @@ export default defineComponent({
 }
 
 .dropdown__toggle:hover {
-  background: var(--highlight-color);
   color: var(--highlight-color-text);
 }
 
@@ -213,10 +210,6 @@ export default defineComponent({
 
 .dropdown__option:last-child {
   border-radius: 0 0 4px 4px;
-}
-
-.dropdown__option:hover {
-  background: var(--highlight-color);
 }
 
 .dropdown__option span {

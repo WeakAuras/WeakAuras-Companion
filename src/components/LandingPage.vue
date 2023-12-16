@@ -88,7 +88,7 @@
           >
             <label
               :key="addonSelected"
-              class="btn-label"
+              class="btn-label text-brand-grey-lightest"
             >
               {{ $t("app.main.addons" /* Addons */) }}
             </label>
@@ -832,7 +832,6 @@ export default defineComponent({
   margin-bottom: 5px;
   margin-left: 1px;
   cursor: default;
-  color: #eeeeee;
   font-size: 15px;
   font-weight: 500;
 }

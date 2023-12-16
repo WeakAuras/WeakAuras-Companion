@@ -19,7 +19,7 @@
     @click="handleInputClick"
   >
     <span class="select-button">
-      <p class="configlabel">
+      <p class="configlabel text-brand-grey-lightest">
         <slot />
       </p>
       <div class="fakeinput pointer">
@@ -146,7 +146,6 @@ export default defineComponent({
 }
 
 .configlabel {
-  color: #eeeeee;
   margin-top: 5px;
   font-size: 15px;
   font-weight: 500;

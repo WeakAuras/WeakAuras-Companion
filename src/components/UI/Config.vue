@@ -44,7 +44,7 @@
               )
             }}
           </Checkbox>
-          <p class="label subtitle">
+          <p class="label subtitle text-brand-grey-lightest">
             {{ $t("app.config.startup" /* Startup */) }}
           </p>
           <div class="option">
@@ -61,7 +61,7 @@
               {{ $t("app.config.minimized" /* Start minimised */) }}
             </Checkbox>
           </div>
-          <p class="label subtitle">
+          <p class="label subtitle text-brand-grey-lightest">
             {{ $t("app.config.autoupdater" /* Updates */) }}
           </p>
           <div class="option">
@@ -306,7 +306,6 @@ export default defineComponent({
 
 label,
 .label {
-  color: #eeeeee;
   margin: 10px 0 5px;
   font-size: 14px;
 }

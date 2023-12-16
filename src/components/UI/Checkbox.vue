@@ -12,7 +12,7 @@
       "
     />
     <div
-      class="checkbox__box"
+      class="checkbox__box border border-solid border-brand-grey-dark hover:border-brand-grey-dark bg-brand-grey-darkest hover:border-brand-grey-darker"
       :class="{ 'checkbox__box--checked': modelValue }"
     />
     <label>
@@ -59,17 +59,10 @@ input[type="checkbox"] + .checkbox__box:focus {
 }
 
 .checkbox__box {
-  background-color: #0d0d0d;
-  border: 1px solid #2c2c2c;
   border-radius: 2px;
   height: 20px;
   margin-right: 10px;
   width: 20px;
-}
-
-.checkbox__box:hover {
-  background-color: #1a1a1a;
-  border: 1px solid #2c2c2c;
 }
 
 .checkbox__box--checked {
