@@ -1,0 +1,8 @@
+.github
+.vscode
+
+# Auto generated
+i18n
+*.yaml
+*.md
+*.json

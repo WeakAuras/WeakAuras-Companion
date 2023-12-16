@@ -1,4 +1,15 @@
-import { BrowserWindow, Menu, Notification, Tray, app, dialog, ipcMain, nativeImage, protocol, shell } from "electron";
+import {
+  BrowserWindow,
+  Menu,
+  Notification,
+  Tray,
+  app,
+  dialog,
+  ipcMain,
+  nativeImage,
+  protocol,
+  shell,
+} from "electron";
 import { join } from "node:path";
 import log from "electron-log";
 import Store from "electron-store";
@@ -6,7 +17,10 @@ import { autoUpdater } from "electron-updater";
 
 process.env.DIST_ELECTRON = join(__dirname, "..");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL ? join(process.env.DIST_ELECTRON, "../public") : process.env.DIST;
+
+process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
+  ? join(process.env.DIST_ELECTRON, "../public")
+  : process.env.DIST;
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 const preload = join(__dirname, "../preload/index.js");
@@ -16,7 +30,9 @@ const indexHtml = join(process.env.DIST, "index.html");
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
 
 // Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { secure: true, standard: true } }]);
+protocol.registerSchemesAsPrivileged([
+  { scheme: "app", privileges: { secure: true, standard: true } },
+]);
 
 const store = new Store();
 Store.initRenderer();
@@ -48,8 +64,14 @@ let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 const winURL = null;
 
-const trayIconPath = join(process.env.PUBLIC, process.platform === "win32" ? "bigicon.png" : "icon-light.png");
-const notificationIconPath = join(process.env.PUBLIC, process.platform === "win32" ? "bigicon.png" : "icon.png");
+const trayIconPath = join(
+  process.env.PUBLIC,
+  process.platform === "win32" ? "bigicon.png" : "icon-light.png",
+);
+const notificationIconPath = join(
+  process.env.PUBLIC,
+  process.platform === "win32" ? "bigicon.png" : "icon.png",
+);
 
 const trayIcon = nativeImage.createFromPath(trayIconPath);
 const notificationIcon = nativeImage.createFromPath(notificationIconPath);
@@ -125,7 +147,10 @@ async function createWindow() {
   });
 
   mainWindow?.webContents.once("dom-ready", () => {
-    mainWindow?.webContents.send("setAllowPrerelease", autoUpdater.allowPrerelease);
+    mainWindow?.webContents.send(
+      "setAllowPrerelease",
+      autoUpdater.allowPrerelease,
+    );
   });
 
   tray = new Tray(trayIcon);
@@ -149,7 +174,11 @@ async function createWindow() {
         }
 
         autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-          mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
+          mainWindow?.webContents.send(
+            "updaterHandler",
+            "checkForUpdates",
+            UpdateCheckResult,
+          );
           ({ cancellationToken } = UpdateCheckResult);
         });
       },
@@ -231,7 +260,11 @@ if (!app.requestSingleInstanceLock()) {
 
     if (process.env.NODE_ENV === "production") {
       autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-        mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
+        mainWindow?.webContents.send(
+          "updaterHandler",
+          "checkForUpdates",
+          UpdateCheckResult,
+        );
         ({ cancellationToken } = UpdateCheckResult);
       });
     }
@@ -285,7 +318,10 @@ ipcMain.on("get-user-data-path", (event) => {
 });
 
 ipcMain.handle("openDialog", (event, args) => {
-  return dialog.showOpenDialog(BrowserWindow.fromWebContents(event.sender), args);
+  return dialog.showOpenDialog(
+    BrowserWindow.fromWebContents(event.sender),
+    args,
+  );
 });
 
 // event used when clicking on notifications
@@ -351,7 +387,11 @@ ipcMain.handle("checkUpdates", (_event, isBeta) => {
   autoUpdater.allowPrerelease = isBeta === true;
 
   autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-    mainWindow?.webContents.send("updaterHandler", "checkForUpdates", UpdateCheckResult);
+    mainWindow?.webContents.send(
+      "updaterHandler",
+      "checkForUpdates",
+      UpdateCheckResult,
+    );
     ({ cancellationToken } = UpdateCheckResult);
   });
 });
@@ -418,7 +458,11 @@ autoUpdater.on("error", (err) => {
 
 autoUpdater.on("download-progress", (progressObj) => {
   if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "download-progress", progressObj);
+    mainWindow?.webContents.send(
+      "updaterHandler",
+      "download-progress",
+      progressObj,
+    );
     mainWindow?.setProgressBar(progressObj.percent / 100);
   }
 });

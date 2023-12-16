@@ -1,5 +1,10 @@
-export function getTranslationsFromString(content: string): RegExpMatchArray | string[] {
-  return content.match(/\$tc?\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) || [];
+export function getTranslationsFromString(
+  content: string,
+): RegExpMatchArray | string[] {
+  return (
+    content.match(/\$tc?\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) ||
+    []
+  );
 }
 
 export function sanitizeMessage(message: string): string {
@@ -23,8 +28,11 @@ export function getTranslationObject(matches: string[]): any {
   const translations: any = {};
 
   matches.forEach((translation: string): void => {
-    const id = translation.match(/["',]\S*["',]/)?.[0].replace(/[\\"',]/g, "") as string;
-    const defaultMessage: RegExpMatchArray | null = translation.match(/\/\*[^/]*\*\//);
+    const id = translation
+      .match(/["',]\S*["',]/)?.[0]
+      .replace(/[\\"',]/g, "") as string;
+    const defaultMessage: RegExpMatchArray | null =
+      translation.match(/\/\*[^/]*\*\//);
 
     if (defaultMessage) {
       const defaultMessageToSanitize = defaultMessage[0];

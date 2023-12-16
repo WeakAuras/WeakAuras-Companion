@@ -1,4 +1,8 @@
-import { getTranslationObject, getTranslationsFromString, sanitizeMessage } from "./Utils";
+import {
+  getTranslationObject,
+  getTranslationsFromString,
+  sanitizeMessage,
+} from "./Utils";
 
 describe("Utils", () => {
   test("should remove comments, line breaks and double white spaces", () => {
@@ -62,7 +66,7 @@ $t('components.markdown' /*
     </div>`;
 
     expect(getTranslationObject(getTranslationsFromString(content))).toEqual({
-      test: "this is a test",
+      "test": "this is a test",
       "test.foo": "test (test) <test> test",
     });
   });
