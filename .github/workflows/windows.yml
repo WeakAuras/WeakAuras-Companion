@@ -42,7 +42,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         name: Upload Installer
         with:
           name: WeakAuras-Companion-CI-Installer
