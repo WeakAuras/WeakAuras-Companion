@@ -25,7 +25,7 @@
   },
   "mac": {
     "icon": "public/icon.icns",
-    "category": "Utility",
+    "category": "public.app-category.utilities",
     "extendInfo": {
       "LSUIElement": 1
     },
