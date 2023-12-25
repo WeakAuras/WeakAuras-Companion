@@ -46,7 +46,7 @@
     "@iconify-json/fa6-brands": "^1.1.18",
     "@iconify-json/mdi": "^1.1.63",
     "@iconify/tools": "^3.0.7",
-    "@intlify/unplugin-vue-i18n": "^1.6.0",
+    "@intlify/unplugin-vue-i18n": "^2.0.0",
     "@types/archiver": "^6.0.2",
     "@types/auto-launch": "^5.0.5",
     "@types/jest": "^29.5.11",
