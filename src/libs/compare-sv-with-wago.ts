@@ -93,10 +93,34 @@ export async function compareSVwithWago(
 
   let fileAuraData = [];
 
+  const readFile = (path: string): string => {
+    try {
+      return fs.readFileSync(path, "utf-8");
+    } catch (err) {
+      console.error(`Error reading file ${path}`, err);
+      return "";
+    }
+  };
+
+  const parseLua = (data: string) => {
+    try {
+      return luaparse.parse(data, {
+        comments: false,
+        scope: true,
+        locations: true,
+        luaVersion: "5.1",
+      });
+    } catch (err) {
+      console.error("Error parsing Lua data", err);
+      return null;
+    }
+  };
+
   for (const conf of addonConfigs) {
     if (!conf.svPathFunction) {
       continue;
     }
+
     const svPath = conf.svPathFunction(
       config,
       versionSelected,
@@ -107,21 +131,11 @@ export async function compareSVwithWago(
       continue;
     }
 
-    try {
-      const data = fs.readFileSync(svPath, "utf-8");
-      // Parse saved data .lua
-      const savedData = luaparse.parse(data, {
-        comments: false,
-        scope: true,
-        locations: true,
-        luaVersion: "5.1",
-      });
+    const data = readFile(svPath);
+    const savedData = parseLua(data);
 
+    if (savedData) {
       fileAuraData = [...fileAuraData, ...conf.parseFunction(savedData, conf)];
-    } catch (err) {
-      console.log(`Error reading file ${svPath}`);
-      console.log(err);
-      // TODO: UI needs to display something if this fails
     }
   }
 
