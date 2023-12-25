@@ -329,7 +329,7 @@ export async function compareSVwithWago(
       scheduleRefreshWago(MINUTES_60);
     }
     return;
-      }
+  }
 
   const handleAuraUpdate = (wagoResp: any, auras: any[]) => {
     const id = wagoResp?.requestUrl?.searchParams.get("id");
@@ -339,7 +339,7 @@ export async function compareSVwithWago(
         auras.forEach((aura) => {
           if (aura.wagoid === id) {
             aura.encoded = wagoResp.body;
-    }
+          }
         });
       } else {
         auras.forEach((aura) => {
@@ -348,7 +348,7 @@ export async function compareSVwithWago(
             console.error(`error ${wagoResp.statusMessage}`);
           }
         });
-  }
+      }
     }
   };
 
