@@ -93,7 +93,7 @@
     "vite-plugin-webfont-dl": "^3.9.1",
     "vue": "^3.3.13",
     "vue-i18n": "^9.8.0",
-    "vue-tsc": "^1.8.25"
+    "vue-tsc": "^1.8.26"
   },
   "debug": {
     "env": {
