@@ -60,6 +60,14 @@ export async function compareSVwithWago(
     return addonsInstalled[0].addonName;
   };
 
+  const scheduleRefreshWago = (timeout: number) => {
+    if (schedule.id) {
+      clearTimeout(schedule.id);
+    }
+
+    schedule.id = setTimeout(refreshWago, timeout);
+  };
+
   const getGotOptions = function () {
     return {
       http2: true,
@@ -81,15 +89,14 @@ export async function compareSVwithWago(
   const addonConfigs = addonsInstalled;
 
   if (fetching) {
+    // prevent spamming UIButton
     fetchingUpdateCallback(fetching);
     return;
-  } // prevent spamming UIButton
+  }
+
   fetching = true; // show animation
   fetchingUpdateCallback(fetching);
-
-  if (schedule.id) {
-    clearTimeout(schedule.id);
-  } // cancel next 1h schedule
+  scheduleRefreshWago(0); // cancel next 1h schedule
 
   let fileAuraData = [];
 
@@ -293,15 +300,11 @@ export async function compareSVwithWago(
           fetching = false;
           fetchingUpdateCallback(fetching);
 
-          if (schedule.id) {
-            clearTimeout(schedule.id);
-          }
-
           const delay =
             error.code === "ERR_NON_2XX_3XX_RESPONSE" // Server said nope
               ? 1000 * 10 // 10 seconds
               : MINUTES_30;
-          schedule.id = setTimeout(refreshWago, delay);
+          scheduleRefreshWago(delay);
         }),
     );
   });
@@ -323,14 +326,31 @@ export async function compareSVwithWago(
 
       accountSelected.lastWagoUpdate = new Date();
 
-      if (schedule.id) {
-        clearTimeout(schedule.id);
-      }
-
-      schedule.id = setTimeout(refreshWago, MINUTES_60);
+      scheduleRefreshWago(MINUTES_60);
     }
     return;
+      }
+
+  const handleAuraUpdate = (wagoResp: any, auras: any[]) => {
+    const id = wagoResp?.requestUrl?.searchParams.get("id");
+
+    if (id) {
+      if (wagoResp.statusCode === 200) {
+        auras.forEach((aura) => {
+          if (aura.wagoid === id) {
+            aura.encoded = wagoResp.body;
+    }
+        });
+      } else {
+        auras.forEach((aura) => {
+          if (aura.wagoid === id) {
+            aura.wagoVersion = aura.version;
+            console.error(`error ${wagoResp.statusMessage}`);
+          }
+        });
   }
+    }
+  };
 
   // those promises are already resolved in line 1395
   // they should not throw an error except maybe for external error like timeout
@@ -341,12 +361,7 @@ export async function compareSVwithWago(
       // Test if list is empty after resolving wagoCalls
       if (allAurasFetched.length === 0) {
         accountSelected.lastWagoUpdate = new Date();
-
-        if (schedule.id) {
-          clearTimeout(schedule.id);
-        }
-
-        schedule.id = setTimeout(refreshWago, MINUTES_60);
+        scheduleRefreshWago(MINUTES_60);
         return;
       }
 
@@ -365,40 +380,13 @@ export async function compareSVwithWago(
         .then((wagoEncodedStrings) => {
           console.log("promisesWagoDataCallsComplete");
 
-          wagoEncodedStrings.forEach((wagoResp) => {
-            const id = wagoResp?.requestUrl?.searchParams.get("id");
-
-            if (id) {
-              if (wagoResp.statusCode === 200) {
-                auras.forEach((aura) => {
-                  if (aura.wagoid === id) {
-                    // auras[index].encoded = wagoResp.body;
-                    aura.encoded = wagoResp.body;
-                  }
-                });
-              } else {
-                auras.forEach((aura) => {
-                  if (aura.wagoid === id) {
-                    // Setting the version back to the aura version
-                    // won't show update available
-                    // TODO: create status update-failed?
-                    aura.wagoVersion = aura.version;
-                    console.log(`error ${wagoResp.statusMessage}`);
-                  }
-                });
-              }
-            }
-          });
+          wagoEncodedStrings.forEach((wagoResp) =>
+            handleAuraUpdate(wagoResp, auras),
+          );
         })
         .catch((error) => {
-          console.log(error);
-
-          // Schedule in 30 min on error
-          if (schedule.id) {
-            clearTimeout(schedule.id);
-          }
-
-          schedule.id = setTimeout(refreshWago, MINUTES_30);
+          console.error(error);
+          scheduleRefreshWago(MINUTES_30);
         })
         .then(() => {
           allAurasFetched.forEach((toFetch) => {
@@ -419,27 +407,14 @@ export async function compareSVwithWago(
           } finally {
             fetching = false;
             fetchingUpdateCallback(fetching);
-
             setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
-
             accountSelected.lastWagoUpdate = new Date();
-
-            if (schedule.id) {
-              clearTimeout(schedule.id);
-            }
-
-            schedule.id = setTimeout(refreshWago, MINUTES_60);
+            scheduleRefreshWago(MINUTES_60);
           }
         });
     })
     .catch((error) => {
-      console.log(JSON.stringify(error));
-
-      // Schedule in 30 min on error
-      if (schedule.id) {
-        clearTimeout(schedule.id);
-      }
-
-      schedule.id = setTimeout(refreshWago, MINUTES_30);
+      console.error(JSON.stringify(error));
+      scheduleRefreshWago(MINUTES_30);
     });
 }
