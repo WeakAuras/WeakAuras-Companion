@@ -6,7 +6,13 @@ import { ipcRenderer } from "electron";
 
 import hash from "./hash";
 import { isAddonInstalled } from "./is-addon-installed";
-import type { Account, AuraType, ConfigState, Version } from "@/stores/config";
+import type {
+  Account,
+  AddonConfig,
+  AuraType,
+  ConfigState,
+  Version,
+} from "@/stores/config";
 
 function refreshWago() {
   ipcRenderer.invoke("refreshWago");
@@ -26,7 +32,7 @@ export async function compareSVwithWago(
   versionSelected: Version,
   accountSelected: Account,
   fetchingState: boolean,
-  addonsInstalled: any,
+  addonsInstalled: AddonConfig[],
   addonSelected: string,
   aurasToCompare: AuraType[],
   fetchingUpdateCallback: FetchingUpdateCallback,
@@ -85,7 +91,6 @@ export async function compareSVwithWago(
   if (!versionSelected || !accountSelected) {
     return;
   }
-
   const addonConfigs = addonsInstalled;
 
   if (fetching) {

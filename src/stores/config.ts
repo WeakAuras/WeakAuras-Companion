@@ -19,16 +19,26 @@ export interface Account {
   savedvariableSizeForAddon: string[];
 }
 
+export interface AddonConfig {
+  addonName: string;
+  wagoAPI: string;
+  addonDependency: string;
+  isInstalled: boolean;
+  hasTypeColumn: boolean;
+  svPathFunction: (
+    config?: ConfigState,
+    version?: Version,
+    account?: Account,
+  ) => string | false;
+  parseFunction: (WeakAurasSavedData: any, config: any) => any[];
+  ignoreOwnAuras?: boolean;
+  wagoUsername?: string | null;
+}
+
 export interface AuraType {
-  addonConfig?: {
-    addonDependency: string;
-    addonName: string;
-    hasTypeColumn: boolean;
-    isInstalled: boolean;
-    wagoAPI: string;
-  };
+  addonConfig?: AddonConfig;
   auraType: string | undefined;
-  auraTypeDisplay?: string | undefined; // deadge?
+  auraTypeDisplay?: string | undefined; // dead?
   auraTypeDisplayName?: string | undefined;
   author: string;
   changelog?: {
@@ -45,7 +55,7 @@ export interface AuraType {
   logo?: string;
   modified?: Date | null;
   name: string;
-  regionType?: string | undefined; // deadge?
+  regionType?: string | undefined; // dead?
   semver?: string;
   slug: string;
   source: string;
