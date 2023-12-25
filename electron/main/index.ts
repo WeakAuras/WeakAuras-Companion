@@ -115,19 +115,24 @@ async function createWindow() {
   }
 
   // Workaround for electron/electron#39959
-  if (/^(27|28)\.\d+\.\d+(\-alpha\.\d+|\-beta\.\d+)?$/.test(process.versions.electron) && process.platform === "win32") {
-		mainWindow.on("blur", () => {
-			const[width_39959, height_39959] = mainWindow.getSize();
-			mainWindow.setSize(width_39959, height_39959 + 1);
-			mainWindow.setSize(width_39959, height_39959);
-		});
+  if (
+    /^(27|28)\.\d+\.\d+(\-alpha\.\d+|\-beta\.\d+)?$/.test(
+      process.versions.electron,
+    ) &&
+    process.platform === "win32"
+  ) {
+    mainWindow.on("blur", () => {
+      const [width_39959, height_39959] = mainWindow.getSize();
+      mainWindow.setSize(width_39959, height_39959 + 1);
+      mainWindow.setSize(width_39959, height_39959);
+    });
 
-		mainWindow.on("focus", () => {
-			const[width_39959, height_39959] = mainWindow.getSize();
-			mainWindow.setSize(width_39959, height_39959 + 1);
-			mainWindow.setSize(width_39959, height_39959);
-		});
-	}
+    mainWindow.on("focus", () => {
+      const [width_39959, height_39959] = mainWindow.getSize();
+      mainWindow.setSize(width_39959, height_39959 + 1);
+      mainWindow.setSize(width_39959, height_39959);
+    });
+  }
 
   // Make all links open with the browser, not with the application
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
