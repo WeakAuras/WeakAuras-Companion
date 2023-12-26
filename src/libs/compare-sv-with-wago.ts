@@ -310,6 +310,7 @@ export async function compareSVwithWago(
               ? 1000 * 10 // 10 seconds
               : MINUTES_30;
           scheduleRefreshWago(delay);
+          throw new Error("WAGO_IS_NOT_HAPPY");
         }),
     );
   });
