@@ -17,7 +17,11 @@
     "i18n-report": "pnpm dlx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
     "lint": "eslint . --cache --ext .ts,.js,.vue && prettier . --check --cache",
     "lint:fix": "eslint . --cache --ext .ts,.js,.vue --fix && prettier . --write --cache",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.?(js|ts|ts|vue)": "prettier --write"
   },
   "config": {
     "default-locale": "en",
@@ -72,7 +76,9 @@
     "eslint-plugin-vue": "^9.19.2",
     "floating-vue": "^2.0.0-beta.24",
     "glob": "^10.3.10",
+    "husky": "^8.0.0",
     "lightningcss": "^1.22.1",
+    "lint-staged": "^15.2.0",
     "luaparse": "^0.2.1",
     "luxon": "^3.4.4",
     "pinia": "^2.1.7",

@@ -299,7 +299,7 @@ export async function compareSVwithWago(
               }
             });
           });
-        })
+        }),
     );
   });
 
