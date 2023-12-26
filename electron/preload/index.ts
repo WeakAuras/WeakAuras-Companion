@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 
 function domReady(
   condition: DocumentReadyState[] = ["complete", "interactive"],
@@ -32,9 +32,6 @@ const safeDOM = {
 const imagePath = process.env.VITE_DEV_SERVER_URL
   ? path.join("src", "assets", "weakauras.png")
   : path.join(process.env.DIST, "assets", "weakauras.png");
-
-console.log("imagePath", imagePath);
-console.log("isDev", process.env);
 
 /**
  * https://tobiasahlin.com/spinkit
