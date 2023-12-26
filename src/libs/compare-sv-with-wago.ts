@@ -357,48 +357,36 @@ export async function compareSVwithWago(
     }
   };
 
-  // those promises are already resolved in line 1395
-  // they should not throw an error except maybe for external error like timeout
-  Promise.all(promisesWagoCallsComplete)
-    .then(() => {
+  const handlePromises = async () => {
+    try {
+      await Promise.all(promisesWagoCallsComplete);
       console.log("promisesWagoCallsComplete");
 
-      // Test if list is empty after resolving wagoCalls
       if (allAurasFetched.length === 0) {
         accountSelected.lastWagoUpdate = new Date();
         scheduleRefreshWago(MINUTES_60);
         return;
       }
 
-      // catch response error before resolving them with Promise.all
-      // by catching them before rejection, we don't exit Promise.all
-      // with the first error
       const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
-        promise.catch((err2) => ({
-          config: { params: { id: err2.config.params.id } },
-          status: err2.response.status,
+        promise.catch((error: any) => ({
+          config: { params: { id: error.config.params.id } },
+          status: error.response.status,
         })),
       );
 
-      return Promise.all(promisesResolved);
-    })
-    .then((wagoEncodedStrings) => {
+      const wagoEncodedStrings = await Promise.all(promisesResolved);
       console.log("promisesWagoDataCallsComplete");
 
-      wagoEncodedStrings.forEach((wagoResp) =>
+      wagoEncodedStrings.forEach((wagoResp: WagoApiResponse) =>
         handleAuraUpdate(wagoResp, auras),
       );
 
-      allAurasFetched.forEach((toFetch) => {
-        if (!received.includes(toFetch)) {
-          auras.forEach((aura, index) => {
-            if (aura && aura.slug === toFetch) {
-              console.log(`no data received for ${aura.slug}`);
-              auras.splice(index, 1);
-            }
-          });
+      for (let i = auras.length - 1; i >= 0; i--) {
+        if (!received.includes(auras[i]?.slug)) {
+          auras.splice(i, 1);
         }
-      });
+      }
 
       try {
         writeAddonDataCallback();
@@ -409,9 +397,11 @@ export async function compareSVwithWago(
         accountSelected.lastWagoUpdate = new Date();
         scheduleRefreshWago(MINUTES_60);
       }
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error(JSON.stringify(error));
       scheduleRefreshWago(MINUTES_30);
-    });
+    }
+  };
+
+  handlePromises();
 }
