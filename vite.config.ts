@@ -118,6 +118,11 @@ export default defineConfig(({ command }) => {
       sourcemap,
       target: "esnext",
       cssMinify: "lightningcss",
+      rollupOptions: {
+        output: {
+          assetFileNames: "assets/[name].[ext]",
+        },
+      },
     },
     server:
       process.env.VSCODE_DEBUG &&

@@ -1,3 +1,5 @@
+import path from "path";
+
 function domReady(
   condition: DocumentReadyState[] = ["complete", "interactive"],
 ) {
@@ -27,6 +29,13 @@ const safeDOM = {
   },
 };
 
+const imagePath = process.env.VITE_DEV_SERVER_URL
+  ? path.join("src", "assets", "weakauras.png")
+  : path.join(process.env.DIST, "assets", "weakauras.png");
+
+console.log("imagePath", imagePath);
+console.log("isDev", process.env);
+
 /**
  * https://tobiasahlin.com/spinkit
  * https://connoratherton.com/loaders
@@ -45,7 +54,7 @@ function useLoading() {
   animation-fill-mode: both;
   width: 225px;
   height: 75px;
-  background: url('src/assets/weakauras.png');
+  background: url('${imagePath}');
   background-size: cover;
   animation: pulse 3s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
 }
