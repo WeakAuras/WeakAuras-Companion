@@ -2,6 +2,12 @@
 @import "~/floating-vue/dist/style.css";
 @import "tooltip";
 
+:root {
+  --gif-picker-dark-bg: #212224;
+  --gif-picker-light-bg: #2f3136;
+  --gif-picker-border-blue: #5865f2;
+}
+
 html {
   font-family: "Montserrat", sans-serif;
 }

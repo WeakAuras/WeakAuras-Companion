@@ -4,7 +4,7 @@
       <div>
         <span
           :class="{ invisible: search === '' }"
-          class="i-mdi-arrow-back arrow_back"
+          class="i-mdi-arrow-back color-white text-2xl cursor-pointer mr-[0.25em]"
           @click="search = ''"
           >arrow_back</span
         >
@@ -13,7 +13,7 @@
             v-model="search"
             :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */)"
           />
-          <span class="i-mdi-search">search</span>
+          <span class="i-mdi-search color-white text-2xl">search</span>
         </div>
       </div>
     </header>
@@ -153,12 +153,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="css">
-:root {
-  --dark-bg: #212224;
-  --light-bg: #2f3136;
-  --border-blue: #5865f2;
-}
-
 .gifpicker {
   height: calc(100% - 9px);
 }
@@ -169,7 +163,7 @@ header {
   padding-right: 1.25rem;
   padding-top: 0.5rem;
   padding-bottom: 1.25rem;
-  background-color: var(--light-bg);
+  background-color: var(--gif-picker-light-bg);
   width: 100%;
   height: 60px;
   box-shadow:
@@ -193,7 +187,7 @@ header div div {
   align-items: center;
   width: 100%;
   border-radius: 0.375rem;
-  background-color: var(--dark-bg);
+  background-color: var(--gif-picker-dark-bg);
 }
 
 header div div input {
@@ -204,7 +198,7 @@ header div div input {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   color: white;
-  background-color: var(--dark-bg);
+  background-color: var(--gif-picker-dark-bg);
   font-size: 0.875rem;
   line-height: 1.25rem;
   width: 100%;
@@ -229,7 +223,7 @@ span.invisible {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: var(--dark-bg);
+  background-color: var(--gif-picker-dark-bg);
 }
 
 .gifpicker_container div div {
@@ -269,7 +263,7 @@ span.invisible {
 }
 
 .gifpicker_container div div .grid .grid_images:hover {
-  border-color: var(--border-blue);
+  border-color: var(--gif-picker-border-blue);
   border-style: solid;
 }
 
@@ -288,10 +282,5 @@ span.invisible {
 
 .gifpicker_container div div .grid .grid_images .searchterm:hover {
   opacity: 70%;
-}
-
-.arrow_back {
-  margin-right: 0.25em;
-  cursor: pointer;
 }
 </style>

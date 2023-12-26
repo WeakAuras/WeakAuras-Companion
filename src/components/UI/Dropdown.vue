@@ -13,7 +13,7 @@
       <span>{{ getLabel(selected) }}</span>
       <i
         :class="{ open: showMenu }"
-        class="i-mdi-keyboard-arrow-down"
+        class="i-mdi-keyboard-arrow-down text-2xl"
         >keyboard_arrow_down</i
       >
     </div>
