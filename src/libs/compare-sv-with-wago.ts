@@ -56,8 +56,8 @@ export async function compareSVwithWago(
   };
 
   const setFirstAddonInstalledSelected = function (
-    addonsInstalled,
-    addonSelected,
+    addonsInstalled: AddonConfig[],
+    addonSelected: string,
   ) {
     if (addonsInstalled.length === 0) {
       return addonSelected;
@@ -380,43 +380,35 @@ export async function compareSVwithWago(
         })),
       );
 
-      // resolving all wago encoded strings answers simultaneously
-      Promise.all(promisesResolved)
-        .then((wagoEncodedStrings) => {
-          console.log("promisesWagoDataCallsComplete");
+      return Promise.all(promisesResolved);
+    })
+    .then((wagoEncodedStrings) => {
+      console.log("promisesWagoDataCallsComplete");
 
-          wagoEncodedStrings.forEach((wagoResp) =>
-            handleAuraUpdate(wagoResp, auras),
-          );
-        })
-        .catch((error) => {
-          console.error(error);
-          scheduleRefreshWago(MINUTES_30);
-        })
-        .then(() => {
-          allAurasFetched.forEach((toFetch) => {
-            if (!received.includes(toFetch)) {
-              // No data received for this aura => remove from list
-              auras.forEach((aura, index) => {
-                if (aura && aura.slug === toFetch) {
-                  console.log(`no data received for ${aura.slug}`);
-                  auras.splice(index, 1);
-                }
-              });
+      wagoEncodedStrings.forEach((wagoResp) =>
+        handleAuraUpdate(wagoResp, auras),
+      );
+
+      allAurasFetched.forEach((toFetch) => {
+        if (!received.includes(toFetch)) {
+          auras.forEach((aura, index) => {
+            if (aura && aura.slug === toFetch) {
+              console.log(`no data received for ${aura.slug}`);
+              auras.splice(index, 1);
             }
           });
+        }
+      });
 
-          // We are done with the Wago API, update data.lua
-          try {
-            writeAddonDataCallback();
-          } finally {
-            fetching = false;
-            fetchingUpdateCallback(fetching);
-            setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
-            accountSelected.lastWagoUpdate = new Date();
-            scheduleRefreshWago(MINUTES_60);
-          }
-        });
+      try {
+        writeAddonDataCallback();
+      } finally {
+        fetching = false;
+        fetchingUpdateCallback(fetching);
+        setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
+        accountSelected.lastWagoUpdate = new Date();
+        scheduleRefreshWago(MINUTES_60);
+      }
     })
     .catch((error) => {
       console.error(JSON.stringify(error));
