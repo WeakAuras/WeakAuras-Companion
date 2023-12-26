@@ -300,18 +300,6 @@ export async function compareSVwithWago(
             });
           });
         })
-        .catch((error) => {
-          console.log(JSON.stringify(error));
-          fetching = false;
-          fetchingUpdateCallback(fetching);
-
-          const delay =
-            error.code === "ERR_NON_2XX_3XX_RESPONSE" // Server said nope
-              ? 1000 * 10 // 10 seconds
-              : MINUTES_30;
-          scheduleRefreshWago(delay);
-          throw new Error("WAGO_IS_NOT_HAPPY");
-        }),
     );
   });
 
@@ -359,48 +347,58 @@ export async function compareSVwithWago(
   };
 
   const handlePromises = async () => {
+    console.log("promisesWagoCallsComplete");
+
     try {
       await Promise.all(promisesWagoCallsComplete);
-      console.log("promisesWagoCallsComplete");
+    } catch (error: any) {
+      console.error("promisesWagoCallsComplete error");
+      console.log(JSON.stringify(error));
+      fetching = false;
+      fetchingUpdateCallback(fetching);
 
-      if (allAurasFetched.length === 0) {
-        accountSelected.lastWagoUpdate = new Date();
-        scheduleRefreshWago(MINUTES_60);
-        return;
+      const delay =
+        error.code === "ERR_NON_2XX_3XX_RESPONSE" // Server said nope
+          ? 1000 * 10 // 10 seconds
+          : MINUTES_30;
+      scheduleRefreshWago(delay);
+      return;
+    }
+
+    if (allAurasFetched.length === 0) {
+      accountSelected.lastWagoUpdate = new Date();
+      scheduleRefreshWago(MINUTES_60);
+      return;
+    }
+
+    const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
+      promise.catch((error: any) => ({
+        config: { params: { id: error.config.params.id } },
+        status: error.response.status,
+      })),
+    );
+
+    const wagoEncodedStrings = await Promise.all(promisesResolved);
+    console.log("promisesWagoDataCallsComplete");
+
+    wagoEncodedStrings.forEach((wagoResp: WagoApiResponse) =>
+      handleAuraUpdate(wagoResp, auras),
+    );
+
+    for (let i = auras.length - 1; i >= 0; i--) {
+      if (!received.includes(auras[i]?.slug)) {
+        auras.splice(i, 1);
       }
+    }
 
-      const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
-        promise.catch((error: any) => ({
-          config: { params: { id: error.config.params.id } },
-          status: error.response.status,
-        })),
-      );
-
-      const wagoEncodedStrings = await Promise.all(promisesResolved);
-      console.log("promisesWagoDataCallsComplete");
-
-      wagoEncodedStrings.forEach((wagoResp: WagoApiResponse) =>
-        handleAuraUpdate(wagoResp, auras),
-      );
-
-      for (let i = auras.length - 1; i >= 0; i--) {
-        if (!received.includes(auras[i]?.slug)) {
-          auras.splice(i, 1);
-        }
-      }
-
-      try {
-        writeAddonDataCallback();
-      } finally {
-        fetching = false;
-        fetchingUpdateCallback(fetching);
-        setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
-        accountSelected.lastWagoUpdate = new Date();
-        scheduleRefreshWago(MINUTES_60);
-      }
-    } catch (error) {
-      console.error(JSON.stringify(error));
-      scheduleRefreshWago(MINUTES_30);
+    try {
+      writeAddonDataCallback();
+    } finally {
+      fetching = false;
+      fetchingUpdateCallback(fetching);
+      setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
+      accountSelected.lastWagoUpdate = new Date();
+      scheduleRefreshWago(MINUTES_60);
     }
   };
 
