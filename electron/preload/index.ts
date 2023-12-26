@@ -51,7 +51,7 @@ function useLoading() {
   animation-fill-mode: both;
   width: 225px;
   height: 75px;
-  background: url('${imagePath}');
+  background: url('${CSS.escape(imagePath)}');
   background-size: cover;
   animation: pulse 3s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
 }
