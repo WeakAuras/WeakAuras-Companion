@@ -8,10 +8,6 @@
   --gif-picker-border-blue: #5865f2;
 }
 
-html {
-  font-family: "Montserrat", sans-serif;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
