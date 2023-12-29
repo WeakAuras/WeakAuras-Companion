@@ -59,8 +59,8 @@ devDependencies:
     specifier: ^0.58.0
     version: 0.58.0
   '@unocss/preset-web-fonts':
-    specifier: ^0.58.0
-    version: 0.58.0
+    specifier: ^0.58.2
+    version: 0.58.2
   '@vitejs/plugin-vue':
     specifier: ^4.5.2
     version: 4.5.2(vite@5.0.10)(vue@3.3.13)
@@ -1614,6 +1614,10 @@ packages:
     resolution: {integrity: sha512-KhABQXGE2AgtO9vE28d+HnciuyGDcuygsnQdUwlzUuR4K05OSw2kRE9emRN4HaMycD+gA/zDbQrJxTXb6mQUiA==}
     dev: true
 
+  /@unocss/core@0.58.2:
+    resolution: {integrity: sha512-TYU6IRgnsZGVXpca6FYuXa3iJ1zI3hxgRhnb7TwE9j5t2GY4a/mjvg0K3MdiC8rzPP5hWWd9NXivBfJsr1SQpQ==}
+    dev: true
+
   /@unocss/extractor-arbitrary-variants@0.58.0:
     resolution: {integrity: sha512-s9wK2UugJM0WK1HpgPz2kTbpeyQc46zais+nauN/ykVX6NMq8PtGzSWszzf+0aIbtWAQGiqAfiYNTpf09tJHfg==}
     dependencies:
@@ -1694,6 +1698,13 @@ packages:
     resolution: {integrity: sha512-QarDDEUlexQ2IIn23pE1eHDskG2Tz+JjCe+FAN0DoNLLhvUUWSB4cQIMFWP6dSMJ047Blj9IpgAl9dERICW1qQ==}
     dependencies:
       '@unocss/core': 0.58.0
+      ofetch: 1.3.3
+    dev: true
+
+  /@unocss/preset-web-fonts@0.58.2:
+    resolution: {integrity: sha512-8CAJGIlG35XY0xkyMzYQp3eALb9zjlDFfKEelJuCqwN4bRL2wh3BdOB96a8isTqbCU2FXeXWNZHtM7zRP3LwQw==}
+    dependencies:
+      '@unocss/core': 0.58.2
       ofetch: 1.3.3
     dev: true
 
