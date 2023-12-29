@@ -17,6 +17,10 @@ updates:
     typescript-eslint:
       patterns:
         - "@typescript-eslint/*"
+    unocss:
+      patterns:
+        - unocss
+        - "@unocss/*"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
