@@ -8,6 +8,19 @@
   --gif-picker-border-blue: #5865f2;
 }
 
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 5px #614ad3;
+  }
+  to {
+    text-shadow:
+      0 0 20px #fff,
+      0 0 20px #614ad3;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -57,8 +70,6 @@ header {
 
 .menu-btns {
   height: 100%;
-
-  /* margin-right: 85px; */
 }
 
 main {
@@ -91,46 +102,26 @@ a {
   cursor: pointer;
 }
 
-.logo {
-  position: relative;
-  top: 4px;
-  display: inline-block;
-  line-height: 1;
-  width: auto;
-  height: 1.4em;
-  margin-right: 3px;
-}
-
-.footer-logo {
-  color: #777777;
-  font-size: 18px;
-  margin-right: 8px;
-  cursor: pointer;
-
-  &:hover {
-    color: #e6e6e6;
-  }
-}
-
-.hidden {
-  width: 0 !important;
-  height: 0 !important;
-  opacity: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.label-issue {
-  font-size: 16px;
-  vertical-align: top;
-  line-height: 32px;
-  color: #ff3333;
-  transition: all 0.1s ease-in-out;
-}
-
 button,
 select,
 input,
 .fakeinput {
   font-weight: 500;
+}
+
+.glow {
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0px 0px 5px #fff,
+      0px 0px 5px #614ad3;
+  }
+  to {
+    text-shadow:
+      0px 0px 20px #fff,
+      0px 0px 20px #614ad3;
+  }
 }

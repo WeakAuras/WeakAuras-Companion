@@ -261,4 +261,12 @@ export default defineComponent({
     transform: rotate(-360deg);
   }
 }
+
+.label-issue {
+  font-size: 16px;
+  vertical-align: top;
+  line-height: 32px;
+  color: #ff3333;
+  transition: all 0.1s ease-in-out;
+}
 </style>

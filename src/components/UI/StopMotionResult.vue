@@ -1,43 +1,46 @@
 <template>
   <div id="StopMotionResult">
-    <img
-      :src="preview"
-      class="preview"
-    />
-    <br />
-    <p class="center-text">
-      {{ $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */) }}
-      <span
-        v-tooltip="{
-          content:
-            '<img width=&quot;300px=&quot; src=&quot;src/assets/ready-for-install-example.png&quot; />',
-          html: true,
-          strategy: 'fixed',
-          theme: 'info-tooltip',
-        }"
-        class="i-mdi-help minihelp"
-        >help</span
-      >
-      <br /><br />
-      <span class="glow">{{
-        $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */)
-      }}</span>
-    </p>
-    <br />
-    <p class="filename">
-      <a
-        class="explorer"
-        :title="$t('app.config.backup.openfolder' /* Open Folder */)"
-        @click="openDestDir()"
-        >{{ resultFolder }}</a
-      >
-      <a
-        class="explorer"
-        :title="$t('app.config.backup.openfile' /* Open File */)"
-        @click="openDestFile()"
-        >{{ resultFile }}</a
-      >
-    </p>
+    <div class="flex flex-col gap-2 align-middle text-center justify-center">
+      <img
+        :src="preview"
+        class="object-contain w-full h-xs"
+      />
+      <div class="text-center">
+        {{
+          $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */)
+        }}
+        <i
+          v-tooltip="{
+            content:
+              '<img width=&quot;300px=&quot; src=&quot;src/assets/ready-for-install-example.png&quot; />',
+            html: true,
+            strategy: 'fixed',
+            theme: 'info-tooltip',
+          }"
+          class="i-mdi-help-circle"
+          >help</i
+        >
+        <div class="my-4 glow">
+          {{
+            $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */)
+          }}
+        </div>
+      </div>
+      <div class="filename">
+        <a
+          class="cursor-pointer font-size-3 mt-5 text-brand-accent font-semibold hover:underline"
+          :title="$t('app.config.backup.openfolder' /* Open Folder */)"
+          @click="openDestDir()"
+          >{{ resultFolder }}</a
+        >
+        <a
+          class="cursor-pointer font-size-3 mt-5 text-brand-accent font-semibold hover:underline"
+          :title="$t('app.config.backup.openfile' /* Open File */)"
+          @click="openDestFile()"
+          >{{ resultFile }}</a
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -130,68 +133,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="css">
-.btn-ok {
-  height: 35px;
-}
-
-.btn-ok span {
-  position: relative;
-  bottom: 8px;
-  line-height: 50px;
-}
-
-.minihelp {
-  font-size: 90%;
-}
-
-.btn-ok > * {
-  cursor: pointer;
-}
-
-.preview {
-  object-fit: contain;
-  width: 100%;
-  height: 300px;
-}
-
-.center-text {
-  text-align: center;
-}
-
-.glow {
-  animation: glow 1s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    text-shadow:
-      0px 0px 5px #fff,
-      0px 0px 5px #614ad3;
-  }
-  to {
-    text-shadow:
-      0px 0px 20px #fff,
-      0px 0px 20px #614ad3;
-  }
-}
-
-.filename {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.explorer {
-  cursor: pointer;
-  font-size: 12px;
-  margin-top: 5px;
-  color: rgb(255, 209, 0);
-  font-weight: 500;
-}
-
-.explorer:hover {
-  text-decoration-line: underline;
-}
-</style>
