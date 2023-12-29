@@ -93,7 +93,7 @@
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-resolve": "^2.5.1",
-    "vite-plugin-vue-devtools": "^1.0.0-rc.8",
+    "vite-plugin-vue-devtools": "^7.0.0",
     "vite-plugin-webfont-dl": "^3.9.1",
     "vitest": "^1.1.0",
     "vue": "^3.3.13",
