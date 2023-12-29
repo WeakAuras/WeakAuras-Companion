@@ -9,7 +9,8 @@
       {{ $t("app.stopmotion.auraready" /*  WeakAuras is Ready For Install */) }}
       <span
         v-tooltip="{
-          content: rfiTooltip,
+          content:
+            '<img width=&quot;300px=&quot; src=&quot;src/assets/ready-for-install-example.png&quot; />',
           html: true,
           strategy: 'fixed',
           theme: 'info-tooltip',
@@ -125,9 +126,6 @@ export default defineComponent({
     },
     openDestFile() {
       shell.openPath(this.result.destination);
-    },
-    rfiTooltip() {
-      return "<img width='300px' src='../../assets/ready-for-install-example.png' />"; // TODO: This image does not show up
     },
   },
 });
