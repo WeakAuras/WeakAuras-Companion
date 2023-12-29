@@ -87,7 +87,7 @@
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
     "typescript": "^5.3.3",
-    "unocss": "^0.58.0",
+    "unocss": "^0.58.2",
     "vite": "^5.0.10",
     "vite-plugin-electron": "^0.15.5",
     "vite-plugin-electron-renderer": "^0.14.5",
