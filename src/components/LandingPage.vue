@@ -2,7 +2,7 @@
   <div id="wrapper">
     <div
       class="main-container"
-      :class="{ blurred: reportIsShown || updateAuraIsShown }"
+      :class="{ 'filter-blur': reportIsShown || updateAuraIsShown }"
     >
       <TitleBar />
       <header>
@@ -822,7 +822,7 @@ export default defineComponent({
   position: absolute;
   left: 30px;
   top: 30px;
-  z-index: 999;
+  z-index: 50;
   text-align: left;
   height: 65px;
 }

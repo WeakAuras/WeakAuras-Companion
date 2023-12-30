@@ -2,22 +2,35 @@
   <div
     id="report"
     @click="close"
+    class="w-full h-full absolute bg-black bg-opacity-70 text-center z-75"
   >
-    <div class="container">
-      <h1>{{ $t("app.report.title" /* Report a bug */) }}</h1>
+    <div
+      class="relative top-1/3 bg-black bg-opacity-30 rounded-lg w-96 p-4 pb-6 mx-auto"
+    >
+      <h1 class="mb-8 text-gray-200">
+        {{ $t("app.report.title" /* Report a bug */) }}
+      </h1>
       <div class="links">
-        <UIButton type="link">
+        <UIButton
+          type="link"
+          class="w-48 h-10 block mx-auto transition-colors duration-200 ease-in-out p-0 mt-2"
+        >
           <a
             href="https://github.com/WeakAuras/WeakAuras-Companion/issues/new?template=bug_report.md"
             target="_blank"
+            class="text-lg w-full h-full block leading-9 text-gray-200 bg-cover"
           >
             {{ $t("app.report.companion" /* Companion */) }}
           </a>
         </UIButton>
-        <UIButton type="link">
+        <UIButton
+          type="link"
+          class="w-48 h-10 block mx-auto transition-colors duration-200 ease-in-out p-0 mt-2"
+        >
           <a
             href="https://github.com/WeakAuras/WeakAuras2/issues/new"
             target="_blank"
+            class="text-lg w-full h-full block leading-9 text-gray-200 bg-cover"
           >
             {{ $t("app.report.addon" /* AddOn */) }}
           </a>
@@ -40,52 +53,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="css">
-#report {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.7);
-  text-align: center;
-}
-
-.blurred {
-  filter: blur(5px);
-}
-
-.container {
-  position: relative;
-  top: 35%;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  width: 400px;
-  padding: 15px 15px 25px;
-  margin: auto;
-}
-
-.btn.btn-link {
-  min-width: 200px;
-  min-height: 40px;
-  display: block;
-  margin: 5px auto;
-  transition: background-color ease-in-out 0.2s;
-  padding: 0;
-}
-
-.btn-link a {
-  font-size: 16px;
-  width: 100%;
-  height: 100%;
-  display: block;
-  line-height: 34px;
-  color: #e6e6e6;
-  background-size: cover;
-  text-shadow: 0 0 1px #000000;
-}
-
-h1 {
-  margin-bottom: 30px;
-  color: #e6e6e6;
-}
-</style>
