@@ -8,6 +8,9 @@ dependencies:
   archiver:
     specifier: ^6.0.1
     version: 6.0.1
+  electron-log:
+    specifier: ^5.0.3
+    version: 5.0.3
   got:
     specifier: ^12.6.1
     version: 12.6.1
@@ -79,9 +82,6 @@ devDependencies:
   electron-builder:
     specifier: ^24.10.0
     version: 24.10.0
-  electron-log:
-    specifier: ^5.0.3
-    version: 5.0.3
   electron-store:
     specifier: ^8.1.0
     version: 8.1.0
@@ -3268,7 +3268,7 @@ packages:
   /electron-log@5.0.3:
     resolution: {integrity: sha512-jUgAuRjfpCD9tmH1F6fb195YsFfM/DkqkZLhFeo0VAAstantn11bxmgx63uE6KG/JljHG7sIkgM2QEjDimJI0g==}
     engines: {node: '>= 14'}
-    dev: true
+    dev: false
 
   /electron-publish@24.9.4:
     resolution: {integrity: sha512-FghbeVMfxHneHjsG2xUSC0NMZYWOOWhBxfZKPTbibcJ0CjPH0Ph8yb5CUO62nqywXfA5u1Otq6K8eOdOixxmNg==}
