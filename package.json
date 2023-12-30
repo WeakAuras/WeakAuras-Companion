@@ -43,7 +43,6 @@
   "packageManager": "pnpm@8.12.1",
   "dependencies": {
     "archiver": "^6.0.1",
-    "electron-log": "^5.0.3",
     "got": "^12.6.1",
     "regedit": "^5.1.2",
     "sharp": "^0.32.6",
