@@ -69,7 +69,7 @@ export function createConfig({ dev = true } = {}) {
       },
     },
     shortcuts: {
-      "btn-issue": "text-status-issue border-status-issue hover:bg-color-white",
+      "btn-issue": "text-status-issue border-status-issue hover:bg-white",
     },
     presets: [
       presetIcons({
