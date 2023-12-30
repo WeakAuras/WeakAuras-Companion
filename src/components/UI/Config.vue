@@ -6,7 +6,7 @@
         <div class="title">
           {{ $t("app.config.gameSettings" /* Game Settings */) }}
         </div>
-        <div class="block">
+        <div>
           <FileSelect
             v-model:path="config.wowpath.value"
             :default-path="defaultWOWPath"
@@ -18,12 +18,12 @@
           </FileSelect>
           <i
             v-if="config.wowpath.validated"
-            class="text-2xl i-mdi-check-circle-outline align-top mt-0.5 green"
+            class="text-2xl i-mdi-check-circle-outline align-top mt-0.5 text-status-ok"
             >check_circle_outline</i
           >
           <i
             v-else
-            class="text-2xl i-mdi-error-outline red"
+            class="text-2xl i-mdi-error-outline align-top mt-0.5 text-status-failure"
             >error_outline</i
           >
         </div>
@@ -31,7 +31,7 @@
         <div class="title">
           {{ $t("app.config.clientSettings" /* Companion Settings */) }}
         </div>
-        <div class="block">
+        <div>
           <Dropdown
             v-model:value="config.lang"
             :options="langs"
@@ -47,7 +47,7 @@
           <p class="label subtitle text-brand-grey-lightest">
             {{ $t("app.config.startup" /* Startup */) }}
           </p>
-          <div class="option">
+          <div class="mb-2">
             <Checkbox v-model="config.autostart">
               {{
                 $t(
@@ -56,7 +56,7 @@
               }}
             </Checkbox>
           </div>
-          <div class="option">
+          <div class="mb-2">
             <Checkbox v-model="config.startminimize">
               {{ $t("app.config.minimized" /* Start minimised */) }}
             </Checkbox>
@@ -64,7 +64,7 @@
           <p class="label subtitle text-brand-grey-lightest">
             {{ $t("app.config.autoupdater" /* Updates */) }}
           </p>
-          <div class="option">
+          <div class="mb-2">
             <Checkbox v-model="config.beta">
               {{
                 $t(
@@ -74,7 +74,7 @@
             </Checkbox>
           </div>
           <!--
-          <div class="option">
+          <div class="mb-2">
             <checkbox v-model="config.autoupdate">
               {{
                 $t(
@@ -91,7 +91,7 @@
         <div class="title">
           {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
         </div>
-        <div class="block">
+        <div>
           <p class="label">
             {{ $t("app.config.wagoAccount" /* Set Wago Account (optional) */) }}
           </p>
@@ -109,7 +109,7 @@
           </UIButton>
           <i
             v-if="config.wagoUsername"
-            class="text-2xl i-mdi-check-circle-outline align-top green"
+            class="text-2xl i-mdi-check-circle-outline align-top mt-0.25 text-status-ok ml-1"
             >check_circle_outline</i
           >
           <p class="label">
@@ -129,17 +129,17 @@
           </UIButton>
           <i
             v-if="config.wagoApiKey && checkApiKey()"
-            class="text-2xl i-mdi-check-circle-outline align-top green"
+            class="text-2xl i-mdi-check-circle-outline align-top mt-0.25 ml-1 text-status-ok"
             >check_circle_outline</i
           >
           <i
             v-else-if="config.wagoApiKey && !checkApiKey()"
-            class="text-2xl i-mdi-error-outline red"
+            class="text-2xl i-mdi-error-outline align-top ml-1 mt-0.25 text-status-issue"
             >error_outline</i
           >
           <p
             v-if="config.wagoApiKey && !checkApiKey()"
-            class="red"
+            class="text-status-issue mt-2"
           >
             {{
               $t(
@@ -147,10 +147,10 @@
               )
             }}
           </p>
-          <p>
+          <p class="mt-2">
             <a
               href="https://wago.io/account"
-              class="explorer"
+              class="text-xs text-brand-accent font-semibold cursor-pointer"
               target="_blank"
             >
               {{ $t("app.config.getYours" /* Get yours */) }}
@@ -168,7 +168,7 @@
         <div class="title">
           {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
         </div>
-        <div class="block">
+        <div>
           <p class="label">
             <Checkbox v-model="config.backup.active">
               {{ $t("app.config.backup.activate" /* Activate */) }}
@@ -187,7 +187,7 @@
               {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
             </FileSelect>
             <p
-              class="explorer"
+              class="text-xs mt-2 text-brand-accent font-semibold cursor-pointer"
               @click="openBackupDir()"
             >
               {{ $t("app.config.backup.openfolder" /* Open Folder */) }}
@@ -203,14 +203,12 @@
         </div>
       </div>
     </div>
-    <div class="block resetbutton">
-      <UIButton
-        type="reset"
-        @click="reset"
-      >
-        {{ $t("app.config.reset" /* Reset Settings and Data */) }}
-      </UIButton>
-    </div>
+    <UIButton
+      type="reset"
+      @click="reset"
+    >
+      {{ $t("app.config.reset" /* Reset Settings and Data */) }}
+    </UIButton>
   </div>
 </template>
 
@@ -310,25 +308,6 @@ label,
   font-size: 14px;
 }
 
-.red {
-  color: #f44336;
-}
-
-.green {
-  color: #51ae42;
-}
-
-.red,
-.green {
-  border-radius: 2px;
-  margin-left: 4px;
-}
-
-p.red {
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
 input,
 select,
 .fakeinput {
@@ -356,19 +335,6 @@ input:hover {
   margin-top: 5px;
 }
 
-.block {
-  margin-left: 15px;
-  font-size: 15px;
-}
-
-.resetbutton {
-  margin-top: 20px;
-}
-
-.option {
-  margin-bottom: 5px;
-}
-
 .subtitle {
   font-size: 18px;
   margin-bottom: 8px;
@@ -379,14 +345,6 @@ input:hover {
 
 .form-control.language {
   width: 150px;
-}
-
-.explorer {
-  cursor: pointer;
-  font-size: 12px;
-  margin-top: 5px;
-  color: rgb(255, 209, 0);
-  font-weight: 500;
 }
 
 input[type="password"] {

@@ -138,14 +138,6 @@ export default {
   padding-left: 13px;
 }
 
-.explorer {
-  cursor: pointer;
-  font-size: 12px;
-  margin-top: 5px;
-  color: rgb(255, 209, 0);
-  font-weight: 500;
-}
-
 .center {
   position: relative;
   left: 50%;

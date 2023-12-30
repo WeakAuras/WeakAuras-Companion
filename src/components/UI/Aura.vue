@@ -1,6 +1,6 @@
 <template>
   <div
-    class="aura"
+    class="aura text-brand-accent"
     :class="{
       notAnUpdate: aura.version === aura.wagoVersion,
     }"
@@ -165,7 +165,6 @@ export default defineComponent({
 .aura {
   background-color: #101010c9;
   border: 1px solid #101010;
-  color: rgb(255, 209, 0);
   margin: 1px;
   height: 36px;
   padding: 2px 10px;

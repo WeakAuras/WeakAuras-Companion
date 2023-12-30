@@ -24,7 +24,7 @@
     </UIButton>
     <label
       v-else-if="!isVersionSelected"
-      class="label-issue"
+      class="label-issue text-status-issue"
     >
       <span
         class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
@@ -37,7 +37,7 @@
     </label>
     <label
       v-else-if="!isAccountSelected"
-      class="label-issue"
+      class="label-issue text-status-issue"
     >
       <span
         class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
@@ -50,7 +50,7 @@
     </label>
     <label
       v-else-if="!isSvOk"
-      class="label-issue"
+      class="label-issue text-status-issue"
     >
       <span
         class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
@@ -70,7 +70,7 @@
         isAccountSelected &&
         aurasShown === 0
       "
-      class="label-issue"
+      class="label-issue text-status-issue"
     >
       <span
         class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
@@ -85,7 +85,7 @@
       v-if="
         isSettingsOk && !isAddonsOk && isVersionSelected && isAccountSelected
       "
-      class="label-issue"
+      class="label-issue text-status-issue"
     >
       <span
         class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
@@ -98,7 +98,7 @@
     </label>
     <label
       v-if="!isAddonsOk && isAccountSelected"
-      class="label-issue"
+      class="label-issue text-status-issue"
     >
       <span>
         <a
@@ -217,14 +217,6 @@ export default defineComponent({
   color: #e6e6e6;
 }
 
-.btn-issue span,
-.btn-refresh span {
-  position: relative;
-  bottom: 8px;
-  line-height: 50px;
-  cursor: pointer;
-}
-
 .download {
   clear: both;
   display: block;
@@ -246,7 +238,6 @@ export default defineComponent({
   animation-fill-mode: forwards;
 }
 
-.btn-issue,
 .btn-refresh {
   padding: 12px 15px;
   padding-left: 13px;
@@ -266,7 +257,6 @@ export default defineComponent({
   font-size: 16px;
   vertical-align: top;
   line-height: 32px;
-  color: #ff3333;
   transition: all 0.1s ease-in-out;
 }
 </style>

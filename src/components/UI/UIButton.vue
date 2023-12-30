@@ -198,15 +198,6 @@ export default defineComponent({
   background-color: #ff5b56;
 }
 
-.btn-issue {
-  color: #ff3333;
-  border-color: #ff3333;
-}
-
-.btn-issue:hover {
-  background-color: #ffffff;
-}
-
 .btn-reset {
   background-color: #a80000;
   color: #ffffff;

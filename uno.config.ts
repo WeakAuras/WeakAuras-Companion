@@ -62,8 +62,14 @@ export function createConfig({ dev = true } = {}) {
         },
         status: {
           pulse: "rgba(102, 255, 0, 1)",
+          issue: "#ff3333",
+          ok: "#51ae42",
+          failure: "#f44336",
         },
       },
+    },
+    shortcuts: {
+      "btn-issue": "text-status-issue border-status-issue hover:bg-color-white",
     },
     presets: [
       presetIcons({

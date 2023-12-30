@@ -2,7 +2,7 @@
   <div v-click-outside="close">
     <div>
       <div
-        :class="{ invisible: !opened }"
+        :class="{ 'opacity-0': !opened }"
         class="discord-picker"
       >
         <GifPicker
@@ -65,10 +65,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="css">
-.invisible {
-  opacity: 0;
-}
-
 .discord-picker {
   max-width: max-content;
   height: 500px;
