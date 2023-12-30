@@ -235,7 +235,7 @@
                 'app.main.installUpdate' /* Install client update */,
               )}: v${updater.version}`,
             }"
-            class="i-mdi-download-box-outline text-2xl align-middle mt-[2px] update-available text-status-success"
+            class="i-mdi-download-box-outline text-2xl align-middle mt-[2px] update-available"
             @click="installUpdates"
           >
             download-box-outline
@@ -742,10 +742,6 @@ export default defineComponent({
 @import "../assets/css/tooltip.css";
 @import "../assets/css/common.css";
 
-::root {
-  --pulse-color: rgba(102, 255, 0, 1);
-}
-
 /* Companion logo */
 .app-logo {
   display: flex;
@@ -1036,7 +1032,7 @@ select {
 .update-available {
   animation: pulse 2s infinite;
   cursor: pointer;
-  color: #51ae42;
+  color: #51ae42 !important;
 }
 
 @keyframes spin {
@@ -1052,19 +1048,19 @@ select {
 @keyframes pulse {
   0% {
     text-shadow:
-      0 0 0 var(--pulse-color),
+      0 0 0 rgba(102, 255, 0, 1),
       0 0 0 rgba(255, 255, 255, 0.4);
   }
 
   70% {
     text-shadow:
-      0 0 40px var(--pulse-color),
+      0 0 40px rgba(102, 255, 0, 1),
       0 0 40px rgba(238, 255, 4, 0);
   }
 
   100% {
     text-shadow:
-      0 0 0 var(--pulse-color),
+      0 0 0 rgba(102, 255, 0, 1),
       0 0 0 rgba(255, 255, 255, 0);
   }
 }
