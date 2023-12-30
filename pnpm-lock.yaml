@@ -8,9 +8,6 @@ dependencies:
   archiver:
     specifier: ^6.0.1
     version: 6.0.1
-  electron-log:
-    specifier: ^5.0.3
-    version: 5.0.3
   got:
     specifier: ^12.6.1
     version: 12.6.1
@@ -82,6 +79,9 @@ devDependencies:
   electron-builder:
     specifier: ^24.10.0
     version: 24.10.0
+  electron-log:
+    specifier: ^5.0.5-beta.2
+    version: 5.0.5-beta.2
   electron-store:
     specifier: ^8.1.0
     version: 8.1.0
@@ -3265,10 +3265,10 @@ packages:
       - supports-color
     dev: true
 
-  /electron-log@5.0.3:
-    resolution: {integrity: sha512-jUgAuRjfpCD9tmH1F6fb195YsFfM/DkqkZLhFeo0VAAstantn11bxmgx63uE6KG/JljHG7sIkgM2QEjDimJI0g==}
+  /electron-log@5.0.5-beta.2:
+    resolution: {integrity: sha512-2tz71NCWrSsTRnlT1KumrBWKWVVk1P1lG3EfdX6VzKb2pz1EOhBdWiYJVGCL+njFFLoVStqCue6zF+/TV/xZSw==}
     engines: {node: '>= 14'}
-    dev: false
+    dev: true
 
   /electron-publish@24.9.4:
     resolution: {integrity: sha512-FghbeVMfxHneHjsG2xUSC0NMZYWOOWhBxfZKPTbibcJ0CjPH0Ph8yb5CUO62nqywXfA5u1Otq6K8eOdOixxmNg==}

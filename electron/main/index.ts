@@ -13,7 +13,7 @@ import {
 import path, { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// import log from "electron-log/main";
+import log from "electron-log/main";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
 
@@ -58,10 +58,11 @@ let cancellationToken: { cancel: () => void };
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
-// autoUpdater.logger = log;
-// autoUpdater.logger.transports.file.level = "info";
-// log.initialize();
-// log.info("App starting...");
+autoUpdater.logger = log;
+// @ts-expect-error Weird stuff here
+autoUpdater.logger.transports.file.level = "info";
+log.initialize();
+log.info("App starting...");
 
 let tray: Tray | null = null;
 let contextMenu: Menu | null = null;
