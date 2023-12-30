@@ -4,6 +4,7 @@
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
   "main": "dist-electron/main/index.mjs",
+  "type": "module",
   "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
