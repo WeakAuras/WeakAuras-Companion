@@ -11,6 +11,7 @@
   },
   "scripts": {
     "build": "vue-tsc --noEmit && vite build && electron-builder",
+    "clean": "git clean -xdf node_modules dist dist-electron",
     "compile-tools": "tsc -p tools",
     "dev": "vite",
     "i18n": "pnpm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
