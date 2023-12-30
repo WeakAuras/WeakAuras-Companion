@@ -200,7 +200,7 @@
                 'app.main.readyForInstall' /* Ready for Install */,
               )}${readyForInstallTooltip}`,
             }"
-            class="i-mdi-download text-2xl align-middle update-available update-auras"
+            class="i-mdi-download text-2xl align-middle mt-[2px] update-available update-auras"
           >
             download
           </i>
@@ -221,9 +221,9 @@
                   'app.main.installUpdate' /* Install client update */,
                 )}: v${updater.version} ${updater.releaseNotes}`,
               }"
-              class="i-mdi-system_update_alt text-2xl align-middle update-available"
+              class="i-mdi-download-box-outline text-2xl align-middle mt-[2px] update-available"
             >
-              system_update_alt
+              download-box-outline
             </i>
           </a>
           <i
@@ -235,10 +235,10 @@
                 'app.main.installUpdate' /* Install client update */,
               )}: v${updater.version}`,
             }"
-            class="i-mdi-system_update_alt text-2xl align-middle update-available"
+            class="i-mdi-download-box-outline text-2xl align-middle mt-[2px] update-available text-status-success"
             @click="installUpdates"
           >
-            system_update_alt
+            download-box-outline
           </i>
           <div
             v-if="updater.status === 'checking-for-update'"

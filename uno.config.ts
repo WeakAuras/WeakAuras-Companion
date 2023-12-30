@@ -55,6 +55,9 @@ export function createConfig({ dev = true } = {}) {
           primary: "#131313",
           accent: "rgb(255, 209, 0)",
         },
+        status: {
+          success: "rgb(18, 173, 18)",
+        },
       },
     },
     presets: [
