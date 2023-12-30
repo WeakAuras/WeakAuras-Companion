@@ -12,7 +12,7 @@ import {
 } from "electron";
 import type { OpenDialogOptions } from "electron";
 import path, { join } from "node:path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 
 // import log from "electron-log/main";
 import Store from "electron-store";
