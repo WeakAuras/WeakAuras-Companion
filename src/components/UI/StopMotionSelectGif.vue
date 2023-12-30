@@ -1,6 +1,6 @@
 <template>
   <div id="StopMotionWelcome">
-    <div class="stuff">
+    <div class="flex flex-col items-center justify-center mt-10 gap-5">
       <FileSelect
         :create-directory="false"
         :open-file="true"
@@ -9,18 +9,15 @@
         class="fileinput"
         @update:path="update"
       >
-        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}<br /><br />
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i
-        ><br /><br />
-        <UIButton class="btn-ok">
-          {{
-            $t("stopmotion.select.computer" /* Choose one on your Computer */)
-          }} </UIButton
-        ><br /><br /> </FileSelect
-      ><br />
-      <div class="tenorblock">
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i
-        ><br /><br />
+        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}
+      </FileSelect>
+      <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
+
+      <UIButton class="btn-ok">
+        {{ $t("stopmotion.select.computer" /* Choose one on your Computer */) }}
+      </UIButton>
+      <div class="inline-block relative text-center">
+        <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
         <DiscordPicker
           :api-key="apiKey"
           @gif="setTenor"
@@ -110,31 +107,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="css">
-.stuff {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-.dropzone {
-  border-color: #2c2c2c;
-  border-style: dotted;
-  border-width: 2px;
-  border-radius: 20px;
-  padding: 20px;
-  padding-left: 200px;
-  padding-right: 200px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.tenorblock {
-  display: inline-block;
-  position: relative;
-  text-align: center;
-}
-</style>

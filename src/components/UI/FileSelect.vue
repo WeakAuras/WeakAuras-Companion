@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="dragndrop"
-    class="dropzone"
+    class="border-2 border-dotted rounded-md p-5 pl-50 pr-50 cursor-pointer text-center border-brand-accent"
     @dragenter.prevent
     @dragover.prevent
     @drop="drop"
