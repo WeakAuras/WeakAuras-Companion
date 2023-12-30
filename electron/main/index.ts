@@ -13,7 +13,8 @@ import {
 import type { OpenDialogOptions } from "electron";
 import path, { join } from "node:path";
 import { fileURLToPath } from "url";
-import log from "electron-log/main";
+
+// import log from "electron-log/main";
 import Store from "electron-store";
 import type {
   ProgressInfo,
@@ -65,10 +66,10 @@ let cancellationToken: { cancel: () => void };
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
-log.transports.file.level = "info";
-autoUpdater.logger = log;
-log.initialize({ preload: true });
-log.info("App starting...");
+// autoUpdater.logger = log;
+// autoUpdater.logger.transports.file.level = "info";
+// log.initialize({ preload: true });
+// log.info("App starting...");
 
 let tray: Tray | null = null;
 let contextMenu: Menu | null = null;
