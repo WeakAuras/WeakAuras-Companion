@@ -3,7 +3,7 @@
   "version": "5.2.1",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
-  "main": "dist-electron/main/index.js",
+  "main": "dist-electron/main/index.mjs",
   "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
@@ -90,7 +90,7 @@
     "typescript": "^5.3.3",
     "unocss": "^0.58.2",
     "vite": "^5.0.10",
-    "vite-plugin-electron": "^0.15.5",
+    "vite-plugin-electron": "^0.28.0-beta.1",
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-resolve": "^2.5.1",

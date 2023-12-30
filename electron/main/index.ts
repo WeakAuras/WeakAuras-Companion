@@ -10,10 +10,15 @@ import {
   protocol,
   shell,
 } from "electron";
-import { join } from "node:path";
-import log from "electron-log";
+import path, { join } from "node:path";
+import { fileURLToPath } from "url";
+
+import log from "electron-log/main";
 import Store from "electron-store";
 import { autoUpdater } from "electron-updater";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 process.env.DIST_ELECTRON = join(__dirname, "..");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
@@ -23,7 +28,7 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
   : process.env.DIST;
 
 const isDevelopment = process.env.NODE_ENV !== "production";
-const preload = join(__dirname, "../preload/index.js");
+const preload = join(__dirname, "../preload/index.mjs");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
 
@@ -56,7 +61,7 @@ autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
 autoUpdater.logger = log;
 // @ts-expect-error Weird stuff here
 autoUpdater.logger.transports.file.level = "info";
-log.initialize({ preload: true });
+log.initialize();
 log.info("App starting...");
 
 let tray: Tray | null = null;
