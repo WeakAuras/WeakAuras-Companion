@@ -1,6 +1,6 @@
 {
   "name": "weakauras-companion",
-  "version": "5.2.1",
+  "version": "5.2.2",
   "description": "WeakAuras Companion App",
   "author": "Buds <mrbouyou@gmail.com>",
   "main": "dist-electron/main/index.js",
