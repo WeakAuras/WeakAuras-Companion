@@ -8,7 +8,7 @@
     @click="handleInputClick"
   >
     <label class="file-select">
-      <span>
+      <span class="flex flex-col items-center justify-center gap-5">
         <slot />
       </span>
     </label>
@@ -18,14 +18,19 @@
     class="file-select"
     @click="handleInputClick"
   >
-    <span class="select-button">
-      <p class="configlabel text-brand-grey-lightest">
+    <span>
+      <p class="text-brand-grey-lightest">
         <slot />
       </p>
-      <div class="fakeinput pointer">
-        <span class="wow-path">{{ path }}</span>
+      <div
+        class="fakeinput w-67.5 h-7.5 text-sm whitespace-nowrap inline-table table-fixed mt-2 mr-0.5 ml-1.5 py-1.5 px-7.5 pl-2.5 rounded-md bg-brand-grey-darkest text-brand-grey-lightest border-solid border-brand-grey-dark hover:bg-brand-grey-darker hover:text-brand-grey-lightest cursor-pointer"
+      >
+        <span
+          class="wow-path table-cell text-ellipsis overflow-hidden align-middle"
+          >{{ path }}</span
+        >
       </div>
-      <i class="text-2xl cursor-pointer i-mdi-settings mt-0.5 ml-1">settings</i>
+      <i class="text-2xl cursor-pointer i-mdi-settings mt-3 ml-1">settings</i>
     </span>
   </label>
 </template>
@@ -94,6 +99,7 @@ export default defineComponent({
     drop(event) {
       if (this.dragndrop === true) {
         event.preventDefault();
+
         this.$emit("update:path", event.dataTransfer.files[0].path);
       }
     },
@@ -102,60 +108,13 @@ export default defineComponent({
 </script>
 
 <style scoped lang="css">
-:root {
-  --button-color-bg: #101010;
-  --highlight-color: #1a1a1a;
-  --highlight-color-text: #ffffff;
-  --text-color: #e6e6e6;
-  --border-color: #2c2c2c;
-  --border-color-expand: #2c2c2c;
-  --border-color-separate: #0d0d0d;
-}
-
 /* Don't forget to hide the original file input! */
 .file-select > input[type="file"] {
   display: none;
 }
 
-.fakeinput {
-  background-color: var(--border-color-separate);
-  width: 270px;
-  height: 30px;
-  font-size: 14px;
-  white-space: nowrap;
-  display: inline-table;
-  table-layout: fixed;
-  color: var(--text-color);
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-  margin-right: 2px;
-  margin-left: 5px;
-  padding: 5px 30px 5px 10px;
-}
-
 .fakeinput:hover {
-  background-color: var(--highlight-color);
-  border-color: var(--border-color-expand);
-  color: var(--highlight-color-text);
   transition: all 0.1s ease-in-out;
-}
-
-.btn {
-  display: inline-block;
-  cursor: pointer;
-}
-
-.configlabel {
-  margin-top: 5px;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.wow-path {
-  display: table-cell;
-  vertical-align: middle;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .wow-path:empty::before {

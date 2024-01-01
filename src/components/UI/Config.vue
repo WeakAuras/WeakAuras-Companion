@@ -18,12 +18,12 @@
           </FileSelect>
           <i
             v-if="config.wowpath.validated"
-            class="text-2xl i-mdi-check-circle-outline align-top mt-0.5 text-status-ok"
+            class="text-2xl i-mdi-check-circle-outline align-top mt-3 text-status-ok"
             >check_circle_outline</i
           >
           <i
             v-else
-            class="text-2xl i-mdi-error-outline align-top mt-0.5 text-status-failure"
+            class="text-2xl i-mdi-error-outline align-top mt-3 text-status-failure"
             >error_outline</i
           >
         </div>
@@ -92,7 +92,7 @@
           {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
         </div>
         <div>
-          <p class="label">
+          <p class="my-2">
             {{ $t("app.config.wagoAccount" /* Set Wago Account (optional) */) }}
           </p>
           <input
@@ -100,8 +100,10 @@
             type="text"
             size="11"
             @keyup.enter="config.wagoUsername = wagoUsername"
+            class="focus:outline-none focus:ring-1 focus:ring-brand-accent h-7.5 text-sm whitespace-nowrap mr-0.5 ml-1.5 py-1.5 px-7.5 pl-2.5 rounded-md bg-brand-grey-darkest text-brand-grey-lightest border-solid border-brand-grey-dark hover:bg-brand-grey-darker hover:text-brand-grey-lightest cursor-pointer"
           />
           <UIButton
+            v-if="wagoUsername !== config.wagoUsername"
             class="btn-ok"
             @click="config.wagoUsername = wagoUsername"
           >
@@ -112,7 +114,7 @@
             class="text-2xl i-mdi-check-circle-outline align-top mt-0.25 text-status-ok ml-1"
             >check_circle_outline</i
           >
-          <p class="label">
+          <p class="my-2">
             {{ $t("app.config.wagoApiKey" /* Set Wago API Key (optional) */) }}
           </p>
           <input
@@ -120,8 +122,10 @@
             type="password"
             size="11"
             @keyup.enter="config.wagoApiKey = wagoApiKey"
+            class="focus:outline-none focus:ring-1 focus:ring-brand-accent h-7.5 text-sm whitespace-nowrap mr-0.5 ml-1.5 py-1.5 px-7.5 pl-2.5 rounded-md bg-brand-grey-darkest text-brand-grey-lightest border-solid border-brand-grey-dark hover:bg-brand-grey-darker hover:text-brand-grey-lightest cursor-pointer"
           />
           <UIButton
+            v-if="wagoApiKey !== config.wagoApiKey"
             class="btn-ok"
             @click="config.wagoApiKey = wagoApiKey"
           >
@@ -169,7 +173,7 @@
           {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
         </div>
         <div>
-          <p class="label">
+          <p class="my-2">
             <Checkbox v-model="config.backup.active">
               {{ $t("app.config.backup.activate" /* Activate */) }}
             </Checkbox>
@@ -302,31 +306,6 @@ export default defineComponent({
   flex: 50%;
 }
 
-label,
-.label {
-  margin: 10px 0 5px;
-  font-size: 14px;
-}
-
-input,
-select,
-.fakeinput {
-  padding: 5px;
-  font-size: small;
-  border-radius: 4px;
-  border: 1px solid #2c2c2c;
-  background-color: #0d0d0d;
-  color: #e6e6e6;
-  margin-left: 5px;
-}
-
-input:hover {
-  color: #ffffff;
-  background-color: #1a1a1a;
-  border: 1px solid #2c2c2c;
-  transition: all 0.1s ease-in-out;
-}
-
 .title {
   margin: 20px 0 10px;
 }
@@ -345,9 +324,5 @@ input:hover {
 
 .form-control.language {
   width: 150px;
-}
-
-input[type="password"] {
-  font-family: pass;
 }
 </style>

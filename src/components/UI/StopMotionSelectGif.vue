@@ -9,11 +9,9 @@
         @update:path="update"
       >
         {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}
-        <br />
-        <br />
+
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
-        <br />
-        <br />
+
         <UIButton class="btn-ok">
           {{
             $t("stopmotion.select.computer" /* Choose one on your Computer */)
