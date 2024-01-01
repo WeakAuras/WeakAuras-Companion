@@ -14,6 +14,7 @@
   "app.aura.updatedisabled": "Actualizaciones desactivadas",
   "app.aura.updateready": "Actualización disponible",
   "app.aura.uptodate": "up to date",
+  "app.aura.version": "Version",
   "app.aura.versionskip": "Versión omitida",
   "app.config.account.notvalidtooltip": "No pudimos encontrar ningún archivo de WeakAuras en esta cuenta. ¿Has instalado el AddOn?",
   "app.config.account.selectaccounttooltip": "Selecciona una cuenta",

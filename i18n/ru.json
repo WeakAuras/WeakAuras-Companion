@@ -14,6 +14,7 @@
   "app.aura.updatedisabled": "обновления отключены",
   "app.aura.updateready": "можно обновить",
   "app.aura.uptodate": "актуально",
+  "app.aura.version": "Version",
   "app.aura.versionskip": "версия пропущена",
   "app.config.account.notvalidtooltip": "Мы не можем найти никаких данных от WeakAuras в этой учетной записи. У Вас установлен аддон?",
   "app.config.account.selectaccounttooltip": "Выберите аккаунт",

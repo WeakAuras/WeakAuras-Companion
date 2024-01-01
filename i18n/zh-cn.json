@@ -14,6 +14,7 @@
   "app.aura.updatedisabled": "更新已禁用",
   "app.aura.updateready": "更新已就绪",
   "app.aura.uptodate": "up to date",
+  "app.aura.version": "Version",
   "app.aura.versionskip": "此版本已跳过",
   "app.config.account.notvalidtooltip": "我们没有在这个账号下找到WeakAuras的数据，你装插件了没？",
   "app.config.account.selectaccounttooltip": "选择一个账号",

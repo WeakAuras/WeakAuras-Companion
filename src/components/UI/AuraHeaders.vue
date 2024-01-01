@@ -1,7 +1,7 @@
 <template>
-  <div class="aura-header">
+  <div class="m-0 mb-2.5 flex flex-row text-left text-sm">
     <div
-      class="aura-column aura-column-name sortable"
+      class="sortable flex-1 cursor-pointer pl-8"
       :class="{
         'sorted': sortedColumn === 'name',
         'sort-desc': sortDescending,
@@ -9,12 +9,10 @@
       @click="() => $emit('sortBy', 'name')"
     >
       {{ $t("app.aura.name" /* Name */) }}
-      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
-        >arrow_downward</span
-      >
+      <span class="sort-icon i-mdi-arrow-down text-xl">arrow_downward</span>
     </div>
     <div
-      class="aura-column sortable aura-column-update"
+      class="sortable cursor-pointer pr-2"
       :class="{
         'sorted': sortedColumn === 'update',
         'sort-desc': sortDescending,
@@ -22,13 +20,11 @@
       @click="() => $emit('sortBy', 'update')"
     >
       {{ $t("app.aura.update" /* Updates */) }}
-      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
-        >arrow_downward</span
-      >
+      <span class="sort-icon i-mdi-arrow-down text-xl">arrow_downward</span>
     </div>
     <div
       v-if="addonSelectedConfig && addonSelectedConfig.hasTypeColumn"
-      class="aura-column sortable aura-column-aura-type"
+      class="sortable cursor-pointer pl-2.5 pr-5"
       :class="{
         'sorted': sortedColumn === 'auraTypeDisplay',
         'sort-desc': sortDescending,
@@ -36,12 +32,10 @@
       @click="() => $emit('sortBy', 'auraTypeDisplay')"
     >
       {{ $t("app.aura.auraType" /* Type */) }}
-      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
-        >arrow_downward</span
-      >
+      <span class="sort-icon i-mdi-arrow-down text-xl">arrow_downward</span>
     </div>
     <div
-      class="aura-column sortable aura-column-author"
+      class="sortable cursor-pointer pl-2.5 pr-8"
       :class="{
         'sorted': sortedColumn === 'author',
         'sort-desc': sortDescending,
@@ -49,9 +43,18 @@
       @click="() => $emit('sortBy', 'author')"
     >
       {{ $t("app.aura.author" /* Author */) }}
-      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
-        >arrow_downward</span
-      >
+      <span class="sort-icon i-mdi-arrow-down text-xl">arrow_downward</span>
+    </div>
+    <div
+      class="sortable cursor-pointer pl-2.5 pr-16"
+      :class="{
+        'sorted': sortedColumn === 'version',
+        'sort-desc': sortDescending,
+      }"
+      @click="() => $emit('sortBy', 'version')"
+    >
+      {{ $t("app.aura.version" /* Version */) }}
+      <span class="sort-icon i-mdi-arrow-down text-xl">arrow_downward</span>
     </div>
   </div>
 </template>
@@ -67,53 +70,21 @@ export default defineComponent({
 </script>
 
 <style scoped lang="css">
-.aura-header {
-  display: flex;
-  flex-direction: row;
-  text-align: left;
-  font-size: 14px;
-  margin: 0 calc(2.35vw + 10px) 0;
-}
-
-.aura-header .aura-column.sortable {
-  cursor: pointer;
-}
-
-.aura-header .aura-column.sortable:hover .aura-header__sort-icon {
-  opacity: 0.64;
-}
-
-.aura-header .aura-column.sorted .aura-header__sort-icon {
+.sortable:hover .sort-icon {
   opacity: 0.86 !important;
 }
 
-.aura-header .aura-column.sort-desc .aura-header__sort-icon {
+.sorted .sort-icon {
+  opacity: 0.86 !important;
+}
+
+.sort-desc .sort-icon {
   transform: rotate(180deg);
   padding-bottom: 0px;
   padding-top: 2px;
 }
 
-.aura-header .aura-column-name {
-  flex: 1;
-  padding-left: 48px;
-}
-
-.aura-header .aura-column-update {
-  padding-right: 10px;
-}
-
-.aura-header .aura-column-aura-type {
-  padding-right: 20px;
-  padding-left: 10px;
-}
-
-.aura-header .aura-column-author {
-  margin-right: 111px;
-  padding-left: 10px;
-  width: 100px;
-}
-
-.aura-header__sort-icon {
+.sort-icon {
   opacity: 0;
   font-size: 14px;
   vertical-align: middle;

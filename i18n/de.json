@@ -14,6 +14,7 @@
   "app.aura.updatedisabled": "Updates deaktiviert",
   "app.aura.updateready": "Update verfügbar",
   "app.aura.uptodate": "up to date",
+  "app.aura.version": "Version",
   "app.aura.versionskip": "Version übersprungen",
   "app.config.account.notvalidtooltip": "Wir konnten keine WeakAura Dateien auf diesem Account finden. Hast du das AddOn installiert?",
   "app.config.account.selectaccounttooltip": "Wähle einen Account",
