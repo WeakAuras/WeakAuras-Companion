@@ -20,7 +20,7 @@
             :title="$t('app.menu.main')"
             @click="configStep = 0"
           >
-            <span class="i-mdi-sync color-white text-2xl"></span>
+            <span class="i-mdi-sync text-2xl color-white"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -28,7 +28,7 @@
             :title="$t('app.footer.stopmotion')"
             @click="configStep = 4"
           >
-            <span class="i-mdi-movie color-white text-2xl"></span>
+            <span class="i-mdi-movie text-2xl color-white"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -36,7 +36,7 @@
             :title="$t('app.menu.settings')"
             @click="configStep = 1"
           >
-            <span class="i-mdi-settings color-white text-2xl"></span>
+            <span class="i-mdi-settings text-2xl color-white"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -44,7 +44,7 @@
             :title="$t('app.menu.help')"
             @click="configStep = 2"
           >
-            <span class="i-mdi-help-circle color-white text-2xl"></span>
+            <span class="i-mdi-help-circle text-2xl color-white"></span>
           </UIButton>
           <UIButton
             type="menu"
@@ -52,7 +52,7 @@
             :title="$t('app.menu.about')"
             @click="configStep = 3"
           >
-            <span class="i-mdi-info-circle color-white text-2xl"></span>
+            <span class="i-mdi-info-circle text-2xl color-white"></span>
           </UIButton>
         </div>
       </header>
@@ -156,7 +156,7 @@
           target="_blank"
         >
           <i
-            class="i-social-curse text-xl align-middle -mt-[2px]"
+            class="i-social-curse align-middle text-xl -mt-[2px]"
             title="CurseForge"
           />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
@@ -167,7 +167,7 @@
           target="_blank"
         >
           <i
-            class="i-social-wago text-xl align-middle -mt-[2px]"
+            class="i-social-wago align-middle text-xl -mt-[2px]"
             title="Wago"
           />
           {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
@@ -178,7 +178,7 @@
         >
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
           <i
-            class="i-mdi-bug text-xl align-middle -mt-[2px]"
+            class="i-mdi-bug align-middle text-xl -mt-[2px]"
             title="Bug"
           />
         </a>
@@ -200,7 +200,7 @@
                 'app.main.readyForInstall' /* Ready for Install */,
               )}${readyForInstallTooltip}`,
             }"
-            class="i-mdi-download text-2xl align-middle mt-[2px] update-available update-auras"
+            class="update-available update-auras i-mdi-download mt-[2px] align-middle text-2xl"
           >
             download
           </i>
@@ -221,7 +221,7 @@
                   'app.main.installUpdate' /* Install client update */,
                 )}: v${updater.version} ${updater.releaseNotes}`,
               }"
-              class="i-mdi-download-box-outline text-2xl align-middle mt-[2px] update-available"
+              class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
             >
               download-box-outline
             </i>
@@ -235,7 +235,7 @@
                 'app.main.installUpdate' /* Install client update */,
               )}: v${updater.version}`,
             }"
-            class="i-mdi-download-box-outline text-2xl align-middle mt-[2px] update-available"
+            class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
             @click="installUpdates"
           >
             download-box-outline
@@ -251,7 +251,7 @@
             class="updating"
           >
             <span class="progress">{{ updater.progress }}%</span>
-            <i class="i-mdi-sync icon text-2xl align-middle">sync</i>
+            <i class="icon i-mdi-sync align-middle text-2xl">sync</i>
           </div>
         </div>
       </footer>

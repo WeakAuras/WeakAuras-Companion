@@ -13,14 +13,14 @@
           class="btn-ok btn-title"
           @click="setStep(1)"
         >
-          <span class="i-mdi-first-page text-3xl align-middle">first_page</span>
+          <span class="i-mdi-first-page align-middle text-3xl">first_page</span>
         </UIButton>
         <UIButton
           v-if="step > 1"
           class="btn-title btn-ok"
           @click="prev()"
         >
-          <span class="i-mdi-keyboard-backspace text-3xl align-middle"
+          <span class="i-mdi-keyboard-backspace align-middle text-3xl"
             >keyboard_backspace</span
           >
         </UIButton>

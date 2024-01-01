@@ -9,12 +9,12 @@
       @click="() => $emit('sortBy', 'name')"
     >
       {{ $t("app.aura.name" /* Name */) }}
-      <span class="aura-header__sort-icon text-xl i-mdi-arrow-down"
+      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
         >arrow_downward</span
       >
     </div>
     <div
-      class="aura-column aura-column-update sortable"
+      class="aura-column sortable aura-column-update"
       :class="{
         'sorted': sortedColumn === 'update',
         'sort-desc': sortDescending,
@@ -22,13 +22,13 @@
       @click="() => $emit('sortBy', 'update')"
     >
       {{ $t("app.aura.update" /* Updates */) }}
-      <span class="text-xl i-mdi-arrow-down aura-header__sort-icon"
+      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
         >arrow_downward</span
       >
     </div>
     <div
       v-if="addonSelectedConfig && addonSelectedConfig.hasTypeColumn"
-      class="aura-column aura-column-aura-type sortable"
+      class="aura-column sortable aura-column-aura-type"
       :class="{
         'sorted': sortedColumn === 'auraTypeDisplay',
         'sort-desc': sortDescending,
@@ -36,12 +36,12 @@
       @click="() => $emit('sortBy', 'auraTypeDisplay')"
     >
       {{ $t("app.aura.auraType" /* Type */) }}
-      <span class="text-xl i-mdi-arrow-down aura-header__sort-icon"
+      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
         >arrow_downward</span
       >
     </div>
     <div
-      class="aura-column aura-column-author sortable"
+      class="aura-column sortable aura-column-author"
       :class="{
         'sorted': sortedColumn === 'author',
         'sort-desc': sortDescending,
@@ -49,7 +49,7 @@
       @click="() => $emit('sortBy', 'author')"
     >
       {{ $t("app.aura.author" /* Author */) }}
-      <span class="text-xl i-mdi-arrow-down aura-header__sort-icon"
+      <span class="aura-header__sort-icon i-mdi-arrow-down text-xl"
         >arrow_downward</span
       >
     </div>

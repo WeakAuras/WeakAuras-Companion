@@ -2,17 +2,17 @@
   <div class="sk-fading-circle">
     <span v-if="spin">
       <div class="sk-circle1 sk-circle" />
-      <div class="sk-circle2 sk-circle" />
-      <div class="sk-circle3 sk-circle" />
-      <div class="sk-circle4 sk-circle" />
-      <div class="sk-circle5 sk-circle" />
-      <div class="sk-circle6 sk-circle" />
-      <div class="sk-circle7 sk-circle" />
-      <div class="sk-circle8 sk-circle" />
-      <div class="sk-circle9 sk-circle" />
-      <div class="sk-circle10 sk-circle" />
-      <div class="sk-circle11 sk-circle" />
-      <div class="sk-circle12 sk-circle" />
+      <div class="sk-circle sk-circle2" />
+      <div class="sk-circle sk-circle3" />
+      <div class="sk-circle sk-circle4" />
+      <div class="sk-circle sk-circle5" />
+      <div class="sk-circle sk-circle6" />
+      <div class="sk-circle sk-circle7" />
+      <div class="sk-circle sk-circle8" />
+      <div class="sk-circle sk-circle9" />
+      <div class="sk-circle sk-circle10" />
+      <div class="sk-circle sk-circle11" />
+      <div class="sk-circle sk-circle12" />
     </span>
   </div>
 </template>

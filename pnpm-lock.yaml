@@ -55,6 +55,9 @@ devDependencies:
   '@typescript-eslint/parser':
     specifier: ^6.16.0
     version: 6.16.0(eslint@8.56.0)(typescript@5.3.3)
+  '@unocss/eslint-config':
+    specifier: ^0.58.2
+    version: 0.58.2(eslint@8.56.0)(typescript@5.3.3)
   '@unocss/preset-icons':
     specifier: ^0.58.2
     version: 0.58.2
@@ -1141,6 +1144,11 @@ packages:
     dev: true
     optional: true
 
+  /@pkgr/core@0.1.0:
+    resolution: {integrity: sha512-Zwq5OCzuwJC2jwqmpEQt7Ds1DTi6BWSwoGkbb1n9pO3hzb35BoJELx7c0T23iDkBGkh2e7tvOtjF3tr3OaQHDQ==}
+    engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+    dev: true
+
   /@polka/url@1.0.0-next.24:
     resolution: {integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==}
     dev: true
@@ -1622,6 +1630,32 @@ packages:
 
   /@unocss/core@0.58.2:
     resolution: {integrity: sha512-TYU6IRgnsZGVXpca6FYuXa3iJ1zI3hxgRhnb7TwE9j5t2GY4a/mjvg0K3MdiC8rzPP5hWWd9NXivBfJsr1SQpQ==}
+    dev: true
+
+  /@unocss/eslint-config@0.58.2(eslint@8.56.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-aafhAXjfPipD+y3OV9+wBYoiyMV+WiiqJO/qPNEYMuYoGL4/kYQuX2CsPonddz8skAmyH/QW0yTU9w2MkO3UbA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@unocss/eslint-plugin': 0.58.2(eslint@8.56.0)(typescript@5.3.3)
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
+    dev: true
+
+  /@unocss/eslint-plugin@0.58.2(eslint@8.56.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-3VE3PPiNCa/8d8GcmVI74Y6aJpLwmbA3lCQHEtVp8ofqfGRvy1R2TkIkiZk4fCzmqhk9I1Irkewiu7f0fynzHA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@typescript-eslint/utils': 6.16.0(eslint@8.56.0)(typescript@5.3.3)
+      '@unocss/config': 0.58.2
+      '@unocss/core': 0.58.2
+      magic-string: 0.30.5
+      synckit: 0.8.8
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
     dev: true
 
   /@unocss/extractor-arbitrary-variants@0.58.2:
@@ -6416,6 +6450,14 @@ packages:
       picocolors: 1.0.0
     dev: true
 
+  /synckit@0.8.8:
+    resolution: {integrity: sha512-HwOKAP7Wc5aRGYdKH+dw0PRRpbO841v2DENBtjnR5HFWoiNByAl7vrx3p0G/rCyYXQsrxqtX48TImFtPcIHSpQ==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    dependencies:
+      '@pkgr/core': 0.1.0
+      tslib: 2.6.2
+    dev: true
+
   /tail@2.2.6:
     resolution: {integrity: sha512-IQ6G4wK/t8VBauYiGPLx+d3fA5XjSVagjWV5SIYzvEvglbQjwEcukeYI68JOPpdydjxhZ9sIgzRlSmwSpphHyw==}
     engines: {node: '>= 6.0.0'}
@@ -6577,6 +6619,10 @@ packages:
       json5: 1.0.2
       minimist: 1.2.8
       strip-bom: 3.0.0
+    dev: true
+
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: true
 
   /tunnel-agent@0.6.0:

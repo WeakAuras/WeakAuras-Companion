@@ -18,12 +18,12 @@
           </FileSelect>
           <i
             v-if="config.wowpath.validated"
-            class="text-2xl i-mdi-check-circle-outline align-top mt-3 text-status-ok"
+            class="i-mdi-check-circle-outline mt-3 align-top text-2xl text-status-ok"
             >check_circle_outline</i
           >
           <i
             v-else
-            class="text-2xl i-mdi-error-outline align-top mt-3 text-status-failure"
+            class="i-mdi-error-outline mt-3 align-top text-2xl text-status-failure"
             >error_outline</i
           >
         </div>
@@ -100,7 +100,7 @@
             type="text"
             size="11"
             @keyup.enter="config.wagoUsername = wagoUsername"
-            class="focus:outline-none focus:ring-1 focus:ring-brand-accent h-7.5 text-sm whitespace-nowrap mr-0.5 ml-1.5 py-1.5 px-7.5 pl-2.5 rounded-md bg-brand-grey-darkest text-brand-grey-lightest border-solid border-brand-grey-dark hover:bg-brand-grey-darker hover:text-brand-grey-lightest cursor-pointer"
+            class="ml-1.5 mr-0.5 h-7.5 cursor-pointer whitespace-nowrap border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest focus:outline-none focus:ring-1 focus:ring-brand-accent"
           />
           <UIButton
             v-if="wagoUsername !== config.wagoUsername"
@@ -111,7 +111,7 @@
           </UIButton>
           <i
             v-if="config.wagoUsername"
-            class="text-2xl i-mdi-check-circle-outline align-top mt-0.25 text-status-ok ml-1"
+            class="i-mdi-check-circle-outline ml-1 mt-0.25 align-top text-2xl text-status-ok"
             >check_circle_outline</i
           >
           <p class="my-2">
@@ -122,7 +122,7 @@
             type="password"
             size="11"
             @keyup.enter="config.wagoApiKey = wagoApiKey"
-            class="focus:outline-none focus:ring-1 focus:ring-brand-accent h-7.5 text-sm whitespace-nowrap mr-0.5 ml-1.5 py-1.5 px-7.5 pl-2.5 rounded-md bg-brand-grey-darkest text-brand-grey-lightest border-solid border-brand-grey-dark hover:bg-brand-grey-darker hover:text-brand-grey-lightest cursor-pointer"
+            class="ml-1.5 mr-0.5 h-7.5 cursor-pointer whitespace-nowrap border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest focus:outline-none focus:ring-1 focus:ring-brand-accent"
           />
           <UIButton
             v-if="wagoApiKey !== config.wagoApiKey"
@@ -133,17 +133,17 @@
           </UIButton>
           <i
             v-if="config.wagoApiKey && checkApiKey()"
-            class="text-2xl i-mdi-check-circle-outline align-top mt-0.25 ml-1 text-status-ok"
+            class="i-mdi-check-circle-outline ml-1 mt-0.25 align-top text-2xl text-status-ok"
             >check_circle_outline</i
           >
           <i
             v-else-if="config.wagoApiKey && !checkApiKey()"
-            class="text-2xl i-mdi-error-outline align-top ml-1 mt-0.25 text-status-issue"
+            class="i-mdi-error-outline ml-1 mt-0.25 align-top text-2xl text-status-issue"
             >error_outline</i
           >
           <p
             v-if="config.wagoApiKey && !checkApiKey()"
-            class="text-status-issue mt-2"
+            class="mt-2 text-status-issue"
           >
             {{
               $t(
@@ -154,7 +154,7 @@
           <p class="mt-2">
             <a
               href="https://wago.io/account"
-              class="text-xs text-brand-accent font-semibold cursor-pointer"
+              class="cursor-pointer text-xs text-brand-accent font-semibold"
               target="_blank"
             >
               {{ $t("app.config.getYours" /* Get yours */) }}
@@ -191,7 +191,7 @@
               {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
             </FileSelect>
             <p
-              class="text-xs mt-2 text-brand-accent font-semibold cursor-pointer"
+              class="mt-2 cursor-pointer text-xs text-brand-accent font-semibold"
               @click="openBackupDir()"
             >
               {{ $t("app.config.backup.openfolder" /* Open Folder */) }}

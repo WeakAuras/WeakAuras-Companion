@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="dragndrop"
-    class="border-2 border-dotted rounded-md p-5 pl-50 pr-50 cursor-pointer text-center border-brand-accent"
+    class="cursor-pointer border-2 border-brand-accent rounded-md border-dotted p-5 pl-50 pr-50 text-center"
     @dragenter.prevent
     @dragover.prevent
     @drop="drop"
@@ -23,14 +23,14 @@
         <slot />
       </p>
       <div
-        class="fakeinput w-67.5 h-7.5 text-sm whitespace-nowrap inline-table table-fixed mt-2 mr-0.5 ml-1.5 py-1.5 px-7.5 pl-2.5 rounded-md bg-brand-grey-darkest text-brand-grey-lightest border-solid border-brand-grey-dark hover:bg-brand-grey-darker hover:text-brand-grey-lightest cursor-pointer"
+        class="fakeinput ml-1.5 mr-0.5 mt-2 h-7.5 w-67.5 inline-table table-fixed cursor-pointer whitespace-nowrap border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest"
       >
         <span
-          class="wow-path table-cell text-ellipsis overflow-hidden align-middle"
+          class="wow-path table-cell overflow-hidden text-ellipsis align-middle"
           >{{ path }}</span
         >
       </div>
-      <i class="text-2xl cursor-pointer i-mdi-settings mt-3 ml-1">settings</i>
+      <i class="i-mdi-settings ml-1 mt-3 cursor-pointer text-2xl">settings</i>
     </span>
   </label>
 </template>

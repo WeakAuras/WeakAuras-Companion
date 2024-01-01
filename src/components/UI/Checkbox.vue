@@ -12,7 +12,7 @@
       "
     />
     <div
-      class="checkbox__box border border-solid border-brand-grey-dark hover:border-brand-grey-dark bg-brand-grey-darkest hover:border-brand-grey-darker"
+      class="checkbox__box border border-brand-grey-dark border-solid bg-brand-grey-darkest hover:border-brand-grey-dark hover:border-brand-grey-darker"
       :class="{ 'checkbox__box--checked': modelValue }"
     />
     <label>

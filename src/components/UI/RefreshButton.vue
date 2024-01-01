@@ -9,7 +9,7 @@
       type="refresh"
       @click="$emit('refresh')"
     >
-      <span class="i-mdi-sync sync align-middle text-4xl"></span>
+      <span class="sync i-mdi-sync align-middle text-4xl"></span>
       <span>{{ $t("app.refreshbutton.label" /* Fetch Updates */) }}</span>
     </UIButton>
     <UIButton
@@ -18,7 +18,7 @@
       @click="$emit('gotoconfig')"
     >
       <span
-        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-4xl"
+        class="i-mdi-error-outline mr-2 align-middle text-4xl -mt-[2px]"
       ></span>
       <span>{{ $t("app.refreshbutton.finishsetup" /* Finish Setup */) }}</span>
     </UIButton>
@@ -27,7 +27,7 @@
       class="label-issue text-status-issue"
     >
       <span
-        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+        class="i-mdi-error-outline mr-2 align-middle text-2xl -mt-[2px]"
       ></span>
       <span>{{
         $t(
@@ -40,7 +40,7 @@
       class="label-issue text-status-issue"
     >
       <span
-        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+        class="i-mdi-error-outline mr-2 align-middle text-2xl -mt-[2px]"
       ></span>
       <span>{{
         $t(
@@ -53,7 +53,7 @@
       class="label-issue text-status-issue"
     >
       <span
-        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+        class="i-mdi-error-outline mr-2 align-middle text-2xl -mt-[2px]"
       ></span>
       <span>{{
         $t(
@@ -73,7 +73,7 @@
       class="label-issue text-status-issue"
     >
       <span
-        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+        class="i-mdi-error-outline mr-2 align-middle text-2xl -mt-[2px]"
       ></span>
       <span>{{
         $t(
@@ -88,7 +88,7 @@
       class="label-issue text-status-issue"
     >
       <span
-        class="i-mdi-error-outline mr-2 -mt-[2px] align-middle text-2xl"
+        class="i-mdi-error-outline mr-2 align-middle text-2xl -mt-[2px]"
       ></span>
       <span>{{
         $t(
@@ -107,7 +107,7 @@
           target="_blank"
         >
           <i
-            class="i-social-curse text-xl align-middle -mt-[2px]"
+            class="i-social-curse align-middle text-xl -mt-[2px]"
             title="CurseForge"
           />
           {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}

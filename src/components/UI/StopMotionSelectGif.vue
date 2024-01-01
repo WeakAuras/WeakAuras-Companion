@@ -1,6 +1,6 @@
 <template>
   <div id="StopMotionWelcome">
-    <div class="flex flex-col items-center justify-center mt-10 gap-5">
+    <div class="mt-10 flex flex-col items-center justify-center gap-5">
       <FileSelect
         :create-directory="false"
         :open-file="true"
@@ -18,7 +18,7 @@
           }}
         </UIButton>
       </FileSelect>
-      <div class="inline-block relative text-center">
+      <div class="relative inline-block text-center">
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
         <DiscordPicker
           :api-key="apiKey"

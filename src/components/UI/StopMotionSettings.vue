@@ -121,7 +121,7 @@
         type="refresh"
         @click="generate()"
       >
-        <i class="i-mdi-sync text-3xl align-top sync">sync</i>
+        <i class="sync i-mdi-sync align-top text-3xl">sync</i>
         <span>{{
           $t(
             "app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */,
@@ -136,7 +136,7 @@
       >
         <i
           v-if="result.size / 1024 > 16"
-          class="i-mdi-error-outline text-3xl align-top error"
+          class="error i-mdi-error-outline align-top text-3xl"
           >error_outline</i
         >
         <span>{{

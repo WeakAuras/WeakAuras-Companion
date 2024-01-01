@@ -1,9 +1,9 @@
 <template>
   <div id="StopMotionResult">
-    <div class="flex flex-col gap-2 align-middle text-center justify-center">
+    <div class="flex flex-col justify-center gap-2 text-center align-middle">
       <img
         :src="preview"
-        class="object-contain w-full h-xs"
+        class="h-xs w-full object-contain"
       />
       <div class="text-center">
         {{
@@ -20,7 +20,7 @@
           class="i-mdi-help-circle"
           >help</i
         >
-        <div class="my-4 glow">
+        <div class="glow my-4">
           {{
             $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */)
           }}
@@ -28,13 +28,13 @@
       </div>
       <div class="filename">
         <a
-          class="cursor-pointer font-size-3 mt-5 text-brand-accent font-semibold hover:underline"
+          class="mt-5 cursor-pointer font-size-3 text-brand-accent font-semibold hover:underline"
           :title="$t('app.config.backup.openfolder' /* Open Folder */)"
           @click="openDestDir()"
           >{{ resultFolder }}</a
         >
         <a
-          class="cursor-pointer font-size-3 mt-5 text-brand-accent font-semibold hover:underline"
+          class="mt-5 cursor-pointer font-size-3 text-brand-accent font-semibold hover:underline"
           :title="$t('app.config.backup.openfile' /* Open File */)"
           @click="openDestFile()"
           >{{ resultFile }}</a
