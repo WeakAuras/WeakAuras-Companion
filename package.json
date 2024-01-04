@@ -43,6 +43,7 @@
   "packageManager": "pnpm@8.12.1",
   "dependencies": {
     "archiver": "^6.0.1",
+    "got": "^12.6.1",
     "regedit": "^5.1.2",
     "sharp": "^0.32.6",
     "tga": "^1.0.7"
@@ -76,7 +77,6 @@
     "eslint-plugin-vue": "^9.20.1",
     "floating-vue": "^5.0.3",
     "glob": "^10.3.10",
-    "got": "^14.0.0",
     "husky": "^8.0.3",
     "lightningcss": "^1.22.1",
     "lint-staged": "^15.2.0",
