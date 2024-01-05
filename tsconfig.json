@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "outDir": "dist",
     "target": "ESNext",
     "esModuleInterop": true,
@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
@@ -26,10 +27,12 @@
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "verbatimModuleSyntax": true,
   },
   "include": [
-    "src"
+    "./**/*.ts",
+    "./**/*.vue"
   ],
   "types": [
     "node",

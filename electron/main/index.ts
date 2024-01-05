@@ -13,6 +13,13 @@ import {
 import { join } from "node:path";
 import log from "electron-log";
 import Store from "electron-store";
+import type {
+  ProgressInfo,
+  UpdateCheckResult,
+  UpdateDownloadedEvent,
+  UpdateInfo,
+} from "electron-updater";
+
 import { autoUpdater } from "electron-updater";
 
 process.env.DIST_ELECTRON = join(__dirname, "..");
@@ -193,14 +200,16 @@ async function createWindow() {
           cancellationToken.cancel();
         }
 
-        autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-          mainWindow?.webContents.send(
-            "updaterHandler",
-            "checkForUpdates",
-            UpdateCheckResult,
-          );
-          ({ cancellationToken } = UpdateCheckResult);
-        });
+        autoUpdater
+          .checkForUpdates()
+          .then((UpdateCheckResult: UpdateCheckResult) => {
+            mainWindow?.webContents.send(
+              "updaterHandler",
+              "checking-for-update",
+              UpdateCheckResult,
+            );
+            ({ cancellationToken } = UpdateCheckResult);
+          });
       },
     },
     {
@@ -279,14 +288,16 @@ if (!app.requestSingleInstanceLock()) {
     }
 
     if (process.env.NODE_ENV === "production") {
-      autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
-        mainWindow?.webContents.send(
-          "updaterHandler",
-          "checkForUpdates",
-          UpdateCheckResult,
-        );
-        ({ cancellationToken } = UpdateCheckResult);
-      });
+      autoUpdater
+        .checkForUpdates()
+        .then((UpdateCheckResult: UpdateCheckResult) => {
+          mainWindow?.webContents.send(
+            "updaterHandler",
+            "checking-for-update",
+            UpdateCheckResult,
+          );
+          ({ cancellationToken } = UpdateCheckResult);
+        });
     }
   });
 }
@@ -400,16 +411,16 @@ ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
   lastNotificationBody = text;
 });
 
-ipcMain.handle("checkUpdates", (_event, isBeta) => {
+ipcMain.handle("checking-for-update", (_event, isBeta) => {
   if (cancellationToken) {
     cancellationToken.cancel();
   }
   autoUpdater.allowPrerelease = isBeta === true;
 
-  autoUpdater.checkForUpdates().then((UpdateCheckResult) => {
+  autoUpdater.checkForUpdates().then((UpdateCheckResult: UpdateCheckResult) => {
     mainWindow?.webContents.send(
       "updaterHandler",
-      "checkForUpdates",
+      "checking-for-update",
       UpdateCheckResult,
     );
     ({ cancellationToken } = UpdateCheckResult);
@@ -445,7 +456,7 @@ autoUpdater.on("checking-for-update", () => {
   }
 });
 
-autoUpdater.on("update-available", (info) => {
+autoUpdater.on("update-available", (info: UpdateInfo) => {
   if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-available", info);
   }
@@ -463,35 +474,35 @@ autoUpdater.on("update-available", (info) => {
   }
 });
 
-autoUpdater.on("update-not-available", () => {
+autoUpdater.on("update-not-available", (info: UpdateInfo) => {
   if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "update-not-available");
+    mainWindow?.webContents.send(
+      "updaterHandler",
+      "update-not-available",
+      info,
+    );
   }
 });
 
-autoUpdater.on("error", (err) => {
+autoUpdater.on("error", (err: Error, message?: string) => {
   if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "error", err);
+    mainWindow?.webContents.send("updaterHandler", "error", err, message);
     mainWindow?.setProgressBar(-1);
   }
 });
 
-autoUpdater.on("download-progress", (progressObj) => {
+autoUpdater.on("download-progress", (info: ProgressInfo) => {
   if (mainWindow?.webContents) {
-    mainWindow?.webContents.send(
-      "updaterHandler",
-      "download-progress",
-      progressObj,
-    );
-    mainWindow?.setProgressBar(progressObj.percent / 100);
+    mainWindow?.webContents.send("updaterHandler", "download-progress", info);
+    mainWindow?.setProgressBar(info.percent / 100);
   }
 });
 
 const installNagAlreadyShown = false;
 
-autoUpdater.on("update-downloaded", () => {
+autoUpdater.on("update-downloaded", (event: UpdateDownloadedEvent) => {
   if (!installNagAlreadyShown && mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "update-downloaded");
+    mainWindow?.webContents.send("updaterHandler", "update-downloaded", event);
     mainWindow?.setProgressBar(-1);
   }
 });

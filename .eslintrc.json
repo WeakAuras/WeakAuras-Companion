@@ -12,7 +12,10 @@
     "dist-electron",
     "release",
     "index.html",
-    "tools/**/*.js"
+    "tools/**/*.js",
+    "uno.config.ts",
+    "vite.config.ts",
+    "*.d.ts"
   ],
   "rules": {
     "arrow-parens": "off",
@@ -50,7 +53,8 @@
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
-    "ecmaVersion": "latest"
+    "extraFileExtensions": [".vue"],
+    "project": true
   },
   "plugins": ["vue", "@typescript-eslint"],
   "settings": {

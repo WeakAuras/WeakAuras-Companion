@@ -302,6 +302,19 @@ import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
 import contacts from "@/libs/contacts";
 import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
 import { buildAccountList } from "@/libs/build-account-list";
+import type {
+  ProgressInfo,
+  UpdateDownloadedEvent,
+  UpdateInfo,
+} from "electron-updater";
+
+type UpdaterEventArg =
+  | { status: "error"; error: Error; message?: string }
+  | { status: "download-progress"; progressInfo: ProgressInfo }
+  | { status: "update-downloaded"; event: UpdateDownloadedEvent }
+  | { status: "update-not-available"; updateInfo: UpdateInfo }
+  | { status: "checking-for-update" }
+  | { status: "update-available"; updateInfo: UpdateInfo };
 
 interface Updater {
   status: string | null;
@@ -546,12 +559,12 @@ export default defineComponent({
       this.doCompareSVwithWago();
     });
 
-    ipcRenderer.on("linkHandler", async (_event, link) => {
+    ipcRenderer.on("linkHandler", async (_event, link: string) => {
       const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)/;
 
       if (link) {
         const result = link.match(pattern);
-        let slug;
+        let slug: string;
 
         if (result) {
           ({ 1: slug } = result);
@@ -568,25 +581,50 @@ export default defineComponent({
       }
     });
 
-    ipcRenderer.on("updaterHandler", (_event, status, arg) => {
-      console.log(`updaterHandler: ${status}`);
+    ipcRenderer.on(
+      "updaterHandler",
+      (_event, status: string, arg: UpdaterEventArg) => {
+        console.log(`updaterHandler: ${status}`);
 
-      if (status === "checkForUpdates") {
-        this.updater.version = arg.updateInfo.version;
-        return;
-      }
-      this.updater.status = status;
+        if (status === "checking-for-update") {
+          // No additional data for this status
+          return;
+        }
 
-      if (status === "download-progress") {
-        this.updater.progress = Math.floor(arg.percent);
-      }
+        this.updater.status = status;
 
-      if (status === "update-available") {
-        this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
-        this.updater.releaseNotes = arg.releaseNotes || "";
-        console.log(JSON.stringify(arg));
-      }
-    });
+        if (status === "download-progress" && "progressInfo" in arg) {
+          this.updater.progress = Math.floor(arg.progressInfo.percent);
+        }
+
+        if (
+          (status === "update-available" ||
+            status === "update-not-available" ||
+            status === "update-downloaded") &&
+          "updateInfo" in arg
+        ) {
+          this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.updateInfo.version}/${arg.updateInfo.path}`;
+
+          // List if `updater.fullChangelog` is set to `true`, `string` otherwise.
+          if (typeof arg.updateInfo.releaseNotes === "string") {
+            this.updater.releaseNotes = arg.updateInfo.releaseNotes;
+          } else if (Array.isArray(arg.updateInfo.releaseNotes)) {
+            // Convert the array of ReleaseNoteInfo to a string
+            this.updater.releaseNotes = arg.updateInfo.releaseNotes
+              .map((note) => note.note)
+              .join("\n");
+          } else {
+            this.updater.releaseNotes = "";
+          }
+
+          console.log(JSON.stringify(arg));
+        }
+
+        if (status === "error" && "error" in arg) {
+          console.error(arg.error);
+        }
+      },
+    );
 
     // set default wow path
     if (!this.config.wowpath.validated) {
