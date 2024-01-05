@@ -5,13 +5,14 @@ import { backup } from "@/libs/backup";
 import { grabVersionFromToc } from "@/libs/grab-wa-version";
 import sanitize from "@/libs/sanitize";
 import { matchFolderNameInsensitive } from "@/libs/utilities";
-import type { ConfigState } from "@/stores/config";
+import type { AddonConfig, AuraType, ConfigState } from "@/stores/config";
+import type { StashStore } from "@/stores/auras";
 
-export async function writeAddonData(
+export function writeAddonData(
   config: ConfigState,
-  addonsInstalled,
-  aurasWithData,
-  stash,
+  addonsInstalled: AddonConfig[],
+  aurasWithData: any[],
+  stash: StashStore,
 ) {
   console.log("writeAddonData");
   const addonConfigs = addonsInstalled;
@@ -63,8 +64,8 @@ export async function writeAddonData(
       let LuaSlugs = `${spacing}  slugs = {\n`;
 
       aurasWithData
-        .filter((aura) => aura.auraType === config.addonName)
-        .forEach((aura) => {
+        .filter((aura: AuraType) => aura.auraType === config.addonName)
+        .forEach((aura: AuraType) => {
           LuaSlugs += `${spacing}    ["${aura.slug.replace(
             /"/g,
             '\\"',
@@ -115,7 +116,7 @@ export async function writeAddonData(
             typeof aura.changelog !== "undefined" &&
             typeof aura.changelog.text !== "undefined"
           ) {
-            let sanitized;
+            let sanitized: string;
 
             if (aura.changelog.format === "bbcode") {
               sanitized = sanitize.bbcode(aura.changelog.text);

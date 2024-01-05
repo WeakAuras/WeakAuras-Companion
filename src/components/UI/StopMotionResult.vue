@@ -121,7 +121,7 @@ export default defineComponent({
       encoded: this.weakauras_string,
       logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
     });
-    console.log(`added to stash ${this.gif.meta.name}`);
+    console.log(`added aura to stash: "${this.gif.meta.name}"`);
   },
   methods: {
     openDestDir() {

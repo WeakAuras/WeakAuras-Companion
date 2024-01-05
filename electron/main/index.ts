@@ -10,6 +10,7 @@ import {
   protocol,
   shell,
 } from "electron";
+import type { OpenDialogOptions } from "electron";
 import { join } from "node:path";
 import log from "electron-log";
 import Store from "electron-store";
@@ -144,7 +145,7 @@ async function createWindow() {
   // Make all links open with the browser, not with the application
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith("https:")) {
-      shell.openExternal(url);
+      void shell.openExternal(url);
     }
     return { action: "deny" };
   });
@@ -155,7 +156,7 @@ async function createWindow() {
 
   mainWindow?.setMenu(null);
 
-  mainWindow?.on("minimize", (event) => {
+  mainWindow?.on("minimize", (event: { preventDefault: () => void }) => {
     event.preventDefault();
     mainWindow?.minimize();
 
@@ -189,7 +190,7 @@ async function createWindow() {
         mainWindow?.show();
 
         if (process.platform === "darwin") {
-          app.dock.show();
+          void app.dock.show();
         }
       },
     },
@@ -250,7 +251,7 @@ async function createWindow() {
       mainWindow?.show();
 
       if (process.platform === "darwin") {
-        app.dock.show();
+        void app.dock.show();
       }
     }
   });
@@ -313,7 +314,7 @@ app.on("activate", () => {
     createWindow();
 
     if (process.platform === "darwin") {
-      app.dock.show();
+      void app.dock.show();
     }
   }
 });
@@ -348,7 +349,7 @@ ipcMain.on("get-user-data-path", (event) => {
   event.returnValue = app.getPath("userData");
 });
 
-ipcMain.handle("openDialog", (event, args) => {
+ipcMain.handle("openDialog", (event, args: OpenDialogOptions) => {
   return dialog.showOpenDialog(
     BrowserWindow.fromWebContents(event.sender),
     args,
@@ -361,7 +362,7 @@ ipcMain.handle("open", () => {
   mainWindow?.focus();
 
   if (process.platform === "darwin") {
-    app.dock.show();
+    void app.dock.show();
   }
 });
 
@@ -381,7 +382,7 @@ ipcMain.handle("installUpdates", () => {
   autoUpdater.quitAndInstall();
 });
 
-ipcMain.handle("autoStart", (_event, enable) => {
+ipcMain.handle("autoStart", (_event, enable: boolean) => {
   app.setLoginItemSettings({
     openAtLogin: enable,
   });
@@ -389,27 +390,30 @@ ipcMain.handle("autoStart", (_event, enable) => {
 
 let lastNotificationBody = "";
 
-ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
-  const text = news.join("\n");
+ipcMain.handle(
+  "postFetchingNewUpdateNotification",
+  (_event, news: string[]) => {
+    const text: string = news.join("\n");
 
-  if (text === "" || text === lastNotificationBody) {
-    return;
-  } // prevent notification spam
+    if (text === "" || text === lastNotificationBody) {
+      return;
+    } // prevent notification spam
 
-  const notification = new Notification({
-    title: "New update ready to install",
-    body: text,
-    icon: notificationIcon,
-  });
+    const notification = new Notification({
+      title: "New update ready to install",
+      body: text,
+      icon: notificationIcon,
+    });
 
-  notification.on("click", () => {
-    mainWindow?.show();
-    mainWindow?.focus();
-  });
+    notification.on("click", () => {
+      mainWindow?.show();
+      mainWindow?.focus();
+    });
 
-  notification.show();
-  lastNotificationBody = text;
-});
+    notification.show();
+    lastNotificationBody = text;
+  },
+);
 
 ipcMain.handle("checkUpdates", (_event, isBeta) => {
   if (cancellationToken) {

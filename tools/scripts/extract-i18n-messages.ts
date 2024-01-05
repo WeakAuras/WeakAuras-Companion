@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { glob } from "glob";
@@ -62,4 +65,4 @@ async function run(): Promise<void> {
   console.info("i18n extraction finished");
 }
 
-run();
+void run();

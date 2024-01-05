@@ -191,7 +191,7 @@ const mappingTable = [
   ")",
 ];
 
-const convertByteTo6bit = function (chr) {
+const convertByteTo6bit = function (chr: number) {
   return mappingTable[chr].charCodeAt(0);
 };
 
@@ -277,12 +277,15 @@ function applySerializationMapping(inputString: string): string {
   return result;
 }
 
-function serializeValue(value: any, serializedArray: string[]): void {
+function serializeValue(
+  value: typeof StopMotionTemplate | string | number,
+  serializedArray: string[],
+): void {
   const valueType = typeof value;
 
   if (valueType === "string") {
     const processedValue = applySerializationMapping(
-      replaceNonASCIICharacters(value),
+      replaceNonASCIICharacters(value as string),
     );
     serializedArray.push("^S", processedValue);
   } else if (valueType === "number") {
@@ -293,7 +296,9 @@ function serializeValue(value: any, serializedArray: string[]): void {
     serializedArray.push("^T");
 
     for (const key of Object.keys(value)) {
-      const parsedKey = /^\d+$/.test(key) ? Number.parseInt(key) : key;
+      const parsedKey = /^\d+$/.test(key)
+        ? Number.parseInt(key).toString()
+        : key;
       serializeValue(parsedKey, serializedArray);
       serializeValue(value[key], serializedArray);
     }
@@ -304,7 +309,7 @@ function serializeValue(value: any, serializedArray: string[]): void {
   }
 }
 
-function serialize(input: any): string {
+function serialize(input: typeof StopMotionTemplate): string {
   const serializedArray: string[] = ["^1"];
   serializeValue(input, serializedArray);
   return `${serializedArray.join("")}^^`;
@@ -316,7 +321,7 @@ function getRandomInt(min: number, max: number): number {
 }
 
 function generateUniqueID(): string {
-  const uid: string[] = new Array(11);
+  const uid: string[] = new Array<string>(11);
   const tableLen = mappingTable.length;
 
   for (let i = 0; i < 11; i++) {

@@ -514,7 +514,7 @@ export default defineComponent({
           []
         );
       },
-      set(newValue) {
+      set(newValue: AuraType[]) {
         this.accountSelected.auras = newValue;
       },
     },
@@ -550,7 +550,7 @@ export default defineComponent({
     },
   },
   async mounted() {
-    ipcRenderer.on("setAllowPrerelease", (_event, allowPrerelease) => {
+    ipcRenderer.on("setAllowPrerelease", (_event, allowPrerelease: boolean) => {
       this.config.beta = allowPrerelease;
     });
 
@@ -680,14 +680,22 @@ export default defineComponent({
     readyForInstallFlush() {
       this.stash.$reset();
     },
-    checkCompanionUpdates() {
-      ipcRenderer.invoke("checkUpdates", this.config.beta);
+    async checkCompanionUpdates() {
+      try {
+        await ipcRenderer.invoke("checkUpdates", this.config.beta);
+      } catch (error) {
+        console.error("Error checking updates:", error);
+      }
 
       // check for app updates in 2 hours
       if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
 
       this.updater.scheduleId = setTimeout(
-        this.checkCompanionUpdates,
+        () => {
+          this.checkCompanionUpdates().catch((error) =>
+            console.error("Error checking updates:", error),
+          );
+        },
         1000 * 3600 * 2,
       );
     },
@@ -726,7 +734,7 @@ export default defineComponent({
     reset() {
       this.config.$reset();
     },
-    async doWriteAddonData() {
+    doWriteAddonData() {
       return writeAddonData(
         this.config,
         this.addonsInstalled,
@@ -756,7 +764,7 @@ export default defineComponent({
     installUpdates() {
       ipcRenderer.invoke("installUpdates");
     },
-    sortBy(columnName) {
+    sortBy(columnName: string) {
       if (this.sortedColumn === columnName) {
         if (this.sortDescending) {
           this.sortDescending = false;
@@ -769,7 +777,7 @@ export default defineComponent({
         this.sortedColumn = columnName;
       }
     },
-    updateFetchingState(fetching) {
+    updateFetchingState(fetching: boolean) {
       this.fetching = fetching;
     },
   },

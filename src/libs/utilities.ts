@@ -2,7 +2,7 @@ import path from "node:path";
 import fs from "node:fs";
 import regedit, { promisified as regedit_promisified } from "regedit";
 
-export function formatBytes(a, b) {
+export function formatBytes(a: number, b: number) {
   if (a === 0) return "0 Bytes";
   const c = 1024;
   const d = b || 2;
@@ -35,13 +35,15 @@ export async function wowDefaultPath() {
   return "";
 }
 
-export function matchFolderNameInsensitive(folder, name, create) {
+export function matchFolderNameInsensitive(
+  folder: string,
+  name: string,
+  create: boolean,
+) {
   try {
     const items = fs.readdirSync(folder);
 
-    for (const i in items) {
-      const item = items[i];
-
+    for (const item of items) {
       if (name.toLowerCase() === item.toLowerCase()) return item;
     }
 
@@ -51,7 +53,7 @@ export function matchFolderNameInsensitive(folder, name, create) {
     }
     console.log(`${name} not found at ${folder}`);
     return false;
-  } catch (err) {
-    console.log(`Error: ${err}`);
+  } catch (err: any) {
+    console.log("Error:", err);
   }
 }

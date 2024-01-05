@@ -1,4 +1,4 @@
-function bbcode(str) {
+function bbcode(str: string) {
   let output = str || "";
 
   output = output.replace(
@@ -8,7 +8,7 @@ function bbcode(str) {
   return output;
 }
 
-function markdown(str) {
+function markdown(str: string) {
   // https://github.com/stiang/remove-markdown/blob/master/index.js
   let output = str || "";
 

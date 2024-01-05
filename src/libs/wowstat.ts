@@ -61,26 +61,23 @@ export async function afterReload(
   try {
     const stats: Stats = await fs.promises.stat(wacompanionsvfile);
     mtime = stats.mtimeMs;
-  } catch (err) {
+  } catch {
     throw new Error(`Failed to get file stats for: ${wacompanionsvfile}`);
   }
 
-  const watcher = fs.watch(
-    wacompanionsvfile,
-    { persistent: false },
-    async (event, filename) => {
-      if (!filename) {
-        return;
-      }
-
-      const stats: Stats = await fs.promises.stat(wacompanionsvfile);
-
-      if (stats.mtimeMs !== mtime) {
-        watcher.close();
-        callback();
-      }
-    },
-  );
+  const watcher = fs.watch(wacompanionsvfile, { persistent: false }, () => {
+    fs.promises
+      .stat(wacompanionsvfile)
+      .then((stats: Stats) => {
+        if (stats.mtimeMs !== mtime) {
+          watcher.close();
+          callback();
+        }
+      })
+      .catch(() => {
+        throw new Error(`Failed to get file stats for: ${wacompanionsvfile}`);
+      });
+  });
 }
 
 export function afterRestart(
