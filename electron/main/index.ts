@@ -411,7 +411,7 @@ ipcMain.handle("postFetchingNewUpdateNotification", (_event, news) => {
   lastNotificationBody = text;
 });
 
-ipcMain.handle("checking-for-update", (_event, isBeta) => {
+ipcMain.handle("checkUpdates", (_event, isBeta) => {
   if (cancellationToken) {
     cancellationToken.cancel();
   }
