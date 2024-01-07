@@ -39,6 +39,7 @@ export default defineComponent({
     },
     apiKey: {
       type: String,
+      default: null,
     },
   },
   emits: ["gif"],

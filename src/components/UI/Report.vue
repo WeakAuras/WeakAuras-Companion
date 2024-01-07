@@ -1,8 +1,8 @@
 <template>
   <div
     id="report"
-    @click="close"
     class="absolute z-75 h-full w-full bg-black bg-opacity-70 text-center"
+    @click="close"
   >
     <div
       class="relative top-1/3 mx-auto w-96 rounded-lg bg-black bg-opacity-30 p-4 pb-6"

@@ -51,6 +51,7 @@ export default defineComponent({
     label: { type: [String, null], default: null },
     placeholder: {
       type: String,
+      default: "",
     },
   },
   emits: ["update:value", "change"],

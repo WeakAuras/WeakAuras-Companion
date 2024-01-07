@@ -24,7 +24,12 @@
 <script lang="ts">
 export default {
   name: "Checkbox",
-  props: ["modelValue"],
+  props: {
+    modelValue: {
+      type: Boolean,
+      required: true,
+    },
+  },
   emits: ["update:modelValue"],
   methods: {
     triggerInputClick() {

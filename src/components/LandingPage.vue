@@ -109,9 +109,11 @@
               :is-settings-ok="config.wowpath.validated"
               :is-version-selected="versionSelected"
               :is-account-selected="accountSelected"
-              :is-sv-ok="getWeakAurasSaved() || getPlaterSaved()"
+              :is-sv-ok="!!getWeakAurasSaved() || !!getPlaterSaved()"
               :fetching="fetching"
-              :last-update="accountSelected && accountSelected.lastWagoUpdate"
+              :last-update="
+                accountSelected && new Date(accountSelected.lastWagoUpdate)
+              "
               :auras-shown="aurasSortedForView.length"
               :is-addons-ok="
                 getIsAddonInstalled('WeakAuras') ||

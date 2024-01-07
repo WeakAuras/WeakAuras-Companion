@@ -166,7 +166,12 @@ export default defineComponent({
     Checkbox,
     Dropdown,
   },
-  props: ["wowVersions"],
+  props: {
+    wowVersions: {
+      type: Array,
+      required: true,
+    },
+  },
   emits: ["next"],
   setup() {
     const config = useConfigStore();

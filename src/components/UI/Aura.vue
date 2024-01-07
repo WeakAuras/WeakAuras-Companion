@@ -109,7 +109,9 @@ import { defineComponent } from "vue";
 import sanitize from "@/libs/sanitize";
 
 export default defineComponent({
-  props: ["aura"],
+  props: {
+    aura: { type: Object, default: null },
+  },
   data() {
     return {
       timeElapsed: "n/a",

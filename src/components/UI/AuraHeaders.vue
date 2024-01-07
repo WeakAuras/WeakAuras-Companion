@@ -64,7 +64,14 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "AuraHeaders",
-  props: ["sortedColumn", "sortDescending", "addonSelectedConfig"],
+  props: {
+    sortedColumn: {
+      type: String,
+      required: true,
+    },
+    sortDescending: Boolean,
+    addonSelectedConfig: { type: Object, default: null },
+  },
   emits: ["sortBy"],
 });
 </script>

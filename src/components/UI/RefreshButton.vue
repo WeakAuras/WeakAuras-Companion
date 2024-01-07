@@ -133,17 +133,44 @@ export default defineComponent({
   name: "RefreshButton",
   components: { UIButton },
   filters: {},
-  props: [
-    "usable",
-    "fetching",
-    "lastUpdate",
-    "aurasShown",
-    "isSettingsOk",
-    "isVersionSelected",
-    "isAccountSelected",
-    "isSvOk",
-    "isAddonsOk",
-  ],
+  props: {
+    usable: {
+      type: Boolean,
+      default: false,
+    },
+    fetching: {
+      type: Boolean,
+      default: false,
+    },
+    lastUpdate: {
+      type: Date,
+      default: "0",
+    },
+    aurasShown: {
+      type: Number,
+      default: 0,
+    },
+    isSettingsOk: {
+      type: Boolean,
+      default: false,
+    },
+    isVersionSelected: {
+      type: [String, Object],
+      default: "",
+    },
+    isAccountSelected: {
+      type: [String, Object],
+      default: "",
+    },
+    isSvOk: {
+      type: Boolean,
+      default: false,
+    },
+    isAddonsOk: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ["gotoconfig", "refresh"],
   setup(props, { emit }) {
     const gotoconfig = () => {

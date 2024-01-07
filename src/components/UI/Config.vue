@@ -10,8 +10,8 @@
           <FileSelect
             v-model:path="config.wowpath.value"
             :default-path="defaultWOWPath"
-            open-directory="true"
-            create-directory="true"
+            :open-directory="true"
+            :create-directory="true"
             @update:path="$parent.validateWowPath"
           >
             {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
@@ -99,8 +99,8 @@
             v-model="wagoUsername"
             type="text"
             size="11"
-            @keyup.enter="config.wagoUsername = wagoUsername"
             class="ml-1.5 mr-0.5 h-7.5 cursor-pointer whitespace-nowrap border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest focus:outline-none focus:ring-1 focus:ring-brand-accent"
+            @keyup.enter="config.wagoUsername = wagoUsername"
           />
           <UIButton
             v-if="wagoUsername !== config.wagoUsername"
@@ -121,8 +121,8 @@
             v-model="wagoApiKey"
             type="password"
             size="11"
-            @keyup.enter="config.wagoApiKey = wagoApiKey"
             class="ml-1.5 mr-0.5 h-7.5 cursor-pointer whitespace-nowrap border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest focus:outline-none focus:ring-1 focus:ring-brand-accent"
+            @keyup.enter="config.wagoApiKey = wagoApiKey"
           />
           <UIButton
             v-if="wagoApiKey !== config.wagoApiKey"
@@ -185,8 +185,8 @@
             <FileSelect
               v-model:path="config.backup.path"
               :default-path="config.backup.defaultBackupPath"
-              open-directory="true"
-              create-directory="true"
+              :open-directory="true"
+              :create-directory="true"
             >
               {{ $t("app.config.backup.backupfolder" /* Backup Folder */) }}
             </FileSelect>
@@ -232,7 +232,9 @@ export default defineComponent({
     FileSelect,
     UIButton,
   },
-  props: ["defaultWOWPath"],
+  props: {
+    defaultWOWPath: { type: String, default: "" },
+  },
   setup() {
     const config = useConfigStore();
     return {

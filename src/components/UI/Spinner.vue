@@ -22,7 +22,12 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Spinner",
-  props: ["spin"],
+  props: {
+    spin: {
+      type: Boolean,
+      required: true,
+    },
+  },
 });
 </script>
 

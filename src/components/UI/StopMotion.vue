@@ -55,7 +55,12 @@ export default {
     StopMotionResult,
     UIButton,
   },
-  props: ["wowVersions"],
+  props: {
+    wowVersions: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       step: 1,
