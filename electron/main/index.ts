@@ -66,9 +66,9 @@ let cancellationToken: { cancel: () => void };
 autoUpdater.autoDownload = false;
 autoUpdater.allowDowngrade = true;
 autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
+log.transports.file.level = "info";
 autoUpdater.logger = log;
-// @ts-expect-error Weird stuff here
-autoUpdater.logger.transports.file.level = "info";
+
 log.initialize({ preload: true });
 log.info("App starting...");
 
