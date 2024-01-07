@@ -1,44 +1,3 @@
-<template>
-  <div id="StopMotion">
-    <div>
-      <div class="title">
-        {{
-          $t("app.stopmotion.selectgifconverter" /* StopMotion GIF Converter */)
-        }}
-      </div>
-      <br />
-      <div class="bts-top-right">
-        <UIButton
-          v-if="step === 3"
-          class="btn-ok btn-title"
-          @click="setStep(1)"
-        >
-          <span class="i-mdi-first-page align-middle text-3xl">first_page</span>
-        </UIButton>
-        <UIButton
-          v-if="step > 1"
-          class="btn-title btn-ok"
-          @click="prev()"
-        >
-          <span class="i-mdi-keyboard-backspace align-middle text-3xl"
-            >keyboard_backspace</span
-          >
-        </UIButton>
-      </div>
-    </div>
-    <StopMotionSelectGif
-      v-if="step === 1"
-      @next="next()"
-    />
-    <StopMotionSettings
-      v-if="step === 2"
-      :wow-versions="wowVersions"
-      @next="next()"
-    />
-    <StopMotionResult v-if="step === 3" />
-  </div>
-</template>
-
 <script lang="ts">
 import StopMotionSelectGif from "./StopMotionSelectGif.vue";
 import StopMotionSettings from "./StopMotionSettings.vue";
@@ -79,6 +38,47 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div id="StopMotion">
+    <div>
+      <div class="title">
+        {{
+          $t("app.stopmotion.selectgifconverter" /* StopMotion GIF Converter */)
+        }}
+      </div>
+      <br />
+      <div class="bts-top-right">
+        <UIButton
+          v-if="step === 3"
+          class="btn-ok btn-title"
+          @click="setStep(1)"
+        >
+          <span class="i-mdi-first-page align-middle text-3xl">first_page</span>
+        </UIButton>
+        <UIButton
+          v-if="step > 1"
+          class="btn-title btn-ok"
+          @click="prev()"
+        >
+          <span class="i-mdi-keyboard-backspace align-middle text-3xl"
+            >keyboard_backspace</span
+          >
+        </UIButton>
+      </div>
+    </div>
+    <StopMotionSelectGif
+      v-if="step === 1"
+      @next="next()"
+    />
+    <StopMotionSettings
+      v-if="step === 2"
+      :wow-versions="wowVersions"
+      @next="next()"
+    />
+    <StopMotionResult v-if="step === 3" />
+  </div>
+</template>
 
 <style scoped lang="css">
 #StopMotion {

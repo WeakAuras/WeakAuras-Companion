@@ -1,27 +1,3 @@
-<template>
-  <div v-click-outside="close">
-    <div>
-      <div
-        :class="{ 'opacity-0': !opened }"
-        class="discord-picker"
-      >
-        <GifPicker
-          v-if="opened"
-          :api-key="apiKey"
-          @send="({ url, title, tenorID }) => send(url, title, tenorID)"
-        />
-      </div>
-      <div class="mt4">
-        <div>
-          <span @click="open">
-            <slot />
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="js">
 import { defineComponent } from "vue";
 import GifPicker from "./GifPicker.vue";
@@ -64,6 +40,30 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div v-click-outside="close">
+    <div>
+      <div
+        :class="{ 'opacity-0': !opened }"
+        class="discord-picker"
+      >
+        <GifPicker
+          v-if="opened"
+          :api-key="apiKey"
+          @send="({ url, title, tenorID }) => send(url, title, tenorID)"
+        />
+      </div>
+      <div class="mt4">
+        <div>
+          <span @click="open">
+            <slot />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="css">
 .discord-picker {

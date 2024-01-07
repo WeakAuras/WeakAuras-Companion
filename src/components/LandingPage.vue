@@ -1,268 +1,3 @@
-<template>
-  <div id="wrapper">
-    <div
-      class="main-container"
-      :class="{ 'filter-blur': reportIsShown || updateAuraIsShown }"
-    >
-      <TitleBar />
-      <header>
-        <div class="app-logo">
-          <img
-            src="../../src/assets/weakauras.png"
-            class="logo-img"
-          />
-          <span>{{ $t("app.main.companion" /* Companion */) }}</span>
-        </div>
-        <div class="menu-btns">
-          <UIButton
-            type="menu"
-            :class="{ active: configStep === 0 }"
-            :title="$t('app.menu.main')"
-            @click="configStep = 0"
-          >
-            <span class="i-mdi-sync text-2xl color-white"></span>
-          </UIButton>
-          <UIButton
-            type="menu"
-            :class="{ active: configStep === 4 }"
-            :title="$t('app.footer.stopmotion')"
-            @click="configStep = 4"
-          >
-            <span class="i-mdi-movie text-2xl color-white"></span>
-          </UIButton>
-          <UIButton
-            type="menu"
-            :class="{ active: configStep === 1 }"
-            :title="$t('app.menu.settings')"
-            @click="configStep = 1"
-          >
-            <span class="i-mdi-settings text-2xl color-white"></span>
-          </UIButton>
-          <UIButton
-            type="menu"
-            :class="{ active: configStep === 2 }"
-            :title="$t('app.menu.help')"
-            @click="configStep = 2"
-          >
-            <span class="i-mdi-help-circle text-2xl color-white"></span>
-          </UIButton>
-          <UIButton
-            type="menu"
-            :class="{ active: configStep === 3 }"
-            :title="$t('app.menu.about')"
-            @click="configStep = 3"
-          >
-            <span class="i-mdi-info-circle text-2xl color-white"></span>
-          </UIButton>
-        </div>
-      </header>
-      <main>
-        <template v-if="configStep === 0">
-          <div id="selectors">
-            <div
-              v-if="config.wowpath.validated && config.wowpath.versions"
-              id="version-selector"
-            >
-              <Dropdown
-                v-model:value="config.wowpath.version"
-                :options="versionOptions"
-                :label="$t('app.wowpath.version' /* Version */)"
-                @change="doCompareSVwithWago()"
-              />
-            </div>
-            <div
-              v-if="config.wowpath.validated && versionSelected"
-              id="account-selector"
-            >
-              <Dropdown
-                v-model:value="versionSelected.account"
-                :options="accountOptions"
-                :label="$t('app.wowpath.account' /* Account */)"
-                @change="doCompareSVwithWago()"
-              />
-            </div>
-          </div>
-          <div
-            v-if="allAddonConfigs.length > 1"
-            id="addonbttns"
-          >
-            <label
-              :key="addonSelected"
-              class="btn-label text-brand-grey-lightest"
-            >
-              {{ $t("app.main.addons" /* Addons */) }}
-            </label>
-            <span style="margin-left: 5px" />
-            <UIButton
-              v-for="(addon, index) in allAddonConfigs"
-              :key="index"
-              type="addon"
-              :class="{ active: addonSelected === addon.addonName }"
-              :disabled="!addon.isInstalled"
-              @click="addonSelected = addon.addonName"
-            >
-              {{ addon.addonName }}
-            </UIButton>
-          </div>
-          <div id="dashboard">
-            <RefreshButton
-              :is-settings-ok="config.wowpath.validated"
-              :is-version-selected="versionSelected"
-              :is-account-selected="accountSelected"
-              :is-sv-ok="!!getWeakAurasSaved() || !!getPlaterSaved()"
-              :fetching="fetching"
-              :last-update="
-                accountSelected && new Date(accountSelected.lastWagoUpdate)
-              "
-              :auras-shown="aurasSortedForView.length"
-              :is-addons-ok="
-                getIsAddonInstalled('WeakAuras') ||
-                getIsAddonInstalled('Plater')
-              "
-              @refresh="doCompareSVwithWago()"
-              @gotoconfig="configStep = 1"
-            />
-            <br />
-            <template v-if="aurasSortedForView.length > 0 && !fetching">
-              <AuraHeaders
-                :sorted-column="sortedColumn"
-                :sort-descending="sortDescending"
-                :addon-selected-config="addonSelectedConfig"
-                @sort-by="sortBy"
-              />
-              <div id="aura-list">
-                <Aura
-                  v-for="aura in aurasSortedForView"
-                  :key="aura.slug"
-                  :aura="aura"
-                />
-              </div>
-            </template>
-          </div>
-        </template>
-        <Config
-          v-else-if="configStep === 1"
-          :default-w-o-w-path="defaultWOWPath"
-        />
-        <Help v-else-if="configStep === 2" />
-        <About v-else-if="configStep === 3" />
-        <StopMotion
-          v-else-if="configStep === 4"
-          :wow-versions="versionOptions"
-        />
-      </main>
-      <footer>
-        <a
-          class="getweakauras"
-          href="https://www.curseforge.com/wow/addons/weakauras-2"
-          target="_blank"
-        >
-          <i
-            class="i-social-curse align-middle text-xl -mt-[2px]"
-            title="CurseForge"
-          />
-          {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
-        </a>
-        <a
-          class="browsewago"
-          href="https://wago.io/weakauras"
-          target="_blank"
-        >
-          <i
-            class="i-social-wago align-middle text-xl -mt-[2px]"
-            title="Wago"
-          />
-          {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
-        </a>
-        <a
-          class="reportbug"
-          @click="toggleReport"
-        >
-          {{ $t("app.footer.reportbug" /* Found a bug? */) }}
-          <i
-            class="i-mdi-bug align-middle text-xl -mt-[2px]"
-            title="Bug"
-          />
-        </a>
-        <div
-          v-if="stash.auras.length > 0"
-          class="ready-to-install"
-          @click="toggleUpdatedAuraList()"
-        >
-          <span>
-            {{ $t("app.footer.readytoinstall" /* Ready To Install */) }}
-            ({{ stash.auras.length }})
-          </span>
-          <i
-            v-tooltip="{
-              strategy: 'fixed',
-              theme: 'info-tooltip',
-              html: true,
-              content: `${$t(
-                'app.main.readyForInstall' /* Ready for Install */,
-              )}${readyForInstallTooltip}`,
-            }"
-            class="update-available update-auras i-mdi-download mt-[2px] align-middle text-2xl"
-          >
-            download
-          </i>
-        </div>
-        <div class="app-update">
-          <a
-            v-if="updater.status === 'update-available'"
-            :href="updater.path"
-            target="_blank"
-          >
-            <i
-              v-if="updater.status === 'update-available'"
-              v-tooltip="{
-                strategy: 'fixed',
-                theme: 'info-tooltip',
-                html: true,
-                content: `${$t(
-                  'app.main.installUpdate' /* Install client update */,
-                )}: v${updater.version} ${updater.releaseNotes}`,
-              }"
-              class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
-            >
-              download-box-outline
-            </i>
-          </a>
-          <i
-            v-if="updater.status === 'update-downloaded'"
-            v-tooltip="{
-              strategy: 'fixed',
-              theme: 'info-tooltip',
-              content: `${$t(
-                'app.main.installUpdate' /* Install client update */,
-              )}: v${updater.version}`,
-            }"
-            class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
-            @click="installUpdates"
-          >
-            download-box-outline
-          </i>
-          <div
-            v-if="updater.status === 'checking-for-update'"
-            class="updating"
-          >
-            <span class="i-mdi-sync text-2xl"></span>
-          </div>
-          <div
-            v-if="updater.status === 'download-progress'"
-            class="updating"
-          >
-            <span class="progress">{{ updater.progress }}%</span>
-            <i class="icon i-mdi-sync align-middle text-2xl">sync</i>
-          </div>
-        </div>
-      </footer>
-    </div>
-    <Report v-if="reportIsShown" />
-    <UpdatedAuraList v-if="updateAuraIsShown" />
-  </div>
-</template>
-
 <script lang="ts">
 import { ipcRenderer } from "electron";
 import fs from "node:fs";
@@ -785,6 +520,271 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div id="wrapper">
+    <div
+      class="main-container"
+      :class="{ 'filter-blur': reportIsShown || updateAuraIsShown }"
+    >
+      <TitleBar />
+      <header>
+        <div class="app-logo">
+          <img
+            src="../../src/assets/weakauras.png"
+            class="logo-img"
+          />
+          <span>{{ $t("app.main.companion" /* Companion */) }}</span>
+        </div>
+        <div class="menu-btns">
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 0 }"
+            :title="$t('app.menu.main')"
+            @click="configStep = 0"
+          >
+            <span class="i-mdi-sync text-2xl color-white"></span>
+          </UIButton>
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 4 }"
+            :title="$t('app.footer.stopmotion')"
+            @click="configStep = 4"
+          >
+            <span class="i-mdi-movie text-2xl color-white"></span>
+          </UIButton>
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 1 }"
+            :title="$t('app.menu.settings')"
+            @click="configStep = 1"
+          >
+            <span class="i-mdi-settings text-2xl color-white"></span>
+          </UIButton>
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 2 }"
+            :title="$t('app.menu.help')"
+            @click="configStep = 2"
+          >
+            <span class="i-mdi-help-circle text-2xl color-white"></span>
+          </UIButton>
+          <UIButton
+            type="menu"
+            :class="{ active: configStep === 3 }"
+            :title="$t('app.menu.about')"
+            @click="configStep = 3"
+          >
+            <span class="i-mdi-info-circle text-2xl color-white"></span>
+          </UIButton>
+        </div>
+      </header>
+      <main>
+        <template v-if="configStep === 0">
+          <div id="selectors">
+            <div
+              v-if="config.wowpath.validated && config.wowpath.versions"
+              id="version-selector"
+            >
+              <Dropdown
+                v-model:value="config.wowpath.version"
+                :options="versionOptions"
+                :label="$t('app.wowpath.version' /* Version */)"
+                @change="doCompareSVwithWago()"
+              />
+            </div>
+            <div
+              v-if="config.wowpath.validated && versionSelected"
+              id="account-selector"
+            >
+              <Dropdown
+                v-model:value="versionSelected.account"
+                :options="accountOptions"
+                :label="$t('app.wowpath.account' /* Account */)"
+                @change="doCompareSVwithWago()"
+              />
+            </div>
+          </div>
+          <div
+            v-if="allAddonConfigs.length > 1"
+            id="addonbttns"
+          >
+            <label
+              :key="addonSelected"
+              class="btn-label text-brand-grey-lightest"
+            >
+              {{ $t("app.main.addons" /* Addons */) }}
+            </label>
+            <span style="margin-left: 5px" />
+            <UIButton
+              v-for="(addon, index) in allAddonConfigs"
+              :key="index"
+              type="addon"
+              :class="{ active: addonSelected === addon.addonName }"
+              :disabled="!addon.isInstalled"
+              @click="addonSelected = addon.addonName"
+            >
+              {{ addon.addonName }}
+            </UIButton>
+          </div>
+          <div id="dashboard">
+            <RefreshButton
+              :is-settings-ok="config.wowpath.validated"
+              :is-version-selected="versionSelected"
+              :is-account-selected="accountSelected"
+              :is-sv-ok="!!getWeakAurasSaved() || !!getPlaterSaved()"
+              :fetching="fetching"
+              :last-update="
+                accountSelected && new Date(accountSelected.lastWagoUpdate)
+              "
+              :auras-shown="aurasSortedForView.length"
+              :is-addons-ok="
+                getIsAddonInstalled('WeakAuras') ||
+                getIsAddonInstalled('Plater')
+              "
+              @refresh="doCompareSVwithWago()"
+              @gotoconfig="configStep = 1"
+            />
+            <br />
+            <template v-if="aurasSortedForView.length > 0 && !fetching">
+              <AuraHeaders
+                :sorted-column="sortedColumn"
+                :sort-descending="sortDescending"
+                :addon-selected-config="addonSelectedConfig"
+                @sort-by="sortBy"
+              />
+              <div id="aura-list">
+                <Aura
+                  v-for="aura in aurasSortedForView"
+                  :key="aura.slug"
+                  :aura="aura"
+                />
+              </div>
+            </template>
+          </div>
+        </template>
+        <Config
+          v-else-if="configStep === 1"
+          :default-w-o-w-path="defaultWOWPath"
+        />
+        <Help v-else-if="configStep === 2" />
+        <About v-else-if="configStep === 3" />
+        <StopMotion
+          v-else-if="configStep === 4"
+          :wow-versions="versionOptions"
+        />
+      </main>
+      <footer>
+        <a
+          class="getweakauras"
+          href="https://www.curseforge.com/wow/addons/weakauras-2"
+          target="_blank"
+        >
+          <i
+            class="i-social-curse align-middle text-xl -mt-[2px]"
+            title="CurseForge"
+          />
+          {{ $t("app.footer.getweakauras" /* Get WeakAuras! */) }}
+        </a>
+        <a
+          class="browsewago"
+          href="https://wago.io/weakauras"
+          target="_blank"
+        >
+          <i
+            class="i-social-wago align-middle text-xl -mt-[2px]"
+            title="Wago"
+          />
+          {{ $t("app.footer.browsewago" /* Browse Wago for more auras! */) }}
+        </a>
+        <a
+          class="reportbug"
+          @click="toggleReport"
+        >
+          {{ $t("app.footer.reportbug" /* Found a bug? */) }}
+          <i
+            class="i-mdi-bug align-middle text-xl -mt-[2px]"
+            title="Bug"
+          />
+        </a>
+        <div
+          v-if="stash.auras.length > 0"
+          class="ready-to-install"
+          @click="toggleUpdatedAuraList()"
+        >
+          <span>
+            {{ $t("app.footer.readytoinstall" /* Ready To Install */) }}
+            ({{ stash.auras.length }})
+          </span>
+          <i
+            v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              html: true,
+              content: `${$t(
+                'app.main.readyForInstall' /* Ready for Install */,
+              )}${readyForInstallTooltip}`,
+            }"
+            class="update-available update-auras i-mdi-download mt-[2px] align-middle text-2xl"
+          >
+            download
+          </i>
+        </div>
+        <div class="app-update">
+          <a
+            v-if="updater.status === 'update-available'"
+            :href="updater.path"
+            target="_blank"
+          >
+            <i
+              v-if="updater.status === 'update-available'"
+              v-tooltip="{
+                strategy: 'fixed',
+                theme: 'info-tooltip',
+                html: true,
+                content: `${$t(
+                  'app.main.installUpdate' /* Install client update */,
+                )}: v${updater.version} ${updater.releaseNotes}`,
+              }"
+              class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
+            >
+              download-box-outline
+            </i>
+          </a>
+          <i
+            v-if="updater.status === 'update-downloaded'"
+            v-tooltip="{
+              strategy: 'fixed',
+              theme: 'info-tooltip',
+              content: `${$t(
+                'app.main.installUpdate' /* Install client update */,
+              )}: v${updater.version}`,
+            }"
+            class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
+            @click="installUpdates"
+          >
+            download-box-outline
+          </i>
+          <div
+            v-if="updater.status === 'checking-for-update'"
+            class="updating"
+          >
+            <span class="i-mdi-sync text-2xl"></span>
+          </div>
+          <div
+            v-if="updater.status === 'download-progress'"
+            class="updating"
+          >
+            <span class="progress">{{ updater.progress }}%</span>
+            <i class="icon i-mdi-sync align-middle text-2xl">sync</i>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <Report v-if="reportIsShown" />
+    <UpdatedAuraList v-if="updateAuraIsShown" />
+  </div>
+</template>
 
 <style lang="css">
 @import "../assets/css/tooltip.css";

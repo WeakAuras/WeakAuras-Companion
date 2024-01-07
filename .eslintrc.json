@@ -18,26 +18,11 @@
     "*.d.ts"
   ],
   "rules": {
-    "arrow-parens": "off",
-    "curly": "off",
     "no-console": "off",
-    "no-mixed-operators": "off",
-    "quote-props": "off",
-    "padding-line-between-statements": [
-      "warn",
-      {
-        "blankLine": "always",
-        "prev": "*",
-        "next": [
-          "block",
-          "multiline-block-like",
-          "if",
-          "function",
-          "multiline-expression"
-        ]
-      }
+    "@typescript-eslint/comma-dangle": [
+      "error",
+      "only-multiline"
     ],
-    "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-implicit-any": "off",
     "@typescript-eslint/quotes": [
@@ -48,17 +33,37 @@
         "allowTemplateLiterals": false
       }
     ],
-    "@typescript-eslint/semi": ["error", "always"],
-    "vue/multi-word-component-names": "off"
+    "@typescript-eslint/semi": [
+      "error",
+      "always"
+    ],
+    "vue/multi-word-component-names": "off",
+    "vue/block-order": [
+      "error",
+      {
+        "order": [
+          "script",
+          "template",
+          "style"
+        ]
+      }
+    ]
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser",
-    "extraFileExtensions": [".vue"],
+    "extraFileExtensions": [
+      ".vue"
+    ],
     "project": true
   },
-  "plugins": ["vue", "@typescript-eslint"],
+  "plugins": [
+    "vue",
+    "@typescript-eslint"
+  ],
   "settings": {
-    "import/core-modules": ["electron"],
+    "import/core-modules": [
+      "electron"
+    ],
     "import/resolver": {
       "vite": {
         "configPath": "./vite.config.ts"

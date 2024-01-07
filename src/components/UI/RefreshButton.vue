@@ -1,3 +1,104 @@
+<script lang="ts">
+import { DateTime } from "luxon";
+import { defineComponent } from "vue";
+import UIButton from "./UIButton.vue";
+
+export default defineComponent({
+  name: "RefreshButton",
+  components: { UIButton },
+  filters: {},
+  props: {
+    usable: {
+      type: Boolean,
+      default: false,
+    },
+    fetching: {
+      type: Boolean,
+      default: false,
+    },
+    lastUpdate: {
+      type: Date,
+      default: "0",
+    },
+    aurasShown: {
+      type: Number,
+      default: 0,
+    },
+    isSettingsOk: {
+      type: Boolean,
+      default: false,
+    },
+    isVersionSelected: {
+      type: [String, Object],
+      default: "",
+    },
+    isAccountSelected: {
+      type: [String, Object],
+      default: "",
+    },
+    isSvOk: {
+      type: Boolean,
+      default: false,
+    },
+    isAddonsOk: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ["gotoconfig", "refresh"],
+  setup(props, { emit }) {
+    const gotoconfig = () => {
+      emit("gotoconfig");
+    };
+
+    const refresh = () => {
+      emit("refresh");
+    };
+    return {
+      gotoconfig,
+      refresh,
+    };
+  },
+  data() {
+    return {
+      lastUpdateTimer: null,
+    };
+  },
+  watch: {
+    fetching() {
+      this.scheduleTimer();
+    },
+  },
+  beforeUnmount() {
+    clearInterval(this.lastUpdateTimer);
+  },
+  methods: {
+    fromNow(value, locale) {
+      if (!value) return "n/a";
+      return DateTime.fromJSDate(value).toRelative({
+        locale: locale,
+      });
+    },
+    olderThan30s() {
+      return (
+        DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() >
+        30000
+      );
+    },
+    scheduleTimer() {
+      if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
+
+      this.lastUpdateTimer = setInterval(() => {
+        this.$forceUpdate();
+      }, 1000 * 60);
+    },
+  },
+  mount() {
+    this.scheduleTimer();
+  },
+});
+</script>
+
 <template>
   <div
     id="sync"
@@ -123,107 +224,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { DateTime } from "luxon";
-import { defineComponent } from "vue";
-import UIButton from "./UIButton.vue";
-
-export default defineComponent({
-  name: "RefreshButton",
-  components: { UIButton },
-  filters: {},
-  props: {
-    usable: {
-      type: Boolean,
-      default: false,
-    },
-    fetching: {
-      type: Boolean,
-      default: false,
-    },
-    lastUpdate: {
-      type: Date,
-      default: "0",
-    },
-    aurasShown: {
-      type: Number,
-      default: 0,
-    },
-    isSettingsOk: {
-      type: Boolean,
-      default: false,
-    },
-    isVersionSelected: {
-      type: [String, Object],
-      default: "",
-    },
-    isAccountSelected: {
-      type: [String, Object],
-      default: "",
-    },
-    isSvOk: {
-      type: Boolean,
-      default: false,
-    },
-    isAddonsOk: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ["gotoconfig", "refresh"],
-  setup(props, { emit }) {
-    const gotoconfig = () => {
-      emit("gotoconfig");
-    };
-
-    const refresh = () => {
-      emit("refresh");
-    };
-    return {
-      gotoconfig,
-      refresh,
-    };
-  },
-  data() {
-    return {
-      lastUpdateTimer: null,
-    };
-  },
-  watch: {
-    fetching() {
-      this.scheduleTimer();
-    },
-  },
-  beforeUnmount() {
-    clearInterval(this.lastUpdateTimer);
-  },
-  methods: {
-    fromNow(value, locale) {
-      if (!value) return "n/a";
-      return DateTime.fromJSDate(value).toRelative({
-        locale: locale,
-      });
-    },
-    olderThan30s() {
-      return (
-        DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() >
-        30000
-      );
-    },
-    scheduleTimer() {
-      if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
-
-      this.lastUpdateTimer = setInterval(() => {
-        this.$forceUpdate();
-      }, 1000 * 60);
-    },
-  },
-  mount() {
-    this.scheduleTimer();
-  },
-});
-</script>
 
 <style scoped lang="css">
 #sync {

@@ -1,3 +1,23 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import medias from "@/libs/contacts";
+
+export default defineComponent({
+  name: "About",
+  filters: {
+    capitalize: (string) => string.charAt(0).toUpperCase() + string.slice(1),
+  },
+  data() {
+    return {
+      medias,
+      version: __APP_VERSION__,
+      license: __APP_LICENSE__,
+      tools: "Electron & Vue",
+    };
+  },
+});
+</script>
+
 <template>
   <div id="about">
     <div id="main">
@@ -78,26 +98,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-import medias from "@/libs/contacts";
-
-export default defineComponent({
-  name: "About",
-  filters: {
-    capitalize: (string) => string.charAt(0).toUpperCase() + string.slice(1),
-  },
-  data() {
-    return {
-      medias,
-      version: __APP_VERSION__,
-      license: __APP_LICENSE__,
-      tools: "Electron & Vue",
-    };
-  },
-});
-</script>
 
 <style scoped lang="css">
 #about {

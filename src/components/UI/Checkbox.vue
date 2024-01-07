@@ -1,3 +1,21 @@
+<script lang="ts">
+export default {
+  name: "Checkbox",
+  props: {
+    modelValue: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ["update:modelValue"],
+  methods: {
+    triggerInputClick() {
+      (this.$refs.checkbox as HTMLInputElement).click();
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="checkbox"
@@ -20,24 +38,6 @@
     </label>
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: "Checkbox",
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  emits: ["update:modelValue"],
-  methods: {
-    triggerInputClick() {
-      (this.$refs.checkbox as HTMLInputElement).click();
-    },
-  },
-};
-</script>
 
 <style scoped lang="css">
 input[type="checkbox"] {

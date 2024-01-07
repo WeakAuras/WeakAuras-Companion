@@ -5,7 +5,6 @@ import { defineConfig } from "vite";
 
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
-import eslintPlugin from "vite-plugin-eslint";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
 import pkg from "./package.json";
@@ -101,7 +100,6 @@ export default defineConfig(({ command }) => {
           got: { type: "esm" },
         },
       }),
-      eslintPlugin(),
       VueI18nPlugin({
         // you need to set i18n resource including paths!
         include: path.resolve(__dirname, "./i18n/**"),

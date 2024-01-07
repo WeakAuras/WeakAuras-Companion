@@ -1,59 +1,3 @@
-<template>
-  <div class="gifpicker">
-    <header>
-      <div>
-        <span
-          :class="{ invisible: search === '' }"
-          class="i-mdi-arrow-back mr-[0.25em] cursor-pointer text-2xl color-white"
-          @click="search = ''"
-          >arrow_back</span
-        >
-        <div>
-          <input
-            v-model="search"
-            :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */)"
-          />
-          <span class="i-mdi-search text-2xl color-white">search</span>
-        </div>
-      </div>
-    </header>
-    <div class="gifpicker_container">
-      <div>
-        <div>
-          <div
-            v-if="search !== '' && results && results.length"
-            v-scroll="loadMore"
-            class="grid"
-          >
-            <div
-              v-for="(result, r) in results"
-              :key="r"
-              class="grid_images"
-              :style="`background-image: url(${result.media[0].tinygif.url})`"
-              @click="send(result)"
-            />
-          </div>
-          <div
-            v-else-if="tags && tags.length"
-            class="grid"
-          >
-            <div
-              v-for="(tag, t) in tags"
-              :key="t"
-              class="grid_images"
-              :style="`background-image: url(${tag.image})`"
-              @click="search = tag.searchterm"
-            >
-              <div class="searchterm" />
-              {{ tag.searchterm }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useConfigStore } from "../../stores/config";
@@ -151,6 +95,62 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="gifpicker">
+    <header>
+      <div>
+        <span
+          :class="{ invisible: search === '' }"
+          class="i-mdi-arrow-back mr-[0.25em] cursor-pointer text-2xl color-white"
+          @click="search = ''"
+          >arrow_back</span
+        >
+        <div>
+          <input
+            v-model="search"
+            :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */)"
+          />
+          <span class="i-mdi-search text-2xl color-white">search</span>
+        </div>
+      </div>
+    </header>
+    <div class="gifpicker_container">
+      <div>
+        <div>
+          <div
+            v-if="search !== '' && results && results.length"
+            v-scroll="loadMore"
+            class="grid"
+          >
+            <div
+              v-for="(result, r) in results"
+              :key="r"
+              class="grid_images"
+              :style="`background-image: url(${result.media[0].tinygif.url})`"
+              @click="send(result)"
+            />
+          </div>
+          <div
+            v-else-if="tags && tags.length"
+            class="grid"
+          >
+            <div
+              v-for="(tag, t) in tags"
+              :key="t"
+              class="grid_images"
+              :style="`background-image: url(${tag.image})`"
+              @click="search = tag.searchterm"
+            >
+              <div class="searchterm" />
+              {{ tag.searchterm }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="css">
 .gifpicker {

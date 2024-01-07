@@ -1,3 +1,17 @@
+<script lang="js">
+import { defineComponent } from "vue";
+import UIButton from "./UIButton.vue";
+
+export default defineComponent({
+  components: { UIButton },
+  methods: {
+    close() {
+      this.$parent.toggleReport();
+    },
+  },
+});
+</script>
+
 <template>
   <div
     id="report"
@@ -39,17 +53,3 @@
     </div>
   </div>
 </template>
-
-<script lang="js">
-import { defineComponent } from "vue";
-import UIButton from "./UIButton.vue";
-
-export default defineComponent({
-  components: { UIButton },
-  methods: {
-    close() {
-      this.$parent.toggleReport();
-    },
-  },
-});
-</script>

@@ -1,3 +1,77 @@
+<script lang="js">
+import { ipcRenderer, shell } from "electron";
+import { defineComponent, ref } from "vue";
+import { useConfigStore } from "../../stores/config";
+import UIButton from "./UIButton.vue";
+import Checkbox from "./Checkbox.vue";
+import Dropdown from "./Dropdown.vue";
+import FileSelect from "./FileSelect.vue";
+
+export default defineComponent({
+  components: {
+    Checkbox,
+    Dropdown,
+    FileSelect,
+    UIButton,
+  },
+  props: {
+    defaultWOWPath: { type: String, default: "" },
+  },
+  setup() {
+    const config = useConfigStore();
+    return {
+      config,
+      wagoUsername: ref(config.wagoUsername),
+      wagoApiKey: ref(config.wagoApiKey),
+    };
+  },
+  data() {
+    return {
+      langs: [
+        { value: "zh-cn", text: "中文 (简体) (zh-cn)" },
+        { value: "de", text: "Deutsch (de)" },
+        { value: "en", text: "English (en)" },
+        { value: "es", text: "Español (es)" },
+        { value: "fr", text: "Français (fr)" },
+        { value: "ru", text: "Русский (ru)" },
+        { value: "tr", text: "Türkçe (tr)" },
+      ],
+      backupsize: [
+        { value: 50, text: "50mb" },
+        { value: 100, text: "100mb" },
+        { value: 500, text: "500mb" },
+      ],
+    };
+  },
+  watch: {
+    "config.autostart": function () {
+      ipcRenderer.invoke("autoStart", this.config.autostart === true);
+    },
+
+    "config.lang": function () {
+      console.log(`change locale to ${this.config.lang}`);
+      this.$i18n.locale = this.config.lang;
+    },
+
+    "config.beta": function () {
+      this.$parent.checkCompanionUpdates();
+    },
+  },
+  methods: {
+    reset() {
+      this.$parent.reset();
+      this.wagoUsername = null;
+    },
+    openBackupDir() {
+      shell.openPath(this.config.backup.path);
+    },
+    checkApiKey() {
+      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
+    },
+  },
+});
+</script>
+
 <template>
   <div id="config">
     <div class="config-row">
@@ -215,80 +289,6 @@
     </UIButton>
   </div>
 </template>
-
-<script lang="js">
-import { ipcRenderer, shell } from "electron";
-import { defineComponent, ref } from "vue";
-import { useConfigStore } from "../../stores/config";
-import UIButton from "./UIButton.vue";
-import Checkbox from "./Checkbox.vue";
-import Dropdown from "./Dropdown.vue";
-import FileSelect from "./FileSelect.vue";
-
-export default defineComponent({
-  components: {
-    Checkbox,
-    Dropdown,
-    FileSelect,
-    UIButton,
-  },
-  props: {
-    defaultWOWPath: { type: String, default: "" },
-  },
-  setup() {
-    const config = useConfigStore();
-    return {
-      config,
-      wagoUsername: ref(config.wagoUsername),
-      wagoApiKey: ref(config.wagoApiKey),
-    };
-  },
-  data() {
-    return {
-      langs: [
-        { value: "zh-cn", text: "中文 (简体) (zh-cn)" },
-        { value: "de", text: "Deutsch (de)" },
-        { value: "en", text: "English (en)" },
-        { value: "es", text: "Español (es)" },
-        { value: "fr", text: "Français (fr)" },
-        { value: "ru", text: "Русский (ru)" },
-        { value: "tr", text: "Türkçe (tr)" },
-      ],
-      backupsize: [
-        { value: 50, text: "50mb" },
-        { value: 100, text: "100mb" },
-        { value: 500, text: "500mb" },
-      ],
-    };
-  },
-  watch: {
-    "config.autostart": function () {
-      ipcRenderer.invoke("autoStart", this.config.autostart === true);
-    },
-
-    "config.lang": function () {
-      console.log(`change locale to ${this.config.lang}`);
-      this.$i18n.locale = this.config.lang;
-    },
-
-    "config.beta": function () {
-      this.$parent.checkCompanionUpdates();
-    },
-  },
-  methods: {
-    reset() {
-      this.$parent.reset();
-      this.wagoUsername = null;
-    },
-    openBackupDir() {
-      shell.openPath(this.config.backup.path);
-    },
-    checkApiKey() {
-      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
-    },
-  },
-});
-</script>
 
 <style scoped lang="css">
 #config {

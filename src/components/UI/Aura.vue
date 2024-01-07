@@ -1,3 +1,63 @@
+<script lang="ts">
+import { DateTime } from "luxon";
+import { defineComponent } from "vue";
+import sanitize from "@/libs/sanitize";
+
+export default defineComponent({
+  props: {
+    aura: { type: Object, default: null },
+  },
+  data() {
+    return {
+      timeElapsed: "n/a",
+    };
+  },
+  computed: {
+    children(): string {
+      let output = "";
+
+      if (this.aura.ids) {
+        const { changelog, ids } = this.aura;
+
+        if (changelog?.text) {
+          if (changelog.format === "bbcode") {
+            output += sanitize.bbcode(changelog.text);
+          } else if (changelog.format === "markdown") {
+            output += sanitize.markdown(changelog.text);
+          }
+          output += "\n\n";
+        }
+        output += ids.sort().join("\n");
+      }
+      return output;
+    },
+  },
+  methods: {
+    updateCurrentTime(): void {
+      if (!this.aura.modified) {
+        this.timeElapsed = "n/a";
+        return;
+      }
+
+      // sometimes this function triggers after the tooltip
+      // set n/a as default value in case DateTime return null
+      this.timeElapsed =
+        DateTime.fromJSDate(this.aura.modified)
+          .setLocale(this.$i18n.locale)
+          .toRelative() || "n/a";
+    },
+    wagoURL(value: string | undefined): string {
+      if (!value) return "";
+      return `https://wago.io/${value}`;
+    },
+    wagoAuthorURL(author: string | undefined): string {
+      if (!author) return "";
+      return `https://wago.io/p/${author}`;
+    },
+  },
+});
+</script>
+
 <template>
   <div
     class="aura text-brand-accent"
@@ -102,66 +162,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { DateTime } from "luxon";
-import { defineComponent } from "vue";
-import sanitize from "@/libs/sanitize";
-
-export default defineComponent({
-  props: {
-    aura: { type: Object, default: null },
-  },
-  data() {
-    return {
-      timeElapsed: "n/a",
-    };
-  },
-  computed: {
-    children(): string {
-      let output = "";
-
-      if (this.aura.ids) {
-        const { changelog, ids } = this.aura;
-
-        if (changelog?.text) {
-          if (changelog.format === "bbcode") {
-            output += sanitize.bbcode(changelog.text);
-          } else if (changelog.format === "markdown") {
-            output += sanitize.markdown(changelog.text);
-          }
-          output += "\n\n";
-        }
-        output += ids.sort().join("\n");
-      }
-      return output;
-    },
-  },
-  methods: {
-    updateCurrentTime(): void {
-      if (!this.aura.modified) {
-        this.timeElapsed = "n/a";
-        return;
-      }
-
-      // sometimes this function triggers after the tooltip
-      // set n/a as default value in case DateTime return null
-      this.timeElapsed =
-        DateTime.fromJSDate(this.aura.modified)
-          .setLocale(this.$i18n.locale)
-          .toRelative() || "n/a";
-    },
-    wagoURL(value: string | undefined): string {
-      if (!value) return "";
-      return `https://wago.io/${value}`;
-    },
-    wagoAuthorURL(author: string | undefined): string {
-      if (!author) return "";
-      return `https://wago.io/p/${author}`;
-    },
-  },
-});
-</script>
 
 <style scoped lang="css">
 .aura {

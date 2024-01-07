@@ -1,24 +1,3 @@
-<template>
-  <button
-    class="btn"
-    :class="[
-      { 'btn-default': type === 'info' },
-      { 'btn-positive': type === 'ok' },
-      { 'btn-negative': type === 'error' },
-      { 'btn-mini': size === 'mini' },
-      { 'btn-menu': type === 'menu' },
-      { 'btn-refresh': type === 'refresh' },
-      { 'btn-issue': type === 'issue' },
-      { 'btn-reset': type === 'reset' },
-      { 'btn-link': type === 'link' },
-      { 'btn-addon': type === 'addon' },
-    ]"
-    :title="title"
-  >
-    <slot />
-  </button>
-</template>
-
 <script lang="ts">
 import { defineComponent } from "vue";
 
@@ -40,6 +19,27 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <button
+    class="btn"
+    :class="[
+      { 'btn-default': type === 'info' },
+      { 'btn-positive': type === 'ok' },
+      { 'btn-negative': type === 'error' },
+      { 'btn-mini': size === 'mini' },
+      { 'btn-menu': type === 'menu' },
+      { 'btn-refresh': type === 'refresh' },
+      { 'btn-issue': type === 'issue' },
+      { 'btn-reset': type === 'reset' },
+      { 'btn-link': type === 'link' },
+      { 'btn-addon': type === 'addon' },
+    ]"
+    :title="title"
+  >
+    <slot />
+  </button>
+</template>
 
 <style lang="css">
 .btn {

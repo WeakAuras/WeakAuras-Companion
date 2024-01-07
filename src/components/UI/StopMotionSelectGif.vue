@@ -1,38 +1,3 @@
-<template>
-  <div id="StopMotionWelcome">
-    <div class="mt-10 flex flex-col items-center justify-center gap-5">
-      <FileSelect
-        :create-directory="false"
-        :open-file="true"
-        :dragndrop="true"
-        :filters="[{ name: 'Animation', extensions: ['gif'] }]"
-        @update:path="update"
-      >
-        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}
-
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
-
-        <UIButton class="btn-ok">
-          {{
-            $t("stopmotion.select.computer" /* Choose one on your Computer */)
-          }}
-        </UIButton>
-      </FileSelect>
-      <div class="relative inline-block text-center">
-        <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
-        <DiscordPicker
-          :api-key="apiKey"
-          @gif="setTenor"
-        >
-          <UIButton class="btn-ok">
-            {{ $t("stopmotion.select.tenor" /* Choose one from Tenor */) }}
-          </UIButton>
-        </DiscordPicker>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import fs from "node:fs";
 import path from "node:path";
@@ -109,3 +74,38 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div id="StopMotionWelcome">
+    <div class="mt-10 flex flex-col items-center justify-center gap-5">
+      <FileSelect
+        :create-directory="false"
+        :open-file="true"
+        :dragndrop="true"
+        :filters="[{ name: 'Animation', extensions: ['gif'] }]"
+        @update:path="update"
+      >
+        {{ $t("stopmotion.select.dropagif" /* Drop a GIF */) }}
+
+        <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
+
+        <UIButton class="btn-ok">
+          {{
+            $t("stopmotion.select.computer" /* Choose one on your Computer */)
+          }}
+        </UIButton>
+      </FileSelect>
+      <div class="relative inline-block text-center">
+        <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
+        <DiscordPicker
+          :api-key="apiKey"
+          @gif="setTenor"
+        >
+          <UIButton class="btn-ok">
+            {{ $t("stopmotion.select.tenor" /* Choose one from Tenor */) }}
+          </UIButton>
+        </DiscordPicker>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,3 +1,21 @@
+<script lang="ts">
+import { ipcRenderer } from "electron";
+import { defineComponent } from "vue";
+import UIButton from "./UIButton.vue";
+
+export default defineComponent({
+  components: { UIButton },
+  methods: {
+    minBtn() {
+      ipcRenderer.invoke("minimize");
+    },
+    closeBtn() {
+      ipcRenderer.invoke("close");
+    },
+  },
+});
+</script>
+
 <template>
   <div id="ui-titlebar">
     <div id="ui-titletext" />
@@ -32,24 +50,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { ipcRenderer } from "electron";
-import { defineComponent } from "vue";
-import UIButton from "./UIButton.vue";
-
-export default defineComponent({
-  components: { UIButton },
-  methods: {
-    minBtn() {
-      ipcRenderer.invoke("minimize");
-    },
-    closeBtn() {
-      ipcRenderer.invoke("close");
-    },
-  },
-});
-</script>
 
 <style scoped lang="css">
 #ui-titlebar {

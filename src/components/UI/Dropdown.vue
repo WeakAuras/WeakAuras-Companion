@@ -1,40 +1,3 @@
-<template>
-  <div class="dropdown">
-    <label
-      v-if="label"
-      class="dropdown__label text-brand-grey-lightest"
-      >{{ label }}</label
-    >
-    <div
-      class="dropdown__toggle hover:bg-brand-grey-darkest"
-      :class="{ 'dropdown__toggle--toggled': showMenu }"
-      @click="toggleDropdown()"
-    >
-      <span>{{ getLabel(selected) }}</span>
-      <i
-        :class="{ open: showMenu }"
-        class="i-mdi-keyboard-arrow-down text-2xl"
-        >keyboard_arrow_down</i
-      >
-    </div>
-    <div
-      :style="{ height: showMenu ? `${height}px` : '0px' }"
-      :class="{ 'dropdown__options--toggled': showMenu }"
-      class="dropdown__options"
-    >
-      <div
-        v-for="option in options"
-        :key="option.value"
-        class="dropdown__option hover:bg-brand-grey-darkest"
-        :title="option.text"
-        @click="selectItem(option)"
-      >
-        <span>{{ option.text }}</span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from "vue";
 
@@ -97,6 +60,43 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="dropdown">
+    <label
+      v-if="label"
+      class="dropdown__label text-brand-grey-lightest"
+      >{{ label }}</label
+    >
+    <div
+      class="dropdown__toggle hover:bg-brand-grey-darkest"
+      :class="{ 'dropdown__toggle--toggled': showMenu }"
+      @click="toggleDropdown()"
+    >
+      <span>{{ getLabel(selected) }}</span>
+      <i
+        :class="{ open: showMenu }"
+        class="i-mdi-keyboard-arrow-down text-2xl"
+        >keyboard_arrow_down</i
+      >
+    </div>
+    <div
+      :style="{ height: showMenu ? `${height}px` : '0px' }"
+      :class="{ 'dropdown__options--toggled': showMenu }"
+      class="dropdown__options"
+    >
+      <div
+        v-for="option in options"
+        :key="option.value"
+        class="dropdown__option hover:bg-brand-grey-darkest"
+        :title="option.text"
+        @click="selectItem(option)"
+      >
+        <span>{{ option.text }}</span>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="css">
 :root {

@@ -1,29 +1,3 @@
-<template>
-  <div
-    id="updatedAuraList"
-    @click="close"
-  >
-    <div class="container">
-      <h1>{{ $t("app.updatedAuraList.title" /* Ready to install */) }}</h1>
-      <div class="updated-auras">
-        <Aura
-          v-for="aura in stash.auras"
-          :key="aura.slug"
-          :aura="aura"
-        />
-      </div>
-      <div class="actions">
-        <UIButton
-          type="reset"
-          @click="clearList"
-        >
-          Clear list
-        </UIButton>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="js">
 import { defineComponent } from "vue";
 import { useStashStore } from "../../stores/auras";
@@ -52,6 +26,32 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div
+    id="updatedAuraList"
+    @click="close"
+  >
+    <div class="container">
+      <h1>{{ $t("app.updatedAuraList.title" /* Ready to install */) }}</h1>
+      <div class="updated-auras">
+        <Aura
+          v-for="aura in stash.auras"
+          :key="aura.slug"
+          :aura="aura"
+        />
+      </div>
+      <div class="actions">
+        <UIButton
+          type="reset"
+          @click="clearList"
+        >
+          Clear list
+        </UIButton>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="css">
 #updatedAuraList {

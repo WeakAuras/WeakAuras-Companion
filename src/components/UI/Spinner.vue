@@ -1,3 +1,17 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "Spinner",
+  props: {
+    spin: {
+      type: Boolean,
+      required: true,
+    },
+  },
+});
+</script>
+
 <template>
   <div class="sk-fading-circle">
     <span v-if="spin">
@@ -16,20 +30,6 @@
     </span>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "Spinner",
-  props: {
-    spin: {
-      type: Boolean,
-      required: true,
-    },
-  },
-});
-</script>
 
 <style scoped lang="css">
 .sk-fading-circle {

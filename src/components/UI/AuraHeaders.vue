@@ -1,3 +1,20 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "AuraHeaders",
+  props: {
+    sortedColumn: {
+      type: String,
+      required: true,
+    },
+    sortDescending: Boolean,
+    addonSelectedConfig: { type: Object, default: null },
+  },
+  emits: ["sortBy"],
+});
+</script>
+
 <template>
   <div class="m-0 mb-2.5 flex flex-row text-left text-sm">
     <div
@@ -58,23 +75,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "AuraHeaders",
-  props: {
-    sortedColumn: {
-      type: String,
-      required: true,
-    },
-    sortDescending: Boolean,
-    addonSelectedConfig: { type: Object, default: null },
-  },
-  emits: ["sortBy"],
-});
-</script>
 
 <style scoped lang="css">
 .sortable:hover .sort-icon {
