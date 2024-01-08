@@ -250,8 +250,8 @@ export default defineComponent({
             {{ $t("app.stopmotion.size" /* Size */) }}:
             <span
               :class="{
-                oversize: result.size / 1024 > 16,
-                goodsize: result.size / 1024 <= 8,
+                'text-status-issue': result.size / 1024 > 16,
+                'text-status-ok': result.size / 1024 <= 16,
               }"
               >{{ result.size / 1024 }}</span
             >
@@ -293,7 +293,7 @@ export default defineComponent({
       >
         <i
           v-if="result.size / 1024 > 16"
-          class="error i-mdi-error-outline align-top text-3xl"
+          class="i-mdi-error-outline align-top text-3xl text-status-issue"
           >error_outline</i
         >
         <span>{{
@@ -354,12 +354,5 @@ export default defineComponent({
   to {
     transform: rotate(-360deg);
   }
-}
-
-.oversize {
-  color: #f44336;
-}
-.goodsize {
-  color: #51ae42;
 }
 </style>

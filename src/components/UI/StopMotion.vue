@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <div id="StopMotion">
+  <div class="h-full w-full overflow-auto py-1.5 pl-[2.35vw] text-left">
     <div>
       <div class="title">
         {{
@@ -81,14 +81,6 @@ export default {
 </template>
 
 <style scoped lang="css">
-#StopMotion {
-  padding: 5px 0 5px 2.35vw;
-  text-align: left;
-  overflow: auto;
-  height: 100%;
-  width: 100%;
-}
-
 .config-row {
   display: flex;
   flex-wrap: wrap;

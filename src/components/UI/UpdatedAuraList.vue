@@ -30,18 +30,23 @@ export default defineComponent({
 <template>
   <div
     id="updatedAuraList"
+    class="absolute h-full w-full bg-black bg-opacity-70 text-center"
     @click="close"
   >
-    <div class="container">
-      <h1>{{ $t("app.updatedAuraList.title" /* Ready to install */) }}</h1>
-      <div class="updated-auras">
+    <div
+      class="relative top-1/3 mx-auto w-9/10 rounded-md bg-black bg-opacity-30 p-4 pb-6"
+    >
+      <h1 class="mb-8 text-gray-200">
+        {{ $t("app.updatedAuraList.title" /* Ready to install */) }}
+      </h1>
+      <div class="w-full">
         <Aura
           v-for="aura in stash.auras"
           :key="aura.slug"
           :aura="aura"
         />
       </div>
-      <div class="actions">
+      <div class="mt-4">
         <UIButton
           type="reset"
           @click="clearList"
@@ -52,36 +57,3 @@ export default defineComponent({
     </div>
   </div>
 </template>
-
-<style scoped lang="css">
-#updatedAuraList {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.7);
-  text-align: center;
-}
-
-.container {
-  position: relative;
-  top: 35%;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  width: 90%;
-  padding: 15px 15px 25px;
-  margin: auto;
-}
-
-.updated-auras {
-  width: 100%;
-}
-
-.actions {
-  margin-top: 15px;
-}
-
-h1 {
-  margin-bottom: 30px;
-  color: #e6e6e6;
-}
-</style>

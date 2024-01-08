@@ -22,7 +22,7 @@ export default defineComponent({
 
 <template>
   <button
-    class="btn"
+    class="btn rounded-md"
     :class="[
       { 'btn-default': type === 'info' },
       { 'btn-positive': type === 'ok' },
@@ -55,7 +55,6 @@ export default defineComponent({
   cursor: pointer;
   background-image: none;
   border: 1px solid transparent;
-  border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
   background-color: #e6e6e6;
   color: #101010;
@@ -102,7 +101,6 @@ export default defineComponent({
   font-size: 16px;
   color: #ffffff;
   font-weight: 600;
-  border-radius: 4px;
   vertical-align: top;
   transition: all 0.1s ease-in-out;
   cursor: pointer;
@@ -120,7 +118,6 @@ export default defineComponent({
   font-size: 14px;
   color: #e6e6e6;
   font-weight: 600;
-  border-radius: 4px;
   vertical-align: top;
   transition: all 0.1s ease-in-out;
   cursor: pointer;

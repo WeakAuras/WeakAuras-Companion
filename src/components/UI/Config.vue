@@ -73,11 +73,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div id="config">
-    <div class="config-row">
-      <div class="config-row-item">
+  <div
+    id="config"
+    class="h-full w-full overflow-auto py-1.5 pl-[2.35vw] text-left"
+  >
+    <div class="w-full flex flex-row justify-between">
+      <div class="flex-1">
         <!-- Game Settings Section -->
-        <div class="title">
+        <div class="title mb-2 mt-1 text-lg">
           {{ $t("app.config.gameSettings" /* Game Settings */) }}
         </div>
         <div>
@@ -102,7 +105,7 @@ export default defineComponent({
           >
         </div>
         <!-- Companion Settings Section -->
-        <div class="title">
+        <div class="title mb-2 mt-4 text-lg">
           {{ $t("app.config.clientSettings" /* Companion Settings */) }}
         </div>
         <div>
@@ -118,7 +121,9 @@ export default defineComponent({
               )
             }}
           </Checkbox>
-          <p class="label subtitle text-brand-grey-lightest">
+          <p
+            class="label mb-2 mt-4 text-base text-brand-grey-lightest font-semibold"
+          >
             {{ $t("app.config.startup" /* Startup */) }}
           </p>
           <div class="mb-2">
@@ -135,7 +140,9 @@ export default defineComponent({
               {{ $t("app.config.minimized" /* Start minimised */) }}
             </Checkbox>
           </div>
-          <p class="label subtitle text-brand-grey-lightest">
+          <p
+            class="label mb-2 mt-4 text-base text-brand-grey-lightest font-semibold"
+          >
             {{ $t("app.config.autoupdater" /* Updates */) }}
           </p>
           <div class="mb-2">
@@ -160,9 +167,9 @@ export default defineComponent({
           -->
         </div>
       </div>
-      <div class="config-row-item">
+      <div class="flex-1">
         <!-- Wago Settings -->
-        <div class="title">
+        <div class="title mb-2 mt-4 text-lg">
           {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
         </div>
         <div>
@@ -243,7 +250,7 @@ export default defineComponent({
           </Checkbox>
         </div>
         <!-- WeakAuras Backup Section -->
-        <div class="title">
+        <div class="title mb-2 mt-4 text-lg">
           {{ $t("app.config.backup.title" /* WeakAuras Backup */) }}
         </div>
         <div>
@@ -254,7 +261,7 @@ export default defineComponent({
           </p>
           <div
             v-if="config.backup.active"
-            style="display: inline"
+            class="inline"
           >
             <FileSelect
               v-model:path="config.backup.path"
@@ -283,48 +290,10 @@ export default defineComponent({
     </div>
     <UIButton
       type="reset"
+      class="mt-4"
       @click="reset"
     >
       {{ $t("app.config.reset" /* Reset Settings and Data */) }}
     </UIButton>
   </div>
 </template>
-
-<style scoped lang="css">
-#config {
-  padding: 5px 0 5px 2.35vw;
-  text-align: left;
-  overflow: auto;
-  height: 100%;
-  width: 100%;
-}
-
-.config-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.config-row-item {
-  flex: 50%;
-}
-
-.title {
-  margin: 20px 0 10px;
-}
-
-#config .title:first-child {
-  margin-top: 5px;
-}
-
-.subtitle {
-  font-size: 18px;
-  margin-bottom: 8px;
-  margin-top: 16px;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.form-control.language {
-  width: 150px;
-}
-</style>

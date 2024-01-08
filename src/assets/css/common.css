@@ -96,6 +96,10 @@ footer {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+#config .title:first-child {
+  margin-top: 5px;
+}
+
 a {
   color: #ffffff;
   text-decoration: none;
