@@ -1,6 +1,6 @@
 <template>
   <div id="help">
-    <div class="title">
+    <div class="title text-xl">
       {{ $t("app.help.title" /* Setup Steps */) }}
     </div>
     <ol class="follow">
@@ -82,7 +82,7 @@
     </ol>
     <br />
     <br />
-    <div class="title">
+    <div class="title text-xl">
       {{ $t("app.help.auraAuthorsTitle" /* Tips for Authors */) }}
     </div>
     <div class="paragraph">
@@ -110,7 +110,7 @@
       <br />
       <br />
     </div>
-    <div class="title">
+    <div class="title text-xl">
       {{ $t("app.help.foundbug" /* Found a bug? */) }}
     </div>
     <div class="paragraph">
@@ -150,7 +150,7 @@
     </div>
     <br />
     <br />
-    <div class="title">
+    <div class="title text-xl">
       {{ $t("app.help.support.title" /* Support */) }}
     </div>
     <div class="paragraph">

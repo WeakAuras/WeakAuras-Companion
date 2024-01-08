@@ -40,14 +40,13 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full overflow-auto py-1.5 pl-[2.35vw] text-left">
+  <div class="h-full w-full overflow-auto py-2.5 pl-[2.35vw] text-left">
     <div>
-      <div class="title">
+      <div class="title text-xl">
         {{
           $t("app.stopmotion.selectgifconverter" /* StopMotion GIF Converter */)
         }}
       </div>
-      <br />
       <div class="bts-top-right">
         <UIButton
           v-if="step === 3"
@@ -88,10 +87,6 @@ export default {
 
 .config-row-item {
   flex: 50%;
-}
-
-.title {
-  margin: 20px 0 10px;
 }
 
 .block {

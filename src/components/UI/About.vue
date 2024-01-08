@@ -54,7 +54,7 @@ export default defineComponent({
     </div>
     <div id="links">
       <div style="flex: 50%">
-        <div class="title">WeakAuras</div>
+        <div class="title text-xl">WeakAuras</div>
         <div class="items">
           <div
             v-for="media in medias.weakauras"
@@ -75,7 +75,7 @@ export default defineComponent({
         </div>
       </div>
       <div style="flex: 50%">
-        <div class="title">Wago</div>
+        <div class="title text-xl">Wago</div>
         <div class="items">
           <div
             v-for="media in medias.wago"

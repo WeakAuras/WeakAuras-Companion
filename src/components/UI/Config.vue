@@ -169,7 +169,7 @@ export default defineComponent({
       </div>
       <div class="flex-1">
         <!-- Wago Settings -->
-        <div class="title mb-2 mt-4 text-lg">
+        <div class="title mb-2 mt-1 text-lg">
           {{ $t("app.config.wagoSettings" /* Wago Settings */) }}
         </div>
         <div>

@@ -88,16 +88,11 @@ footer {
 }
 
 .title {
-  font-size: 25px;
   font-weight: 600;
   padding: 4px 10px;
   margin-bottom: 10px;
   border-left: 2px solid rgb(255, 209, 0);
   background-color: rgba(0, 0, 0, 0.1);
-}
-
-#config .title:first-child {
-  margin-top: 5px;
 }
 
 a {
