@@ -10,7 +10,7 @@ export interface StashActions {
   tohtml(): string;
 }
 
-export type StashStore = StashState & StashActions;
+export type StashStore = ReturnType<typeof useStashStore>;
 
 export const useStashStore = defineStore({
   id: "stashStore",

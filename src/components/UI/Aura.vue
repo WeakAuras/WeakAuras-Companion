@@ -2,10 +2,11 @@
 import { DateTime } from "luxon";
 import { defineComponent } from "vue";
 import sanitize from "@/libs/sanitize";
+import type { AuraType } from "../../stores/config";
 
 export default defineComponent({
   props: {
-    aura: { type: Object, default: null },
+    aura: { type: Object as () => AuraType, default: null },
   },
   data() {
     return {

@@ -1,12 +1,19 @@
-<script lang="js">
-import { defineComponent } from "vue";
+<script lang="ts">
+import { defineComponent, inject } from "vue";
 import UIButton from "./UIButton.vue";
 
 export default defineComponent({
   components: { UIButton },
+  setup() {
+    const toggleReport = inject("toggleReport") as () => void;
+
+    return {
+      toggleReport,
+    };
+  },
   methods: {
     close() {
-      this.$parent.toggleReport();
+      this.toggleReport();
     },
   },
 });

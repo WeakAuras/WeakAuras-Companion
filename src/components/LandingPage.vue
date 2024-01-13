@@ -2,7 +2,7 @@
 import { ipcRenderer } from "electron";
 import fs from "node:fs";
 import path from "node:path";
-import { defineComponent } from "vue";
+import { defineComponent, provide, ref } from "vue";
 
 import { useStashStore } from "../stores/auras";
 import type { Account, AuraType, Version } from "../stores/config";
@@ -96,17 +96,33 @@ export default defineComponent({
   setup() {
     const config = useConfigStore();
     const stash = useStashStore();
+
+    const updateAuraIsShown = ref(false);
+    const toggleUpdatedAuraList = () => {
+      updateAuraIsShown.value = !updateAuraIsShown.value;
+    };
+
+    const reportIsShown = ref(false);
+    const toggleReport = () => {
+      reportIsShown.value = !reportIsShown.value;
+    };
+
+    provide("toggleReport", toggleReport);
+    provide("toggleUpdatedAuraList", toggleUpdatedAuraList);
+
     return {
       config,
       stash,
+      updateAuraIsShown,
+      reportIsShown,
+      toggleUpdatedAuraList,
+      toggleReport,
     };
   },
   data() {
     return {
       configStep: 0,
       addonSelected: "WeakAuras",
-      reportIsShown: false,
-      updateAuraIsShown: false,
       fetching: false, // use for avoid spamming refresh UIButton and show spinner
       sortedColumn: "modified",
       sortDescending: false,
@@ -492,12 +508,6 @@ export default defineComponent({
         this.doWriteAddonData,
       );
     },
-    toggleReport() {
-      this.reportIsShown = !this.reportIsShown;
-    },
-    toggleUpdatedAuraList() {
-      this.updateAuraIsShown = !this.updateAuraIsShown;
-    },
     installUpdates() {
       ipcRenderer.invoke("installUpdates");
     },
@@ -699,7 +709,7 @@ export default defineComponent({
         </a>
         <a
           class="reportbug"
-          @click="toggleReport"
+          @click="toggleReport()"
         >
           {{ $t("app.footer.reportbug" /* Found a bug? */) }}
           <i

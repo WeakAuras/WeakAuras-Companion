@@ -1,27 +1,29 @@
-<script lang="js">
-import { defineComponent } from "vue";
-import { useStashStore } from "../../stores/auras";
+<script lang="ts">
+import { defineComponent, inject } from "vue";
+import { useStashStore, type StashStore } from "../../stores/auras";
 import UIButton from "./UIButton.vue";
 import Aura from "./Aura.vue";
 
 export default defineComponent({
   components: { UIButton, Aura },
   setup() {
-    const stash = useStashStore();
+    const stash: StashStore = useStashStore();
+    const toggleUpdatedAuraList = inject("toggleUpdatedAuraList") as () => void;
 
     return {
       stash,
+      toggleUpdatedAuraList,
     };
   },
   methods: {
     close() {
-      this.$parent.toggleUpdatedAuraList();
+      this.toggleUpdatedAuraList();
     },
     clearList(event) {
       event.preventDefault();
       event.stopPropagation();
       this.stash.$reset();
-      this.$parent.toggleUpdatedAuraList();
+      this.toggleUpdatedAuraList();
     },
   },
 });
