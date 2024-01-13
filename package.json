@@ -65,7 +65,7 @@
     "@vitejs/plugin-vue": "^5.0.2",
     "browserslist": "^4.22.2",
     "electron": "28.1.1",
-    "electron-builder": "^24.10.0",
+    "electron-builder": "^24.11.0",
     "electron-log": "^5.0.3",
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.7",
