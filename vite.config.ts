@@ -90,6 +90,10 @@ export default defineConfig(({ command }) => {
                 external: Object.keys(
                   "dependencies" in pkg ? pkg.dependencies : {},
                 ),
+                output: {
+                  format: "esm",
+                  entryFileNames: `[name].mjs`,
+                },
               },
             },
           },
