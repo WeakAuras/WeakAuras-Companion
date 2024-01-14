@@ -11,8 +11,10 @@ import {
   shell,
 } from "electron";
 import type { OpenDialogOptions } from "electron";
-import { join } from "node:path";
-import log from "electron-log";
+import path, { join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+import log from "electron-log/main";
 import Store from "electron-store";
 import type {
   ProgressInfo,
@@ -23,6 +25,9 @@ import type {
 
 import { autoUpdater } from "electron-updater";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 process.env.DIST_ELECTRON = join(__dirname, "..");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
 
@@ -31,7 +36,7 @@ process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
   : process.env.DIST;
 
 const isDevelopment = process.env.NODE_ENV !== "production";
-const preload = join(__dirname, "../preload/index.js");
+const preload = join(__dirname, "../preload/index.mjs");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
 
@@ -63,6 +68,7 @@ autoUpdater.allowDowngrade = true;
 autoUpdater.allowPrerelease = autoUpdater.allowPrerelease || config.beta;
 log.transports.file.level = "info";
 autoUpdater.logger = log;
+
 log.initialize({ preload: true });
 log.info("App starting...");
 

@@ -1,5 +1,6 @@
 import { rmSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
 
@@ -21,6 +22,9 @@ export default defineConfig(({ command }) => {
   const isServe = command === "serve";
   const isBuild = command === "build";
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
 
   return {
     root: __dirname,
@@ -86,6 +90,10 @@ export default defineConfig(({ command }) => {
                 external: Object.keys(
                   "dependencies" in pkg ? pkg.dependencies : {},
                 ),
+                output: {
+                  format: "esm",
+                  entryFileNames: `[name].mjs`,
+                },
               },
             },
           },
