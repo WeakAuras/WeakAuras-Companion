@@ -41,8 +41,8 @@ devDependencies:
     specifier: 0.2.1
     version: 0.2.1
   '@types/luxon':
-    specifier: ^3.4.1
-    version: 3.4.1
+    specifier: ^3.4.2
+    version: 3.4.2
   '@types/node':
     specifier: ^20.11.5
     version: 20.11.5
@@ -1361,8 +1361,8 @@ packages:
     resolution: {integrity: sha512-lNbAhI9UojO1e82FdB4Sdd18YhDdfwdL1MTY0JNOh2EvfafezVBBgM892AQ2jOx+bJcJWwn2hvCeye3yWgi1wA==}
     dev: true
 
-  /@types/luxon@3.4.1:
-    resolution: {integrity: sha512-m1KQEZZCITtheRhMVq5jDvAl0HwFhunLs7x6tpFFvUTJpKfmewS/Ymg+YA97/s8w1I1nC4pJyi0aAnn+vf3yew==}
+  /@types/luxon@3.4.2:
+    resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
     dev: true
 
   /@types/ms@0.7.34:
