@@ -1,6 +1,7 @@
+import type { AddonConfig } from "@/stores/config";
 import { reactive } from "vue";
 
-function findSlugAndMatchURL(url, pattern) {
+function findSlugAndMatchURL(url, pattern: RegExp) {
   const result = url.match(pattern);
 
   if (result) {
@@ -9,7 +10,7 @@ function findSlugAndMatchURL(url, pattern) {
   return null;
 }
 
-export function parseWeakAurasSVdata(WeakAurasSavedData, config) {
+export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
   const aurasFromFile = [];
 
   if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
@@ -96,7 +97,7 @@ export function parseWeakAurasSVdata(WeakAurasSavedData, config) {
   return aurasFromFile;
 }
 
-export function parsePlaterSVdata(PlaterSavedData, config) {
+export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
   const aurasFromFile = [];
 
   if (PlaterSavedData.body[0].variables[0].name !== "PlaterDB") {

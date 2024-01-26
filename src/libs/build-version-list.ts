@@ -1,15 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
 import { i18n } from "./i18n";
-import type { ConfigState, Version } from "@/stores/config";
+import type {
+  AccountOptions,
+  ConfigState,
+  Version,
+  VersionOptions,
+} from "@/stores/config";
 
 export function buildVersionList(
   config: ConfigState,
-  versionOptions,
-  accountOptions,
+  versionOptions: VersionOptions[],
+  accountOptions: AccountOptions[],
 ) {
   const addVersion = function (versionDir: string) {
-    const newVersion = {
+    const newVersion: Version = {
       name: versionDir,
       accounts: [],
       account: "",

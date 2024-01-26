@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { DateTime } from "luxon";
 import archiver from "archiver";
-import type { AddonConfig, ConfigState } from "@/stores/config";
+import type { AddonConfig, Backup, ConfigState } from "@/stores/config";
 
 export function backup(config: ConfigState, addonsInstalled: AddonConfig[]) {
   config.wowpath.versions.forEach((version) => {
@@ -26,7 +26,7 @@ export function backup(config: ConfigState, addonsInstalled: AddonConfig[]) {
           config.backup,
           lastSavedFileSize,
           `${version.name}#${account.name}`,
-          (fileSize) => {
+          (fileSize: number) => {
             if (savedData) {
               savedData.fileSize = fileSize;
             } else {
@@ -81,12 +81,12 @@ function deleteOldFiles(
 }
 
 function backupIfRequired(
-  fileName,
-  config,
-  previousSize,
-  accountName,
-  callback,
-  addonName,
+  fileName: string | false,
+  config: Backup,
+  previousSize: number,
+  accountName: string,
+  callback: { (fileSize: number): void; (arg0: number): void },
+  addonName: string,
 ) {
   if (config?.active && fileName) {
     const stats = fs.statSync(fileName);

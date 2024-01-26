@@ -1,15 +1,21 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { ConfigState } from "@/stores/config";
+import type {
+  Account,
+  AccountOptions,
+  AuraType,
+  ConfigState,
+  Version,
+} from "@/stores/config";
 
 export function buildAccountList(
   config: ConfigState,
-  accountOptions,
-  versionSelected,
-  auras,
+  accountOptions: AccountOptions[],
+  versionSelected: Version,
+  auras: AuraType[],
 ) {
   const addAccount = function (accountFile: string) {
-    const newAccount = {
+    const newAccount: Account = {
       name: accountFile,
       lastWagoUpdate: null,
       auras: [],
@@ -43,7 +49,7 @@ export function buildAccountList(
           )
           .forEach((accountFile) => {
             const accountFound = versionSelected.accounts.find(
-              (account) => account.name === accountFile,
+              (account: Account) => account.name === accountFile,
             );
 
             if (!accountFound) {

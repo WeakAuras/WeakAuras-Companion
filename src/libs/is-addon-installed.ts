@@ -5,7 +5,7 @@ import type { Account, ConfigState, Version } from "@/stores/config";
 
 export function isAddonInstalled(
   config: ConfigState,
-  addon: string,
+  addonName: string,
   version?: Version,
   account?: Account,
 ) {
@@ -13,7 +13,7 @@ export function isAddonInstalled(
 
   if (version && account) {
     let addonFolder = path.join(wowPath, version.name);
-    const addonPath = ["Interface", "AddOns", addon];
+    const addonPath = ["Interface", "AddOns", addonName];
 
     for (const check of addonPath) {
       const folder = matchFolderNameInsensitive(addonFolder, check, false);

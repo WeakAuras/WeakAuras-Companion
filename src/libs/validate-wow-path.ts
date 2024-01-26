@@ -4,14 +4,20 @@ import path from "node:path";
 import { buildAccountList } from "./build-account-list";
 import { buildVersionList } from "./build-version-list";
 
-import type { ConfigState } from "@/stores/config";
+import type {
+  AccountOptions,
+  AuraType,
+  ConfigState,
+  Version,
+  VersionOptions,
+} from "@/stores/config";
 
 export function validateWowPath(
   config: ConfigState,
-  versionOptions,
-  accountOptions,
-  versionSelected,
-  auras,
+  versionOptions: VersionOptions[],
+  accountOptions: AccountOptions[],
+  versionSelected: Version,
+  auras: AuraType[],
 ) {
   console.log("validateWowPath");
   config.wowpath.validated = false;

@@ -22,6 +22,11 @@ export interface Account {
   }[];
 }
 
+export interface AccountOptions {
+  text: string;
+  value: string;
+}
+
 export interface AddonConfig {
   addonName: string;
   wagoAPI: string;
@@ -33,7 +38,7 @@ export interface AddonConfig {
     version: Version,
     account: Account,
   ) => string | false;
-  parseFunction: (WeakAurasSavedData: any, config: any) => any[];
+  parseFunction: (WeakAurasSavedData: any, config: AddonConfig) => any[];
   ignoreOwnAuras?: boolean;
   wagoUsername?: string | null;
 }
@@ -77,6 +82,11 @@ export interface Version {
   name?: string;
 }
 
+export interface VersionOptions {
+  text: string;
+  value: string;
+}
+
 export interface Versions {
   account: string;
   accounts: Account[];
@@ -86,7 +96,7 @@ export interface Versions {
 export interface Backup {
   active: boolean;
   defaultBackupPath: string;
-  maxsize: number;
+  maxSize: number;
   path: string;
 }
 
@@ -125,7 +135,7 @@ export const useConfigStore = defineStore("configStore", {
       backup: {
         active: true,
         path: path.join(userDataPath, "WeakAurasData-Backup"),
-        maxsize: 100,
+        maxSize: 100,
         defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
       },
     };

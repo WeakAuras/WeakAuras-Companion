@@ -7,15 +7,15 @@ import App from "./App.vue";
 import { i18n } from "./libs/i18n";
 import "virtual:uno.css";
 
-async function getStore(key) {
+async function getStore(key: string) {
   return await ipcRenderer.invoke("getStore", key);
 }
 
-async function setStore(key, value) {
+async function setStore(key: string, value: any) {
   return await ipcRenderer.invoke("setStore", key, value);
 }
 
-async function deleteStore(key) {
+async function deleteStore(key: string) {
   return await ipcRenderer.invoke("deleteStore", key);
 }
 
