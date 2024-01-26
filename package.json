@@ -82,7 +82,7 @@
     "eslint-plugin-vue": "^9.20.1",
     "floating-vue": "^5.2.0",
     "glob": "^10.3.10",
-    "husky": "^8.0.3",
+    "husky": "^9.0.6",
     "lightningcss": "^1.23.0",
     "lint-staged": "^15.2.0",
     "luaparse": "^0.2.1",
