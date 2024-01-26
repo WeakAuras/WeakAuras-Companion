@@ -58,7 +58,7 @@ export function buildVersionList(
       text: i18n.global.t("app.version.classicera" /* Classic Era */),
     },
     {
-      value: "_ptr2_",
+      value: "_classic_era_ptr_",
       text: i18n.global.t("app.version.classiceraptr" /* Classic Era PTR */),
     },
   ];
