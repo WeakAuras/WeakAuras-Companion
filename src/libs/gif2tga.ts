@@ -61,7 +61,7 @@ function calculateFileSize(
   };
 }
 
-async function getMetaData(filename: string) {
+async function getMetaData(filename: string | Buffer) {
   return await sharp(filename, { animated: true }).metadata();
 }
 
