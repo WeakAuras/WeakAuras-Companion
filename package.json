@@ -29,7 +29,7 @@
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint . --cache --ext .ts,.js,.vue && prettier . --check --cache",
     "lint:fix": "eslint . --ext .ts,.js,.vue --fix && prettier . --write",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.?(js|ts|ts|vue)": "prettier --write"
