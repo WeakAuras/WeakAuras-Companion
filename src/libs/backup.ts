@@ -2,8 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { DateTime } from "luxon";
 import archiver from "archiver";
+import type { AddonConfig, ConfigState } from "@/stores/config";
 
-export function backup(config, addonsInstalled) {
+export function backup(config: ConfigState, addonsInstalled: AddonConfig[]) {
   config.wowpath.versions.forEach((version) => {
     version.accounts.forEach((account) => {
       addonsInstalled.forEach((addon) => {

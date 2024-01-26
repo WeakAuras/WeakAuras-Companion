@@ -16,7 +16,10 @@ export interface Account {
   lastWagoUpdate: Date | null;
   name: string;
   numAuras: number;
-  savedvariableSizeForAddon: string[];
+  savedvariableSizeForAddon: {
+    fileSize: number;
+    addonName: string;
+  }[];
 }
 
 export interface AddonConfig {
@@ -26,9 +29,9 @@ export interface AddonConfig {
   isInstalled: boolean;
   hasTypeColumn: boolean;
   svPathFunction: (
-    config?: ConfigState,
-    version?: Version,
-    account?: Account,
+    config: ConfigState,
+    version: Version,
+    account: Account,
   ) => string | false;
   parseFunction: (WeakAurasSavedData: any, config: any) => any[];
   ignoreOwnAuras?: boolean;

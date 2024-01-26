@@ -29,18 +29,11 @@ function getSavedVariable(
 }
 
 export function WeakAurasSaved(
-  config?: ConfigState,
-  version?: Version,
-  account?: Account,
+  config: ConfigState,
+  version: Version,
+  account: Account,
 ) {
-  if (config?.wowpath?.version && account) {
-    return getSavedVariable(
-      config,
-      config.wowpath.version,
-      account?.name,
-      "WeakAuras",
-    );
-  } else if (config && version && account) {
+  if (config && version && account) {
     return getSavedVariable(config, version.name, account.name, "WeakAuras");
   }
 
@@ -48,18 +41,11 @@ export function WeakAurasSaved(
 }
 
 export function PlaterSaved(
-  config?: ConfigState,
-  version?: Version,
-  account?: Account,
+  config: ConfigState,
+  version: Version,
+  account: Account,
 ) {
-  if (config?.wowpath?.version && account) {
-    return getSavedVariable(
-      config,
-      config.wowpath.version,
-      account?.name,
-      "Plater",
-    );
-  } else if (config && version && account) {
+  if (config && version && account) {
     return getSavedVariable(config, version.name, account.name, "Plater");
   }
 
