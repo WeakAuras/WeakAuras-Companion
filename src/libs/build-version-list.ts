@@ -31,7 +31,7 @@ export function buildVersionList(
     },
     {
       value: "_xptr_",
-      text: i18n.global.t("app.version.dfptr" /* Dragonflight PTR 2 */),
+      text: i18n.global.t("app.version.dfptr2" /* Dragonflight PTR 2 */),
     },
     {
       value: "_beta_",

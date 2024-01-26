@@ -4,7 +4,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { glob } from "glob";
-import { getTranslationObject, getTranslationsFromString } from "./Utils";
+import { getTranslationObject, getTranslationsFromString } from "./Utils.js";
 
 async function run(): Promise<void> {
   const files = await glob("./src/components/**/*.vue");

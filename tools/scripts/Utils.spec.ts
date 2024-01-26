@@ -2,7 +2,7 @@ import {
   getTranslationObject,
   getTranslationsFromString,
   sanitizeMessage,
-} from "./Utils";
+} from "./Utils.js";
 
 import { describe, expect, test } from "vitest";
 
