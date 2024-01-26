@@ -11,7 +11,7 @@ function nextPow2(aSize) {
   return 2 ** Math.ceil(Math.log(aSize) / Math.log(2));
 }
 
-function calculateBestSize(width, height, count) {
+function calculateBestSize(width: number, height: number, count: number) {
   let bestcols = 1;
   let bestsize = Number.MAX_VALUE;
   let bestratio = Number.MAX_VALUE;
@@ -32,51 +32,57 @@ function calculateBestSize(width, height, count) {
 }
 
 function calculateFileSize(
-  width,
-  height,
-  pages,
-  scaling,
-  useSkipFrames,
-  skipFrames,
+  width: number,
+  height: number,
+  pages: number,
+  scaling: number,
+  useSkipFrames: boolean,
+  skipFrames: number,
 ) {
-  if (useSkipFrames) {
-    pages = Math.floor(pages * (1 - 1 / skipFrames));
-  }
-  width = Math.round(width * scaling);
-  height = Math.round(height * scaling);
-  const cols = calculateBestSize(width, height, pages);
-  const rows = Math.ceil(pages / cols);
+  const filePages = useSkipFrames
+    ? Math.floor(pages * (1 - 1 / skipFrames))
+    : pages;
+  const fileWidth = Math.round(width * scaling);
+  const fileHeight = Math.round(height * scaling);
+
+  const cols = calculateBestSize(fileWidth, fileHeight, filePages);
+  const rows = Math.ceil(filePages / cols);
+
+  const widthPow2 = nextPow2(fileWidth * cols);
+  const heightPow2 = nextPow2(fileHeight * rows);
+
   return {
     cols,
     rows,
-    frames: pages,
-    width: nextPow2(width * cols),
-    height: nextPow2(height * rows),
-    size: Math.round(
-      (nextPow2(width * cols) * nextPow2(height * rows) * 4) / 1024,
-    ),
+    frames: filePages,
+    width: widthPow2,
+    height: heightPow2,
+    size: Math.round((widthPow2 * heightPow2 * 4) / 1024),
   };
 }
 
-async function getMetaData(filename) {
+async function getMetaData(filename: string) {
   return await sharp(filename, { animated: true }).metadata();
 }
 
 async function convert(
-  filename,
-  scaling,
-  coalesce,
-  useSkipFrames,
-  skipFrames,
-  destination,
-  fileBuffer,
+  filename: string,
+  scaling: number,
+  coalesce: boolean,
+  useSkipFrames: boolean,
+  skipFrames: number,
+  destination: string,
+  fileBuffer: any,
 ) {
+  let incomingFileBuffer = fileBuffer;
   try {
-    if (fileBuffer === undefined) {
-      fileBuffer = await fs.promises.readFile(filename);
+    if (incomingFileBuffer === undefined) {
+      incomingFileBuffer = await fs.promises.readFile(filename);
     }
 
-    const metadata = await sharp(fileBuffer, { animated: true }).metadata();
+    const metadata = await sharp(incomingFileBuffer, {
+      animated: true,
+    }).metadata();
 
     let { width } = metadata;
     const { pageHeight, pages } = metadata;
@@ -87,7 +93,7 @@ async function convert(
     let prevFrameBuffer;
 
     for (let i = 0; i < pages; i++) {
-      const frame = await sharp(fileBuffer, { page: i })
+      const frame = await sharp(incomingFileBuffer, { page: i })
         .resize({ width, height })
         .toBuffer();
 
