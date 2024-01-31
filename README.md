@@ -10,9 +10,22 @@ It enables you to fetch updates to the auras you have installed  directly from W
 
 ## How to Use
 
-### WeakAuras
+### Install
 
-- Download and install the WeakAuras Companion from [our website](https://weakauras.wtf/) or [GitHub](https://github.com/WeakAuras/WeakAuras-Companion/releases/latest).
+#### Manual
+
+Download and install the WeakAuras Companion from [our website](https://weakauras.wtf/) or [GitHub](https://github.com/WeakAuras/WeakAuras-Companion/releases/latest).
+
+#### Homebrew
+
+Install using [Homebrew](https://brew.sh/) by running the following command in your **Terminal**:
+
+```bash
+brew install --no-quarantine weakauras-companion
+```
+
+### With WeakAuras
+
 - Start the Companion, it will ask you to give it at least your World of Warcraft folder and account name.
 - Follow the instructions inside the app
 - Click on 'Fetch Updates', this is also done automatically once every hour.
@@ -26,7 +39,7 @@ It enables you to fetch updates to the auras you have installed  directly from W
 
 ![preview4](https://i.imgur.com/48uLOw8.png)
 
-### Updating Plater Profiles, Mods or Scripts
+### With Plater
 
 - Follow the steps above in 'How to Use' for WeakAuras to install and configure the WeakAuras Companion up to the point after restarting World of Warcraft / reloading your UI.
 - Each 'Fetch' for new updates will recognize installed Plater Profiles, Mods and Scripts. Please note, that you need to have them copied and installed from wago.io prior to being able to receive updates this way.
@@ -63,12 +76,7 @@ The Companion is able to regularly create backups of your WeakAuras so you don't
 
 ### Known Issues
 
-- If you previously downloaded an aura from Wago that is not a whole  group and put it into one of your own custom groups, the Companion will  not show any updates for it.
-
-### Other Addons
-
-- We recently took a pull request that adds [Plater](https://www.curseforge.com/wow/addons/plater-nameplates) support to the Companion. Since Plater profiles and mods could already be shared on wago.io, it was the logical next step to add them to Companion.
-- Support for additional Addons can be implemented by adding an addon-configuration and SavedVariables parser to the existing framework.
+- If you previously downloaded an aura from Wago that is not a whole group and put it into one of your own custom groups, the Companion will  not show any updates for it.
 
 ## Contributing
 
