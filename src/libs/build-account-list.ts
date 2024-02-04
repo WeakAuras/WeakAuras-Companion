@@ -6,7 +6,7 @@ import type {
   AuraType,
   ConfigState,
   Version,
-} from "@/stores/config";
+} from "@/stores/config.js";
 
 export function buildAccountList(
   config: ConfigState,

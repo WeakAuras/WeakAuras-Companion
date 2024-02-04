@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import medias from "@/libs/contacts";
+import medias from "@/libs/contacts.js";
 
 export default defineComponent({
   name: "About",

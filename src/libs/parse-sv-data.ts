@@ -1,4 +1,4 @@
-import type { AddonConfig } from "@/stores/config";
+import type { AddonConfig } from "@/stores/config.js";
 import { reactive } from "vue";
 
 function findSlugAndMatchURL(url, pattern: RegExp) {

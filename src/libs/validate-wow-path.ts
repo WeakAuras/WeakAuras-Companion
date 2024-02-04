@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { buildAccountList } from "./build-account-list";
-import { buildVersionList } from "./build-version-list";
+import { buildAccountList } from "./build-account-list.js";
+import { buildVersionList } from "./build-version-list.js";
 
 import type {
   AccountOptions,
@@ -10,7 +10,7 @@ import type {
   ConfigState,
   Version,
   VersionOptions,
-} from "@/stores/config";
+} from "@/stores/config.js";
 
 export function validateWowPath(
   config: ConfigState,

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { AuraType } from "./config";
+import type { AuraType } from "./config.js";
 
 export interface StashState {
   auras: AuraType[];

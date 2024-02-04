@@ -4,9 +4,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { defineComponent, provide, ref } from "vue";
 
-import { useStashStore } from "../stores/auras";
-import type { Account, AuraType, Version } from "../stores/config";
-import { useConfigStore } from "../stores/config";
+import { useStashStore } from "../stores/auras.js";
+import type { Account, AuraType, Version } from "../stores/config.js";
+import { useConfigStore } from "../stores/config.js";
 
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
@@ -20,25 +20,28 @@ import StopMotion from "./UI/StopMotion.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
-import { wagoPushHandler } from "@/libs/wago-push-handler";
-import { writeAddonData } from "@/libs/write-addon-data";
-import { validateWowPath } from "@/libs/validate-wow-path";
-import { wowDefaultPath } from "@/libs/utilities";
-import userDataPath from "@/libs/user-data-folder";
+import { wagoPushHandler } from "@/libs/wago-push-handler.js";
+import { writeAddonData } from "@/libs/write-addon-data.js";
+import { validateWowPath } from "@/libs/validate-wow-path.js";
+import { wowDefaultPath } from "@/libs/utilities.js";
+import userDataPath from "@/libs/user-data-folder.js";
 import {
   createSortByAuthor,
   createSortByString,
   createSortByTime,
   createSortByType,
   createSortByUpdate,
-} from "@/libs/sort";
-import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
-import { isAddonInstalled } from "@/libs/is-addon-installed";
-import hash from "@/libs/hash";
-import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
-import contacts from "@/libs/contacts";
-import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
-import { buildAccountList } from "@/libs/build-account-list";
+} from "@/libs/sort.js";
+import {
+  parsePlaterSVdata,
+  parseWeakAurasSVdata,
+} from "@/libs/parse-sv-data.js";
+import { isAddonInstalled } from "@/libs/is-addon-installed.js";
+import hash from "@/libs/hash.js";
+import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files.js";
+import contacts from "@/libs/contacts.js";
+import { compareSVwithWago } from "@/libs/compare-sv-with-wago.js";
+import { buildAccountList } from "@/libs/build-account-list.js";
 import type {
   ProgressInfo,
   UpdateDownloadedEvent,

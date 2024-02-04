@@ -4,12 +4,12 @@
     "outDir": "dist",
     "target": "ESNext",
     "esModuleInterop": true,
-    "module": "ESNext",
+    "module": "Node16",
     "lib": [
       "ESNext",
       "DOM"
     ],
-    "moduleResolution": "node",
+    "moduleResolution": "Node16",
     "importHelpers": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",

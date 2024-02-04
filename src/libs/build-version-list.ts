@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
-import { i18n } from "./i18n";
+import { i18n } from "./i18n.js";
 import type {
   AccountOptions,
   ConfigState,
   Version,
   VersionOptions,
-} from "@/stores/config";
+} from "@/stores/config.js";
 
 export function buildVersionList(
   config: ConfigState,

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, inject } from "vue";
-import { useStashStore, type StashStore } from "../../stores/auras";
+import { useStashStore, type StashStore } from "../../stores/auras.js";
 import UIButton from "./UIButton.vue";
 import Aura from "./Aura.vue";
 

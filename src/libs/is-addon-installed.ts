@@ -1,7 +1,7 @@
 import path from "node:path";
 
-import { matchFolderNameInsensitive } from "./utilities";
-import type { Account, ConfigState, Version } from "@/stores/config";
+import { matchFolderNameInsensitive } from "./utilities.js";
+import type { Account, ConfigState, Version } from "@/stores/config.js";
 
 export function isAddonInstalled(
   config: ConfigState,

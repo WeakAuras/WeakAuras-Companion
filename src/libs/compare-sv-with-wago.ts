@@ -4,15 +4,15 @@ import got from "got";
 import luaparse from "luaparse";
 import { ipcRenderer } from "electron";
 
-import hash from "./hash";
-import { isAddonInstalled } from "./is-addon-installed";
+import hash from "./hash.js";
+import { isAddonInstalled } from "./is-addon-installed.js";
 import type {
   Account,
   AddonConfig,
   AuraType,
   ConfigState,
   Version,
-} from "@/stores/config";
+} from "@/stores/config.js";
 
 function refreshWago() {
   ipcRenderer.invoke("refreshWago");

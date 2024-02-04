@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { backup } from "@/libs/backup";
-import { grabVersionFromToc } from "@/libs/grab-wa-version";
-import sanitize from "@/libs/sanitize";
-import { matchFolderNameInsensitive } from "@/libs/utilities";
-import type { AddonConfig, AuraType, ConfigState } from "@/stores/config";
-import type { StashStore } from "@/stores/auras";
+import { backup } from "@/libs/backup.js";
+import { grabVersionFromToc } from "@/libs/grab-wa-version.js";
+import sanitize from "@/libs/sanitize.js";
+import { matchFolderNameInsensitive } from "@/libs/utilities.js";
+import type { AddonConfig, AuraType, ConfigState } from "@/stores/config.js";
+import type { StashStore } from "@/stores/auras.js";
 
 export function writeAddonData(
   config: ConfigState,

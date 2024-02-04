@@ -10,7 +10,7 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
 import pkg from "./package.json";
 import UnoCSS from "unocss/vite";
-import webfontDownload from "vite-plugin-webfont-dl";
+import { webfontDownload } from "vite-plugin-webfont-dl";
 
 // import { browserslistToTargets } from "lightningcss";
 // import browserslist from "browserslist";

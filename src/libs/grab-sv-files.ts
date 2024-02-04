@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import type { Account, ConfigState, Version } from "@/stores/config";
+import type { Account, ConfigState, Version } from "@/stores/config.js";
 
 function getSavedVariable(
   config: ConfigState,

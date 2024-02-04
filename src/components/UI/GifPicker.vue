@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useConfigStore } from "../../stores/config";
+import { useConfigStore } from "../../stores/config.js";
 
 export default defineComponent({
   directives: {
