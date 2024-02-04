@@ -59,15 +59,5 @@
   "plugins": [
     "vue",
     "@typescript-eslint"
-  ],
-  "settings": {
-    "import/core-modules": [
-      "electron"
-    ],
-    "import/resolver": {
-      "vite": {
-        "configPath": "./vite.config.ts"
-      }
-    }
-  }
+  ]
 }
