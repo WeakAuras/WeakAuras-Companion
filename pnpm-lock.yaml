@@ -101,8 +101,8 @@ devDependencies:
     specifier: ^9.20.1
     version: 9.20.1(eslint@8.56.0)
   floating-vue:
-    specifier: ^5.2.0
-    version: 5.2.0(vue@3.4.15)
+    specifier: ^5.2.2
+    version: 5.2.2(vue@3.4.15)
   glob:
     specifier: ^10.3.10
     version: 10.3.10
@@ -3842,8 +3842,8 @@ packages:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
     dev: true
 
-  /floating-vue@5.2.0(vue@3.4.15):
-    resolution: {integrity: sha512-CeApC0dUU8Mye6mjH3ZB7FXoUjIRduNuz8QW4nj3ZUweaFqv7PwxfN9klTuRQe9MeZXxbIHJHBTNl9t/bv+SUA==}
+  /floating-vue@5.2.2(vue@3.4.15):
+    resolution: {integrity: sha512-afW+h2CFafo+7Y9Lvw/xsqjaQlKLdJV7h1fCHfcYQ1C4SVMlu7OAekqWgu5d4SgvkBVU0pVpLlVsrSTBURFRkg==}
     peerDependencies:
       '@nuxt/kit': ^3.2.0
       vue: ^3.2.0
