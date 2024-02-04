@@ -92,8 +92,8 @@ devDependencies:
     specifier: ^9.1.0
     version: 9.1.0(eslint@8.56.0)
   eslint-import-resolver-vite:
-    specifier: ^1.3.2
-    version: 1.3.2(eslint-plugin-i@2.29.0)
+    specifier: ^2.0.0
+    version: 2.0.0(eslint-plugin-i@2.29.0)
   eslint-plugin-import:
     specifier: npm:eslint-plugin-i@2.29.0
     version: /eslint-plugin-i@2.29.0(@typescript-eslint/parser@6.20.0)(eslint@8.56.0)
@@ -3506,9 +3506,9 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-import-resolver-vite@1.3.2(eslint-plugin-i@2.29.0):
-    resolution: {integrity: sha512-Oi8Dqif2b4Da4pkXhvjxJvS093vOTftnHljZMwEsxXnyoh9K9cx5DKK4ShFfjvnoiCr6cGTPDEoAcvKZinaa4Q==}
-    engines: {node: '>=12', npm: '>=6'}
+  /eslint-import-resolver-vite@2.0.0(eslint-plugin-i@2.29.0):
+    resolution: {integrity: sha512-GFpohIEaVNoMwtA7n56dpjwo63JYEca74deME3X6aIKcvFBQ/AOtmMxZ4L2iknubSmv3lPfqX2yjRsVi/oYXgg==}
+    engines: {node: '>=16'}
     peerDependencies:
       eslint-plugin-import: ^2
     dependencies:
