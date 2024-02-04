@@ -14,7 +14,7 @@ export function buildAccountList(
   versionSelected: Version,
   auras: AuraType[],
 ) {
-  const addAccount = function (accountFile: string) {
+  const addAccount = (accountFile: string) => {
     const newAccount: Account = {
       name: accountFile,
       lastWagoUpdate: null,

@@ -18,7 +18,7 @@ export async function wagoPushHandler(
 ) {
   const existingAuraIndex = stash.auras.findIndex((aura) => aura.slug === slug);
 
-  const getAccountHash = function () {
+  const getAccountHash = () => {
     if (versionSelected) {
       const { account } = versionSelected;
       return hash.hashFnv32a(account, true);
@@ -26,19 +26,17 @@ export async function wagoPushHandler(
     return null;
   };
 
-  const getGotOptions = function () {
-    return {
-      http2: true,
-      headers: {
-        "Identifier": getAccountHash(),
-        "api-key": config.wagoApiKey || "",
-      },
-      crossdomain: true,
-      timeout: {
-        request: 30000,
-      },
-    };
-  };
+  const getGotOptions = () => ({
+    http2: true,
+    headers: {
+      "Identifier": getAccountHash(),
+      "api-key": config.wagoApiKey || "",
+    },
+    crossdomain: true,
+    timeout: {
+      request: 30000,
+    },
+  });
 
   if (existingAuraIndex === -1) {
     try {

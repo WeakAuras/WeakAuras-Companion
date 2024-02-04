@@ -47,7 +47,7 @@ export async function compareSVwithWago(
 
   let fetching = fetchingState;
 
-  const getAccountHash = function () {
+  const getAccountHash = () => {
     if (versionSelected) {
       const { account } = versionSelected;
       return hash.hashFnv32a(account, true);
@@ -55,10 +55,10 @@ export async function compareSVwithWago(
     return null;
   };
 
-  const setFirstAddonInstalledSelected = function (
+  const setFirstAddonInstalledSelected = (
     addonsInstalled: AddonConfig[],
     addonSelected: string,
-  ) {
+  ) => {
     if (addonsInstalled.length === 0) {
       return addonSelected;
     }
@@ -74,19 +74,17 @@ export async function compareSVwithWago(
     schedule.id = setTimeout(refreshWago, timeout);
   };
 
-  const getGotOptions = function () {
-    return {
-      http2: true,
-      headers: {
-        "Identifier": getAccountHash(),
-        "api-key": config.wagoApiKey || "",
-      },
-      crossdomain: true,
-      timeout: {
-        request: 30000,
-      },
-    };
-  };
+  const getGotOptions = () => ({
+    http2: true,
+    headers: {
+      "Identifier": getAccountHash(),
+      "api-key": config.wagoApiKey || "",
+    },
+    crossdomain: true,
+    timeout: {
+      request: 30000,
+    },
+  });
 
   if (!versionSelected || !accountSelected) {
     return;
@@ -326,7 +324,7 @@ export async function compareSVwithWago(
   }
 
   const handleAuraUpdate = (wagoResp: any, auras: any[]) => {
-    const id = wagoResp?.requestUrl?.searchParams.get("id");
+    const id = wagoResp?.requestUrl?.searchParams?.get("id");
 
     if (id) {
       if (wagoResp.statusCode === 200) {

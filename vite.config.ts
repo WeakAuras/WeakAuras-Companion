@@ -92,7 +92,7 @@ export default defineConfig(({ command }) => {
                 ),
                 output: {
                   format: "esm",
-                  entryFileNames: `[name].mjs`,
+                  entryFileNames: "[name].mjs",
                 },
               },
             },

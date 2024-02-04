@@ -13,7 +13,7 @@ export function buildVersionList(
   versionOptions: VersionOptions[],
   accountOptions: AccountOptions[],
 ) {
-  const addVersion = function (versionDir: string) {
+  const addVersion = (versionDir: string) => {
     const newVersion: Version = {
       name: versionDir,
       accounts: [],
