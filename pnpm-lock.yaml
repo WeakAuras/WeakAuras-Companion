@@ -83,8 +83,8 @@ devDependencies:
     specifier: ^8.1.0
     version: 8.1.0
   electron-updater:
-    specifier: ^6.1.7
-    version: 6.1.7
+    specifier: ^6.1.8
+    version: 6.1.8
   eslint:
     specifier: ^8.56.0
     version: 8.56.0
@@ -3321,8 +3321,8 @@ packages:
     resolution: {integrity: sha512-zjqzx4N7xGdl5468G+vcgzDhaHkaYgVcf9MqgexcTqsl2UHSCmOj/Bi3HAprg4BZCpC7HyD8a6nZl6QAZf72gw==}
     dev: true
 
-  /electron-updater@6.1.7:
-    resolution: {integrity: sha512-SNOhYizjkm4ET+Y8ilJyUzcVsFJDtINzVN1TyHnZeMidZEG3YoBebMyXc/J6WSiXdUaOjC7ngekN6rNp6ardHA==}
+  /electron-updater@6.1.8:
+    resolution: {integrity: sha512-hhOTfaFAd6wRHAfUaBhnAOYc+ymSGCWJLtFkw4xJqOvtpHmIdNHnXDV9m1MHC+A6q08Abx4Ykgyz/R5DGKNAMQ==}
     dependencies:
       builder-util-runtime: 9.2.3
       fs-extra: 10.1.0
@@ -3330,7 +3330,7 @@ packages:
       lazy-val: 1.0.5
       lodash.escaperegexp: 4.1.2
       lodash.isequal: 4.5.0
-      semver: 7.5.4
+      semver: 7.6.0
       tiny-typed-emitter: 2.1.0
     transitivePeerDependencies:
       - supports-color
