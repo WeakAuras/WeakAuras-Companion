@@ -61,7 +61,7 @@
     "@types/archiver": "^6.0.2",
     "@types/luaparse": "0.2.1",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^20.11.19",
+    "@types/node": "^20.11.20",
     "@types/tail": "^2.2.3",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
