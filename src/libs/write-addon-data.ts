@@ -173,6 +173,7 @@ export function writeAddonData(
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
+## Dependencies: WeakAuras
 ## OptionalDeps: ${addonDepts}
 
 data.lua
