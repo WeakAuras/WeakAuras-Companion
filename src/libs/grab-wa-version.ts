@@ -12,11 +12,16 @@ export function grabVersionFromToc(
     "AddOns",
     "WeakAuras",
   );
-  const waTocFile = version.includes("classic")
-    ? path.join(waFolderPath, "WeakAuras_Wrath.toc")
-    : version.includes("era")
-      ? path.join(waFolderPath, "WeakAuras_Vanilla.toc")
-      : path.join(waFolderPath, "WeakAuras.toc");
+  let waTocFile;
+  if (version.includes("classic_era")) {
+    waTocFile = path.join(waFolderPath, "WeakAuras_Vanilla.toc");
+  } else if (version.includes("classic_beta")) {
+    waTocFile = path.join(waFolderPath, "WeakAuras_Cata.toc");
+  } else if (version.includes("classic")) {
+    waTocFile = path.join(waFolderPath, "WeakAuras_Wrath.toc");
+  } else {
+    waTocFile = path.join(waFolderPath, "WeakAuras.toc");
+  }
 
   const isSymlink = (filePath: string): boolean => {
     try {
