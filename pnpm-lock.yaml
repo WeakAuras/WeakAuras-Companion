@@ -152,8 +152,8 @@ devDependencies:
     specifier: ^7.0.20
     version: 7.0.20(vite@5.2.6)(vue@3.4.21)
   vite-plugin-webfont-dl:
-    specifier: ^3.9.1
-    version: 3.9.1(vite@5.2.6)
+    specifier: ^3.9.2
+    version: 3.9.2(vite@5.2.6)
   vitest:
     specifier: ^1.4.0
     version: 1.4.0(@types/node@20.11.30)(lightningcss@1.24.1)
@@ -2307,16 +2307,6 @@ packages:
   /atomically@1.7.0:
     resolution: {integrity: sha512-Xcz9l0z7y9yQ9rdDaxlmaI4uJHf/T8g9hOEzJcsEqX2SjCj4J20uK7+ldkDHMbpJDK76wF7xEIgxc/vSlsfw5w==}
     engines: {node: '>=10.12.0'}
-    dev: true
-
-  /axios@1.6.3:
-    resolution: {integrity: sha512-fWyNdeawGam70jXSVlKl+SUNVcL6j6W79CuSIPfi6HnDUmSCH6gyUys/HrqHeA/wU0Az41rRgean494d0Jb+ww==}
-    dependencies:
-      follow-redirects: 1.15.6
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
     dev: true
 
   /axios@1.6.7:
@@ -6230,12 +6220,12 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-webfont-dl@3.9.1(vite@5.2.6):
-    resolution: {integrity: sha512-nr6UN0Y9ZDbtjwe0/3j+w5VdQCeYWjsgx3IaHg2EvhhbgDM44wmJLQ2ecHWduo0o+PJEmBJK6QhST6z7qxKwnA==}
+  /vite-plugin-webfont-dl@3.9.2(vite@5.2.6):
+    resolution: {integrity: sha512-kAjWbYdWz/fgvSIo5xjzca1F7EkM9ZMEQikFCoJr4u58srYtYAqyDTGQOxU1tCCCLLfktDnKFZKIFlXPay8j/Q==}
     peerDependencies:
       vite: ^2 || ^3 || ^4 || ^5
     dependencies:
-      axios: 1.6.3
+      axios: 1.6.7
       clean-css: 5.3.3
       flat-cache: 3.2.0
       picocolors: 1.0.0
