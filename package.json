@@ -70,7 +70,7 @@
     "@unocss/preset-web-fonts": "^0.58.6",
     "@vitejs/plugin-vue": "^5.0.4",
     "browserslist": "^4.23.0",
-    "electron": "29.1.5",
+    "electron": "29.1.6",
     "electron-builder": "^24.13.3",
     "electron-log": "^5.1.2",
     "electron-store": "^8.2.0",
