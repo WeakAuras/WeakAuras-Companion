@@ -92,7 +92,7 @@
     "tree-kill": "^1.2.2",
     "typescript": "^5.4.4",
     "unocss": "^0.58.8",
-    "vite": "^5.2.7",
+    "vite": "^5.2.8",
     "vite-plugin-electron": "^0.28.4",
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-resolve": "^2.5.1",
