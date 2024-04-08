@@ -86,7 +86,7 @@
     "luaparse": "^0.2.1",
     "luxon": "^3.4.4",
     "pinia": "^2.1.7",
-    "pinia-plugin-persistedstate-2": "^2.0.15",
+    "pinia-plugin-persistedstate-2": "^2.0.16",
     "prettier": "^3.2.5",
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
