@@ -11,7 +11,7 @@ export default defineComponent({
         return [];
       },
     },
-    label: { type: [String, null], default: null },
+    label: { type: [String], default: null },
     placeholder: {
       type: String,
       default: "",

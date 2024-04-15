@@ -2,10 +2,10 @@
 import { ipcRenderer } from "electron";
 import fs from "node:fs";
 import path from "node:path";
-import { defineComponent, provide, ref } from "vue";
+import { defineComponent, provide, ref, watch } from "vue";
 
 import { useStashStore } from "../stores/auras";
-import type { Account, AuraType, Version } from "../stores/config";
+import type { Account, AddonConfig, AuraType, Version } from "../stores/config";
 import { useConfigStore } from "../stores/config";
 
 import About from "./UI/About.vue";
@@ -96,6 +96,11 @@ export default defineComponent({
   setup() {
     const config = useConfigStore();
     const stash = useStashStore();
+    const selectedVersion = ref<Version>({
+      account: "",
+      accounts: [],
+      name: "",
+    });
 
     const updateAuraIsShown = ref(false);
     const toggleUpdatedAuraList = () => {
@@ -107,6 +112,18 @@ export default defineComponent({
       reportIsShown.value = !reportIsShown.value;
     };
 
+    watch(
+      () => config.wowpath.version,
+      (newVersion) => {
+        const version = config.wowpath.versions?.find(
+          (version) => version.name === newVersion,
+        );
+        if (version) {
+          selectedVersion.value = version;
+        }
+      },
+    );
+
     provide("toggleReport", toggleReport);
     provide("toggleUpdatedAuraList", toggleUpdatedAuraList);
 
@@ -117,6 +134,7 @@ export default defineComponent({
       reportIsShown,
       toggleUpdatedAuraList,
       toggleReport,
+      selectedVersion,
     };
   },
   data() {
@@ -149,8 +167,8 @@ export default defineComponent({
       return this.stash.tohtml();
     },
     accountHash() {
-      if (this.versionSelected) {
-        const { account } = this.versionSelected;
+      if (this.selectedVersion) {
+        const { account } = this.selectedVersion;
         return hash.hashFnv32a(account, true);
       }
       return null;
@@ -191,26 +209,12 @@ export default defineComponent({
           this.addonSelected.toLowerCase(),
       );
     },
-    versionSelected(): Version | undefined {
-      if (!this.config.wowpath.version || !this.config.wowpath.versions) {
-        return undefined;
-      }
-
-      const selectedVersion = this.config.wowpath.versions.find(
-        (version) => version.name === this.config.wowpath.version,
-      );
-
-      return selectedVersion || undefined;
-    },
     accountSelected(): Account {
-      const versionSelected = this.versionSelected;
+      const versionSelected = this.selectedVersion;
 
-      if (typeof versionSelected === "object") {
-        return versionSelected.accounts.find(
-          (account) => account.name === versionSelected.account,
-        );
-      }
-      return null;
+      return versionSelected?.accounts?.find(
+        (account) => account.name === versionSelected.account,
+      ) as Account;
     },
     aurasWithData() {
       return this.auras.filter(
@@ -277,7 +281,7 @@ export default defineComponent({
       handler() {
         writeAddonData(
           this.config,
-          this.addonsInstalled,
+          this.addonsInstalled as AddonConfig[],
           this.aurasWithData,
           this.stash,
         );
@@ -289,7 +293,7 @@ export default defineComponent({
         this.config,
         this.versionOptions,
         this.accountOptions,
-        this.versionSelected,
+        this.selectedVersion,
         this.auras,
       );
     },
@@ -297,7 +301,7 @@ export default defineComponent({
       buildAccountList(
         this.config,
         this.accountOptions,
-        this.versionSelected,
+        this.selectedVersion,
         this.auras,
       );
     },
@@ -317,19 +321,21 @@ export default defineComponent({
 
       if (link) {
         const result = link.match(pattern);
-        let slug: string;
+        let slug: string = "";
 
         if (result) {
           ({ 1: slug } = result);
         }
 
         if (slug) {
-          await wagoPushHandler(
-            this.config,
-            slug,
-            this.stash,
-            this.versionSelected,
-          );
+          if (this.selectedVersion) {
+            await wagoPushHandler(
+              this.config,
+              slug,
+              this.stash,
+              this.selectedVersion,
+            );
+          }
         }
       }
     });
@@ -392,7 +398,7 @@ export default defineComponent({
             this.config,
             this.versionOptions,
             this.accountOptions,
-            this.versionSelected,
+            this.selectedVersion,
             this.auras,
           );
         }
@@ -455,14 +461,14 @@ export default defineComponent({
     getWeakAurasSaved() {
       return WeakAurasSaved(
         this.config,
-        this.versionSelected,
+        this.selectedVersion,
         this.accountSelected,
       );
     },
     getPlaterSaved() {
       return PlaterSaved(
         this.config,
-        this.versionSelected,
+        this.selectedVersion,
         this.accountSelected,
       );
     },
@@ -470,7 +476,7 @@ export default defineComponent({
       return isAddonInstalled(
         this.config,
         addon,
-        this.versionSelected,
+        this.selectedVersion,
         this.accountSelected,
       );
     },
@@ -498,7 +504,7 @@ export default defineComponent({
     async doCompareSVwithWago() {
       return compareSVwithWago(
         this.config,
-        this.versionSelected,
+        this.selectedVersion,
         this.accountSelected,
         this.fetching,
         this.addonsInstalled,
@@ -604,11 +610,11 @@ export default defineComponent({
               />
             </div>
             <div
-              v-if="config.wowpath.validated && versionSelected"
+              v-if="config.wowpath.validated && selectedVersion"
               id="account-selector"
             >
               <Dropdown
-                v-model:value="versionSelected.account"
+                v-model:value="selectedVersion.account"
                 :options="accountOptions"
                 :label="$t('app.wowpath.account' /* Account */)"
                 @change="doCompareSVwithWago()"
@@ -640,7 +646,7 @@ export default defineComponent({
           <div id="dashboard">
             <RefreshButton
               :is-settings-ok="config.wowpath.validated"
-              :is-version-selected="versionSelected"
+              :is-version-selected="selectedVersion"
               :is-account-selected="accountSelected"
               :is-sv-ok="!!getWeakAurasSaved() || !!getPlaterSaved()"
               :fetching="fetching"
@@ -743,7 +749,7 @@ export default defineComponent({
         <div class="app-update">
           <a
             v-if="updater.status === 'update-available'"
-            :href="updater.path"
+            :href="updater.path || ''"
             target="_blank"
           >
             <i
