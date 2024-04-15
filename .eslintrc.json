@@ -19,24 +19,8 @@
   ],
   "rules": {
     "no-console": "off",
-    "@typescript-eslint/comma-dangle": [
-      "error",
-      "only-multiline"
-    ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-implicit-any": "off",
-    "@typescript-eslint/quotes": [
-      "error",
-      "double",
-      {
-        "avoidEscape": true,
-        "allowTemplateLiterals": false
-      }
-    ],
-    "@typescript-eslint/semi": [
-      "error",
-      "always"
-    ],
     "vue/multi-word-component-names": "off",
     "vue/block-order": [
       "error",
