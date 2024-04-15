@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
+import type { UserConfig } from "vite";
 
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
@@ -130,15 +131,16 @@ export default defineConfig(({ command }) => {
         },
       },
     },
-    server:
-      process.env.VSCODE_DEBUG &&
-      (() => {
-        const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
-        return {
-          host: url.hostname,
-          port: +url.port,
-        };
-      })(),
+    server: process.env.VSCODE_DEBUG
+      ? (() => {
+          const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
+          return {
+            host: url.hostname,
+            port: +url.port,
+            hrm: true,
+          };
+        })()
+      : { hmr: true },
     clearScreen: false,
-  };
+  } satisfies UserConfig;
 });

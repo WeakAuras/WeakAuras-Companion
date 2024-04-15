@@ -2,25 +2,23 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
-    "target": "ESNext",
     "esModuleInterop": true,
-    "module": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "jsx": "preserve",
-    "jsxImportSource": "vue",
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "strict": true,
-    "allowJs": true,
-    "isolatedModules": true,
     "skipLibCheck": true,
-    "noImplicitAny": false,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "module": "preserve",
+    "noEmit": true,
+    "lib": [
+      "es2022",
+      "dom",
+      "dom.iterable"
+    ],
+    "strict": true,
     "strictNullChecks": false,
+    "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
@@ -32,15 +30,14 @@
   },
   "include": [
     "./**/*.ts",
-    "./**/*.vue"
+    "./**/*.vue",
+    "uno.config.ts",
+    "vite.config.ts",
+    "package.json",
+    "electron"
   ],
   "types": [
     "node",
     "vite/client"
   ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
 }
