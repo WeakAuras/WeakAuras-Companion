@@ -140,8 +140,8 @@ devDependencies:
     specifier: ^5.2.8
     version: 5.2.8(@types/node@20.12.7)(lightningcss@1.24.1)
   vite-plugin-electron:
-    specifier: ^0.28.4
-    version: 0.28.4(vite-plugin-electron-renderer@0.14.5)
+    specifier: ^0.28.6
+    version: 0.28.6(vite-plugin-electron-renderer@0.14.5)
   vite-plugin-electron-renderer:
     specifier: ^0.14.5
     version: 0.14.5
@@ -6116,8 +6116,8 @@ packages:
     resolution: {integrity: sha512-EQ7ORuPp8vFPCqfuGnVo7d36fXS0IFH4/RUlKb1drseix3TQEPcgwEuFADdXBxRgqMp70njz/1m0kdf5lEsm8w==}
     dev: true
 
-  /vite-plugin-electron@0.28.4(vite-plugin-electron-renderer@0.14.5):
-    resolution: {integrity: sha512-OcWQQZk1ygkG4g/nj6cQ0zMu5q9yPcxEtDNcY8xagWqjQ3PxZbWuf1VyElZSo16GqPa71vBzoz+XAukia/TgNQ==}
+  /vite-plugin-electron@0.28.6(vite-plugin-electron-renderer@0.14.5):
+    resolution: {integrity: sha512-DANntooA/XcUQuaOG7tQ0nnWh8iP5yKur2e9GDafjslOPAVZehRyrbi2UEI6rlIhN6hHwcqAjY+/Zz8+thAL5g==}
     peerDependencies:
       vite-plugin-electron-renderer: '*'
     peerDependenciesMeta:
