@@ -29,6 +29,19 @@ export default defineComponent({
       height: this.options.length * 30,
     };
   },
+  computed: {
+    sortedOptions() {
+      return this.options.sort(function (a, b) {
+        if (a.text < b.text) {
+          return -1;
+        }
+        if (a.text > b.text) {
+          return 1;
+        }
+        return 0;
+      });
+    },
+  },
   watch: {
     value() {
       this.selected =
@@ -86,7 +99,7 @@ export default defineComponent({
       class="dropdown__options"
     >
       <div
-        v-for="option in options"
+        v-for="option in sortedOptions"
         :key="option.value"
         class="dropdown__option hover:bg-brand-grey-darkest"
         :title="option.text"
