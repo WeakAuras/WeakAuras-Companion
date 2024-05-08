@@ -104,6 +104,7 @@ async function createWindow() {
     frame: false,
     transparent: true,
     backgroundColor: "#00000000",
+    titleBarStyle: "hidden",
     icon: notificationIcon,
     resizable: true,
     webPreferences: {
