@@ -25,7 +25,7 @@
     "compile-tools": "tsc -p tools",
     "dev": "vite",
     "i18n": "pnpm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
-    "i18n-report": "pnpm dlx vue-i18n-extract report --remove --vueFiles './src/components/**/*.?(js|vue)' --languageFiles './i18n/*.json'",
+    "i18n-report": "pnpm dlx vue-i18n-extract report --add --remove --separator 'buggy' --vueFiles './src/**/*.?(ts|vue)' --languageFiles './i18n/*.json'",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint . --cache --ext .ts,.js,.vue && prettier . --check --cache",
     "lint:fix": "eslint . --ext .ts,.js,.vue --fix && prettier . --write",
