@@ -1,15 +1,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+type DropdownOption = { text: string; value: string | number };
+
 export default defineComponent({
   inheritAttrs: false,
   props: {
     value: { type: [String, Number, Object], default: "" },
     options: {
-      type: [Array, Object],
-      default() {
-        return [];
-      },
+      type: Array as () => Array<DropdownOption>,
+      default: () => [],
     },
     label: { type: [String, null], default: null },
     placeholder: {
@@ -31,15 +31,9 @@ export default defineComponent({
   },
   computed: {
     sortedOptions() {
-      return this.options.sort(function (a, b) {
-        if (a.text < b.text) {
-          return -1;
-        }
-        if (a.text > b.text) {
-          return 1;
-        }
-        return 0;
-      });
+      return [...this.options].sort((a: DropdownOption, b: DropdownOption) =>
+        a.text.localeCompare(b.text),
+      );
     },
   },
   watch: {
