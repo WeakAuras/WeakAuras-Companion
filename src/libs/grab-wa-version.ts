@@ -18,7 +18,7 @@ export function grabVersionFromToc(
   } else if (version.includes("classic_beta")) {
     waTocFile = path.join(waFolderPath, "WeakAuras_Cata.toc");
   } else if (version.includes("classic")) {
-    waTocFile = path.join(waFolderPath, "WeakAuras_Wrath.toc");
+    waTocFile = path.join(waFolderPath, "WeakAuras_Cata.toc");
   } else {
     waTocFile = path.join(waFolderPath, "WeakAuras.toc");
   }
@@ -68,5 +68,5 @@ export function grabVersionFromToc(
     }
   }
 
-  return waTocVersion || 100100; // Return the version if found, otherwise fallback to 100100
+  return waTocVersion || 100207; // Return the version if found, otherwise fallback to 100207
 }

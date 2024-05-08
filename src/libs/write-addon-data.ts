@@ -181,9 +181,9 @@ init.lua`;
 
     const fileNames = [
       "WeakAurasCompanion.toc",
-      "WeakAurasCompanion-Classic.toc",
+      "WeakAurasCompanion-Vanilla.toc",
       "WeakAurasCompanion-Mainline.toc",
-      "WeakAurasCompanion-Wrath.toc",
+      "WeakAurasCompanion-Cata.toc",
       "data.lua",
     ];
 

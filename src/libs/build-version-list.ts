@@ -28,43 +28,43 @@ export function buildVersionList(
   const versionLabels = [
     {
       value: "_retail_",
-      text: i18n.global.t("app.version.df" /* Dragonflight */),
+      text: i18n.global.t("app.version.retail" /* Dragonflight */),
     },
     {
       value: "_ptr_",
-      text: i18n.global.t("app.version.dfptr" /* Dragonflight PTR */),
+      text: i18n.global.t("app.version.retail_ptr" /* Dragonflight PTR */),
     },
     {
       value: "_xptr_",
-      text: i18n.global.t("app.version.dfptr2" /* Dragonflight PTR 2 */),
+      text: i18n.global.t("app.version.retail_ptr2" /* Dragonflight PTR 2 */),
     },
     {
       value: "_beta_",
-      text: i18n.global.t("app.version.dfbeta" /* Dragonflight Beta */),
+      text: i18n.global.t("app.version.retail_beta" /* The War Within Beta */),
     },
     {
       value: "_classic_",
-      text: i18n.global.t("app.version.classicwotlk" /* WoTLK Classic */),
+      text: i18n.global.t("app.version.classic" /* Cataclysm Classic */),
     },
     {
       value: "_classic_ptr_",
       text: i18n.global.t(
-        "app.version.classicwotlkptr" /* WoTLK Classic PTR */,
+        "app.version.classic_ptr" /* Cataclysm Classic PTR */,
       ),
     },
     {
       value: "_classic_beta_",
       text: i18n.global.t(
-        "app.version.classicwotlkbeta" /* WoTLK Classic Beta */,
+        "app.version.classic_beta" /* Cataclysm  Classic Beta */,
       ),
     },
     {
       value: "_classic_era_",
-      text: i18n.global.t("app.version.classicera" /* Classic Era */),
+      text: i18n.global.t("app.version.classic_era" /* Classic Era */),
     },
     {
       value: "_classic_era_ptr_",
-      text: i18n.global.t("app.version.classiceraptr" /* Classic Era PTR */),
+      text: i18n.global.t("app.version.classic_era_ptr" /* Classic Era PTR */),
     },
   ];
 
