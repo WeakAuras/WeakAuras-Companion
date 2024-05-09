@@ -1,17 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
-
-// https://sharp.pixelplumbing.com/api-composite
 import sharp from "sharp";
-
-// https://github.com/steel1990/tga
 import tga from "tga";
 
-function nextPow2(aSize) {
+function nextPow2(aSize: number): number {
   return 2 ** Math.ceil(Math.log(aSize) / Math.log(2));
 }
 
-function calculateBestSize(width: number, height: number, count: number) {
+function calculateBestSize(width: number, height: number, count: number): number {
   let bestcols = 1;
   let bestsize = Number.MAX_VALUE;
   let bestratio = Number.MAX_VALUE;
@@ -38,7 +34,7 @@ function calculateFileSize(
   scaling: number,
   useSkipFrames: boolean,
   skipFrames: number,
-) {
+): { cols: number; rows: number; frames: number; width: number; height: number; size: number } {
   const filePages = useSkipFrames
     ? Math.floor(pages * (1 - 1 / skipFrames))
     : pages;
@@ -61,7 +57,7 @@ function calculateFileSize(
   };
 }
 
-async function getMetaData(filename: string | Buffer) {
+async function getMetaData(filename: string | Buffer): Promise<sharp.Metadata> {
   return await sharp(filename, { animated: true }).metadata();
 }
 
@@ -72,8 +68,8 @@ async function convert(
   useSkipFrames: boolean,
   skipFrames: number,
   destination: string,
-  fileBuffer: any,
-) {
+  fileBuffer?: Buffer,
+): Promise<{ destFile: string; preview: string }> {
   let incomingFileBuffer = fileBuffer;
   try {
     if (incomingFileBuffer === undefined) {
@@ -89,8 +85,8 @@ async function convert(
     width = Math.round(width * scaling);
     const height = Math.round(pageHeight * scaling);
 
-    let frames = [];
-    let prevFrameBuffer;
+    let frames: Buffer[] = [];
+    let prevFrameBuffer: Buffer;
 
     for (let i = 0; i < pages; i++) {
       const frame = await sharp(incomingFileBuffer, { page: i })
@@ -150,12 +146,10 @@ async function convert(
       });
     }
 
-    // results.composite(compose).toFile(`${filename.replace(/\.[^/.]+$/, "")}.png`)
-
-    const composited = results.composite(compose); // { resolveWithObject: true }
+    const composited = results.composite(compose);
     const rawbuffer = await composited.raw().toBuffer();
     const pixelArray = Uint8ClampedArray.from(rawbuffer);
-    const buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray); // pixelArray);
+    const buf = tga.createTgaBuffer(fileWidth, fileHeight, pixelArray);
     let out = path.parse(filename).name;
     out = `${out}.x${rows}y${cols}f${frameCount}w${width}h${height}W${fileWidth}H${fileHeight}.tga`;
     const destFile = path.join(destination, out);
@@ -164,12 +158,12 @@ async function convert(
     await fs.promises.writeFile(destFile, buf);
     console.log(`created file: ${destFile}`);
 
-    // make preview
     const resized = await composited.png().toBuffer();
     const preview = resized.toString("base64");
     return { destFile, preview };
   } catch (error) {
     console.log(error);
+    throw error; // Ensure that errors are not silently ignored
   }
 }
 

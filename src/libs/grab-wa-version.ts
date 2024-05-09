@@ -2,9 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 
 export function grabVersionFromToc(
-  wowPath: string,
-  version: string,
+  wowPath: string | null, // Added null check for wowPath parameter
+  version: string | null, // Added null check for version parameter
 ): string | number {
+  if (!wowPath || !version) return ""; // Added null check for wowPath and version
+
   const waFolderPath = path.join(
     wowPath,
     version,

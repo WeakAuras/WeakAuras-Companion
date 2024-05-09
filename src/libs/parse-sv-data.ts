@@ -1,7 +1,7 @@
 import type { AddonConfig } from "@/stores/config";
 import { reactive } from "vue";
 
-function findSlugAndMatchURL(url, pattern: RegExp) {
+function findSlugAndMatchURL(url: string, pattern: RegExp): string | null { // Added explicit type annotations
   const result = url.match(pattern);
 
   if (result) {
@@ -10,7 +10,9 @@ function findSlugAndMatchURL(url, pattern: RegExp) {
   return null;
 }
 
-export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
+export function parseWeakAurasSVdata(WeakAurasSavedData: any, config: AddonConfig): any[] { // Added explicit type annotations
+  if (!WeakAurasSavedData || !config) return []; // Added null checks
+
   const aurasFromFile = [];
 
   if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
@@ -22,13 +24,13 @@ export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
   WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
     if (obj.key.value === "displays") {
       obj.value.fields.forEach((obj2) => {
-        let slug: string;
-        let url: URL;
+        let slug: string | null = null; // Initialized as null
+        let url: string | null = null; // Initialized as null
         let version = 0;
-        let semver: string;
+        let semver: string | null = null; // Initialized as null
         let ignoreWagoUpdate = false;
-        let id: number;
-        let uid = null;
+        let id: number | null = null; // Initialized as null
+        let uid: string | null = null; // Initialized as null
 
         obj2.value.fields.forEach((obj3) => {
           if (!obj3.key) {
@@ -97,11 +99,13 @@ export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
   return aurasFromFile;
 }
 
-export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
+export function parsePlaterSVdata(PlaterSavedData: any, config: AddonConfig): any[] { // Added explicit type annotations
+  if (!PlaterSavedData || !config) return []; // Added null checks
+
   const aurasFromFile = [];
 
   if (PlaterSavedData.body[0].variables[0].name !== "PlaterDB") {
-    return;
+    return [];
   }
 
   const pattern = /(https:\/\/wago.io\/)([^/]+)/;
@@ -109,12 +113,12 @@ export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
   PlaterSavedData.body[0].init[0].fields.forEach((obj) => {
     if (obj.key.value === "profiles") {
       obj.value.fields.forEach((profile) => {
-        let profslug: string;
-        let profurl: URL;
+        let profslug: string | null = null; // Initialized as null
+        let profurl: string | null = null; // Initialized as null
         let profversion = 0;
-        let profsemver: string;
+        let profsemver: string | null = null; // Initialized as null
         let profignoreWagoUpdate = false;
-        let profid: number;
+        let profid: number | null = null; // Initialized as null
 
         profile.value.fields.forEach((profData) => {
           if (!profData.key) {
@@ -152,12 +156,12 @@ export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
               "";
 
             value.fields.forEach((obj2) => {
-              let slug: string;
-              let url: URL;
+              let slug: string | null = null; // Initialized as null
+              let url: string | null = null; // Initialized as null
               let version = 0;
-              let semver: string;
+              let semver: string | null = null; // Initialized as null
               let ignoreWagoUpdate = false;
-              let id: number;
+              let id: number | null = null; // Initialized as null
 
               obj2.value.fields.forEach((obj3) => {
                 if (!obj3.key) {

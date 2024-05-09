@@ -1,9 +1,9 @@
 import { createServer } from "node:http";
 
-let stash;
+let stash: any[] = []; // Added explicit type annotation
 
 // is app is in development mode or if origin is wago then allow the request
-function allowRequest(req) {
+function allowRequest(req: any): boolean { // Added explicit type annotations
   if (
     process.env.NODE_ENV === "development" ||
     req.headers.origin === "https://wago.io"
@@ -14,10 +14,10 @@ function allowRequest(req) {
 }
 
 // parse post data into JSON object
-function getPostData(req, callback) {
+function getPostData(req: any, callback: (json: any | null) => void): void { // Added explicit type annotations
   let body = "";
 
-  req.on("data", (chunk) => {
+  req.on("data", (chunk: any) => { // Added explicit type annotations
     body += chunk.toString();
   });
 
@@ -31,7 +31,7 @@ function getPostData(req, callback) {
   });
 }
 
-function LocalServerRequestHandler(req, res) {
+function LocalServerRequestHandler(req: any, res: any): void { // Added explicit type annotations
   // make sure this request is allowed
   if (!allowRequest(req)) {
     res.writeHead(401, { "Content-Type": "application/json" });
@@ -49,10 +49,11 @@ function LocalServerRequestHandler(req, res) {
 
   // otherwise it should be a POST, parse and process the data
   if (req.method === "POST") {
-    getPostData(req, (body) => {
+    getPostData(req, (body: any | null) => { // Added explicit type annotations
       // console.log(body);
-      if (body.action === "Add-Import") {
-        const { 2: slug } = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
+      if (body && body.action === "Add-Import") { // Added null check for body
+        const match = body.url.match(/(https:\/\/wago.io\/)([^/]+)/);
+        const slug = match ? match[2] : ""; // Added null check for match
 
         if (stash.findIndex((aura) => aura.url === body.url) === -1)
           stash.push({
@@ -80,11 +81,11 @@ function LocalServerRequestHandler(req, res) {
 const localServer = createServer(LocalServerRequestHandler);
 const localServerPort = 24642;
 
-export function start(v) {
+export function start(v: any[]): void { // Added explicit type annotations
   stash = v;
   localServer.listen(localServerPort, "127.0.0.1");
 }
 
-export function stop() {
+export function stop(): void { // Added explicit type annotations
   localServer.close();
 }

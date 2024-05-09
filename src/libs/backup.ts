@@ -5,6 +5,8 @@ import archiver from "archiver";
 import type { AddonConfig, Backup, ConfigState } from "@/stores/config";
 
 export function backup(config: ConfigState, addonsInstalled: AddonConfig[]) {
+  if (!config || !addonsInstalled) return; // Added null check for parameters
+
   config.wowpath.versions.forEach((version) => {
     version.accounts.forEach((account) => {
       addonsInstalled.forEach((addon) => {
@@ -49,6 +51,8 @@ function deleteOldFiles(
   addonName: string,
   maxSize: number,
 ) {
+  if (!dirPath || !accountName || !addonName || !maxSize) return; // Added null check for parameters
+
   const regex = new RegExp(`^${addonName}-${accountName}-[0-9.]+.zip$`);
   const files = fs
     .readdirSync(dirPath)
@@ -88,6 +92,8 @@ function backupIfRequired(
   callback: { (fileSize: number): void; (arg0: number): void },
   addonName: string,
 ) {
+  if (!fileName || !config || !accountName || !callback || !addonName) return; // Added null check for parameters
+
   if (config?.active && fileName) {
     const stats = fs.statSync(fileName);
 

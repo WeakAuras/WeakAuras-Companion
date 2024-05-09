@@ -7,15 +7,15 @@ import App from "./App.vue";
 import { i18n } from "./libs/i18n";
 import "virtual:uno.css";
 
-async function getStore(key: string) {
+async function getStore(key: string): Promise<any> { // Explicit type annotation added
   return await ipcRenderer.invoke("getStore", key);
 }
 
-async function setStore(key: string, value: any) {
+async function setStore(key: string, value: any): Promise<void> { // Explicit type annotation added
   return await ipcRenderer.invoke("setStore", key, value);
 }
 
-async function deleteStore(key: string) {
+async function deleteStore(key: string): Promise<void> { // Explicit type annotation added
   return await ipcRenderer.invoke("deleteStore", key);
 }
 

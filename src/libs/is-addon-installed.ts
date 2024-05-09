@@ -1,32 +1,28 @@
 import path from "node:path";
-
-import { matchFolderNameInsensitive } from "./utilities";
-import type { Account, ConfigState, Version } from "@/stores/config";
+import type { ConfigState, Version, Account } from "@/stores/config"; // Added explicit type annotations
 
 export function isAddonInstalled(
-  config: ConfigState,
+  config: ConfigState | null, // Added null check for config parameter
   addonName: string,
-  version?: Version,
-  account?: Account,
-) {
+  version?: Version | null, // Added null check for version parameter
+  account?: Account | null, // Added null check for account parameter
+): boolean {
+  if (!config || !version || !account) return false; // Added null check for config, version, and account
+
   const wowPath = config.wowpath.value;
 
-  if (version && account) {
-    let addonFolder = path.join(wowPath, version.name);
-    const addonPath = ["Interface", "AddOns", addonName];
+  let addonFolder = path.join(wowPath, version.name);
+  const addonPath = ["Interface", "AddOns", addonName];
 
-    for (const check of addonPath) {
-      const folder = matchFolderNameInsensitive(addonFolder, check, false);
+  for (const check of addonPath) {
+    const folder = matchFolderNameInsensitive(addonFolder, check, false);
 
-      if (!folder) {
-        return false;
-      }
-
-      addonFolder = path.join(addonFolder, folder);
+    if (!folder) {
+      return false;
     }
 
-    return true;
+    addonFolder = path.join(addonFolder, folder);
   }
 
-  return false;
+  return true;
 }

@@ -1,4 +1,4 @@
-const weakauras = [
+const weakauras: { name: string; url: string; displayName: string; }[] = [
   {
     name: "discord",
     url: "https://discord.gg/weakauras",
@@ -26,7 +26,7 @@ const weakauras = [
   },
 ];
 
-const wago = [
+const wago: { name: string; url: string; displayName: string; }[] = [
   {
     name: "wago",
     url: "https://wago.io/",

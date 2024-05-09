@@ -1,7 +1,7 @@
 function hashFnv32a(
   str: string,
   asString: boolean,
-  seed = 0x811c9dc5,
+  seed: number = 0x811c9dc5,
 ): string | number {
   // Calculate a 32 bit FNV-1a hash
   let hval = seed;

@@ -28,9 +28,9 @@ type FetchingUpdateCallback = (fetching: boolean) => void;
 type WriteAddonDataCallback = () => void;
 
 export async function compareSVwithWago(
-  config: ConfigState,
-  versionSelected: Version,
-  accountSelected: Account,
+  config: ConfigState | null, // Added null check for config parameter
+  versionSelected: Version | null, // Added null check for versionSelected parameter
+  accountSelected: Account | null, // Added null check for accountSelected parameter
   fetchingState: boolean,
   addonsInstalled: AddonConfig[],
   addonSelected: string,
@@ -38,6 +38,8 @@ export async function compareSVwithWago(
   fetchingUpdateCallback: FetchingUpdateCallback,
   writeAddonDataCallback: WriteAddonDataCallback,
 ) {
+  if (!config || !versionSelected || !accountSelected) return; // Added null check for config, versionSelected, and accountSelected
+
   const schedule = {
     id: null,
   };
@@ -210,7 +212,7 @@ export async function compareSVwithWago(
 
   // remove orphans
   for (let index = auras.length - 1; index > -1; index -= 1) {
-    if (!slugs.includes(auras[index].slug)) {
+    if (!slugs.includes(auras[index]?.slug)) {
       auras.splice(index, 1);
     }
   }

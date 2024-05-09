@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 
-function getUpdateValueWithAllAuras(aura) {
+// Added explicit type annotations to function parameters
+function getUpdateValueWithAllAuras(aura: { ignoreWagoUpdate: boolean; version: number; wagoVersion: number }): number {
   if (aura.ignoreWagoUpdate) {
     return 2;
   } else if (aura.version < aura.wagoVersion) {
@@ -9,7 +10,8 @@ function getUpdateValueWithAllAuras(aura) {
   return 3;
 }
 
-export function createSortByTime(dir) {
+// Added explicit type annotations to function parameters
+export function createSortByTime(dir: number): (a: { modified: Date; }, b: { modified: Date; }) => number {
   return (a, b) => {
     return (
       DateTime.fromJSDate(b.modified)
@@ -19,7 +21,8 @@ export function createSortByTime(dir) {
   };
 }
 
-export function createSortByString(dir, column) {
+// Added explicit type annotations to function parameters
+export function createSortByString(dir: number, column: string): (a: { [x: string]: any; }, b: { [x: string]: any; }) => number {
   return (a, b) => {
     let A = a[column] || "";
     let B = b[column] || "";
@@ -29,14 +32,16 @@ export function createSortByString(dir, column) {
   };
 }
 
-export function createSortByType(dir) {
+// Added explicit type annotations to function parameters
+export function createSortByType(dir: number): (a: any, b: any) => number {
   const sortByType = createSortByString(dir, "auraTypeDisplay");
   const sortByName = createSortByString(1, "name");
 
   return (a, b) => sortByType(a, b) || sortByName(a, b);
 }
 
-export function createSortByAuthor(dir, hasTypeColumn) {
+// Added explicit type annotations to function parameters
+export function createSortByAuthor(dir: number, hasTypeColumn: boolean): (a: any, b: any) => number {
   const sortByAuthor = createSortByString(dir, "author");
   const secondarySortFunction = hasTypeColumn
     ? createSortByType(1)
@@ -45,7 +50,8 @@ export function createSortByAuthor(dir, hasTypeColumn) {
   return (a, b) => sortByAuthor(a, b) || secondarySortFunction(a, b);
 }
 
-export function createSortByUpdate(dir, hasTypeColumn) {
+// Added explicit type annotations to function parameters
+export function createSortByUpdate(dir: number, hasTypeColumn: boolean): (a: any, b: any) => number {
   const getUpdateValue = getUpdateValueWithAllAuras;
   const secondarySortFunction = hasTypeColumn
     ? createSortByType(1)

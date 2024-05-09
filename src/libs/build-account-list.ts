@@ -9,11 +9,13 @@ import type {
 } from "@/stores/config";
 
 export function buildAccountList(
-  config: ConfigState,
+  config: ConfigState | null, // Added null check for config parameter
   accountOptions: AccountOptions[],
-  versionSelected: Version,
+  versionSelected: Version | null, // Added null check for versionSelected parameter
   auras: AuraType[],
 ) {
+  if (!config || !versionSelected) return; // Added null check for config and versionSelected
+
   const addAccount = (accountFile: string) => {
     const newAccount: Account = {
       name: accountFile,

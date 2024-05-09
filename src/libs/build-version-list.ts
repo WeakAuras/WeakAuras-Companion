@@ -9,10 +9,12 @@ import type {
 } from "@/stores/config";
 
 export function buildVersionList(
-  config: ConfigState,
+  config: ConfigState | null, // Added null check for config parameter
   versionOptions: VersionOptions[],
   accountOptions: AccountOptions[],
 ) {
+  if (!config) return; // Added null check for config
+
   const addVersion = (versionDir: string) => {
     const newVersion: Version = {
       name: versionDir,
@@ -68,7 +70,7 @@ export function buildVersionList(
     },
   ];
 
-  if (config.wowpath.validated) {
+  if (config && config.wowpath.validated) { // Added null check for config
     const wowpath = config.wowpath.value;
 
     try {

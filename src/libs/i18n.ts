@@ -9,11 +9,11 @@ import ru from "../../i18n/ru.json";
 import tr from "../../i18n/tr.json";
 import zhcn from "../../i18n/zh-cn.json";
 
-function getLang() {
+async function getLang(): Promise<string> { // Added explicit type annotation
   return ipcRenderer.invoke("getLang");
 }
 
-const locale = await getLang();
+const locale: string = await getLang(); // Added explicit type annotation
 
 export const i18n = createI18n({
   locale,
@@ -28,7 +28,7 @@ export const i18n = createI18n({
     "zh-cn": zhcn,
   },
   pluralizationRules: {
-    ru(choice, choicesLength) {
+    ru(choice: number, choicesLength: number): number { // Added explicit type annotations
       if (choicesLength < 4) {
         /* amount of available choices is incorrect (e.g. untranslated English phrase) */
         return choice === 0

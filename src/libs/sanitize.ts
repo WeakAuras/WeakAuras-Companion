@@ -1,4 +1,4 @@
-function bbcode(str: string) {
+function bbcode(str: string | null): string { // Added explicit type annotations
   let output = str || "";
 
   output = output.replace(
@@ -8,7 +8,7 @@ function bbcode(str: string) {
   return output;
 }
 
-function markdown(str: string) {
+function markdown(str: string | null): string { // Added explicit type annotations
   // https://github.com/stiang/remove-markdown/blob/master/index.js
   let output = str || "";
 
