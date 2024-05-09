@@ -20,7 +20,6 @@
   "rules": {
     "no-console": "off",
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-implicit-any": "error",
     "vue/multi-word-component-names": "off",
     "vue/block-order": [
       "error",
