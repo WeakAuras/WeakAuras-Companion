@@ -325,7 +325,7 @@ export async function compareSVwithWago(
     return;
   }
 
-  const handleAuraUpdate = (wagoResp: any, auras: any[]) => {
+  const handleAuraUpdate = (wagoResp: Response<string>, auras: AuraType[]) => {
     const id = wagoResp?.requestUrl?.searchParams?.get("id");
 
     if (id) {
@@ -381,7 +381,7 @@ export async function compareSVwithWago(
     const wagoEncodedStrings = await Promise.all(promisesResolved);
     console.log("promisesWagoDataCallsComplete");
 
-    wagoEncodedStrings.forEach((wagoResp: WagoApiResponse) =>
+    wagoEncodedStrings.forEach((wagoResp: Response<string>) =>
       handleAuraUpdate(wagoResp, auras),
     );
 
@@ -404,3 +404,4 @@ export async function compareSVwithWago(
 
   handlePromises();
 }
+
