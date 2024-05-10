@@ -77,8 +77,8 @@ devDependencies:
     specifier: ^24.13.3
     version: 24.13.3(electron-builder-squirrel-windows@24.13.3)
   electron-log:
-    specifier: ^5.1.2
-    version: 5.1.2
+    specifier: ^5.1.4
+    version: 5.1.4
   electron-store:
     specifier: ^8.2.0
     version: 8.2.0
@@ -3237,8 +3237,8 @@ packages:
       - supports-color
     dev: true
 
-  /electron-log@5.1.2:
-    resolution: {integrity: sha512-Cpg4hAZ27yM9wzE77c4TvgzxzavZ+dVltCczParXN+Vb3jocojCSAuSMCVOI9fhFuuOR+iuu3tZLX1cu0y0kgQ==}
+  /electron-log@5.1.4:
+    resolution: {integrity: sha512-P0RSXnwT3z+e89Z5uAcZDeN85/QjIgv764a93kqCi+wh2Jm22CCbc3AGDt4S8rsxAHWHB4Q0PGsQl3fw1AN0kQ==}
     engines: {node: '>= 14'}
     dev: true
 
