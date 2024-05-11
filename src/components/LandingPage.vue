@@ -45,6 +45,7 @@ import type {
   UpdateInfo,
 } from "electron-updater";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UpdaterEventArg =
   | { status: "error"; error: Error; message?: string }
   | { status: "download-progress"; progressInfo: ProgressInfo }
@@ -334,51 +335,52 @@ export default defineComponent({
       }
     });
 
-    ipcRenderer.on(
-      "updaterHandler",
-      (_event, status: string, arg: UpdaterEventArg) => {
-        console.log(`updaterHandler: ${status}`);
+    ipcRenderer.on("updaterHandler", (_event, status: string, arg) => {
+      console.log(`updaterHandler: ${status}`);
 
-        if (status === "checking-for-update") {
-          // No additional data for this status
-          return;
+      if (status === "checking-for-update") {
+        // No additional data for this status
+        return;
+      }
+
+      this.updater.status = status;
+
+      if (status === "download-progress" && "progressInfo" in arg) {
+        this.updater.progress = Math.floor(arg.progressInfo.percent);
+      }
+
+      if (status === "update-available") {
+        this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
+        this.updater.version = arg.version;
+        this.updater.releaseNotes = arg.releaseNotes || "";
+      }
+
+      if (
+        (status === "update-not-available" || status === "update-downloaded") &&
+        "updateInfo" in arg
+      ) {
+        this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.updateInfo.version}/${arg.updateInfo.path}`;
+        this.updater.version = arg.updateInfo.version;
+
+        // List if `updater.fullChangelog` is set to `true`, `string` otherwise.
+        if (typeof arg.updateInfo.releaseNotes === "string") {
+          this.updater.releaseNotes = arg.updateInfo.releaseNotes;
+        } else if (Array.isArray(arg.updateInfo.releaseNotes)) {
+          // Convert the array of ReleaseNoteInfo to a string
+          this.updater.releaseNotes = arg.updateInfo.releaseNotes
+            .map((note) => note.note)
+            .join("\n");
+        } else {
+          this.updater.releaseNotes = "";
         }
 
-        this.updater.status = status;
+        console.log(JSON.stringify(arg));
+      }
 
-        if (status === "download-progress" && "progressInfo" in arg) {
-          this.updater.progress = Math.floor(arg.progressInfo.percent);
-        }
-
-        if (
-          (status === "update-available" ||
-            status === "update-not-available" ||
-            status === "update-downloaded") &&
-          "updateInfo" in arg
-        ) {
-          this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.updateInfo.version}/${arg.updateInfo.path}`;
-          this.updater.version = arg.updateInfo.version;
-
-          // List if `updater.fullChangelog` is set to `true`, `string` otherwise.
-          if (typeof arg.updateInfo.releaseNotes === "string") {
-            this.updater.releaseNotes = arg.updateInfo.releaseNotes;
-          } else if (Array.isArray(arg.updateInfo.releaseNotes)) {
-            // Convert the array of ReleaseNoteInfo to a string
-            this.updater.releaseNotes = arg.updateInfo.releaseNotes
-              .map((note) => note.note)
-              .join("\n");
-          } else {
-            this.updater.releaseNotes = "";
-          }
-
-          console.log(JSON.stringify(arg));
-        }
-
-        if (status === "error" && "error" in arg) {
-          console.error(arg.error);
-        }
-      },
-    );
+      if (status === "error" && "error" in arg) {
+        console.error(arg.error);
+      }
+    });
 
     // set default wow path
     if (!this.config.wowpath.validated) {
