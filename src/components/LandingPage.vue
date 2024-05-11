@@ -357,6 +357,7 @@ export default defineComponent({
           "updateInfo" in arg
         ) {
           this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.updateInfo.version}/${arg.updateInfo.path}`;
+          this.updater.version = arg.updateInfo.version;
 
           // List if `updater.fullChangelog` is set to `true`, `string` otherwise.
           if (typeof arg.updateInfo.releaseNotes === "string") {
