@@ -68,6 +68,10 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: "dist-electron/main",
               rollupOptions: {
+                output: {
+                  format: "esm",
+                  entryFileNames: "[name].mjs",
+                },
                 external: Object.keys(
                   "dependencies" in pkg ? pkg.dependencies : {},
                 ),
