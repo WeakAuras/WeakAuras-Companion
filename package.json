@@ -79,7 +79,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.26.0",
     "floating-vue": "^5.2.2",
-    "glob": "^10.3.14",
+    "glob": "^10.4.1",
     "husky": "^9.0.11",
     "lightningcss": "^1.25.1",
     "lint-staged": "^15.2.2",
