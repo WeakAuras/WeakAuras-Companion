@@ -68,7 +68,7 @@
     "@unocss/eslint-config": "^0.60.0",
     "@unocss/preset-icons": "^0.60.0",
     "@unocss/preset-web-fonts": "^0.60.0",
-    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue": "^5.0.5",
     "browserslist": "^4.23.0",
     "electron": "30.0.9",
     "electron-builder": "^24.13.3",
