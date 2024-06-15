@@ -103,9 +103,9 @@
     "vue-i18n": "^9.13.1",
     "vue-tsc": "^2.0.21"
   },
-  "packageManager": "pnpm@8.15.6",
+  "packageManager": "pnpm@8.15.8",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "debug": {
     "env": {
