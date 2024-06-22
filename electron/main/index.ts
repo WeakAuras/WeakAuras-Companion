@@ -79,11 +79,11 @@ const winURL = null;
 
 const trayIconPath = join(
   process.env.PUBLIC,
-  process.platform === "win32" ? "bigicon.png" : "icon-light.png",
+  process.platform === "darwin" ? "icon-light.png" : "bigicon.png",
 );
 const notificationIconPath = join(
   process.env.PUBLIC,
-  process.platform === "win32" ? "bigicon.png" : "icon.png",
+  process.platform === "darwin" ? "icon.png" : "bigicon.png",
 );
 
 const trayIcon = nativeImage.createFromPath(trayIconPath);
