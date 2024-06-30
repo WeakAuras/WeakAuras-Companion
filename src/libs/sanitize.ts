@@ -1,10 +1,9 @@
 function bbcode(str: string) {
   let output = str || "";
 
-  output = output.replace(
-    /\[(?:[\w]+)(?:=[\w\d.,\\/"'#,-]*)*?(?: *[\w\d]+=.+)*?\](?:.*?)\[\/\1\]|\[\[/gi,
-    "$2",
-  );
+  // Match BBCode tags and capture the content between them
+  output = output.replace(/\[\w+(?:=[^\]]*)?\]((?:.|\n)*?)\[\/\w+\]/gi, "$1");
+
   return output;
 }
 
