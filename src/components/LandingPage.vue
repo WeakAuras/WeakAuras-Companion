@@ -1,3 +1,5 @@
+<!-- eslint-disable @typescript-eslint/unbound-method -->
+<!-- eslint-disable @typescript-eslint/no-misused-promises -->
 <script lang="ts">
 import { ipcRenderer } from "electron";
 import fs from "node:fs";

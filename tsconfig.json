@@ -33,6 +33,7 @@
     "./**/*.vue",
     "uno.config.ts",
     "vite.config.ts",
+    "eslint.config.mjs",
     "package.json",
     "electron"
   ],
