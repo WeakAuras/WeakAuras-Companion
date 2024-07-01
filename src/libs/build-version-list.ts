@@ -109,7 +109,11 @@ export function buildVersionList(
           }
         });
     } catch (err) {
-      console.log(`Error: ${err}`);
+      if (err instanceof Error) {
+        console.error(err.message);
+      } else {
+        console.error(JSON.stringify(err, null, 2));
+      }
     }
   }
 }

@@ -26,6 +26,7 @@ function getPostData(req, callback) {
       const json = JSON.parse(body);
       return callback(json);
     } catch (e) {
+      console.error(e);
       return callback(null);
     }
   });
