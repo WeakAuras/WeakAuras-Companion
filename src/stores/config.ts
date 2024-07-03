@@ -142,4 +142,14 @@ export const useConfigStore = defineStore("configStore", {
       selectedVersion: undefined,
     };
   },
+  actions: {
+    setSelectedVersion(version: Version) {
+      this.selectedVersion = version;
+    },
+    initializeSelectedVersion() {
+      if (this.wowpath.versions.length > 0) {
+        this.selectedVersion = this.wowpath.versions[0];
+      }
+    },
+  },
 });
