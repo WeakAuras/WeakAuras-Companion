@@ -64,7 +64,7 @@
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.14.12",
     "@types/tail": "^2.2.3",
-    "@typescript-eslint/parser": "^7.15.0",
+    "@typescript-eslint/parser": "^7.17.0",
     "@unocss/eslint-config": "^0.61.5",
     "@unocss/preset-icons": "^0.61.5",
     "@unocss/preset-web-fonts": "^0.61.5",
