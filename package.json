@@ -99,7 +99,7 @@
     "vite-plugin-vue-devtools": "^7.3.5",
     "vite-plugin-webfont-dl": "^3.9.4",
     "vitest": "^2.0.4",
-    "vue": "^3.4.31",
+    "vue": "^3.4.34",
     "vue-i18n": "^9.13.1",
     "vue-tsc": "^2.0.24"
   },
