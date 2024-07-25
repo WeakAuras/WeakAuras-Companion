@@ -116,8 +116,8 @@ devDependencies:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.5.4)(vue@3.4.34)
   pinia-plugin-persistedstate-2:
-    specifier: ^2.0.20
-    version: 2.0.20(pinia@2.1.7)
+    specifier: ^2.0.22
+    version: 2.0.22(pinia@2.1.7)
   prettier:
     specifier: ^3.3.2
     version: 3.3.2
@@ -5515,8 +5515,8 @@ packages:
     hasBin: true
     dev: true
 
-  /pinia-plugin-persistedstate-2@2.0.20(pinia@2.1.7):
-    resolution: {integrity: sha512-fpak1nZWen1z/Gt+SnpBE2nj9NikkKhpw7DcvixLl3OTZOksCHV6/b5iTyj1R9sKidiS+SPsdUgL6Oy4faGsbA==}
+  /pinia-plugin-persistedstate-2@2.0.22(pinia@2.1.7):
+    resolution: {integrity: sha512-BCQnsdYTNzX5R78hcFa/t4jnH1l4lru7aOP9GZewg08xf0o7jNobR6QIZY4hdQ42NOUwWi575744QLxsbM8vRw==}
     peerDependencies:
       pinia: ^2
     dependencies:
