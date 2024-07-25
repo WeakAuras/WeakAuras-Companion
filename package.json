@@ -62,7 +62,7 @@
     "@types/archiver": "^6.0.2",
     "@types/luaparse": "0.2.1",
     "@types/luxon": "^3.4.2",
-    "@types/node": "^20.14.9",
+    "@types/node": "^20.14.12",
     "@types/tail": "^2.2.3",
     "@typescript-eslint/parser": "^7.15.0",
     "@unocss/eslint-config": "^0.61.0",
