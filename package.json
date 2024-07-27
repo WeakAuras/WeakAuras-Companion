@@ -84,7 +84,7 @@
     "lint-staged": "^15.2.7",
     "luaparse": "^0.2.1",
     "luxon": "^3.4.4",
-    "pinia": "^2.1.7",
+    "pinia": "^2.2.0",
     "pinia-plugin-persistedstate-2": "^2.0.22",
     "prettier": "^3.3.2",
     "tail": "^2.2.6",
