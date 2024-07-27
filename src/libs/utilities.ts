@@ -1,5 +1,5 @@
-import path from "node:path";
 import fs from "node:fs";
+import path from "node:path";
 import regedit, { promisified as regedit_promisified } from "regedit";
 
 export function formatBytes(a: number, b: number) {

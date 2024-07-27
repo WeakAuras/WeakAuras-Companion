@@ -1,8 +1,9 @@
-import type { Response } from "got";
-import got from "got";
-import hash from "./hash";
 import type { StashStore } from "@/stores/auras";
 import type { ConfigState, Version } from "@/stores/config";
+import type { Response } from "got";
+import got from "got";
+
+import hash from "./hash";
 
 interface WagoApiResponse {
   data: string;

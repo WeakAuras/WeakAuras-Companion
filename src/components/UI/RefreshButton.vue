@@ -1,6 +1,7 @@
 <script lang="ts">
-import { DateTime } from "luxon";
 import { defineComponent } from "vue";
+import { DateTime } from "luxon";
+
 import UIButton from "./UIButton.vue";
 
 export default defineComponent({

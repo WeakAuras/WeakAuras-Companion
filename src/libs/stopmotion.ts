@@ -3,8 +3,8 @@
 // EncodeForPrint forked from https://github.com/LetsTimeIt/mdt-compression under GPL-3.0 license
 // this version was fixed by Vardex
 
-import zlib from "node:zlib";
 import { Buffer } from "node:buffer";
+import zlib from "node:zlib";
 
 const StopMotionTemplate = {
   d: {

@@ -1,11 +1,5 @@
 import fs from "node:fs";
-import type { Response } from "got";
-import got from "got";
-import luaparse from "luaparse";
 import { ipcRenderer } from "electron";
-
-import hash from "./hash";
-import { isAddonInstalled } from "./is-addon-installed";
 import type {
   Account,
   AddonConfig,
@@ -13,6 +7,12 @@ import type {
   ConfigState,
   Version,
 } from "@/stores/config";
+import type { Response } from "got";
+import got from "got";
+import luaparse from "luaparse";
+
+import hash from "./hash";
+import { isAddonInstalled } from "./is-addon-installed";
 
 function refreshWago() {
   ipcRenderer.invoke("refreshWago");

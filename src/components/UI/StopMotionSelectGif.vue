@@ -2,11 +2,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { defineComponent } from "vue";
+import gif2tga from "@/libs/gif2tga";
+
 import { useStopMotionStore } from "../../stores/stopmotion";
 import DiscordPicker from "./DiscordPicker.vue";
 import FileSelect from "./FileSelect.vue";
 import UIButton from "./UIButton.vue";
-import gif2tga from "@/libs/gif2tga";
 
 export default defineComponent({
   name: "StopMotionWelcome",

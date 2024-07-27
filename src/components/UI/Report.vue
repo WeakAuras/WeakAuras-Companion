@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, inject } from "vue";
+
 import UIButton from "./UIButton.vue";
 
 export default defineComponent({

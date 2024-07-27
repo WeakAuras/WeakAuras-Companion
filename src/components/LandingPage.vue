@@ -1,15 +1,38 @@
 <!-- eslint-disable @typescript-eslint/unbound-method -->
 <!-- eslint-disable @typescript-eslint/no-misused-promises -->
 <script lang="ts">
-import { ipcRenderer } from "electron";
 import fs from "node:fs";
 import path from "node:path";
+import { ipcRenderer } from "electron";
 import { defineComponent, provide, ref } from "vue";
+import { buildAccountList } from "@/libs/build-account-list";
+import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
+import contacts from "@/libs/contacts";
+import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
+import hash from "@/libs/hash";
+import { isAddonInstalled } from "@/libs/is-addon-installed";
+import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
+import {
+  createSortByAuthor,
+  createSortByString,
+  createSortByTime,
+  createSortByType,
+  createSortByUpdate,
+} from "@/libs/sort";
+import userDataPath from "@/libs/user-data-folder";
+import { wowDefaultPath } from "@/libs/utilities";
+import { validateWowPath } from "@/libs/validate-wow-path";
+import { wagoPushHandler } from "@/libs/wago-push-handler";
+import { writeAddonData } from "@/libs/write-addon-data";
+import type {
+  ProgressInfo,
+  UpdateDownloadedEvent,
+  UpdateInfo,
+} from "electron-updater";
 
 import { useStashStore } from "../stores/auras";
 import type { Account, AuraType, Version } from "../stores/config";
 import { useConfigStore } from "../stores/config";
-
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
 import AuraHeaders from "./UI/AuraHeaders.vue";
@@ -22,30 +45,6 @@ import StopMotion from "./UI/StopMotion.vue";
 import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
-import { wagoPushHandler } from "@/libs/wago-push-handler";
-import { writeAddonData } from "@/libs/write-addon-data";
-import { validateWowPath } from "@/libs/validate-wow-path";
-import { wowDefaultPath } from "@/libs/utilities";
-import userDataPath from "@/libs/user-data-folder";
-import {
-  createSortByAuthor,
-  createSortByString,
-  createSortByTime,
-  createSortByType,
-  createSortByUpdate,
-} from "@/libs/sort";
-import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
-import { isAddonInstalled } from "@/libs/is-addon-installed";
-import hash from "@/libs/hash";
-import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
-import contacts from "@/libs/contacts";
-import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
-import { buildAccountList } from "@/libs/build-account-list";
-import type {
-  ProgressInfo,
-  UpdateDownloadedEvent,
-  UpdateInfo,
-} from "electron-updater";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type UpdaterEventArg =

@@ -1,10 +1,10 @@
+import { describe, expect, test } from "vitest";
+
 import {
   getTranslationObject,
   getTranslationsFromString,
   sanitizeMessage,
 } from "./Utils.js";
-
-import { describe, expect, test } from "vitest";
 
 describe("Utils", () => {
   test("should remove comments, line breaks and double white spaces", () => {

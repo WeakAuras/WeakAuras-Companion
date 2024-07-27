@@ -1,17 +1,17 @@
 import { rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import vue from "@vitejs/plugin-vue";
+import UnoCSS from "unocss/vite";
 import { defineConfig } from "vite";
 import type { UserConfig } from "vite";
-
 import electron from "vite-plugin-electron";
 import renderer from "vite-plugin-electron-renderer";
-import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
-import pkg from "./package.json";
-import UnoCSS from "unocss/vite";
 import webfontDownload from "vite-plugin-webfont-dl";
+
+import pkg from "./package.json";
 
 // import { browserslistToTargets } from "lightningcss";
 // import browserslist from "browserslist";

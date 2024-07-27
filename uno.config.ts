@@ -1,8 +1,8 @@
-import presetWebFonts from "@unocss/preset-web-fonts";
-import { defineConfig, presetIcons, presetUno } from "unocss";
 import type { IconSet } from "@iconify/tools";
 import { deOptimisePaths, importDirectory, runSVGO } from "@iconify/tools";
 import type { CustomIconLoader } from "@iconify/utils/lib/loader/types";
+import presetWebFonts from "@unocss/preset-web-fonts";
+import { defineConfig, presetIcons, presetUno } from "unocss";
 
 /**
  * Load custom icon set

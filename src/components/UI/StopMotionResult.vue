@@ -1,16 +1,17 @@
 <script lang="ts">
-import { shell } from "electron";
 import path from "node:path";
+import { shell } from "electron";
 import { defineComponent } from "vue";
-import { useStashStore } from "../../stores/auras";
-import { useStopMotionStore } from "../../stores/stopmotion";
 import {
-  StopMotionTemplate,
   deflate,
   encode,
   generateUniqueID,
   serialize,
+  StopMotionTemplate,
 } from "@/libs/stopmotion";
+
+import { useStashStore } from "../../stores/auras";
+import { useStopMotionStore } from "../../stores/stopmotion";
 
 export default defineComponent({
   name: "StopMotionResult",

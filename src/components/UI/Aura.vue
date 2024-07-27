@@ -1,7 +1,8 @@
 <script lang="ts">
-import { DateTime } from "luxon";
 import { defineComponent } from "vue";
 import sanitize from "@/libs/sanitize";
+import { DateTime } from "luxon";
+
 import type { AuraType } from "../../stores/config";
 
 export default defineComponent({

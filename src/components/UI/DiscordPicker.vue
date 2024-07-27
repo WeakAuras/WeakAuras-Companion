@@ -1,7 +1,8 @@
 <script lang="js">
 import { defineComponent } from "vue";
-import GifPicker from "./GifPicker.vue";
 import clickOutside from "@/libs/click-outside";
+
+import GifPicker from "./GifPicker.vue";
 
 export default defineComponent({
   components: { GifPicker },

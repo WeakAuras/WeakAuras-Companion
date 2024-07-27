@@ -1,10 +1,12 @@
 import { ipcRenderer } from "electron";
+import { createApp } from "vue";
 import FloatingVue from "floating-vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";
-import { createApp } from "vue";
+
 import App from "./App.vue";
 import { i18n } from "./libs/i18n";
+
 import "virtual:uno.css";
 
 async function getStore(key: string) {

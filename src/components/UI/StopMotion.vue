@@ -1,7 +1,7 @@
 <script lang="ts">
+import StopMotionResult from "./StopMotionResult.vue";
 import StopMotionSelectGif from "./StopMotionSelectGif.vue";
 import StopMotionSettings from "./StopMotionSettings.vue";
-import StopMotionResult from "./StopMotionResult.vue";
 import UIButton from "./UIButton.vue";
 
 // import { useStopMotionStore } from "../../stores/stopmotion";

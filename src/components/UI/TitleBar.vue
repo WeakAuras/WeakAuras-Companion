@@ -1,6 +1,7 @@
 <script lang="ts">
 import { ipcRenderer } from "electron";
 import { defineComponent } from "vue";
+
 import UIButton from "./UIButton.vue";
 
 export default defineComponent({

@@ -1,8 +1,6 @@
 import path from "node:path";
-
-import { defineStore } from "pinia";
-
 import userDataPath from "@/libs/user-data-folder";
+import { defineStore } from "pinia";
 
 export interface WowPath {
   validated: boolean;

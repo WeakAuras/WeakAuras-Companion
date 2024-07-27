@@ -1,11 +1,12 @@
 <script lang="js">
 import { ipcRenderer, shell } from "electron";
 import { defineComponent, ref } from "vue";
+
 import { useConfigStore } from "../../stores/config";
-import UIButton from "./UIButton.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
+import UIButton from "./UIButton.vue";
 
 export default defineComponent({
   components: {

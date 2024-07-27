@@ -1,19 +1,18 @@
-import {
-  BrowserWindow,
-  Menu,
-  Notification,
-  Tray,
-  app,
-  dialog,
-  ipcMain,
-  nativeImage,
-  protocol,
-  shell,
-} from "electron";
-import type { OpenDialogOptions } from "electron";
 import path, { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  Menu,
+  nativeImage,
+  Notification,
+  protocol,
+  shell,
+  Tray,
+} from "electron";
+import type { OpenDialogOptions } from "electron";
 import log from "electron-log/main";
 import Store from "electron-store";
 import type {
@@ -22,7 +21,6 @@ import type {
   UpdateDownloadedEvent,
   UpdateInfo,
 } from "electron-updater";
-
 import { autoUpdater } from "electron-updater";
 
 const __filename = fileURLToPath(import.meta.url);

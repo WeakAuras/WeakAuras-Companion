@@ -1,5 +1,5 @@
-import type { AddonConfig } from "@/stores/config";
 import { reactive } from "vue";
+import type { AddonConfig } from "@/stores/config";
 
 function findSlugAndMatchURL(url, pattern: RegExp) {
   const result = url.match(pattern);

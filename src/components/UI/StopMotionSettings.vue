@@ -1,12 +1,13 @@
 <script>
 import path from "node:path";
 import { defineComponent } from "vue";
+import gif2tga from "@/libs/gif2tga";
+
 import { useConfigStore } from "../../stores/config";
 import { useStopMotionStore } from "../../stores/stopmotion";
-import UIButton from "./UIButton.vue";
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
-import gif2tga from "@/libs/gif2tga";
+import UIButton from "./UIButton.vue";
 
 export default defineComponent({
   name: "StopMotionSettings",
