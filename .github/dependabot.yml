@@ -1,32 +1,33 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: monthly
-  open-pull-requests-limit: 20
-  assignees:
-  - Stanzilla
-  labels:
-  - dependencies
-  ignore:
-  - dependency-name: luaparse
-    versions:
-    - "> 0.2.1, < 1"
-  groups:
-    typescript-eslint:
-      patterns:
-        - "@typescript-eslint/*"
-    unocss:
-      patterns:
-        - unocss
-        - "@unocss/*"
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: "weekly"
-  open-pull-requests-limit: 10
-  assignees:
-  - Stanzilla
-  labels:
-  - dependencies
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 20
+    assignees:
+    - Stanzilla
+    labels:
+    - dependencies
+    ignore:
+    - dependency-name: luaparse
+      versions:
+      - "> 0.2.1, < 1"
+    groups:
+      typescript-eslint:
+        patterns:
+          - "@typescript-eslint/*"
+      unocss:
+        patterns:
+          - unocss
+          - "@unocss/*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 20
+    assignees:
+    - Stanzilla
+    labels:
+    - dependencies
