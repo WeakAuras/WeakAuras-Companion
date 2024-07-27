@@ -1,11 +1,11 @@
-import pluginVue from "eslint-plugin-vue";
-import unocss from "@unocss/eslint-config/flat";
 import eslint from "@eslint/js";
-import tsEslint from "typescript-eslint";
-import tsParser from "@typescript-eslint/parser";
-import vueParser from "vue-eslint-parser";
+import unocss from "@unocss/eslint-config/flat";
+import pluginVue from "eslint-plugin-vue";
 import globals from "globals";
+import tsEslint from "typescript-eslint";
+import vueParser from "vue-eslint-parser";
 
+/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
 export default [
   eslint.configs.recommended,
   ...tsEslint.configs.recommendedTypeChecked,
@@ -21,10 +21,11 @@ export default [
       },
       parser: vueParser,
       parserOptions: {
-        parser: tsParser,
+        parser: tsEslint.parser,
         sourceType: "module",
         extraFileExtensions: [".vue"],
         project: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },
