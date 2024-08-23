@@ -29,15 +29,15 @@ export function buildVersionList(
   const versionLabels = [
     {
       value: "_retail_",
-      text: i18n.global.t("app.version.retail" /* Dragonflight */),
+      text: i18n.global.t("app.version.retail" /* The War Within */),
     },
     {
       value: "_ptr_",
-      text: i18n.global.t("app.version.retail_ptr" /* Dragonflight PTR */),
+      text: i18n.global.t("app.version.retail_ptr" /* The War Within PTR */),
     },
     {
       value: "_xptr_",
-      text: i18n.global.t("app.version.retail_ptr2" /* Dragonflight PTR 2 */),
+      text: i18n.global.t("app.version.retail_ptr2" /* The War Within PTR 2 */),
     },
     {
       value: "_beta_",
