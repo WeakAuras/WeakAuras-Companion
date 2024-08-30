@@ -128,7 +128,6 @@ export default defineConfig(({ command }) => {
     build: {
       sourcemap,
       target: "esnext",
-      cssMinify: "lightningcss",
       rollupOptions: {
         output: {
           assetFileNames: "assets/[name].[ext]",
