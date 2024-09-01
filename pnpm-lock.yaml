@@ -28,8 +28,8 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1(@vue/compiler-sfc@3.4.38)(prettier@3.3.3)
       '@iconify-json/fa6-brands':
-        specifier: ^1.1.22
-        version: 1.1.22
+        specifier: ^1.2.0
+        version: 1.2.0
       '@iconify-json/mdi':
         specifier: ^1.2.0
         version: 1.2.0
@@ -805,8 +805,8 @@ packages:
       '@vue/compiler-sfc':
         optional: true
 
-  '@iconify-json/fa6-brands@1.1.22':
-    resolution: {integrity: sha512-a7x0hTjNI/cQ1XFyRQCyFfXJbYboYDRSmxeNgImRi8WwREDi00/U1e2WH+Xc4zBDFixBj/PQ5VOfCDaNy2ELTw==}
+  '@iconify-json/fa6-brands@1.2.0':
+    resolution: {integrity: sha512-2f5AeUbufKeU/JY+cbX6dOsPaQO1WwfShfoxwRd5VRF3Lr1jGM8CfXLFhb8bonAqbue1oBPwmjHUfaCafAfo2A==}
 
   '@iconify-json/mdi@1.2.0':
     resolution: {integrity: sha512-E9/3l5Syg3wfuarorFodhn4s8YorxhH3U3U20LaNBNiqw1kFNIDWhF6HymuzAD35k7RH0OBasJ+ZUyFtVVV6eg==}
@@ -4688,7 +4688,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@iconify-json/fa6-brands@1.1.22':
+  '@iconify-json/fa6-brands@1.2.0':
     dependencies:
       '@iconify/types': 2.0.0
 
