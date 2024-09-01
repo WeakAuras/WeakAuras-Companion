@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
-    "@iconify-json/fa6-brands": "^1.1.21",
+    "@iconify-json/fa6-brands": "^1.1.22",
     "@iconify-json/mdi": "^1.1.67",
     "@iconify/tools": "^4.0.5",
     "@intlify/unplugin-vue-i18n": "^4.0.0",
