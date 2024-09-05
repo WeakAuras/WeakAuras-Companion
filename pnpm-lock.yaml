@@ -148,8 +148,8 @@ importers:
         specifier: ^7.3.7
         version: 7.3.9(rollup@4.13.0)(vite@5.3.5(@types/node@22.5.1)(lightningcss@1.25.1))(vue@3.4.38(typescript@5.5.4))
       vite-plugin-webfont-dl:
-        specifier: ^3.9.4
-        version: 3.9.4(vite@5.3.5(@types/node@22.5.1)(lightningcss@1.25.1))
+        specifier: ^3.9.5
+        version: 3.9.5(vite@5.3.5(@types/node@22.5.1)(lightningcss@1.25.1))
       vitest:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@22.5.1)(lightningcss@1.25.1)
@@ -2188,16 +2188,19 @@ packages:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
 
-  flat-cache@3.2.0:
-    resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==}
-    engines: {node: ^10.12.0 || >=12.0.0}
-
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
     engines: {node: '>=16'}
 
+  flat-cache@5.0.0:
+    resolution: {integrity: sha512-JrqFmyUl2PnPi1OvLyTVHnQvwQ0S+e6lGSwu8OkAZlSaNIZciTY2H/cOOROxsBA1m/LZNHDsqAgDZt6akWcjsQ==}
+    engines: {node: '>=18'}
+
   flatted@3.2.9:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
+
+  flatted@3.3.1:
+    resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
 
   floating-vue@5.2.2:
     resolution: {integrity: sha512-afW+h2CFafo+7Y9Lvw/xsqjaQlKLdJV7h1fCHfcYQ1C4SVMlu7OAekqWgu5d4SgvkBVU0pVpLlVsrSTBURFRkg==}
@@ -3733,8 +3736,8 @@ packages:
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0
 
-  vite-plugin-webfont-dl@3.9.4:
-    resolution: {integrity: sha512-QaGElPV9EhwQHukQu2jjhWVMTi0Y5xK2hLswdCgzIl//Abv0qqsX2yCnUjFE5YPIepuWD3aCoFR2Fx+ywYQYmQ==}
+  vite-plugin-webfont-dl@3.9.5:
+    resolution: {integrity: sha512-PSVM7s1XurzMPYXgUHBpZOJYsuzRNq3DGIABdUyq/mNFan1n434+NbmGTK9f9+dIDVHpitXFiE3CmbAdDyDQMg==}
     peerDependencies:
       vite: ^2 || ^3 || ^4 || ^5
 
@@ -6389,18 +6392,19 @@ snapshots:
       locate-path: 6.0.0
       path-exists: 4.0.0
 
-  flat-cache@3.2.0:
-    dependencies:
-      flatted: 3.2.9
-      keyv: 4.5.4
-      rimraf: 3.0.2
-
   flat-cache@4.0.1:
     dependencies:
       flatted: 3.2.9
       keyv: 4.5.4
 
+  flat-cache@5.0.0:
+    dependencies:
+      flatted: 3.3.1
+      keyv: 4.5.4
+
   flatted@3.2.9: {}
+
+  flatted@3.3.1: {}
 
   floating-vue@5.2.2(vue@3.4.38(typescript@5.5.4)):
     dependencies:
@@ -7957,12 +7961,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-webfont-dl@3.9.4(vite@5.3.5(@types/node@22.5.1)(lightningcss@1.25.1)):
+  vite-plugin-webfont-dl@3.9.5(vite@5.3.5(@types/node@22.5.1)(lightningcss@1.25.1)):
     dependencies:
       axios: 1.7.7
       clean-css: 5.3.3
-      flat-cache: 3.2.0
-      picocolors: 1.0.0
+      flat-cache: 5.0.0
+      picocolors: 1.0.1
       vite: 5.3.5(@types/node@22.5.1)(lightningcss@1.25.1)
     transitivePeerDependencies:
       - debug
