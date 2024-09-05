@@ -81,7 +81,7 @@
     "husky": "^9.1.4",
     "lint-staged": "^15.2.10",
     "luaparse": "^0.2.1",
-    "luxon": "^3.4.4",
+    "luxon": "^3.5.0",
     "pinia": "^2.2.0",
     "pinia-plugin-persistedstate-2": "^2.0.23",
     "prettier": "^3.3.3",
