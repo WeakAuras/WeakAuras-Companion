@@ -105,6 +105,19 @@
   "engines": {
     "node": ">=22"
   },
+  "pnpm": {
+    "supportedArchitectures": {
+      "cpu": [
+        "x64",
+        "arm64"
+      ],
+      "os": [
+        "win32",
+        "darwin",
+        "linux"
+      ]
+    }
+  },
   "debug": {
     "env": {
       "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
