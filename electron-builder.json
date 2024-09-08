@@ -8,6 +8,10 @@
   ],
   "productName": "WeakAuras Companion",
   "appId": "wtf.weakauras.companion",
+  "asarUnpack": [
+    "**/node_modules/sharp/**/*",
+    "**/node_modules/@img/**/*"
+  ],
   "dmg": {
     "contents": [
       {
@@ -33,8 +37,6 @@
       "target": "default",
       "arch": "universal"
     },
-    "singleArchFiles": "**/sharp-darwin-arm64v8.node",
-    "mergeASARs": false,
     "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
   },
   "win": {
