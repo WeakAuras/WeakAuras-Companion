@@ -34,8 +34,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       '@iconify/tools':
-        specifier: ^4.0.5
-        version: 4.0.6
+        specifier: ^4.0.7
+        version: 4.0.7
       '@intlify/unplugin-vue-i18n':
         specifier: ^4.0.0
         version: 4.0.0(rollup@4.21.2)(vue-i18n@9.14.0(vue@3.5.3(typescript@5.5.4)))
@@ -707,8 +707,8 @@ packages:
   '@iconify-json/mdi@1.2.0':
     resolution: {integrity: sha512-E9/3l5Syg3wfuarorFodhn4s8YorxhH3U3U20LaNBNiqw1kFNIDWhF6HymuzAD35k7RH0OBasJ+ZUyFtVVV6eg==}
 
-  '@iconify/tools@4.0.6':
-    resolution: {integrity: sha512-riEQggXVuZNXjRdo+aKT0rkzn2XHslIqat8mdW/oVu5mLmP/95Hi+iaq4keT7WwMD97jsYPXMQ6QMCw0EWpRNw==}
+  '@iconify/tools@4.0.7':
+    resolution: {integrity: sha512-zOJxKIfZn96ZRGGvIWzDRLD9vb2CsxjcLuM+QIdvwWbv6SWhm49gECzUnd4d2P0sq9sfodT7yCNobWK8nvavxQ==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -4298,7 +4298,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/tools@4.0.6':
+  '@iconify/tools@4.0.7':
     dependencies:
       '@iconify/types': 2.0.0
       '@iconify/utils': 2.1.32
