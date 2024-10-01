@@ -96,7 +96,7 @@
     "vite-plugin-resolve": "^2.5.2",
     "vite-plugin-vue-devtools": "^7.3.7",
     "vite-plugin-webfont-dl": "^3.9.5",
-    "vitest": "^2.0.5",
+    "vitest": "^2.1.1",
     "vue": "^3.4.35",
     "vue-i18n": "^9.14.0",
     "vue-tsc": "^2.1.6"
