@@ -88,8 +88,8 @@ importers:
         specifier: ^9.11.1
         version: 9.11.1(jiti@2.0.0)
       eslint-plugin-vue:
-        specifier: ^9.27.0
-        version: 9.28.0(eslint@9.11.1(jiti@2.0.0))
+        specifier: ^9.30.0
+        version: 9.30.0(eslint@9.11.1(jiti@2.0.0))
       floating-vue:
         specifier: ^5.2.2
         version: 5.2.2(vue@3.5.12(typescript@5.6.3))
@@ -2245,8 +2245,8 @@ packages:
     engines: {node: '>=6.0'}
     hasBin: true
 
-  eslint-plugin-vue@9.28.0:
-    resolution: {integrity: sha512-ShrihdjIhOTxs+MfWun6oJWuk+g/LAhN+CiuOl/jjkG3l0F2AuK5NMTaWqyvBgkFtpYmyks6P4603mLmhNJW8g==}
+  eslint-plugin-vue@9.30.0:
+    resolution: {integrity: sha512-CyqlRgShvljFkOeYK8wN5frh/OGTvkj1S7wlr2Q2pUvwq+X5VYiLd6ZjujpgSgLnys2W8qrBLkXQ41SUYaoPIQ==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -6689,7 +6689,7 @@ snapshots:
     optionalDependencies:
       source-map: 0.6.1
 
-  eslint-plugin-vue@9.28.0(eslint@9.11.1(jiti@2.0.0)):
+  eslint-plugin-vue@9.30.0(eslint@9.11.1(jiti@2.0.0)):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@9.11.1(jiti@2.0.0))
       eslint: 9.11.1(jiti@2.0.0)
