@@ -82,8 +82,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       electron-updater:
-        specifier: ^6.2.1
-        version: 6.3.4
+        specifier: ^6.3.9
+        version: 6.3.9
       eslint:
         specifier: ^9.11.1
         version: 9.11.1(jiti@2.0.0)
@@ -2162,8 +2162,8 @@ packages:
   electron-to-chromium@1.5.30:
     resolution: {integrity: sha512-sXI35EBN4lYxzc/pIGorlymYNzDBOqkSlVRe6MkgBsW/hW1tpC/HDJ2fjG7XnjakzfLEuvdmux0Mjs6jHq4UOA==}
 
-  electron-updater@6.3.4:
-    resolution: {integrity: sha512-uZUo7p1Y53G4tl6Cgw07X1yF8Jlz6zhaL7CQJDZ1fVVkOaBfE2cWtx80avwDVi8jHp+I/FWawrMgTAeCCNIfAg==}
+  electron-updater@6.3.9:
+    resolution: {integrity: sha512-2PJNONi+iBidkoC5D1nzT9XqsE8Q1X28Fn6xRQhO3YX8qRRyJ3mkV4F1aQsuRnYPqq6Hw+E51y27W75WgDoofw==}
 
   electron@32.1.2:
     resolution: {integrity: sha512-CXe6doFzhmh1U7daOvUzmF6Cj8hssdYWMeEPRnRO6rB9/bbwMlWctcQ7P8NJXhLQ88/vYUJQrJvlJPh8qM0BRQ==}
@@ -6570,9 +6570,9 @@ snapshots:
 
   electron-to-chromium@1.5.30: {}
 
-  electron-updater@6.3.4:
+  electron-updater@6.3.9:
     dependencies:
-      builder-util-runtime: 9.2.5
+      builder-util-runtime: 9.2.10
       fs-extra: 10.1.0
       js-yaml: 4.1.0
       lazy-val: 1.0.5
