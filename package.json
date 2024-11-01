@@ -74,7 +74,7 @@
     "electron-log": "^5.1.7",
     "electron-store": "^10.0.0",
     "electron-updater": "^6.3.9",
-    "eslint": "^9.11.1",
+    "eslint": "^9.13.0",
     "eslint-plugin-vue": "^9.30.0",
     "floating-vue": "^5.2.2",
     "glob": "^11.0.0",
