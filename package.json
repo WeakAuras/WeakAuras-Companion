@@ -87,7 +87,7 @@
     "prettier": "^3.3.3",
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
-    "typescript": "^5.6.2",
+    "typescript": "^5.6.3",
     "typescript-eslint": "8.12.2",
     "unocss": "^0.63.1",
     "vite": "^5.4.8",
