@@ -69,7 +69,7 @@
     "@unocss/preset-web-fonts": "^0.63.6",
     "@vitejs/plugin-vue": "^5.1.4",
     "browserslist": "^4.24.2",
-    "electron": "32.1.2",
+    "electron": "33.0.2",
     "electron-builder": "^25.1.8",
     "electron-log": "^5.1.7",
     "electron-store": "^10.0.0",
