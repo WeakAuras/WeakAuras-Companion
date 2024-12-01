@@ -78,7 +78,7 @@
     "eslint-plugin-vue": "^9.32.0",
     "floating-vue": "^5.2.2",
     "glob": "^11.0.0",
-    "husky": "^9.1.6",
+    "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
     "luaparse": "^0.2.1",
     "luxon": "^3.5.0",
