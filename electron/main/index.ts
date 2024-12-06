@@ -140,12 +140,13 @@ async function createWindow() {
 
   mainWindow?.setMenu(null);
 
-  mainWindow?.on("minimize", (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    mainWindow?.minimize();
+  mainWindow?.on("minimize", () => {
+    if (mainWindow?.isMinimized()) {
+      mainWindow?.minimize();
 
-    if (process.platform === "darwin") {
-      app.dock.hide();
+      if (process.platform === "darwin") {
+        app.dock.hide();
+      }
     }
   });
 
