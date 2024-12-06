@@ -148,8 +148,8 @@ importers:
         specifier: ^7.6.7
         version: 7.6.7(rollup@4.24.3)(vite@5.4.10(@types/node@22.10.1))(vue@3.5.13(typescript@5.6.3))
       vite-plugin-webfont-dl:
-        specifier: ^3.10.2
-        version: 3.10.2(vite@5.4.10(@types/node@22.10.1))
+        specifier: ^3.10.3
+        version: 3.10.3(vite@5.4.10(@types/node@22.10.1))
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.1)
@@ -4052,8 +4052,8 @@ packages:
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.0-0
 
-  vite-plugin-webfont-dl@3.10.2:
-    resolution: {integrity: sha512-sYQsjlaLzh3kuYm6Mty8itRyCref0kyOd2qt4ATVLX5BGUr+DvDDWKyn3k7mHD1C2U12iIS2I9xV3RCQA3Wngw==}
+  vite-plugin-webfont-dl@3.10.3:
+    resolution: {integrity: sha512-9rRla7tYeDPRAApWWUdv0lGnU/rc2heyeH6EWj8PvGOuyLkbZo8mHo0QJpBBGKrwPyhadhN08iQhTKoFqQPIfA==}
     peerDependencies:
       vite: ^2 || ^3 || ^4 || ^5 || ^6
 
@@ -8698,7 +8698,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-webfont-dl@3.10.2(vite@5.4.10(@types/node@22.10.1)):
+  vite-plugin-webfont-dl@3.10.3(vite@5.4.10(@types/node@22.10.1)):
     dependencies:
       axios: 1.7.7
       clean-css: 5.3.3
