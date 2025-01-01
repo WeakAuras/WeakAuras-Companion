@@ -112,8 +112,8 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       pinia-plugin-persistedstate-2:
-        specifier: ^2.0.27
-        version: 2.0.27(pinia@2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)))
+        specifier: ^2.0.28
+        version: 2.0.28(pinia@2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)))
       prettier:
         specifier: ^3.4.2
         version: 3.4.2
@@ -3397,10 +3397,10 @@ packages:
     engines: {node: '>=0.10'}
     hasBin: true
 
-  pinia-plugin-persistedstate-2@2.0.27:
-    resolution: {integrity: sha512-YEbJQA+pr72rlL/HE91iuuhPKIAyt1cgQtv1OsDPxcjuu8sbBoYtUa4I6aJssbhpdM/KI2WdVv4EOrsQdauglw==}
+  pinia-plugin-persistedstate-2@2.0.28:
+    resolution: {integrity: sha512-IrX64xs21iARzKC2SzBguZhMzjwqLCyA32DBEGl2j4N4NAI/l0NQ82ZslQI/fuZr7Fo98/8PN7ki6mTMyGo5Cg==}
     peerDependencies:
-      pinia: ^2
+      pinia: ^2.3.0
 
   pinia@2.3.0:
     resolution: {integrity: sha512-ohZj3jla0LL0OH5PlLTDMzqKiVw2XARmC1XYLdLWIPBMdhDW/123ZWr4zVAhtJm+aoSkFa13pYXskAvAscIkhQ==}
@@ -7955,7 +7955,7 @@ snapshots:
 
   pidtree@0.6.0: {}
 
-  pinia-plugin-persistedstate-2@2.0.27(pinia@2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))):
+  pinia-plugin-persistedstate-2@2.0.28(pinia@2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))):
     dependencies:
       pinia: 2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       shvl: 3.0.0
