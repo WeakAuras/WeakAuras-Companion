@@ -427,9 +427,8 @@ export default defineComponent({
         headers: {
           "Identifier": this.accountHash,
           "api-key": this.config.wagoApiKey || "",
-          "User-Agent": `WeakAuras Companion ${__APP_VERSION__})`,
+          "User-Agent": `WeakAuras Companion ${__APP_VERSION__}`,
         },
-        crossdomain: true,
         timeout: {
           request: 30000,
         },

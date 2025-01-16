@@ -8,7 +8,7 @@ import type {
   Version,
 } from "@/stores/config";
 import type { Response } from "got";
-import got from "got";
+import got, { Options } from "got";
 import luaparse from "luaparse";
 
 import hash from "./hash";
@@ -47,12 +47,12 @@ export async function compareSVwithWago(
 
   let fetching = fetchingState;
 
-  const getAccountHash = () => {
+  const getAccountHash = (): string => {
     if (versionSelected) {
       const { account } = versionSelected;
-      return hash.hashFnv32a(account, true);
+      return hash.hashFnv32a(account, true).toString();
     }
-    return null;
+    return "";
   };
 
   const setFirstAddonInstalledSelected = (
@@ -74,14 +74,13 @@ export async function compareSVwithWago(
     schedule.id = setTimeout(refreshWago, timeout);
   };
 
-  const getGotOptions = () => ({
+  const gotOptions = new Options({
     http2: true,
     headers: {
       "Identifier": getAccountHash(),
       "api-key": config.wagoApiKey || "",
-      "User-Agent": `WeakAuras Companion ${__APP_VERSION__})`,
+      "User-Agent": `WeakAuras Companion ${__APP_VERSION__}`,
     },
-    crossdomain: true,
     timeout: {
       request: 30000,
     },
@@ -247,7 +246,7 @@ export async function compareSVwithWago(
     promisesWagoCallsComplete.push(
       got
         .post<WagoApiResponse>(config.wagoAPI, {
-          ...getGotOptions,
+          ...gotOptions,
           responseType: "json",
           json: {
             ids: fetchAuras,
@@ -288,7 +287,7 @@ export async function compareSVwithWago(
                     got(
                       `https://data.wago.io/api/raw/encoded?id=${wagoData._id}`,
                       {
-                        ...getGotOptions,
+                        ...gotOptions,
                         responseType: "text",
                       },
                     ),
@@ -356,10 +355,7 @@ export async function compareSVwithWago(
       fetching = false;
       fetchingUpdateCallback(fetching);
 
-      const delay =
-        error.code === "ERR_NON_2XX_3XX_RESPONSE" // Server said nope
-          ? 1000 * 10 // 10 seconds
-          : MINUTES_30;
+      const delay = MINUTES_30;
       scheduleRefreshWago(delay);
       return;
     }

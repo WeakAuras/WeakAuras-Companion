@@ -1,7 +1,7 @@
 import type { StashStore } from "@/stores/auras";
 import type { ConfigState, Version } from "@/stores/config";
 import type { Response } from "got";
-import got from "got";
+import got, { Options } from "got";
 
 import hash from "./hash";
 
@@ -19,22 +19,21 @@ export async function wagoPushHandler(
 ) {
   const existingAuraIndex = stash.auras.findIndex((aura) => aura.slug === slug);
 
-  const getAccountHash = () => {
+  const getAccountHash = (): string => {
     if (versionSelected) {
       const { account } = versionSelected;
-      return hash.hashFnv32a(account, true);
+      return hash.hashFnv32a(account, true).toString();
     }
-    return null;
+    return "";
   };
 
-  const getGotOptions = () => ({
+  const gotOptions = new Options({
     http2: true,
     headers: {
       "Identifier": getAccountHash(),
       "api-key": config.wagoApiKey || "",
-      "User-Agent": `WeakAuras Companion ${__APP_VERSION__})`,
+      "User-Agent": `WeakAuras Companion ${__APP_VERSION__}`,
     },
-    crossdomain: true,
     timeout: {
       request: 30000,
     },
@@ -45,7 +44,7 @@ export async function wagoPushHandler(
       const response: Response<WagoApiResponse> = await got(
         `https://data.wago.io/api/check/?ids=${slug}`,
         {
-          ...getGotOptions,
+          ...gotOptions,
           responseType: "json",
         },
       );
@@ -73,7 +72,7 @@ export async function wagoPushHandler(
         const response2 = await got(
           `https://data.wago.io/api/raw/encoded?id=${wagoData._id}`,
           {
-            ...getGotOptions,
+            ...gotOptions,
             responseType: "text",
           },
         );
