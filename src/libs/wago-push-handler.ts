@@ -32,6 +32,7 @@ export async function wagoPushHandler(
     headers: {
       "Identifier": getAccountHash(),
       "api-key": config.wagoApiKey || "",
+      "User-Agent": `WeakAuras Companion ${__APP_VERSION__})`,
     },
     crossdomain: true,
     timeout: {
