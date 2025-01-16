@@ -368,7 +368,7 @@ export async function compareSVwithWago(
 
     const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
       promise.catch((error: any) => ({
-        config: { params: { id: error.config.params.id } },
+        config: { params: { id: error?.config?.params?.id } },
         status: error.response.status,
       })),
     );
