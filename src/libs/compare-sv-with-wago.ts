@@ -8,7 +8,7 @@ import type {
   Version,
 } from "@/stores/config";
 import type { Response } from "got";
-import got, { Options } from "got";
+import got from "got";
 import luaparse from "luaparse";
 
 import hash from "./hash";
@@ -74,7 +74,7 @@ export async function compareSVwithWago(
     schedule.id = setTimeout(refreshWago, timeout);
   };
 
-  const gotOptions = new Options({
+  const gotOptions = {
     http2: true,
     headers: {
       "Identifier": getAccountHash(),
@@ -84,7 +84,10 @@ export async function compareSVwithWago(
     timeout: {
       request: 30000,
     },
-  });
+    retry: {
+      limit: 0,
+    },
+  };
 
   if (!versionSelected || !accountSelected) {
     return;
@@ -337,7 +340,10 @@ export async function compareSVwithWago(
         auras.forEach((aura) => {
           if (aura.wagoid === id) {
             aura.wagoVersion = aura.version;
-            console.error(`error ${wagoResp.statusMessage}`);
+            console.error(
+              wagoResp.statusCode,
+              `error ${wagoResp.statusMessage}`,
+            );
           }
         });
       }
@@ -346,44 +352,73 @@ export async function compareSVwithWago(
 
   const handlePromises = async () => {
     console.log("promisesWagoCallsComplete");
+    let nextRefresh = MINUTES_60;
 
     try {
-      await Promise.all(promisesWagoCallsComplete);
-    } catch (error: any) {
-      console.error("promisesWagoCallsComplete error");
-      console.log(JSON.stringify(error));
-      fetching = false;
-      fetchingUpdateCallback(fetching);
+      const results = await Promise.allSettled(promisesWagoCallsComplete);
 
-      const delay = MINUTES_30;
-      scheduleRefreshWago(delay);
-      return;
+      results.forEach((result, index) => {
+        if (result.status === "rejected") {
+          const error = result.reason;
+          const responseCode = error?.response?.statusCode || "Unknown";
+          if (responseCode && responseCode !== 404) {
+            nextRefresh = MINUTES_30;
+          }
+          console.error(
+            error.request.requestUrl.href,
+            error?.message,
+            `HTTP status code: ${responseCode}`,
+            `Request parameters: ${JSON.stringify(error?.config?.params)}`,
+          );
+        } else if (result.status !== "fulfilled") {
+          console.log("Unknown status", index, result);
+        }
+      });
+    } catch (error) {
+      console.error("Error handling promisesWagoCallsComplete:", error);
+      nextRefresh = MINUTES_30;
     }
 
     if (allAurasFetched.length === 0) {
       accountSelected.lastWagoUpdate = new Date();
-      scheduleRefreshWago(MINUTES_60);
+      scheduleRefreshWago(nextRefresh);
       return;
     }
 
-    const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
-      promise.catch((error: any) => ({
-        config: { params: { id: error?.config?.params?.id } },
-        status: error.response.status,
-      })),
-    );
+    try {
+      const promisesResolved = promisesWagoDataCallsComplete.map((promise) =>
+        promise.catch((error: any) => {
+          if (error.response?.statusCode !== 404) {
+            nextRefresh = MINUTES_30;
+          }
+          console.error(
+            error.request.requestUrl.href,
+            error?.message,
+            `HTTP status code: ${error.response?.statusCode}`,
+            `Request parameters: ${JSON.stringify(error?.config?.params)}`,
+          );
+          return {
+            config: { params: { id: error?.config?.params?.id } },
+            statusCode: error.response?.statusCode || "Unknown",
+          };
+        }),
+      );
 
-    const wagoEncodedStrings = await Promise.all(promisesResolved);
-    console.log("promisesWagoDataCallsComplete");
+      const wagoEncodedStrings = await Promise.all(promisesResolved);
+      console.log("promisesWagoDataCallsComplete");
 
-    wagoEncodedStrings.forEach((wagoResp: WagoApiResponse) =>
-      handleAuraUpdate(wagoResp, auras),
-    );
+      wagoEncodedStrings.forEach((wagoResp: WagoApiResponse) =>
+        handleAuraUpdate(wagoResp, auras),
+      );
 
-    for (let i = auras.length - 1; i >= 0; i--) {
-      if (!received.includes(auras[i]?.slug)) {
-        auras.splice(i, 1);
+      for (let i = auras.length - 1; i >= 0; i--) {
+        if (!received.includes(auras[i]?.slug)) {
+          auras.splice(i, 1);
+        }
       }
+    } catch (error) {
+      console.error("Error resolving promisesWagoDataCallsComplete:", error);
+      nextRefresh = MINUTES_30;
     }
 
     try {
@@ -393,7 +428,7 @@ export async function compareSVwithWago(
       fetchingUpdateCallback(fetching);
       setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
       accountSelected.lastWagoUpdate = new Date();
-      scheduleRefreshWago(MINUTES_60);
+      scheduleRefreshWago(nextRefresh);
     }
   };
 
