@@ -98,11 +98,11 @@ export function createConfig({ dev = true } = {}) {
     ],
     safelist: [
       "i-fa6-brands-discord",
-      "i-fa6-brands-x-twitter",
+      "i-fa6-brands-bluesky",
       "i-fa6-brands-patreon",
       "i-fa6-brands-github",
       "i-fa6-brands-youtube",
-      "i-fa6-brands-x-twitter",
+      "i-fa6-brands-bluesky",
     ],
   });
 }
