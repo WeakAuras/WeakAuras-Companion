@@ -151,8 +151,8 @@ importers:
         specifier: ^7.7.1
         version: 7.7.1(rollup@4.31.0)(vite@5.4.12(@types/node@22.13.0))(vue@3.5.13(typescript@5.6.3))
       vite-plugin-webfont-dl:
-        specifier: ^3.10.3
-        version: 3.10.3(vite@5.4.12(@types/node@22.13.0))
+        specifier: ^3.10.4
+        version: 3.10.4(vite@5.4.12(@types/node@22.13.0))
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.13.0)
@@ -1877,8 +1877,8 @@ packages:
     resolution: {integrity: sha512-v+p6ongsrp0yTGbJXjgxPow2+DL93DASP4kXCDKb8/bwRtt9OEF3whggkkDkGNzgcWy2XaF4a8nZglC7uElscg==}
     engines: {node: '>=8'}
 
-  cacheable@1.8.7:
-    resolution: {integrity: sha512-AbfG7dAuYNjYxFUtL1lAqmlWdxczCJ47w7cFjhGcnGnUdwSo6VgmSojfoW3tUI12HUkgTJ5kqj78yyq6TsFtlg==}
+  cacheable@1.8.8:
+    resolution: {integrity: sha512-OE1/jlarWxROUIpd0qGBSKFLkNsotY8pt4GeiVErUYh/NUeTNrT+SBksUgllQv4m6a0W/VZsLuiHb88maavqEw==}
 
   callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
@@ -2510,8 +2510,8 @@ packages:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
     engines: {node: '>=16'}
 
-  flat-cache@6.1.5:
-    resolution: {integrity: sha512-QR+2kN38f8nMfiIQ1LHYjuDEmZNZVjxuxY+HufbS3BW0EX01Q5OnH7iduOYRutmgiXb797HAKcXUeXrvRjjgSQ==}
+  flat-cache@6.1.6:
+    resolution: {integrity: sha512-F+CKgSwp0pzLx67u+Zy1aCueVWFAHWbXepvXlZ+bWVTaASbm5SyCnSJ80Fp1ePEmS57wU+Bf6cx6525qtMZ4lQ==}
 
   flatted@3.3.2:
     resolution: {integrity: sha512-AiwGJM8YcNOaobumgtng+6NHuOqC3A7MixFeDafM3X9cIUM+xUXoS5Vfgf+OihAYe20fxqNM9yPBXJzRtZ/4eA==}
@@ -2723,8 +2723,8 @@ packages:
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
 
-  hookified@1.6.0:
-    resolution: {integrity: sha512-se7cpwTA+iA/eY548Bu03JJqBiEZAqU2jnyKdj5B5qurtBg64CZGHTgqCv4Yh7NWu6FGI09W61MCq+NoPj9GXA==}
+  hookified@1.7.0:
+    resolution: {integrity: sha512-XQdMjqC1AyeOzfs+17cnIk7Wdfu1hh2JtcyNfBf5u9jHrT3iZUlGHxLTntFBuk5lwkqJ6l3+daeQdHK5yByHVA==}
 
   hosted-git-info@4.1.0:
     resolution: {integrity: sha512-kyCuEOWjJqZuDbRHzL8V93NzQhwIB71oFWSyzVo+KPZI+pnQPPxucdkrOZvkLRnrf5URsQM+IJ09Dw29cRALIA==}
@@ -4123,8 +4123,8 @@ packages:
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0 || ^6.0.0-0
 
-  vite-plugin-webfont-dl@3.10.3:
-    resolution: {integrity: sha512-9rRla7tYeDPRAApWWUdv0lGnU/rc2heyeH6EWj8PvGOuyLkbZo8mHo0QJpBBGKrwPyhadhN08iQhTKoFqQPIfA==}
+  vite-plugin-webfont-dl@3.10.4:
+    resolution: {integrity: sha512-Odn+9JO0Wz67pSiGGA0IZS7c+m3/KFRFI370WRiP5x20TZFobtaLdIcvfb1pZelRhOIzKndfsoLWrq8144mjzw==}
     peerDependencies:
       vite: ^2 || ^3 || ^4 || ^5 || ^6
 
@@ -6212,9 +6212,9 @@ snapshots:
       normalize-url: 6.1.0
       responselike: 2.0.1
 
-  cacheable@1.8.7:
+  cacheable@1.8.8:
     dependencies:
-      hookified: 1.6.0
+      hookified: 1.7.0
       keyv: 5.2.3
 
   callsites@3.1.0: {}
@@ -7016,11 +7016,11 @@ snapshots:
       flatted: 3.3.2
       keyv: 4.5.4
 
-  flat-cache@6.1.5:
+  flat-cache@6.1.6:
     dependencies:
-      cacheable: 1.8.7
+      cacheable: 1.8.8
       flatted: 3.3.2
-      hookified: 1.6.0
+      hookified: 1.7.0
 
   flatted@3.3.2: {}
 
@@ -7263,7 +7263,7 @@ snapshots:
 
   hookable@5.5.3: {}
 
-  hookified@1.6.0: {}
+  hookified@1.7.0: {}
 
   hosted-git-info@4.1.0:
     dependencies:
@@ -8399,7 +8399,7 @@ snapshots:
       css-tree: 2.3.1
       css-what: 6.1.0
       csso: 5.0.5
-      picocolors: 1.1.0
+      picocolors: 1.1.1
 
   synckit@0.9.2:
     dependencies:
@@ -8691,12 +8691,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-webfont-dl@3.10.3(vite@5.4.12(@types/node@22.13.0)):
+  vite-plugin-webfont-dl@3.10.4(vite@5.4.12(@types/node@22.13.0)):
     dependencies:
       axios: 1.7.9
       clean-css: 5.3.3
-      flat-cache: 6.1.5
-      picocolors: 1.1.0
+      flat-cache: 6.1.6
+      picocolors: 1.1.1
       vite: 5.4.12(@types/node@22.13.0)
     transitivePeerDependencies:
       - debug
