@@ -112,11 +112,11 @@ importers:
         specifier: ^3.5.0
         version: 3.5.0
       pinia:
-        specifier: ^2.3.0
-        version: 2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
+        specifier: ^2.3.1
+        version: 2.3.1(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       pinia-plugin-persistedstate-2:
         specifier: ^2.0.28
-        version: 2.0.28(pinia@2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)))
+        version: 2.0.28(pinia@2.3.1(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)))
       prettier:
         specifier: ^3.4.2
         version: 3.4.2
@@ -1569,9 +1569,6 @@ packages:
 
   '@vue/compiler-vue2@2.7.16':
     resolution: {integrity: sha512-qYC3Psj9S/mfu9uVi5WvNZIzq+xnXMhOwbTFKKDD7b1lhpnn71jXSFdTQ+WsIEk0ONCd7VV2IMm7ONl6tbQ86A==}
-
-  '@vue/devtools-api@6.6.3':
-    resolution: {integrity: sha512-0MiMsFma/HqA6g3KLKn+AGpL1kgKhFWszC9U29NfpWK5LE7bjeXxySWJrOJ77hBz+TBrBQ7o4QJqbPbqbs8rJw==}
 
   '@vue/devtools-api@6.6.4':
     resolution: {integrity: sha512-sGhTPMuXqZ1rVOk32RylztWkfXTRhuS7vgAKv0zjqk8gbsHkJ7xfFf+jbySxt7tWObEJwyKaHMikV/WGDiQm8g==}
@@ -3489,8 +3486,8 @@ packages:
     peerDependencies:
       pinia: ^2.3.0
 
-  pinia@2.3.0:
-    resolution: {integrity: sha512-ohZj3jla0LL0OH5PlLTDMzqKiVw2XARmC1XYLdLWIPBMdhDW/123ZWr4zVAhtJm+aoSkFa13pYXskAvAscIkhQ==}
+  pinia@2.3.1:
+    resolution: {integrity: sha512-khUlZSwt9xXCaTbbxFYBKDc/bWAGWJjOgvxETwkTN7KRm66EeT1ZdZj6i2ceh9sP2Pzqsbc704r2yngBrxBVug==}
     peerDependencies:
       typescript: '>=4.4.4'
       vue: ^2.7.0 || ^3.5.11
@@ -5786,8 +5783,6 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  '@vue/devtools-api@6.6.3': {}
-
   '@vue/devtools-api@6.6.4': {}
 
   '@vue/devtools-core@7.7.1(vite@5.4.12(@types/node@22.13.0))(vue@3.5.13(typescript@5.6.3))':
@@ -7974,14 +7969,14 @@ snapshots:
 
   pidtree@0.6.0: {}
 
-  pinia-plugin-persistedstate-2@2.0.28(pinia@2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))):
+  pinia-plugin-persistedstate-2@2.0.28(pinia@2.3.1(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))):
     dependencies:
-      pinia: 2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
+      pinia: 2.3.1(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       shvl: 3.0.0
 
-  pinia@2.3.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)):
+  pinia@2.3.1(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)):
     dependencies:
-      '@vue/devtools-api': 6.6.3
+      '@vue/devtools-api': 6.6.4
       vue: 3.5.13(typescript@5.6.3)
       vue-demi: 0.14.10(vue@3.5.13(typescript@5.6.3))
     optionalDependencies:
