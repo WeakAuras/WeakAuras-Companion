@@ -1,5 +1,5 @@
 import type { IconSet } from "@iconify/tools";
-import { deOptimisePaths, importDirectory, runSVGO } from "@iconify/tools";
+import { importDirectory, runSVGO } from "@iconify/tools";
 import type { CustomIconLoader } from "@iconify/utils/lib/loader/types";
 import presetWebFonts from "@unocss/preset-web-fonts";
 import { defineConfig, presetIcons, presetUno } from "unocss";
@@ -9,18 +9,15 @@ import { defineConfig, presetIcons, presetUno } from "unocss";
  */
 function loadCustomIconSet(): CustomIconLoader {
   const promise = new Promise<IconSet>((resolve, reject) => {
-    importDirectory("src/assets/social-icons", {
+    void importDirectory("src/assets/social-icons", {
       prefix: "social",
     }).then((iconSet) => {
       iconSet
-        .forEach(async (name) => {
-          const svg = iconSet.toSVG(name)!;
+        .forEach((name) => {
+          const svg = iconSet.toSVG(name);
 
           // Optimise
           runSVGO(svg);
-
-          // Update paths for compatibility with old software
-          await deOptimisePaths(svg);
 
           // Update icon in icon set
           iconSet.fromSVG(name, svg);
@@ -29,7 +26,7 @@ function loadCustomIconSet(): CustomIconLoader {
           resolve(iconSet);
         })
         .catch((err) => {
-          reject(err);
+          reject(new Error(String(err)));
         });
     });
   });
