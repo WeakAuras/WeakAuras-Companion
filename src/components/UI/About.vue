@@ -4,9 +4,6 @@ import medias from "@/libs/contacts";
 const version = __APP_VERSION__;
 const license = __APP_LICENSE__;
 const tools = "Electron & Vue";
-
-const capitalize = (string: string) =>
-  string.charAt(0).toUpperCase() + string.slice(1);
 </script>
 
 <template>
