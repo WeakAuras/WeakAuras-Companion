@@ -73,8 +73,8 @@ importers:
         specifier: ^4.24.4
         version: 4.24.4
       electron:
-        specifier: 34.0.2
-        version: 34.0.2
+        specifier: 34.3.0
+        version: 34.3.0
       electron-builder:
         specifier: ^25.1.8
         version: 25.1.8(electron-builder-squirrel-windows@25.1.8(dmg-builder@25.1.8))
@@ -2285,8 +2285,8 @@ packages:
   electron-updater@6.3.9:
     resolution: {integrity: sha512-2PJNONi+iBidkoC5D1nzT9XqsE8Q1X28Fn6xRQhO3YX8qRRyJ3mkV4F1aQsuRnYPqq6Hw+E51y27W75WgDoofw==}
 
-  electron@34.0.2:
-    resolution: {integrity: sha512-u3F+DSUlg9NaGS+9qnYmSRN8VjAnc3LJDDk1ye1uISJnh4gjG76y3681qLowsPMx4obvCP2eBINnmbLo0yT5WA==}
+  electron@34.3.0:
+    resolution: {integrity: sha512-I238qRnYTAsuwJ/rS7HGaFNY4NNKAcjX8nlj7mnNmj1TK3z4HvNoD1r7Zud81DYDFx8AITuLd76EPrEnnfF9Bg==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -4657,7 +4657,7 @@ snapshots:
       node-gyp: 9.4.1
       ora: 5.4.1
       read-binary-file-arch: 1.0.6
-      semver: 7.7.0
+      semver: 7.7.1
       tar: 6.2.1
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -5487,7 +5487,7 @@ snapshots:
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.7.0
+      semver: 7.7.1
       ts-api-utils: 2.0.1(typescript@5.7.3)
       typescript: 5.7.3
     transitivePeerDependencies:
@@ -6711,7 +6711,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@34.0.2:
+  electron@34.3.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 20.17.22
@@ -7220,7 +7220,7 @@ snapshots:
       es6-error: 4.1.1
       matcher: 3.0.0
       roarr: 2.15.4
-      semver: 7.7.0
+      semver: 7.7.1
       serialize-error: 7.0.1
     optional: true
 
@@ -7521,7 +7521,7 @@ snapshots:
       acorn: 8.12.1
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
-      semver: 7.7.0
+      semver: 7.7.1
 
   jsonfile@4.0.0:
     optionalDependencies:
@@ -7800,14 +7800,14 @@ snapshots:
 
   node-abi@3.73.0:
     dependencies:
-      semver: 7.7.0
+      semver: 7.7.1
 
   node-addon-api@1.7.2:
     optional: true
 
   node-api-version@0.2.0:
     dependencies:
-      semver: 7.7.0
+      semver: 7.7.1
 
   node-fetch-native@1.6.6: {}
 
@@ -7821,7 +7821,7 @@ snapshots:
       nopt: 6.0.0
       npmlog: 6.0.2
       rimraf: 3.0.2
-      semver: 7.7.0
+      semver: 7.7.1
       tar: 6.2.1
       which: 2.0.2
     transitivePeerDependencies:
