@@ -1,18 +1,15 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import type { AddonConfig } from "@/stores/config";
 
-export default defineComponent({
-  name: "AuraHeaders",
-  props: {
-    sortedColumn: {
-      type: String,
-      required: true,
-    },
-    sortDescending: Boolean,
-    addonSelectedConfig: { type: Object, default: null },
-  },
-  emits: ["sortBy"],
-});
+defineProps<{
+  sortedColumn: string;
+  sortDescending: boolean;
+  addonSelectedConfig: AddonConfig;
+}>();
+
+defineEmits<{
+  (e: "sortBy", column: string): void;
+}>();
 </script>
 
 <template>

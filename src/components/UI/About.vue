@@ -1,21 +1,12 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import medias from "@/libs/contacts";
 
-export default defineComponent({
-  name: "About",
-  filters: {
-    capitalize: (string) => string.charAt(0).toUpperCase() + string.slice(1),
-  },
-  data() {
-    return {
-      medias,
-      version: __APP_VERSION__,
-      license: __APP_LICENSE__,
-      tools: "Electron & Vue",
-    };
-  },
-});
+const version = __APP_VERSION__;
+const license = __APP_LICENSE__;
+const tools = "Electron & Vue";
+
+const capitalize = (string: string) =>
+  string.charAt(0).toUpperCase() + string.slice(1);
 </script>
 
 <template>
@@ -24,9 +15,9 @@ export default defineComponent({
       <h2>WeakAuras Companion</h2>
       <br />
       <p>
-        {{ $t("app.about.tools" /* Developed with */) }} {{ $data.tools }}<br />
-        {{ $t("app.about.version" /* Version: */) }} {{ $data.version }}<br />
-        {{ $t("app.about.license" /* License: */) }} {{ $data.license }}<br />
+        {{ $t("app.about.tools" /* Developed with */) }} {{ tools }}<br />
+        {{ $t("app.about.version" /* Version: */) }} {{ version }}<br />
+        {{ $t("app.about.license" /* License: */) }} {{ license }}<br />
         {{ $t("app.about.source" /* Sources on */) }}
         <a
           href="https://github.com/WeakAuras/WeakAuras-Companion"

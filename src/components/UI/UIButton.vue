@@ -1,23 +1,9 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "UIButton",
-  props: {
-    type: {
-      type: String,
-      default: "",
-    },
-    title: {
-      type: String,
-      default: "",
-    },
-    size: {
-      type: String,
-      default: "",
-    },
-  },
-});
+<script setup lang="ts">
+defineProps<{
+  type?: string;
+  title?: string;
+  size?: string;
+}>();
 </script>
 
 <template>

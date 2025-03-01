@@ -1,20 +1,15 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ipcRenderer } from "electron";
-import { defineComponent } from "vue";
 
 import UIButton from "./UIButton.vue";
 
-export default defineComponent({
-  components: { UIButton },
-  methods: {
-    minBtn() {
-      ipcRenderer.invoke("minimize");
-    },
-    closeBtn() {
-      ipcRenderer.invoke("close");
-    },
-  },
-});
+const minBtn = () => {
+  ipcRenderer.invoke("minimize");
+};
+
+const closeBtn = () => {
+  ipcRenderer.invoke("close");
+};
 </script>
 
 <template>

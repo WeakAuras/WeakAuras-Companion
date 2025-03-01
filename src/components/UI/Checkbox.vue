@@ -1,18 +1,18 @@
-<script lang="ts">
-export default {
-  name: "Checkbox",
-  props: {
-    modelValue: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  emits: ["update:modelValue"],
-  methods: {
-    triggerInputClick() {
-      (this.$refs.checkbox as HTMLInputElement).click();
-    },
-  },
+<script setup lang="ts">
+import { ref } from "vue";
+
+defineProps<{
+  modelValue: boolean;
+}>();
+
+defineEmits<{
+  "update:modelValue": [value: boolean];
+}>();
+
+const checkbox = ref<HTMLInputElement | null>(null);
+
+const triggerInputClick = () => {
+  checkbox.value?.click();
 };
 </script>
 

@@ -153,7 +153,7 @@ export async function compareSVwithWago(
   }
 
   // clean up auras
-  const slugs = new Array(fileAuraData.length);
+  const slugs = Array.from({ length: fileAuraData.length });
 
   for (const foundAura of fileAuraData) {
     const { slug } = foundAura;

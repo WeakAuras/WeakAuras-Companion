@@ -31,7 +31,7 @@ import type {
 } from "electron-updater";
 
 import { useStashStore } from "../stores/auras";
-import type { Account, AuraType, Version } from "../stores/config";
+import type { Account, AddonConfig, AuraType, Version } from "../stores/config";
 import { useConfigStore } from "../stores/config";
 import About from "./UI/About.vue";
 import Aura from "./UI/Aura.vue";
@@ -158,7 +158,7 @@ export default defineComponent({
       return null;
     },
     allAddonConfigs() {
-      const addonConfigs = [
+      const addonConfigs: AddonConfig[] = [
         {
           addonName: "WeakAuras",
           wagoAPI: "https://data.wago.io/api/check/",
@@ -185,12 +185,14 @@ export default defineComponent({
         (addonConfig) => addonConfig.isInstalled,
       );
     },
-    addonSelectedConfig() {
+    addonSelectedConfig(): AddonConfig | null {
       if (!this.addonSelected) return null;
-      return this.allAddonConfigs.find(
-        (addonConfig) =>
-          addonConfig.addonName.toLowerCase() ===
-          this.addonSelected.toLowerCase(),
+      return (
+        this.allAddonConfigs.find(
+          (addonConfig) =>
+            addonConfig.addonName.toLowerCase() ===
+            this.addonSelected.toLowerCase(),
+        ) || null
       );
     },
     versionSelected(): Version | undefined {
