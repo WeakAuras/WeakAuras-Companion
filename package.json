@@ -32,7 +32,10 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.?(js|ts|ts|vue)": "prettier --write"
+    "*.?(js|ts|ts|vue)": [
+      "prettier --write --cache",
+      "eslint --cache"
+    ]
   },
   "config": {
     "default-locale": "en",
