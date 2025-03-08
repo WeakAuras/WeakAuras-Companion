@@ -88,7 +88,7 @@
     "luxon": "^3.5.0",
     "pinia": "^2.3.1",
     "pinia-plugin-persistedstate-2": "^2.0.28",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.2",
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
     "typescript": "^5.7.3",
