@@ -79,7 +79,7 @@
     "electron-store": "^10.0.1",
     "electron-updater": "^6.3.9",
     "eslint": "^9.21.0",
-    "eslint-plugin-vue": "^9.32.0",
+    "eslint-plugin-vue": "^9.33.0",
     "floating-vue": "^5.2.2",
     "glob": "^11.0.1",
     "husky": "^9.1.7",
