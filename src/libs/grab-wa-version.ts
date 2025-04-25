@@ -16,7 +16,7 @@ export function grabVersionFromToc(
   if (version.includes("classic_era")) {
     waTocFile = path.join(waFolderPath, "WeakAuras_Vanilla.toc");
   } else if (version.includes("classic_beta")) {
-    waTocFile = path.join(waFolderPath, "WeakAuras_Cata.toc");
+    waTocFile = path.join(waFolderPath, "WeakAuras_Mists.toc");
   } else if (version.includes("classic")) {
     waTocFile = path.join(waFolderPath, "WeakAuras_Cata.toc");
   } else {

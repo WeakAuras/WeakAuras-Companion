@@ -55,9 +55,7 @@ export function buildVersionList(
     },
     {
       value: "_classic_beta_",
-      text: i18n.global.t(
-        "app.version.classic_beta" /* Cataclysm  Classic Beta */,
-      ),
+      text: i18n.global.t("app.version.classic_beta" /* MoP Classic Beta */),
     },
     {
       value: "_classic_era_",

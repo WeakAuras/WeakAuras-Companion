@@ -183,6 +183,7 @@ init.lua`;
       "WeakAurasCompanion-Vanilla.toc",
       "WeakAurasCompanion-Mainline.toc",
       "WeakAurasCompanion-Cata.toc",
+      "WeakAurasCompanion-Mists.toc",
       "data.lua",
     ];
 
