@@ -18,8 +18,8 @@ importers:
         specifier: ^12.6.1
         version: 12.6.1
       regedit:
-        specifier: ^5.1.3
-        version: 5.1.3
+        specifier: ^5.1.4
+        version: 5.1.4
       sharp:
         specifier: ^0.33.5
         version: 0.33.5
@@ -2130,15 +2130,6 @@ packages:
       supports-color:
         optional: true
 
-  debug@4.3.7:
-    resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-
   debug@4.4.0:
     resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
     engines: {node: '>=6.0'}
@@ -3640,8 +3631,8 @@ packages:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
 
-  regedit@5.1.3:
-    resolution: {integrity: sha512-sHsmh8FuioHve3lMmN6gNHdKmgGRxMGzgJ/qfzRQgsPx+Zv8kdlQ0y04JAg/6MqQC/7NRBZ1G5Qiccs1Q9tNtg==}
+  regedit@5.1.4:
+    resolution: {integrity: sha512-3VQ8BY2unUdl4nSx19QAn+pUlkqJhRbIsQc0zciWIVmELLXQLIHvdytUfcI56XYJZj3r9rkb7NTKxkQaXSYnow==}
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
@@ -6560,10 +6551,6 @@ snapshots:
     dependencies:
       ms: 2.0.0
 
-  debug@4.3.7:
-    dependencies:
-      ms: 2.1.3
-
   debug@4.4.0:
     dependencies:
       ms: 2.1.3
@@ -8214,9 +8201,9 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  regedit@5.1.3:
+  regedit@5.1.4:
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.0
       if-async: 3.7.4
       stream-slicer: 0.0.6
       through2: 0.6.5
