@@ -101,7 +101,7 @@
     "vite-plugin-vue-devtools": "^7.7.6",
     "vite-plugin-webfont-dl": "^3.10.4",
     "vitest": "^3.1.4",
-    "vue": "^3.5.16",
+    "vue": "^3.5.17",
     "vue-i18n": "^11.1.5",
     "vue-tsc": "^2.2.10"
   },
