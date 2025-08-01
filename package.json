@@ -102,7 +102,7 @@
     "vite-plugin-webfont-dl": "^3.11.1",
     "vitest": "^3.1.4",
     "vue": "^3.5.18",
-    "vue-i18n": "^11.1.10",
+    "vue-i18n": "^11.1.11",
     "vue-tsc": "^2.2.10"
   },
   "packageManager": "pnpm@9.9.0",
