@@ -397,10 +397,6 @@ ipcMain.handle(
           type: "button",
           text: "Download Now",
         },
-        {
-          type: "button",
-          text: "Close",
-        },
       ];
     }
 
@@ -427,7 +423,6 @@ ipcMain.handle(
           void app.dock.show();
         }
       }
-      // Close button (index === 1) - just dismiss the notification (default behavior)
     });
 
     notification.show();
