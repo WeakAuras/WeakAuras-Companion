@@ -384,15 +384,50 @@ ipcMain.handle(
       return;
     } // prevent notification spam
 
-    const notification = new Notification({
+    const notificationOptions: Electron.NotificationConstructorOptions = {
       title: "New update ready to install",
       body: text,
       icon: notificationIcon,
-    });
+    };
+
+    // Add action buttons if supported (primarily Windows 10+ and some Linux environments)
+    if (process.platform === "win32" || process.platform === "linux") {
+      notificationOptions.actions = [
+        {
+          type: "button",
+          text: "Download Now",
+        },
+        {
+          type: "button",
+          text: "Close",
+        },
+      ];
+    }
+
+    const notification = new Notification(notificationOptions);
 
     notification.on("click", () => {
       mainWindow?.show();
       mainWindow?.focus();
+
+      if (process.platform === "darwin") {
+        void app.dock.show();
+      }
+    });
+
+    // Handle action button clicks if supported
+    notification.on("action", (event, index) => {
+      if (index === 0) {
+        // Download Now button clicked
+        mainWindow?.show();
+        mainWindow?.focus();
+        mainWindow?.webContents.send("downloadUpdates");
+
+        if (process.platform === "darwin") {
+          void app.dock.show();
+        }
+      }
+      // Close button (index === 1) - just dismiss the notification (default behavior)
     });
 
     notification.show();

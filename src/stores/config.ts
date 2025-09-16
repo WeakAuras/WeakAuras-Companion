@@ -126,7 +126,7 @@ export const useConfigStore = defineStore("configStore", {
       ignoreOwnAuras: true,
       autostart: true,
       startminimize: false,
-      notify: false,
+      notify: true,
       lang: "en",
       autoupdate: true,
       beta: false,
