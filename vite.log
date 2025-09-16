@@ -1,0 +1,40 @@
+nohup: ignoring input
+
+  [32m[1mVITE[22m v5.4.19[39m  [2mready in [0m[1m2708[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://10.1.0.221:[1m5173[22m/[39m
+  [32m➜[39m  [1mVue DevTools[22m: [32mOpen [36mhttp://localhost:[1m5173[22m/__devtools__/[32m as a separate window[39m
+  [32m➜[39m  [1mVue DevTools[22m: [32mPress [33mAlt(⌥)[2m+[22mShift(⇧)[2m+[22mD[32m in App to toggle the Vue DevTools[39m
+  [32m➜[39m  [1mUnoCSS Inspector[22m: [36mhttp://localhost:[1m5173[22m/__unocss/[39m
+[36mvite v5.4.19 [32mbuilding for development...[36m[39m
+[36m
+watching for file changes...[39m
+[36mvite v5.4.19 [32mbuilding for development...[36m[39m
+[36m
+watching for file changes...[39m
+[36m
+build started...[39m
+[36m
+build started...[39m
+transforming...
+transforming...
+[32m✓[39m 1 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist-electron/preload/[22m[36mindex.mjs  [39m[1m[2m7.83 kB[22m[1m[22m[2m │ gzip: 3.75 kB[22m[2m │ map: 4.18 kB[22m
+[36mbuilt in 206ms.[39m
+[32m✓[39m 990 modules transformed.
+rendering chunks...
+computing gzip size...
+[90m[electron-renderer][0m [36mpre-bundling[0m [33mregedit[0m
+[90m[electron-renderer][0m [36mpre-bundling[0m [33mgot[0m
+[90m[electron-renderer][0m [36mpre-bundling[0m [33mgot[0m
+[90m[electron-renderer][0m [36mpre-bundling[0m [33marchiver[0m
+[90m[electron-renderer][0m [36mpre-bundling[0m [33msharp[0m
+[90m[electron-renderer][0m [36mpre-bundling[0m [33mtga[0m
+[2mdist-electron/main/[22m[36mindex.mjs  [39m[1m[33m1,081.88 kB[39m[22m[2m │ gzip: 236.12 kB[22m[2m │ map: 2,068.69 kB[22m
+[36mbuilt in 4328ms.[39m
+17:30:22.648 › App starting...
+[4018:0916/173022.677185:ERROR:ozone_platform_x11.cc(246)] Missing X server or $DISPLAY
+[4018:0916/173022.677239:ERROR:env.cc(257)] The platform failed to initialize.  Exiting.
