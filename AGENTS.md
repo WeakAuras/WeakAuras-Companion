@@ -11,7 +11,6 @@ WeakAuras Companion is a cross-platform desktop application built with Electron 
 - Support for Plater profiles, mods, and scripts
 - Cross-platform support (Windows, macOS, Linux)
 - Automatic backup functionality
-- Multi-language support
 
 ## Technology Stack
 
