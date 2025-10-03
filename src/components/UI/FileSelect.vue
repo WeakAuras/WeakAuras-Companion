@@ -59,7 +59,9 @@ async function handleInputClick() {
 function drop(event: DragEvent) {
   if (props.dragndrop === true && event.dataTransfer?.files[0]) {
     event.preventDefault();
-    emit("update:path", event.dataTransfer.files[0].path);
+    // Electron adds a 'path' property to File objects
+    const file = event.dataTransfer.files[0] as File & { path: string };
+    emit("update:path", file.path);
   }
 }
 </script>
