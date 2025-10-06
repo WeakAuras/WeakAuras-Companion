@@ -14,7 +14,7 @@ WeakAuras Companion is a cross-platform desktop application built with Electron 
 
 ## Technology Stack
 
-- **Runtime**: Electron 35.x (Node.js >= 22 required)
+- **Runtime**: Electron 38.x (Node.js >= 22 required)
 - **Frontend**: Vue 3 + TypeScript
 - **Build Tool**: Vite with custom configuration
 - **Styling**: UnoCSS with custom presets
