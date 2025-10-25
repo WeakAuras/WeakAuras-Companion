@@ -103,7 +103,7 @@
     "vitest": "^3.1.4",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
-    "vue-tsc": "^2.2.10"
+    "vue-tsc": "^3.1.2"
   },
   "packageManager": "pnpm@10.18.1",
   "engines": {
