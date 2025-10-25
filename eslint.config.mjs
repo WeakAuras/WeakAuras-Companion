@@ -1,20 +1,22 @@
 import eslint from "@eslint/js";
 import unocss from "@unocss/eslint-config/flat";
 import pluginVue from "eslint-plugin-vue";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tsEslint from "typescript-eslint";
 import vueParser from "vue-eslint-parser";
 
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
-export default [
+export default defineConfig([
   eslint.configs.recommended,
-  ...tsEslint.configs.recommendedTypeChecked,
-  ...pluginVue.configs["flat/recommended"],
+  tsEslint.configs.recommendedTypeChecked,
+  pluginVue.configs["flat/recommended"],
   unocss,
   {
     languageOptions: {
       globals: {
         ...globals.node,
+        ...globals.browser,
         NodeJS: "writable",
         __APP_VERSION__: "writable",
         __APP_LICENSE__: "writable",
@@ -56,7 +58,7 @@ export default [
       "@typescript-eslint/restrict-template-expressions": "off",
       "@typescript-eslint/require-await": "off",
       "vue/multi-word-component-names": "off",
-      "vue/component-tags-order": [
+      "vue/block-order": [
         "error",
         {
           order: [["script", "template"], "style"],
@@ -68,4 +70,4 @@ export default [
       "vue/singleline-html-element-content-newline": "off",
     },
   },
-];
+]);

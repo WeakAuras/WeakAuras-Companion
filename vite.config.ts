@@ -59,7 +59,7 @@ export default defineConfig(({ command }) => {
                 /* For `.vscode/.debug.script.mjs` */ "[startup] Electron App",
               );
             } else {
-              options.startup();
+              void options.startup();
             }
           },
           vite: {

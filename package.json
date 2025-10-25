@@ -68,10 +68,10 @@
     "@types/luxon": "^3.7.1",
     "@types/node": "^24.9.1",
     "@types/tail": "^2.2.3",
-    "@unocss/eslint-config": "^65.4.3",
-    "@unocss/preset-icons": "^65.4.3",
-    "@unocss/preset-web-fonts": "^65.4.3",
-    "@vitejs/plugin-vue": "^5.2.4",
+    "@unocss/eslint-config": "^66.5.4",
+    "@unocss/preset-icons": "^66.5.4",
+    "@unocss/preset-web-fonts": "^66.5.4",
+    "@vitejs/plugin-vue": "^6.0.1",
     "browserslist": "^4.25.1",
     "electron": "38.2.1",
     "electron-builder": "^25.1.8",
@@ -79,7 +79,7 @@
     "electron-store": "^10.0.1",
     "electron-updater": "^6.6.2",
     "eslint": "^9.31.0",
-    "eslint-plugin-vue": "^9.33.0",
+    "eslint-plugin-vue": "^10.5.1",
     "floating-vue": "^5.2.2",
     "glob": "^11.0.3",
     "husky": "^9.1.7",
@@ -93,19 +93,19 @@
     "tree-kill": "^1.2.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "8.46.2",
-    "unocss": "^65.4.3",
-    "vite": "^5.4.19",
+    "unocss": "^66.5.4",
+    "vite": "^7.1.12",
     "vite-plugin-electron": "^0.29.0",
     "vite-plugin-electron-renderer": "^0.14.6",
     "vite-plugin-resolve": "^2.5.2",
-    "vite-plugin-vue-devtools": "^7.7.7",
+    "vite-plugin-vue-devtools": "^8.0.3",
     "vite-plugin-webfont-dl": "^3.11.1",
     "vitest": "^3.1.4",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
     "vue-tsc": "^2.2.10"
   },
-  "packageManager": "pnpm@9.9.0",
+  "packageManager": "pnpm@10.18.1",
   "engines": {
     "node": ">=22"
   },
@@ -120,7 +120,13 @@
         "darwin",
         "linux"
       ]
-    }
+    },
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild",
+      "sharp",
+      "vue-demi"
+    ]
   },
   "debug": {
     "env": {
