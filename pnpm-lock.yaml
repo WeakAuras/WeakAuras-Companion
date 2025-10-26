@@ -43,8 +43,8 @@ importers:
         specifier: ^6.0.8
         version: 6.0.8(@vue/compiler-dom@3.5.22)(eslint@9.31.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.5.22(typescript@5.8.3)))(vue@3.5.22(typescript@5.8.3))
       '@types/archiver':
-        specifier: ^6.0.3
-        version: 6.0.3
+        specifier: ^6.0.4
+        version: 6.0.4
       '@types/luaparse':
         specifier: 0.2.1
         version: 0.2.1
@@ -1205,8 +1205,8 @@ packages:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
 
-  '@types/archiver@6.0.3':
-    resolution: {integrity: sha512-a6wUll6k3zX6qs5KlxIggs1P1JcYJaTCx2gnlr+f0S1yd2DoaEwoIK10HmBaLnZwWneBz+JBm0dwcZu0zECBcQ==}
+  '@types/archiver@6.0.4':
+    resolution: {integrity: sha512-ULdQpARQ3sz9WH4nb98mJDYA0ft2A8C4f4fovvUcFwINa1cgGjY36JCAYuP5YypRq4mco1lJp1/7jEMS2oR0Hg==}
 
   '@types/cacheable-request@6.0.3':
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
@@ -5311,7 +5311,7 @@ snapshots:
 
   '@trysound/sax@0.2.0': {}
 
-  '@types/archiver@6.0.3':
+  '@types/archiver@6.0.4':
     dependencies:
       '@types/readdir-glob': 1.1.5
 
