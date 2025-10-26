@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -132,6 +133,25 @@ export default defineConfig(({ command }) => {
         output: {
           assetFileNames: "assets/[name].[ext]",
         },
+      },
+    },
+    test: {
+      globals: true,
+      environment: "happy-dom",
+      setupFiles: [],
+      include: ["src/**/*.{test,spec}.{js,ts,jsx,tsx}"],
+      exclude: ["node_modules", "dist", "dist-electron", ".git", ".cache"],
+      coverage: {
+        provider: "v8",
+        reporter: ["text", "json"],
+        exclude: [
+          "node_modules/",
+          "dist/",
+          "dist-electron/",
+          "**/*.d.ts",
+          "**/*.config.*",
+          "**/mockData",
+        ],
       },
     },
     server: process.env.VSCODE_DEBUG

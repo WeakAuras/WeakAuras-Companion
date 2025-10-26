@@ -29,7 +29,9 @@
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint ./src --cache && prettier . --check --cache",
     "lint:fix": "eslint ./src --fix && prettier . --write",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest run",
+    "test:ui": "vitest --ui"
   },
   "lint-staged": {
     "*.?(js|ts|ts|vue)": [
@@ -72,6 +74,8 @@
     "@unocss/preset-icons": "^66.5.4",
     "@unocss/preset-web-fonts": "^66.5.4",
     "@vitejs/plugin-vue": "^6.0.1",
+    "@vitest/browser": "^4.0.3",
+    "@vitest/ui": "^4.0.3",
     "browserslist": "^4.25.1",
     "electron": "38.2.1",
     "electron-builder": "^25.1.8",
@@ -82,12 +86,14 @@
     "eslint-plugin-vue": "^10.5.1",
     "floating-vue": "^5.2.2",
     "glob": "^11.0.3",
+    "happy-dom": "^20.0.8",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.3",
     "luaparse": "^0.2.1",
     "luxon": "^3.7.1",
     "pinia": "^2.3.1",
     "pinia-plugin-persistedstate-2": "^2.0.32",
+    "playwright": "^1.56.1",
     "prettier": "^3.4.2",
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
@@ -100,7 +106,8 @@
     "vite-plugin-resolve": "^2.5.2",
     "vite-plugin-vue-devtools": "^8.0.3",
     "vite-plugin-webfont-dl": "^3.11.1",
-    "vitest": "^3.1.4",
+    "vitest": "^4.0.3",
+    "vitest-browser-vue": "^2.0.0",
     "vue": "^3.5.22",
     "vue-i18n": "^11.1.12",
     "vue-tsc": "^2.2.10"
