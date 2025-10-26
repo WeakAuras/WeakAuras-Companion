@@ -91,7 +91,7 @@ function drop(event: DragEvent) {
         <slot />
       </p>
       <div
-        class="fakeinput ml-1.5 mr-0.5 mt-2 h-7.5 w-67.5 inline-table table-fixed cursor-pointer whitespace-nowrap border-1 border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest"
+        class="fakeinput ml-1.5 mr-0.5 mt-2 h-7.5 w-67.5 inline-table table-fixed cursor-pointer whitespace-nowrap border border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest"
       >
         <span
           class="wow-path table-cell overflow-hidden text-ellipsis align-middle"
