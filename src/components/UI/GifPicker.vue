@@ -249,8 +249,9 @@ span.invisible {
   overflow: hidden;
   position: relative;
   background-size: cover;
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, transform;
+  transition-property:
+    background-color, border-color, color, fill, stroke, opacity, box-shadow,
+    transform;
   transition-duration: 300ms;
   color: white;
   font-weight: 600;
@@ -273,8 +274,9 @@ span.invisible {
   top: 0;
   left: 0;
   background-color: black;
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, transform;
+  transition-property:
+    background-color, border-color, color, fill, stroke, opacity, box-shadow,
+    transform;
   transition-duration: 300ms;
   width: 100%;
   height: 100%;

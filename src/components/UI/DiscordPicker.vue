@@ -75,8 +75,9 @@ export default defineComponent({
   position: absolute;
   left: -150px;
   bottom: -150px;
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, transform;
+  transition-property:
+    background-color, border-color, color, fill, stroke, opacity, box-shadow,
+    transform;
   transition-duration: 200ms;
   transform: translate-y(200px);
   border-radius: 0.75rem;
