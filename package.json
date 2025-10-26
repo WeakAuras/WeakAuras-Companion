@@ -98,7 +98,7 @@
     "prettier-plugin-packagejson": "^2.5.19",
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.3",
     "typescript-eslint": "8.46.2",
     "unocss": "^66.5.4",
     "vite": "^7.1.12",
