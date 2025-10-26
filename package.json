@@ -88,7 +88,7 @@
     "glob": "^11.0.3",
     "happy-dom": "^20.0.8",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.3",
+    "lint-staged": "^16.2.6",
     "luaparse": "^0.2.1",
     "luxon": "^3.7.1",
     "pinia": "^2.3.1",
