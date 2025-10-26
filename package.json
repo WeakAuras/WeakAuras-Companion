@@ -60,7 +60,7 @@
     "tga": "^1.0.7"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@iconify-json/fa6-brands": "^1.2.5",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify/tools": "^4.1.2",
@@ -94,7 +94,8 @@
     "pinia": "^2.3.1",
     "pinia-plugin-persistedstate-2": "^2.0.32",
     "playwright": "^1.56.1",
-    "prettier": "^3.4.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-packagejson": "^2.5.19",
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
     "typescript": "^5.7.3",
@@ -117,6 +118,12 @@
     "node": ">=22"
   },
   "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild",
+      "sharp",
+      "vue-demi"
+    ],
     "supportedArchitectures": {
       "cpu": [
         "x64",
@@ -127,13 +134,7 @@
         "darwin",
         "linux"
       ]
-    },
-    "onlyBuiltDependencies": [
-      "electron",
-      "esbuild",
-      "sharp",
-      "vue-demi"
-    ]
+    }
   },
   "debug": {
     "env": {

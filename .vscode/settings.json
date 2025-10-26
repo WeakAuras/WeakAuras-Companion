@@ -1,9 +1,8 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.tsc.autoDetect": "off",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

@@ -8,7 +8,8 @@
   "trailingComma": "all",
   "quoteProps": "consistent",
   "plugins": [
-    "@ianvs/prettier-plugin-sort-imports"
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-packagejson"
   ],
   "importOrderTypeScriptVersion": "4.4.0",
   "importOrder": [
