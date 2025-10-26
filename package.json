@@ -90,7 +90,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "luaparse": "^0.2.1",
-    "luxon": "^3.7.1",
+    "luxon": "^3.7.2",
     "pinia": "^2.3.1",
     "pinia-plugin-persistedstate-2": "^2.0.32",
     "playwright": "^1.56.1",
