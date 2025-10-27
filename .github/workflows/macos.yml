@@ -45,13 +45,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         name: Upload DMG
         with:
           name: WeakAuras-Companion-CI-dmg
           path: release/**/*-mac-universal.dmg
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         name: Upload ZIP
         with:
           name: WeakAuras-Companion-CI-zip
