@@ -68,7 +68,7 @@
     "@types/archiver": "^6.0.4",
     "@types/luaparse": "0.2.1",
     "@types/luxon": "^3.7.1",
-    "@types/node": "^24.9.1",
+    "@types/node": "^24.9.2",
     "@types/tail": "^2.2.3",
     "@unocss/eslint-config": "^66.5.4",
     "@unocss/preset-icons": "^66.5.4",
