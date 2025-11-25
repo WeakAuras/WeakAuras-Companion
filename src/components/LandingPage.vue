@@ -146,6 +146,7 @@ export default defineComponent({
       accountOptions: [],
       versionOptions: [],
       defaultWOWPath: "",
+      previousStashLength: 0,
     };
   },
   computed: {
@@ -287,6 +288,19 @@ export default defineComponent({
           this.aurasWithData,
           this.stash,
         );
+
+        // Trigger notification if there are new auras added and notifications are enabled
+        if (
+          this.config.notify &&
+          this.stash.auras.length > 0 &&
+          this.stash.auras.length > this.previousStashLength
+        ) {
+          const auraNames = this.stash.auras.map((aura) => aura.name);
+          ipcRenderer.invoke("postFetchingNewUpdateNotification", auraNames);
+        }
+
+        // Update the previous length
+        this.previousStashLength = this.stash.auras.length;
       },
       deep: true,
     },
@@ -316,6 +330,12 @@ export default defineComponent({
     // refresh on event (tray icon)
     ipcRenderer.on("refreshWago", () => {
       this.doCompareSVwithWago();
+    });
+
+    // handle download from notification action button
+    ipcRenderer.on("downloadUpdates", () => {
+      // Trigger download of all pending updates and show the updates list
+      this.updateAuraIsShown = true;
     });
 
     ipcRenderer.on("linkHandler", async (_event, link: string) => {
@@ -440,6 +460,7 @@ export default defineComponent({
     },
     readyForInstallFlush() {
       this.stash.$reset();
+      this.previousStashLength = 0; // Reset counter when manually clearing
     },
     async checkCompanionUpdates() {
       try {
