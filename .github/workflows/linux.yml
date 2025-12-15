@@ -42,25 +42,25 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         name: Upload AppImage
         with:
           name: WeakAuras-Companion-CI-AppImage
           path: release/**/*.AppImage
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         name: Upload Snap
         with:
           name: WeakAuras-Companion-CI-Snap
           path: release/**/*.snap
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         name: Upload deb
         with:
           name: WeakAuras-Companion-CI-deb
           path: release/**/*.deb
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         name: Upload rpm
         with:
           name: WeakAuras-Companion-CI-rpm
