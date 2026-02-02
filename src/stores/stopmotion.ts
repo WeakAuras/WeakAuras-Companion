@@ -1,8 +1,50 @@
 import { defineStore } from "pinia";
 
+export interface GifMeta {
+  name: string;
+  width: number;
+  height: number;
+  frames: number;
+}
+
+export interface GifSettings {
+  scaling: number;
+  coalesce: boolean;
+  skips: boolean;
+  skips_value: number;
+  wowVersion: string;
+}
+
+export interface GifState {
+  meta: GifMeta;
+  settings: GifSettings;
+  path: string;
+  tenor: boolean;
+  tenorID: string;
+  buffer: Buffer | null;
+}
+
+export interface ResultState {
+  rows: number;
+  cols: number;
+  width: number;
+  height: number;
+  frames: number;
+  size: number;
+  destination: string;
+  preview: string;
+  computing: boolean;
+}
+
+export interface StopMotionState {
+  gif: GifState;
+  result: ResultState;
+  step: number;
+}
+
 export const useStopMotionStore = defineStore({
   id: "StopMotionStore",
-  state: () => ({
+  state: (): StopMotionState => ({
     gif: {
       meta: {
         name: "",

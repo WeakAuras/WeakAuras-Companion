@@ -1,7 +1,7 @@
-<script lang="ts">
+<script setup lang="ts">
 import path from "node:path";
 import { shell } from "electron";
-import { defineComponent } from "vue";
+import { computed, onMounted } from "vue";
 import {
   deflate,
   encode,
@@ -9,83 +9,79 @@ import {
   serialize,
   StopMotionTemplate,
 } from "@/libs/stopmotion";
+import { storeToRefs } from "pinia";
 
 import { useStashStore } from "../../stores/auras";
 import { useStopMotionStore } from "../../stores/stopmotion";
 
-export default defineComponent({
-  name: "StopMotionResult",
-  setup() {
-    const { result, gif } = useStopMotionStore();
-    const stash = useStashStore();
-    return {
-      gif,
-      result,
-      stash,
-    };
-  },
-  computed: {
-    weakauras_string() {
-      const SMtemplate = Object.assign({}, StopMotionTemplate);
-      SMtemplate.d.id = `StopMotion ${this.gif.meta.name}`;
-      SMtemplate.d.foregroundTexture = this.stopMotionInput;
-      SMtemplate.d.backgroundTexture = this.stopMotionInput;
-      SMtemplate.d.uid = generateUniqueID();
+const stopMotionStore = useStopMotionStore();
+const { result, gif } = storeToRefs(stopMotionStore);
+const stash = useStashStore();
 
-      if (this.gif.tenor === true) {
-        SMtemplate.d.tenorID = this.gif.tenorID;
-      } else {
-        delete SMtemplate.d.tenorID;
-      }
-      const serialized = serialize(SMtemplate);
-      const compressed = deflate(serialized);
-      const encoded = encode(compressed);
-      return `!WA:1!${encoded}`;
-    },
-    stopMotionInput() {
-      return path.join(
-        "Interface",
-        "AddOns",
-        "WeakAurasCompanion",
-        "animations",
-        path.parse(this.result.destination).base,
-      );
-    },
-    resultFolder() {
-      return (
-        path.join("Interface", "AddOns", "WeakAurasCompanion", "animations") +
-        path.sep
-      );
-    },
-    resultFile() {
-      return path.parse(this.result.destination).base;
-    },
-    preview() {
-      return `data:image/png;base64, ${this.result.preview}`;
-    },
-  },
-  mounted() {
-    this.stash.add({
-      slug: `StopMotion ${this.gif.meta.name}`,
-      name: `StopMotion ${this.gif.meta.name}`,
-      author: "WeakAuras Companion",
-      wagoVersion: 1,
-      wagoSemver: "1.0.0",
-      auraType: "WeakAuras",
-      source: "WeakAuras Companion",
-      encoded: this.weakauras_string,
-      logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
-    });
-    console.log(`added aura to stash: "${this.gif.meta.name}"`);
-  },
-  methods: {
-    openDestDir() {
-      shell.openPath(path.parse(this.result.destination).dir);
-    },
-    openDestFile() {
-      shell.openPath(this.result.destination);
-    },
-  },
+const stopMotionInput = computed(() => {
+  return path.join(
+    "Interface",
+    "AddOns",
+    "WeakAurasCompanion",
+    "animations",
+    path.parse(result.value.destination).base,
+  );
+});
+
+const weakauras_string = computed(() => {
+  const SMtemplate = Object.assign({}, StopMotionTemplate);
+  SMtemplate.d.id = `StopMotion ${gif.value.meta.name}`;
+  SMtemplate.d.foregroundTexture = stopMotionInput.value;
+  SMtemplate.d.backgroundTexture = stopMotionInput.value;
+  SMtemplate.d.uid = generateUniqueID();
+
+  if (gif.value.tenor === true) {
+    SMtemplate.d.tenorID = gif.value.tenorID;
+  } else {
+    delete SMtemplate.d.tenorID;
+  }
+  const serialized = serialize(SMtemplate);
+  const compressed = deflate(serialized);
+  const encoded = encode(compressed);
+  return `!WA:1!${encoded}`;
+});
+
+const resultFolder = computed(() => {
+  return (
+    path.join("Interface", "AddOns", "WeakAurasCompanion", "animations") +
+    path.sep
+  );
+});
+
+const resultFile = computed(() => {
+  return path.parse(result.value.destination).base;
+});
+
+const preview = computed(() => {
+  return `data:image/png;base64, ${result.value.preview}`;
+});
+
+function openDestDir() {
+  shell.openPath(path.parse(result.value.destination).dir);
+}
+
+function openDestFile() {
+  shell.openPath(result.value.destination);
+}
+
+onMounted(() => {
+  stash.add({
+    slug: `StopMotion ${gif.value.meta.name}`,
+    name: `StopMotion ${gif.value.meta.name}`,
+    author: "WeakAuras Companion",
+    wagoVersion: 1,
+    wagoSemver: "1.0.0",
+    auraType: "WeakAuras",
+    source: "WeakAuras Companion",
+    encoded: weakauras_string.value,
+    logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
+  });
+  console.log(`added aura to stash: "${gif.value.meta.name}"`);
 });
 </script>
 

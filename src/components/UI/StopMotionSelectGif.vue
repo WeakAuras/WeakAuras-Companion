@@ -1,79 +1,65 @@
-<script lang="ts">
+<script setup lang="ts">
 import fs from "node:fs";
 import path from "node:path";
-import { defineComponent } from "vue";
 import gif2tga from "@/libs/gif2tga";
+import { storeToRefs } from "pinia";
 
 import { useStopMotionStore } from "../../stores/stopmotion";
 import DiscordPicker from "./DiscordPicker.vue";
 import FileSelect from "./FileSelect.vue";
 import UIButton from "./UIButton.vue";
 
-export default defineComponent({
-  name: "StopMotionWelcome",
-  components: {
-    FileSelect,
-    UIButton,
-    DiscordPicker,
-  },
-  emits: ["next"],
-  setup() {
-    const { gif } = useStopMotionStore();
-    return {
-      gif,
-    };
-  },
-  data() {
-    return {
-      apiKey: "NL8TDPRU0T4Y",
-    };
-  },
-  methods: {
-    async setTenor(url, title, tenorID) {
-      console.log(url);
+const emit = defineEmits<{
+  (e: "next"): void;
+}>();
 
-      try {
-        title = title.replace(" GIF", "");
-        const res = await fetch(url);
-        const imageBuffer = await res.arrayBuffer();
-        const buffer = Buffer.from(imageBuffer);
-        const meta = await gif2tga.getMetaData(buffer);
-        this.gif.meta.width = meta.width;
-        this.gif.meta.height = meta.pageHeight;
-        this.gif.meta.frames = meta.pages;
-        this.gif.meta.name = title;
-        this.gif.path = title;
-        this.gif.tenor = true;
-        this.gif.tenorID = tenorID;
-        this.gif.buffer = buffer;
-        this.$emit("next");
-      } catch (e) {
-        console.log(JSON.stringify(e));
-      }
-    },
-    async update(filepath) {
-      if (
-        filepath !== "" &&
-        fs.existsSync(filepath) &&
-        path.parse(filepath).ext.toLowerCase() === ".gif"
-      ) {
-        try {
-          // check for error loading metadata
-          const meta = await gif2tga.getMetaData(filepath);
-          this.gif.meta.width = meta.width;
-          this.gif.meta.height = meta.pageHeight;
-          this.gif.meta.frames = meta.pages;
-          this.gif.meta.name = path.basename(filepath);
-          this.gif.path = filepath;
-          this.gif.tenor = false;
-          this.$emit("next");
-        } catch (e) {
-          console.log(JSON.stringify(e));
-        }
-      }
-    },
-  },
-});
+const stopMotionStore = useStopMotionStore();
+const { gif } = storeToRefs(stopMotionStore);
+
+async function setTenor(url: string, title: string, tenorID: string) {
+  console.log(url);
+
+  try {
+    title = title.replace(" GIF", "");
+    const res = await fetch(url);
+    const imageBuffer = await res.arrayBuffer();
+    const buffer = Buffer.from(imageBuffer);
+    const meta = await gif2tga.getMetaData(buffer);
+    gif.value.meta.width = meta.width;
+    gif.value.meta.height = meta.pageHeight;
+    gif.value.meta.frames = meta.pages;
+    gif.value.meta.name = title;
+    gif.value.path = title;
+    gif.value.tenor = true;
+    gif.value.tenorID = tenorID;
+    gif.value.buffer = buffer;
+    emit("next");
+  } catch (e) {
+    console.log(JSON.stringify(e));
+  }
+}
+
+async function update(filepath: string) {
+  if (
+    filepath !== "" &&
+    fs.existsSync(filepath) &&
+    path.parse(filepath).ext.toLowerCase() === ".gif"
+  ) {
+    try {
+      // check for error loading metadata
+      const meta = await gif2tga.getMetaData(filepath);
+      gif.value.meta.width = meta.width;
+      gif.value.meta.height = meta.pageHeight;
+      gif.value.meta.frames = meta.pages;
+      gif.value.meta.name = path.basename(filepath);
+      gif.value.path = filepath;
+      gif.value.tenor = false;
+      emit("next");
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
+  }
+}
 </script>
 
 <template>
@@ -99,7 +85,7 @@ export default defineComponent({
       <div class="relative inline-block text-center">
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
         <DiscordPicker
-          :api-key="apiKey"
+          :api-key="'NL8TDPRU0T4Y'"
           @gif="setTenor"
         >
           <UIButton class="btn-ok">

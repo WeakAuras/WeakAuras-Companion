@@ -1,99 +1,120 @@
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { onMounted, ref, watch, type Directive } from "vue";
 
 import { useConfigStore } from "../../stores/config";
 
-export default defineComponent({
-  directives: {
-    scroll: {
-      created: (el, binding) => {
-        const f = function () {
-          if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
-            binding.value();
-          }
-        };
-        el.addEventListener("scroll", f);
-      },
-    },
-  },
-  props: {
-    apiKey: {
-      type: String,
-      required: true,
-    },
-  },
-  emits: ["send"],
-  setup() {
-    const config = useConfigStore();
-    return {
-      locale: ref(config.lang),
-    };
-  },
-  data() {
-    return {
-      search: "",
-      results: [],
-      tags: [],
-      next: null,
-    };
-  },
-  watch: {
-    search: "onSearch",
-  },
-  mounted() {
-    fetch(
-      `https://g.tenor.com/v1/categories?key=${this.apiKey}&locale=${this.locale}`,
-    )
-      .then((res) => res.json())
-      .then(({ tags }) => (this.tags = tags));
-  },
-  methods: {
-    loadMore() {
-      const pos = this.next || 1;
-      this.get(`search?q=${this.search}&limit=32&pos=${pos}`, "results", true);
-    },
-    onSearch(key) {
-      this.get(`search?q=${key}&limit=32`, "results");
-    },
-    renderSmallGif({ tinygif }) {
-      return tinygif.url;
-    },
-    renderHugeGif({ mediumgif }) {
-      return mediumgif.url;
-    },
-    get(query, key, additive?) {
-      fetch(`https://g.tenor.com/v1/${query}&key=${this.apiKey}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (additive) {
-            data[key].forEach((element) => {
-              this[key].push(element);
-            });
-          } else {
-            this[key] = data[key];
-          }
-          this.next = data.next;
-        });
-    },
-    send(result) {
-      const gif = result.media[0];
-      const title = result.content_description;
-      const id = result.id;
+interface TenorTag {
+  searchterm: string;
+  image: string;
+}
 
-      fetch(
-        `https://g.tenor.com/v1/registershare?key=${this.apiKey}&locale=${this.locale}&id=${id}`,
-      );
+interface TenorMedia {
+  tinygif: { url: string };
+  mediumgif: { url: string };
+}
 
-      this.$emit("send", {
-        url: this.renderHugeGif(gif),
-        send: true,
-        type: "gif",
-        title,
-        tenorID: id,
-      });
-      this.search = null;
+interface TenorResult {
+  id: string;
+  content_description: string;
+  media: TenorMedia[];
+}
+
+const props = defineProps<{
+  apiKey: string;
+}>();
+
+const emit = defineEmits<{
+  (
+    e: "send",
+    payload: {
+      url: string;
+      send: boolean;
+      type: string;
+      title: string;
+      tenorID: string;
     },
+  ): void;
+}>();
+
+const config = useConfigStore();
+
+const locale = ref(config.lang);
+const search = ref("");
+const results = ref<TenorResult[]>([]);
+const tags = ref<TenorTag[]>([]);
+const next = ref<string | null>(null);
+
+// Custom scroll directive
+const vScroll: Directive<HTMLElement, () => void> = {
+  created: (el, binding) => {
+    const f = function () {
+      if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
+        binding.value();
+      }
+    };
+    el.addEventListener("scroll", f);
   },
+};
+
+watch(search, onSearch);
+
+function loadMore() {
+  const pos = next.value || "1";
+  get(`search?q=${search.value}&limit=32&pos=${pos}`, "results", true);
+}
+
+function onSearch(key: string) {
+  get(`search?q=${key}&limit=32`, "results");
+}
+
+function renderHugeGif({ mediumgif }: TenorMedia) {
+  return mediumgif.url;
+}
+
+function get(query: string, key: "results" | "tags", additive?: boolean) {
+  fetch(`https://g.tenor.com/v1/${query}&key=${props.apiKey}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (key === "results") {
+        if (additive) {
+          data.results.forEach((element: TenorResult) => {
+            results.value.push(element);
+          });
+        } else {
+          results.value = data.results;
+        }
+      } else if (key === "tags") {
+        tags.value = data.tags;
+      }
+      next.value = data.next;
+    });
+}
+
+function send(result: TenorResult) {
+  const gif = result.media[0];
+  const title = result.content_description;
+  const id = result.id;
+
+  fetch(
+    `https://g.tenor.com/v1/registershare?key=${props.apiKey}&locale=${locale.value}&id=${id}`,
+  );
+
+  emit("send", {
+    url: renderHugeGif(gif),
+    send: true,
+    type: "gif",
+    title,
+    tenorID: id,
+  });
+  search.value = "";
+}
+
+onMounted(() => {
+  fetch(
+    `https://g.tenor.com/v1/categories?key=${props.apiKey}&locale=${locale.value}`,
+  )
+    .then((res) => res.json())
+    .then(({ tags: fetchedTags }) => (tags.value = fetchedTags));
 });
 </script>
 

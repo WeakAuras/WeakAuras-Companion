@@ -1,7 +1,8 @@
-<script>
+<script setup lang="ts">
 import path from "node:path";
-import { defineComponent } from "vue";
+import { onMounted, watch } from "vue";
 import gif2tga from "@/libs/gif2tga";
+import { storeToRefs } from "pinia";
 
 import { useConfigStore } from "../../stores/config";
 import { useStopMotionStore } from "../../stores/stopmotion";
@@ -9,150 +10,144 @@ import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import UIButton from "./UIButton.vue";
 
-export default defineComponent({
-  name: "StopMotionSettings",
-  components: {
-    UIButton,
-    Checkbox,
-    Dropdown,
-  },
-  props: {
-    wowVersions: {
-      type: Array,
-      required: true,
-    },
-  },
-  emits: ["next"],
-  setup() {
-    const config = useConfigStore();
-    const { gif, result } = useStopMotionStore();
-    gif.settings.wowVersion = config.wowpath.version;
-    return {
-      config,
-      gif,
-      result,
-    };
-  },
-  watch: {
-    "gif": {
-      handler() {
-        this.calc();
-      },
-      deep: true,
-    },
-    "gif.settings.wowVersion": function () {
-      this.config.wowpath.version = this.gif.settings.wowVersion;
-    },
-  },
-  mounted() {
-    if (this.gif.tenor) {
-      this.gif.settings.coalesce = true;
-    }
+defineProps<{
+  wowVersions: Array<{ text: string; value: string }>;
+}>();
 
-    this.auto_scaling();
-    this.calc();
-  },
-  methods: {
-    auto_scaling() {
-      try {
-        for (let scaling = 1; scaling > 0; scaling = scaling - 0.01) {
-          const { size } = gif2tga.calculateFileSize(
-            this.gif.meta.width,
-            this.gif.meta.height,
-            this.gif.meta.frames,
-            scaling,
-            this.gif.settings.skips,
-            this.gif.settings.skips_value,
-          );
+const emit = defineEmits<{
+  (e: "next"): void;
+}>();
 
-          if (size / 1024 <= 16) {
-            this.gif.settings.scaling = scaling;
-            break;
-          }
-        }
-      } catch (e) {
-        console.log(JSON.stringify(e));
+const config = useConfigStore();
+const stopMotionStore = useStopMotionStore();
+const { gif, result } = storeToRefs(stopMotionStore);
+
+// Initialize wowVersion from config
+gif.value.settings.wowVersion = config.wowpath.version;
+
+watch(
+  gif,
+  () => {
+    calc();
+  },
+  { deep: true },
+);
+
+watch(
+  () => gif.value.settings.wowVersion,
+  () => {
+    config.wowpath.version = gif.value.settings.wowVersion;
+  },
+);
+
+function auto_scaling() {
+  try {
+    for (let scaling = 1; scaling > 0; scaling = scaling - 0.01) {
+      const { size } = gif2tga.calculateFileSize(
+        gif.value.meta.width,
+        gif.value.meta.height,
+        gif.value.meta.frames,
+        scaling,
+        gif.value.settings.skips,
+        gif.value.settings.skips_value,
+      );
+
+      if (size / 1024 <= 16) {
+        gif.value.settings.scaling = scaling;
+        break;
       }
-    },
-    calc() {
-      try {
-        const info = gif2tga.calculateFileSize(
-          this.gif.meta.width,
-          this.gif.meta.height,
-          this.gif.meta.frames,
-          this.gif.settings.scaling,
-          this.gif.settings.skips,
-          this.gif.settings.skips_value,
-        );
-        this.result.cols = info.cols;
-        this.result.rows = info.rows;
-        this.result.height = info.height;
-        this.result.width = info.width;
-        this.result.height = info.height;
-        this.result.frames = info.frames;
-        this.result.size = info.size;
-        const frameWidth = Math.floor(
-          this.gif.meta.width * this.gif.settings.scaling,
-        );
-        const frameHeight = Math.floor(
-          this.gif.meta.height * this.gif.settings.scaling,
-        );
-        const prefix = path.parse(this.gif.meta.name).name;
-        const filename = `${prefix}.x${info.rows}y${info.cols}f${info.frames}w${frameWidth}h${frameHeight}W${info.width}H${info.height}.tga`;
+    }
+  } catch (e) {
+    console.log(JSON.stringify(e));
+  }
+}
 
-        this.result.destination = path.join(
-          this.config.wowpath.value,
-          this.gif.settings.wowVersion,
+function calc() {
+  try {
+    const info = gif2tga.calculateFileSize(
+      gif.value.meta.width,
+      gif.value.meta.height,
+      gif.value.meta.frames,
+      gif.value.settings.scaling,
+      gif.value.settings.skips,
+      gif.value.settings.skips_value,
+    );
+    result.value.cols = info.cols;
+    result.value.rows = info.rows;
+    result.value.height = info.height;
+    result.value.width = info.width;
+    result.value.height = info.height;
+    result.value.frames = info.frames;
+    result.value.size = info.size;
+    const frameWidth = Math.floor(
+      gif.value.meta.width * gif.value.settings.scaling,
+    );
+    const frameHeight = Math.floor(
+      gif.value.meta.height * gif.value.settings.scaling,
+    );
+    const prefix = path.parse(gif.value.meta.name).name;
+    const filename = `${prefix}.x${info.rows}y${info.cols}f${info.frames}w${frameWidth}h${frameHeight}W${info.width}H${info.height}.tga`;
+
+    result.value.destination = path.join(
+      config.wowpath.value,
+      gif.value.settings.wowVersion,
+      "Interface",
+      "AddOns",
+      "WeakAurasCompanion",
+      "animations",
+      filename,
+    );
+
+    result.value.computing = false;
+  } catch (e) {
+    console.log(JSON.stringify(e));
+  }
+}
+
+async function generate() {
+  if (result.value.size / 1024 > 16) {
+    console.error(
+      "File will be too big with this settings, reduce scaling and/or skip frames",
+    );
+  } else {
+    result.value.computing = true;
+
+    try {
+      const { destFile, preview } = await gif2tga.convert(
+        gif.value.path,
+        gif.value.settings.scaling,
+        gif.value.settings.coalesce,
+        gif.value.settings.skips,
+        gif.value.settings.skips_value,
+        path.join(
+          config.wowpath.value,
+          gif.value.settings.wowVersion,
           "Interface",
           "AddOns",
           "WeakAurasCompanion",
           "animations",
-          filename,
-        );
+        ),
+        gif.value.tenor ? gif.value.buffer : undefined,
+      );
+      result.value.computing = false;
+      result.value.destination = destFile;
+      result.value.preview = preview;
+      emit("next");
+    } catch (e) {
+      console.log(JSON.stringify(e));
+      result.value.computing = false;
+      console.error("error");
+    }
+  }
+}
 
-        this.result.computing = false;
-      } catch (e) {
-        console.log(JSON.stringify(e));
-      }
-    },
-    async generate() {
-      if (this.result.size / 1024 > 16) {
-        console.error(
-          "File will be too big with this settings, reduce scaling and/or skip frames",
-        );
-      } else {
-        this.result.computing = true;
+onMounted(() => {
+  if (gif.value.tenor) {
+    gif.value.settings.coalesce = true;
+  }
 
-        try {
-          const { destFile, preview } = await gif2tga.convert(
-            this.gif.path,
-            this.gif.settings.scaling,
-            this.gif.settings.coalesce,
-            this.gif.settings.skips,
-            this.gif.settings.skips_value,
-            path.join(
-              this.config.wowpath.value,
-              this.gif.settings.wowVersion,
-              "Interface",
-              "AddOns",
-              "WeakAurasCompanion",
-              "animations",
-            ),
-            this.gif.tenor ? this.gif.buffer : undefined,
-          );
-          this.result.computing = false;
-          this.result.destination = destFile;
-          this.result.preview = preview;
-          this.$emit("next");
-        } catch (e) {
-          console.log(JSON.stringify(e));
-          this.result.computing = false;
-          this.result.fileCreated = false;
-          console.error("error");
-        }
-      }
-    },
-  },
+  auto_scaling();
+  calc();
 });
 </script>
 
