@@ -1,10 +1,15 @@
-export function getTranslationsFromString(
-  content: string,
-): RegExpMatchArray | string[] {
-  return (
-    content.match(/\$tc?\([\r\n ]*["'].*["'][^/]*\/\*[^*]*?\*\/[\r\n ]*\)/gm) ||
-    []
-  );
+export function getTranslationsFromString(content: string): string[] {
+  // Match:
+  // - $t("id" /* ... */)
+  // - $tc("id" /* ... */)
+  // - i18n.global.t("id" /* ... */)
+  // - anything.t("id" /* ... */)
+  //
+  // We only collect calls that include a /* default message */ comment.
+  const re =
+    /\b(?:\$tc?|\$t|i18n\.global\.t|[\w$.]+\.t)\(\s*["']([^"']+)["']([\s\S]*?)\/\*([\s\S]*?)\*\/([\s\S]*?)\)/gm;
+
+  return content.match(re) || [];
 }
 
 export function sanitizeMessage(message: string): string {
@@ -34,15 +39,18 @@ export function getTranslationObject(
 ): Record<string, string> {
   const translations: Record<string, string> = {};
 
-  for (const translation of matches) {
-    const id = translation.match(/["',]\S*["',]/)?.[0].replace(/[\\"',]/g, "");
-    const defaultMessage: RegExpMatchArray | null =
-      translation.match(/\/\*[^/]*\*\//);
+  for (const call of matches) {
+    // First string argument inside (...)
+    const idMatch = call.match(/\(\s*["']([^"']+)["']/m);
+    const commentMatch = call.match(/\/\*([\s\S]*?)\*\//m);
 
-    if (defaultMessage) {
-      const defaultMessageToSanitize = defaultMessage[0];
-      translations[id] = sanitizeMessage(defaultMessageToSanitize);
-    }
+    if (!idMatch || !commentMatch) continue;
+
+    const id = idMatch[1];
+    const defaultMessageToSanitize = `/*${commentMatch[1]}*/`;
+
+    translations[id] = sanitizeMessage(defaultMessageToSanitize);
   }
+
   return translations;
 }

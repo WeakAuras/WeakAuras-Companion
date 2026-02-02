@@ -8,7 +8,7 @@ import { glob } from "glob";
 import { getTranslationObject, getTranslationsFromString } from "./Utils.js";
 
 async function run(): Promise<void> {
-  const files = await glob("./src/components/**/*.vue");
+  const files = await glob(["./src/components/**/*.vue", "./src/libs/*.ts"]);
   const basePath: string = path.resolve(process.cwd());
   const packageJSON: any = JSON.parse(
     fs.readFileSync(path.join(basePath, "package.json")).toString(),

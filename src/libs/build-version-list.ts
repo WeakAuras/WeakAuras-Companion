@@ -44,14 +44,20 @@ export function buildVersionList(
       text: i18n.global.t("app.version.retail_beta" /* The War Within Beta */),
     },
     {
+      value: "_anniversary_",
+      text: i18n.global.t("app.version.anniversary" /* Anniversary TBC */),
+    },
+    {
+      value: "_classic_titan_",
+      text: i18n.global.t("app.version.classic_titan" /* Classic Titan */),
+    },
+    {
       value: "_classic_",
-      text: i18n.global.t("app.version.classic" /* Cataclysm Classic */),
+      text: i18n.global.t("app.version.classic" /* MoP Classic */),
     },
     {
       value: "_classic_ptr_",
-      text: i18n.global.t(
-        "app.version.classic_ptr" /* Cataclysm Classic PTR */,
-      ),
+      text: i18n.global.t("app.version.classic_ptr" /* MoP Classic PTR */),
     },
     {
       value: "_classic_beta_",
