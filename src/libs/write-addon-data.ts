@@ -22,11 +22,7 @@ export function writeAddonData(
 
     while (addonPath.length) {
       const check = addonPath.shift();
-      const folder = matchFolderNameInsensitive(
-        addonFolder,
-        check,
-        addonPath.length === 0,
-      );
+      const folder = matchFolderNameInsensitive(addonFolder, check, true);
 
       if (folder) {
         addonFolder = path.join(addonFolder, folder);
