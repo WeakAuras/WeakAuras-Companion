@@ -33,7 +33,6 @@ export function writeAddonData(
     // Make data.lua
     let LuaOutput = "-- file generated automatically\n";
     LuaOutput += "WeakAurasCompanionData = {\n";
-    let addonDepts = "";
     const fields = [
       "name",
       "author",
@@ -44,13 +43,7 @@ export function writeAddonData(
       // "logo" -- keep that for a future WeakAuras release
     ];
 
-    addonConfigs.forEach((config: { addonName: string }, index: number) => {
-      addonDepts += `${config.addonName}`;
-
-      if (index < addonConfigs.length - 1) {
-        addonDepts += ", ";
-      }
-
+    addonConfigs.forEach((config: { addonName: string }) => {
       let spacing = "";
 
       LuaOutput += `  ${config.addonName} = {\n`;
@@ -158,21 +151,28 @@ export function writeAddonData(
     let tocVersion: string | number = 100207; // Default fallback
     let tocSource = "default";
 
-    // Try to get version from WeakAuras first
-    const weakAurasInstalled = addonConfigs.some(
-      (config) => config.addonName === "WeakAuras",
-    );
-    if (weakAurasInstalled) {
+    // Helper function to try getting version from an addon
+    const tryGetVersionFromAddon = (addonName: string): boolean => {
       try {
         tocVersion = grabVersionFromToc(
           config.wowpath.value,
           config.wowpath.version,
-          "WeakAuras",
+          addonName,
         );
-        tocSource = "WeakAuras";
+        tocSource = addonName;
+        return true;
       } catch (err) {
-        console.log("Could not read WeakAuras.toc:", err);
+        console.log(`Could not read ${addonName}.toc:`, err);
+        return false;
       }
+    };
+
+    // Try to get version from WeakAuras first (if installed)
+    const weakAurasInstalled = addonConfigs.some(
+      (config) => config.addonName === "WeakAuras",
+    );
+    if (weakAurasInstalled) {
+      tryGetVersionFromAddon("WeakAuras");
     }
 
     // If WeakAuras not installed or failed, try Plater
@@ -181,29 +181,36 @@ export function writeAddonData(
         (config) => config.addonName === "Plater",
       );
       if (platerInstalled) {
-        try {
-          tocVersion = grabVersionFromToc(
-            config.wowpath.value,
-            config.wowpath.version,
-            "Plater",
-          );
-          tocSource = "Plater";
-        } catch (err) {
-          console.log("Could not read Plater.toc:", err);
-        }
+        tryGetVersionFromAddon("Plater");
       }
     }
 
     console.log(`TOC version ${tocVersion} from ${tocSource}`);
 
-    // Build dependencies list - first addon in addonConfigs is the primary dependency
-    const primaryDependency = addonConfigs[0]?.addonName || "WeakAuras";
-    const optionalDeps = addonConfigs
-      .slice(1)
-      .map((config) => config.addonName)
-      .concat(addonDepts ? [addonDepts] : [])
-      .filter((dep) => dep)
-      .join(", ");
+    // Build dependencies list with explicit priority: WeakAuras first, then Plater
+    let primaryDependency = "WeakAuras"; // Default to WeakAuras for backwards compatibility
+    const optionalDepsList: string[] = [];
+
+    if (weakAurasInstalled) {
+      primaryDependency = "WeakAuras";
+      // Add other addons to optional deps
+      addonConfigs
+        .filter((config) => config.addonName !== "WeakAuras")
+        .forEach((config) => optionalDepsList.push(config.addonName));
+    } else {
+      const platerInstalled = addonConfigs.some(
+        (config) => config.addonName === "Plater",
+      );
+      if (platerInstalled) {
+        primaryDependency = "Plater";
+        // Add other addons to optional deps
+        addonConfigs
+          .filter((config) => config.addonName !== "Plater")
+          .forEach((config) => optionalDepsList.push(config.addonName));
+      }
+    }
+
+    const optionalDeps = optionalDepsList.join(", ");
 
     const templateData = `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
