@@ -4,23 +4,29 @@ import path from "node:path";
 export function grabVersionFromToc(
   wowPath: string,
   version: string,
+  addonName: string = "WeakAuras",
 ): string | number {
-  const waFolderPath = path.join(
+  const addonFolderPath = path.join(
     wowPath,
     version,
     "Interface",
     "AddOns",
-    "WeakAuras",
+    addonName,
   );
-  let waTocFile;
-  if (version.includes("classic_era")) {
-    waTocFile = path.join(waFolderPath, "WeakAuras_Vanilla.toc");
-  } else if (version.includes("classic_beta")) {
-    waTocFile = path.join(waFolderPath, "WeakAuras_Mists.toc");
-  } else if (version.includes("classic")) {
-    waTocFile = path.join(waFolderPath, "WeakAuras_Cata.toc");
+  let tocFile;
+  if (addonName === "WeakAuras") {
+    if (version.includes("classic_era")) {
+      tocFile = path.join(addonFolderPath, "WeakAuras_Vanilla.toc");
+    } else if (version.includes("classic_beta")) {
+      tocFile = path.join(addonFolderPath, "WeakAuras_Mists.toc");
+    } else if (version.includes("classic")) {
+      tocFile = path.join(addonFolderPath, "WeakAuras_Cata.toc");
+    } else {
+      tocFile = path.join(addonFolderPath, "WeakAuras.toc");
+    }
   } else {
-    waTocFile = path.join(waFolderPath, "WeakAuras.toc");
+    // For other addons like Plater, use the standard naming convention
+    tocFile = path.join(addonFolderPath, `${addonName}.toc`);
   }
 
   const isSymlink = (filePath: string): boolean => {
@@ -41,11 +47,8 @@ export function grabVersionFromToc(
     return filePath;
   };
 
-  const resolvedFolderPath = getRealPath(waFolderPath);
-  const resolvedTocFile = path.join(
-    resolvedFolderPath,
-    path.basename(waTocFile),
-  );
+  const resolvedFolderPath = getRealPath(addonFolderPath);
+  const resolvedTocFile = path.join(resolvedFolderPath, path.basename(tocFile));
 
   let tocContent: string;
 
@@ -58,15 +61,15 @@ export function grabVersionFromToc(
   }
 
   const lines: string[] = tocContent.split("\n");
-  let waTocVersion = "";
+  let tocVersion = "";
 
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].includes("## Interface: ")) {
       const parts: string[] = lines[i].split(" ");
-      waTocVersion = parts[2];
+      tocVersion = parts[2];
       break;
     }
   }
 
-  return waTocVersion || 100207; // Return the version if found, otherwise fallback to 100207
+  return tocVersion || 100207; // Return the version if found, otherwise fallback to 100207
 }

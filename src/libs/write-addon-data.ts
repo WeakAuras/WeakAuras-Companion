@@ -154,11 +154,57 @@ export function writeAddonData(
     LuaOutput += "}";
 
     /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
-    const tocVersion = grabVersionFromToc(
-      config.wowpath.value,
-      config.wowpath.version,
+    // Get TOC version from any installed addon (prefer WeakAuras, fallback to Plater or default)
+    let tocVersion: string | number = 100207; // Default fallback
+    let tocSource = "default";
+
+    // Try to get version from WeakAuras first
+    const weakAurasInstalled = addonConfigs.some(
+      (config) => config.addonName === "WeakAuras",
     );
-    console.log("WeakAuras.toc has version:", tocVersion);
+    if (weakAurasInstalled) {
+      try {
+        tocVersion = grabVersionFromToc(
+          config.wowpath.value,
+          config.wowpath.version,
+          "WeakAuras",
+        );
+        tocSource = "WeakAuras";
+      } catch (err) {
+        console.log("Could not read WeakAuras.toc:", err);
+      }
+    }
+
+    // If WeakAuras not installed or failed, try Plater
+    if (tocSource === "default") {
+      const platerInstalled = addonConfigs.some(
+        (config) => config.addonName === "Plater",
+      );
+      if (platerInstalled) {
+        try {
+          tocVersion = grabVersionFromToc(
+            config.wowpath.value,
+            config.wowpath.version,
+            "Plater",
+          );
+          tocSource = "Plater";
+        } catch (err) {
+          console.log("Could not read Plater.toc:", err);
+        }
+      }
+    }
+
+    console.log(`TOC version ${tocVersion} from ${tocSource}`);
+
+    // Build dependencies list - first addon in addonConfigs is the primary dependency
+    const primaryDependency = addonConfigs[0]?.addonName || "WeakAuras";
+    const optionalDeps = addonConfigs
+      .slice(1)
+      .map((config) => config.addonName)
+      .concat(addonDepts ? [addonDepts] : [])
+      .filter((dep) => dep)
+      .join(", ");
+
     const templateData = `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
@@ -168,8 +214,8 @@ export function writeAddonData(
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## Dependencies: WeakAuras
-## OptionalDeps: ${addonDepts}
+## Dependencies: ${primaryDependency}
+## OptionalDeps: ${optionalDeps}
 
 data.lua
 init.lua`;
