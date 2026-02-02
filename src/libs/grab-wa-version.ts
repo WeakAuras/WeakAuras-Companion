@@ -95,11 +95,22 @@ function pickExistingAddonToc(
 }
 
 /**
- * Extract Interface version from a .toc file's content
+ * Extract Interface version from a .toc file's content.
+ * Handles multiple versions (e.g., "## Interface: 110000, 120000") by returning the highest.
  */
 function extractInterfaceVersion(tocContent: string): string | null {
-  const match = tocContent.match(/^##\s*Interface:\s*(\d+)/m);
-  return match?.[1] ?? null;
+  const lineMatch = tocContent.match(/^##\s*Interface:\s*(.+)$/m);
+  if (!lineMatch) {
+    return null;
+  }
+
+  const versions = lineMatch[1].match(/\d+/g);
+  if (!versions || versions.length === 0) {
+    return null;
+  }
+
+  // Return the highest version number
+  return versions.reduce((max, v) => (Number(v) > Number(max) ? v : max));
 }
 
 /**
