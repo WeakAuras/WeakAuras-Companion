@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { backup } from "@/libs/backup";
-import { grabVersionFromToc } from "@/libs/grab-wa-version";
+import { grabVersionFromInstalledAddons } from "@/libs/grab-wa-version";
 import sanitize from "@/libs/sanitize";
 import { matchFolderNameInsensitive } from "@/libs/utilities";
 import type { StashStore } from "@/stores/auras";
@@ -157,22 +157,22 @@ export function writeAddonData(
 
     LuaOutput += "}";
 
-    /* if (this.stash.lenghth > 0) { LuaOutput += "" } */
-    const tocVersion = grabVersionFromToc(
+    // Get Interface version from WeakAuras or Plater (whichever is installed)
+    const tocVersion = grabVersionFromInstalledAddons(
       config.wowpath.value,
       config.wowpath.version,
     );
-    console.log("WeakAuras.toc has version:", tocVersion);
+    console.log("Using Interface version:", tocVersion);
+
     const templateData = `## Interface: ${tocVersion}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: ${__APP_VERSION__}
 ## IconTexture: Interface\\AddOns\\WeakAuras\\Media\\Textures\\icon.blp
-## Notes: Keep your WeakAuras updated!
+## Notes: Keep your WeakAuras and Plater scripts updated!
 ## X-Category: Interface Enhancements
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
-## Dependencies: WeakAuras
 ## OptionalDeps: ${addonDepts}
 
 data.lua

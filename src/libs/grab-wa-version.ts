@@ -5,42 +5,44 @@ import path from "node:path";
 const DEFAULT_INTERFACE_VERSION = "120000";
 
 /**
- * Mapping between WoW directory value and the WeakAuras .toc file
- * This is based on Blizzard's directory naming, not on string heuristics.
+ * Mapping between WoW directory value and the TOC file suffix.
+ * Both WeakAuras and Plater use the same suffix pattern.
  */
-const WOWDIR_TO_WA_TOC = {
+const WOWDIR_TO_TOC_SUFFIX = {
   // Retail family (Midnight / The War Within, including PTR & Beta)
-  _retail_: "WeakAuras.toc",
-  _ptr_: "WeakAuras.toc",
-  _xptr_: "WeakAuras.toc",
-  _beta_: "WeakAuras.toc",
+  _retail_: "",
+  _ptr_: "",
+  _xptr_: "",
+  _beta_: "",
 
   // MoP Classic family
-  _classic_: "WeakAuras_Mists.toc",
-  _classic_ptr_: "WeakAuras_Mists.toc",
-  _classic_beta_: "WeakAuras_Mists.toc",
+  _classic_: "_Mists",
+  _classic_ptr_: "_Mists",
+  _classic_beta_: "_Mists",
 
   // Titan Reforged (Wrath-based)
-  _classic_titan_: "WeakAuras_Wrath.toc",
+  _classic_titan_: "_Wrath",
 
   // Classic Anniversary Edition (Burning Crusade)
-  _anniversary_: "WeakAuras_TBC.toc",
+  _anniversary_: "_TBC",
 
   // Classic Era (Vanilla)
-  _classic_era_: "WeakAuras_Vanilla.toc",
+  _classic_era_: "_Vanilla",
 
-  // Screenshot indicates: "Classic Era & Anniversary Edition PTR" → BC Anniversary
-  _classic_era_ptr_: "WeakAuras_TBC.toc",
+  // Classic Era & Anniversary Edition PTR → BC Anniversary
+  _classic_era_ptr_: "_TBC",
 } as const;
 
-type WowDirToWaToc = typeof WOWDIR_TO_WA_TOC;
+type WowDirToTocSuffix = typeof WOWDIR_TO_TOC_SUFFIX;
 
-/** Known TOC filenames derived from the mapping for fallback */
-const KNOWN_TOC_FILES = [...new Set(Object.values(WOWDIR_TO_WA_TOC))] as const;
+/** Known TOC suffixes derived from the mapping for fallback */
+const KNOWN_TOC_SUFFIXES = [
+  ...new Set(Object.values(WOWDIR_TO_TOC_SUFFIX)),
+] as const;
 
 /** Check if a string is a valid WoW directory value */
-function isWowDirValue(value: string): value is keyof WowDirToWaToc {
-  return value in WOWDIR_TO_WA_TOC;
+function isWowDirValue(value: string): value is keyof WowDirToTocSuffix {
+  return value in WOWDIR_TO_TOC_SUFFIX;
 }
 
 /**
@@ -63,79 +65,137 @@ function getRealPath(filePath: string): string {
 }
 
 /**
- * Fallback logic: find an existing WeakAuras*.toc file in the addon folder
- * This protects us against unexpected Blizzard folder changes.
+ * Fallback logic: find an existing TOC file for an addon in the folder.
+ * Tries known suffixes first, then falls back to any matching TOC file.
  */
-function pickExistingWeakAurasToc(resolvedFolderPath: string): string | null {
-  for (const fileName of KNOWN_TOC_FILES) {
-    const filePath = path.join(resolvedFolderPath, fileName);
+function pickExistingAddonToc(
+  addonFolder: string,
+  addonName: string,
+): string | null {
+  // Try known suffixes first
+  for (const suffix of KNOWN_TOC_SUFFIXES) {
+    const fileName = `${addonName}${suffix}.toc`;
+    const filePath = path.join(addonFolder, fileName);
     if (fs.existsSync(filePath)) {
       return filePath;
     }
   }
 
-  // Last-resort fallback: any file matching WeakAuras*.toc
+  // Last-resort fallback: any file matching AddonName*.toc
   try {
+    const pattern = new RegExp(`^${addonName}.*\\.toc$`, "i");
     const anyToc = fs
-      .readdirSync(resolvedFolderPath)
-      .find((name) => /^WeakAuras.*\.toc$/i.test(name));
+      .readdirSync(addonFolder)
+      .find((name) => pattern.test(name));
 
-    return anyToc ? path.join(resolvedFolderPath, anyToc) : null;
+    return anyToc ? path.join(addonFolder, anyToc) : null;
   } catch {
     return null;
   }
 }
 
 /**
- * Reads the WeakAuras .toc file and extracts the Interface number
+ * Extract Interface version from a .toc file's content
  */
-export function grabVersionFromToc(
-  wowPath: string,
-  version: string, // Blizzard directory value (e.g. "_classic_", "_retail_")
-): string {
-  const dirValue = normalizeDirValue(version);
+function extractInterfaceVersion(tocContent: string): string | null {
+  const match = tocContent.match(/^##\s*Interface:\s*(\d+)/m);
+  return match?.[1] ?? null;
+}
 
-  const waFolderPath = path.join(
+/**
+ * Get the path to an addon's folder, or null if it doesn't exist
+ */
+function getAddonFolderPath(
+  wowPath: string,
+  wowVersion: string,
+  addonName: string,
+): string | null {
+  const addonFolderPath = path.join(
     wowPath,
-    version, // Keep original casing for filesystem paths
+    wowVersion,
     "Interface",
     "AddOns",
-    "WeakAuras",
+    addonName,
   );
 
-  const resolvedFolderPath = getRealPath(waFolderPath);
+  if (!fs.existsSync(addonFolderPath)) {
+    return null;
+  }
+
+  return getRealPath(addonFolderPath);
+}
+
+/**
+ * Get Interface version from an addon's .toc file.
+ * Uses smart version-specific TOC mapping (e.g., WeakAuras_Mists.toc for classic).
+ */
+function grabVersionFromAddonToc(
+  wowPath: string,
+  wowVersion: string,
+  addonName: string,
+): string | null {
+  const addonFolder = getAddonFolderPath(wowPath, wowVersion, addonName);
+  if (!addonFolder) {
+    return null;
+  }
+
+  const dirValue = normalizeDirValue(wowVersion);
 
   // 1) Try strict mapping based on the WoW directory value
-  const mappedTocName = isWowDirValue(dirValue)
-    ? WOWDIR_TO_WA_TOC[dirValue]
-    : undefined;
-  let resolvedTocFile: string | null = mappedTocName
-    ? path.join(resolvedFolderPath, mappedTocName)
-    : null;
+  let resolvedTocFile: string | null = null;
+  if (isWowDirValue(dirValue)) {
+    const suffix = WOWDIR_TO_TOC_SUFFIX[dirValue];
+    const tocName = `${addonName}${suffix}.toc`;
+    const tocPath = path.join(addonFolder, tocName);
+    if (fs.existsSync(tocPath)) {
+      resolvedTocFile = tocPath;
+    }
+  }
 
   // 2) If the mapped file does not exist, fall back to auto-detection
-  if (!resolvedTocFile || !fs.existsSync(resolvedTocFile)) {
-    resolvedTocFile = pickExistingWeakAurasToc(resolvedFolderPath);
+  if (!resolvedTocFile) {
+    resolvedTocFile = pickExistingAddonToc(addonFolder, addonName);
   }
 
   if (!resolvedTocFile) {
-    // Nothing found at all → return a safe default
-    return DEFAULT_INTERFACE_VERSION;
+    return null;
   }
 
   // Read the .toc file (getRealPath handles symlinks)
   try {
     const tocContent = fs.readFileSync(getRealPath(resolvedTocFile), "utf8");
-
-    // Extract the Interface number (robust against spacing differences)
-    const match = tocContent.match(/^##\s*Interface:\s*(\d+)/m);
-    if (match?.[1]) {
-      return match[1];
-    }
+    return extractInterfaceVersion(tocContent);
   } catch (err) {
     console.log(err);
+    return null;
+  }
+}
+
+/**
+ * Get Interface version from WeakAuras or Plater (whichever is installed).
+ * Tries WeakAuras first, then Plater, then falls back to default.
+ */
+export function grabVersionFromInstalledAddons(
+  wowPath: string,
+  wowVersion: string,
+): string {
+  // Try WeakAuras first
+  const waVersion = grabVersionFromAddonToc(wowPath, wowVersion, "WeakAuras");
+  if (waVersion) {
+    console.log(`Using Interface version from WeakAuras: ${waVersion}`);
+    return waVersion;
   }
 
-  // Final fallback if the tag is missing or read failed
+  // Try Plater
+  const platerVersion = grabVersionFromAddonToc(wowPath, wowVersion, "Plater");
+  if (platerVersion) {
+    console.log(`Using Interface version from Plater: ${platerVersion}`);
+    return platerVersion;
+  }
+
+  // No addon found, return default
+  console.log(
+    "Neither WeakAuras nor Plater found, using default Interface version",
+  );
   return DEFAULT_INTERFACE_VERSION;
 }
