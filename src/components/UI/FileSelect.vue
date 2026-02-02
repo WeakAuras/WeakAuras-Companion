@@ -3,7 +3,6 @@ import { ipcRenderer } from "electron";
 import { ref } from "vue";
 
 const props = defineProps<{
-  path?: string;
   createDirectory?: boolean;
   defaultPath?: string;
   openDirectory?: boolean;
@@ -12,9 +11,7 @@ const props = defineProps<{
   dragndrop?: boolean;
 }>();
 
-const emit = defineEmits<{
-  (e: "update:path", path: string): void;
-}>();
+const path = defineModel<string>("path");
 
 const dialogOpen = ref(false);
 
@@ -24,7 +21,7 @@ async function handleInputClick() {
 
     const dialogOptions = {
       properties: [] as string[],
-      defaultPath: props.path || props.defaultPath || "",
+      defaultPath: path.value || props.defaultPath || "",
       filters: [] as any[],
     };
 
@@ -47,7 +44,7 @@ async function handleInputClick() {
     try {
       const result = await ipcRenderer.invoke("openDialog", dialogOptions);
       if (result.filePaths && result.filePaths.length) {
-        emit("update:path", result.filePaths[0]);
+        path.value = result.filePaths[0];
       }
     } catch (error) {
       console.error(error);
@@ -61,7 +58,7 @@ function drop(event: DragEvent) {
     event.preventDefault();
     // Electron adds a 'path' property to File objects
     const file = event.dataTransfer.files[0] as File & { path: string };
-    emit("update:path", file.path);
+    path.value = file.path;
   }
 }
 </script>
@@ -95,7 +92,7 @@ function drop(event: DragEvent) {
       >
         <span
           class="wow-path table-cell overflow-hidden text-ellipsis align-middle"
-          >{{ props.path }}</span
+          >{{ path }}</span
         >
       </div>
       <i class="i-mdi-settings ml-1 mt-3 cursor-pointer text-2xl">settings</i>

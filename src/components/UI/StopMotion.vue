@@ -1,42 +1,28 @@
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from "vue";
+
 import StopMotionResult from "./StopMotionResult.vue";
 import StopMotionSelectGif from "./StopMotionSelectGif.vue";
 import StopMotionSettings from "./StopMotionSettings.vue";
 import UIButton from "./UIButton.vue";
 
-// import { useStopMotionStore } from "../../stores/stopmotion";
+defineProps<{
+  wowVersions: Array<{ text: string; value: string }>;
+}>();
 
-export default {
-  name: "StopMotion",
-  components: {
-    StopMotionSelectGif,
-    StopMotionSettings,
-    StopMotionResult,
-    UIButton,
-  },
-  props: {
-    wowVersions: {
-      type: Array,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      step: 1,
-    };
-  },
-  methods: {
-    setStep(value) {
-      this.step = value;
-    },
-    next() {
-      this.step++;
-    },
-    prev() {
-      this.step--;
-    },
-  },
-};
+const step = ref(1);
+
+function setStep(value: number) {
+  step.value = value;
+}
+
+function next() {
+  step.value++;
+}
+
+function prev() {
+  step.value--;
+}
 </script>
 
 <template>

@@ -1,71 +1,82 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 type DropdownOption = { text: string; value: string | number };
 
-export default defineComponent({
+defineOptions({
   inheritAttrs: false,
-  props: {
-    value: { type: [String, Number, Object], default: "" },
-    options: {
-      type: Array as () => Array<DropdownOption>,
-      default: () => [],
-    },
-    label: { type: [String, null], default: null },
-    placeholder: {
-      type: String,
-      default: "",
-    },
-  },
-  emits: ["update:value", "change"],
-  data() {
-    return {
-      selected:
-        this.value === ""
-          ? this.placeholder ||
-            this.$t("app.dropdown.placeholder" /* Select... */)
-          : this.getLabel(this.value),
-      showMenu: false,
-      height: this.options.length * 30,
-    };
-  },
-  computed: {
-    sortedOptions() {
-      return [...this.options].sort((a: DropdownOption, b: DropdownOption) =>
-        a.text.localeCompare(b.text),
-      );
-    },
-  },
-  watch: {
-    value() {
-      this.selected =
-        this.value === ""
-          ? this.placeholder ||
-            this.$t("app.dropdown.placeholder" /* Select... */)
-          : this.getLabel(this.value);
-    },
-    options() {
-      this.height = this.options.length * 30;
-    },
-  },
-  methods: {
-    toggleDropdown() {
-      this.showMenu = !this.showMenu;
-    },
-    selectItem(option) {
-      this.showMenu = false;
-      this.selected = option.text;
-      this.$emit("update:value", option.value);
-      this.$emit("change");
-    },
-    getLabel(value) {
-      const index = this.options.findIndex((option) => option.value === value);
-
-      if (index === -1) return value;
-      return this.options[index].text;
-    },
-  },
 });
+
+const props = withDefaults(
+  defineProps<{
+    value?: string | number | object;
+    options?: DropdownOption[];
+    label?: string | null;
+    placeholder?: string;
+  }>(),
+  {
+    value: "",
+    options: () => [],
+    label: null,
+    placeholder: "",
+  },
+);
+
+const emit = defineEmits<{
+  "update:value": [value: string | number];
+  "change": [];
+}>();
+
+const { t } = useI18n();
+
+function getLabel(value: string | number | object): string {
+  const index = props.options.findIndex((option) => option.value === value);
+  if (index === -1) return String(value);
+  return props.options[index].text;
+}
+
+const selected = ref(
+  props.value === ""
+    ? props.placeholder || t("app.dropdown.placeholder" /* Select... */)
+    : getLabel(props.value),
+);
+const showMenu = ref(false);
+const height = ref(props.options.length * 30);
+
+const sortedOptions = computed(() => {
+  return [...props.options].sort((a: DropdownOption, b: DropdownOption) =>
+    a.text.localeCompare(b.text),
+  );
+});
+
+watch(
+  () => props.value,
+  () => {
+    selected.value =
+      props.value === ""
+        ? props.placeholder || t("app.dropdown.placeholder" /* Select... */)
+        : getLabel(props.value);
+  },
+);
+
+watch(
+  () => props.options,
+  () => {
+    height.value = props.options.length * 30;
+  },
+);
+
+function toggleDropdown() {
+  showMenu.value = !showMenu.value;
+}
+
+function selectItem(option: DropdownOption) {
+  showMenu.value = false;
+  selected.value = option.text;
+  emit("update:value", option.value);
+  emit("change");
+}
 </script>
 
 <template>

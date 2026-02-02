@@ -1,63 +1,60 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed, ref } from "vue";
 import sanitize from "@/libs/sanitize";
 import { DateTime } from "luxon";
+import { useI18n } from "vue-i18n";
 
 import type { AuraType } from "../../stores/config";
 
-export default defineComponent({
-  props: {
-    aura: { type: Object as () => AuraType, default: null },
-  },
-  data() {
-    return {
-      timeElapsed: "n/a",
-    };
-  },
-  computed: {
-    children(): string {
-      let output = "";
+const props = defineProps<{
+  aura: AuraType;
+}>();
 
-      if (this.aura.ids) {
-        const { changelog, ids } = this.aura;
+const { locale } = useI18n();
+const timeElapsed = ref("n/a");
 
-        if (changelog?.text) {
-          if (changelog.format === "bbcode") {
-            output += sanitize.bbcode(changelog.text);
-          } else if (changelog.format === "markdown") {
-            output += sanitize.markdown(changelog.text);
-          }
-          output += "\n\n";
-        }
-        output += ids.sort().join("\n");
+const children = computed((): string => {
+  let output = "";
+
+  if (props.aura.ids) {
+    const { changelog, ids } = props.aura;
+
+    if (changelog?.text) {
+      if (changelog.format === "bbcode") {
+        output += sanitize.bbcode(changelog.text);
+      } else if (changelog.format === "markdown") {
+        output += sanitize.markdown(changelog.text);
       }
-      return output;
-    },
-  },
-  methods: {
-    updateCurrentTime(): void {
-      if (!this.aura.modified) {
-        this.timeElapsed = "n/a";
-        return;
-      }
-
-      // sometimes this function triggers after the tooltip
-      // set n/a as default value in case DateTime return null
-      this.timeElapsed =
-        DateTime.fromJSDate(this.aura.modified)
-          .setLocale(this.$i18n.locale)
-          .toRelative() || "n/a";
-    },
-    wagoURL(value: string | undefined): string {
-      if (!value) return "";
-      return `https://wago.io/${value}`;
-    },
-    wagoAuthorURL(author: string | undefined): string {
-      if (!author) return "";
-      return `https://wago.io/p/${author}`;
-    },
-  },
+      output += "\n\n";
+    }
+    output += ids.sort().join("\n");
+  }
+  return output;
 });
+
+function updateCurrentTime(): void {
+  if (!props.aura.modified) {
+    timeElapsed.value = "n/a";
+    return;
+  }
+
+  // sometimes this function triggers after the tooltip
+  // set n/a as default value in case DateTime return null
+  timeElapsed.value =
+    DateTime.fromJSDate(props.aura.modified)
+      .setLocale(locale.value)
+      .toRelative() || "n/a";
+}
+
+function wagoURL(value: string | undefined): string {
+  if (!value) return "";
+  return `https://wago.io/${value}`;
+}
+
+function wagoAuthorURL(author: string | undefined): string {
+  if (!author) return "";
+  return `https://wago.io/p/${author}`;
+}
 </script>
 
 <template>

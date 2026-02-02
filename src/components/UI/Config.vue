@@ -1,6 +1,7 @@
-<script lang="js">
+<script setup lang="ts">
 import { ipcRenderer, shell } from "electron";
-import { defineComponent, ref } from "vue";
+import { computed, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 import { useConfigStore } from "../../stores/config";
 import Checkbox from "./Checkbox.vue";
@@ -8,68 +9,71 @@ import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";
 import UIButton from "./UIButton.vue";
 
-export default defineComponent({
-  components: {
-    Checkbox,
-    Dropdown,
-    FileSelect,
-    UIButton,
-  },
-  props: {
-    defaultWOWPath: { type: String, default: "" },
-  },
-  setup() {
-    const config = useConfigStore();
-    return {
-      config,
-      wagoUsername: ref(config.wagoUsername),
-      wagoApiKey: ref(config.wagoApiKey),
-    };
-  },
-  data() {
-    return {
-      langs: [
-        { value: "zh-cn", text: "中文 (简体) (zh-cn)" },
-        { value: "de", text: "Deutsch (de)" },
-        { value: "en", text: "English (en)" },
-        { value: "es", text: "Español (es)" },
-        { value: "fr", text: "Français (fr)" },
-        { value: "ru", text: "Русский (ru)" },
-        { value: "tr", text: "Türkçe (tr)" },
-      ],
-      backupsize: [
-        { value: 50, text: "50mb" },
-        { value: 100, text: "100mb" },
-        { value: 500, text: "500mb" },
-      ],
-    };
-  },
-  watch: {
-    "config.autostart": function () {
-      ipcRenderer.invoke("autoStart", this.config.autostart === true);
-    },
+const props = defineProps<{
+  defaultWOWPath?: string;
+}>();
 
-    "config.lang": function () {
-      console.log(`change locale to ${this.config.lang}`);
-      this.$i18n.locale = this.config.lang;
-    },
+const emit = defineEmits<{
+  reset: [];
+  checkCompanionUpdates: [];
+  validateWowPath: [];
+}>();
 
-    "config.beta": function () {
-      this.$parent.checkCompanionUpdates();
-    },
+const config = useConfigStore();
+const { locale } = useI18n();
+
+const wagoUsername = ref(config.wagoUsername);
+const wagoApiKey = ref(config.wagoApiKey);
+
+const langs = [
+  { value: "zh-cn", text: "中文 (简体) (zh-cn)" },
+  { value: "de", text: "Deutsch (de)" },
+  { value: "en", text: "English (en)" },
+  { value: "es", text: "Español (es)" },
+  { value: "fr", text: "Français (fr)" },
+  { value: "ru", text: "Русский (ru)" },
+  { value: "tr", text: "Türkçe (tr)" },
+];
+
+const backupsize = [
+  { value: 50, text: "50mb" },
+  { value: 100, text: "100mb" },
+  { value: 500, text: "500mb" },
+];
+
+watch(
+  () => config.autostart,
+  () => {
+    ipcRenderer.invoke("autoStart", config.autostart === true);
   },
-  methods: {
-    reset() {
-      this.$parent.reset();
-      this.wagoUsername = null;
-    },
-    openBackupDir() {
-      shell.openPath(this.config.backup.path);
-    },
-    checkApiKey() {
-      return this.config.wagoApiKey.match(/^[\w\d]{64}$/);
-    },
+);
+
+watch(
+  () => config.lang,
+  () => {
+    console.log(`change locale to ${config.lang}`);
+    locale.value = config.lang;
   },
+);
+
+watch(
+  () => config.beta,
+  () => {
+    emit("checkCompanionUpdates");
+  },
+);
+
+function reset() {
+  emit("reset");
+  wagoUsername.value = null;
+}
+
+function openBackupDir() {
+  shell.openPath(config.backup.path);
+}
+
+const isApiKeyValid = computed(() => {
+  return config.wagoApiKey?.match(/^[\w\d]{64}$/);
 });
 </script>
 
@@ -87,10 +91,10 @@ export default defineComponent({
         <div>
           <FileSelect
             v-model:path="config.wowpath.value"
-            :default-path="defaultWOWPath"
+            :default-path="props.defaultWOWPath"
             :open-directory="true"
             :create-directory="true"
-            @update:path="$parent.validateWowPath"
+            @update:path="emit('validateWowPath')"
           >
             {{ $t("app.fileselect.wowfolder" /* World of Warcraft Folder */) }}
           </FileSelect>
@@ -214,17 +218,17 @@ export default defineComponent({
             {{ $t("app.config.ok" /* OK */) }}
           </UIButton>
           <i
-            v-if="config.wagoApiKey && checkApiKey()"
+            v-if="config.wagoApiKey && isApiKeyValid"
             class="i-mdi-check-circle-outline ml-1 mt-0.25 align-top text-2xl text-status-ok"
             >check_circle_outline</i
           >
           <i
-            v-else-if="config.wagoApiKey && !checkApiKey()"
+            v-else-if="config.wagoApiKey && !isApiKeyValid"
             class="i-mdi-error-outline ml-1 mt-0.25 align-top text-2xl text-status-issue"
             >error_outline</i
           >
           <p
-            v-if="config.wagoApiKey && !checkApiKey()"
+            v-if="config.wagoApiKey && !isApiKeyValid"
             class="mt-2 text-status-issue"
           >
             {{
@@ -279,7 +283,7 @@ export default defineComponent({
               {{ $t("app.config.backup.openfolder" /* Open Folder */) }}
             </p>
             <Dropdown
-              v-model:value="config.backup.maxsize"
+              v-model:value="config.backup.maxSize"
               :options="backupsize"
               :label="
                 $t('app.config.backup.dedicatedsize' /* Dedicated size */)

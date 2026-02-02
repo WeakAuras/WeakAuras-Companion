@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-defineProps<{
-  modelValue: boolean;
-}>();
-
-defineEmits<{
-  "update:modelValue": [value: boolean];
-}>();
+const model = defineModel<boolean>({ required: true });
 
 const checkbox = ref<HTMLInputElement | null>(null);
 
@@ -24,14 +18,12 @@ const triggerInputClick = () => {
     <input
       ref="checkbox"
       type="checkbox"
-      :checked="modelValue"
-      @input="
-        $emit('update:modelValue', ($event.target as HTMLInputElement).checked)
-      "
+      :checked="model"
+      @input="model = ($event.target as HTMLInputElement).checked"
     />
     <div
       class="checkbox__box border border-brand-grey-dark border-solid bg-brand-grey-darkest hover:border-brand-grey-dark hover:border-brand-grey-darker"
-      :class="{ 'checkbox__box--checked': modelValue }"
+      :class="{ 'checkbox__box--checked': model }"
     />
     <label>
       <slot />

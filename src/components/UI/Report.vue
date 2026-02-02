@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { inject } from "vue";
-
 import UIButton from "./UIButton.vue";
 
-const toggleReport = inject("toggleReport") as () => void;
+const emit = defineEmits<{
+  close: [];
+}>();
 
 const close = () => {
-  toggleReport();
+  emit("close");
 };
 </script>
 

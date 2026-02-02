@@ -1,15 +1,13 @@
 <!-- eslint-disable @typescript-eslint/unbound-method -->
 <!-- eslint-disable @typescript-eslint/no-misused-promises -->
-<script lang="ts">
+<script setup lang="ts">
 import fs from "node:fs";
 import path from "node:path";
 import { ipcRenderer } from "electron";
-import { defineComponent, provide, ref } from "vue";
+import { computed, onMounted, reactive, ref, shallowRef, watch } from "vue";
 import { buildAccountList } from "@/libs/build-account-list";
 import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
-import contacts from "@/libs/contacts";
 import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
-import hash from "@/libs/hash";
 import { isAddonInstalled } from "@/libs/is-addon-installed";
 import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
 import {
@@ -21,7 +19,7 @@ import {
 } from "@/libs/sort";
 import userDataPath from "@/libs/user-data-folder";
 import { wowDefaultPath } from "@/libs/utilities";
-import { validateWowPath } from "@/libs/validate-wow-path";
+import { validateWowPath as validateWowPathFn } from "@/libs/validate-wow-path";
 import { wagoPushHandler } from "@/libs/wago-push-handler";
 import { writeAddonData } from "@/libs/write-addon-data";
 import type {
@@ -65,477 +63,380 @@ export interface Updater {
   releaseNotes: string | null;
 }
 
-interface WeakAurasMetadata {
-  name: string;
-  url: string;
-  displayName: string;
+// Stores
+const config = useConfigStore();
+const stash = useStashStore();
+
+// Reactive state
+const updateAuraIsShown = ref(false);
+const reportIsShown = ref(false);
+const configStep = ref(0);
+const addonSelected = ref("WeakAuras");
+const fetching = ref(false);
+const sortedColumn = ref("modified");
+const sortDescending = ref(false);
+const updater = reactive<Updater>({
+  status: null,
+  progress: null,
+  scheduleId: null,
+  version: null,
+  path: null,
+  releaseNotes: null,
+});
+const accountOptions = shallowRef<Array<{ text: string; value: string }>>([]);
+const versionOptions = shallowRef<Array<{ text: string; value: string }>>([]);
+const defaultWOWPath = ref("");
+
+// Toggle functions
+function toggleUpdatedAuraList() {
+  updateAuraIsShown.value = !updateAuraIsShown.value;
 }
 
-interface WagoMetadata {
-  name: string;
-  url: string;
-  displayName: string;
+function toggleReport() {
+  reportIsShown.value = !reportIsShown.value;
 }
 
-const weakauras: WeakAurasMetadata[] = contacts.weakauras;
-const wago: WagoMetadata[] = contacts.wago;
+// Computed properties
+function getIsAddonInstalled(addon: string) {
+  return isAddonInstalled(
+    config,
+    addon,
+    versionSelected.value,
+    accountSelected.value,
+  );
+}
 
-export default defineComponent({
-  name: "LandingPage",
-  components: {
-    RefreshButton,
-    Aura,
-    AuraHeaders,
-    Config,
-    About,
-    Help,
-    TitleBar,
-    Report,
-    UpdatedAuraList,
-    UIButton,
-    Dropdown,
-    StopMotion,
-    AppFooter,
+const allAddonConfigs = computed((): AddonConfig[] => [
+  {
+    addonName: "WeakAuras",
+    wagoAPI: "https://data.wago.io/api/check/",
+    addonDependency: "WeakAuras",
+    svPathFunction: WeakAurasSaved,
+    isInstalled: getIsAddonInstalled("WeakAuras"),
+    parseFunction: parseWeakAurasSVdata,
+    hasTypeColumn: false,
   },
-  setup() {
-    const config = useConfigStore();
-    const stash = useStashStore();
+  {
+    addonName: "Plater",
+    wagoAPI: "https://data.wago.io/api/check/",
+    addonDependency: "Plater",
+    svPathFunction: PlaterSaved,
+    isInstalled: getIsAddonInstalled("Plater"),
+    parseFunction: parsePlaterSVdata,
+    hasTypeColumn: true,
+  },
+]);
 
-    const updateAuraIsShown = ref(false);
-    const toggleUpdatedAuraList = () => {
-      updateAuraIsShown.value = !updateAuraIsShown.value;
-    };
+const addonsInstalled = computed(() =>
+  allAddonConfigs.value.filter((addonConfig) => addonConfig.isInstalled),
+);
 
-    const reportIsShown = ref(false);
-    const toggleReport = () => {
-      reportIsShown.value = !reportIsShown.value;
-    };
+const addonSelectedConfig = computed((): AddonConfig | null => {
+  if (!addonSelected.value) return null;
+  return (
+    allAddonConfigs.value.find(
+      (addonConfig) =>
+        addonConfig.addonName.toLowerCase() ===
+        addonSelected.value.toLowerCase(),
+    ) || null
+  );
+});
 
-    provide("toggleReport", toggleReport);
-    provide("toggleUpdatedAuraList", toggleUpdatedAuraList);
+const versionSelected = computed((): Version | undefined => {
+  if (!config.wowpath.version || !config.wowpath.versions) {
+    return undefined;
+  }
+  const selectedVersion = config.wowpath.versions.find(
+    (version) => version.name === config.wowpath.version,
+  );
+  return selectedVersion || undefined;
+});
 
-    return {
+const accountSelected = computed((): Account | null => {
+  const version = versionSelected.value;
+  if (typeof version === "object" && version.accounts) {
+    return (
+      version.accounts.find((account) => account.name === version.account) ||
+      null
+    );
+  }
+  return null;
+});
+
+const auras = computed({
+  get(): AuraType[] {
+    return (
+      (config.wowpath.validated &&
+        config.wowpath.version &&
+        accountSelected.value &&
+        accountSelected.value.auras) ||
+      []
+    );
+  },
+  set(newValue: AuraType[]) {
+    if (accountSelected.value) {
+      accountSelected.value.auras = newValue;
+    }
+  },
+});
+
+const aurasWithData = computed(() =>
+  auras.value.filter(
+    (aura) =>
+      !!aura.encoded &&
+      !(config.ignoreOwnAuras && aura.author === config.wagoUsername),
+  ),
+);
+
+const sortFunction = computed(() => {
+  const dir = sortDescending.value ? -1 : 1;
+  const hasTypeColumn =
+    addonSelectedConfig.value && addonSelectedConfig.value.hasTypeColumn;
+
+  if (!sortedColumn.value || sortedColumn.value === "modified")
+    return createSortByTime(dir);
+  else if (sortedColumn.value === "auraTypeDisplay") {
+    return createSortByType(dir);
+  } else if (sortedColumn.value === "update") {
+    return createSortByUpdate(dir, hasTypeColumn);
+  } else if (sortedColumn.value === "author") {
+    return createSortByAuthor(dir, hasTypeColumn);
+  }
+
+  return createSortByString(dir, sortedColumn.value);
+});
+
+const aurasSortedForView = computed(() =>
+  auras.value
+    .filter(
+      (aura) => !(config.ignoreOwnAuras && aura.author === config.wagoUsername),
+    )
+    .filter((aura) => aura.author !== null)
+    .filter((aura) => aura.auraType === addonSelected.value)
+    .sort(sortFunction.value),
+);
+
+// Watchers
+watch(
+  () => stash.auras,
+  () => {
+    writeAddonData(config, addonsInstalled.value, aurasWithData.value, stash);
+  },
+  { deep: true },
+);
+
+watch(
+  () => config.wowpath.value,
+  () => {
+    validateWowPath();
+  },
+);
+
+watch(
+  () => config.wowpath.version,
+  () => {
+    buildAccountList(
       config,
-      stash,
-      updateAuraIsShown,
-      reportIsShown,
-      toggleUpdatedAuraList,
-      toggleReport,
-    };
+      accountOptions.value,
+      versionSelected.value,
+      auras.value,
+    );
   },
-  data() {
-    return {
-      configStep: 0,
-      addonSelected: "WeakAuras",
-      fetching: false, // use for avoid spamming refresh UIButton and show spinner
-      sortedColumn: "modified",
-      sortDescending: false,
-      schedule: {
-        id: null, // 1h setTimeout id
-      },
-      medias: { weakauras, wago },
-      updater: {
-        status: null, // checking-for-update, update-available, update-not-available, error, download-progress, update-downloaded
-        progress: null,
-        scheduleId: null, // for 2h auto-updater
-        version: null,
-        path: null,
-        releaseNotes: null,
-      } as Updater,
-      isMac: process.platform === "darwin",
-      accountOptions: [],
-      versionOptions: [],
-      defaultWOWPath: "",
-    };
-  },
-  computed: {
-    readyForInstallTooltip() {
-      return this.stash.tohtml();
-    },
-    accountHash() {
-      if (this.versionSelected) {
-        const { account } = this.versionSelected;
-        return hash.hashFnv32a(account, true);
-      }
-      return null;
-    },
-    allAddonConfigs() {
-      const addonConfigs: AddonConfig[] = [
-        {
-          addonName: "WeakAuras",
-          wagoAPI: "https://data.wago.io/api/check/",
-          addonDependency: "WeakAuras",
-          svPathFunction: WeakAurasSaved,
-          isInstalled: this.getIsAddonInstalled("WeakAuras"),
-          parseFunction: parseWeakAurasSVdata,
-          hasTypeColumn: false,
-        },
-        {
-          addonName: "Plater",
-          wagoAPI: "https://data.wago.io/api/check/",
-          addonDependency: "Plater",
-          svPathFunction: PlaterSaved,
-          isInstalled: this.getIsAddonInstalled("Plater"),
-          parseFunction: parsePlaterSVdata,
-          hasTypeColumn: true,
-        },
-      ];
-      return addonConfigs;
-    },
-    addonsInstalled() {
-      return this.allAddonConfigs.filter(
-        (addonConfig) => addonConfig.isInstalled,
+);
+
+// Methods
+async function checkCompanionUpdates() {
+  try {
+    await ipcRenderer.invoke("checkUpdates", config.beta);
+  } catch (error) {
+    console.error("Error checking updates:", error);
+  }
+
+  // check for app updates in 2 hours
+  if (updater.scheduleId) clearTimeout(updater.scheduleId);
+
+  updater.scheduleId = setTimeout(
+    () => {
+      checkCompanionUpdates().catch((error) =>
+        console.error("Error checking updates:", error),
       );
     },
-    addonSelectedConfig(): AddonConfig | null {
-      if (!this.addonSelected) return null;
-      return (
-        this.allAddonConfigs.find(
-          (addonConfig) =>
-            addonConfig.addonName.toLowerCase() ===
-            this.addonSelected.toLowerCase(),
-        ) || null
-      );
-    },
-    versionSelected(): Version | undefined {
-      if (!this.config.wowpath.version || !this.config.wowpath.versions) {
-        return undefined;
+    1000 * 3600 * 2,
+  );
+}
+
+function getWeakAurasSaved() {
+  return WeakAurasSaved(config, versionSelected.value, accountSelected.value);
+}
+
+function getPlaterSaved() {
+  return PlaterSaved(config, versionSelected.value, accountSelected.value);
+}
+
+function reset() {
+  config.$reset();
+}
+
+function validateWowPath() {
+  validateWowPathFn(
+    config,
+    versionOptions.value,
+    accountOptions.value,
+    versionSelected.value,
+    auras.value,
+  );
+}
+
+function doWriteAddonData() {
+  return writeAddonData(
+    config,
+    addonsInstalled.value,
+    aurasWithData.value,
+    stash,
+  );
+}
+
+async function doCompareSVwithWago() {
+  return compareSVwithWago(
+    config,
+    versionSelected.value,
+    accountSelected.value,
+    fetching.value,
+    addonsInstalled.value,
+    addonSelected.value,
+    auras.value,
+    updateFetchingState,
+    doWriteAddonData,
+  );
+}
+
+function installUpdates() {
+  ipcRenderer.invoke("installUpdates");
+}
+
+function sortBy(columnName: string) {
+  if (sortedColumn.value === columnName) {
+    if (sortDescending.value) {
+      sortDescending.value = false;
+      sortedColumn.value = "modified";
+    } else {
+      sortDescending.value = true;
+    }
+  } else {
+    sortDescending.value = false;
+    sortedColumn.value = columnName;
+  }
+}
+
+function updateFetchingState(newFetching: boolean) {
+  fetching.value = newFetching;
+}
+
+// Lifecycle
+onMounted(async () => {
+  ipcRenderer.on("setAllowPrerelease", (_event, allowPrerelease: boolean) => {
+    config.beta = allowPrerelease;
+  });
+
+  // refresh on event (tray icon)
+  ipcRenderer.on("refreshWago", () => {
+    doCompareSVwithWago();
+  });
+
+  ipcRenderer.on("linkHandler", async (_event, link: string) => {
+    const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)/;
+
+    if (link) {
+      const result = link.match(pattern);
+      let slug: string | undefined;
+
+      if (result) {
+        ({ 1: slug } = result);
       }
 
-      const selectedVersion = this.config.wowpath.versions.find(
-        (version) => version.name === this.config.wowpath.version,
-      );
-
-      return selectedVersion || undefined;
-    },
-    accountSelected(): Account {
-      const versionSelected = this.versionSelected;
-
-      if (typeof versionSelected === "object") {
-        return versionSelected.accounts.find(
-          (account) => account.name === versionSelected.account,
-        );
-      }
-      return null;
-    },
-    aurasWithData() {
-      return this.auras.filter(
-        (aura) =>
-          !!aura.encoded &&
-          !(
-            this.config.ignoreOwnAuras &&
-            aura.author === this.config.wagoUsername
-          ),
-      );
-    },
-    aurasWithUpdate() {
-      return this.aurasWithData.filter(
-        (aura) => aura.wagoVersion > aura.version && !aura.ignoreWagoUpdate,
-      );
-    },
-    aurasSortedForView() {
-      return this.auras
-        .filter(
-          (aura) =>
-            !(
-              this.config.ignoreOwnAuras &&
-              aura.author === this.config.wagoUsername
-            ),
-        )
-        .filter((aura) => aura.author !== null)
-        .filter((aura) => aura.auraType === this.addonSelected)
-        .sort(this.sortFunction);
-    },
-    sortFunction() {
-      const dir = this.sortDescending ? -1 : 1;
-      const hasTypeColumn =
-        this.addonSelectedConfig && this.addonSelectedConfig.hasTypeColumn;
-
-      if (!this.sortedColumn || this.sortedColumn === "modified")
-        return createSortByTime(dir);
-      else if (this.sortedColumn === "auraTypeDisplay") {
-        return createSortByType(dir);
-      } else if (this.sortedColumn === "update") {
-        return createSortByUpdate(dir, hasTypeColumn);
-      } else if (this.sortedColumn === "author") {
-        return createSortByAuthor(dir, hasTypeColumn);
-      }
-
-      return createSortByString(dir, this.sortedColumn);
-    },
-    auras: {
-      get(): AuraType[] {
-        return (
-          (this.config.wowpath.validated &&
-            this.config.wowpath.version &&
-            this.accountSelected &&
-            this.accountSelected.auras) ||
-          []
-        );
-      },
-      set(newValue: AuraType[]) {
-        this.accountSelected.auras = newValue;
-      },
-    },
-  },
-  watch: {
-    "stash.auras": {
-      handler() {
-        writeAddonData(
-          this.config,
-          this.addonsInstalled,
-          this.aurasWithData,
-          this.stash,
-        );
-      },
-      deep: true,
-    },
-    "config.wowpath.value": function () {
-      validateWowPath(
-        this.config,
-        this.versionOptions,
-        this.accountOptions,
-        this.versionSelected,
-        this.auras,
-      );
-    },
-    "config.wowpath.version": function () {
-      buildAccountList(
-        this.config,
-        this.accountOptions,
-        this.versionSelected,
-        this.auras,
-      );
-    },
-  },
-  async mounted() {
-    ipcRenderer.on("setAllowPrerelease", (_event, allowPrerelease: boolean) => {
-      this.config.beta = allowPrerelease;
-    });
-
-    // refresh on event (tray icon)
-    ipcRenderer.on("refreshWago", () => {
-      this.doCompareSVwithWago();
-    });
-
-    ipcRenderer.on("linkHandler", async (_event, link: string) => {
-      const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)/;
-
-      if (link) {
-        const result = link.match(pattern);
-        let slug: string;
-
-        if (result) {
-          ({ 1: slug } = result);
-        }
-
-        if (slug) {
-          await wagoPushHandler(
-            this.config,
-            slug,
-            this.stash,
-            this.versionSelected,
-          );
-        }
-      }
-    });
-
-    ipcRenderer.on("updaterHandler", (_event, status: string, arg) => {
-      console.log(`updaterHandler: ${status}`);
-
-      if (status === "checking-for-update") {
-        // No additional data for this status
-        return;
-      }
-
-      this.updater.status = status;
-
-      if (status === "download-progress" && "progressInfo" in arg) {
-        this.updater.progress = Math.floor(arg.progressInfo.percent);
-      }
-
-      if (status === "update-available") {
-        this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
-        this.updater.version = arg.version;
-        this.updater.releaseNotes = arg.releaseNotes || "";
-      }
-
-      if (
-        (status === "update-not-available" || status === "update-downloaded") &&
-        "updateInfo" in arg
-      ) {
-        this.updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.updateInfo.version}/${arg.updateInfo.path}`;
-        this.updater.version = arg.updateInfo.version;
-
-        // List if `updater.fullChangelog` is set to `true`, `string` otherwise.
-        if (typeof arg.updateInfo.releaseNotes === "string") {
-          this.updater.releaseNotes = arg.updateInfo.releaseNotes;
-        } else if (Array.isArray(arg.updateInfo.releaseNotes)) {
-          // Convert the array of ReleaseNoteInfo to a string
-          this.updater.releaseNotes = arg.updateInfo.releaseNotes
-            .map((note) => note.note)
-            .join("\n");
-        } else {
-          this.updater.releaseNotes = "";
-        }
-
-        console.log(JSON.stringify(arg));
-      }
-
-      if (status === "error" && "error" in arg) {
-        console.error(arg.error);
-      }
-    });
-
-    // set default wow path
-    if (!this.config.wowpath.validated) {
-      try {
-        const wowpath = await wowDefaultPath();
-        this.defaultWOWPath = wowpath;
-
-        if (!this.config.wowpath.validated) {
-          this.config.wowpath.value = wowpath;
-
-          validateWowPath(
-            this.config,
-            this.versionOptions,
-            this.accountOptions,
-            this.versionSelected,
-            this.auras,
-          );
-        }
-      } catch (e) {
-        console.log(JSON.stringify(e));
+      if (slug) {
+        await wagoPushHandler(config, slug, stash, versionSelected.value);
       }
     }
+  });
 
-    // create default backup folder
-    fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {
-      console.log("Creating default directory");
-    });
+  ipcRenderer.on("updaterHandler", (_event, status: string, arg) => {
+    console.log(`updaterHandler: ${status}`);
 
-    // check updates
-    setTimeout(this.doCompareSVwithWago, 300);
+    if (status === "checking-for-update") {
+      // No additional data for this status
+      return;
+    }
 
-    // check for app updates in 2 hours
-    setTimeout(this.checkCompanionUpdates, 1000 * 3600 * 2);
+    updater.status = status;
 
-    // default sorting
-    this.sortDescending = false;
-    this.sortedColumn = "update";
-  },
-  methods: {
-    getGotOptions() {
-      return {
-        http2: true,
-        headers: {
-          "Identifier": this.accountHash,
-          "api-key": this.config.wagoApiKey || "",
-          "User-Agent": `WeakAuras Companion ${__APP_VERSION__}`,
-        },
-        timeout: {
-          request: 30000,
-        },
-      };
-    },
-    readyForInstallFlush() {
-      this.stash.$reset();
-    },
-    async checkCompanionUpdates() {
-      try {
-        await ipcRenderer.invoke("checkUpdates", this.config.beta);
-      } catch (error) {
-        console.error("Error checking updates:", error);
-      }
+    if (status === "download-progress" && "progressInfo" in arg) {
+      updater.progress = Math.floor(arg.progressInfo.percent);
+    }
 
-      // check for app updates in 2 hours
-      if (this.updater.scheduleId) clearTimeout(this.updater.scheduleId);
+    if (status === "update-available") {
+      updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
+      updater.version = arg.version;
+      updater.releaseNotes = arg.releaseNotes || "";
+    }
 
-      this.updater.scheduleId = setTimeout(
-        () => {
-          this.checkCompanionUpdates().catch((error) =>
-            console.error("Error checking updates:", error),
-          );
-        },
-        1000 * 3600 * 2,
-      );
-    },
-    getWeakAurasSaved() {
-      return WeakAurasSaved(
-        this.config,
-        this.versionSelected,
-        this.accountSelected,
-      );
-    },
-    getPlaterSaved() {
-      return PlaterSaved(
-        this.config,
-        this.versionSelected,
-        this.accountSelected,
-      );
-    },
-    getIsAddonInstalled(addon: string) {
-      return isAddonInstalled(
-        this.config,
-        addon,
-        this.versionSelected,
-        this.accountSelected,
-      );
-    },
-    getAddonConfig(addonName: string) {
-      const lowerAddonName = addonName.toLowerCase();
+    if (
+      (status === "update-not-available" || status === "update-downloaded") &&
+      "updateInfo" in arg
+    ) {
+      updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.updateInfo.version}/${arg.updateInfo.path}`;
+      updater.version = arg.updateInfo.version;
 
-      for (const addonConfig of this.allAddonConfigs) {
-        if (addonConfig.addonName.toLowerCase() === lowerAddonName) {
-          return addonConfig;
-        }
-      }
-      return null;
-    },
-    reset() {
-      this.config.$reset();
-    },
-    doWriteAddonData() {
-      return writeAddonData(
-        this.config,
-        this.addonsInstalled,
-        this.aurasWithData,
-        this.stash,
-      );
-    },
-    async doCompareSVwithWago() {
-      return compareSVwithWago(
-        this.config,
-        this.versionSelected,
-        this.accountSelected,
-        this.fetching,
-        this.addonsInstalled,
-        this.addonSelected,
-        this.auras,
-        this.updateFetchingState,
-        this.doWriteAddonData,
-      );
-    },
-    installUpdates() {
-      ipcRenderer.invoke("installUpdates");
-    },
-    sortBy(columnName: string) {
-      if (this.sortedColumn === columnName) {
-        if (this.sortDescending) {
-          this.sortDescending = false;
-          this.sortedColumn = "modified";
-        } else {
-          this.sortDescending = true;
-        }
+      // List if `updater.fullChangelog` is set to `true`, `string` otherwise.
+      if (typeof arg.updateInfo.releaseNotes === "string") {
+        updater.releaseNotes = arg.updateInfo.releaseNotes;
+      } else if (Array.isArray(arg.updateInfo.releaseNotes)) {
+        // Convert the array of ReleaseNoteInfo to a string
+        updater.releaseNotes = arg.updateInfo.releaseNotes
+          .map((note: { note: string }) => note.note)
+          .join("\n");
       } else {
-        this.sortDescending = false;
-        this.sortedColumn = columnName;
+        updater.releaseNotes = "";
       }
-    },
-    updateFetchingState(fetching: boolean) {
-      this.fetching = fetching;
-    },
-  },
+
+      console.log(JSON.stringify(arg));
+    }
+
+    if (status === "error" && "error" in arg) {
+      console.error(arg.error);
+    }
+  });
+
+  // set default wow path
+  if (!config.wowpath.validated) {
+    try {
+      const wowpath = await wowDefaultPath();
+      defaultWOWPath.value = wowpath;
+
+      if (!config.wowpath.validated) {
+        config.wowpath.value = wowpath;
+
+        validateWowPath();
+      }
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
+  }
+
+  // create default backup folder
+  fs.mkdir(path.join(userDataPath, "WeakAurasData-Backup"), () => {
+    console.log("Creating default directory");
+  });
+
+  // check updates
+  setTimeout(doCompareSVwithWago, 300);
+
+  // check for app updates in 2 hours
+  setTimeout(checkCompanionUpdates, 1000 * 3600 * 2);
+
+  // default sorting
+  sortDescending.value = false;
+  sortedColumn.value = "update";
 });
 </script>
 
@@ -684,6 +585,9 @@ export default defineComponent({
         <Config
           v-else-if="configStep === 1"
           :default-w-o-w-path="defaultWOWPath"
+          @reset="reset"
+          @check-companion-updates="checkCompanionUpdates"
+          @validate-wow-path="validateWowPath"
         />
         <Help v-else-if="configStep === 2" />
         <About v-else-if="configStep === 3" />
@@ -699,8 +603,14 @@ export default defineComponent({
         @install-updates="installUpdates"
       />
     </div>
-    <Report v-if="reportIsShown" />
-    <UpdatedAuraList v-if="updateAuraIsShown" />
+    <Report
+      v-if="reportIsShown"
+      @close="toggleReport"
+    />
+    <UpdatedAuraList
+      v-if="updateAuraIsShown"
+      @close="toggleUpdatedAuraList"
+    />
   </div>
 </template>
 
