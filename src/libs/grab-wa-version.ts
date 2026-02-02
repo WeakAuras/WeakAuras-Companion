@@ -1,13 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const DEFAULT_INTERFACE_VERSION = 120000;
+/** Default interface version returned when TOC file cannot be found or parsed */
+const DEFAULT_INTERFACE_VERSION = "120000";
 
 /**
  * Mapping between WoW directory value and the WeakAuras .toc file
  * This is based on Blizzard's directory naming, not on string heuristics.
  */
-const WOWDIR_TO_WA_TOC: Record<string, string> = {
+const WOWDIR_TO_WA_TOC = {
   // Retail family (Midnight / The War Within, including PTR & Beta)
   _retail_: "WeakAuras.toc",
   _ptr_: "WeakAuras.toc",
@@ -30,7 +31,17 @@ const WOWDIR_TO_WA_TOC: Record<string, string> = {
 
   // Screenshot indicates: "Classic Era & Anniversary Edition PTR" → BC Anniversary
   _classic_era_ptr_: "WeakAuras_TBC.toc",
-};
+} as const;
+
+type WowDirToWaToc = typeof WOWDIR_TO_WA_TOC;
+
+/** Known TOC filenames derived from the mapping for fallback */
+const KNOWN_TOC_FILES = [...new Set(Object.values(WOWDIR_TO_WA_TOC))] as const;
+
+/** Check if a string is a valid WoW directory value */
+function isWowDirValue(value: string): value is keyof WowDirToWaToc {
+  return value in WOWDIR_TO_WA_TOC;
+}
 
 /**
  * Normalize the directory value for safe lookups
@@ -40,20 +51,23 @@ function normalizeDirValue(dirValue: string): string {
 }
 
 /**
+ * Resolve real path, handling symlinks via fs.realpathSync
+ */
+function getRealPath(filePath: string): string {
+  try {
+    return fs.realpathSync(filePath);
+  } catch (err) {
+    console.log(err);
+    return filePath;
+  }
+}
+
+/**
  * Fallback logic: find an existing WeakAuras*.toc file in the addon folder
  * This protects us against unexpected Blizzard folder changes.
  */
 function pickExistingWeakAurasToc(resolvedFolderPath: string): string | null {
-  const candidates = [
-    "WeakAuras.toc",
-    "WeakAuras_Mists.toc",
-    "WeakAuras_TBC.toc",
-    "WeakAuras_Wrath.toc",
-    "WeakAuras_Vanilla.toc",
-    "WeakAuras_Cata.toc",
-  ];
-
-  for (const fileName of candidates) {
+  for (const fileName of KNOWN_TOC_FILES) {
     const filePath = path.join(resolvedFolderPath, fileName);
     if (fs.existsSync(filePath)) {
       return filePath;
@@ -78,7 +92,7 @@ function pickExistingWeakAurasToc(resolvedFolderPath: string): string | null {
 export function grabVersionFromToc(
   wowPath: string,
   version: string, // Blizzard directory value (e.g. "_classic_", "_retail_")
-): string | number {
+): string {
   const dirValue = normalizeDirValue(version);
 
   const waFolderPath = path.join(
@@ -89,34 +103,12 @@ export function grabVersionFromToc(
     "WeakAuras",
   );
 
-  /**
-   * Check whether a file is a symbolic link
-   */
-  const isSymlink = (filePath: string): boolean => {
-    try {
-      return fs.lstatSync(filePath).isSymbolicLink();
-    } catch (err) {
-      console.log(err);
-      return false;
-    }
-  };
-
-  /**
-   * Resolve real path if symlinks are involved
-   */
-  const getRealPath = (filePath: string): string => {
-    try {
-      return fs.realpathSync(filePath);
-    } catch (err) {
-      console.log(err);
-      return filePath;
-    }
-  };
-
   const resolvedFolderPath = getRealPath(waFolderPath);
 
   // 1) Try strict mapping based on the WoW directory value
-  const mappedTocName = WOWDIR_TO_WA_TOC[dirValue];
+  const mappedTocName = isWowDirValue(dirValue)
+    ? WOWDIR_TO_WA_TOC[dirValue]
+    : undefined;
   let resolvedTocFile: string | null = mappedTocName
     ? path.join(resolvedFolderPath, mappedTocName)
     : null;
@@ -131,22 +123,19 @@ export function grabVersionFromToc(
     return DEFAULT_INTERFACE_VERSION;
   }
 
-  // Read the .toc file, resolving symlinks if necessary
-  let tocContent: string;
-  if (isSymlink(resolvedTocFile)) {
-    const symlinkTarget = fs.readlinkSync(resolvedTocFile);
-    const symlinkTargetPath = path.resolve(resolvedFolderPath, symlinkTarget);
-    tocContent = fs.readFileSync(symlinkTargetPath, "utf8");
-  } else {
-    tocContent = fs.readFileSync(resolvedTocFile, "utf8");
+  // Read the .toc file (getRealPath handles symlinks)
+  try {
+    const tocContent = fs.readFileSync(getRealPath(resolvedTocFile), "utf8");
+
+    // Extract the Interface number (robust against spacing differences)
+    const match = tocContent.match(/^##\s*Interface:\s*(\d+)/m);
+    if (match?.[1]) {
+      return match[1];
+    }
+  } catch (err) {
+    console.log(err);
   }
 
-  // Extract the Interface number (robust against spacing differences)
-  const match = tocContent.match(/^##\s*Interface:\s*(\d+)/m);
-  if (match?.[1]) {
-    return match[1];
-  }
-
-  // Final fallback if the tag is missing
+  // Final fallback if the tag is missing or read failed
   return DEFAULT_INTERFACE_VERSION;
 }
