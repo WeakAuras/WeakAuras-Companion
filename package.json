@@ -85,7 +85,7 @@
     "eslint": "^9.38.0",
     "eslint-plugin-vue": "^10.5.1",
     "floating-vue": "^5.2.2",
-    "glob": "^12.0.0",
+    "glob": "^13.0.1",
     "happy-dom": "^20.0.8",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
