@@ -1,102 +1,79 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { DateTime } from "luxon";
 
 import UIButton from "./UIButton.vue";
 
-export default defineComponent({
-  name: "RefreshButton",
-  components: { UIButton },
-  filters: {},
-  props: {
-    usable: {
-      type: Boolean,
-      default: false,
-    },
-    fetching: {
-      type: Boolean,
-      default: false,
-    },
-    lastUpdate: {
-      type: Date,
-      default: "0",
-    },
-    aurasShown: {
-      type: Number,
-      default: 0,
-    },
-    isSettingsOk: {
-      type: Boolean,
-      default: false,
-    },
-    isVersionSelected: {
-      type: [String, Object],
-      default: "",
-    },
-    isAccountSelected: {
-      type: [String, Object],
-      default: "",
-    },
-    isSvOk: {
-      type: Boolean,
-      default: false,
-    },
-    isAddonsOk: {
-      type: Boolean,
-      default: false,
-    },
+const props = withDefaults(
+  defineProps<{
+    usable?: boolean;
+    fetching?: boolean;
+    lastUpdate?: Date;
+    aurasShown?: number;
+    isSettingsOk?: boolean;
+    isVersionSelected?: string | object;
+    isAccountSelected?: string | object;
+    isSvOk?: boolean;
+    isAddonsOk?: boolean;
+  }>(),
+  {
+    usable: false,
+    fetching: false,
+    lastUpdate: undefined,
+    aurasShown: 0,
+    isSettingsOk: false,
+    isVersionSelected: "",
+    isAccountSelected: "",
+    isSvOk: false,
+    isAddonsOk: false,
   },
-  emits: ["gotoconfig", "refresh"],
-  setup(props, { emit }) {
-    const gotoconfig = () => {
-      emit("gotoconfig");
-    };
+);
 
-    const refresh = () => {
-      emit("refresh");
-    };
-    return {
-      gotoconfig,
-      refresh,
-    };
-  },
-  data() {
-    return {
-      lastUpdateTimer: null,
-    };
-  },
-  watch: {
-    fetching() {
-      this.scheduleTimer();
-    },
-  },
-  beforeUnmount() {
-    clearInterval(this.lastUpdateTimer);
-  },
-  methods: {
-    fromNow(value, locale) {
-      if (!value) return "n/a";
-      return DateTime.fromJSDate(value).toRelative({
-        locale: locale,
-      });
-    },
-    olderThan30s() {
-      return (
-        DateTime.local().diff(DateTime.fromJSDate(this.lastUpdate)).valueOf() >
-        30000
-      );
-    },
-    scheduleTimer() {
-      if (this.lastUpdateTimer) clearInterval(this.lastUpdateTimer);
+defineEmits<{
+  gotoconfig: [];
+  refresh: [];
+}>();
 
-      this.lastUpdateTimer = setInterval(() => {
-        this.$forceUpdate();
-      }, 1000 * 60);
-    },
+const lastUpdateTimer = ref<ReturnType<typeof setInterval> | null>(null);
+const tick = ref(0);
+
+function fromNow(value: Date | undefined, locale: string): string {
+  if (!value) return "n/a";
+  // Reference tick to make this reactive when timer fires
+  void tick.value;
+  return DateTime.fromJSDate(value).toRelative({ locale }) ?? "n/a";
+}
+
+function olderThan30s(): boolean {
+  void tick.value;
+  if (!props.lastUpdate) return false;
+  return (
+    DateTime.local().diff(DateTime.fromJSDate(props.lastUpdate)).valueOf() >
+    30000
+  );
+}
+
+function scheduleTimer() {
+  if (lastUpdateTimer.value) clearInterval(lastUpdateTimer.value);
+
+  lastUpdateTimer.value = setInterval(() => {
+    tick.value++;
+  }, 1000 * 60);
+}
+
+watch(
+  () => props.fetching,
+  () => {
+    scheduleTimer();
   },
-  mount() {
-    this.scheduleTimer();
-  },
+);
+
+onMounted(() => {
+  scheduleTimer();
+});
+
+onBeforeUnmount(() => {
+  if (lastUpdateTimer.value) clearInterval(lastUpdateTimer.value);
 });
 </script>
 

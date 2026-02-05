@@ -4,7 +4,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ipcRenderer } from "electron";
-import { computed, onMounted, reactive, ref, shallowRef, watch } from "vue";
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  shallowRef,
+  watch,
+} from "vue";
 import { buildAccountList } from "@/libs/build-account-list";
 import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
 import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
@@ -163,21 +171,14 @@ const accountSelected = computed((): Account | null => {
   return null;
 });
 
-const auras = computed({
-  get(): AuraType[] {
-    return (
-      (config.wowpath.validated &&
-        config.wowpath.version &&
-        accountSelected.value &&
-        accountSelected.value.auras) ||
-      []
-    );
-  },
-  set(newValue: AuraType[]) {
-    if (accountSelected.value) {
-      accountSelected.value.auras = newValue;
-    }
-  },
+const auras = computed((): AuraType[] => {
+  return (
+    (config.wowpath.validated &&
+      config.wowpath.version &&
+      accountSelected.value &&
+      accountSelected.value.auras) ||
+    []
+  );
 });
 
 const aurasWithData = computed(() =>
@@ -207,7 +208,7 @@ const sortFunction = computed(() => {
 });
 
 const aurasSortedForView = computed(() =>
-  auras.value
+  [...auras.value]
     .filter(
       (aura) => !(config.ignoreOwnAuras && aura.author === config.wagoUsername),
     )
@@ -218,11 +219,10 @@ const aurasSortedForView = computed(() =>
 
 // Watchers
 watch(
-  () => stash.auras,
+  () => stash.auras.length,
   () => {
     writeAddonData(config, addonsInstalled.value, aurasWithData.value, stash);
   },
-  { deep: true },
 );
 
 watch(
@@ -311,7 +311,7 @@ async function doCompareSVwithWago() {
 }
 
 function installUpdates() {
-  ipcRenderer.invoke("installUpdates");
+  ipcRenderer.invoke("installUpdates").catch(console.error);
 }
 
 function sortBy(columnName: string) {
@@ -333,17 +333,27 @@ function updateFetchingState(newFetching: boolean) {
 }
 
 // Lifecycle
+const ipcListeners: Array<{
+  channel: string;
+  handler: (...args: any[]) => void;
+}> = [];
+
+function addIpcListener(channel: string, handler: (...args: any[]) => void) {
+  ipcRenderer.on(channel, handler);
+  ipcListeners.push({ channel, handler });
+}
+
 onMounted(async () => {
-  ipcRenderer.on("setAllowPrerelease", (_event, allowPrerelease: boolean) => {
+  addIpcListener("setAllowPrerelease", (_event, allowPrerelease: boolean) => {
     config.beta = allowPrerelease;
   });
 
   // refresh on event (tray icon)
-  ipcRenderer.on("refreshWago", () => {
+  addIpcListener("refreshWago", () => {
     doCompareSVwithWago();
   });
 
-  ipcRenderer.on("linkHandler", async (_event, link: string) => {
+  addIpcListener("linkHandler", async (_event, link: string) => {
     const pattern = /weakauras-companion:\/\/wago\/push\/([^/]+)/;
 
     if (link) {
@@ -360,7 +370,7 @@ onMounted(async () => {
     }
   });
 
-  ipcRenderer.on("updaterHandler", (_event, status: string, arg) => {
+  addIpcListener("updaterHandler", (_event, status: string, arg) => {
     console.log(`updaterHandler: ${status}`);
 
     if (status === "checking-for-update") {
@@ -437,6 +447,13 @@ onMounted(async () => {
   // default sorting
   sortDescending.value = false;
   sortedColumn.value = "update";
+});
+
+onBeforeUnmount(() => {
+  for (const { channel, handler } of ipcListeners) {
+    ipcRenderer.removeListener(channel, handler);
+  }
+  ipcListeners.length = 0;
 });
 </script>
 

@@ -91,12 +91,11 @@ function selectItem(option: DropdownOption) {
       :class="{ 'dropdown__toggle--toggled': showMenu }"
       @click="toggleDropdown()"
     >
-      <span>{{ getLabel(selected) }}</span>
+      <span>{{ selected }}</span>
       <i
         :class="{ open: showMenu }"
         class="i-mdi-keyboard-arrow-down text-2xl"
-        >keyboard_arrow_down</i
-      >
+      />
     </div>
     <div
       :style="{ height: showMenu ? `${height}px` : '0px' }"

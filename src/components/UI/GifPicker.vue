@@ -53,6 +53,15 @@ const vScroll: Directive<HTMLElement, () => void> = {
       }
     };
     el.addEventListener("scroll", f);
+    // Store reference for cleanup
+    (el as any).__scrollHandler = f;
+  },
+  unmounted: (el) => {
+    const f = (el as any).__scrollHandler;
+    if (f) {
+      el.removeEventListener("scroll", f);
+      delete (el as any).__scrollHandler;
+    }
   },
 };
 
@@ -126,14 +135,13 @@ onMounted(() => {
           :class="{ invisible: search === '' }"
           class="i-mdi-arrow-back mr-[0.25em] cursor-pointer text-2xl color-white"
           @click="search = ''"
-          >arrow_back</span
-        >
+        />
         <div>
           <input
             v-model="search"
             :placeholder="$t('gifpicker.searchtenor' /* Search Tenor */)"
           />
-          <span class="i-mdi-search text-2xl color-white">search</span>
+          <span class="i-mdi-search text-2xl color-white" />
         </div>
       </div>
     </header>

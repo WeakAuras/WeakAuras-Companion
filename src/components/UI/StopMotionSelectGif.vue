@@ -13,6 +13,8 @@ const emit = defineEmits<{
   (e: "next"): void;
 }>();
 
+const TENOR_API_KEY = "NL8TDPRU0T4Y";
+
 const stopMotionStore = useStopMotionStore();
 const { gif } = storeToRefs(stopMotionStore);
 
@@ -85,7 +87,7 @@ async function update(filepath: string) {
       <div class="relative inline-block text-center">
         <i>{{ $t("stopmotion.select.or" /* or */) }}</i>
         <DiscordPicker
-          :api-key="'NL8TDPRU0T4Y'"
+          :api-key="TENOR_API_KEY"
           @gif="setTenor"
         >
           <UIButton class="btn-ok">

@@ -25,6 +25,20 @@ const { locale } = useI18n();
 const wagoUsername = ref(config.wagoUsername);
 const wagoApiKey = ref(config.wagoApiKey);
 
+// Sync store changes back to local refs
+watch(
+  () => config.wagoUsername,
+  (newVal) => {
+    wagoUsername.value = newVal;
+  },
+);
+watch(
+  () => config.wagoApiKey,
+  (newVal) => {
+    wagoApiKey.value = newVal;
+  },
+);
+
 const langs = [
   { value: "zh-cn", text: "中文 (简体) (zh-cn)" },
   { value: "de", text: "Deutsch (de)" },
@@ -101,13 +115,11 @@ const isApiKeyValid = computed(() => {
           <i
             v-if="config.wowpath.validated"
             class="i-mdi-check-circle-outline mt-3 align-top text-2xl text-status-ok"
-            >check_circle_outline</i
-          >
+          />
           <i
             v-else
             class="i-mdi-error-outline mt-3 align-top text-2xl text-status-failure"
-            >error_outline</i
-          >
+          />
         </div>
         <!-- Companion Settings Section -->
         <div class="title mb-2 mt-4 text-lg">
@@ -198,8 +210,7 @@ const isApiKeyValid = computed(() => {
           <i
             v-if="config.wagoUsername"
             class="i-mdi-check-circle-outline ml-1 mt-0.25 align-top text-2xl text-status-ok"
-            >check_circle_outline</i
-          >
+          />
           <p class="my-2">
             {{ $t("app.config.wagoApiKey" /* Set Wago API Key (optional) */) }}
           </p>
@@ -220,13 +231,11 @@ const isApiKeyValid = computed(() => {
           <i
             v-if="config.wagoApiKey && isApiKeyValid"
             class="i-mdi-check-circle-outline ml-1 mt-0.25 align-top text-2xl text-status-ok"
-            >check_circle_outline</i
-          >
+          />
           <i
             v-else-if="config.wagoApiKey && !isApiKeyValid"
             class="i-mdi-error-outline ml-1 mt-0.25 align-top text-2xl text-status-issue"
-            >error_outline</i
-          >
+          />
           <p
             v-if="config.wagoApiKey && !isApiKeyValid"
             class="mt-2 text-status-issue"
