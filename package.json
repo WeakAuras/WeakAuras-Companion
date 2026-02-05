@@ -65,7 +65,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "@iconify/tools": "^4.1.4",
     "@intlify/unplugin-vue-i18n": "^6.0.8",
-    "@types/archiver": "^6.0.4",
+    "@types/archiver": "^7.0.0",
     "@types/luaparse": "0.2.1",
     "@types/luxon": "^3.7.1",
     "@types/node": "^25.2.0",
