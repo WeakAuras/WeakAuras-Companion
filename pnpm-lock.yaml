@@ -106,8 +106,8 @@ importers:
         specifier: ^13.0.1
         version: 13.0.1
       happy-dom:
-        specifier: ^20.0.8
-        version: 20.0.8
+        specifier: ^20.5.0
+        version: 20.5.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -170,7 +170,7 @@ importers:
         version: 3.11.1(vite@7.1.12(@types/node@25.2.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1))
       vitest:
         specifier: ^4.0.3
-        version: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.0.8)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
+        version: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
       vitest-browser-vue:
         specifier: ^2.0.1
         version: 2.0.1(vitest@4.0.3)(vue@3.5.27(typescript@5.8.3))
@@ -1239,9 +1239,6 @@ packages:
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
 
-  '@types/node@20.19.31':
-    resolution: {integrity: sha512-5jsi0wpncvTD33Sh1UCgacK37FFwDn+EG7wCmEvs62fCvBL+n8/76cAYDok21NF6+jaVWIqKwCZyX7Vbu8eB3A==}
-
   '@types/node@24.10.10':
     resolution: {integrity: sha512-+0/4J266CBGPUq/ELg7QUHhN25WYjE0wYTPSQJn1xeu8DOlIOPxXxrNGiLmfAWl7HMMgWFWXpt9IDjMWrF5Iow==}
 
@@ -1268,6 +1265,9 @@ packages:
 
   '@types/whatwg-mimetype@3.0.2':
     resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
+
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
@@ -2625,8 +2625,8 @@ packages:
     resolution: {integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==}
     engines: {node: '>=10'}
 
-  get-tsconfig@4.13.1:
-    resolution: {integrity: sha512-EoY1N2xCn44xU6750Sx7OjOIT59FkmstNc3X6y5xpz7D5cBtZRe/3pSlTkDJgqsOk3WwZPkWfonhhUJfttQo3w==}
+  get-tsconfig@4.13.3:
+    resolution: {integrity: sha512-vp8Cj/+9Q/ibZUrq1rhy8mCTQpCk31A3uu9wc1C50yAb3x2pFHOsGdAZQ7jD86ARayyxZUViYeIztW+GE8dcrg==}
 
   git-hooks-list@4.1.1:
     resolution: {integrity: sha512-cmP497iLq54AZnv4YRAEMnEyQ1eIn4tGKbmswqwmFV4GBnAqE8NLtWxxdXa++AalfgL5EBH4IxTPyquEuGY/jA==}
@@ -2699,8 +2699,8 @@ packages:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
     engines: {node: '>=10'}
 
-  happy-dom@20.0.8:
-    resolution: {integrity: sha512-TlYaNQNtzsZ97rNMBAm8U+e2cUQXNithgfCizkDgc11lgmN4j9CKMhO3FPGKWQYPwwkFcPpoXYF/CqEPLgzfOg==}
+  happy-dom@20.5.0:
+    resolution: {integrity: sha512-VQe+Q5CYiGOgcCERXhcfNsbnrN92FDEKciMH/x6LppU9dd0j4aTjCTlqONFOIMcAm/5JxS3+utowbXV1OoFr+g==}
     engines: {node: '>=20.0.0'}
 
   has-flag@4.0.0:
@@ -3717,6 +3717,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.4:
+    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   serialize-error@7.0.1:
     resolution: {integrity: sha512-8I8TjW5KMOKsZQTvoxjuSIa7foAwPWGOts+6o7sgjz41/qMD9VQHEDxi6PBvK2l0MXUmqZyNpUK+T2tQaaElvw==}
     engines: {node: '>=10'}
@@ -4013,9 +4018,6 @@ packages:
 
   unconfig@7.3.3:
     resolution: {integrity: sha512-QCkQoOnJF8L107gxfHL0uavn7WD9b3dpBcFX6HtfQYmjw2YzWxGuFQ0N0J6tE9oguCBJn9KOvfqYDCMPHIZrBA==}
-
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
@@ -4317,6 +4319,18 @@ packages:
 
   ws@8.18.3:
     resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@8.19.0:
+    resolution: {integrity: sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -5355,10 +5369,6 @@ snapshots:
 
   '@types/ms@0.7.34': {}
 
-  '@types/node@20.19.31':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@24.10.10':
     dependencies:
       undici-types: 7.16.0
@@ -5392,6 +5402,10 @@ snapshots:
     optional: true
 
   '@types/whatwg-mimetype@3.0.2': {}
+
+  '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 25.2.0
 
   '@types/yauzl@2.10.3':
     dependencies:
@@ -5702,7 +5716,7 @@ snapshots:
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.0.3
-      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.0.8)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
+      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
       ws: 8.18.3
     transitivePeerDependencies:
       - bufferutil
@@ -5753,7 +5767,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.0.8)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
+      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
 
   '@vitest/utils@4.0.3':
     dependencies:
@@ -7167,7 +7181,7 @@ snapshots:
 
   get-stream@6.0.1: {}
 
-  get-tsconfig@4.13.1:
+  get-tsconfig@4.13.3:
     dependencies:
       resolve-pkg-maps: 1.0.0
     optional: true
@@ -7274,11 +7288,17 @@ snapshots:
     dependencies:
       duplexer: 0.1.2
 
-  happy-dom@20.0.8:
+  happy-dom@20.5.0:
     dependencies:
-      '@types/node': 20.19.31
+      '@types/node': 25.2.0
       '@types/whatwg-mimetype': 3.0.2
+      '@types/ws': 8.18.1
+      entities: 4.5.0
       whatwg-mimetype: 3.0.0
+      ws: 8.19.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   has-flag@4.0.0: {}
 
@@ -8260,6 +8280,8 @@ snapshots:
 
   semver@7.7.3: {}
 
+  semver@7.7.4: {}
+
   serialize-error@7.0.1:
     dependencies:
       type-fest: 0.13.1
@@ -8559,7 +8581,7 @@ snapshots:
   tsx@4.19.2:
     dependencies:
       esbuild: 0.23.1
-      get-tsconfig: 4.13.1
+      get-tsconfig: 4.13.3
     optionalDependencies:
       fsevents: 2.3.3
     optional: true
@@ -8598,8 +8620,6 @@ snapshots:
       defu: 6.1.4
       jiti: 2.6.1
       quansync: 0.2.11
-
-  undici-types@6.21.0: {}
 
   undici-types@7.16.0: {}
 
@@ -8767,10 +8787,10 @@ snapshots:
   vitest-browser-vue@2.0.1(vitest@4.0.3)(vue@3.5.27(typescript@5.8.3)):
     dependencies:
       '@vue/test-utils': 2.4.6
-      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.0.8)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
+      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1)
       vue: 3.5.27(typescript@5.8.3)
 
-  vitest@4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.0.8)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1):
+  vitest@4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1):
     dependencies:
       '@vitest/expect': 4.0.3
       '@vitest/mocker': 4.0.3(vite@7.1.12(@types/node@25.2.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.1))
@@ -8796,7 +8816,7 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/node': 25.2.0
       '@vitest/ui': 4.0.3(vitest@4.0.3)
-      happy-dom: 20.0.8
+      happy-dom: 20.5.0
     transitivePeerDependencies:
       - jiti
       - less
@@ -8827,7 +8847,7 @@ snapshots:
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
       esquery: 1.7.0
-      semver: 7.7.3
+      semver: 7.7.4
     transitivePeerDependencies:
       - supports-color
 
@@ -8912,6 +8932,8 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@8.18.3: {}
+
+  ws@8.19.0: {}
 
   wsl-utils@0.1.0:
     dependencies:
