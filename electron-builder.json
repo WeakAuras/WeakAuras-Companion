@@ -37,7 +37,8 @@
       "target": "default",
       "arch": "universal"
     },
-    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "x64ArchFiles": "Contents/Resources/app.asar.unpacked/node_modules/@img/**"
   },
   "win": {
     "icon": "public/icon.ico",
