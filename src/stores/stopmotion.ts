@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export interface GifMeta {
@@ -42,10 +43,10 @@ export interface StopMotionState {
   step: number;
 }
 
-export const useStopMotionStore = defineStore({
-  id: "StopMotionStore",
-  state: (): StopMotionState => ({
-    gif: {
+export const useStopMotionStore = defineStore(
+  "StopMotionStore",
+  () => {
+    const gif = ref<GifState>({
       meta: {
         name: "",
         width: 0,
@@ -63,8 +64,9 @@ export const useStopMotionStore = defineStore({
       tenor: false,
       tenorID: "",
       buffer: null,
-    },
-    result: {
+    });
+
+    const result = ref<ResultState>({
       rows: 0,
       cols: 0,
       width: 0,
@@ -74,11 +76,15 @@ export const useStopMotionStore = defineStore({
       destination: "",
       preview: "",
       computing: false,
-    },
-    step: 1,
-  }),
+    });
 
-  persistedState: {
-    persist: false,
+    const step = ref(1);
+
+    return { gif, result, step };
   },
-});
+  {
+    persistedState: {
+      persist: false,
+    },
+  },
+);

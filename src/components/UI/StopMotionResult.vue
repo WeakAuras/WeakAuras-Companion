@@ -70,18 +70,23 @@ function openDestFile() {
 }
 
 onMounted(() => {
-  stash.add({
-    slug: `StopMotion ${gif.value.meta.name}`,
-    name: `StopMotion ${gif.value.meta.name}`,
-    author: "WeakAuras Companion",
-    wagoVersion: 1,
-    wagoSemver: "1.0.0",
-    auraType: "WeakAuras",
-    source: "WeakAuras Companion",
-    encoded: weakauras_string.value,
-    logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
-  });
-  console.log(`added aura to stash: "${gif.value.meta.name}"`);
+  const slug = `StopMotion ${gif.value.meta.name}`;
+  const alreadyAdded = stash.auras.some((a) => a.slug === slug);
+
+  if (!alreadyAdded) {
+    stash.add({
+      slug,
+      name: slug,
+      author: "WeakAuras Companion",
+      wagoVersion: 1,
+      wagoSemver: "1.0.0",
+      auraType: "WeakAuras",
+      source: "WeakAuras Companion",
+      encoded: weakauras_string.value,
+      logo: "Interface\\AddOns\\WeakAuras\\Media\\Textures\\logo_64_nobg.tga",
+    });
+    console.log(`added aura to stash: "${gif.value.meta.name}"`);
+  }
 });
 </script>
 
@@ -105,8 +110,7 @@ onMounted(() => {
             theme: 'info-tooltip',
           }"
           class="i-mdi-help-circle"
-          >help</i
-        >
+        />
         <div class="glow my-4">
           {{
             $t("app.stopmotion.restartwow2" /*  Restart World of Warcraft */)

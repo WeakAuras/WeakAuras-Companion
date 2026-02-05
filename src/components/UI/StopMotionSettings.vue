@@ -22,8 +22,17 @@ const config = useConfigStore();
 const stopMotionStore = useStopMotionStore();
 const { gif, result } = storeToRefs(stopMotionStore);
 
-// Initialize wowVersion from config
-gif.value.settings.wowVersion = config.wowpath.version;
+// Initialize wowVersion from config on mount
+onMounted(() => {
+  gif.value.settings.wowVersion = config.wowpath.version;
+
+  if (gif.value.tenor) {
+    gif.value.settings.coalesce = true;
+  }
+
+  auto_scaling();
+  calc();
+});
 
 watch(
   gif,
@@ -140,15 +149,6 @@ async function generate() {
     }
   }
 }
-
-onMounted(() => {
-  if (gif.value.tenor) {
-    gif.value.settings.coalesce = true;
-  }
-
-  auto_scaling();
-  calc();
-});
 </script>
 
 <template>
@@ -251,7 +251,7 @@ onMounted(() => {
               }"
               >{{ result.size / 1024 }}</span
             >
-            <span v:if="result.size > 0">MB</span>
+            <span v-if="result.size > 0">MB</span>
           </div>
         </div>
       </div>
@@ -274,7 +274,7 @@ onMounted(() => {
         type="refresh"
         @click="generate()"
       >
-        <i class="sync i-mdi-sync align-top text-3xl">sync</i>
+        <i class="sync i-mdi-sync align-top text-3xl" />
         <span>{{
           $t(
             "app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */,
@@ -290,8 +290,7 @@ onMounted(() => {
         <i
           v-if="result.size / 1024 > 16"
           class="i-mdi-error-outline align-top text-3xl text-status-issue"
-          >error_outline</i
-        >
+        />
         <span>{{
           $t(
             "app.stopmotion.generatestopMotionanimation" /* Generate StopMotion Animation */,

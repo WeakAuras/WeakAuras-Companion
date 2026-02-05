@@ -81,9 +81,7 @@ function handleInstallUpdates() {
           )}${stash.tohtml()}`,
         }"
         class="update-available update-auras i-mdi-download mt-[2px] align-middle text-2xl"
-      >
-        download
-      </i>
+      />
     </div>
     <div class="app-update">
       <a
@@ -102,9 +100,7 @@ function handleInstallUpdates() {
             )}: v${updater.version} ${updater.releaseNotes}`,
           }"
           class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
-        >
-          download-box-outline
-        </i>
+        />
       </a>
       <i
         v-if="updater.status === 'update-downloaded'"
@@ -117,9 +113,7 @@ function handleInstallUpdates() {
         }"
         class="update-available i-mdi-download-box-outline mt-[2px] align-middle text-2xl"
         @click="handleInstallUpdates"
-      >
-        download-box-outline
-      </i>
+      />
       <div
         v-if="updater.status === 'checking-for-update'"
         class="updating"
@@ -131,7 +125,7 @@ function handleInstallUpdates() {
         class="updating"
       >
         <span class="progress">{{ updater.progress }}%</span>
-        <i class="icon i-mdi-sync align-middle text-2xl">sync</i>
+        <i class="icon i-mdi-sync align-middle text-2xl" />
       </div>
     </div>
   </footer>

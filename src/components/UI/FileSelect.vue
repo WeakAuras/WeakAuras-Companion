@@ -84,9 +84,9 @@ function drop(event: DragEvent) {
     @click="handleInputClick"
   >
     <span>
-      <p class="text-brand-grey-lightest">
+      <div class="text-brand-grey-lightest">
         <slot />
-      </p>
+      </div>
       <div
         class="fakeinput ml-1.5 mr-0.5 mt-2 h-7.5 w-67.5 inline-table table-fixed cursor-pointer whitespace-nowrap border border-brand-grey-dark rounded-md border-solid bg-brand-grey-darkest px-7.5 py-1.5 pl-2.5 text-sm text-brand-grey-lightest hover:bg-brand-grey-darker hover:text-brand-grey-lightest"
       >
@@ -95,7 +95,7 @@ function drop(event: DragEvent) {
           >{{ path }}</span
         >
       </div>
-      <i class="i-mdi-settings ml-1 mt-3 cursor-pointer text-2xl">settings</i>
+      <i class="i-mdi-settings ml-1 mt-3 cursor-pointer text-2xl" />
     </span>
   </label>
 </template>

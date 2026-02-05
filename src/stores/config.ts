@@ -1,4 +1,5 @@
 import path from "node:path";
+import { ref } from "vue";
 import userDataPath from "@/libs/user-data-folder";
 import { defineStore } from "pinia";
 
@@ -112,30 +113,65 @@ export interface ConfigState {
   wowpath: WowPath;
 }
 
-export const useConfigStore = defineStore("configStore", {
-  state: (): ConfigState => {
-    return {
-      wowpath: {
-        value: "",
-        versions: [],
-        version: "",
-        validated: false,
-      },
-      wagoUsername: null,
-      wagoApiKey: null,
-      ignoreOwnAuras: true,
-      autostart: true,
-      startminimize: false,
-      notify: false,
-      lang: "en",
-      autoupdate: true,
-      beta: false,
-      backup: {
-        active: true,
-        path: path.join(userDataPath, "WeakAurasData-Backup"),
-        maxSize: 100,
-        defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
-      },
+export const useConfigStore = defineStore("configStore", () => {
+  const wowpath = ref<WowPath>({
+    value: "",
+    versions: [],
+    version: "",
+    validated: false,
+  });
+  const wagoUsername = ref<string | null>(null);
+  const wagoApiKey = ref<string | null>(null);
+  const ignoreOwnAuras = ref(true);
+  const autostart = ref(true);
+  const startminimize = ref(false);
+  const notify = ref(false);
+  const lang = ref("en");
+  const autoupdate = ref(true);
+  const beta = ref(false);
+  const backup = ref<Backup>({
+    active: true,
+    path: path.join(userDataPath, "WeakAurasData-Backup"),
+    maxSize: 100,
+    defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
+  });
+
+  function $reset() {
+    wowpath.value = {
+      value: "",
+      versions: [],
+      version: "",
+      validated: false,
     };
-  },
+    wagoUsername.value = null;
+    wagoApiKey.value = null;
+    ignoreOwnAuras.value = true;
+    autostart.value = true;
+    startminimize.value = false;
+    notify.value = false;
+    lang.value = "en";
+    autoupdate.value = true;
+    beta.value = false;
+    backup.value = {
+      active: true,
+      path: path.join(userDataPath, "WeakAurasData-Backup"),
+      maxSize: 100,
+      defaultBackupPath: path.join(userDataPath, "WeakAurasData-Backup"),
+    };
+  }
+
+  return {
+    wowpath,
+    wagoUsername,
+    wagoApiKey,
+    ignoreOwnAuras,
+    autostart,
+    startminimize,
+    notify,
+    lang,
+    autoupdate,
+    beta,
+    backup,
+    $reset,
+  };
 });

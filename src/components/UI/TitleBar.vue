@@ -4,11 +4,11 @@ import { ipcRenderer } from "electron";
 import UIButton from "./UIButton.vue";
 
 const minBtn = () => {
-  ipcRenderer.invoke("minimize");
+  ipcRenderer.invoke("minimize").catch(console.error);
 };
 
 const closeBtn = () => {
-  ipcRenderer.invoke("close");
+  ipcRenderer.invoke("close").catch(console.error);
 };
 </script>
 

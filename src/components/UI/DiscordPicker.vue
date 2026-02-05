@@ -1,45 +1,35 @@
-<script lang="js">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import clickOutside from "@/libs/click-outside";
 
 import GifPicker from "./GifPicker.vue";
 
-export default defineComponent({
-  components: { GifPicker },
-  directives: {
-    clickOutside,
-  },
-  props: {
-    value: {
-      type: [String, Number],
-      default: null,
-    },
-    apiKey: {
-      type: String,
-      default: null,
-    },
-  },
-  emits: ["gif"],
-  data() {
-    return {
-      opened: false,
-    };
-  },
-  methods: {
-    close() {
-      if (this.opened) {
-        this.opened = false;
-      }
-    },
-    send(url, title, tenorID) {
-      // console.log(`send() ${url}`)
-      this.$emit("gif", url, title, tenorID);
-    },
-    open() {
-      this.opened = !this.opened;
-    },
-  },
-});
+const vClickOutside = clickOutside;
+
+defineProps<{
+  value?: string | number | null;
+  apiKey?: string | null;
+}>();
+
+const emit = defineEmits<{
+  gif: [url: string, title: string, tenorID: string];
+}>();
+
+const opened = ref(false);
+
+function close() {
+  if (opened.value) {
+    opened.value = false;
+  }
+}
+
+function send(url: string, title: string, tenorID: string) {
+  emit("gif", url, title, tenorID);
+}
+
+function open() {
+  opened.value = !opened.value;
+}
 </script>
 
 <template>

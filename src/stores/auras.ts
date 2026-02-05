@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
 import type { AuraType } from "./config";
@@ -13,29 +14,31 @@ export interface StashActions {
 
 export type StashStore = ReturnType<typeof useStashStore>;
 
-export const useStashStore = defineStore({
-  id: "stashStore",
-  state: (): StashState => ({
-    auras: [],
-  }),
+export const useStashStore = defineStore(
+  "stashStore",
+  () => {
+    const auras = ref<AuraType[]>([]);
 
-  actions: {
-    add(aura: AuraType) {
+    function add(aura: AuraType) {
       if (!aura) {
         return;
       }
-      this.auras.push(aura);
-    },
-    tohtml() {
-      return this.auras
+      auras.value.push(aura);
+    }
+
+    function tohtml() {
+      return auras.value
         .map((aura) => {
           return `<br>${aura.name}`;
         })
         .join("");
+    }
+
+    return { auras, add, tohtml };
+  },
+  {
+    persistedState: {
+      persist: false,
     },
   },
-
-  persistedState: {
-    persist: false,
-  },
-});
+);

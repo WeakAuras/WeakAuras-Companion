@@ -1,6 +1,10 @@
-export default {
+import type { Directive } from "vue";
+
+const handlers = new WeakMap<HTMLElement, (event: Event) => void>();
+
+const clickOutside: Directive<HTMLElement> = {
   beforeMount(el, binding) {
-    el.clickOutsideEvent = function (event) {
+    const handler = function (event: Event) {
       const classes = [
         "vue3-discord-emojipicker__gifimage",
         "vue3-discord-emojipicker__pickvariation",
@@ -10,17 +14,25 @@ export default {
         "vue3-discord-emojipicker__input",
       ];
 
-      if (classes.find((classe) => event.target.classList.contains(classe))) {
+      const target = event.target as HTMLElement;
+      if (classes.find((classe) => target.classList?.contains(classe))) {
         return;
       }
 
-      if (!(el === event.target || el.contains(event.target))) {
+      if (!(el === target || el.contains(target))) {
         binding.value(event, el);
       }
     };
-    document.body.addEventListener("click", el.clickOutsideEvent);
+    handlers.set(el, handler);
+    document.body.addEventListener("click", handler);
   },
   unmounted(el) {
-    document.body.removeEventListener("click", el.clickOutsideEvent);
+    const handler = handlers.get(el);
+    if (handler) {
+      document.body.removeEventListener("click", handler);
+      handlers.delete(el);
+    }
   },
 };
+
+export default clickOutside;
