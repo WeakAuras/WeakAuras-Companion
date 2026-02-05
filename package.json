@@ -94,7 +94,7 @@
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate-2": "^2.0.32",
     "playwright": "^1.56.1",
-    "prettier": "^3.6.2",
+    "prettier": "^3.8.1",
     "prettier-plugin-packagejson": "^2.5.19",
     "tail": "^2.2.6",
     "tree-kill": "^1.2.2",
