@@ -91,7 +91,7 @@
     "lint-staged": "^16.2.6",
     "luaparse": "^0.2.1",
     "luxon": "^3.7.2",
-    "pinia": "^2.3.1",
+    "pinia": "^3.0.4",
     "pinia-plugin-persistedstate-2": "^2.0.32",
     "playwright": "^1.56.1",
     "prettier": "^3.6.2",
@@ -111,11 +111,11 @@
     "vitest-browser-vue": "^2.0.1",
     "vue": "^3.5.27",
     "vue-i18n": "^11.1.12",
-    "vue-tsc": "^3.1.2"
+    "vue-tsc": "^3.2.4"
   },
   "packageManager": "pnpm@10.18.1",
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
