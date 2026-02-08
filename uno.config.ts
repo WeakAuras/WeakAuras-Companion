@@ -2,7 +2,7 @@ import type { IconSet } from "@iconify/tools";
 import { importDirectory, runSVGO } from "@iconify/tools";
 import type { CustomIconLoader } from "@iconify/utils/lib/loader/types";
 import presetWebFonts from "@unocss/preset-web-fonts";
-import { defineConfig, presetIcons, presetUno } from "unocss";
+import { defineConfig, presetIcons, presetWind4 } from "unocss";
 
 /**
  * Load custom icon set
@@ -44,7 +44,7 @@ export function createConfig({ dev = true } = {}) {
   return defineConfig({
     envMode: dev ? "dev" : "build",
     theme: {
-      fontFamily: {
+      font: {
         sans: "'Montserrat', sans-serif",
       },
       colors: {
@@ -90,8 +90,9 @@ export function createConfig({ dev = true } = {}) {
         fonts: {
           sans: ["Montserrat"],
         },
+        themeKey: "font",
       }),
-      presetUno(),
+      presetWind4(),
     ],
     safelist: [
       "i-fa6-brands-discord",
