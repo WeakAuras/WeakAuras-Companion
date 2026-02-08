@@ -94,6 +94,8 @@ function handleLinks(link: string) {
 }
 
 async function createWindow() {
+  const isMac = process.platform === "darwin";
+
   mainWindow = new BrowserWindow({
     height: 720,
     width: 940,
@@ -102,7 +104,12 @@ async function createWindow() {
     frame: false,
     transparent: true,
     backgroundColor: "#00000000",
-    titleBarStyle: "hidden",
+    titleBarStyle: isMac ? "hidden" : undefined,
+    ...(isMac
+      ? {
+          trafficLightPosition: { x: -100, y: -100 },
+        }
+      : {}),
     icon: notificationIcon,
     resizable: true,
     webPreferences: {
