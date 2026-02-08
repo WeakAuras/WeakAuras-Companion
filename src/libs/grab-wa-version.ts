@@ -96,9 +96,9 @@ function pickExistingAddonToc(
 
 /**
  * Extract Interface version from a .toc file's content.
- * Handles multiple versions (e.g., "## Interface: 110000, 120000") by returning the highest.
+ * Handles multiple versions (e.g., "## Interface: 110000, 120000") by returning the full list.
  */
-function extractInterfaceVersion(tocContent: string): string | null {
+function extractInterfaceVersion(tocContent: string): string[] | null {
   const lineMatch = tocContent.match(/^##\s*Interface:\s*(.+)$/m);
   if (!lineMatch) {
     return null;
@@ -109,8 +109,7 @@ function extractInterfaceVersion(tocContent: string): string | null {
     return null;
   }
 
-  // Return the highest version number
-  return versions.reduce((max, v) => (Number(v) > Number(max) ? v : max));
+  return versions;
 }
 
 /**
@@ -144,7 +143,7 @@ function grabVersionFromAddonToc(
   wowPath: string,
   wowVersion: string,
   addonName: string,
-): string | null {
+): string[] | null {
   const addonFolder = getAddonFolderPath(wowPath, wowVersion, addonName);
   if (!addonFolder) {
     return null;
@@ -189,18 +188,22 @@ function grabVersionFromAddonToc(
 export function grabVersionFromInstalledAddons(
   wowPath: string,
   wowVersion: string,
-): string {
+): string[] {
   // Try WeakAuras first
   const waVersion = grabVersionFromAddonToc(wowPath, wowVersion, "WeakAuras");
   if (waVersion) {
-    console.log(`Using Interface version from WeakAuras: ${waVersion}`);
+    console.log(
+      `Using Interface version from WeakAuras: ${waVersion.join(", ")}`,
+    );
     return waVersion;
   }
 
   // Try Plater
   const platerVersion = grabVersionFromAddonToc(wowPath, wowVersion, "Plater");
   if (platerVersion) {
-    console.log(`Using Interface version from Plater: ${platerVersion}`);
+    console.log(
+      `Using Interface version from Plater: ${platerVersion.join(", ")}`,
+    );
     return platerVersion;
   }
 
@@ -208,5 +211,5 @@ export function grabVersionFromInstalledAddons(
   console.log(
     "Neither WeakAuras nor Plater found, using default Interface version",
   );
-  return DEFAULT_INTERFACE_VERSION;
+  return [DEFAULT_INTERFACE_VERSION];
 }

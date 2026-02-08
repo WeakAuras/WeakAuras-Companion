@@ -162,9 +162,10 @@ export function writeAddonData(
       config.wowpath.value,
       config.wowpath.version,
     );
-    console.log("Using Interface version:", tocVersion);
+    const tocVersionString = tocVersion.join(", ");
+    console.log("Using Interface version:", tocVersionString);
 
-    const templateData = `## Interface: ${tocVersion}
+    const templateData = `## Interface: ${tocVersionString}
 ## Title: WeakAuras Companion
 ## Author: The WeakAuras Team
 ## Version: ${__APP_VERSION__}
