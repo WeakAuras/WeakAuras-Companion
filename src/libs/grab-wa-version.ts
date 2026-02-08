@@ -10,10 +10,10 @@ const DEFAULT_INTERFACE_VERSION = "120000";
  */
 const WOWDIR_TO_TOC_SUFFIX = {
   // Retail family (Midnight / The War Within, including PTR & Beta)
-  _retail_: "",
-  _ptr_: "",
-  _xptr_: "",
-  _beta_: "",
+  _retail_: ["", "_Mainline"],
+  _ptr_: ["", "_Mainline"],
+  _xptr_: ["", "_Mainline"],
+  _beta_: ["", "_Mainline"],
 
   // MoP Classic family
   _classic_: "_Mists",
@@ -37,7 +37,11 @@ type WowDirToTocSuffix = typeof WOWDIR_TO_TOC_SUFFIX;
 
 /** Known TOC suffixes derived from the mapping for fallback */
 const KNOWN_TOC_SUFFIXES = [
-  ...new Set(Object.values(WOWDIR_TO_TOC_SUFFIX)),
+  ...new Set(
+    Object.values(WOWDIR_TO_TOC_SUFFIX).flatMap((suffixes) =>
+      Array.isArray(suffixes) ? suffixes : [suffixes],
+    ),
+  ),
 ] as const;
 
 /** Check if a string is a valid WoW directory value */
@@ -154,11 +158,15 @@ function grabVersionFromAddonToc(
   // 1) Try strict mapping based on the WoW directory value
   let resolvedTocFile: string | null = null;
   if (isWowDirValue(dirValue)) {
-    const suffix = WOWDIR_TO_TOC_SUFFIX[dirValue];
-    const tocName = `${addonName}${suffix}.toc`;
-    const tocPath = path.join(addonFolder, tocName);
-    if (fs.existsSync(tocPath)) {
-      resolvedTocFile = tocPath;
+    const suffixes = WOWDIR_TO_TOC_SUFFIX[dirValue];
+    const suffixList = Array.isArray(suffixes) ? suffixes : [suffixes];
+    for (const suffix of suffixList) {
+      const tocName = `${addonName}${suffix}.toc`;
+      const tocPath = path.join(addonFolder, tocName);
+      if (fs.existsSync(tocPath)) {
+        resolvedTocFile = tocPath;
+        break;
+      }
     }
   }
 
