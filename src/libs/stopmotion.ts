@@ -247,9 +247,7 @@ const deflate = function (input: zlib.InputType) {
   return zlib.deflateRawSync(input, { level: 9 });
 };
 
-const encode = function (
-  input: ArrayBuffer | Buffer | { valueOf(): ArrayBuffer | SharedArrayBuffer },
-) {
+const encode = function (input: Buffer) {
   return EncodeForPrint(Buffer.from(input));
 };
 
