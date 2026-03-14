@@ -64,7 +64,7 @@
     "@iconify-json/fa6-brands": "^1.2.5",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify/tools": "^5.0.3",
-    "@intlify/unplugin-vue-i18n": "^6.0.8",
+    "@intlify/unplugin-vue-i18n": "^11.0.7",
     "@types/archiver": "^6.0.4",
     "@types/luaparse": "0.2.1",
     "@types/luxon": "^3.7.1",
@@ -110,7 +110,7 @@
     "vitest": "^4.0.3",
     "vitest-browser-vue": "^2.0.1",
     "vue": "^3.5.27",
-    "vue-i18n": "^11.1.12",
+    "vue-i18n": "^11.3.0",
     "vue-tsc": "^3.2.4"
   },
   "packageManager": "pnpm@10.18.1",

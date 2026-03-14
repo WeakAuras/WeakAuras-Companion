@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { DateTime } from "luxon";
+import { useI18n } from "vue-i18n";
 
 import UIButton from "./UIButton.vue";
 
@@ -33,6 +34,8 @@ defineEmits<{
   gotoconfig: [];
   refresh: [];
 }>();
+
+const { locale } = useI18n();
 
 const lastUpdateTimer = ref<ReturnType<typeof setInterval> | null>(null);
 const tick = ref(0);
@@ -198,7 +201,7 @@ onBeforeUnmount(() => {
       id="lastupdate"
     >
       {{ $t("app.refreshbutton.lastupdate" /* last update: */) }}
-      <b>{{ fromNow(lastUpdate, $i18n.locale) }}</b>
+      <b>{{ fromNow(lastUpdate, locale) }}</b>
     </div>
   </div>
 </template>

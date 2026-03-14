@@ -39,6 +39,7 @@
   ],
   "types": [
     "node",
-    "vite/client"
+    "vite/client",
+    "@intlify/unplugin-vue-i18n/messages"
   ],
 }

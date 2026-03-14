@@ -1,13 +1,6 @@
 import { ipcRenderer } from "electron";
+import messages from "@intlify/unplugin-vue-i18n/messages";
 import { createI18n } from "vue-i18n";
-
-import de from "../../i18n/de.json";
-import en from "../../i18n/en.json";
-import es from "../../i18n/es.json";
-import fr from "../../i18n/fr.json";
-import ru from "../../i18n/ru.json";
-import tr from "../../i18n/tr.json";
-import zhcn from "../../i18n/zh-cn.json";
 
 function getLang() {
   return ipcRenderer.invoke("getLang");
@@ -16,18 +9,12 @@ function getLang() {
 const locale = await getLang();
 
 export const i18n = createI18n({
+  legacy: false,
+  globalInjection: true,
   locale,
   fallbackLocale: "en",
-  messages: {
-    en,
-    es,
-    fr,
-    de,
-    ru,
-    tr,
-    "zh-cn": zhcn,
-  },
-  pluralizationRules: {
+  messages,
+  pluralRules: {
     ru(choice, choicesLength) {
       if (choicesLength < 4) {
         /* amount of available choices is incorrect (e.g. untranslated English phrase) */
