@@ -106,8 +106,8 @@ importers:
         specifier: ^13.0.1
         version: 13.0.1
       happy-dom:
-        specifier: ^20.5.0
-        version: 20.5.0
+        specifier: ^20.8.4
+        version: 20.8.4
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -170,7 +170,7 @@ importers:
         version: 3.12.0(vite@7.1.12(@types/node@25.2.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2))
       vitest:
         specifier: ^4.0.3
-        version: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
+        version: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.8.4)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
       vitest-browser-vue:
         specifier: ^2.0.1
         version: 2.0.1(vitest@4.0.3)(vue@3.5.30(typescript@5.9.3))
@@ -2721,8 +2721,8 @@ packages:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
     engines: {node: '>=10'}
 
-  happy-dom@20.5.0:
-    resolution: {integrity: sha512-VQe+Q5CYiGOgcCERXhcfNsbnrN92FDEKciMH/x6LppU9dd0j4aTjCTlqONFOIMcAm/5JxS3+utowbXV1OoFr+g==}
+  happy-dom@20.8.4:
+    resolution: {integrity: sha512-GKhjq4OQCYB4VLFBzv8mmccUadwlAusOZOI7hC1D9xDIT5HhzkJK17c4el2f6R6C715P9xB4uiMxeKUa2nHMwQ==}
     engines: {node: '>=20.0.0'}
 
   has-flag@4.0.0:
@@ -5814,7 +5814,7 @@ snapshots:
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.0.3
-      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
+      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.8.4)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
       ws: 8.19.0
     transitivePeerDependencies:
       - bufferutil
@@ -5865,7 +5865,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
+      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.8.4)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
 
   '@vitest/utils@4.0.3':
     dependencies:
@@ -7453,12 +7453,12 @@ snapshots:
     dependencies:
       duplexer: 0.1.2
 
-  happy-dom@20.5.0:
+  happy-dom@20.8.4:
     dependencies:
       '@types/node': 25.2.0
       '@types/whatwg-mimetype': 3.0.2
       '@types/ws': 8.18.1
-      entities: 4.5.0
+      entities: 7.0.1
       whatwg-mimetype: 3.0.0
       ws: 8.19.0
     transitivePeerDependencies:
@@ -9013,10 +9013,10 @@ snapshots:
   vitest-browser-vue@2.0.1(vitest@4.0.3)(vue@3.5.30(typescript@5.9.3)):
     dependencies:
       '@vue/test-utils': 2.4.6
-      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
+      vitest: 4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.8.4)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2)
       vue: 3.5.30(typescript@5.9.3)
 
-  vitest@4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.5.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2):
+  vitest@4.0.3(@types/debug@4.1.12)(@types/node@25.2.0)(@vitest/ui@4.0.3)(happy-dom@20.8.4)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2):
     dependencies:
       '@vitest/expect': 4.0.3
       '@vitest/mocker': 4.0.3(vite@7.1.12(@types/node@25.2.0)(jiti@2.6.1)(tsx@4.19.2)(yaml@2.8.2))
@@ -9042,7 +9042,7 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/node': 25.2.0
       '@vitest/ui': 4.0.3(vitest@4.0.3)
-      happy-dom: 20.5.0
+      happy-dom: 20.8.4
     transitivePeerDependencies:
       - jiti
       - less
