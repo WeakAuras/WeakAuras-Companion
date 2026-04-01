@@ -93,7 +93,7 @@
     "luxon": "^3.7.2",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate-2": "^2.0.32",
-    "playwright": "^1.58.2",
+    "playwright": "^1.59.0",
     "prettier": "^3.8.1",
     "prettier-plugin-packagejson": "^3.0.2",
     "tail": "^2.2.6",
