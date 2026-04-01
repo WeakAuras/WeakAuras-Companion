@@ -105,7 +105,7 @@
     "vite-plugin-electron": "^0.29.0",
     "vite-plugin-electron-renderer": "^0.14.6",
     "vite-plugin-resolve": "^2.5.2",
-    "vite-plugin-vue-devtools": "^8.1.0",
+    "vite-plugin-vue-devtools": "^8.1.1",
     "vite-plugin-webfont-dl": "^3.12.0",
     "vitest": "^4.0.3",
     "vitest-browser-vue": "^2.0.1",
