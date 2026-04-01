@@ -102,7 +102,7 @@
     "typescript-eslint": "8.57.0",
     "unocss": "^66.6.6",
     "vite": "^7.1.12",
-    "vite-plugin-electron": "^0.29.0",
+    "vite-plugin-electron": "^0.29.1",
     "vite-plugin-electron-renderer": "^0.14.6",
     "vite-plugin-resolve": "^2.5.2",
     "vite-plugin-vue-devtools": "^8.1.0",
