@@ -83,7 +83,7 @@
     "electron-store": "^11.0.2",
     "electron-updater": "^6.6.2",
     "eslint": "^9.39.2",
-    "eslint-plugin-vue": "^10.5.1",
+    "eslint-plugin-vue": "^10.8.0",
     "floating-vue": "^5.2.2",
     "glob": "^13.0.1",
     "happy-dom": "^20.8.9",
