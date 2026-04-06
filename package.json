@@ -76,7 +76,7 @@
     "@vitejs/plugin-vue": "^6.0.5",
     "@vitest/browser": "^4.0.3",
     "@vitest/ui": "^4.0.3",
-    "browserslist": "^4.28.1",
+    "browserslist": "^4.28.2",
     "electron": "41.0.3",
     "electron-builder": "^26.8.1",
     "electron-log": "^5.4.2",
