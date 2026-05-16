@@ -113,7 +113,7 @@
     "vue-i18n": "^11.3.0",
     "vue-tsc": "^3.2.6"
   },
-  "packageManager": "pnpm@10.18.1",
+  "packageManager": "pnpm@10.33.4",
   "engines": {
     "node": ">=24"
   },
