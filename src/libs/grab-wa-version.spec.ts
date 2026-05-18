@@ -1,5 +1,5 @@
 import { grabVersionFromInstalledAddons } from "@/libs/grab-wa-version";
-import { beforeEach, describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vite-plus/test";
 
 const existsSync = vi.fn();
 const readFileSync = vi.fn();

@@ -20,24 +20,18 @@
   "type": "module",
   "main": "dist-electron/main/index.mjs",
   "scripts": {
-    "build": "vue-tsc && vite build && electron-builder",
+    "build": "vue-tsc && vp build && electron-builder",
     "clean": "git clean -xdf node_modules dist dist-electron",
     "compile-tools": "tsc -p tools",
-    "dev": "vite",
+    "dev": "vp dev",
     "i18n": "pnpm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "i18n-report": "pnpm dlx vue-i18n-extract report --add --remove --separator 'buggy' --vueFiles './src/**/*.?(ts|vue)' --languageFiles './i18n/*.json'",
     "preinstall": "npx only-allow pnpm",
-    "lint": "eslint ./src --cache && prettier . --check --cache",
-    "lint:fix": "eslint ./src --fix && prettier . --write",
-    "prepare": "husky",
-    "test": "vitest run",
-    "test:ui": "vitest --ui"
-  },
-  "lint-staged": {
-    "*.?(js|ts|ts|vue)": [
-      "prettier --write --cache",
-      "eslint --cache"
-    ]
+    "lint": "vp lint ./src && vp fmt . --check",
+    "lint:fix": "vp lint ./src --fix && vp fmt .",
+    "prepare": "vp config",
+    "test": "vp test run",
+    "test:ui": "vp test --ui"
   },
   "config": {
     "default-locale": "en",
@@ -74,7 +68,6 @@
     "@unocss/preset-icons": "66.6.6",
     "@unocss/preset-web-fonts": "66.6.6",
     "@vitejs/plugin-vue": "6.0.5",
-    "@vitest/browser": "4.0.3",
     "@vitest/ui": "4.0.3",
     "browserslist": "4.28.2",
     "electron": "41.1.1",
@@ -82,36 +75,32 @@
     "electron-log": "5.4.2",
     "electron-store": "11.0.2",
     "electron-updater": "6.6.2",
-    "eslint": "9.39.2",
     "eslint-plugin-vue": "10.8.0",
     "floating-vue": "5.2.2",
     "glob": "13.0.1",
     "happy-dom": "20.8.9",
-    "husky": "9.1.7",
-    "lint-staged": "16.4.0",
     "luaparse": "0.2.1",
     "luxon": "3.7.2",
     "pinia": "3.0.4",
     "pinia-plugin-persistedstate-2": "2.0.32",
     "playwright": "1.59.0",
-    "prettier": "3.8.1",
-    "prettier-plugin-packagejson": "3.0.2",
     "tail": "2.2.6",
     "tree-kill": "1.2.2",
     "typescript": "5.8.3",
     "typescript-eslint": "8.58.0",
     "unocss": "66.6.6",
-    "vite": "7.3.2",
+    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
     "vite-plugin-electron": "0.29.1",
     "vite-plugin-electron-renderer": "0.14.6",
     "vite-plugin-resolve": "2.5.2",
     "vite-plugin-vue-devtools": "8.1.1",
     "vite-plugin-webfont-dl": "3.12.0",
-    "vitest": "4.0.3",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
     "vitest-browser-vue": "2.0.1",
     "vue": "3.5.32",
     "vue-i18n": "11.3.0",
-    "vue-tsc": "3.2.6"
+    "vue-tsc": "3.2.6",
+    "vite-plus": "latest"
   },
   "packageManager": "pnpm@10.33.4",
   "engines": {
@@ -135,6 +124,20 @@
         "darwin",
         "linux"
       ]
+    },
+    "overrides": {
+      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
+    },
+    "peerDependencyRules": {
+      "allowAny": [
+        "vite",
+        "vitest"
+      ],
+      "allowedVersions": {
+        "vite": "*",
+        "vitest": "*"
+      }
     }
   },
   "debug": {

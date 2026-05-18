@@ -261,7 +261,7 @@ const serializationMapping: SerializationMapping = [
 ];
 
 function replaceNonASCIICharacters(inputString: string): string {
-  // eslint-disable-next-line no-control-regex
+  // oxlint-disable-next-line no-control-regex
   return inputString.replace(/[^\x00-\x7F]/g, "?");
 }
 
