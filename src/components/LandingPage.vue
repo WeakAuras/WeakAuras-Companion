@@ -53,7 +53,7 @@ import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// oxlint-disable-next-line @typescript-eslint/no-unused-vars
 type UpdaterEventArg =
   | { status: "error"; error: Error; message?: string }
   | { status: "download-progress"; progressInfo: ProgressInfo }
