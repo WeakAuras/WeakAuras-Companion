@@ -15,6 +15,9 @@ const CLOSE_ACTION: NotificationAction = {
   text: "Close",
 };
 
+export const downloadNowNotificationActionIndex = 0;
+export const closeNotificationActionIndex = 1;
+
 export const updateAvailableNotificationActions = [
   DOWNLOAD_NOW_ACTION,
   CLOSE_ACTION,

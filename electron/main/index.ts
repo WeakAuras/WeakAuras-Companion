@@ -26,6 +26,8 @@ import { autoUpdater } from "electron-updater";
 import {
   buildUpdateAvailableNotificationOptions,
   buildUpdateDownloadUrl,
+  closeNotificationActionIndex,
+  downloadNowNotificationActionIndex,
 } from "./update-available-notification";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -469,11 +471,9 @@ autoUpdater.on("update-available", (info: UpdateInfo) => {
     );
 
     notification.on("action", (_event, actionIndex) => {
-      if (actionIndex === 0) {
+      if (actionIndex === downloadNowNotificationActionIndex) {
         void shell.openExternal(buildUpdateDownloadUrl(info));
-      }
-
-      if (actionIndex === 1) {
+      } else if (actionIndex === closeNotificationActionIndex) {
         notification.close();
       }
     });
