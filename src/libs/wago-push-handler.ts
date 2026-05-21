@@ -1,7 +1,7 @@
 import type { StashStore } from "@/stores/auras";
 import type { ConfigState, Version } from "@/stores/config";
-import type { Response } from "got";
-import got, { Options } from "got";
+import type { OptionsInit, Response } from "got";
+import got from "got";
 
 import hash from "./hash";
 
@@ -27,7 +27,7 @@ export async function wagoPushHandler(
     return "";
   };
 
-  const gotOptions = new Options({
+  const gotOptions: OptionsInit = {
     http2: true,
     headers: {
       "Identifier": getAccountHash(),
@@ -37,7 +37,7 @@ export async function wagoPushHandler(
     timeout: {
       request: 30000,
     },
-  });
+  };
 
   if (existingAuraIndex === -1) {
     try {
