@@ -6,6 +6,10 @@ on:
     tags:
       - "*"
   pull_request:
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,14 +19,16 @@ jobs:
         node: ["24"]
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ac6db6d3c1f721f886538a378a2d73e85697340a # v6
 
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: ${{ matrix.node }}
-          cache: "pnpm"
+          package-manager-cache: false
 
       - name: Install Dependencies
         run: pnpm install
@@ -42,25 +48,25 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         name: Upload AppImage
         with:
           name: WeakAuras-Companion-CI-AppImage
           path: release/**/*.AppImage
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         name: Upload Snap
         with:
           name: WeakAuras-Companion-CI-Snap
           path: release/**/*.snap
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         name: Upload deb
         with:
           name: WeakAuras-Companion-CI-deb
           path: release/**/*.deb
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         name: Upload rpm
         with:
           name: WeakAuras-Companion-CI-rpm
