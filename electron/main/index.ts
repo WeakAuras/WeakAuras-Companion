@@ -23,6 +23,11 @@ import type {
 } from "electron-updater";
 import { autoUpdater } from "electron-updater";
 
+import {
+  buildUpdateAvailableNotificationOptions,
+  buildUpdateDownloadUrl,
+} from "./update-available-notification";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -74,6 +79,7 @@ let tray: Tray | null = null;
 let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 const winURL = null;
+let updateAvailableNotificationShown = false;
 
 const trayIconPath = join(
   process.env.PUBLIC,
@@ -456,17 +462,26 @@ autoUpdater.on("update-available", (info: UpdateInfo) => {
   if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-available", info);
   }
-  let installNagAlreadyShown;
 
-  if (!installNagAlreadyShown) {
-    new Notification({
-      title: "A new update is available",
-      body: `WeakAuras Companion ${info.version} is available for download.`,
-      icon: notificationIcon,
-    }).show();
+  if (!updateAvailableNotificationShown) {
+    const notification = new Notification(
+      buildUpdateAvailableNotificationOptions(info, notificationIcon),
+    );
+
+    notification.on("action", (_event, actionIndex) => {
+      if (actionIndex === 0) {
+        void shell.openExternal(buildUpdateDownloadUrl(info));
+      }
+
+      if (actionIndex === 1) {
+        notification.close();
+      }
+    });
+
+    notification.show();
 
     // show install nag only once
-    installNagAlreadyShown = true;
+    updateAvailableNotificationShown = true;
   }
 });
 
@@ -494,10 +509,8 @@ autoUpdater.on("download-progress", (info: ProgressInfo) => {
   }
 });
 
-const installNagAlreadyShown = false;
-
 autoUpdater.on("update-downloaded", (event: UpdateDownloadedEvent) => {
-  if (!installNagAlreadyShown && mainWindow?.webContents) {
+  if (mainWindow?.webContents) {
     mainWindow?.webContents.send("updaterHandler", "update-downloaded", event);
     mainWindow?.setProgressBar(-1);
   }
