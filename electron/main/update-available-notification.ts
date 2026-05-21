@@ -16,7 +16,6 @@ const CLOSE_ACTION: NotificationAction = {
 };
 
 export const downloadNowNotificationActionIndex = 0;
-export const closeNotificationActionIndex = 1;
 
 export const updateAvailableNotificationActions = [
   DOWNLOAD_NOW_ACTION,
@@ -27,7 +26,7 @@ export function buildUpdateDownloadUrl(
   info: Pick<UpdateInfo, "version" | "path">,
 ) {
   const releaseTag = `v${encodeURIComponent(info.version)}`;
-  const assetName = info.path.split(/[\\/]/).pop() ?? info.path;
+  const assetName = info.path.split(/[\\/]/).at(-1) ?? "";
 
   if (!/^[A-Za-z0-9._-]+$/.test(assetName)) {
     return `https://github.com/WeakAuras/WeakAuras-Companion/releases/tag/${releaseTag}`;
