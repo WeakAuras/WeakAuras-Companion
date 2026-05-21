@@ -41,14 +41,25 @@ describe("update-available-notification", () => {
     expect(notification.actions).toBeUndefined();
   });
 
-  it("falls back to the release page for unexpected asset paths", () => {
+  it("falls back to the release page for paths containing directory separators", () => {
     expect(
       buildUpdateDownloadUrl({
         version: "5.3.1",
-        path: "../WeakAuras Companion 5.3.1.exe",
+        path: "../WeakAuras-Companion-5.3.1.exe",
       }),
     ).toBe(
       "https://github.com/WeakAuras/WeakAuras-Companion/releases/tag/v5.3.1",
+    );
+  });
+
+  it("builds the download url for asset names containing spaces", () => {
+    expect(
+      buildUpdateDownloadUrl({
+        version: "5.3.1",
+        path: "WeakAuras Companion 5.3.1.exe",
+      }),
+    ).toBe(
+      "https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v5.3.1/WeakAuras%20Companion%205.3.1.exe",
     );
   });
 });

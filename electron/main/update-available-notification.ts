@@ -26,9 +26,9 @@ export function buildUpdateDownloadUrl(
   info: Pick<UpdateInfo, "version" | "path">,
 ) {
   const releaseTag = `v${encodeURIComponent(info.version)}`;
-  const assetName = info.path.split(/[\\/]/).at(-1) ?? "";
+  const assetName = info.path;
 
-  if (!/^[A-Za-z0-9._-]+$/.test(assetName)) {
+  if (/[\\/]/.test(assetName)) {
     return `https://github.com/WeakAuras/WeakAuras-Companion/releases/tag/${releaseTag}`;
   }
 

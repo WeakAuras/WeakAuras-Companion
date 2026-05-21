@@ -477,7 +477,7 @@ autoUpdater.on("update-available", (info: UpdateInfo) => {
 
     notification.show();
 
-    // show install nag only once
+    // show update-available notification only once
     updateAvailableNotificationShown = true;
   }
 });
