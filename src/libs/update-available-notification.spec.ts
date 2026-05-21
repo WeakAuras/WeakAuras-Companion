@@ -1,3 +1,4 @@
+import type { NativeImage } from "electron";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -7,6 +8,8 @@ import {
 } from "../../electron/main/update-available-notification";
 
 describe("update-available-notification", () => {
+  const icon = {} as NativeImage;
+
   it("builds the release download url from update info", () => {
     expect(
       buildUpdateDownloadUrl({
@@ -21,7 +24,7 @@ describe("update-available-notification", () => {
   it("adds native actions to update notifications on Windows", () => {
     const notification = buildUpdateAvailableNotificationOptions(
       { version: "5.3.1" },
-      {} as never,
+      icon,
       "win32",
     );
 
@@ -31,10 +34,21 @@ describe("update-available-notification", () => {
   it("leaves actions unset on other platforms", () => {
     const notification = buildUpdateAvailableNotificationOptions(
       { version: "5.3.1" },
-      {} as never,
+      icon,
       "linux",
     );
 
     expect(notification.actions).toBeUndefined();
+  });
+
+  it("falls back to the release page for unexpected asset paths", () => {
+    expect(
+      buildUpdateDownloadUrl({
+        version: "5.3.1",
+        path: "../WeakAuras Companion 5.3.1.exe",
+      }),
+    ).toBe(
+      "https://github.com/WeakAuras/WeakAuras-Companion/releases/tag/v5.3.1",
+    );
   });
 });

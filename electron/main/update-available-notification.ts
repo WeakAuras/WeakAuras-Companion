@@ -26,7 +26,14 @@ export const updateAvailableNotificationActions = [
 export function buildUpdateDownloadUrl(
   info: Pick<UpdateInfo, "version" | "path">,
 ) {
-  return `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${info.version}/${info.path}`;
+  const releaseTag = `v${encodeURIComponent(info.version)}`;
+  const assetName = info.path.split(/[\\/]/).pop() ?? info.path;
+
+  if (!/^[A-Za-z0-9._-]+$/.test(assetName)) {
+    return `https://github.com/WeakAuras/WeakAuras-Companion/releases/tag/${releaseTag}`;
+  }
+
+  return `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/${releaseTag}/${encodeURIComponent(assetName)}`;
 }
 
 export function buildUpdateAvailableNotificationOptions(
