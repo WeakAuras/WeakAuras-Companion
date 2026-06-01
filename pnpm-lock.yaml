@@ -67,8 +67,8 @@ importers:
         specifier: 66.6.6
         version: 66.6.6
       '@vitejs/plugin-vue':
-        specifier: 6.0.5
-        version: 6.0.5(vite@7.3.2(@types/node@25.2.0)(jiti@2.7.0)(yaml@2.9.0))(vue@3.5.34(typescript@5.8.3))
+        specifier: 6.0.7
+        version: 6.0.7(vite@7.3.2(@types/node@25.2.0)(jiti@2.7.0)(yaml@2.9.0))(vue@3.5.34(typescript@5.8.3))
       '@vitest/browser':
         specifier: 4.0.3
         version: 4.0.3(vite@7.3.2(@types/node@25.2.0)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.0.3)
@@ -1205,8 +1205,8 @@ packages:
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
 
-  '@rolldown/pluginutils@1.0.0-rc.2':
-    resolution: {integrity: sha512-izyXV/v+cHiRfozX62W9htOAvwMo4/bXKDrQ+vom1L1qRuexPock/7VZDAhnpHCLNejd3NJ6hiab+tO0D44Rgw==}
+  '@rolldown/pluginutils@1.0.1':
+    resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
   '@rollup/pluginutils@5.3.0':
     resolution: {integrity: sha512-5EdhGZtnu3V88ces7s53hhfK5KSASnJZv8Lulpc04cWO3REESroJXg73DFsOmgbU2BhwV0E20bu2IDZb3VKW4Q==}
@@ -1617,8 +1617,8 @@ packages:
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0
 
-  '@vitejs/plugin-vue@6.0.5':
-    resolution: {integrity: sha512-bL3AxKuQySfk1iGcBsQnoRVexTPJq0Z/ixFVM8OhVJAP6ZXXXLtM7NFKWhLl30Kg7uTBqIaPXbh+nuQCuBDedg==}
+  '@vitejs/plugin-vue@6.0.7':
+    resolution: {integrity: sha512-km+p+XdSz9Sxm5rqUbqcSfZYaAniKxWBj1KURl+Jr7UaPvvX7BmaWMdP69I5rrFDeQGyxAG7NXdc57vz+snhWg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -5242,7 +5242,7 @@ snapshots:
     dependencies:
       quansync: 1.0.0
 
-  '@rolldown/pluginutils@1.0.0-rc.2': {}
+  '@rolldown/pluginutils@1.0.1': {}
 
   '@rollup/pluginutils@5.3.0(rollup@4.60.4)':
     dependencies:
@@ -5712,9 +5712,9 @@ snapshots:
       unplugin-utils: 0.3.1
       vite: 7.3.2(@types/node@25.2.0)(jiti@2.7.0)(yaml@2.9.0)
 
-  '@vitejs/plugin-vue@6.0.5(vite@7.3.2(@types/node@25.2.0)(jiti@2.7.0)(yaml@2.9.0))(vue@3.5.34(typescript@5.8.3))':
+  '@vitejs/plugin-vue@6.0.7(vite@7.3.2(@types/node@25.2.0)(jiti@2.7.0)(yaml@2.9.0))(vue@3.5.34(typescript@5.8.3))':
     dependencies:
-      '@rolldown/pluginutils': 1.0.0-rc.2
+      '@rolldown/pluginutils': 1.0.1
       vite: 7.3.2(@types/node@25.2.0)(jiti@2.7.0)(yaml@2.9.0)
       vue: 3.5.34(typescript@5.8.3)
 
