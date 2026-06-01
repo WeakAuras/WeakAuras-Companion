@@ -86,7 +86,7 @@
     "eslint-plugin-vue": "10.9.1",
     "floating-vue": "5.2.2",
     "glob": "13.0.1",
-    "happy-dom": "20.8.9",
+    "happy-dom": "20.9.0",
     "husky": "9.1.7",
     "lint-staged": "17.0.5",
     "luaparse": "0.2.1",
