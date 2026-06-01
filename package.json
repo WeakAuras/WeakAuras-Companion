@@ -88,7 +88,7 @@
     "glob": "13.0.1",
     "happy-dom": "20.8.9",
     "husky": "9.1.7",
-    "lint-staged": "16.4.0",
+    "lint-staged": "17.0.5",
     "luaparse": "0.2.1",
     "luxon": "3.7.2",
     "pinia": "3.0.4",
