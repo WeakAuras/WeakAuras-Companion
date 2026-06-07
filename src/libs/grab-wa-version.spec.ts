@@ -1,10 +1,14 @@
 import { grabVersionFromInstalledAddons } from "@/libs/grab-wa-version";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
-const existsSync = vi.fn();
-const readFileSync = vi.fn();
-const readdirSync = vi.fn();
-const realpathSync = vi.fn();
+const { existsSync, readFileSync, readdirSync, realpathSync } = vi.hoisted(
+  () => ({
+    existsSync: vi.fn(),
+    readFileSync: vi.fn(),
+    readdirSync: vi.fn(),
+    realpathSync: vi.fn(),
+  }),
+);
 
 vi.mock("node:fs", () => ({
   default: { existsSync, readFileSync, readdirSync, realpathSync },
@@ -13,6 +17,15 @@ vi.mock("node:fs", () => ({
   readdirSync,
   realpathSync,
 }));
+
+vi.mock("node:path", () => {
+  const join = (...parts: string[]) => parts.join("/").replace(/\/+/g, "/");
+
+  return {
+    default: { join },
+    join,
+  };
+});
 
 describe("grabVersionFromInstalledAddons", () => {
   beforeEach(() => {

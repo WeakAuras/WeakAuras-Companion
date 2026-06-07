@@ -1,6 +1,17 @@
 import { reactive } from "vue";
 import type { AddonConfig } from "@/stores/config";
 
+interface ParsedAuraFields {
+  auraTypeDisplay: string | null;
+  id: number;
+  ignoreWagoUpdate: boolean;
+  semver: string;
+  slug: string;
+  uid?: string | null;
+  uids?: string[];
+  version: number;
+}
+
 function findSlugAndMatchURL(url, pattern: RegExp) {
   const result = url.match(pattern);
 
@@ -8,6 +19,28 @@ function findSlugAndMatchURL(url, pattern: RegExp) {
     return result[2];
   }
   return null;
+}
+
+function createFoundAura(config: AddonConfig, fields: ParsedAuraFields) {
+  const { uid, uids, ...auraFields } = fields;
+
+  return reactive({
+    ...auraFields,
+    ...(uid !== undefined ? { uid } : {}),
+    wagoVersion: null,
+    wagoSemver: null,
+    changelog: null,
+    created: null,
+    modified: null,
+    author: null,
+    encoded: null,
+    wagoid: null,
+    ids: [fields.id],
+    uids: uids ?? (uid ? [uid] : []),
+    regionType: null,
+    auraType: config.addonName,
+    addonConfig: config,
+  });
 }
 
 export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
@@ -65,27 +98,14 @@ export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
         });
 
         if (slug) {
-          const foundAura = reactive({
+          const foundAura = createFoundAura(config, {
             id,
             uid,
             slug,
             version,
             semver,
             ignoreWagoUpdate,
-            wagoVersion: null,
-            wagoSemver: null,
-            changelog: null,
-            created: null,
-            modified: null,
-            author: null,
-            encoded: null,
-            wagoid: null,
-            ids: [id],
-            uids: uid ? [uid] : [],
-            regionType: null,
-            auraType: config.addonName,
             auraTypeDisplay: null,
-            addonConfig: config,
           });
 
           aurasFromFile.push(foundAura);
@@ -190,26 +210,14 @@ export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
               });
 
               if (slug) {
-                const foundAura = reactive({
+                const foundAura = createFoundAura(config, {
                   id,
                   slug,
                   version,
                   semver,
                   ignoreWagoUpdate,
-                  wagoVersion: null,
-                  wagoSemver: null,
-                  changelog: null,
-                  created: null,
-                  modified: null,
-                  author: null,
-                  encoded: null,
-                  wagoid: null,
-                  ids: [id],
                   uids: [],
-                  regionType: null,
-                  auraType: config.addonName,
                   auraTypeDisplay: config.addonName + typeSuffix,
-                  addonConfig: config,
                 });
 
                 aurasFromFile.push(foundAura);
@@ -219,26 +227,14 @@ export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
         });
 
         if (profslug) {
-          const foundAura = reactive({
+          const foundAura = createFoundAura(config, {
             id: profid,
             slug: profslug,
             version: profversion,
             semver: profsemver,
             ignoreWagoUpdate: profignoreWagoUpdate,
-            wagoVersion: null,
-            wagoSemver: null,
-            changelog: null,
-            created: null,
-            modified: null,
-            author: null,
-            encoded: null,
-            wagoid: null,
-            ids: [profid],
             uids: [],
-            regionType: null,
-            auraType: config.addonName,
             auraTypeDisplay: `${config.addonName}-Profile`,
-            addonConfig: config,
           });
 
           aurasFromFile.push(foundAura);
