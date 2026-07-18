@@ -52,7 +52,7 @@
     ]
   },
   "dependencies": {
-    "archiver": "7.0.1",
+    "archiver": "8.0.0",
     "archiver-utils": "5.0.2",
     "got": "15.0.6",
     "regedit": "5.1.4",
@@ -65,7 +65,7 @@
     "@iconify-json/mdi": "1.2.3",
     "@iconify/tools": "5.0.12",
     "@intlify/unplugin-vue-i18n": "11.0.7",
-    "@types/archiver": "6.0.4",
+    "@types/archiver": "8.0.0",
     "@types/luaparse": "0.2.1",
     "@types/luxon": "3.7.2",
     "@types/node": "25.2.0",
