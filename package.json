@@ -78,7 +78,7 @@
     "@vitest/ui": "4.0.3",
     "browserslist": "4.28.2",
     "electron": "42.2.0",
-    "electron-builder": "26.8.1",
+    "electron-builder": "26.15.3",
     "electron-log": "5.4.4",
     "electron-store": "11.0.2",
     "electron-updater": "6.8.3",
