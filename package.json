@@ -107,7 +107,7 @@
     "vite-plugin-resolve": "2.5.2",
     "vite-plugin-vue-devtools": "8.1.2",
     "vite-plugin-webfont-dl": "3.12.0",
-    "vitest": "4.0.3",
+    "vitest": "4.1.0",
     "vitest-browser-vue": "2.0.1",
     "vue": "3.5.34",
     "vue-i18n": "11.4.4",
