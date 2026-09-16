@@ -16,9 +16,6 @@ updates:
       versions:
       - "> 0.2.1, < 1"
     groups:
-      typescript-eslint:
-        patterns:
-          - "@typescript-eslint/*"
       unocss:
         patterns:
           - unocss

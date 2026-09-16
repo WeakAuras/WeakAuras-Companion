@@ -1,19 +1,22 @@
-nodeLinker: hoisted
 autoInstallPeers: true
+
 allowBuilds:
   electron: true
   electron-winstaller: true
   esbuild: true
   sharp: true
   vue-demi: true
+
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@0.3.2
   vitest: 4.1.11
   vite-plus: 0.3.2
   '@vitest/ui': 4.1.11
+
 overrides:
   vite@*: 'catalog:'
   vitest@*: 'catalog:'
+
 peerDependencyRules:
   allowAny:
     - vite

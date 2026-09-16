@@ -1,7 +1,7 @@
-/// <reference types="vite-plus" />
 import { rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import vue from "@vitejs/plugin-vue";
 import UnoCSS from "unocss/vite";
@@ -379,7 +379,7 @@ export default defineConfig(({ command }) => {
       printWidth: 80,
       sortPackageJson: true,
       sortImports: {
-        newlinesBetween: false,
+        newlinesBetween: true,
         customGroups: [
           {
             groupName: "electron",
