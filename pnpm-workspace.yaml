@@ -18,8 +18,8 @@ catalog:
   '@types/luxon': 3.7.2
   '@types/node': 26.5.1
   '@types/tail': 2.2.3
-  '@unocss/preset-icons': 66.6.6
-  '@unocss/preset-web-fonts': 66.6.6
+  '@unocss/preset-icons': 66.10.1
+  '@unocss/preset-web-fonts': 66.10.1
   '@vitejs/plugin-vue': 6.0.7
   '@vitest/ui': 4.1.11
   archiver: 8.0.0
@@ -43,7 +43,7 @@ catalog:
   tail: 2.2.6
   tga: 1.0.7
   typescript: 6.0.3
-  unocss: 66.6.6
+  unocss: 66.10.1
   vite: npm:@voidzero-dev/vite-plus-core@0.3.2
   vite-plugin-electron: 1.1.2
   vite-plugin-electron-renderer: 1.0.0
