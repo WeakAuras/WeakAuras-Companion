@@ -1,5 +1,5 @@
 /* General (All Pages) */
-@import "~/floating-vue/dist/style.css";
+@import "floating-vue/dist/style.css";
 @import "tooltip";
 
 :root {
