@@ -164,18 +164,150 @@ settings:
 
 catalogs:
   default:
+    '@iconify-json/fa6-brands':
+      specifier: 1.2.5
+      version: 1.2.5
+    '@iconify-json/mdi':
+      specifier: 1.2.3
+      version: 1.2.3
+    '@iconify/tools':
+      specifier: 5.0.12
+      version: 5.0.12
+    '@iconify/utils':
+      specifier: 3.1.3
+      version: 3.1.3
+    '@intlify/unplugin-vue-i18n':
+      specifier: 11.2.5
+      version: 11.2.5
+    '@types/archiver':
+      specifier: 6.0.4
+      version: 6.0.4
+    '@types/luaparse':
+      specifier: 0.2.1
+      version: 0.2.1
+    '@types/luxon':
+      specifier: 3.7.2
+      version: 3.7.2
+    '@types/node':
+      specifier: 25.2.0
+      version: 25.2.0
+    '@types/tail':
+      specifier: 2.2.3
+      version: 2.2.3
+    '@unocss/preset-icons':
+      specifier: 66.6.6
+      version: 66.6.6
+    '@unocss/preset-web-fonts':
+      specifier: 66.6.6
+      version: 66.6.6
+    '@vitejs/plugin-vue':
+      specifier: 6.0.7
+      version: 6.0.7
     '@vitest/ui':
       specifier: 4.1.11
       version: 4.1.11
+    archiver:
+      specifier: 7.0.1
+      version: 7.0.1
+    archiver-utils:
+      specifier: 5.0.2
+      version: 5.0.2
+    electron:
+      specifier: 42.2.0
+      version: 42.2.0
+    electron-builder:
+      specifier: 26.8.1
+      version: 26.8.1
+    electron-log:
+      specifier: 5.4.4
+      version: 5.4.4
+    electron-store:
+      specifier: 11.0.2
+      version: 11.0.2
+    electron-updater:
+      specifier: 6.8.3
+      version: 6.8.3
+    floating-vue:
+      specifier: 5.2.2
+      version: 5.2.2
+    glob:
+      specifier: 13.0.1
+      version: 13.0.1
+    got:
+      specifier: 15.0.6
+      version: 15.0.6
+    happy-dom:
+      specifier: 20.11.1
+      version: 20.11.1
+    luaparse:
+      specifier: 0.2.1
+      version: 0.2.1
+    luxon:
+      specifier: 3.7.2
+      version: 3.7.2
+    pinia:
+      specifier: 3.0.4
+      version: 3.0.4
+    pinia-plugin-persistedstate-2:
+      specifier: 2.0.32
+      version: 2.0.32
+    playwright:
+      specifier: 1.61.1
+      version: 1.61.1
+    regedit:
+      specifier: 5.1.4
+      version: 5.1.4
+    sharp:
+      specifier: 0.35.4
+      version: 0.35.4
+    tail:
+      specifier: 2.2.6
+      version: 2.2.6
+    tga:
+      specifier: 1.0.7
+      version: 1.0.7
+    typescript:
+      specifier: 5.8.3
+      version: 5.8.3
+    unocss:
+      specifier: 66.6.6
+      version: 66.6.6
     vite:
       specifier: npm:@voidzero-dev/vite-plus-core@0.3.2
       version: 0.3.2
+    vite-plugin-electron:
+      specifier: 1.1.2
+      version: 1.1.2
+    vite-plugin-electron-renderer:
+      specifier: 1.0.0
+      version: 1.0.0
+    vite-plugin-resolve:
+      specifier: 2.5.2
+      version: 2.5.2
+    vite-plugin-vue-devtools:
+      specifier: 8.2.1
+      version: 8.2.1
+    vite-plugin-webfont-dl:
+      specifier: 3.12.0
+      version: 3.12.0
     vite-plus:
       specifier: 0.3.2
       version: 0.3.2
     vitest:
       specifier: 4.1.11
       version: 4.1.11
+    vitest-browser-vue:
+      specifier: 3.1.0
+      version: 3.1.0
+    vue:
+      specifier: 3.5.42
+      version: 3.5.42
+    vue-i18n:
+      specifier: 11.4.10
+      version: 11.4.10
+    vue-tsc:
+      specifier: 3.3.11
+      version: 3.3.11
 
 overrides:
   vite@*: npm:@voidzero-dev/vite-plus-core@0.3.2
@@ -186,134 +318,134 @@ importers:
   .:
     dependencies:
       archiver:
-        specifier: 7.0.1
+        specifier: 'catalog:'
         version: 7.0.1
       archiver-utils:
-        specifier: 5.0.2
+        specifier: 'catalog:'
         version: 5.0.2
       regedit:
-        specifier: 5.1.4
+        specifier: 'catalog:'
         version: 5.1.4(supports-color@7.2.0)
       sharp:
-        specifier: 0.35.4
+        specifier: 'catalog:'
         version: 0.35.4(@types/node@25.2.0)
       tga:
-        specifier: 1.0.7
+        specifier: 'catalog:'
         version: 1.0.7(supports-color@7.2.0)
     devDependencies:
       '@iconify-json/fa6-brands':
-        specifier: 1.2.5
+        specifier: 'catalog:'
         version: 1.2.5
       '@iconify-json/mdi':
-        specifier: 1.2.3
+        specifier: 'catalog:'
         version: 1.2.3
       '@iconify/tools':
-        specifier: 5.0.12
+        specifier: 'catalog:'
         version: 5.0.12
       '@iconify/utils':
-        specifier: 3.1.3
+        specifier: 'catalog:'
         version: 3.1.3
       '@intlify/unplugin-vue-i18n':
-        specifier: 11.2.5
+        specifier: 'catalog:'
         version: 11.2.5(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(@vue/compiler-dom@3.5.40)(eslint@9.39.2(jiti@2.6.1)(supports-color@7.2.0))(rollup@4.62.2)(supports-color@7.2.0)(typescript@5.8.3)(vue-i18n@11.4.10(vue@3.5.42(typescript@5.8.3)))(vue@3.5.42(typescript@5.8.3))
       '@types/archiver':
-        specifier: 6.0.4
+        specifier: 'catalog:'
         version: 6.0.4
       '@types/luaparse':
-        specifier: 0.2.1
+        specifier: 'catalog:'
         version: 0.2.1
       '@types/luxon':
-        specifier: 3.7.2
+        specifier: 'catalog:'
         version: 3.7.2
       '@types/node':
-        specifier: 25.2.0
+        specifier: 'catalog:'
         version: 25.2.0
       '@types/tail':
-        specifier: 2.2.3
+        specifier: 'catalog:'
         version: 2.2.3
       '@unocss/preset-icons':
-        specifier: 66.6.6
+        specifier: 'catalog:'
         version: 66.6.6
       '@unocss/preset-web-fonts':
-        specifier: 66.6.6
+        specifier: 'catalog:'
         version: 66.6.6
       '@vitejs/plugin-vue':
-        specifier: 6.0.7
+        specifier: 'catalog:'
         version: 6.0.7(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(vue@3.5.42(typescript@5.8.3))
       '@vitest/ui':
         specifier: 'catalog:'
         version: 4.1.11(vitest@4.1.11)
       electron:
-        specifier: 42.2.0
+        specifier: 'catalog:'
         version: 42.2.0(supports-color@7.2.0)
       electron-builder:
-        specifier: 26.8.1
+        specifier: 'catalog:'
         version: 26.8.1(electron-builder-squirrel-windows@26.8.1)(supports-color@7.2.0)
       electron-log:
-        specifier: 5.4.4
+        specifier: 'catalog:'
         version: 5.4.4
       electron-store:
-        specifier: 11.0.2
+        specifier: 'catalog:'
         version: 11.0.2
       electron-updater:
-        specifier: 6.8.3
+        specifier: 'catalog:'
         version: 6.8.3(supports-color@7.2.0)
       floating-vue:
-        specifier: 5.2.2
+        specifier: 'catalog:'
         version: 5.2.2(vue@3.5.42(typescript@5.8.3))
       glob:
-        specifier: 13.0.1
+        specifier: 'catalog:'
         version: 13.0.1
       got:
-        specifier: 15.0.6
+        specifier: 'catalog:'
         version: 15.0.6
       happy-dom:
-        specifier: 20.11.1
+        specifier: 'catalog:'
         version: 20.11.1
       luaparse:
-        specifier: 0.2.1
+        specifier: 'catalog:'
         version: 0.2.1
       luxon:
-        specifier: 3.7.2
+        specifier: 'catalog:'
         version: 3.7.2
       node:
         specifier: runtime:24.21.0
         version: runtime:24.21.0
       pinia:
-        specifier: 3.0.4
+        specifier: 'catalog:'
         version: 3.0.4(typescript@5.8.3)(vue@3.5.42(typescript@5.8.3))
       pinia-plugin-persistedstate-2:
-        specifier: 2.0.32
+        specifier: 'catalog:'
         version: 2.0.32(pinia@3.0.4(typescript@5.8.3)(vue@3.5.42(typescript@5.8.3)))
       playwright:
-        specifier: 1.61.1
+        specifier: 'catalog:'
         version: 1.61.1
       tail:
-        specifier: 2.2.6
+        specifier: 'catalog:'
         version: 2.2.6
       typescript:
-        specifier: 5.8.3
+        specifier: 'catalog:'
         version: 5.8.3
       unocss:
-        specifier: 66.6.6
+        specifier: 'catalog:'
         version: 66.6.6(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))
       vite:
         specifier: 'catalog:'
         version: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)'
       vite-plugin-electron:
-        specifier: 1.1.2
+        specifier: 'catalog:'
         version: 1.1.2(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(vite-plugin-electron-renderer@1.0.0)
       vite-plugin-electron-renderer:
-        specifier: 1.0.0
+        specifier: 'catalog:'
         version: 1.0.0
       vite-plugin-resolve:
-        specifier: 2.5.2
+        specifier: 'catalog:'
         version: 2.5.2
       vite-plugin-vue-devtools:
-        specifier: 8.2.1
+        specifier: 'catalog:'
         version: 8.2.1(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(supports-color@7.2.0)(vue@3.5.42(typescript@5.8.3))
       vite-plugin-webfont-dl:
-        specifier: 3.12.0
+        specifier: 'catalog:'
         version: 3.12.0(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(debug@4.4.3(supports-color@7.2.0))
       vite-plus:
         specifier: 'catalog:'
@@ -322,16 +454,16 @@ importers:
         specifier: 'catalog:'
         version: 4.1.11(@types/node@25.2.0)(@vitest/browser-preview@4.1.11)(@vitest/ui@4.1.11)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(happy-dom@20.11.1)
       vitest-browser-vue:
-        specifier: 3.1.0
+        specifier: 'catalog:'
         version: 3.1.0(vitest@4.1.11)(vue@3.5.42(typescript@5.8.3))
       vue:
-        specifier: 3.5.42
+        specifier: 'catalog:'
         version: 3.5.42(typescript@5.8.3)
       vue-i18n:
-        specifier: 11.4.10
+        specifier: 'catalog:'
         version: 11.4.10(vue@3.5.42(typescript@5.8.3))
       vue-tsc:
-        specifier: 3.3.11
+        specifier: 'catalog:'
         version: 3.3.11(typescript@5.8.3)
 
 packages:
@@ -2355,14 +2487,8 @@ packages:
   '@vue/compiler-dom@3.5.42':
     resolution: {integrity: sha512-qbhQZEFmycr+ni/qyuccS4sucNN7VAbDfbkvNxWOX2VfgFm90MNs3/UhRNKoPMEIVn0F8gdlYjLPvqxHwHeQOA==}
 
-  '@vue/compiler-sfc@3.5.40':
-    resolution: {integrity: sha512-gIf497P4kpuALcvs5n3AEg1Vdn0pSY4XbjASIfHNYF1/MP3T2Mf2STERTubysBxCRxzJGJYtF/O7vwJrxFB3Vw==}
-
   '@vue/compiler-sfc@3.5.42':
     resolution: {integrity: sha512-fkCAFB4okcAANGMThboWnScp/gzWjU0ZSkVnjTIiplmMDq2uq0tIB3j+xVu4rhv5rvOgBySCysudmbMd6xRRqw==}
-
-  '@vue/compiler-ssr@3.5.40':
-    resolution: {integrity: sha512-rrE5xiXG663+vHCHa3J9p2z5OcBRjXmoqenprJxAFQxg5pSshzeBiCE6pu46axapRJ2Adk0YDA2BRZVjiHXnhg==}
 
   '@vue/compiler-ssr@3.5.42':
     resolution: {integrity: sha512-xmLk3wLkbizPAiLyomjgFFosf2ys9b5Ghb+oh/k2tnvipNz8OFrQOiTcWCzyK7MpBp9KkyGtfvgfLUivbmuGYA==}
@@ -6983,19 +7109,6 @@ snapshots:
       '@vue/compiler-core': 3.5.42
       '@vue/shared': 3.5.42
 
-  '@vue/compiler-sfc@3.5.40':
-    dependencies:
-      '@babel/parser': 7.29.8
-      '@vue/compiler-core': 3.5.40
-      '@vue/compiler-dom': 3.5.40
-      '@vue/compiler-ssr': 3.5.40
-      '@vue/shared': 3.5.40
-      estree-walker: 2.0.2
-      magic-string: 0.30.21
-      postcss: 8.5.28
-      source-map-js: 1.2.1
-    optional: true
-
   '@vue/compiler-sfc@3.5.42':
     dependencies:
       '@babel/parser': 7.29.8
@@ -7007,12 +7120,6 @@ snapshots:
       magic-string: 0.30.21
       postcss: 8.5.28
       source-map-js: 1.2.1
-
-  '@vue/compiler-ssr@3.5.40':
-    dependencies:
-      '@vue/compiler-dom': 3.5.40
-      '@vue/shared': 3.5.40
-    optional: true
 
   '@vue/compiler-ssr@3.5.42':
     dependencies:
