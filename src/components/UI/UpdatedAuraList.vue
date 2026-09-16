@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useStashStore } from "../../stores/auras";
+
 import Aura from "./Aura.vue";
 import UIButton from "./UIButton.vue";
 

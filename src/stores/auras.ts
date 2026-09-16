@@ -1,4 +1,5 @@
 import { ref } from "vue";
+
 import { defineStore } from "pinia";
 
 import type { AuraType } from "./config";

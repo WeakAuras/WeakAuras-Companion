@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useStashStore } from "@/stores/auras";
+
 import type { Updater } from "../LandingPage.vue";
 
 defineProps<{

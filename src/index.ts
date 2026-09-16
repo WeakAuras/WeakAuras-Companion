@@ -1,5 +1,7 @@
 import { ipcRenderer } from "electron";
+
 import { createApp } from "vue";
+
 import FloatingVue from "floating-vue";
 import { createPinia } from "pinia";
 import { createPersistedStatePlugin } from "pinia-plugin-persistedstate-2";

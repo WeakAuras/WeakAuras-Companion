@@ -3,7 +3,9 @@
 <script setup lang="ts">
 import fs from "node:fs";
 import path from "node:path";
+
 import { ipcRenderer } from "electron";
+
 import {
   computed,
   onBeforeUnmount,
@@ -13,6 +15,7 @@ import {
   shallowRef,
   watch,
 } from "vue";
+
 import type {
   ProgressInfo,
   UpdateDownloadedEvent,
@@ -36,9 +39,11 @@ import { wowDefaultPath } from "@/libs/utilities";
 import { validateWowPath as validateWowPathFn } from "@/libs/validate-wow-path";
 import { wagoPushHandler } from "@/libs/wago-push-handler";
 import { writeAddonData } from "@/libs/write-addon-data";
+
 import { useStashStore } from "../stores/auras";
 import type { Account, AddonConfig, AuraType, Version } from "../stores/config";
 import { useConfigStore } from "../stores/config";
+
 import About from "./UI/About.vue";
 import AppFooter from "./UI/AppFooter.vue";
 import Aura from "./UI/Aura.vue";

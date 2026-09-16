@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ipcRenderer } from "electron";
+
 import { ref } from "vue";
 
 const props = defineProps<{

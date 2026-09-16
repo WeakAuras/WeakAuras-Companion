@@ -1,5 +1,7 @@
 import path from "node:path";
+
 import { ref } from "vue";
+
 import { defineStore } from "pinia";
 
 import userDataPath from "@/libs/user-data-folder";

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ipcRenderer, shell } from "electron";
+
 import { computed, ref, watch } from "vue";
+
 import { useI18n } from "vue-i18n";
 
 import { useConfigStore } from "../../stores/config";
+
 import Checkbox from "./Checkbox.vue";
 import Dropdown from "./Dropdown.vue";
 import FileSelect from "./FileSelect.vue";

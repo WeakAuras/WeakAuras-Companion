@@ -1,5 +1,7 @@
 import fs from "node:fs";
+
 import { ipcRenderer } from "electron";
+
 import type { Response } from "got";
 import got from "got";
 import luaparse from "luaparse";
@@ -11,6 +13,7 @@ import type {
   ConfigState,
   Version,
 } from "@/stores/config";
+
 import hash from "./hash";
 import { isAddonInstalled } from "./is-addon-installed";
 

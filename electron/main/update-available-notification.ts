@@ -3,6 +3,7 @@ import type {
   NotificationAction,
   NotificationConstructorOptions,
 } from "electron";
+
 import type { UpdateInfo } from "electron-updater";
 
 const DOWNLOAD_NOW_ACTION: NotificationAction = {

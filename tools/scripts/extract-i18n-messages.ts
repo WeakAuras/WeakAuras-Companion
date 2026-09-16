@@ -3,6 +3,7 @@
 /* oxlint-disable @typescript-eslint/no-unsafe-assignment */
 import * as fs from "node:fs";
 import * as path from "node:path";
+
 import { glob } from "glob";
 
 import { getTranslationObject, getTranslationsFromString } from "./Utils.js";

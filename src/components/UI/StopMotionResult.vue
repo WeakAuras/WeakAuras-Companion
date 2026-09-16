@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import path from "node:path";
+
 import { shell } from "electron";
+
 import { computed, onMounted } from "vue";
+
 import { storeToRefs } from "pinia";
 
 import {
@@ -11,6 +14,7 @@ import {
   serialize,
   StopMotionTemplate,
 } from "@/libs/stopmotion";
+
 import { useStashStore } from "../../stores/auras";
 import { useStopMotionStore } from "../../stores/stopmotion";
 

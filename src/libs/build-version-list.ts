@@ -7,6 +7,7 @@ import type {
   Version,
   VersionOptions,
 } from "@/stores/config";
+
 import { i18n } from "./i18n";
 
 export function buildVersionList(

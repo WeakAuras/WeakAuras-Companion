@@ -1,5 +1,6 @@
 import path, { join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import {
   app,
   BrowserWindow,
@@ -13,6 +14,7 @@ import {
   Tray,
 } from "electron";
 import type { OpenDialogOptions } from "electron";
+
 import log from "electron-log/main";
 import Store from "electron-store";
 import type {
