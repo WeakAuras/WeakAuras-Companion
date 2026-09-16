@@ -331,8 +331,8 @@ importers:
         specifier: 'catalog:'
         version: 4.1.11(@types/node@25.2.0)(@vitest/browser-preview@4.1.11)(@vitest/ui@4.1.11)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(happy-dom@20.11.1)
       vitest-browser-vue:
-        specifier: 2.0.1
-        version: 2.0.1(vitest@4.1.11)(vue@3.5.42(typescript@5.8.3))
+        specifier: 3.1.0
+        version: 3.1.0(vitest@4.1.11)(vue@3.5.42(typescript@5.8.3))
       vue:
         specifier: 3.5.42
         version: 3.5.42(typescript@5.8.3)
@@ -5112,8 +5112,8 @@ packages:
       '@vitest/browser-webdriverio':
         optional: true
 
-  vitest-browser-vue@2.0.1:
-    resolution: {integrity: sha512-IfTJY3Olr27AXCVAhOqx4g5iUgzdWLmYr40svg7rOrunjsqc9trrzi/eI3i11+UYddbKXu3HJl2bo8o8lqKm4A==}
+  vitest-browser-vue@3.1.0:
+    resolution: {integrity: sha512-HTWGzixoI9sSPb9LVuPOKtGy7URS6ipAIOiLD9ofdW/zgT3XGngXbMAJ3U9H/w1A6LWj4waGpYZsd3RPm8zPkw==}
     peerDependencies:
       vitest: 4.1.11
       vue: ^3.0.0
@@ -9940,7 +9940,7 @@ snapshots:
       - utf-8-validate
       - yaml
 
-  vitest-browser-vue@2.0.1(vitest@4.1.11)(vue@3.5.42(typescript@5.8.3)):
+  vitest-browser-vue@3.1.0(vitest@4.1.11)(vue@3.5.42(typescript@5.8.3)):
     dependencies:
       '@vue/test-utils': 2.4.6
       vitest: 4.1.11(@types/node@25.2.0)(@vitest/browser-preview@4.1.11)(@vitest/ui@4.1.11)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(happy-dom@20.11.1)
