@@ -64,7 +64,7 @@
     "electron-updater": "6.8.3",
     "floating-vue": "5.2.2",
     "glob": "13.0.1",
-    "happy-dom": "20.11.1",
+    "happy-dom": "20.14.0",
     "luaparse": "0.2.1",
     "luxon": "3.7.2",
     "pinia": "3.0.4",
