@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import archiver from "archiver";
+import { ZipArchive } from "archiver";
 import { DateTime } from "luxon";
 
 import type { AddonConfig, Backup, ConfigState } from "@/stores/config";
@@ -100,7 +100,7 @@ function backupIfRequired(
       const zipFile = `${addonName}-${accountName}-${date}.zip`;
       const fileContents = fs.createReadStream(fileName);
       const writeStream = fs.createWriteStream(path.join(config.path, zipFile));
-      const archive = archiver("zip", {
+      const archive = new ZipArchive({
         zlib: { level: 9 }, // Sets the compression level.
       });
 
