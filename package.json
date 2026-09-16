@@ -85,7 +85,7 @@
     "vitest": "catalog:",
     "vitest-browser-vue": "3.1.0",
     "vue": "3.5.42",
-    "vue-i18n": "11.4.7",
+    "vue-i18n": "11.4.10",
     "vue-tsc": "3.3.11"
   },
   "config": {
