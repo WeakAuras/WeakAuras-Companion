@@ -424,7 +424,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
       unocss:
-        specifier: 66.10.1
+        specifier: 'catalog:'
         version: 66.10.1(@devframes/hub@0.10.0(crossws@0.4.12(srvx@1.0.5))(devframe@0.10.0(cac@7.0.0)(srvx@1.0.5)))(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(cac@7.0.0)(crossws@0.4.12(srvx@1.0.5))(srvx@1.0.5)
       vite:
         specifier: 'catalog:'
