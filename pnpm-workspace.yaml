@@ -37,7 +37,7 @@ catalog:
   luxon: 3.7.2
   pinia: 3.0.4
   pinia-plugin-persistedstate-2: 2.0.32
-  playwright: 1.61.1
+  playwright: 1.63.0
   regedit: 5.1.4
   sharp: 0.35.4
   tail: 2.2.6
