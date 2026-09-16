@@ -1,238 +1,309 @@
 # AGENTS.md - Development Guide for LLM Coding Agents
 
-This document provides comprehensive guidance for LLM coding agents working on the WeakAuras Companion project.
-
 ## Project Overview
 
-WeakAuras Companion is a cross-platform desktop application built with Electron that serves as a bridge between [Wago.io](https://wago.io) and the WeakAuras World of Warcraft addon. It enables automatic fetching and updating of WeakAuras configurations without manual copy-paste operations.
+WeakAuras Companion is a cross-platform desktop application built with
+Electron. It is the bridge between [Wago.io](https://wago.io) and the WeakAuras
+World of Warcraft addon. It fetches and installs WeakAuras updates without
+manual copy and paste.
 
 ### Key Features
+
 - Automatic WeakAuras updates from Wago.io
 - Support for Plater profiles, mods, and scripts
 - Cross-platform support (Windows, macOS, Linux)
-- Automatic backup functionality
+- Automatic backups of the WeakAuras saved variables
+- Stop motion (GIF to TGA) conversion for WeakAuras textures
 
 ## Technology Stack
 
-- **Runtime**: Electron 38.x (Node.js >= 24 required)
-- **Frontend**: Vue 3 + TypeScript
-- **Build Tool**: Vite+ (`vp`) with Vite 8 and a custom configuration
-- **Styling**: UnoCSS with custom presets
-- **Package Manager**: pnpm (declared in `packageManager` and `devEngines`; `vp install` delegates to it)
-- **Linting and Formatting**: Oxlint + Oxfmt through Vite+, configured in the `lint` and `fmt` blocks of `vite.config.ts`
-- **Internationalization**: Vue i18n with extraction tools
-- **Testing**: Vitest 4 through `vp test` (minimal setup)
-- **State Management**: Pinia with persistence
+- **Runtime**: Electron with Node.js. The required versions are in `engines`
+  and `devEngines` in `package.json`.
+- **Frontend**: Vue 3 with `<script setup lang="ts">` in every component
+- **Build Tool**: Vite+ (`vp`), which bundles Vite, Rolldown, Vitest, Oxlint
+  and Oxfmt. Versions are pinned in the `catalog` in `pnpm-workspace.yaml`.
+- **Styling**: UnoCSS with `presetWind4`, `presetIcons` and `presetWebFonts`
+- **Package Manager**: pnpm (declared in `packageManager` and `devEngines`)
+- **Linting and Formatting**: Oxlint and Oxfmt through Vite+, configured in the
+  `lint` and `fmt` blocks of `vite.config.ts`
+- **Internationalization**: Vue i18n with a custom extraction script
+- **Testing**: Vitest through `vp test` with the `happy-dom` environment
+- **State Management**: Pinia setup stores with `pinia-plugin-persistedstate-2`
+- **Packaging**: electron-builder, auto updates through `electron-updater`
 
 ## Development Environment Setup
 
 ### Prerequisites
-```bash
-# Node.js version 22 or higher (specified in package.json engines)
-node --version  # Should be >= 22
 
-# Install pnpm globally if not already installed
-npm install -g pnpm
+- **Node.js and pnpm** at the versions declared in `package.json`. The
+  `devEngines` block downloads the pinned versions on demand if the installed
+  ones do not match.
+- **Vite+ (`vp`)**. The `dev`, `build`, `lint` and `test` scripts and the
+  pre-commit hook all run through `vp`. Install it globally from
+  [viteplus.dev](https://viteplus.dev/),
+
+```bash
+node --version
+pnpm --version
+vp --version
 ```
 
 ### Initial Setup
+
 ```bash
-# Clone the repository (if not already done)
 git clone https://github.com/WeakAuras/WeakAuras-Companion.git
 cd WeakAuras-Companion
 
-# Install dependencies (pnpm is declared in package.json)
+# Installs dependencies, runs `install-electron` (postinstall) and
+# `vp config --no-agent` (prepare)
 pnpm install
 
-# Start development server
 pnpm run dev
 ```
 
 ## Available Commands
 
 ### Development
-- `pnpm run dev` - Start development server with hot reload at localhost:9080
-- `pnpm run build` - Build for production (includes TypeScript compilation, Vite build, and Electron packaging)
+
+- `pnpm run dev` - Start the Vite dev server and launch Electron with hot
+  reload. Vite picks a free port, usually 5173. The VS Code debug flow uses
+  `http://127.0.0.1:3344/` instead (see `.vscode/launch.json`).
+- `pnpm run build` - Run `vue-tsc`, then `vp build`, then `electron-builder`.
+  Output goes to `dist`, `dist-electron` and `release/<version>`.
 
 ### Code Quality
-- `pnpm run lint` - Run Oxlint on ./src and the Oxfmt format check
+
+- `pnpm run lint` - Run Oxlint on `./src` and the Oxfmt format check
 - `pnpm run lint:fix` - Auto-fix Oxlint issues and format with Oxfmt
-- `vp check` - Run format, lint and type checks on the whole project
-- `vp test` - Run the Vitest suite
+- `vp check` - Run format, lint and type checks on the whole project. This is
+  also the pre-commit hook (`.vite-hooks/pre-commit` runs `vp staged`, which
+  runs `vp check --fix` on staged `js`, `mjs`, `ts` and `vue` files).
+
+### Testing
+
+- `pnpm test` or `vp test run` - Run the Vitest suite once
+- `pnpm run test:ui` - Run Vitest with the browser UI
+
+Note: `vp test` is a Vite+ built-in and does not run the npm `test` script.
+Use `vpr test` if you want the npm script.
 
 ### Internationalization
-- `pnpm run i18n` - Extract translation strings to i18n/*.json files
-- `pnpm run i18n-report` - Generate i18n usage report
+
+- `pnpm run i18n` - Compile `tools/` with `tsc`, then extract translation keys
+  from `src/components/**/*.vue` and `src/libs/*.ts` into `i18n/*.json`
+- `pnpm run i18n-report` - Generate a vue-i18n-extract usage report
 
 ### Utilities
-- `pnpm run clean` - Clean generated files and dependencies
-- `pnpm run compile-tools` - Compile TypeScript tools
+
+- `pnpm run clean` - `git clean -xdf node_modules dist dist-electron`
+- `pnpm run compile-tools` - Compile the TypeScript in `tools/` (output `.js`
+  files are git-ignored)
+- `./generate_changelog.sh` - Build a changelog from git tags
 
 ## File Structure and Architecture
 
-```
-WeakAuras-Companion/
-├── .github/                    # GitHub workflows and templates
-│   ├── workflows/             # CI/CD for Windows, macOS, Linux builds
-│   └── ISSUE_TEMPLATE/        # Issue templates
-├── electron/                  # Electron main and preload processes
-│   ├── main/                  # Main process code
-│   └── preload/               # Preload scripts
-├── src/                       # Vue 3 frontend source code
-│   ├── components/            # Vue components
-│   ├── stores/                # Pinia stores
-│   ├── libs/                  # Utility libraries
-│   ├── assets/                # Static assets
-│   └── App.vue                # Root Vue component
-├── i18n/                      # Internationalization files
-├── tools/                     # Build and development tools
-├── public/                    # Static public assets
-├── package.json               # Dependencies and scripts
-├── vite.config.ts             # Vite configuration
-├── tsconfig.json              # TypeScript configuration
-├── pnpm-workspace.yaml        # pnpm settings and the Vite+ catalog/overrides
-├── uno.config.ts              # UnoCSS configuration
-└── electron-builder.json     # Electron packaging configuration
-```
-
 ### Key Configuration Files
 
-#### TypeScript Configuration (`tsconfig.json`)
-- Target: ES2022 with DOM support
-- Module: preserve (for Vite)
-- Strict mode enabled with some relaxed rules (`strictNullChecks: false`, `noImplicitAny: false`)
-- Path mapping: `@/*` → `src/*`
+#### TypeScript (`tsconfig.json`)
 
-#### Vite Configuration (`vite.config.ts`)
-- Electron integration via `vite-plugin-electron`
-- Vue 3 support with Vue DevTools
-- UnoCSS integration
-- Web font downloading
-- Vue i18n plugin
-- Custom resolve configuration
+- Target ES2022 with DOM libs, `module: preserve`, `noEmit`
+- `strict: true` with `strictNullChecks: false` and `noImplicitAny: false`
+- `verbatimModuleSyntax: true`, so use `import type` for types
+- Path alias `@/*` maps to `src/*`. Vite resolves it with
+  `resolve.tsconfigPaths: true`.
+- `tools/tsconfig.json` is a separate NodeNext config for the i18n script
 
-#### Lint and Format Configuration (`vite.config.ts`)
-- `lint` block: Oxlint with the `typescript`, `vue`, `unicorn` and `vite-plus` plugins, type-aware rules enabled
-- `fmt` block: Oxfmt with the previous Prettier options (80 columns, trailing commas, one attribute per line)
-- Custom rule overrides for TypeScript strictness
+#### Vite (`vite.config.ts`)
+
+- `vite-plugin-electron` builds `electron/main/index.ts` and
+  `electron/preload/index.ts` as ESM (`.mjs`) into `dist-electron`
+- `vite-plugin-electron-renderer` exposes `archiver`, `regedit`, `sharp`,
+  `tga` and `got` to the renderer
+- Vue, Vue DevTools, UnoCSS, Vue i18n (`i18n/**`) and web font download plugins
+- `define` exposes `__APP_VERSION__` and `__APP_LICENSE__` to the renderer
+- `test` block: `happy-dom`, globals on, includes only
+  `src/**/*.{test,spec}.{js,ts,jsx,tsx}`. `tools/scripts/Utils.spec.ts` is not
+  part of this run.
+- `staged` block: `vp check --fix` on staged source files
+
+#### Lint and Format (`vite.config.ts`)
+
+- `lint` block: Oxlint with the `oxc`, `typescript`, `unicorn`, `react` and
+  `vue` plugins plus the `vite-plus` JS plugin. Type-aware rules are on.
+- Several strict TypeScript rules are off on purpose: `no-explicit-any`,
+  `no-floating-promises`, `no-unsafe-*`, `require-await`
+- `fmt` block: Oxfmt with 80 columns, trailing commas, one attribute per line
+  and sorted imports. Import groups in order: Node builtins, `electron`, `vue`,
+  external, then internal, parent, sibling, index. A blank line separates the
+  groups.
+- Oxfmt ignores `.github`, `.vscode`, `i18n`, YAML, Markdown and JSON except
+  `package.json`
+
+#### Packaging (`electron-builder.json`)
+
+- App id `wtf.weakauras.companion`, output `release/${version}`
+- macOS: universal binary, `LSUIElement` (no Dock icon), `sharp` unpacked
+- Windows: NSIS, publishes to GitHub releases, ships `regedit` VBS helpers
+- Linux: AppImage, snap, deb and rpm
+- Registers the `weakauras-companion://` protocol
+
+## Architecture Notes
+
+### Electron Process Model
+
+- The renderer runs with `nodeIntegration: true` and
+  `contextIsolation: false`. Renderer code imports `node:fs`, `node:path` and
+  `electron` directly. There is no context bridge.
+- The preload script only shows and removes the loading spinner.
+- IPC uses `ipcMain.handle` in `electron/main/index.ts` and
+  `ipcRenderer.invoke` in the renderer. Handlers include `openDialog`,
+  `minimize`, `close`, `installUpdates`, `autoStart`, `checkUpdates`,
+  `refreshWago`, `getStore`, `setStore`, `deleteStore` and `getLang`.
+- `electron-store` is the single persistence layer. The main process owns the
+  store. The renderer reaches it through the `getStore`, `setStore` and
+  `deleteStore` IPC handlers.
+- `electron-log` is used in the main process only.
+- `webSecurity` is off in development and on in production.
+
+### State Management
+
+- Stores are Pinia setup stores (`defineStore(id, () => { ... })`).
+- `pinia-plugin-persistedstate-2` persists every store through the IPC store
+  handlers above. `config` is persisted. `auras` and `stopmotion` set
+  `persistedState: { persist: false }`.
+
+### Vue Components
+
+- Every component uses `<script setup lang="ts">`.
+- Block order is script, template, then style.
 
 ## Common Development Tasks
 
 ### Adding New Features
-1. Create Vue components in `src/components/`
-2. Add Pinia stores in `src/stores/` if state management needed
-3. Update internationalization strings using `pnpm run i18n`
-4. Test with `pnpm run dev`
-5. Lint with `pnpm run lint:fix`
 
-### Working with Electron
-- Main process code: `electron/main/`
-- Preload scripts: `electron/preload/`
-- IPC communication patterns established in existing code
-- Use `electron-log` for logging
-- Use `electron-store` for persistent configuration
+1. Create Vue components in `src/components/UI/`
+2. Add or extend Pinia stores in `src/stores/` if state is needed
+3. Add translation keys with `$t('key.name')` and run `pnpm run i18n`
+4. Test with `pnpm run dev`
+5. Run `vp check` before you commit
 
 ### Internationalization Workflow
+
 1. Add translation keys in Vue templates: `{{ $t('key.name') }}`
-2. Run `pnpm run i18n` to extract new strings
-3. Update translation files in `i18n/*.json`
-4. Supported locales: en, es, de, fr, ru, tr, zh-cn
+2. Run `pnpm run i18n` to extract new keys into `i18n/*.json`
+3. Add the translations in the other locale files
+4. Follow `i18n/README.md` for plural forms
+5. Supported locales come from `package.json` `config.supported-locales`:
+   en, es, de, fr, ru, tr, zh-cn
 
 ### Styling with UnoCSS
-- Utility-first CSS framework
-- Custom configuration in `uno.config.ts`
-- Icon support via `@iconify` packages
-- Web fonts integration
+
+- Utility-first classes with `presetWind4`
+- Icons from `@iconify-json/mdi` and `@iconify-json/fa6-brands` through
+  `presetIcons`, plus a custom `social` icon set loaded from
+  `src/assets/social-icons`
+- Web fonts through `presetWebFonts`, downloaded at build time
+
+### Working with the Vendored Skills
+
+- `.agents/skills/` holds skills from third parties. Do not edit them
+  by hand. `skills-lock.json` records the source and hash.
+- `.claude/skills/` contains symlinks to the same folders.
 
 ## Testing Strategy
 
-- **Unit Tests**: Vitest configured but minimal test coverage currently
-- **Manual Testing**: Use `pnpm run dev` for development testing
-- **CI/CD**: Automated builds on Windows, macOS, and Linux via GitHub Actions
-- **Code Quality**: Oxlint + Oxfmt (`vp check`) enforce code standards
+- **Unit tests**: four spec files in `src/libs/` with Vitest and `happy-dom`.
+  Coverage is small.
+- **Manual testing**: `pnpm run dev`
+- **CI**: lint runs on every push and pull request. Builds run only on `main`.
 
 ## Build and Release Process
 
 ### Development Build
+
 ```bash
-pnpm run dev  # Development server with hot reload
+pnpm run dev
 ```
 
 ### Production Build
+
 ```bash
-pnpm run build  # Full production build with electron-builder
+pnpm run build
 ```
 
 ### CI/CD Pipeline
-- **Triggers**: Push to main, pull requests
-- **Platforms**: Windows, macOS, Linux builds in parallel
-- **Security**: CodeQL analysis enabled
-- **Dependencies**: Dependabot for automated updates
+
+- **Workflows**: `windows.yml`, `macos.yml` and `linux.yml` run on every push,
+  tag and pull request. They install with pnpm and run
+  `pnpm run lint`. The build step runs only on `main`.
+- **macOS**: rebuilds `sharp` for x64 and arm64 before the universal build
+- **CodeQL**: runs on push and pull request to `main` and weekly on a schedule
+- **Dependabot**: npm monthly, GitHub Actions weekly, both with a
+  cooldown. Dependabot ignores `luaparse` updates.
+- **Releases**: publish to GitHub releases, which `electron-updater` reads
 
 ## Important Considerations for Agents
 
 ### Package Management
-- **MUST use pnpm**: The project declares pnpm in `packageManager` and `devEngines`
-- **Node.js version**: Requires Node.js >= 22 (may show warnings on older versions)
-- **Architecture support**: Configured for x64 and arm64 on Windows, macOS, and Linux
+
+- `pnpm-workspace.yaml` holds a `catalog` for `vite`, `vitest`, `vite-plus`
+  and `@vitest/ui`. `vite` resolves to `@voidzero-dev/vite-plus-core`. Keep
+  these versions in the catalog, not in `package.json`.
+- `allowBuilds` lists the packages that may run install scripts: `electron`,
+  `electron-winstaller`, `esbuild`, `sharp`, `vue-demi`. Add new packages there
+  if they need a build step.
 
 ### Code Style and Quality
-- **Oxlint rules**: Some TypeScript strict rules are relaxed for pragmatic development
-- **Vue component order**: Script/template first, then style
-- **Import sorting**: Handled by Oxfmt
-- **File naming**: Follow existing patterns in the codebase
+
+- Run `vp check` before you commit. The pre-commit hook runs it too.
+- Let Oxfmt sort imports. Do not sort by hand.
+- Use `import type` for type-only imports (`verbatimModuleSyntax`).
+- Follow the file naming in each folder: kebab-case in `src/libs/`, PascalCase
+  for Vue components.
+- Add new words to `cspell.json` if the spell checker flags them.
 
 ### Electron-Specific Guidelines
-- Use established IPC patterns for main/renderer communication
-- Respect security best practices with preload scripts
-- Handle platform-specific code paths (Windows/macOS/Linux)
-- Use electron-builder configuration for packaging
 
-### Performance Considerations
-- Vite provides fast HMR for development
-- UnoCSS generates minimal CSS bundles
-- Lazy loading for Vue components where appropriate
-- Efficient asset handling via Vite
+- Add new main process features as `ipcMain.handle` handlers and call them
+  with `ipcRenderer.invoke`.
+- The renderer has full Node access. Treat all data from Wago.io and from the
+  WoW saved variables files as untrusted before you use it in file paths or
+  in the DOM.
+- Handle platform-specific code paths with `process.platform` checks. Windows
+  uses `regedit` to find the WoW install.
+- Use `electron-log` in the main process, not `console.log`.
 
 ### Security
-- Preload scripts isolate main process from renderer
-- CSP headers configured via Vite
-- No direct Node.js access from renderer process
-- Regular dependency updates via Dependabot
 
-## Debugging and Troubleshooting
-
-### Common Issues
-1. **Node.js version**: Ensure Node.js >= 22 for optimal compatibility
-2. **Package manager**: Only pnpm is supported; npm/yarn will fail
-3. **Build failures**: Check `dist-electron` cleanup in vite config
-4. **Electron issues**: Check main process logs via electron-log
-
-### Development Tools
-- Vue DevTools integrated in development
-- Electron DevTools available in development builds
-- Source maps enabled for debugging
-- TypeScript strict checking in IDE
+- The CSP is a `<meta http-equiv="Content-Security-Policy">` tag in
+  `index.html`, not a Vite setting.
+- Isolation between main and renderer is not in place. Do not describe the
+  preload script as a security boundary.
 
 ## Contributing Guidelines
 
 ### Before Making Changes
-1. Run `pnpm run lint` to ensure code quality
-2. Test your changes with `pnpm run dev`
-3. Verify builds work with `pnpm run build` (if modifying build configuration)
-4. Update translations if adding user-facing text
+
+1. Run `vp check`
+2. Run `pnpm test`
+3. Test your changes with `pnpm run dev`
+4. Run `pnpm run build` if you change the build configuration
+5. Run `pnpm run i18n` if you add user-facing text
 
 ### Pull Request Checklist
-- [ ] Code follows Oxlint and Oxfmt rules
-- [ ] New features include appropriate internationalization
-- [ ] Changes tested on development server
-- [ ] No console errors or warnings introduced
-- [ ] Build process still works correctly
+
+- [ ] `vp check` passes
+- [ ] `pnpm test` passes
+- [ ] New user-facing text has i18n keys
+- [ ] Changes tested on the development server
+- [ ] No new console errors or warnings
+- [ ] Build process still works
 
 ## Resources and Documentation
 
 - [Electron Documentation](https://www.electronjs.org/docs)
 - [Vue 3 Documentation](https://vuejs.org/)
+- [Vite+ Documentation](https://viteplus.dev/)
 - [Vite Documentation](https://vitejs.dev/)
 - [UnoCSS Documentation](https://unocss.dev/)
 - [Pinia Documentation](https://pinia.vuejs.org/)
@@ -240,4 +311,4 @@ pnpm run build  # Full production build with electron-builder
 
 ---
 
-*This document should be updated as the project evolves. When making significant architectural changes, please update this guide accordingly.*
+*Update this document when the stack, the scripts or the architecture change.*
