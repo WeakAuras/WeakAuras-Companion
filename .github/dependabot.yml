@@ -35,3 +35,7 @@ updates:
     - Stanzilla
     labels:
     - dependencies
+    groups:
+      codeql-action:
+        patterns:
+          - "github/codeql-action"
