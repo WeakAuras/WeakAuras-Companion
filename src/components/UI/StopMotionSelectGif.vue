@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import fs from "node:fs";
 import path from "node:path";
-import gif2tga from "@/libs/gif2tga";
 import { storeToRefs } from "pinia";
 
+import gif2tga from "@/libs/gif2tga";
 import { useStopMotionStore } from "../../stores/stopmotion";
 import DiscordPicker from "./DiscordPicker.vue";
 import FileSelect from "./FileSelect.vue";

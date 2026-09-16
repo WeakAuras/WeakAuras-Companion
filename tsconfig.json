@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -23,7 +22,7 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     },
     "verbatimModuleSyntax": true,
@@ -33,7 +32,6 @@
     "./**/*.vue",
     "uno.config.ts",
     "vite.config.ts",
-    "eslint.config.mjs",
     "package.json",
     "electron"
   ],

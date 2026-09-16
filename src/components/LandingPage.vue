@@ -13,6 +13,12 @@ import {
   shallowRef,
   watch,
 } from "vue";
+import type {
+  ProgressInfo,
+  UpdateDownloadedEvent,
+  UpdateInfo,
+} from "electron-updater";
+
 import { buildAccountList } from "@/libs/build-account-list";
 import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
 import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
@@ -30,12 +36,6 @@ import { wowDefaultPath } from "@/libs/utilities";
 import { validateWowPath as validateWowPathFn } from "@/libs/validate-wow-path";
 import { wagoPushHandler } from "@/libs/wago-push-handler";
 import { writeAddonData } from "@/libs/write-addon-data";
-import type {
-  ProgressInfo,
-  UpdateDownloadedEvent,
-  UpdateInfo,
-} from "electron-updater";
-
 import { useStashStore } from "../stores/auras";
 import type { Account, AddonConfig, AuraType, Version } from "../stores/config";
 import { useConfigStore } from "../stores/config";
@@ -53,7 +53,7 @@ import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// oxlint-disable-next-line @typescript-eslint/no-unused-vars
 type UpdaterEventArg =
   | { status: "error"; error: Error; message?: string }
   | { status: "download-progress"; progressInfo: ProgressInfo }

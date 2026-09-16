@@ -2,6 +2,8 @@
 import path from "node:path";
 import { shell } from "electron";
 import { computed, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+
 import {
   deflate,
   encode,
@@ -9,8 +11,6 @@ import {
   serialize,
   StopMotionTemplate,
 } from "@/libs/stopmotion";
-import { storeToRefs } from "pinia";
-
 import { useStashStore } from "../../stores/auras";
 import { useStopMotionStore } from "../../stores/stopmotion";
 

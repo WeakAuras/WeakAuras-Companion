@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+
 import type {
   AccountOptions,
   AuraType,
@@ -7,7 +8,6 @@ import type {
   Version,
   VersionOptions,
 } from "@/stores/config";
-
 import { buildAccountList } from "./build-account-list";
 import { buildVersionList } from "./build-version-list";
 

@@ -27,8 +27,9 @@ yarn-error.log*
 /dist-electron
 /release
 
+# Vite+ hook dispatcher
+.vite-hooks/_
+
 # Transpiled tools
 tools/**/*.js
 
-# Cache
-.eslintcache

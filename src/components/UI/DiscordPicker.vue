@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import clickOutside from "@/libs/click-outside";
 
+import clickOutside from "@/libs/click-outside";
 import GifPicker from "./GifPicker.vue";
 
 const vClickOutside = clickOutside;

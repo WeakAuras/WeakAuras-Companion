@@ -1,5 +1,6 @@
+import { beforeEach, describe, expect, test, vi } from "vite-plus/test";
+
 import { grabVersionFromInstalledAddons } from "@/libs/grab-wa-version";
-import { beforeEach, describe, expect, test, vi } from "vitest";
 
 const { existsSync, readFileSync, readdirSync, realpathSync } = vi.hoisted(
   () => ({

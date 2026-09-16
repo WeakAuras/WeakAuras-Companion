@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+
 import { backup } from "@/libs/backup";
 import { grabVersionFromInstalledAddons } from "@/libs/grab-wa-version";
 import sanitize from "@/libs/sanitize";

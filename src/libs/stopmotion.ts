@@ -261,7 +261,7 @@ const serializationMapping: SerializationMapping = [
 ];
 
 function replaceNonASCIICharacters(inputString: string): string {
-  // eslint-disable-next-line no-control-regex
+  // oxlint-disable-next-line no-control-regex
   return inputString.replace(/[^\x00-\x7F]/g, "?");
 }
 
@@ -319,7 +319,7 @@ function getRandomInt(min: number, max: number): number {
 }
 
 function generateUniqueID(): string {
-  const uid: string[] = new Array<string>(11);
+  const uid: string[] = Array.from({ length: 11 });
   const tableLen = mappingTable.length;
 
   for (let i = 0; i < 11; i++) {
