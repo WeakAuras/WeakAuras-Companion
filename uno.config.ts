@@ -1,6 +1,6 @@
 import type { IconSet } from "@iconify/tools";
 import { importDirectory, runSVGO } from "@iconify/tools";
-import type { CustomIconLoader } from "@iconify/utils/lib/loader/types";
+import type { CustomIconLoader } from "@iconify/utils";
 import presetWebFonts from "@unocss/preset-web-fonts";
 import { defineConfig, presetIcons, presetWind4 } from "unocss";
 
