@@ -77,11 +77,11 @@ function useLoading() {
   oDiv.innerHTML = `<div class="${className}"><div></div></div>`;
 
   return {
-    appendLoading() {
+    appendLoading: () => {
       safeDOM.append(document.head, oStyle);
       safeDOM.append(document.body, oDiv);
     },
-    removeLoading() {
+    removeLoading: () => {
       safeDOM.remove(document.head, oStyle);
       safeDOM.remove(document.body, oDiv);
     },
@@ -94,7 +94,9 @@ const { appendLoading, removeLoading } = useLoading();
 domReady().then(appendLoading);
 
 window.onmessage = (ev) => {
-  ev.data.payload === "removeLoading" && removeLoading();
+  if (ev.data.payload === "removeLoading") {
+    removeLoading();
+  }
 };
 
 setTimeout(removeLoading, 4999);

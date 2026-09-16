@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import path from "node:path";
 import { onMounted, watch } from "vue";
-import gif2tga from "@/libs/gif2tga";
 import { storeToRefs } from "pinia";
 
+import gif2tga from "@/libs/gif2tga";
 import { useConfigStore } from "../../stores/config";
 import { useStopMotionStore } from "../../stores/stopmotion";
 import Checkbox from "./Checkbox.vue";

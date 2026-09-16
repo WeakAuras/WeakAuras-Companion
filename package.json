@@ -3,53 +3,35 @@
   "version": "5.3.1",
   "description": "WeakAuras Companion App",
   "keywords": [
+    "WeakAuras",
+    "World of Warcraft",
     "electron",
     "rollup",
     "vite",
-    "vue3",
     "vue",
-    "WeakAuras",
-    "World of Warcraft"
+    "vue3"
   ],
+  "license": "GPL-2.0-or-later",
+  "author": "Buds <mrbouyou@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/WeakAuras/WeakAuras-Companion.git"
   },
-  "license": "GPL-2.0-or-later",
-  "author": "Buds <mrbouyou@gmail.com>",
   "type": "module",
   "main": "dist-electron/main/index.mjs",
   "scripts": {
-    "build": "vue-tsc && vite build && electron-builder",
+    "build": "vue-tsc && vp build && electron-builder",
     "clean": "git clean -xdf node_modules dist dist-electron",
     "compile-tools": "tsc -p tools",
-    "dev": "vite",
+    "dev": "vp dev",
     "i18n": "pnpm run compile-tools && node ./tools/scripts/extract-i18n-messages.js",
     "i18n-report": "pnpm dlx vue-i18n-extract report --add --remove --separator 'buggy' --vueFiles './src/**/*.?(ts|vue)' --languageFiles './i18n/*.json'",
-    "preinstall": "npx only-allow pnpm",
-    "lint": "eslint ./src --cache && prettier . --check --cache",
-    "lint:fix": "eslint ./src --fix && prettier . --write",
-    "prepare": "husky",
-    "test": "vitest run",
-    "test:ui": "vitest --ui"
-  },
-  "lint-staged": {
-    "*.?(js|ts|ts|vue)": [
-      "prettier --write --cache",
-      "eslint --cache"
-    ]
-  },
-  "config": {
-    "default-locale": "en",
-    "supported-locales": [
-      "en",
-      "es",
-      "de",
-      "fr",
-      "ru",
-      "tr",
-      "zh-cn"
-    ]
+    "postinstall": "install-electron",
+    "lint": "vp lint ./src && vp fmt . --check",
+    "lint:fix": "vp lint ./src --fix && vp fmt .",
+    "prepare": "vp config --no-agent",
+    "test": "vp test run",
+    "test:ui": "vp test --ui"
   },
   "dependencies": {
     "archiver": "7.0.1",
@@ -70,73 +52,69 @@
     "@types/luxon": "3.7.2",
     "@types/node": "25.2.0",
     "@types/tail": "2.2.3",
-    "@unocss/eslint-config": "66.6.6",
     "@unocss/preset-icons": "66.6.6",
     "@unocss/preset-web-fonts": "66.6.6",
     "@vitejs/plugin-vue": "6.0.7",
-    "@vitest/browser": "4.1.10",
-    "@vitest/ui": "4.0.3",
+    "@vitest/ui": "catalog:",
     "browserslist": "4.28.2",
     "electron": "42.2.0",
     "electron-builder": "26.8.1",
     "electron-log": "5.4.4",
     "electron-store": "11.0.2",
     "electron-updater": "6.8.3",
-    "eslint": "9.39.2",
-    "eslint-plugin-vue": "10.9.1",
     "floating-vue": "5.2.2",
     "glob": "13.0.1",
     "happy-dom": "20.11.1",
-    "husky": "9.1.7",
-    "lint-staged": "17.0.8",
     "luaparse": "0.2.1",
     "luxon": "3.7.2",
     "pinia": "3.0.4",
     "pinia-plugin-persistedstate-2": "2.0.32",
     "playwright": "1.61.1",
-    "prettier": "3.8.4",
-    "prettier-plugin-packagejson": "3.0.2",
     "tail": "2.2.6",
     "tree-kill": "1.2.2",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.60.0",
     "unocss": "66.6.6",
-    "vite": "7.3.5",
+    "vite": "catalog:",
     "vite-plugin-electron": "1.1.0",
     "vite-plugin-electron-renderer": "0.14.7",
     "vite-plugin-resolve": "2.5.2",
     "vite-plugin-vue-devtools": "8.1.5",
     "vite-plugin-webfont-dl": "3.12.0",
-    "vitest": "4.0.3",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
     "vitest-browser-vue": "2.0.1",
     "vue": "3.5.34",
     "vue-i18n": "11.4.7",
     "vue-tsc": "3.3.7"
   },
-  "packageManager": "pnpm@10.33.4",
+  "config": {
+    "default-locale": "en",
+    "supported-locales": [
+      "en",
+      "es",
+      "de",
+      "fr",
+      "ru",
+      "tr",
+      "zh-cn"
+    ]
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.4.2",
+      "onFail": "download"
+    },
+    "runtime": {
+      "name": "node",
+      "version": "24.21.0",
+      "onFail": "download"
+    }
+  },
   "engines": {
     "node": ">=24"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "electron",
-      "electron-winstaller",
-      "esbuild",
-      "sharp",
-      "vue-demi"
-    ],
-    "supportedArchitectures": {
-      "cpu": [
-        "x64",
-        "arm64"
-      ],
-      "os": [
-        "win32",
-        "darwin",
-        "linux"
-      ]
-    }
-  },
+  "packageManager": "pnpm@12.4.2",
   "debug": {
     "env": {
       "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"

@@ -1,4 +1,5 @@
 import { reactive } from "vue";
+
 import type { AddonConfig } from "@/stores/config";
 
 interface ParsedAuraFields {

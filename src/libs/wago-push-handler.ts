@@ -1,8 +1,8 @@
-import type { StashStore } from "@/stores/auras";
-import type { ConfigState, Version } from "@/stores/config";
 import type { OptionsInit, Response } from "got";
 import got from "got";
 
+import type { StashStore } from "@/stores/auras";
+import type { ConfigState, Version } from "@/stores/config";
 import hash from "./hash";
 
 interface WagoApiResponse {

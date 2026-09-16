@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import sanitize from "@/libs/sanitize";
 import { DateTime } from "luxon";
 import { useI18n } from "vue-i18n";
 
+import sanitize from "@/libs/sanitize";
 import type { AuraType } from "../../stores/config";
 
 const props = defineProps<{

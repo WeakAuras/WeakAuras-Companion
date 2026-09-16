@@ -1,7 +1,8 @@
 import path from "node:path";
 import { ref } from "vue";
-import userDataPath from "@/libs/user-data-folder";
 import { defineStore } from "pinia";
+
+import userDataPath from "@/libs/user-data-folder";
 
 export interface WowPath {
   validated: boolean;

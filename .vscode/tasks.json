@@ -56,9 +56,7 @@
       "type": "npm",
       "script": "dev",
       "isBackground": true,
-      "problemMatcher": [
-        "$eslint-stylish"
-      ],
+      "problemMatcher": [],
       "group": {
         "kind": "test",
         "isDefault": true
@@ -82,9 +80,7 @@
       "type": "npm",
       "script": "lint",
       "group": "test",
-      "problemMatcher": [
-        "$eslint-stylish"
-      ]
+      "problemMatcher": []
     },
     {
       "label": "dist",
@@ -95,9 +91,7 @@
         "i18n",
         "dev"
       ],
-      "problemMatcher": [
-        "$eslint-stylish"
-      ]
+      "problemMatcher": []
     },
     {
       "label": "i18n",

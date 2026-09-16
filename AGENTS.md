@@ -16,12 +16,12 @@ WeakAuras Companion is a cross-platform desktop application built with Electron 
 
 - **Runtime**: Electron 38.x (Node.js >= 22 required)
 - **Frontend**: Vue 3 + TypeScript
-- **Build Tool**: Vite with custom configuration
+- **Build Tool**: Vite+ (`vp`) with Vite 8 and a custom configuration
 - **Styling**: UnoCSS with custom presets
-- **Package Manager**: pnpm (strictly enforced via `.npmrc`)
-- **Linting**: ESLint + Prettier with TypeScript support
+- **Package Manager**: pnpm (declared in `packageManager` and `devEngines`; `vp install` delegates to it)
+- **Linting and Formatting**: Oxlint + Oxfmt through Vite+, configured in the `lint` and `fmt` blocks of `vite.config.ts`
 - **Internationalization**: Vue i18n with extraction tools
-- **Testing**: Vitest (minimal setup)
+- **Testing**: Vitest 4 through `vp test` (minimal setup)
 - **State Management**: Pinia with persistence
 
 ## Development Environment Setup
@@ -41,7 +41,7 @@ npm install -g pnpm
 git clone https://github.com/WeakAuras/WeakAuras-Companion.git
 cd WeakAuras-Companion
 
-# Install dependencies (pnpm is enforced via preinstall script)
+# Install dependencies (pnpm is declared in package.json)
 pnpm install
 
 # Start development server
@@ -55,8 +55,10 @@ pnpm run dev
 - `pnpm run build` - Build for production (includes TypeScript compilation, Vite build, and Electron packaging)
 
 ### Code Quality
-- `pnpm run lint` - Run ESLint on ./src and Prettier format check
-- `pnpm run lint:fix` - Auto-fix ESLint issues and format with Prettier
+- `pnpm run lint` - Run Oxlint on ./src and the Oxfmt format check
+- `pnpm run lint:fix` - Auto-fix Oxlint issues and format with Oxfmt
+- `vp check` - Run format, lint and type checks on the whole project
+- `vp test` - Run the Vitest suite
 
 ### Internationalization
 - `pnpm run i18n` - Extract translation strings to i18n/*.json files
@@ -88,7 +90,7 @@ WeakAuras-Companion/
 ├── package.json               # Dependencies and scripts
 ├── vite.config.ts             # Vite configuration
 ├── tsconfig.json              # TypeScript configuration
-├── eslint.config.mjs          # ESLint configuration
+├── pnpm-workspace.yaml        # pnpm settings and the Vite+ catalog/overrides
 ├── uno.config.ts              # UnoCSS configuration
 └── electron-builder.json     # Electron packaging configuration
 ```
@@ -109,10 +111,9 @@ WeakAuras-Companion/
 - Vue i18n plugin
 - Custom resolve configuration
 
-#### ESLint Configuration (`eslint.config.mjs`)
-- Flat config format with TypeScript integration
-- Vue 3 specific rules
-- UnoCSS integration
+#### Lint and Format Configuration (`vite.config.ts`)
+- `lint` block: Oxlint with the `typescript`, `vue`, `unicorn` and `vite-plus` plugins, type-aware rules enabled
+- `fmt` block: Oxfmt with the previous Prettier options (80 columns, trailing commas, one attribute per line)
 - Custom rule overrides for TypeScript strictness
 
 ## Common Development Tasks
@@ -148,7 +149,7 @@ WeakAuras-Companion/
 - **Unit Tests**: Vitest configured but minimal test coverage currently
 - **Manual Testing**: Use `pnpm run dev` for development testing
 - **CI/CD**: Automated builds on Windows, macOS, and Linux via GitHub Actions
-- **Code Quality**: ESLint + Prettier enforce code standards
+- **Code Quality**: Oxlint + Oxfmt (`vp check`) enforce code standards
 
 ## Build and Release Process
 
@@ -171,14 +172,14 @@ pnpm run build  # Full production build with electron-builder
 ## Important Considerations for Agents
 
 ### Package Management
-- **MUST use pnpm**: The project enforces pnpm via preinstall script
+- **MUST use pnpm**: The project declares pnpm in `packageManager` and `devEngines`
 - **Node.js version**: Requires Node.js >= 22 (may show warnings on older versions)
 - **Architecture support**: Configured for x64 and arm64 on Windows, macOS, and Linux
 
 ### Code Style and Quality
-- **ESLint rules**: Some TypeScript strict rules are relaxed for pragmatic development
+- **Oxlint rules**: Some TypeScript strict rules are relaxed for pragmatic development
 - **Vue component order**: Script/template first, then style
-- **Import sorting**: Handled by Prettier plugin
+- **Import sorting**: Handled by Oxfmt
 - **File naming**: Follow existing patterns in the codebase
 
 ### Electron-Specific Guidelines
