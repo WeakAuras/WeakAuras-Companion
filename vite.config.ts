@@ -1,4 +1,5 @@
 import { rmSync } from "node:fs";
+import { builtinModules } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -32,6 +33,12 @@ export default defineConfig(({ command }) => {
     root: __dirname,
     resolve: {
       tsconfigPaths: true,
+    },
+    optimizeDeps: {
+      // vite-plugin-electron-renderer serves `electron` and the Node builtins
+      // through small `require()` shims. The rolldown optimizer rewrites that
+      // `require` into a self-reference, which leaves `ipcRenderer` undefined.
+      exclude: ["electron", ...builtinModules.flatMap((m) => [m, `node:${m}`])],
     },
     define: {
       __APP_VERSION__: JSON.stringify(pkg.version),
