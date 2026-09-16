@@ -79,7 +79,7 @@
     "vite-plugin-electron": "1.1.0",
     "vite-plugin-electron-renderer": "0.14.7",
     "vite-plugin-resolve": "2.5.2",
-    "vite-plugin-vue-devtools": "8.1.5",
+    "vite-plugin-vue-devtools": "8.2.1",
     "vite-plugin-webfont-dl": "3.12.0",
     "vite-plus": "catalog:",
     "vitest": "catalog:",
