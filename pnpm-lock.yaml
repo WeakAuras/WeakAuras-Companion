@@ -191,9 +191,6 @@ importers:
       archiver-utils:
         specifier: 5.0.2
         version: 5.0.2
-      got:
-        specifier: 15.0.6
-        version: 15.0.6
       regedit:
         specifier: 5.1.4
         version: 5.1.4(supports-color@7.2.0)
@@ -267,6 +264,9 @@ importers:
       glob:
         specifier: 13.0.1
         version: 13.0.1
+      got:
+        specifier: 15.0.6
+        version: 15.0.6
       happy-dom:
         specifier: 20.11.1
         version: 20.11.1
@@ -291,9 +291,6 @@ importers:
       tail:
         specifier: 2.2.6
         version: 2.2.6
-      tree-kill:
-        specifier: 1.2.2
-        version: 1.2.2
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -304,11 +301,11 @@ importers:
         specifier: 'catalog:'
         version: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)'
       vite-plugin-electron:
-        specifier: 1.1.0
-        version: 1.1.0(vite-plugin-electron-renderer@0.14.7)
+        specifier: 1.1.2
+        version: 1.1.2(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(vite-plugin-electron-renderer@1.0.0)
       vite-plugin-electron-renderer:
-        specifier: 0.14.7
-        version: 0.14.7
+        specifier: 1.0.0
+        version: 1.0.0
       vite-plugin-resolve:
         specifier: 2.5.2
         version: 2.5.2
@@ -4903,10 +4900,6 @@ packages:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
 
-  tree-kill@1.2.2:
-    resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
-    hasBin: true
-
   truncate-utf8-bytes@1.0.2:
     resolution: {integrity: sha512-95Pu1QXQvruGEhv62XCMO3Mm90GscOCClvrIUwCM0PYOXK3kaF3l3sIHxx71ThJfcbM2O5Au6SO3AWCSEfW4mQ==}
 
@@ -5032,12 +5025,13 @@ packages:
     peerDependencies:
       vite: ^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0
 
-  vite-plugin-electron-renderer@0.14.7:
-    resolution: {integrity: sha512-hHBMKuZ24MB2SIxG7U7ix+DDEnvxou7Bgy/TdhYxNz3S5N3Yh7Hjvj9blfMeGEJ0oaZJn7y5z0V/RyDmJ5OuCA==}
+  vite-plugin-electron-renderer@1.0.0:
+    resolution: {integrity: sha512-/9CBdUqnCgwWXn61v5PErWnR5q3Bfne2oI52uHzgJnKnlaoNgEKvxOzS0/XssDXWMK3ElStM2+J/Ko4Q63XhMA==}
 
-  vite-plugin-electron@1.1.0:
-    resolution: {integrity: sha512-4qktNiYlRsaOp+n0vVknIA9m6Abjp6WDHLE9E/czElJgl8WRMJIqmw7ZvlYWflEK28hH5FHUuWEQLEwx9lMCWg==}
+  vite-plugin-electron@1.1.2:
+    resolution: {integrity: sha512-EAHs3zhK+33FhdasevCRVMMOFIHT+MDg5EcD47CCwxDcJ1REYqb7EeR0RHOjCKS7P2ip/q1ISzzMpK3H+p8uTA==}
     peerDependencies:
+      vite: '>=6'
       vite-plugin-electron-renderer: '*'
     peerDependenciesMeta:
       vite-plugin-electron-renderer:
@@ -9649,8 +9643,6 @@ snapshots:
 
   totalist@3.0.1: {}
 
-  tree-kill@1.2.2: {}
-
   truncate-utf8-bytes@1.0.2:
     dependencies:
       utf8-byte-length: 1.0.5
@@ -9784,13 +9776,14 @@ snapshots:
     dependencies:
       vite: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)'
 
-  vite-plugin-electron-renderer@0.14.7: {}
+  vite-plugin-electron-renderer@1.0.0: {}
 
-  vite-plugin-electron@1.1.0(vite-plugin-electron-renderer@0.14.7):
+  vite-plugin-electron@1.1.2(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0))(vite-plugin-electron-renderer@1.0.0):
     dependencies:
       local-pkg: 1.2.1
+      vite: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)'
     optionalDependencies:
-      vite-plugin-electron-renderer: 0.14.7
+      vite-plugin-electron-renderer: 1.0.0
 
   vite-plugin-inspect@11.4.1(@voidzero-dev/vite-plus-core@0.3.2(@types/node@25.2.0)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.9.0)):
     dependencies:

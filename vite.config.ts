@@ -1,5 +1,4 @@
 import { rmSync } from "node:fs";
-import { builtinModules } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -34,12 +33,6 @@ export default defineConfig(({ command }) => {
     resolve: {
       tsconfigPaths: true,
     },
-    optimizeDeps: {
-      // vite-plugin-electron-renderer serves `electron` and the Node builtins
-      // through small `require()` shims. The rolldown optimizer rewrites that
-      // `require` into a self-reference, which leaves `ipcRenderer` undefined.
-      exclude: ["electron", ...builtinModules.flatMap((m) => [m, `node:${m}`])],
-    },
     define: {
       __APP_VERSION__: JSON.stringify(pkg.version),
       __APP_LICENSE__: JSON.stringify(pkg.license),
@@ -66,7 +59,7 @@ export default defineConfig(({ command }) => {
               sourcemap,
               minify: isBuild,
               outDir: "dist-electron/main",
-              rollupOptions: {
+              rolldownOptions: {
                 output: {
                   format: "esm",
                   entryFileNames: "[name].mjs",
@@ -90,7 +83,7 @@ export default defineConfig(({ command }) => {
               sourcemap: sourcemap ? "inline" : undefined,
               minify: isBuild,
               outDir: "dist-electron/preload",
-              rollupOptions: {
+              rolldownOptions: {
                 external: Object.keys(
                   "dependencies" in pkg ? pkg.dependencies : {},
                 ),
@@ -127,7 +120,7 @@ export default defineConfig(({ command }) => {
     build: {
       sourcemap,
       target: "esnext",
-      rollupOptions: {
+      rolldownOptions: {
         output: {
           assetFileNames: "assets/[name].[ext]",
         },
