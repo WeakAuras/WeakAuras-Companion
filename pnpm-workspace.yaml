@@ -42,7 +42,7 @@ catalog:
   sharp: 0.35.4
   tail: 2.2.6
   tga: 1.0.7
-  typescript: 5.8.3
+  typescript: 6.0.3
   unocss: 66.6.6
   vite: npm:@voidzero-dev/vite-plus-core@0.3.2
   vite-plugin-electron: 1.1.2
