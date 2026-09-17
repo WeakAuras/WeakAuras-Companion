@@ -119,7 +119,7 @@ function setup() {
     addonName: "WeakAuras",
     hasTypeColumn: false,
     isInstalled: true,
-    parseFunction: () => [],
+    parseFunction: () => ({ status: "invalid" }),
     svPathFunction: () => sourceFile,
     wagoAPI: "",
   };
