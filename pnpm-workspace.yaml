@@ -17,7 +17,6 @@ catalog:
   '@types/luaparse': 0.2.1
   '@types/luxon': 3.7.2
   '@types/node': 26.5.1
-  '@types/tail': 2.2.3
   '@unocss/preset-icons': 66.10.1
   '@unocss/preset-web-fonts': 66.10.1
   '@vitejs/plugin-vue': 6.0.7
@@ -40,7 +39,6 @@ catalog:
   playwright: 1.63.0
   regedit: 5.1.4
   sharp: 0.35.4
-  tail: 2.2.6
   tga: 1.0.7
   typescript: 6.0.3
   unocss: 66.10.1
