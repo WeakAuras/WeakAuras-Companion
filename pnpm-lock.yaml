@@ -191,9 +191,6 @@ catalogs:
     '@types/node':
       specifier: 26.5.1
       version: 26.5.1
-    '@types/tail':
-      specifier: 2.2.3
-      version: 2.2.3
     '@unocss/preset-icons':
       specifier: 66.10.1
       version: 66.10.1
@@ -260,9 +257,6 @@ catalogs:
     sharp:
       specifier: 0.35.4
       version: 0.35.4
-    tail:
-      specifier: 2.2.6
-      version: 2.2.6
     tga:
       specifier: 1.0.7
       version: 1.0.7
@@ -360,9 +354,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.5.1
-      '@types/tail':
-        specifier: 'catalog:'
-        version: 2.2.3
       '@unocss/preset-icons':
         specifier: 'catalog:'
         version: 66.10.1
@@ -420,9 +411,6 @@ importers:
       playwright:
         specifier: 'catalog:'
         version: 1.63.0
-      tail:
-        specifier: 'catalog:'
-        version: 2.2.6
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -1841,9 +1829,6 @@ packages:
 
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
-
-  '@types/tail@2.2.3':
-    resolution: {integrity: sha512-Hnf352egOlDR4nVTaGX0t/kmTNXHMdovF2C7PVDFtHTHJPFmIspOI1b86vEOxU7SfCq/dADS7ptbqgG/WGGxnA==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -4595,10 +4580,6 @@ packages:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
 
-  tail@2.2.6:
-    resolution: {integrity: sha512-IQ6G4wK/t8VBauYiGPLx+d3fA5XjSVagjWV5SIYzvEvglbQjwEcukeYI68JOPpdydjxhZ9sIgzRlSmwSpphHyw==}
-    engines: {node: '>= 6.0.0'}
-
   tar-stream@3.2.1:
     resolution: {integrity: sha512-nqsEO8zLZJvrOMdEwkA0QdCLFbetHMn95Zqu4fKwX+hkaTWJPZZOrxx/PwtxoK0MMGQmBQNRW3CPs8IFYQz4cQ==}
 
@@ -6254,8 +6235,6 @@ snapshots:
   '@types/responselike@1.0.3':
     dependencies:
       '@types/node': 26.5.1
-
-  '@types/tail@2.2.3': {}
 
   '@types/unist@3.0.3': {}
 
@@ -9111,8 +9090,6 @@ snapshots:
       sax: 1.6.1
 
   tagged-tag@1.0.0: {}
-
-  tail@2.2.6: {}
 
   tar-stream@3.2.1:
     dependencies:
