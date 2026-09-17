@@ -29,6 +29,10 @@ export interface AccountOptions {
   value: string;
 }
 
+export type SavedVariableParseResult =
+  | { status: "valid"; auras: any[] }
+  | { status: "invalid" };
+
 export interface AddonConfig {
   addonName: string;
   wagoAPI: string;
@@ -40,7 +44,10 @@ export interface AddonConfig {
     version: Version,
     account: Account,
   ) => string | false;
-  parseFunction: (WeakAurasSavedData: any, config: AddonConfig) => any[];
+  parseFunction: (
+    WeakAurasSavedData: any,
+    config: AddonConfig,
+  ) => SavedVariableParseResult;
   ignoreOwnAuras?: boolean;
   wagoUsername?: string | null;
 }

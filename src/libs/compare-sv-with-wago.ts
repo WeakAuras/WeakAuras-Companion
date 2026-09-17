@@ -150,9 +150,33 @@ export async function compareSVwithWago(
     const data = readFile(svPath);
     const savedData = parseLua(data);
 
-    if (savedData) {
-      fileAuraData = [...fileAuraData, ...conf.parseFunction(savedData, conf)];
+    if (!savedData) {
+      fetching = false;
+      fetchingUpdateCallback(fetching);
+      scheduleRefreshWago(MINUTES_30);
+      return;
     }
+
+    let parsedData;
+
+    try {
+      parsedData = conf.parseFunction(savedData, conf);
+    } catch (error) {
+      console.error(`Error parsing ${conf.addonName} saved variables`, error);
+      fetching = false;
+      fetchingUpdateCallback(fetching);
+      scheduleRefreshWago(MINUTES_30);
+      return;
+    }
+
+    if (parsedData.status !== "valid") {
+      fetching = false;
+      fetchingUpdateCallback(fetching);
+      scheduleRefreshWago(MINUTES_30);
+      return;
+    }
+
+    fileAuraData = [...fileAuraData, ...parsedData.auras];
   }
 
   // clean up auras

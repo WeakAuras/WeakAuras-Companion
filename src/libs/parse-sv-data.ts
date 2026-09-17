@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 
-import type { AddonConfig } from "@/stores/config";
+import type { AddonConfig, SavedVariableParseResult } from "@/stores/config";
 
 interface ParsedAuraFields {
   auraTypeDisplay: string | null;
@@ -44,16 +44,34 @@ function createFoundAura(config: AddonConfig, fields: ParsedAuraFields) {
   });
 }
 
-export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
-  const aurasFromFile = [];
+function getSavedVariableFields(data: any, variableName: string) {
+  const statement = data?.body?.[0];
+  const fields = statement?.init?.[0]?.fields;
 
-  if (WeakAurasSavedData.body[0].variables[0].name !== "WeakAurasSaved") {
-    return [];
+  if (
+    statement?.variables?.[0]?.name !== variableName ||
+    !Array.isArray(fields)
+  ) {
+    return null;
+  }
+
+  return fields;
+}
+
+export function parseWeakAurasSVdata(
+  WeakAurasSavedData,
+  config: AddonConfig,
+): SavedVariableParseResult {
+  const aurasFromFile = [];
+  const fields = getSavedVariableFields(WeakAurasSavedData, "WeakAurasSaved");
+
+  if (!fields) {
+    return { status: "invalid" };
   }
 
   const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
-  WeakAurasSavedData.body[0].init[0].fields.forEach((obj) => {
+  fields.forEach((obj) => {
     if (obj.key.value === "displays") {
       obj.value.fields.forEach((obj2) => {
         let slug: string;
@@ -115,19 +133,23 @@ export function parseWeakAurasSVdata(WeakAurasSavedData, config: AddonConfig) {
     }
   });
 
-  return aurasFromFile;
+  return { status: "valid", auras: aurasFromFile };
 }
 
-export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
+export function parsePlaterSVdata(
+  PlaterSavedData,
+  config: AddonConfig,
+): SavedVariableParseResult {
   const aurasFromFile = [];
+  const fields = getSavedVariableFields(PlaterSavedData, "PlaterDB");
 
-  if (PlaterSavedData.body[0].variables[0].name !== "PlaterDB") {
-    return;
+  if (!fields) {
+    return { status: "invalid" };
   }
 
   const pattern = /(https:\/\/wago.io\/)([^/]+)/;
 
-  PlaterSavedData.body[0].init[0].fields.forEach((obj) => {
+  fields.forEach((obj) => {
     if (obj.key.value === "profiles") {
       obj.value.fields.forEach((profile) => {
         let profslug: string;
@@ -244,5 +266,5 @@ export function parsePlaterSVdata(PlaterSavedData, config: AddonConfig) {
     }
   });
 
-  return aurasFromFile;
+  return { status: "valid", auras: aurasFromFile };
 }
