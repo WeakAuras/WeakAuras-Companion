@@ -232,5 +232,7 @@ end)
       }
     });
   }
-  backup(config, addonsInstalled);
+  void backup(config, addonsInstalled).catch((error) =>
+    console.error("Backup failed:", error),
+  );
 }
