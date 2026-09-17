@@ -90,7 +90,8 @@ const winURL = null;
 let updateAvailableNotificationShown = false;
 
 function sendUpdaterEvent(event: UpdaterEvent) {
-  mainWindow?.webContents.send(updaterEventChannel, event);
+  if (!mainWindow?.webContents) return;
+  mainWindow.webContents.send(updaterEventChannel, event);
 }
 
 const trayIconPath = join(
@@ -503,26 +504,20 @@ autoUpdater.on("error", (err: Error, message?: string) => {
     error: err.message,
     ...(message === undefined ? {} : { message }),
   });
-  if (mainWindow?.webContents) {
-    mainWindow.setProgressBar(-1);
-  }
+  if (mainWindow?.webContents) mainWindow.setProgressBar(-1);
 });
 
 autoUpdater.on("download-progress", (info) => {
-  if (mainWindow?.webContents) {
-    sendUpdaterEvent({ type: "download-progress", percent: info.percent });
-    mainWindow?.setProgressBar(info.percent / 100);
-  }
+  sendUpdaterEvent({ type: "download-progress", percent: info.percent });
+  if (mainWindow?.webContents) mainWindow.setProgressBar(info.percent / 100);
 });
 
 autoUpdater.on("update-downloaded", (event) => {
-  if (mainWindow?.webContents) {
-    sendUpdaterEvent({
-      type: "update-downloaded",
-      updateInfo: toUpdaterReleaseInfo(event),
-    });
-    mainWindow?.setProgressBar(-1);
-  }
+  sendUpdaterEvent({
+    type: "update-downloaded",
+    updateInfo: toUpdaterReleaseInfo(event),
+  });
+  if (mainWindow?.webContents) mainWindow.setProgressBar(-1);
 });
 
 // Exit cleanly on request from parent process in development mode.
