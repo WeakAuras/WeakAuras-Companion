@@ -274,7 +274,6 @@ export async function compareSVwithWago(
     [];
   const promisesWagoDataCallsComplete = [];
   const receivedByAddon = new Map<string, Set<string>>();
-  const metadataResults = new Set<string>();
 
   addonConfigs.forEach((config) => {
     // Make a list of unique auras to fetch
@@ -432,7 +431,6 @@ export async function compareSVwithWago(
           if (responseCode && responseCode !== 404) {
             nextRefresh = MINUTES_30;
           } else if (responseCode === 404) {
-            metadataResults.add(config.addonName);
             receivedByAddon.set(config.addonName, new Set());
           }
 
@@ -442,8 +440,6 @@ export async function compareSVwithWago(
             `HTTP status code: ${responseCode}`,
             `Request parameters: ${JSON.stringify(error?.config?.params)}`,
           );
-        } else {
-          metadataResults.add(config.addonName);
         }
       });
     } catch (error) {
@@ -482,7 +478,7 @@ export async function compareSVwithWago(
 
         if (
           addonName &&
-          metadataResults.has(addonName) &&
+          receivedByAddon.has(addonName) &&
           !receivedByAddon.get(addonName)?.has(auras[i].slug)
         ) {
           auras.splice(i, 1);
