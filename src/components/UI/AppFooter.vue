@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import type { UpdaterViewState } from "@/libs/updater-event";
 import { useStashStore } from "@/stores/auras";
 
-import type { Updater } from "../LandingPage.vue";
-
 defineProps<{
-  updater: Updater;
+  updater: UpdaterViewState;
 }>();
 
 const emit = defineEmits<{
@@ -85,12 +84,12 @@ function handleInstallUpdates() {
     </div>
     <div class="app-update">
       <a
-        v-if="updater.status === 'update-available'"
-        :href="updater.path"
+        v-if="updater.type === 'update-available'"
+        :href="updater.downloadUrl"
         target="_blank"
       >
         <i
-          v-if="updater.status === 'update-available'"
+          v-if="updater.type === 'update-available'"
           v-tooltip="{
             strategy: 'fixed',
             theme: 'info-tooltip',
@@ -103,7 +102,7 @@ function handleInstallUpdates() {
         />
       </a>
       <i
-        v-if="updater.status === 'update-downloaded'"
+        v-if="updater.type === 'update-downloaded'"
         v-tooltip="{
           strategy: 'fixed',
           theme: 'info-tooltip',
@@ -115,16 +114,16 @@ function handleInstallUpdates() {
         @click="handleInstallUpdates"
       />
       <div
-        v-if="updater.status === 'checking-for-update'"
+        v-if="updater.type === 'checking-for-update'"
         class="updating"
       >
         <span class="i-mdi-sync text-2xl"></span>
       </div>
       <div
-        v-if="updater.status === 'download-progress'"
+        v-if="updater.type === 'download-progress'"
         class="updating"
       >
-        <span class="progress">{{ updater.progress }}%</span>
+        <span class="progress">{{ updater.percent }}%</span>
         <i class="icon i-mdi-sync align-middle text-2xl" />
       </div>
     </div>

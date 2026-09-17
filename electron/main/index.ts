@@ -17,13 +17,14 @@ import type { OpenDialogOptions } from "electron";
 
 import log from "electron-log/main";
 import Store from "electron-store";
-import type {
-  ProgressInfo,
-  UpdateCheckResult,
-  UpdateDownloadedEvent,
-  UpdateInfo,
-} from "electron-updater";
+import type { UpdateCheckResult } from "electron-updater";
 import { autoUpdater } from "electron-updater";
+
+import {
+  toUpdaterReleaseInfo,
+  updaterEventChannel,
+} from "../../src/libs/updater-event";
+import type { UpdaterEvent } from "../../src/libs/updater-event";
 
 import {
   buildUpdateAvailableNotificationOptions,
@@ -83,6 +84,10 @@ let contextMenu: Menu | null = null;
 let mainWindow: BrowserWindow | null = null;
 const winURL = null;
 let updateAvailableNotificationShown = false;
+
+function sendUpdaterEvent(event: UpdaterEvent) {
+  mainWindow?.webContents.send(updaterEventChannel, event);
+}
 
 const trayIconPath = join(
   process.env.PUBLIC,
@@ -205,11 +210,6 @@ async function createWindow() {
         autoUpdater
           .checkForUpdates()
           .then((UpdateCheckResult: UpdateCheckResult) => {
-            mainWindow?.webContents.send(
-              "updaterHandler",
-              "checking-for-update",
-              UpdateCheckResult,
-            );
             ({ cancellationToken } = UpdateCheckResult);
           });
       },
@@ -293,11 +293,6 @@ if (!app.requestSingleInstanceLock()) {
       autoUpdater
         .checkForUpdates()
         .then((UpdateCheckResult: UpdateCheckResult) => {
-          mainWindow?.webContents.send(
-            "updaterHandler",
-            "checking-for-update",
-            UpdateCheckResult,
-          );
           ({ cancellationToken } = UpdateCheckResult);
         });
     }
@@ -423,11 +418,6 @@ ipcMain.handle("checkUpdates", (_event, isBeta) => {
   autoUpdater.allowPrerelease = isBeta === true;
 
   autoUpdater.checkForUpdates().then((UpdateCheckResult: UpdateCheckResult) => {
-    mainWindow?.webContents.send(
-      "updaterHandler",
-      "checking-for-update",
-      UpdateCheckResult,
-    );
     ({ cancellationToken } = UpdateCheckResult);
   });
 });
@@ -456,15 +446,14 @@ ipcMain.handle("getLang", () => {
 
 // updater functions
 autoUpdater.on("checking-for-update", () => {
-  if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "checking-for-update");
-  }
+  sendUpdaterEvent({ type: "checking-for-update" });
 });
 
-autoUpdater.on("update-available", (info: UpdateInfo) => {
-  if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "update-available", info);
-  }
+autoUpdater.on("update-available", (info) => {
+  sendUpdaterEvent({
+    type: "update-available",
+    updateInfo: toUpdaterReleaseInfo(info),
+  });
 
   if (!updateAvailableNotificationShown) {
     const notification = new Notification(
@@ -484,33 +473,37 @@ autoUpdater.on("update-available", (info: UpdateInfo) => {
   }
 });
 
-autoUpdater.on("update-not-available", (info: UpdateInfo) => {
-  if (mainWindow?.webContents) {
-    mainWindow?.webContents.send(
-      "updaterHandler",
-      "update-not-available",
-      info,
-    );
-  }
+autoUpdater.on("update-not-available", (info) => {
+  sendUpdaterEvent({
+    type: "update-not-available",
+    updateInfo: toUpdaterReleaseInfo(info),
+  });
 });
 
 autoUpdater.on("error", (err: Error, message?: string) => {
+  sendUpdaterEvent({
+    type: "error",
+    error: err.message,
+    ...(message === undefined ? {} : { message }),
+  });
   if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "error", err, message);
-    mainWindow?.setProgressBar(-1);
+    mainWindow.setProgressBar(-1);
   }
 });
 
-autoUpdater.on("download-progress", (info: ProgressInfo) => {
+autoUpdater.on("download-progress", (info) => {
   if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "download-progress", info);
+    sendUpdaterEvent({ type: "download-progress", percent: info.percent });
     mainWindow?.setProgressBar(info.percent / 100);
   }
 });
 
-autoUpdater.on("update-downloaded", (event: UpdateDownloadedEvent) => {
+autoUpdater.on("update-downloaded", (event) => {
   if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("updaterHandler", "update-downloaded", event);
+    sendUpdaterEvent({
+      type: "update-downloaded",
+      updateInfo: toUpdaterReleaseInfo(event),
+    });
     mainWindow?.setProgressBar(-1);
   }
 });
