@@ -69,8 +69,8 @@ const sortedColumn = ref("modified");
 const sortDescending = ref(false);
 const updater = shallowRef<UpdaterViewState>({ type: "idle" });
 let updaterScheduleId: NodeJS.Timeout | undefined;
-const accountOptions = shallowRef<Array<{ text: string; value: string }>>([]);
-const versionOptions = shallowRef<Array<{ text: string; value: string }>>([]);
+const accountOptions = ref<Array<{ text: string; value: string }>>([]);
+const versionOptions = ref<Array<{ text: string; value: string }>>([]);
 const defaultWOWPath = ref("");
 
 // Toggle functions
