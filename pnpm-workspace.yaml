@@ -25,7 +25,7 @@ catalog:
   archiver: 8.0.0
   archiver-utils: 5.0.2
   electron: 44.3.0
-  electron-builder: 26.8.1
+  electron-builder: 26.15.3
   electron-log: 5.4.4
   electron-store: 11.0.2
   electron-updater: 6.8.3
