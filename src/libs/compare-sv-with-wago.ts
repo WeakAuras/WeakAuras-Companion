@@ -21,10 +21,34 @@ function refreshWago() {
   ipcRenderer.invoke("refreshWago");
 }
 
-interface WagoApiResponse {
-  data: string;
-  status: number;
-  [Symbol.iterator](): Iterator<string>;
+interface WagoApiData {
+  _id: string;
+  changelog?: { format: string; text: string };
+  created?: string;
+  modified?: string;
+  name?: string;
+  regionType?: string | null;
+  slug: string;
+  username?: string;
+  version?: number;
+  versionString?: string;
+}
+
+function isWagoApiData(value: unknown): value is WagoApiData {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const data = value as WagoApiData;
+  return typeof data.slug === "string" && typeof data._id === "string";
+}
+
+function getWagoApiData(body: unknown): WagoApiData[] | null {
+  if (!Array.isArray(body) || !body.every(isWagoApiData)) {
+    return null;
+  }
+
+  return body;
 }
 
 type FetchingUpdateCallback = (fetching: boolean) => void;
@@ -246,10 +270,11 @@ export async function compareSVwithWago(
   }
 
   // Get each encoded string
-  const promisesWagoCallsComplete = [];
+  const metadataRequests: { config: AddonConfig; promise: Promise<void> }[] =
+    [];
   const promisesWagoDataCallsComplete = [];
-  const received = [];
-  let allAurasFetched = [];
+  const receivedByAddon = new Map<string, Set<string>>();
+  const metadataResults = new Set<string>();
 
   addonConfigs.forEach((config) => {
     // Make a list of unique auras to fetch
@@ -270,68 +295,79 @@ export async function compareSVwithWago(
       return;
     }
 
-    allAurasFetched = [...allAurasFetched, ...fetchAuras];
-
     // Get data from Wago api
-    promisesWagoCallsComplete.push(
-      got
-        .post<WagoApiResponse>(config.wagoAPI, {
-          ...gotOptions,
-          responseType: "json",
-          json: {
-            ids: fetchAuras,
-          },
-        })
-        .then((response: Response<WagoApiResponse>) => {
-          const data: WagoApiResponse = response.body;
+    const promise = got
+      .post<unknown>(config.wagoAPI, {
+        ...gotOptions,
+        responseType: "json",
+        json: {
+          ids: fetchAuras,
+        },
+      })
+      .then((response: Response<unknown>) => {
+        const wagoApiData = getWagoApiData(response.body);
 
-          // metadata received from Wago API
-          Object.values(data).forEach((wagoData) => {
-            received.push(wagoData.slug);
-            received.push(wagoData._id);
+        if (!wagoApiData) {
+          throw new Error(
+            `Invalid Wago metadata response for ${config.addonName}`,
+          );
+        }
 
-            auras.forEach((aura) => {
-              if (aura.slug === wagoData.slug || aura.slug === wagoData._id) {
-                aura.name = wagoData.name;
-                aura.author = wagoData.username;
-                aura.created = new Date(wagoData.created);
-                aura.wagoSemver = wagoData.versionString;
-                aura.changelog = wagoData.changelog;
-                aura.modified = new Date(wagoData.modified);
-                aura.regionType = wagoData.regionType;
-                aura.wagoid = wagoData._id;
-                aura.source = "Wago";
+        const received = new Set<string>();
 
-                if (
-                  !aura.ignoreWagoUpdate &&
-                  wagoData.version > aura.version &&
-                  (aura.wagoVersion === null ||
-                    wagoData.version > aura.wagoVersion ||
-                    aura.encoded === null) &&
-                  !(
-                    config.ignoreOwnAuras &&
-                    wagoData.username === config.wagoUsername
-                  )
-                ) {
-                  promisesWagoDataCallsComplete.push(
-                    got(
-                      `https://data.wago.io/api/raw/encoded?id=${wagoData._id}`,
-                      {
-                        ...gotOptions,
-                        responseType: "text",
-                      },
-                    ),
-                  );
-                }
-                aura.wagoVersion = wagoData.version;
+        // metadata received from Wago API
+        wagoApiData.forEach((wagoData) => {
+          received.add(wagoData.slug);
+          received.add(wagoData._id);
+
+          auras.forEach((aura) => {
+            if (
+              aura.addonConfig.addonName === config.addonName &&
+              (aura.slug === wagoData.slug || aura.slug === wagoData._id)
+            ) {
+              aura.name = wagoData.name;
+              aura.author = wagoData.username;
+              aura.created = new Date(wagoData.created);
+              aura.wagoSemver = wagoData.versionString;
+              aura.changelog = wagoData.changelog;
+              aura.modified = new Date(wagoData.modified);
+              aura.regionType = wagoData.regionType;
+              aura.wagoid = wagoData._id;
+              aura.source = "Wago";
+
+              if (
+                !aura.ignoreWagoUpdate &&
+                wagoData.version > aura.version &&
+                (aura.wagoVersion === null ||
+                  wagoData.version > aura.wagoVersion ||
+                  aura.encoded === null) &&
+                !(
+                  config.ignoreOwnAuras &&
+                  wagoData.username === config.wagoUsername
+                )
+              ) {
+                promisesWagoDataCallsComplete.push(
+                  got(
+                    `https://data.wago.io/api/raw/encoded?id=${wagoData._id}`,
+                    {
+                      ...gotOptions,
+                      responseType: "text",
+                    },
+                  ),
+                );
               }
-            });
+              aura.wagoVersion = wagoData.version;
+            }
           });
-        }),
-    );
+        });
+
+        receivedByAddon.set(config.addonName, received);
+      });
+
+    metadataRequests.push({ config, promise });
   });
 
-  if (promisesWagoCallsComplete.length === 0) {
+  if (metadataRequests.length === 0) {
     // No data for any addon available. Nothing to update.
     try {
       if (
@@ -382,34 +418,37 @@ export async function compareSVwithWago(
     let nextRefresh = MINUTES_60;
 
     try {
-      const results = await Promise.allSettled(promisesWagoCallsComplete);
+      const results = await Promise.allSettled(
+        metadataRequests.map(({ promise }) => promise),
+      );
 
       results.forEach((result, index) => {
+        const { config } = metadataRequests[index];
+
         if (result.status === "rejected") {
           const error = result.reason;
           const responseCode = error?.response?.statusCode || "Unknown";
+
           if (responseCode && responseCode !== 404) {
             nextRefresh = MINUTES_30;
+          } else if (responseCode === 404) {
+            metadataResults.add(config.addonName);
+            receivedByAddon.set(config.addonName, new Set());
           }
+
           console.error(
-            error.request.requestUrl.href,
+            error?.request?.requestUrl?.href,
             error?.message,
             `HTTP status code: ${responseCode}`,
             `Request parameters: ${JSON.stringify(error?.config?.params)}`,
           );
-        } else if (result.status !== "fulfilled") {
-          console.log("Unknown status", index, result);
+        } else {
+          metadataResults.add(config.addonName);
         }
       });
     } catch (error) {
       console.error("Error handling promisesWagoCallsComplete:", error);
       nextRefresh = MINUTES_30;
-    }
-
-    if (allAurasFetched.length === 0) {
-      accountSelected.lastWagoUpdate = new Date();
-      scheduleRefreshWago(nextRefresh);
-      return;
     }
 
     try {
@@ -419,7 +458,7 @@ export async function compareSVwithWago(
             nextRefresh = MINUTES_30;
           }
           console.error(
-            error.request.requestUrl.href,
+            error?.request?.requestUrl?.href,
             error?.message,
             `HTTP status code: ${error.response?.statusCode}`,
             `Request parameters: ${JSON.stringify(error?.config?.params)}`,
@@ -434,12 +473,18 @@ export async function compareSVwithWago(
       const wagoEncodedStrings = await Promise.all(promisesResolved);
       console.log("promisesWagoDataCallsComplete");
 
-      wagoEncodedStrings.forEach((wagoResp: WagoApiResponse) =>
+      wagoEncodedStrings.forEach((wagoResp: any) =>
         handleAuraUpdate(wagoResp, auras),
       );
 
       for (let i = auras.length - 1; i >= 0; i--) {
-        if (!received.includes(auras[i]?.slug)) {
+        const addonName = auras[i]?.addonConfig?.addonName;
+
+        if (
+          addonName &&
+          metadataResults.has(addonName) &&
+          !receivedByAddon.get(addonName)?.has(auras[i].slug)
+        ) {
           auras.splice(i, 1);
         }
       }
