@@ -6,46 +6,59 @@ import { DateTime } from "luxon";
 
 import type { AddonConfig, Backup, ConfigState } from "@/stores/config";
 
+const backupQueues = new Map<string, Promise<void>>();
+
 export function backup(config: ConfigState, addonsInstalled: AddonConfig[]) {
+  const backupConfig = { ...config.backup };
+  const jobs: Promise<void>[] = [];
+
   config.wowpath.versions.forEach((version) => {
     version.accounts.forEach((account) => {
       addonsInstalled.forEach((addon) => {
-        let lastSavedFileSize = null;
-
-        if (typeof account.savedvariableSizeForAddon === "undefined")
+        if (typeof account.savedvariableSizeForAddon === "undefined") {
           account.savedvariableSizeForAddon = [];
-
-        const savedData = account.savedvariableSizeForAddon.find(
-          (savedAddon) => savedAddon.addonName === addon.addonName,
-        );
-
-        if (savedData) {
-          lastSavedFileSize = savedData.fileSize;
         }
 
-        backupIfRequired(
-          addon.svPathFunction(config, version, account),
-          config.backup,
-          lastSavedFileSize,
-          `${version.name}#${account.name}`,
-          (fileSize: number) => {
-            if (savedData) {
-              savedData.fileSize = fileSize;
-            } else {
-              account.savedvariableSizeForAddon.push({
-                fileSize,
-                addonName: addon.addonName,
-              });
-            }
-          },
-          addon.addonName,
+        const fileName = addon.svPathFunction(config, version, account);
+
+        if (!backupConfig.active || !fileName) {
+          return;
+        }
+
+        jobs.push(
+          backupIfRequired(
+            fileName,
+            backupConfig,
+            () =>
+              account.savedvariableSizeForAddon.find(
+                (savedAddon) => savedAddon.addonName === addon.addonName,
+              )?.fileSize,
+            (fileSize) => {
+              const savedData = account.savedvariableSizeForAddon.find(
+                (savedAddon) => savedAddon.addonName === addon.addonName,
+              );
+
+              if (savedData) {
+                savedData.fileSize = fileSize;
+              } else {
+                account.savedvariableSizeForAddon.push({
+                  fileSize,
+                  addonName: addon.addonName,
+                });
+              }
+            },
+            `${version.name}#${account.name}`,
+            addon.addonName,
+          ),
         );
       });
     });
   });
+
+  return Promise.all(jobs).then(() => undefined);
 }
 
-function deleteOldFiles(
+async function deleteOldFiles(
   dirPath: string,
   accountName: string,
   addonName: string,
@@ -72,69 +85,104 @@ function deleteOldFiles(
     );
 
     // delete 2 last files
-    files.slice(-2).forEach((v) => {
-      console.log(`Deleted backup files ${path.join(dirPath, v.name)}`);
-
-      fs.unlink(path.join(dirPath, v.name), (err) => {
-        if (err) throw err;
-      });
-    });
+    await Promise.all(
+      files.slice(-2).map(async (v) => {
+        console.log(`Deleted backup files ${path.join(dirPath, v.name)}`);
+        await fs.promises.unlink(path.join(dirPath, v.name));
+      }),
+    );
   }
 }
 
 function backupIfRequired(
-  fileName: string | false,
+  fileName: string,
   config: Backup,
-  previousSize: number,
+  getPreviousSize: () => number | undefined,
+  saveFileSize: (fileSize: number) => void,
   accountName: string,
-  callback: { (fileSize: number): void; (arg0: number): void },
   addonName: string,
 ) {
-  if (config?.active && fileName) {
+  const previousJob = backupQueues.get(fileName) ?? Promise.resolve();
+  const job = previousJob
+    .catch(() => undefined)
+    .then(() => createBackupIfRequired());
+  backupQueues.set(fileName, job);
+
+  void job.then(
+    () => {
+      if (backupQueues.get(fileName) === job) {
+        backupQueues.delete(fileName);
+      }
+    },
+    () => {
+      if (backupQueues.get(fileName) === job) {
+        backupQueues.delete(fileName);
+      }
+    },
+  );
+
+  return job;
+
+  async function createBackupIfRequired() {
     const stats = fs.statSync(fileName);
 
-    if (stats.size !== previousSize) {
-      const date = DateTime.fromMillis(stats.mtimeMs).toFormat(
-        "yLLddHHmmss", // "YYYYMMDDHHmmss"
-      );
-      const zipFile = `${addonName}-${accountName}-${date}.zip`;
-      const fileContents = fs.createReadStream(fileName);
-      const writeStream = fs.createWriteStream(path.join(config.path, zipFile));
-      const archive = new ZipArchive({
-        zlib: { level: 9 }, // Sets the compression level.
-      });
-
-      writeStream
-        .on("close", () => {
-          console.log(`Backup: ${zipFile} saved`);
-
-          deleteOldFiles(
-            config.path,
-            accountName,
-            addonName,
-            config.maxSize * 1024 * 1024,
-          );
-          callback(stats.size);
-        })
-        .on("warning", (err) => {
-          if (err.code === "ENOENT") {
-            // log warning
-          } else {
-            // throw error
-            throw err;
-          }
-        })
-        .on("error", (err) => {
-          throw err;
-        });
-      archive.pipe(writeStream);
-      archive.append(fileContents, { name: `${addonName}.lua` });
-
-      archive.append(
-        "If you want to restore this backup, close WoW first, then move the WeakAuras.lua file into your saved variables folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",
-        { name: "README.txt" },
-      );
-      archive.finalize();
+    if (stats.size === getPreviousSize()) {
+      return;
     }
+
+    const date = DateTime.fromMillis(stats.mtimeMs).toFormat("yLLddHHmmss");
+    const zipFile = `${addonName}-${accountName}-${date}.zip`;
+    await createArchive(fileName, path.join(config.path, zipFile), addonName);
+
+    console.log(`Backup: ${zipFile} saved`);
+    await deleteOldFiles(
+      config.path,
+      accountName,
+      addonName,
+      config.maxSize * 1024 * 1024,
+    );
+    saveFileSize(stats.size);
   }
+}
+
+function createArchive(fileName: string, zipPath: string, addonName: string) {
+  return new Promise<void>((resolve, reject) => {
+    const fileContents = fs.createReadStream(fileName);
+    const writeStream = fs.createWriteStream(zipPath);
+    const archive = new ZipArchive({
+      zlib: { level: 9 },
+    });
+    let settled = false;
+
+    const fail = (error: Error) => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      fileContents.destroy();
+      archive.destroy();
+      writeStream.destroy();
+      reject(error);
+    };
+
+    writeStream.on("close", () => {
+      if (!settled) {
+        settled = true;
+        resolve();
+      }
+    });
+    writeStream.on("error", fail);
+    fileContents.on("error", fail);
+    archive.on("error", fail);
+    archive.on("warning", fail);
+
+    archive.pipe(writeStream);
+    archive.append(fileContents, { name: `${addonName}.lua` });
+    archive.append(
+      "If you want to restore this backup, close WoW first, then move the WeakAuras.lua file into your saved variables folder (World of Warcraft\\_retail_\\WTF\\Account\\ACCOUNTNAME\\SavedVariables).",
+      { name: "README.txt" },
+    );
+    void archive.finalize().catch(fail);
+  });
 }
