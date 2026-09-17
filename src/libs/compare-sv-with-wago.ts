@@ -36,7 +36,6 @@ export async function compareSVwithWago(
   accountSelected: Account,
   fetchingState: boolean,
   addonsInstalled: AddonConfig[],
-  addonSelected: string,
   aurasToCompare: AuraType[],
   fetchingUpdateCallback: FetchingUpdateCallback,
   writeAddonDataCallback: WriteAddonDataCallback,
@@ -56,17 +55,6 @@ export async function compareSVwithWago(
       return hash.hashFnv32a(account, true).toString();
     }
     return "";
-  };
-
-  const setFirstAddonInstalledSelected = (
-    addonsInstalled: AddonConfig[],
-    addonSelected: string,
-  ) => {
-    if (addonsInstalled.length === 0) {
-      return addonSelected;
-    }
-
-    return addonsInstalled[0].addonName;
   };
 
   const scheduleRefreshWago = (timeout: number) => {
@@ -320,8 +308,6 @@ export async function compareSVwithWago(
       fetching = false;
       fetchingUpdateCallback(fetching);
 
-      setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
-
       accountSelected.lastWagoUpdate = new Date();
 
       scheduleRefreshWago(MINUTES_60);
@@ -429,7 +415,6 @@ export async function compareSVwithWago(
     } finally {
       fetching = false;
       fetchingUpdateCallback(fetching);
-      setFirstAddonInstalledSelected(addonsInstalled, addonSelected);
       accountSelected.lastWagoUpdate = new Date();
       scheduleRefreshWago(nextRefresh);
     }

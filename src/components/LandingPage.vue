@@ -21,6 +21,7 @@ import { rendererReadyChannel } from "@/libs/deep-link-queue";
 import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
 import { isAddonInstalled } from "@/libs/is-addon-installed";
 import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
+import { selectInstalledAddon } from "@/libs/select-installed-addon";
 import {
   createSortByAuthor,
   createSortByString,
@@ -114,6 +115,17 @@ const allAddonConfigs = computed((): AddonConfig[] => [
 
 const addonsInstalled = computed(() =>
   allAddonConfigs.value.filter((addonConfig) => addonConfig.isInstalled),
+);
+
+watch(
+  addonsInstalled,
+  (installedAddons) => {
+    addonSelected.value = selectInstalledAddon(
+      installedAddons,
+      addonSelected.value,
+    );
+  },
+  { immediate: true },
 );
 
 const addonSelectedConfig = computed((): AddonConfig | null => {
@@ -280,7 +292,6 @@ async function doCompareSVwithWago() {
     accountSelected.value,
     fetching.value,
     addonsInstalled.value,
-    addonSelected.value,
     auras.value,
     updateFetchingState,
     doWriteAddonData,
