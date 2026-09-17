@@ -17,6 +17,7 @@ import {
 
 import { buildAccountList } from "@/libs/build-account-list";
 import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
+import { rendererReadyChannel } from "@/libs/deep-link-queue";
 import { PlaterSaved, WeakAurasSaved } from "@/libs/grab-sv-files";
 import { isAddonInstalled } from "@/libs/is-addon-installed";
 import { parsePlaterSVdata, parseWeakAurasSVdata } from "@/libs/parse-sv-data";
@@ -353,6 +354,8 @@ onMounted(async () => {
       console.error(event.error, event.message);
     }
   });
+
+  ipcRenderer.send(rendererReadyChannel);
 
   // set default wow path
   if (!config.wowpath.validated) {
