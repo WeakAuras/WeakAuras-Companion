@@ -89,7 +89,6 @@ function handleInstallUpdates() {
         target="_blank"
       >
         <i
-          v-if="updater.type === 'update-available'"
           v-tooltip="{
             strategy: 'fixed',
             theme: 'info-tooltip',
