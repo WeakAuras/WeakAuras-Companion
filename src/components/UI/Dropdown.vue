@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 
 import { useI18n } from "vue-i18n";
 
@@ -37,13 +37,13 @@ function getLabel(value: string | number | object): string {
   return props.options[index].text;
 }
 
-const selected = ref(
+const selected = computed(() =>
   props.value === ""
     ? props.placeholder || t("app.dropdown.placeholder" /* Select... */)
     : getLabel(props.value),
 );
 const showMenu = ref(false);
-const height = ref(props.options.length * 30);
+const height = computed(() => props.options.length * 30);
 
 const sortedOptions = computed(() => {
   return [...props.options].sort((a: DropdownOption, b: DropdownOption) =>
@@ -51,30 +51,12 @@ const sortedOptions = computed(() => {
   );
 });
 
-watch(
-  () => props.value,
-  () => {
-    selected.value =
-      props.value === ""
-        ? props.placeholder || t("app.dropdown.placeholder" /* Select... */)
-        : getLabel(props.value);
-  },
-);
-
-watch(
-  () => props.options,
-  () => {
-    height.value = props.options.length * 30;
-  },
-);
-
 function toggleDropdown() {
   showMenu.value = !showMenu.value;
 }
 
 function selectItem(option: DropdownOption) {
   showMenu.value = false;
-  selected.value = option.text;
   emit("update:value", option.value);
   emit("change");
 }
