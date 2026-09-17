@@ -17,13 +17,14 @@ export interface GifSettings {
   wowVersion: string;
 }
 
+export type GifSource =
+  | { kind: "local"; path: string }
+  | { kind: "tenor"; tenorID: string; buffer: Buffer };
+
 export interface GifState {
   meta: GifMeta;
   settings: GifSettings;
-  path: string;
-  tenor: boolean;
-  tenorID: string;
-  buffer: Buffer | null;
+  source: GifSource;
 }
 
 export interface ResultState {
@@ -61,10 +62,7 @@ export const useStopMotionStore = defineStore(
         skips_value: 2,
         wowVersion: "",
       },
-      path: "",
-      tenor: false,
-      tenorID: "",
-      buffer: null,
+      source: { kind: "local", path: "" },
     });
 
     const result = ref<ResultState>({
@@ -81,7 +79,15 @@ export const useStopMotionStore = defineStore(
 
     const step = ref(1);
 
-    return { gif, result, step };
+    function selectLocalSource(path: string) {
+      gif.value.source = { kind: "local", path };
+    }
+
+    function selectTenorSource(tenorID: string, buffer: Buffer) {
+      gif.value.source = { kind: "tenor", tenorID, buffer };
+    }
+
+    return { gif, result, step, selectLocalSource, selectTenorSource };
   },
   {
     persistedState: {

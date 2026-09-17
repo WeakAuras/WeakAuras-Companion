@@ -34,10 +34,7 @@ async function setTenor(url: string, title: string, tenorID: string) {
     gif.value.meta.height = meta.pageHeight;
     gif.value.meta.frames = meta.pages;
     gif.value.meta.name = title;
-    gif.value.path = title;
-    gif.value.tenor = true;
-    gif.value.tenorID = tenorID;
-    gif.value.buffer = buffer;
+    stopMotionStore.selectTenorSource(tenorID, buffer);
     emit("next");
   } catch (e) {
     console.log(JSON.stringify(e));
@@ -57,8 +54,7 @@ async function update(filepath: string) {
       gif.value.meta.height = meta.pageHeight;
       gif.value.meta.frames = meta.pages;
       gif.value.meta.name = path.basename(filepath);
-      gif.value.path = filepath;
-      gif.value.tenor = false;
+      stopMotionStore.selectLocalSource(filepath);
       emit("next");
     } catch (e) {
       console.log(JSON.stringify(e));

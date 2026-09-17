@@ -30,7 +30,7 @@ const { gif, result } = storeToRefs(stopMotionStore);
 onMounted(() => {
   gif.value.settings.wowVersion = config.wowpath.version;
 
-  if (gif.value.tenor) {
+  if (gif.value.source.kind === "tenor") {
     gif.value.settings.coalesce = true;
   }
 
@@ -126,8 +126,9 @@ async function generate() {
     result.value.computing = true;
 
     try {
+      const source = gif.value.source;
       const { destFile, preview } = await gif2tga.convert(
-        gif.value.path,
+        source.kind === "local" ? source.path : gif.value.meta.name,
         gif.value.settings.scaling,
         gif.value.settings.coalesce,
         gif.value.settings.skips,
@@ -140,7 +141,7 @@ async function generate() {
           "WeakAurasCompanion",
           "animations",
         ),
-        gif.value.tenor ? gif.value.buffer : undefined,
+        source.kind === "tenor" ? source.buffer : undefined,
       );
       result.value.computing = false;
       result.value.destination = destFile;
@@ -158,7 +159,7 @@ async function generate() {
 <template>
   <div id="StopMotionSettings">
     <div
-      v-if="!gif.tenor"
+      v-if="gif.source.kind === 'local'"
       class="config-row"
     >
       <div class="config-row-item">
@@ -262,7 +263,7 @@ async function generate() {
     </div>
 
     <div
-      v-if="gif.tenor"
+      v-if="gif.source.kind === 'tenor'"
       class="setting-destination-dropdown"
     >
       <Dropdown
