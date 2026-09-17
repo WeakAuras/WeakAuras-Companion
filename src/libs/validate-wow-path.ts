@@ -3,9 +3,7 @@ import path from "node:path";
 
 import type {
   AccountOptions,
-  AuraType,
   ConfigState,
-  Version,
   VersionOptions,
 } from "@/stores/config";
 
@@ -16,8 +14,6 @@ export function validateWowPath(
   config: ConfigState,
   versionOptions: VersionOptions[],
   accountOptions: AccountOptions[],
-  versionSelected: Version,
-  auras: AuraType[],
 ) {
   console.log("validateWowPath");
   config.wowpath.validated = false;
@@ -54,12 +50,36 @@ export function validateWowPath(
                 config.wowpath.validated = true;
                 buildVersionList(config, versionOptions, accountOptions);
 
-                buildAccountList(
-                  config,
-                  accountOptions,
-                  versionSelected,
-                  auras,
+                const hasSelectedVersion = versionOptions.some(
+                  (option) => option.value === config.wowpath.version,
                 );
+                config.wowpath.version = hasSelectedVersion
+                  ? config.wowpath.version
+                  : (versionOptions[0]?.value ?? "");
+
+                const selectedVersion = config.wowpath.versions.find(
+                  (version) => version.name === config.wowpath.version,
+                );
+
+                if (selectedVersion) {
+                  const selectedAccount = selectedVersion.accounts.find(
+                    (account) => account.name === selectedVersion.account,
+                  );
+
+                  buildAccountList(
+                    config,
+                    accountOptions,
+                    selectedVersion,
+                    selectedAccount?.auras ?? [],
+                  );
+
+                  const hasSelectedAccount = accountOptions.some(
+                    (option) => option.value === selectedVersion.account,
+                  );
+                  selectedVersion.account = hasSelectedAccount
+                    ? selectedVersion.account
+                    : (accountOptions[0]?.value ?? "");
+                }
               } catch (err) {
                 console.error("No Read access", err);
               }

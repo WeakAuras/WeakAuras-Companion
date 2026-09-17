@@ -267,13 +267,7 @@ function reset() {
 }
 
 function validateWowPath() {
-  validateWowPathFn(
-    config,
-    versionOptions.value,
-    accountOptions.value,
-    versionSelected.value,
-    auras.value,
-  );
+  validateWowPathFn(config, versionOptions.value, accountOptions.value);
 }
 
 function doWriteAddonData() {
