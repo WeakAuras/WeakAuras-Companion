@@ -21,6 +21,10 @@ import type { UpdateCheckResult } from "electron-updater";
 import { autoUpdater } from "electron-updater";
 
 import {
+  createDeepLinkQueue,
+  rendererReadyChannel,
+} from "../../src/libs/deep-link-queue";
+import {
   toUpdaterReleaseInfo,
   updaterEventChannel,
 } from "../../src/libs/updater-event";
@@ -101,13 +105,22 @@ const notificationIconPath = join(
 const trayIcon = nativeImage.createFromPath(trayIconPath);
 const notificationIcon = nativeImage.createFromPath(notificationIconPath);
 
+const deepLinkQueue = createDeepLinkQueue((link) => {
+  mainWindow?.webContents.send("linkHandler", link);
+});
+
 function handleLinks(link: string) {
-  if (mainWindow?.webContents) {
-    mainWindow?.webContents.send("linkHandler", link);
-  }
+  deepLinkQueue.enqueue(link);
 }
 
+app.on("open-url", (event, url) => {
+  event.preventDefault();
+  handleLinks(url);
+});
+
 async function createWindow() {
+  deepLinkQueue.markNotReady();
+
   const isMac = process.platform === "darwin";
 
   mainWindow = new BrowserWindow({
@@ -138,6 +151,10 @@ async function createWindow() {
     show: !config.startminimize,
   });
 
+  mainWindow.webContents.on("did-start-loading", () => {
+    deepLinkQueue.markNotReady();
+  });
+
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
     mainWindow.loadURL(url);
@@ -156,6 +173,7 @@ async function createWindow() {
   });
 
   mainWindow?.on("closed", () => {
+    deepLinkQueue.markNotReady();
     mainWindow = null;
   });
 
@@ -319,12 +337,6 @@ app.on("activate", () => {
 app.setAppUserModelId("wtf.weakauras.companion");
 app.setAsDefaultProtocolClient("weakauras-companion");
 
-// Protocol handler for macOS
-app.on("open-url", (event, url) => {
-  event.preventDefault();
-  handleLinks(url);
-});
-
 app.on("web-contents-created", (webContentsCreatedEvent, webContents) => {
   webContents.on("before-input-event", (beforeInputEvent, input) => {
     const { code, alt, control, shift, meta } = input;
@@ -343,6 +355,11 @@ app.on("web-contents-created", (webContentsCreatedEvent, webContents) => {
 
 ipcMain.on("get-user-data-path", (event) => {
   event.returnValue = app.getPath("userData");
+});
+
+ipcMain.on(rendererReadyChannel, (event) => {
+  if (event.sender !== mainWindow?.webContents) return;
+  deepLinkQueue.markReady();
 });
 
 ipcMain.handle("openDialog", (event, args: OpenDialogOptions) => {
