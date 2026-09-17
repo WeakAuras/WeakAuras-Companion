@@ -108,18 +108,12 @@ function backupIfRequired(
     .then(() => createBackupIfRequired());
   backupQueues.set(fileName, job);
 
-  void job.then(
-    () => {
-      if (backupQueues.get(fileName) === job) {
-        backupQueues.delete(fileName);
-      }
-    },
-    () => {
-      if (backupQueues.get(fileName) === job) {
-        backupQueues.delete(fileName);
-      }
-    },
-  );
+  const removeCompletedJob = () => {
+    if (backupQueues.get(fileName) === job) {
+      backupQueues.delete(fileName);
+    }
+  };
+  void job.then(removeCompletedJob, removeCompletedJob);
 
   return job;
 
