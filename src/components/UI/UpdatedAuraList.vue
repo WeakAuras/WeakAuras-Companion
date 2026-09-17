@@ -17,7 +17,7 @@ function close() {
 function clearList(event: Event) {
   event.preventDefault();
   event.stopPropagation();
-  stash.$reset();
+  stash.clear();
   emit("close");
 }
 </script>

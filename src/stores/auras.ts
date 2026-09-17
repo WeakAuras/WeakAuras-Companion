@@ -10,6 +10,7 @@ export interface StashState {
 
 export interface StashActions {
   add(aura: AuraType): void;
+  clear(): void;
   tohtml(): string;
 }
 
@@ -21,10 +22,14 @@ export const useStashStore = defineStore(
     const auras = ref<AuraType[]>([]);
 
     function add(aura: AuraType) {
-      if (!aura) {
+      if (!aura || auras.value.some((item) => item.slug === aura.slug)) {
         return;
       }
       auras.value.push(aura);
+    }
+
+    function clear() {
+      auras.value = [];
     }
 
     function tohtml() {
@@ -35,7 +40,7 @@ export const useStashStore = defineStore(
         .join("");
     }
 
-    return { auras, add, tohtml };
+    return { auras, add, clear, tohtml };
   },
   {
     persistedState: {
