@@ -39,8 +39,8 @@ const weakauras_string = computed(() => {
   SMtemplate.d.backgroundTexture = stopMotionInput.value;
   SMtemplate.d.uid = generateUniqueID();
 
-  if (gif.value.tenor === true) {
-    SMtemplate.d.tenorID = gif.value.tenorID;
+  if (gif.value.source.kind === "tenor") {
+    SMtemplate.d.tenorID = gif.value.source.tenorID;
   } else {
     delete SMtemplate.d.tenorID;
   }
