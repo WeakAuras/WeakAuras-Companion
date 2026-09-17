@@ -10,17 +10,10 @@ import {
   computed,
   onBeforeUnmount,
   onMounted,
-  reactive,
   ref,
   shallowRef,
   watch,
 } from "vue";
-
-import type {
-  ProgressInfo,
-  UpdateDownloadedEvent,
-  UpdateInfo,
-} from "electron-updater";
 
 import { buildAccountList } from "@/libs/build-account-list";
 import { compareSVwithWago } from "@/libs/compare-sv-with-wago";
@@ -34,6 +27,8 @@ import {
   createSortByType,
   createSortByUpdate,
 } from "@/libs/sort";
+import { toUpdaterViewState, updaterEventChannel } from "@/libs/updater-event";
+import type { UpdaterEvent, UpdaterViewState } from "@/libs/updater-event";
 import userDataPath from "@/libs/user-data-folder";
 import { wowDefaultPath } from "@/libs/utilities";
 import { validateWowPath as validateWowPathFn } from "@/libs/validate-wow-path";
@@ -58,24 +53,6 @@ import TitleBar from "./UI/TitleBar.vue";
 import UIButton from "./UI/UIButton.vue";
 import UpdatedAuraList from "./UI/UpdatedAuraList.vue";
 
-// oxlint-disable-next-line @typescript-eslint/no-unused-vars
-type UpdaterEventArg =
-  | { status: "error"; error: Error; message?: string }
-  | { status: "download-progress"; progressInfo: ProgressInfo }
-  | { status: "update-downloaded"; event: UpdateDownloadedEvent }
-  | { status: "update-not-available"; updateInfo: UpdateInfo }
-  | { status: "checking-for-update" }
-  | { status: "update-available"; updateInfo: UpdateInfo };
-
-export interface Updater {
-  status: string | null;
-  progress: number | null;
-  scheduleId: NodeJS.Timeout | null;
-  version: string | null;
-  path: string | null;
-  releaseNotes: string | null;
-}
-
 // Stores
 const config = useConfigStore();
 const stash = useStashStore();
@@ -88,14 +65,8 @@ const addonSelected = ref("WeakAuras");
 const fetching = ref(false);
 const sortedColumn = ref("modified");
 const sortDescending = ref(false);
-const updater = reactive<Updater>({
-  status: null,
-  progress: null,
-  scheduleId: null,
-  version: null,
-  path: null,
-  releaseNotes: null,
-});
+const updater = shallowRef<UpdaterViewState>({ type: "idle" });
+let updaterScheduleId: NodeJS.Timeout | undefined;
 const accountOptions = shallowRef<Array<{ text: string; value: string }>>([]);
 const versionOptions = shallowRef<Array<{ text: string; value: string }>>([]);
 const defaultWOWPath = ref("");
@@ -258,9 +229,9 @@ async function checkCompanionUpdates() {
   }
 
   // check for app updates in 2 hours
-  if (updater.scheduleId) clearTimeout(updater.scheduleId);
+  if (updaterScheduleId) clearTimeout(updaterScheduleId);
 
-  updater.scheduleId = setTimeout(
+  updaterScheduleId = setTimeout(
     () => {
       checkCompanionUpdates().catch((error) =>
         console.error("Error checking updates:", error),
@@ -375,50 +346,11 @@ onMounted(async () => {
     }
   });
 
-  addIpcListener("updaterHandler", (_event, status: string, arg) => {
-    console.log(`updaterHandler: ${status}`);
+  addIpcListener(updaterEventChannel, (_event, event: UpdaterEvent) => {
+    updater.value = toUpdaterViewState(event);
 
-    if (status === "checking-for-update") {
-      // No additional data for this status
-      return;
-    }
-
-    updater.status = status;
-
-    if (status === "download-progress" && "progressInfo" in arg) {
-      updater.progress = Math.floor(arg.progressInfo.percent);
-    }
-
-    if (status === "update-available") {
-      updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.version}/${arg.path}`;
-      updater.version = arg.version;
-      updater.releaseNotes = arg.releaseNotes || "";
-    }
-
-    if (
-      (status === "update-not-available" || status === "update-downloaded") &&
-      "updateInfo" in arg
-    ) {
-      updater.path = `https://github.com/WeakAuras/WeakAuras-Companion/releases/download/v${arg.updateInfo.version}/${arg.updateInfo.path}`;
-      updater.version = arg.updateInfo.version;
-
-      // List if `updater.fullChangelog` is set to `true`, `string` otherwise.
-      if (typeof arg.updateInfo.releaseNotes === "string") {
-        updater.releaseNotes = arg.updateInfo.releaseNotes;
-      } else if (Array.isArray(arg.updateInfo.releaseNotes)) {
-        // Convert the array of ReleaseNoteInfo to a string
-        updater.releaseNotes = arg.updateInfo.releaseNotes
-          .map((note: { note: string }) => note.note)
-          .join("\n");
-      } else {
-        updater.releaseNotes = "";
-      }
-
-      console.log(JSON.stringify(arg));
-    }
-
-    if (status === "error" && "error" in arg) {
-      console.error(arg.error);
+    if (event.type === "error") {
+      console.error(event.error, event.message);
     }
   });
 
