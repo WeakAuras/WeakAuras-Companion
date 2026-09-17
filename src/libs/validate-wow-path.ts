@@ -50,12 +50,13 @@ export function validateWowPath(
                 config.wowpath.validated = true;
                 buildVersionList(config, versionOptions, accountOptions);
 
-                const hasSelectedVersion = versionOptions.some(
-                  (option) => option.value === config.wowpath.version,
-                );
-                config.wowpath.version = hasSelectedVersion
-                  ? config.wowpath.version
-                  : (versionOptions[0]?.value ?? "");
+                if (
+                  !versionOptions.some(
+                    (option) => option.value === config.wowpath.version,
+                  )
+                ) {
+                  config.wowpath.version = versionOptions[0]?.value ?? "";
+                }
 
                 const selectedVersion = config.wowpath.versions.find(
                   (version) => version.name === config.wowpath.version,
@@ -73,12 +74,13 @@ export function validateWowPath(
                     selectedAccount?.auras ?? [],
                   );
 
-                  const hasSelectedAccount = accountOptions.some(
-                    (option) => option.value === selectedVersion.account,
-                  );
-                  selectedVersion.account = hasSelectedAccount
-                    ? selectedVersion.account
-                    : (accountOptions[0]?.value ?? "");
+                  if (
+                    !accountOptions.some(
+                      (option) => option.value === selectedVersion.account,
+                    )
+                  ) {
+                    selectedVersion.account = accountOptions[0]?.value ?? "";
+                  }
                 }
               } catch (err) {
                 console.error("No Read access", err);
