@@ -186,8 +186,8 @@ catalogs:
       specifier: 0.2.1
       version: 0.2.1
     '@types/luxon':
-      specifier: 3.7.2
-      version: 3.7.2
+      specifier: 3.7.5
+      version: 3.7.5
     '@types/node':
       specifier: 26.5.1
       version: 26.5.1
@@ -350,7 +350,7 @@ importers:
         version: 0.2.1
       '@types/luxon':
         specifier: 'catalog:'
-        version: 3.7.2
+        version: 3.7.5
       '@types/node':
         specifier: 'catalog:'
         version: 26.5.1
@@ -1809,8 +1809,8 @@ packages:
   '@types/luaparse@0.2.1':
     resolution: {integrity: sha512-lNbAhI9UojO1e82FdB4Sdd18YhDdfwdL1MTY0JNOh2EvfafezVBBgM892AQ2jOx+bJcJWwn2hvCeye3yWgi1wA==}
 
-  '@types/luxon@3.7.2':
-    resolution: {integrity: sha512-gW+Oib+vUtGJBtNC8V9Reww0oIpusw+4m81uncg9REGZAJfqOQHfo/nkabnc7w0QReXyPqjrbWMJk6NuAkiX3Q==}
+  '@types/luxon@3.7.5':
+    resolution: {integrity: sha512-jJ41Q4z6ZVO260MNDdHfW7+7a5iMiX8Mr6ZJHcmgrvhZha6dz5704o/lF2kKl6URjH6ivEL97w9xS/MgpJEphg==}
 
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
@@ -6212,7 +6212,7 @@ snapshots:
 
   '@types/luaparse@0.2.1': {}
 
-  '@types/luxon@3.7.2': {}
+  '@types/luxon@3.7.5': {}
 
   '@types/mdast@4.0.4':
     dependencies:
