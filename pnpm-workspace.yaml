@@ -47,7 +47,7 @@ catalog:
   vite-plugin-electron-renderer: 1.0.0
   vite-plugin-resolve: 2.5.2
   vite-plugin-vue-devtools: 8.2.1
-  vite-plugin-webfont-dl: 3.12.0
+  vite-plugin-webfont-dl: 3.13.1
   vite-plus: 0.3.2
   vitest: 4.1.11
   vitest-browser-vue: 3.1.0
