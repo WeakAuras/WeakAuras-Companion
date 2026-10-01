@@ -19,7 +19,7 @@ catalog:
   '@types/node': 26.5.1
   '@unocss/preset-icons': 66.10.1
   '@unocss/preset-web-fonts': 66.10.1
-  '@vitejs/plugin-vue': 6.0.7
+  '@vitejs/plugin-vue': 6.0.9
   '@vitest/ui': 4.1.11
   archiver: 8.0.0
   archiver-utils: 5.0.2
