@@ -16,7 +16,7 @@ catalog:
   '@types/archiver': 8.0.0
   '@types/luaparse': 0.2.1
   '@types/luxon': 3.7.2
-  '@types/node': 26.5.1
+  '@types/node': 26.6.5
   '@unocss/preset-icons': 66.10.1
   '@unocss/preset-web-fonts': 66.10.1
   '@vitejs/plugin-vue': 6.0.7
