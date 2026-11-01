@@ -51,7 +51,7 @@ catalog:
   vite-plus: 0.3.2
   vitest: 4.1.11
   vitest-browser-vue: 3.1.0
-  vue: 3.5.42
+  vue: 3.5.44
   vue-i18n: 11.4.10
   vue-tsc: 3.3.11
 
