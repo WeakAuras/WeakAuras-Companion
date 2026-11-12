@@ -198,8 +198,8 @@ catalogs:
       specifier: 66.10.1
       version: 66.10.1
     '@vitejs/plugin-vue':
-      specifier: 6.0.7
-      version: 6.0.7
+      specifier: 6.0.10
+      version: 6.0.10
     '@vitest/ui':
       specifier: 4.1.11
       version: 4.1.11
@@ -362,7 +362,7 @@ importers:
         version: 66.10.1
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
-        version: 6.0.7(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(vue@3.5.42(typescript@6.0.3))
+        version: 6.0.10(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(vue@3.5.42(typescript@6.0.3))
       '@vitest/ui':
         specifier: 'catalog:'
         version: 4.1.11(vitest@4.1.11)
@@ -1768,12 +1768,6 @@ packages:
     resolution: {integrity: sha512-yzr2S9HyAIdhz2/6qHgbs665Q7PKVcDF05vsOlHPxG1mo36gKVesdYVeDLnXgfjJ03CrKRk08knc6+E/9m8v2Q==}
     engines: {node: '>=18'}
 
-  '@testing-library/user-event@14.6.7':
-    resolution: {integrity: sha512-MPCpX8bxe8zS+JmmTwLp8jd0dy1rAm60Te/SL8JrQM3qvQJcBOs1d7IefJMyZzqM3EWBrDn/LWDt1BCGu4ASfg==}
-    engines: {node: '>=12', npm: '>=6'}
-    peerDependencies:
-      '@testing-library/dom': '>=7.21.4'
-
   '@testing-library/user-event@14.6.8':
     resolution: {integrity: sha512-vgSSqnANMnkcYR/vUNDbwS7aM3OErRLNUG8vCVVlj4oc6cKffUrccX7UAS5AmJQQNZTSibi9z5GvvRZ0aYgUCQ==}
     engines: {node: '>=12', npm: '>=6'}
@@ -1970,12 +1964,12 @@ packages:
     peerDependencies:
       vite: '*'
 
-  '@vitejs/plugin-vue@6.0.7':
-    resolution: {integrity: sha512-km+p+XdSz9Sxm5rqUbqcSfZYaAniKxWBj1KURl+Jr7UaPvvX7BmaWMdP69I5rrFDeQGyxAG7NXdc57vz+snhWg==}
+  '@vitejs/plugin-vue@6.0.10':
+    resolution: {integrity: sha512-b80aUQh3n+qEzzZm5oQp3rT2QImeCx58K6eFl/RkJ3d65KW0kTuv5lNsLRVAjbW9YRUpo/wzmvzMgV34bTAItA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-      vue: ^3.2.25
+      vue: ^3.2.25 || ^3.6.0-rc.10
 
   '@vitest/browser-preview@4.1.11':
     resolution: {integrity: sha512-iPKSE6Ibayey6HFgK1V1/aHgyhx7HSRk1YMi+lnBZGmlIiNV5Uc7xRkD9Su8RDylTxDECK23t7kTHdRKoqSYDQ==}
@@ -6476,10 +6470,6 @@ snapshots:
       picocolors: 1.1.1
       pretty-format: 27.5.1
 
-  '@testing-library/user-event@14.6.7(@testing-library/dom@10.4.2)':
-    dependencies:
-      '@testing-library/dom': 10.4.2
-
   '@testing-library/user-event@14.6.8(@testing-library/dom@10.4.2)':
     dependencies:
       '@testing-library/dom': 10.4.2
@@ -6790,7 +6780,7 @@ snapshots:
       - ocache
       - srvx
 
-  '@vitejs/plugin-vue@6.0.7(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(vue@3.5.42(typescript@6.0.3))':
+  '@vitejs/plugin-vue@6.0.10(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
       vite: '@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1)'
@@ -6799,7 +6789,7 @@ snapshots:
   '@vitest/browser-preview@4.1.11(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(vitest@4.1.11)':
     dependencies:
       '@testing-library/dom': 10.4.2
-      '@testing-library/user-event': 14.6.7(@testing-library/dom@10.4.2)
+      '@testing-library/user-event': 14.6.8(@testing-library/dom@10.4.2)
       '@vitest/browser': 4.1.11(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(vitest@4.1.11)
       vitest: 4.1.11(@types/node@26.5.1)(@vitest/browser-preview@5.1.0)(@vitest/ui@4.1.11)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(happy-dom@20.14.3)
     transitivePeerDependencies:
@@ -6830,7 +6820,7 @@ snapshots:
       sirv: 3.0.2
       tinyrainbow: 3.2.0
       vitest: 4.1.11(@types/node@26.5.1)(@vitest/browser-preview@5.1.0)(@vitest/ui@4.1.11)(@voidzero-dev/vite-plus-core@0.3.2(@types/node@26.5.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1))(happy-dom@20.14.3)
-      ws: 8.21.3
+      ws: 8.22.1
     transitivePeerDependencies:
       - bufferutil
       - msw
