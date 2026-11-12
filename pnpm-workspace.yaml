@@ -28,7 +28,7 @@ catalog:
   electron-log: 5.4.4
   electron-store: 11.0.2
   electron-updater: 6.8.9
-  floating-vue: 5.2.2
+  floating-vue: 5.4.0
   glob: 13.0.1
   got: 16.0.0
   happy-dom: 20.14.3
