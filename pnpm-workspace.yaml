@@ -38,7 +38,7 @@ catalog:
   pinia-plugin-persistedstate-2: 2.0.32
   playwright: 1.63.0
   regedit: 5.1.4
-  sharp: 0.35.4
+  sharp: 0.35.5
   tga: 1.0.7
   typescript: 6.0.3
   unocss: 66.10.1
