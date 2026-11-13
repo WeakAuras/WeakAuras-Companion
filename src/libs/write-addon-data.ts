@@ -3,6 +3,7 @@ import path from "node:path";
 
 import { backup } from "@/libs/backup";
 import { grabVersionFromInstalledAddons } from "@/libs/grab-wa-version";
+import { serializeLuaString } from "@/libs/lua-string";
 import sanitize from "@/libs/sanitize";
 import { matchFolderNameInsensitive } from "@/libs/utilities";
 import type { StashStore } from "@/stores/auras";
@@ -66,14 +67,11 @@ export function writeAddonData(
       aurasWithData
         .filter((aura: AuraType) => aura.auraType === config.addonName)
         .forEach((aura: AuraType) => {
-          LuaSlugs += `${spacing}    ["${aura.slug.replace(
-            /"/g,
-            '\\"',
-          )}"] = {\n`;
+          LuaSlugs += `${spacing}    [${serializeLuaString(aura.slug)}] = {\n`;
 
           fields.forEach((field) => {
             if (aura[field]) {
-              LuaSlugs += `${spacing}      ${field} = [=[${aura[field]}]=],\n`;
+              LuaSlugs += `${spacing}      ${field} = ${serializeLuaString(aura[field])},\n`;
             }
           });
 
@@ -89,7 +87,7 @@ export function writeAddonData(
               sanitized = sanitize.markdown(aura.changelog.text);
             }
 
-            LuaSlugs += `${spacing}      versionNote = [=[${sanitized}]=],\n`;
+            LuaSlugs += `${spacing}      versionNote = ${serializeLuaString(sanitized)},\n`;
           }
 
           LuaSlugs += `${spacing}    },\n`;
@@ -101,14 +99,11 @@ export function writeAddonData(
       stash.auras
         .filter((aura) => aura.auraType === config.addonName)
         .forEach((aura) => {
-          LuaOutput += `${spacing}    ["${aura.slug.replace(
-            /"/g,
-            '\\"',
-          )}"] = {\n`;
+          LuaOutput += `${spacing}    [${serializeLuaString(aura.slug)}] = {\n`;
 
           fields.forEach((field) => {
             if (aura[field]) {
-              LuaOutput += `${spacing}      ${field} = [=[${aura[field]}]=],\n`;
+              LuaOutput += `${spacing}      ${field} = ${serializeLuaString(aura[field])},\n`;
             }
           });
 
@@ -124,10 +119,10 @@ export function writeAddonData(
               sanitized = sanitize.markdown(aura.changelog.text);
             }
 
-            LuaOutput += `${spacing}      versionNote = [=[${sanitized}]=],\n`;
+            LuaOutput += `${spacing}      versionNote = ${serializeLuaString(sanitized)},\n`;
           }
 
-          LuaOutput += `${spacing}      source = "${aura.source}",\n`;
+          LuaOutput += `${spacing}      source = ${serializeLuaString(aura.source)},\n`;
           LuaOutput += `${spacing}    },\n`;
         });
 
@@ -147,7 +142,7 @@ export function writeAddonData(
               title: v.match(regex)[1],
             }))
             .forEach((file) => {
-              LuaOutput += `${spacing}    [ [=[${file.filename}]=] ] = [=[${file.title}]=],\n`;
+              LuaOutput += `${spacing}    [${serializeLuaString(file.filename)}] = ${serializeLuaString(file.title)},\n`;
             });
         }
 
